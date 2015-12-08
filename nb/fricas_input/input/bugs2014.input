@@ -1,0 +1,152 @@
+)set break resume
+)expose UnittestCount UnittestAux Unittest
+
+testsuite "bugs2014"
+
+testcase "bad exposure of dummy %A into result"
+-- https://groups.google.com/forum/#!topic/fricas-devel/eHZCyaXmJVY
+f:=operator 'f
+y:=operator 'y
+r1:=eval(D(f(x,z),[x,z]),z=y(x))
+f1:=D(f(x,y(x)),x)
+f2:=D(f1,x)
+f3:=D(f2,x)
+r2:=eval(D(f(x,z),[x,z]),z=y(x))
+-- wrongly resulted in
+--  f    (%A,y(x))
+--   ,1,2
+-- in revision r1674
+testEquals("r1", "r2")
+
+testcase "comutativity of formal diffs"
+f:=operator 'f
+testEquals("D(f(x,z), [x, z]) - D(f(x,z), [z, x])", "0")
+y:=operator 'y
+kxy := eval(D(f(x,z),[x,z]),z=y(x))
+kyx := eval(D(f(x,z),[z,x]),z=y(x))
+testEquals("kxy - kyx", "0")
+
+testcase "weighted polynomials"
+wP := OWP(Integer, [x, y, z], [1, 3, 2], 9)
+wx := (x::Polynomial(Integer))::wP
+wy := (y::Polynomial(Integer))::wP
+wz := (z::Polynomial(Integer))::wP
+testEquals("wy^4", "0")
+testEquals("wz^5", "0")
+testEquals("(wy^3 + wy)*wx", "wy*wx")
+
+testcase "complex pattern matching"
+mR := PATRES(Integer, Complex(Integer))
+pati := convert(%i)@Pattern(Integer)
+testTrue("not(failed?(patternMatch(%i, pati, new()$mR)))")
+testTrue("not(failed?(patternMatch(3 + %i, 3 + pati, new()$mR)))")
+
+mR := PATRES(Integer, Complex(Expression(Integer)))
+testTrue("not(failed?(patternMatch(3 + %i, 3 + pati, new()$mR)))")
+ff : Complex(Expression(Integer)) := exp(x) + %i*x
+patf := convert(ff)@Pattern(Integer)
+testTrue("not(failed?(patternMatch(ff, patf, new()$mR)))")
+
+irule := rule %i == 42
+testEquals("irule(besselJ(v, %i))", "besselJ(v, 42)")
+
+testcase "map with ::Boolean"
+
+gl := [x + y = 1, x - y = 1]
+sol := solve(gl, [x, y])
+testEquals("[map(g +-> eval(g,s)::Boolean,gl) for s in sol]",
+           "[[true, true]]")
+
+testEquals("[eval(x=1,[x=1]::List EQ FRAC POLY INT)::Boolean for i in 1..1]",
+            "[true]")
+testEquals("[eval(x=1,[x=1])::Boolean for i in 1..1]", "[true]")
+
+q:EQ POLY INT:=(1=1)
+testEquals("[q for i in 1..1]", "[true]")
+
+testcase "assignment to aggregates"
+
+ll := [[1, 2, 3], [4, 5, 6]]
+testTrue("(ll.1.1 := 7; true)")
+testEquals("ll.1.1", "7")
+testTrue("((elt(ll, 2)).1 := 9; true)")
+testEquals("ll.2.1", "9")
+testTrue("(elt(ll.1, 2) := 8; true)")
+testEquals("ll.1.2", "8")
+
+mkr(i) == [i, string(i)]$Record(k : Integer, s : String)
+lr := [mkr(i) for i in 1..3]
+vr := vector(lr)
+
+testTrue("(lr.1.k := 5; true)")
+testEquals("lr.1.k", "5")
+testTrue("((elt(lr, 2)).k := 11; true)")
+testEquals("lr.2.k", "11")
+testTrue("(elt(lr.3, k) := 13; true)")
+testEquals("lr.3.k", "13")
+
+testTrue("(vr.1.k := 15; true)")
+testEquals("vr.1.k", "15")
+testTrue("((elt(vr, 2)).k := 4; true)")
+testEquals("vr.2.k", "4")
+testTrue("(elt(vr.3, k) := 17; true)")
+testEquals("vr.3.k", "17")
+
+testcase "0^0 in CARD"
+testEquals("0::CARD ^ 0::CARD", "1")
+
+testcase "0 to complex power"
+testEquals("complex(0, 0)^complex(2, 0.0)", "0")
+testLibraryError("complex(0, 0)^complex(0.0, 0)")
+
+testcase "dummy vars in CLINDEP"
+xder(xx : Expression(Integer)): Expression(Integer) == D(xx, x)
+Cd := CLINDEP(Integer, Expression(Integer))
+ff := operator 'f
+testEquals("reducedSystem(matrix([[D(ff(x), x)/(ff(x) + 1)]]), [xder])$Cd",
+           "matrix([[1]])")
+
+testcase "degree in DeRhamComplex"
+Dr := DeRhamComplex(Integer, [x, y, z])
+dx := generator(1)$Dr
+testEquals("degree(dx)", "1")
+
+testcase "general map for aggregates"
+fAf := FiniteLinearAggregateFunctions2(Integer, List(Integer),
+          Integer, U32Vector)
+testTrue("(uv := map(x +-> x, [1, 2])$fAf; true)")
+testEquals("uv(0)", "1")
+testEquals("uv(1)", "2")
+
+fAf2 := FiniteLinearAggregateFunctions2(Integer, U32Vector, Integer, U32Vector)
+testTrue("(uv2 := map(x +-> x + 7, uv)$fAf2; true)")
+testEquals("uv2(0)", "8")
+testEquals("uv2(1)", "9")
+
+testTrue("(uv := scan((x, y) +-> x*y, [3, 4], 2)$fAf; true)")
+testEquals("uv(0)", "6")
+testEquals("uv(1)", "24")
+testTrue("(uv2 := scan((x, y) +-> x + y, uv, 1)$fAf2; true)")
+testEquals("uv2(0)", "7")
+testEquals("uv2(1)", "31")
+
+testcase "overwriten loop limit"
+g(x1:Integer):Integer ==
+    x0:Integer := x1
+    for k0 in 1 .. x0 repeat x0:=x0+1
+    x0
+testEquals("g(3)", "6")
+
+testcase "error in order"
+L := SparseUnivariateLaurentSeries(Fraction Integer, 'z, 0)
+l : L := 0
+-- used to fail
+testEquals("order(l, 0)", "0")
+testEquals("rationalFunction(l, 0)", "0")
+
+testcase "wrong totalDegree"
+testEquals("totalDegree(u*m^2, [m])", "2")
+testEquals("totalDegree(u*m, [v, m])", "1")
+
+)set output algebra on
+statistics()

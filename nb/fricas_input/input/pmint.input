@@ -1,0 +1,143 @@
+--Version 1.1 ---  May 10, 2005  (c) M.Bronstein and INRIA 2004-2005
+)clear all
+)set break resume
+
+)clear all
+-- Airy Functions
+
+f:=(x-airyAi(x)*airyAiPrime(x))/(x^2-airyAi(x)^2)
+
+integrate(f,x)
+-- should be:
+--  1                    1
+--  - log(x+airyAi(x)) + - log(x-airyAi(x))
+--  2                    2
+
+f:=x^2*airyAi(x)
+-- should be:
+--         2
+--   (1)  x airyAi(x)
+--                                                     Type: Expression Integer
+
+g:=integrate(f,x)
+-- should be:
+--  -airyAi(x) + airyAiPrime(x) x
+
+)clear all
+-- Bessel functions
+
+f:=besselJ(y+1,x)/besselJ(y,x)
+
+g:=integrate(f,x)
+-- should be:
+--  y log(x) - log(besselJ(y,x))
+
+f := y*besselJ(y,x)/x - besselJ(y+1,x)
+
+integrate(f,x)
+-- should be besselJ(y,x)
+
+)clear all
+-- Whittaker functions
+
+f := whittakerW(u + 1, n, x)/(x*whittakerW(u, n, x))
+
+integrate(f,x)
+-- should be:
+-- x/2 - u*log(x) - log(whittakerW(u,n,x)), x)
+
+)clear all
+-- The Lambert W function
+
+integrate(sin(lambertW(x)),x)
+--should be:
+-- +-                                                  -+
+-- |                                     2              |
+-- |                    +-             -+               |
+-- |  1                 | 1             |  2            |
+-- |  - LambertW(x) tan | - LambertW(x) | x   +         |
+-- |  2                 | 2             |               |
+-- |                    +-             -+               |
+-- |                                                    |
+-- |                  +-             -+                 |
+-- |                  | 1             |  2              |
+-- |  LambertW(x) tan | - LambertW(x) | x  +            |
+-- |                  | 2             |                 |
+-- |                  +-             -+                 |
+-- |                                                    |
+-- |      +-             -+                             |
+-- |      | 1             |  2      1              2    |
+-- |  tan | - LambertW(x) | x  -    - LambertW(x) x     |
+-- |      | 2             |         2                   |
+-- |      +-             -+                             |
+-- +-                                                  -+
+-- ------------------------------------------------------
+--                  +-                         2 -+
+--                  |         +-             -+   |
+--                  |         | 1             |   |
+--    x LambertW(x) | 1 + tan | - LambertW(x) |   |
+--                  |         | 2             |   |
+--                  |         +-             -+   |
+--                  +-                           -+
+
+f:=(2*lambertW(x^2)*cos(lambertW(x^2))*(a*x+lambertW(x^2))+a*x*(1+lambertW(x^2)) + 2*lambertW(x^2))/((1+lambertW(x^2))*(a*x+lambertW(x^2))*x)
+--+-                                                       -+
+--|                                                         |
+--|             2                2                    2     |
+--| 2 LambertW(x ) cos(LambertW(x )) (a x + LambertW(x )) + |
+--|                                                         |
+--|                   2                 2                   |
+--| a x (1 + LambertW(x )) + 2 LambertW(x )                 |
+--|                                                         |
+--+-                                                       -+
+-------------------------------------------------------------
+--                2                 2
+-- (1 + LambertW(x ))(a x+LambertW(x )) x
+--
+
+integrate(f,x)
+--
+--        +-              -+
+--        | 1           2  |
+--  2 tan | - LambertW(x ) |
+--        | 2              |
+--        +-              -+                          2
+--  --------------------------- + log(a x + LambertW(x ))
+--                            2
+--          +-              -+
+--          | 1           2  |
+--  1 + tan | - LambertW(x ) |
+--          | 2              |
+--          +-              -+
+--
+--
+
+)clear all
+-- The Wright omega function
+
+omega(z) == lambertW(exp(z))
+
+integrate(omega(x),x)
+--
+--  1            x             x
+--  - LambertW(%e )(LambertW(%e )+2)
+--  2
+--
+-- f:=(1+lambertW(%e^x)*(2+cos(lambertW(%e^x))*(x+LambertW(%e^x))))/((1+LambertW(%e^x))*(x+LambertW(%e^x)))
+f := (1 + omega(x) * (2 + cos(omega(x)) * (x + omega(x)))) / (1 + omega(x)) / (x + omega(x))
+
+integrate(f,x)
+--
+--        +-               -+
+--        | 1            x  |
+--  2 tan | - LambertW(%e ) |
+--        | 2               |
+--        +-               -+                         x
+--  ---------------------------- + log(x + LambertW(%e ))
+--                             2
+--          +-               -+
+--          | 1            x  |
+--  1 + tan | - LambertW(%e ) |
+--          | 2               |
+--          +-               -+
+--

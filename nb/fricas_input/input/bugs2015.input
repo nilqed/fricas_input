@@ -1,0 +1,74 @@
+)set break resume
+)expose UnittestCount UnittestAux Unittest
+
+testsuite "bugs2015"
+
+testcase "bug in lifting"
+
+r := (4*x^3+2*y^2+1)*(12*x^5-x^3*y+12)*(y^2+3);
+testTrue("(res := factor(r); true)")
+fl := factors(res);
+testEquals("#fl", "3")
+testEquals("fl(1).factor", "x^3*y - 12*x^5 - 12")
+testEquals("unit(res)*fl(1).factor*fl(2).factor*fl(3).factor", "r")
+
+testcase "bug in PFBRU"
+
+P := UnivariatePolynomial('x, Integer)
+R := UnivariatePolynomial('y, P)
+r: R := (4*x^3+2*y^2+1)*(12*x^5-x^3*y+12)*(y^2+3);
+testTrue("(res := factorPolynomial r; true)")
+fl := factors(res);
+testEquals("#fl", "3")
+testEquals("fl(1).factor", "x^3*y - 12*x^5 - 12")
+testEquals("unit(res)*fl(1).factor*fl(2).factor*fl(3).factor", "r")
+
+testcase "recip in SQMATRIX"
+
+m := matrix([[1, 3], [0, 1]])::Matrix(Integer)
+testEquals("recip(m)", "matrix([[1, -3], [0, 1]])")
+
+testcase "messed Fresnel integrals"
+
+testEquals("fresnelS(x)::Expression(Complex(Integer))", "fresnelS(x)")
+
+testcase "rootSum and univariate modulo linear polynomial"
+
+R := Integer
+F := Expression(R)
+K := Kernel(F)
+iE := IndexedExponents(K)
+P := SparseMultivariatePolynomial(R, K)
+pQ := PolynomialCategoryQuotientFunctions(iE, K, R, P, F)
+kx := kernels(x).1
+testEquals("univariate(x*exp(z), kx, univariate(x + 1))$pQ", "-exp(z)")
+
+testEquals("rootSum(x*exp(z), univariate(x - 1), x)", "exp(z)")
+testEquals("rootSum(x*exp(x), univariate(x - 1), x)", "exp(1)")
+
+testcase "division by zero in derivative"
+
+testEquals("D(ellipticPi(z, 1, 1), z)", "1/(z^4 - 2*z^2 + 1)")
+testEquals("D(ellipticPi(z, n, 1), z)", "1/(n*z^4 - (n + 1)*z^2 + 1)")
+
+testcase "coercion of matrices"
+
+m1 := matrix([[s, 1, 0], [0, s, 1], [0, 0, s]])
+testEquals("m1::UP(s, SquareMatrix(3, Fraction(Integer)))",
+           "s + matrix([[0, 1, 0], [0, 0, 1], [0, 0, 0]])")
+
+testcase "differentiating sum"
+
+ss := sum(sin(n^3*x), n=m..(m+k))
+testEquals("D(ss, n)", "0")
+-- check for no errors
+testTrue("(D(ss, m); true)")
+testTrue("(D(ss, k); true)")
+
+testcase "integral of acos"
+
+f := acos(x^2 - sqrt(1 - x^2))
+testEquals("D(integrate(f, x), x)", "f")
+
+)set output algebra on
+statistics()

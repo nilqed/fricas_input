@@ -1,0 +1,176 @@
+========================
+Package: CommonLisp (CL)
+========================
+
+Exported functions:
+
+  SEX ==> SExpression
+  STR ==> String
+
+    lispType       : ()  -> SEX ... underlying CL type 
+    lispVersion    : ()  -> SEX ... CL version
+    lispEval       : SEX -> SEX ... Eval SExpression
+    getEnv         : STR -> SEX ... Get environment variable
+    probeFile      : STR -> SEX ... check if file exists
+    probeDir       : STR -> SEX ... check if dir exists
+    listAllSymbols : STR -> SEX ... list all symbols of package <STR> 
+    listExtSymbols : STR -> SEX ... list external symbols to package <STR>
+    
+
+Compile:
+
+    )read lisp.lisp
+    )co lisp.spad
+    
+Library:
+
+    )lib CL
+    
+
+Examples:
+
+--
+-- FriCAS/SBCL/Ubuntu 14.04
+--
+
+(1) -> lispType()
+
+   (1)  SBCL
+                                                            Type: SExpression
+(2) -> lispVersion()
+
+   (2)  1.2.16
+                                                            Type: SExpression
+
+---
+--- FriCAS/CLISP/Windows 7
+---
+                                                            
+(1) -> lispType()
+
+   (1)  CLISP
+                                                            Type: SExpression
+(2) -> lispVersion()
+
+   (2)  2.48 (2009-07-28) (built on win32 [192.168.150.128])
+                                                            Type: SExpression
+                                                            
+---
+--- Eval an SExpression
+---
+                       
+(1) -> ["+"::Symbol::SEX,2,3]::List SEX::SEX
+
+   (1)  (+ 2 3)
+                                                            Type: SExpression
+(2) -> lispEval %
+
+   (2)  5
+                                                            Type: SExpression
+
+---
+--- Environment variables
+---
+
+(1) -> getEnv "AXIOM"
+
+   (1)  /usr/local/lib/fricas/target/x86_64-unknown-linux
+                                                            Type: SExpression
+                                                            
+(2) -> getEnv "SBCL_HOME"
+
+   (2)  /usr/local/lib/sbcl
+                                                            Type: SExpression
+
+---
+--- Probe file
+---
+
+(1) -> probeFile "~/.bashrc"
+
+   (1)  /home/kfp/.bashrc
+                                                            Type: SExpression
+
+(2) -> probeFile "~/.axiom.input"
+
+   (2)  ()
+                                                            Type: SExpression
+                                                            
+---
+--- Probe direcotry
+---
+
+(1) -> probeDir "/tmp/"
+
+   (1)  (/tmp/)
+                                                            Type: SExpression
+(2) -> car %
+
+   (2)  /tmp/
+                                                            Type: SExpression
+
+(3) -> probeDir "/foo/"
+
+   (3)  ()
+                                                            Type: SExpression
+
+---
+--- List symbols of a package
+---
+
+(1) -> listExtSymbols "BOOT"
+
+   (1)
+   ($defaultMsgDatabaseName  MAKE-ABSOLUTE-FILENAME  REROOT  $SPADROOT
+    $DIRECTORY-LIST)
+                                                            Type: SExpression
+(2) -> listExtSymbols "CL-USER"
+
+   (2)  ()
+                                                            Type: SExpression
+(3) -> listExtSymbols "CL"
+
+   (3)
+   (REVAPPEND  BOOLE-EQV  STRUCTURE-OBJECT  MULTIPLE-VALUES-LIMIT  FIND-CLASS
+    ALPHA-CHAR-P  WRITE-TO-STRING  NOTINLINE  CLASS-NAME  PATHNAME-DIRECTORY
+    FINISH-OUTPUT  MACHINE-VERSION  OTHERWISE  SHORT-SITE-NAME
+    ...
+                                                            Type: SExpression
+
+    
+(4) -> b:=listAllSymbols "BOOT"
+
+   (4)
+   (COPY-ALIST  LEAST-POSITIVE-SHORT-FLOAT  FBOUNDP  MAPL  MULTIPLE-VALUE-BIND
+    LIST*  CADDAR  SUBST-IF-NOT  /  THROW  /=  LOAD  REQUIRE  *TERMINAL-IO*
+    ECHO-STREAM  REMOVE  ATOM  CONDITION  CODE-CHAR  TRIM-DIRECTORY-NAME
+    NAMESTRING  =  CDAAAR  MOST-NEGATIVE-FIXNUM  INLINE  VALUES
+    LOAD-LOGICAL-PATHNAME-TRANSLATIONS  BOOLE-IOR  REVERSE  *PRINT-CASE*
+    VECTOR-POP  BIT-EQV  RETURN  PATHNAME-NAME  REINITIALIZE-INSTANCE
+    ...
+                                                            Type: SExpression
+
+(5) -> #b
+
+   (5)  20394
+                                                        Type: PositiveInteger
+
+(6) -> car b
+
+   (6)  COPY-ALIST
+                                                            Type: SExpression
+                                                      
+ 
+---
+(7) -> )show CL
+ CommonLisp  is a package constructor
+ Abbreviation for CommonLisp is CL
+ This constructor is exposed in this frame.
+------------------------------- Operations --------------------------------
+ getEnv : String -> SExpression        lispType : () -> SExpression
+ lispVersion : () -> SExpression       probeDir : String -> SExpression
+ probeFile : String -> SExpression
+ lispEval : SExpression -> SExpression
+ listAllSymbols : String -> SExpression
+ listExtSymbols : String -> SExpression
+

@@ -1,0 +1,104 @@
+===========================
+Package: TrivialShell (TSH)
+===========================
+
+Exported functions:
+
+  STR ==> String
+  SEX ==> SExpression
+    
+    shellCommand           : STR -> SEX
+    getEnvVar              : STR -> SEX
+    bourneCompatibleShell? : () -> SEX
+    shellSearchPaths       : () -> SEX
+    sleep                  : DoubleFloat -> SEX
+    withTimeout            : (DoubleFloat,SEX) -> SEX
+    
+	
+Requires: QuickLisp, trivial-shell
+
+Usage/compile:
+  
+    quickLoad "trivial-shell"
+    )co shell
+    
+  
+Examples:
+
+(1) -> shellCommand "ps -a"
+
+   (1)
+    PID TTY          TIME CMD
+11061 pts/16   00:00:00 sman
+11067 pts/16   00:00
+  :00 session
+11068 pts/16   00:00:00 clef
+11070 pts/16   00:00:00 sman
+11214 p
+  ts/19   00:00:00 sh
+11216 pts/19   00:00:00 ps
+16282 pts/11   00:00:00 bash
+
+                                                            Type: SExpression
+
+(2) -> %
+
+   (2)
+    PID TTY          TIME CMD
+11061 pts/16   00:00:00 sman
+11067 pts/16   00:00
+  :00 session
+11068 pts/16   00:00:00 clef
+11070 pts/16   00:00:00 sman
+11214 p
+  ts/19   00:00:00 sh
+11216 pts/19   00:00:00 ps
+16282 pts/11   00:00:00 bash
+
+(3) -> string? %
+
+   (3)  true
+                                                                Type: Boolean
+
+(1) -> getEnvVar "AXIOM"
+
+   (1)  /usr/local/lib/fricas/target/x86_64-unknown-linux
+                                                            Type: SExpression
+
+(2) -> bourneCompatibleShell? ()
+
+   (2)  /bin/sh
+                                                            Type: SExpression
+(3) -> shellSearchPaths()
+
+   (3)  (/usr/bin/ /usr/local/bin/)
+                                                            Type: SExpression
+(4) -> car %
+
+   (4)  /usr/bin/
+                                                            Type: SExpression
+--- sleep x seconds
+
+(1) -> )system date
+Don Dez  3 23:38:08 CET 2015
+(1) -> sleep 10.0
+
+   (1)  ()
+                                                            Type: SExpression
+(2) -> )system date
+Don Dez  3 23:38:21 CET 2015
+
+
+---
+(2) -> )show TSH
+ TrivialShell  is a package constructor
+ Abbreviation for TrivialShell is TSH
+ This constructor is exposed in this frame.
+------------------------------- Operations --------------------------------
+ getEnvVar : String -> SExpression     sleep : DoubleFloat -> SExpression
+ bourneCompatibleShell? : () -> SExpression
+ shellCommand : String -> SExpression
+ shellSearchPaths : () -> SExpression
+ withTimeout : (DoubleFloat,SExpression) -> SExpression
+
+

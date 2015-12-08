@@ -1,0 +1,85 @@
+)set break resume
+)expose UnittestCount UnittestAux Unittest
+
+testsuite "bugs2013"
+
+testcase "bad eval of formal diff"
+f := operator 'f
+e := f(a, b)
+r1 := D(D(e, b), a)
+testEquals("r1", "realElementary(r1)")
+testEquals("r1", "D(D(e, b), a)")
+
+e := hypergeometricF([a, b], [c], x)
+r1 := D(D(e, b), a)
+testEquals("r1", "realElementary(r1)")
+testEquals("r1", "D(D(e, b), a)")
+
+testcase "wrong size of reducedSystem"
+
+eI := Expression(Integer)
+rm := reducedSystem(matrix([[0, 0]])$Matrix(eI))
+testEquals("ncols(rm)", "2")
+rs := reducedSystem(matrix([[0, 0, 0]])$Matrix(eI), vector([0])$Vector(eI))
+testEquals("ncols(rs.mat)", "3")
+
+dP := DirectProduct(2, Integer)
+rm := reducedSystem(new(0, 2, 0)$Matrix(dP))
+testEquals("ncols(rm)", "2")
+rs := reducedSystem(new(0, 4, 0)$Matrix(dP), new(0, 0)$Vector(dP))
+testEquals("ncols(rs.mat)", "4")
+rs := reducedSystem(new(3, 0, 0)$Matrix(dP), new(3, 1)$Vector(dP))
+testEquals("ncols(rs.mat)", "0")
+testEquals("nrows(rs.mat) - #(rs.vec)", "0")
+
+sM := SquareMatrix(2, Integer)
+rm := reducedSystem(new(0, 4, 0)$Matrix(sM))
+testEquals("ncols(rm)", "4")
+rs := reducedSystem(new(0, 2, 0)$Matrix(sM), new(0, 0)$Vector(sM))
+testEquals("ncols(rs.mat)", "2")
+rs := reducedSystem(new(2, 0, 0)$Matrix(sM), new(2, 1)$Vector(sM))
+testEquals("ncols(rs.mat)", "0")
+testEquals("nrows(rs.mat) - #(rs.vec)", "0")
+
+testcase "trivial reducedSystem"
+
+eI := Expression(Integer)
+testTrue("(rs := reducedSystem(matrix([[]])$Matrix(eI), vector([0])$Vector(eI)); true)")
+testEquals("ncols(rs.mat)", "0")
+testEquals("nrows(rs.mat)", "0")
+
+testcase "zero division in limit"
+re := limit(1/x::Expression(Integer), x = 0)
+testEquals("limit(1/(exp(x+log(3)/2)^2 - 3), x=0)", "re")
+
+f := -(k^(k/(k-1))*(2*k-1)*2^(k/(k-1)))/((k-1)*(k*2^((2*k)/(k-1))-2^((2*k)/(k-1))-2*k+1))
+testEquals("limit(f, k=1/3)", "re")
+
+testcase "redefining functional values"
+Z ==> Integer
+sm(z: Z): Z == -z
+s1(z: Z): Z == z+1
+s: Z->Z := s1
+testTrue("(s: Z->Z := sm; true)")
+
+testcase "changes of variables"
+
+iI := Integer
+pA := PureAlgebraicIntegration(iI, EXPR(iI), EXPR(iI))
+sq := sqrt((4*w^4 + 24*w^2 + 4)/(w+1)^4)
+fa := (w^2 + 1)/((w^4 + 2*w^3 - 2*w - 1)*sq)
+kw := kernels(fa).2
+ky := kernels(fa).1
+testTrue("(ii := palgint(fa, kw, ky)$pA; true)")
+testEquals("fa - differentiate(ii, w)", "0")
+
+cI := Complex(Integer)
+pI := ParametricIntegration(cI, EXPR(cI))
+fb := ((-1 - %i)*w + 1 - %i)*sqrt(4*w/(w^2 + 2*w + 1))/(w*(w + 1)*(4*w/(w^2 + 2*w + 1)))
+testTrue("(ii := extendedint(fb, w, [])$pI; true)")
+part := ii.particular
+testTrue("not(part case _"failed_")")
+testEquals("D(part.ratpart, w) - fb", "0")
+
+)set output algebra on
+statistics()

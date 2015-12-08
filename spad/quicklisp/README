@@ -1,0 +1,82 @@
+==========================
+ Package: QuickLisp (QL)
+==========================
+
+Requires: QuickLisp (https://www.quicklisp.org/beta/)
+
+Exported functions:
+
+    quickLoad      : String -> SExpression ... ql:quickload
+    qlApropos      : String -> SExpression ... ql:apropos
+    qlUninstall    : String -> SExpression ... ql:uninstall
+    qlWhoDependsOn : String -> SExpression ... ql:who-depends-on
+    qlUpdateAll    : ()     -> SExpression ... ql:update-all-dists
+    qlUpdateClient : ()     -> SExpression ... ql:update-client
+
+    
+QuickLisp Installation: It is assumed that 'quicklisp' is installed in the
+                        home directory. Otherwise you have to change this on
+                        the first line of 'quicklisp.spad' !!
+                        
+Compile:
+
+    )co quicklisp
+    
+    
+Examples:
+
+(1) -> qlApropos "trivial-shell"
+#<SYSTEM trivial-shell / trivial-shell-20130312-git / quicklisp 2015-08-04>
+#<SYSTEM trivial-shell-test / trivial-shell-20130312-git / quicklisp 2015-08-04>
+
+   (1)  ()
+                                                            Type: SExpression
+(2) -> quickLoad "trivial-shell"
+To load "trivial-shell":
+  Load 1 ASDF system:
+    trivial-shell
+; Loading "trivial-shell"
+
+
+   (2)  (trivial-shell)
+                                                            Type: SExpression
+(3) -> qlApropos "kenzo"
+#<SYSTEM kenzo / kenzo-20150804-git / quicklisp 2015-08-04>
+#<SYSTEM kenzo-test / kenzo-20150804-git / quicklisp 2015-08-04>
+
+   (3)  ()
+                                                            Type: SExpression
+
+(4) -> )lisp (find-package "TRIVIAL-SHELL")
+
+Value = #<PACKAGE "TRIVIAL-SHELL">
+                                                            
+
+(5) -> quickLoad "kenzo"
+To load "kenzo":
+  Load 1 ASDF system:
+    kenzo
+; Loading "kenzo"
+
+
+   (5)  (kenzo)
+                                                            Type: SExpression
+                                                            
+(6) -> )lisp (find-package "CAT")
+
+Value = #<PACKAGE "CAT">
+
+
+---
+
+(1) -> )show QL
+ QuickLisp  is a package constructor
+ Abbreviation for QuickLisp is QL
+ This constructor is exposed in this frame.
+------------------------------- Operations --------------------------------
+ qlApropos : String -> SExpression     qlUpdateAll : () -> SExpression
+ qlUpdateClient : () -> SExpression    quickLoad : String -> SExpression
+ qlUninstall : String -> SExpression
+ qlWhoDependsOn : String -> SExpression
+
+

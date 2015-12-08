@@ -1,0 +1,41 @@
+)abbrev package CL CommonLisp
+++ Author: Kurt Pagani
+++ Date Created: Sun Nov 29 23:44:45 CET 2015
+++ License: BSD
+++ Date Last Updated:
+++ Depends On: lisp.lisp
+++ Basic Operations: 
+++ Keywords: 
+++ Examples:
+++ References:
+++
+++ Description:
+++ Interfacing some useful Lisp functions.
+++
+CommonLisp() : Exports == Implementation where
+  
+  SEX ==> SExpression
+  STR ==> String
+  
+  Exports ==  with
+    
+    lispType : () -> SEX
+    lispVersion : () -> SEX
+    lispEval : SEX -> SEX
+    getEnv : STR -> SEX
+    probeFile : STR -> SEX
+    probeDir : STR -> SEX
+    listAllSymbols : STR -> SEX
+    listExtSymbols : STR -> SEX
+	
+  Implementation ==  add 
+    
+    lispType() == LISP_-IMPLEMENTATION_-TYPE()$Lisp
+    lispVersion() == LISP_-IMPLEMENTATION_-VERSION()$Lisp
+    lispEval(x) == EVAL(x)$Lisp
+   
+    getEnv(s) == MY_GETENV(s)$Lisp
+    probeFile(s) == PROBE_-FILE(s)$Lisp
+    probeDir(s) == DIRECTORY(s)$Lisp
+    listAllSymbols(s) == LIST_ALL_SYMBOLS(s)$Lisp
+    listExtSymbols(s) == LIST_EXT_SYMBOLS(s)$Lisp

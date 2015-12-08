@@ -1,0 +1,52 @@
+)lisp (load "~/quicklisp/setup")
+)lisp (import 'ql:quickload)
+)lisp (import 'ql:system-apropos)
+)lisp (import 'ql:uninstall)
+)lisp (import 'ql:update-all-dists)
+)lisp (import 'ql:update-client)
+)lisp (import 'ql:who-depends-on)
+)abbrev package QL QuickLisp
+++ Author: Kurt Pagani
+++ Date Created: Mon Nov 23 03:30:24 CET 2015
+++ QuickLisp: Copyright © 2010 Zachary Beane <zach@quicklisp.org>
+++ Source: https://www.quicklisp.org/beta/
+++ License: BSD
+++ Date Last Updated: 
+++ Basic Operations: quickload
+++ Related Domains: 
+++ Also See:
+++ AMS Classifications:
+++ Keywords: 
+++ Examples:
+++ References:
+++
+++ Description:
+++ Quicklisp is a library manager for Common Lisp.
+++ This is an interface to the few functions provided by QL.
+
+
+QuickLisp() : Exports == Implementation where
+
+
+  Exports ==  with
+    
+    quickLoad      : String -> SExpression
+    qlApropos      : String -> SExpression
+    qlUninstall    : String -> SExpression
+    qlWhoDependsOn : String -> SExpression
+    qlUpdateAll    : ()     -> SExpression
+    qlUpdateClient : ()     -> SExpression
+    
+	
+  Implementation ==  add 
+    
+    quickLoad(s) == QUICKLOAD(s)$Lisp
+    qlApropos(s) == SYSTEM_-APROPOS(s)$Lisp
+    qlUninstall(s) == UNINSTALL(s)$Lisp    
+    qlUpdateAll()  == UPDATE_-ALL_-DISTS()$Lisp  
+    qlUpdateClient() == UPDATE_-CLIENT()$Lisp
+    qlWhoDependsOn(s) == WHO_-DEPENDS_-ON(s)$Lisp
+	
+
+
+   

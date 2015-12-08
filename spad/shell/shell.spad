@@ -1,0 +1,63 @@
+)lisp (import 'trivial-shell:shell-command)
+)lisp (import 'trivial-shell:with-timeout)
+)lisp (import 'trivial-shell:get-env-var)
+)lisp (import 'trivial-shell:*bourne-compatible-shell*)
+)lisp (import 'trivial-shell:*shell-search-paths*)
+
+)abbrev package TSH TrivialShell
+++ Author: Kurt Pagani
+++ Date Created: Mon Nov 30 18:54:58 CET 2015
+++ License: BSD (same as Axiom)
+++ Date Last Updated:
+++ Basic Operations: 
+++ Depends On: trivial-shell, quicklisp 
+++ Examples:
+++ References:
+++
+++ Description:
+++ https://github.com/gwkkwg/trivial-shell
+++ Interface to package "trivial-shell"
+++ Use quickLoad("trivial-shell")$QL to load.
+++
+TrivialShell() : Exports == Implementation where
+  
+  STR ==> String
+  SEX ==> SExpression
+  
+  Exports ==  with
+    
+    shellCommand : STR -> SEX
+    getEnvVar : STR -> SEX
+    bourneCompatibleShell? : () -> SEX
+    shellSearchPaths : () -> SEX
+    sleep : DoubleFloat -> SEX
+    withTimeout : (DoubleFloat,SEX) -> SEX
+    
+	
+	
+  Implementation ==  add 
+    
+    shellCommand(s) == SHELL_-COMMAND(s)$Lisp
+    getEnvVar(s) == GET_-ENV_-VAR(s)$Lisp
+    
+    bourneCompatibleShell?() ==
+      s:STR:=upperCase "*bourne-compatible-shell*"
+      x:SEX:=convert(s::Symbol)$SEX
+      EVAL(x)$Lisp
+    
+    shellSearchPaths() ==
+      s:STR:=upperCase "*shell-search-paths*"
+      x:SEX:=convert(s::Symbol)$SEX
+      EVAL(x)$Lisp 
+      
+    sleep(t) == SLEEP(convert(t)$SEX)$Lisp
+    
+    withTimeout(t,x) == 
+      tt:SEX:=convert([convert(t)$SEX])$SEX
+      wt:SEX:=convert("WITH-TIMEOUT"::Symbol)$SEX
+      ss:SEX:=convert([wt,tt,x])$SEX
+      EVAL(ss)$Lisp
+    
+
+
+   
