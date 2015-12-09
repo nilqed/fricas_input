@@ -236,6 +236,7 @@ div#notebook {
 <div class=" highlight hl-spad"><pre>mA1 := matrix [[ 0.5 ,   1.5 ,   6.6 ,   4.8],  _
                [ 1.5 ,   6.5 ,  16.2 ,   8.6],  _
                [ 6.6 ,  16.2 ,  37.6 ,   9.8],  _
+               [ 4.8 ,   8.6 ,   9.8 , -17.1]];
 </pre></div>
 
 </div>
@@ -246,30 +247,11 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: mA1 := matrix [[ 0.5 ,   1.5 ,   6.6 ,   4.8],  _
-  Line   2:                [ 1.5 ,   6.5 ,  16.2 ,   8.6],  _
-  Line   3:                [ 6.6 ,  16.2 ,  37.6 ,   9.8],  _
-  Line   4: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[1]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                          Type: Matrix(Float)
 </pre>
 </div>
 
@@ -284,7 +266,10 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>               [ 4.8 ,   8.6 ,   9.8 , -17.1]];
+<div class=" highlight hl-spad"><pre>mB1 := matrix[[ 1 ,  3 ,   4 ,  1],  _
+              [ 3 , 13 ,  16 , 11],  _
+              [ 4 , 16 ,  24 , 18],  _
+              [ 1 , 11 ,  18 , 27]];
 </pre></div>
 
 </div>
@@ -295,20 +280,11 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[2]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                        Type: Matrix(Integer)
 </pre>
 </div>
 
@@ -323,9 +299,10 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>mB1 := matrix[[ 1 ,  3 ,   4 ,  1],  _
-              [ 3 , 13 ,  16 , 11],  _
-              [ 4 , 16 ,  24 , 18],  _
+<div class=" highlight hl-spad"><pre>mA2 := matrix [[ 3.9 ,  12.5 , -34.5 ,  -0.5],  _
+               [ 4.3 ,  21.5 , -47.5 ,   7.5],  _
+               [ 4.3 ,  21.5 , -43.5 ,   3.5],  _
+               [ 4.4 ,  26.0 , -46.0 ,   6.0]];
 </pre></div>
 
 </div>
@@ -336,30 +313,11 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: mB1 := matrix[[ 1 ,  3 ,   4 ,  1],  _
-  Line   2:               [ 3 , 13 ,  16 , 11],  _
-  Line   3:               [ 4 , 16 ,  24 , 18],  _
-  Line   4: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[3]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                          Type: Matrix(Float)
 </pre>
 </div>
 
@@ -374,7 +332,10 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>              [ 1 , 11 ,  18 , 27]];
+<div class=" highlight hl-spad"><pre>mB2 := matrix[[ 1 , 2 , -3 , 1],  _
+              [ 1 , 3 , -5 , 4],  _
+              [ 1 , 3 , -4 , 3],  _
+              [ 1 , 3 , -4 , 4]];
 </pre></div>
 
 </div>
@@ -385,20 +346,11 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[4]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                        Type: Matrix(Integer)
 </pre>
 </div>
 
@@ -411,186 +363,6 @@ div#notebook {
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>mA2 := matrix [[ 3.9 ,  12.5 , -34.5 ,  -0.5],  _
-               [ 4.3 ,  21.5 , -47.5 ,   7.5],  _
-               [ 4.3 ,  21.5 , -43.5 ,   3.5],  _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: mA2 := matrix [[ 3.9 ,  12.5 , -34.5 ,  -0.5],  _
-  Line   2:                [ 4.3 ,  21.5 , -47.5 ,   7.5],  _
-  Line   3:                [ 4.3 ,  21.5 , -43.5 ,   3.5],  _
-  Line   4: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>               [ 4.4 ,  26.0 , -46.0 ,   6.0]];
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>mB2 := matrix[[ 1 , 2 , -3 , 1],  _
-              [ 1 , 3 , -5 , 4],  _
-              [ 1 , 3 , -4 , 3],  _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: mB2 := matrix[[ 1 , 2 , -3 , 1],  _
-  Line   2:               [ 1 , 3 , -5 , 4],  _
-  Line   3:               [ 1 , 3 , -4 , 3],  _
-  Line   4: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>              [ 1 , 3 , -4 , 4]];
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>nagEigenvalues(mA1,mB1) :: List Float
@@ -614,8 +386,8 @@ div#notebook {
  
    Cannot find a definition or applicable library operation named 
       nagEigenvalues with argument type(s) 
-                                Variable(mA1)
-                                Variable(mB1)
+                                Matrix(Float)
+                               Matrix(Integer)
       
       Perhaps you should use &quot;@&quot; to indicate the required return type, 
       or &quot;$&quot; to specify which version of the function you need.
@@ -624,7 +396,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -651,7 +423,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>vv1 := nagEigenvectors(mA1,mB1);
@@ -675,8 +447,8 @@ div#notebook {
  
    Cannot find a definition or applicable library operation named 
       nagEigenvectors with argument type(s) 
-                                Variable(mA1)
-                                Variable(mB1)
+                                Matrix(Float)
+                               Matrix(Integer)
       
       Perhaps you should use &quot;@&quot; to indicate the required return type, 
       or &quot;$&quot; to specify which version of the function you need.
@@ -685,7 +457,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -701,7 +473,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>(vv1.eigenvalues) :: List Float
@@ -734,7 +506,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -761,7 +533,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>(vv1.eigenvectors) :: List Vector Complex Float
@@ -794,7 +566,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -821,7 +593,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>nagEigenvalues(mA2,mB2)
@@ -845,8 +617,8 @@ div#notebook {
  
    Cannot find a definition or applicable library operation named 
       nagEigenvalues with argument type(s) 
-                                Variable(mA2)
-                                Variable(mB2)
+                                Matrix(Float)
+                               Matrix(Integer)
       
       Perhaps you should use &quot;@&quot; to indicate the required return type, 
       or &quot;$&quot; to specify which version of the function you need.
@@ -855,7 +627,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -881,7 +653,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>% :: List Complex Float
@@ -898,13 +670,14 @@ div#notebook {
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre> 
-   Cannot convert the value from type Void to List(Complex(Float)) .
+   Cannot convert the value from type Matrix(Integer) to List(Complex(
+      Float)) .
 
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -931,7 +704,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>vv2 := nagEigenvectors(mA2,mB2);
@@ -955,8 +728,8 @@ div#notebook {
  
    Cannot find a definition or applicable library operation named 
       nagEigenvectors with argument type(s) 
-                                Variable(mA2)
-                                Variable(mB2)
+                                Matrix(Float)
+                               Matrix(Integer)
       
       Perhaps you should use &quot;@&quot; to indicate the required return type, 
       or &quot;$&quot; to specify which version of the function you need.
@@ -965,7 +738,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -981,7 +754,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>vv2.eigenvalues
@@ -1014,7 +787,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1040,7 +813,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>% :: List Complex Float
@@ -1057,13 +830,14 @@ div#notebook {
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre> 
-   Cannot convert the value from type Void to List(Complex(Float)) .
+   Cannot convert the value from type Matrix(Integer) to List(Complex(
+      Float)) .
 
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1090,7 +864,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>vv2.eigenvectors :: List Vector Complex Float
@@ -1123,7 +897,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1166,7 +940,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>vv2a := nagEigenvectors(mA2,mB2,0.0001);
@@ -1190,8 +964,8 @@ div#notebook {
  
    Cannot find a definition or applicable library operation named 
       nagEigenvectors with argument type(s) 
-                                Variable(mA2)
-                                Variable(mB2)
+                                Matrix(Float)
+                               Matrix(Integer)
                                     Float
       
       Perhaps you should use &quot;@&quot; to indicate the required return type, 
@@ -1201,7 +975,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1217,7 +991,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>vv2a.eigenvalues :: List Complex Float
@@ -1250,7 +1024,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1277,7 +1051,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>vv2a.eigenvectors :: List Vector Complex Float
@@ -1310,7 +1084,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1343,7 +1117,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mB1(1,1) := -1;
@@ -1357,22 +1131,11 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   The form on the left hand side of an assignment must be a single 
-      variable, a Tuple of variables or a reference to an entry in an 
-      object supporting the setelt operation.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                Type: Integer
 </pre>
 </div>
 
@@ -1394,7 +1157,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>nagEigenvalues(mA1,mB1)
@@ -1418,8 +1181,8 @@ div#notebook {
  
    Cannot find a definition or applicable library operation named 
       nagEigenvalues with argument type(s) 
-                                Variable(mA1)
-                                Variable(mB1)
+                                Matrix(Float)
+                               Matrix(Integer)
       
       Perhaps you should use &quot;@&quot; to indicate the required return type, 
       or &quot;$&quot; to specify which version of the function you need.
@@ -1428,7 +1191,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1454,7 +1217,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>% :: List Complex Float
@@ -1471,13 +1234,13 @@ div#notebook {
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre> 
-   Cannot convert the value from type Void to List(Complex(Float)) .
+   Cannot convert the value from type Integer to List(Complex(Float)) .
 
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1514,7 +1277,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>vv3 := nagEigenvectors(mA1,mB1);
@@ -1538,8 +1301,8 @@ div#notebook {
  
    Cannot find a definition or applicable library operation named 
       nagEigenvectors with argument type(s) 
-                                Variable(mA1)
-                                Variable(mB1)
+                                Matrix(Float)
+                               Matrix(Integer)
       
       Perhaps you should use &quot;@&quot; to indicate the required return type, 
       or &quot;$&quot; to specify which version of the function you need.
@@ -1548,7 +1311,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1564,7 +1327,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>vv3.eigenvalues
@@ -1597,7 +1360,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1623,7 +1386,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>% :: List Complex Float
@@ -1640,13 +1403,13 @@ div#notebook {
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre> 
-   Cannot convert the value from type Void to List(Complex(Float)) .
+   Cannot convert the value from type Integer to List(Complex(Float)) .
 
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1673,7 +1436,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>vv3.eigenvectors :: List Vector Complex Float
@@ -1706,7 +1469,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1742,7 +1505,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>outputGeneral()
@@ -1756,7 +1519,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1772,7 +1535,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>output &quot;End of tests&quot;
@@ -1786,7 +1549,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1803,7 +1566,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -1819,7 +1582,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

@@ -2566,6 +2566,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f(n) == (local length; length := #((2^n)::String);     _
+                 if length &gt; 120 then &quot;Too long!&quot; else length)
 </pre></div>
 
 </div>
@@ -2578,284 +2579,14 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: f(n) == (local length; length := #((2^n)::String);     _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
+<pre>   Compiled code for f has been cleared.
+   1 old definition(s) deleted for function or rule f 
 
 </pre>
 </div>
 </div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[71]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[72]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>                 if length &gt; 120 then &quot;Too long!&quot; else length)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[72]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[73]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>f 100
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[73]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   31
-                                                        Type: PositiveInteger
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>f 1000
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[74]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   302
-                                                        Type: PositiveInteger
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>f(n : PositiveInteger) : Any ==                   _
-          (local length; length := #((2^n)::String);      _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: f(n : PositiveInteger) : Any ==                   _
-  Line   2:           (local length; length := #((2^n)::String);      _
-  Line   3: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           if length &gt; 120 then &quot;Too long!&quot; else length)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[76]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>f 0
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function f with type NonNegativeInteger -&gt; 
-      NonNegativeInteger 
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   1
-                                                        Type: PositiveInteger
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>g1(x) == 2*x
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[78]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2871,10 +2602,256 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>f 100
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiling function f with type PositiveInteger -&gt; Any 
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[72]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   31
+                                                     Type: NonNegativeInteger
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>f 1000
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[73]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   &quot;Too long!&quot;
+                                                                 Type: String
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>f(n : PositiveInteger) : Any ==                   _
+          (local length; length := #((2^n)::String);      _
+           if length &gt; 120 then &quot;Too long!&quot; else length)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Function declaration f : PositiveInteger -&gt; Any has been added to 
+      workspace.
+   Compiled code for f has been cleared.
+   1 old definition(s) deleted for function or rule f 
+
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[74]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>f 0
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>   Compiling function f with type PositiveInteger -&gt; Any 
+   Compiling function G43816 with type Integer -&gt; Boolean 
+   Compiling function G43818 with type NonNegativeInteger -&gt; Boolean 
+   Conversion failed in the compiled user function f .
+ 
+   Cannot convert the value from type Integer to PositiveInteger .
+
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>error
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>g1(x) == 2*x
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[76]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>g2(x) == %
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>G := 2*x
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[78]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   2x
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>g3(x) == G
 </pre></div>
 
 </div>
@@ -2904,67 +2881,6 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 <div class="prompt input_prompt">In&nbsp;[80]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>G := 2*x
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   2x
-                                                    Type: Polynomial(Integer)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>g3(x) == G
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>g1(1)
 </pre></div>
 
@@ -2983,7 +2899,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[82]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3000,7 +2916,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>g2(2)
@@ -3021,7 +2937,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[83]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3038,7 +2954,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>g3(3)
@@ -3060,7 +2976,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[84]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[82]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3077,7 +2993,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>l1 := [1,2,3,4,5]
@@ -3091,7 +3007,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[85]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[83]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3108,7 +3024,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="prompt input_prompt">In&nbsp;[84]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>l2 := map(x +-&gt; x^2,l1)
@@ -3122,7 +3038,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[86]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[84]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3139,7 +3055,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="prompt input_prompt">In&nbsp;[85]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>BE(n) == taylor((1+x)^n, x=0)
@@ -3153,7 +3069,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[87]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[85]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3169,7 +3085,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[88]:</div>
+<div class="prompt input_prompt">In&nbsp;[86]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>BE(5)
@@ -3190,7 +3106,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[88]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[86]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3208,7 +3124,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[89]:</div>
+<div class="prompt input_prompt">In&nbsp;[87]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>BE(6)
@@ -3222,7 +3138,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[89]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[87]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3240,7 +3156,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[90]:</div>
+<div class="prompt input_prompt">In&nbsp;[88]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -3256,7 +3172,7 @@ Type: UnivariatePolynomial(a,UnivariatePolynomial(b,Fraction(Factored(Polynomial
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[90]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[88]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

@@ -2401,6 +2401,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>  sin((n | integer? n and integer n &gt; 1) * x) ==_
+       sin(x) * cos((n-1)*x) + sin((n-1)*x) * cos(x)
 </pre></div>
 
 </div>
@@ -2411,28 +2412,11 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1:   sin((n | integer? n and integer n &gt; 1) * x) ==_
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[61]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -2447,7 +2431,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>       sin(x) * cos((n-1)*x) + sin((n-1)*x) * cos(x)
+<div class=" highlight hl-spad"><pre>  cos((n | integer? n and integer n &gt; 1) * x) ==_
+       cos(x) * cos((n-1)*x) - sin(x) * sin((n-1)*x)
 </pre></div>
 
 </div>
@@ -2462,8 +2447,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   cos(x)sin((n - 1)x) + cos((n - 1)x)sin(x)
-                                                    Type: Expression(Integer)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -2478,7 +2462,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>  cos((n | integer? n and integer n &gt; 1) * x) ==_
+<div class=" highlight hl-spad"><pre>sinCosExpand(sin(x+y-2*z) * cos y)
 </pre></div>
 
 </div>
@@ -2491,16 +2475,10 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1:   cos((n | integer? n and integer n &gt; 1) * x) ==_
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+<pre> 
+   FriCAS cannot determine the type of sin because it cannot analyze 
+      the non-recursive part, if that exists. This may be remedied by 
+      declaring the function.
 
 </pre>
 </div>
@@ -2525,68 +2503,6 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>       cos(x) * cos((n-1)*x) - sin(x) * sin((n-1)*x)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[64]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   - sin(x)sin((n - 1)x) + cos(x)cos((n - 1)x)
-                                                    Type: Expression(Integer)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>sinCosExpand(sin(x+y-2*z) * cos y)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[65]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   - cos(y)sin(2z - y - x)
-                                                    Type: Expression(Integer)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
 -- EOF
 --
@@ -2600,7 +2516,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[66]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[64]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

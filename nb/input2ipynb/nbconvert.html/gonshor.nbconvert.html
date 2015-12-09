@@ -315,6 +315,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>(c100, c101, _
 c200, c201, c202, c211, _
+c300, c301, c302, c303, c311, c312, c322) : R
 </pre></div>
 
 </div>
@@ -325,29 +326,11 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: (c100, c101, _
-  Line   2: c200, c201, c202, c211, _
-  Line   3: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[2]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -356,13 +339,22 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>c300, c301, c302, c303, c311, c312, c322) : R
+<div class=" highlight hl-spad"><pre>c100 :=  1 ;     c101 := -1 ;
 </pre></div>
 
 </div>
@@ -373,20 +365,11 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[3]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                          Type: Fraction(Polynomial(Integer))
 </pre>
 </div>
 
@@ -410,7 +393,8 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>c100 :=  1 ;     c101 := -1 ;
+<div class=" highlight hl-spad"><pre>c200 :=  0 ;     c201 :=  1 ;     c202 := -1 ;
+                 c211 :=  2 ;
 </pre></div>
 
 </div>
@@ -425,7 +409,7 @@ c200, c201, c202, c211, _
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                Type: Integer
+<pre>                                          Type: Fraction(Polynomial(Integer))
 </pre>
 </div>
 
@@ -449,8 +433,9 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>c200 :=  0 ;     c201 :=  1 ;     c202 := -1 ;
-                 c211 :=  2 ;
+<div class=" highlight hl-spad"><pre>c300 :=  1 ;     c301 :=  0 ;     c302 := -1 ;     c303 :=  1 ;
+                 c311 :=  1 ;     c312 :=  0 ;
+                                  c322 :=  2 ;
 </pre></div>
 
 </div>
@@ -465,48 +450,7 @@ c200, c201, c202, c211, _
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                        Type: PositiveInteger
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>c300 :=  1 ;     c301 :=  0 ;     c302 := -1 ;     c303 :=  1 ;
-                 c311 :=  1 ;     c312 :=  0 ;
-                                  c322 :=  2 ;
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                        Type: PositiveInteger
+<pre>                                          Type: Fraction(Polynomial(Integer))
 </pre>
 </div>
 
@@ -537,7 +481,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>gonshor : List SquareMatrix(4,R) :=
@@ -560,11 +504,56 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>error
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>  [matrix [ [1, 0, 0, 0], [0, 0, 0, 0],_
+            [0, 0, 0, 0], [0, 0, 0, 0] ],_
+   matrix [ [c100, c101, 0, 0], [c101, 0, 0, 0],_
+            [0, 0, 0, 0], [0, 0, 0, 0] ],_
+   matrix [ [c200, c201, c202, 0], [c201, c211, 0, 0],_
+            [c202, 0, 0, 0], [0, 0, 0, 0] ],_
+   matrix [ [c300, c301, c302, c303], [c301, c311, c312, 0],_
+            [c302, c312, c322, 0], [c303, 0, 0, 0] ] ] ;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Warning: HyperTeX macro table not found
+
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                            Type: List(Matrix(Fraction(Polynomial(Integer))))
 </pre>
 </div>
 
@@ -579,13 +568,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>  [matrix [ [1, 0, 0, 0], [0, 0, 0, 0],_
-            [0, 0, 0, 0], [0, 0, 0, 0] ],_
-   matrix [ [c100, c101, 0, 0], [c101, 0, 0, 0],_
-            [0, 0, 0, 0], [0, 0, 0, 0] ],_
-   matrix [ [c200, c201, c202, 0], [c201, c211, 0, 0],_
-            [c202, 0, 0, 0], [0, 0, 0, 0] ],_
-   matrix [ [c300, c301, c302, c303], [c301, c311, c312, 0],_
+<div class=" highlight hl-spad"><pre>basisSymbols : List Symbol := [subscript(e,[i]) for i in 0..3]
 </pre></div>
 
 </div>
@@ -596,34 +579,13 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1:   [matrix [ [1, 0, 0, 0], [0, 0, 0, 0],_
-  Line   2:             [0, 0, 0, 0], [0, 0, 0, 0] ],_
-  Line   3:    matrix [ [c100, c101, 0, 0], [c101, 0, 0, 0],_
-  Line   4:             [0, 0, 0, 0], [0, 0, 0, 0] ],_
-  Line   5:    matrix [ [c200, c201, c202, 0], [c201, c211, 0, 0],_
-  Line   6:             [c202, 0, 0, 0], [0, 0, 0, 0] ],_
-  Line   7:    matrix [ [c300, c301, c302, c303], [c301, c311, c312, 0],_
-  Line   8: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   [e ,e ,e ,e ]
+     0  1  2  3
+                                                           Type: List(Symbol)
 </pre>
 </div>
 
@@ -638,7 +600,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>            [c302, c312, c322, 0], [c303, 0, 0, 0] ] ] ;
+<div class=" highlight hl-spad"><pre>GonshorGenetic := ALGSC(R, 4, basisSymbols, gonshor)
 </pre></div>
 
 </div>
@@ -652,7 +614,8 @@ c200, c201, c202, c211, _
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre> 
-   NIL is not a valid identifier to use in FriCAS.
+   Cannot convert the value from type Fraction(Polynomial(Integer)) to 
+      Vector(Matrix(Fraction(Polynomial(Integer)))) .
 
 </pre>
 </div>
@@ -677,7 +640,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>basisSymbols : List Symbol := [subscript(e,[i]) for i in 0..3]
+<div class=" highlight hl-spad"><pre>commutative?()$GonshorGenetic
 </pre></div>
 
 </div>
@@ -689,8 +652,10 @@ c200, c201, c202, c211, _
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Warning: HyperTeX macro table not found
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> 
+   GonshorGenetic is not a valid type.
+
 </pre>
 </div>
 </div>
@@ -699,9 +664,7 @@ c200, c201, c202, c211, _
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   [e ,e ,e ,e ]
-     0  1  2  3
-                                                           Type: List(Symbol)
+<pre>error
 </pre>
 </div>
 
@@ -716,7 +679,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>GonshorGenetic := ALGSC(R, 4, basisSymbols, gonshor)
+<div class=" highlight hl-spad"><pre>associative?()$GonshorGenetic
 </pre></div>
 
 </div>
@@ -730,8 +693,7 @@ c200, c201, c202, c211, _
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre> 
-   Cannot convert the value from type Fraction(Polynomial(Integer)) to 
-      Vector(Matrix(Fraction(Polynomial(Integer)))) .
+   GonshorGenetic is not a valid type.
 
 </pre>
 </div>
@@ -751,12 +713,22 @@ c200, c201, c202, c211, _
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The canonical basis:</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>commutative?()$GonshorGenetic
+<div class=" highlight hl-spad"><pre>e0 : GonshorGenetic := [1, 0, 0, 0] :: Vector R ;
 </pre></div>
 
 </div>
@@ -795,7 +767,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>associative?()$GonshorGenetic
+<div class=" highlight hl-spad"><pre>e1 : GonshorGenetic := [0, 1, 0, 0] :: Vector R ;
 </pre></div>
 
 </div>
@@ -829,22 +801,12 @@ c200, c201, c202, c211, _
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The canonical basis:</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>e0 : GonshorGenetic := [1, 0, 0, 0] :: Vector R ;
+<div class=" highlight hl-spad"><pre>e2 : GonshorGenetic := [0, 0, 1, 0] :: Vector R ;
 </pre></div>
 
 </div>
@@ -883,7 +845,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>e1 : GonshorGenetic := [0, 1, 0, 0] :: Vector R ;
+<div class=" highlight hl-spad"><pre>e3 : GonshorGenetic := [0, 0, 0, 1] :: Vector R ;
 </pre></div>
 
 </div>
@@ -917,12 +879,22 @@ c200, c201, c202, c211, _
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A generic element of the algebra:</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>e2 : GonshorGenetic := [0, 0, 1, 0] :: Vector R ;
+<div class=" highlight hl-spad"><pre>x  : GonshorGenetic := x0*e0 + x1*e1 + x2*e2 + x3*e3
 </pre></div>
 
 </div>
@@ -956,94 +928,6 @@ c200, c201, c202, c211, _
 </div>
 
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>e3 : GonshorGenetic := [0, 0, 0, 1] :: Vector R ;
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   GonshorGenetic is not a valid type.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>A generic element of the algebra:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>x  : GonshorGenetic := x0*e0 + x1*e1 + x2*e2 + x3*e3
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   GonshorGenetic is not a valid type.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
@@ -1056,7 +940,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>Lx := leftRegularRepresentation x
@@ -1091,7 +975,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1120,7 +1004,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>p := characteristicPolynomial(Lx,Y)
@@ -1156,7 +1040,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1182,7 +1066,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>leftMinimalPolynomial x
@@ -1217,7 +1101,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1233,7 +1117,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)clear prop A a b c r s
@@ -1247,7 +1131,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1262,7 +1146,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>A := GonshorGenetic
@@ -1276,7 +1160,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1293,7 +1177,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>a := x
@@ -1307,7 +1191,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1324,7 +1208,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>b := (1/4)*e1 + (1/5)*e2 + (3/20)*e3 + (2/5)*e0
@@ -1338,7 +1222,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1357,7 +1241,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>c := (1/3)*e1 + (1/7)*e2 + (8/21)*e3 + (1/7)*e0
@@ -1371,7 +1255,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1390,7 +1274,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>r  : R := r
@@ -1404,7 +1288,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1421,7 +1305,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>s  : R := s
@@ -1435,7 +1319,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1452,7 +1336,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>b*c
@@ -1472,7 +1356,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1495,7 +1379,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>(b*c)*b
@@ -1515,7 +1399,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1546,7 +1430,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>b*(c*b)
@@ -1566,7 +1450,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1609,7 +1493,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)clear prop AP
@@ -1623,7 +1507,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[32]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1638,7 +1522,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>AP := ALGPKG(R,A)
@@ -1661,7 +1545,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[33]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1677,7 +1561,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>r*a
@@ -1691,7 +1575,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[34]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[32]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1708,7 +1592,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>a*r
@@ -1722,7 +1606,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[35]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[33]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1739,7 +1623,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>a*b
@@ -1753,7 +1637,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[34]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1772,7 +1656,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>b*c
@@ -1792,7 +1676,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[35]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1815,7 +1699,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>12 * c
@@ -1829,7 +1713,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1848,7 +1732,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>(-3) * a
@@ -1862,7 +1746,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1879,7 +1763,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>d  :=  a ^ 12
@@ -1893,7 +1777,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1911,7 +1795,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>-d
@@ -1925,7 +1809,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1943,7 +1827,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>a + b
@@ -1957,7 +1841,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1976,7 +1860,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>d-c
@@ -1990,7 +1874,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2009,7 +1893,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>(a*(a*a) = leftPower(a,3)) :: Boolean
@@ -2045,7 +1929,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2061,7 +1945,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>(a ^ 11 =  (a^8 * a^2) * a) :: Boolean
@@ -2075,12 +1959,82 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>   true
                                                                 Type: Boolean
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>(a ^ 11 =  a^8 * (a^2 * a)) :: Boolean
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   true
+                                                                Type: Boolean
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>zero := 0$A
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> 
+   A is not a valid type.
+
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>error
 </pre>
 </div>
 
@@ -2095,7 +2049,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>(a ^ 11 =  a^8 * (a^2 * a)) :: Boolean
+<div class=" highlight hl-spad"><pre>zero : A := 0
 </pre></div>
 
 </div>
@@ -2106,12 +2060,20 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> 
+   A is not a valid type.
+
+</pre>
+</div>
+</div>
+
 <div class="output_area"><div class="prompt output_prompt">Out[46]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   true
-                                                                Type: Boolean
+<pre>error
 </pre>
 </div>
 
@@ -2126,7 +2088,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>zero := 0$A
+<div class=" highlight hl-spad"><pre>alternative?()$A
 </pre></div>
 
 </div>
@@ -2165,7 +2127,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>zero : A := 0
+<div class=" highlight hl-spad"><pre>antiCommutative?()$A
 </pre></div>
 
 </div>
@@ -2204,7 +2166,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>alternative?()$A
+<div class=" highlight hl-spad"><pre>associative?()$A
 </pre></div>
 
 </div>
@@ -2243,7 +2205,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>antiCommutative?()$A
+<div class=" highlight hl-spad"><pre>commutative?()$A
 </pre></div>
 
 </div>
@@ -2282,84 +2244,6 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>associative?()$A
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   A is not a valid type.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[51]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>commutative?()$A
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   A is not a valid type.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[52]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>commutator(a,b)
 </pre></div>
 
@@ -2393,7 +2277,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[53]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[51]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2409,7 +2293,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>antiCommutator(a,b)
@@ -2443,7 +2327,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[54]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[52]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2459,7 +2343,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>associator(a,b,c)
@@ -2496,6 +2380,84 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[53]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>error
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>basis()$A
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> 
+   A is not a valid type.
+
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[54]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>error
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>n := rank()$A
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> 
+   A is not a valid type.
+
+</pre>
+</div>
+</div>
+
 <div class="output_area"><div class="prompt output_prompt">Out[55]:</div>
 
 
@@ -2515,7 +2477,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[56]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>basis()$A
+<div class=" highlight hl-spad"><pre>v : Vector R := [i for i in 1..n]
 </pre></div>
 
 </div>
@@ -2529,7 +2491,7 @@ c200, c201, c202, c211, _
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre> 
-   A is not a valid type.
+   The upper bound in a loop must be an integer.
 
 </pre>
 </div>
@@ -2554,7 +2516,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[57]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>n := rank()$A
+<div class=" highlight hl-spad"><pre>g : A := represents  v
 </pre></div>
 
 </div>
@@ -2593,84 +2555,6 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>v : Vector R := [i for i in 1..n]
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   The upper bound in a loop must be an integer.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[58]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[59]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>g : A := represents  v
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   A is not a valid type.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[59]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[60]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>coordinates a
 </pre></div>
 
@@ -2703,7 +2587,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[60]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[58]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2719,7 +2603,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>coordinates [a,b]
@@ -2733,7 +2617,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[61]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[59]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2753,7 +2637,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>a.3
@@ -2785,6 +2669,84 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[60]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>error
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>flexible?()$A
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> 
+   A is not a valid type.
+
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[61]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>error
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>leftAlternative?()$A
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> 
+   A is not a valid type.
+
+</pre>
+</div>
+</div>
+
 <div class="output_area"><div class="prompt output_prompt">Out[62]:</div>
 
 
@@ -2804,7 +2766,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>flexible?()$A
+<div class=" highlight hl-spad"><pre>rightAlternative?()$A
 </pre></div>
 
 </div>
@@ -2843,7 +2805,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>leftAlternative?()$A
+<div class=" highlight hl-spad"><pre>sB := someBasis()$A
 </pre></div>
 
 </div>
@@ -2882,7 +2844,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>rightAlternative?()$A
+<div class=" highlight hl-spad"><pre>zero? a
 </pre></div>
 
 </div>
@@ -2893,20 +2855,12 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   A is not a valid type.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[65]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   false
+                                                                Type: Boolean
 </pre>
 </div>
 
@@ -2921,7 +2875,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[66]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>sB := someBasis()$A
+<div class=" highlight hl-spad"><pre>associatorDependence()$A
 </pre></div>
 
 </div>
@@ -2955,12 +2909,22 @@ c200, c201, c202, c211, _
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>conditionsForIdempotents()$A</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[67]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>zero? a
+<div class=" highlight hl-spad"><pre>jacobiIdentity?()$A
 </pre></div>
 
 </div>
@@ -2971,12 +2935,20 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> 
+   A is not a valid type.
+
+</pre>
+</div>
+</div>
+
 <div class="output_area"><div class="prompt output_prompt">Out[67]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   false
-                                                                Type: Boolean
+<pre>error
 </pre>
 </div>
 
@@ -2991,7 +2963,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[68]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>associatorDependence()$A
+<div class=" highlight hl-spad"><pre>jordanAlgebra?()$A
 </pre></div>
 
 </div>
@@ -3025,22 +2997,12 @@ c200, c201, c202, c211, _
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>conditionsForIdempotents()$A</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[69]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>jacobiIdentity?()$A
+<div class=" highlight hl-spad"><pre>jordanAdmissible?()$A
 </pre></div>
 
 </div>
@@ -3079,7 +3041,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[70]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>jordanAlgebra?()$A
+<div class=" highlight hl-spad"><pre>lieAdmissible?()$A
 </pre></div>
 
 </div>
@@ -3113,12 +3075,22 @@ c200, c201, c202, c211, _
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>conditionsForIdempotents sB</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[71]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>jordanAdmissible?()$A
+<div class=" highlight hl-spad"><pre>b2 := [reduce(+,[sB.i for i in 1..k]) for k in 1..n]
 </pre></div>
 
 </div>
@@ -3132,7 +3104,7 @@ c200, c201, c202, c211, _
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre> 
-   A is not a valid type.
+   The upper bound in a loop must be an integer.
 
 </pre>
 </div>
@@ -3157,7 +3129,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[72]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>lieAdmissible?()$A
+<div class=" highlight hl-spad"><pre>coordinates  (a ,b2 :: Vector A)
 </pre></div>
 
 </div>
@@ -3191,97 +3163,9 @@ c200, c201, c202, c211, _
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>conditionsForIdempotents sB</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[73]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>b2 := [reduce(+,[sB.i for i in 1..k]) for k in 1..n]
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   The upper bound in a loop must be an integer.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[73]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>coordinates  (a ,b2 :: Vector A)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   A is not a valid type.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[74]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>coordinates  ([a,b] ,bb := (b2 :: Vector A))
@@ -3304,7 +3188,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[73]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3320,7 +3204,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>leftMinimalPolynomial a
@@ -3355,7 +3239,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[76]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[74]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3371,7 +3255,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>leftPower (a,10)
@@ -3407,7 +3291,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3423,7 +3307,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rightPower(a,10)
@@ -3459,7 +3343,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[78]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[76]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3475,7 +3359,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>leftRegularRepresentation a
@@ -3510,7 +3394,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[79]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3526,7 +3410,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>leftRegularRepresentation (a,bb)
@@ -3562,7 +3446,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[78]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3578,7 +3462,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>leftUnit()$A
@@ -3601,7 +3485,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[79]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3617,7 +3501,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>represents (v,bb)
@@ -3641,7 +3525,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[82]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3657,7 +3541,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rightMinimalPolynomial a
@@ -3692,7 +3576,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[83]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3708,7 +3592,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rightRegularRepresentation a
@@ -3743,7 +3627,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[84]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[82]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3759,7 +3643,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rightRegularRepresentation (a,bb)
@@ -3795,7 +3679,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[85]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[83]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3811,7 +3695,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="prompt input_prompt">In&nbsp;[84]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rightUnit()$A
@@ -3834,7 +3718,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[86]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[84]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3850,7 +3734,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="prompt input_prompt">In&nbsp;[85]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>structuralConstants()$A
@@ -3873,7 +3757,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[87]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[85]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3889,7 +3773,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[88]:</div>
+<div class="prompt input_prompt">In&nbsp;[86]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>structuralConstants(bb)
@@ -3924,7 +3808,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[88]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[86]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3940,7 +3824,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[89]:</div>
+<div class="prompt input_prompt">In&nbsp;[87]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>unit()$A
@@ -3963,7 +3847,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[89]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[87]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3989,7 +3873,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[90]:</div>
+<div class="prompt input_prompt">In&nbsp;[88]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>biRank  a
@@ -4024,7 +3908,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[90]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[88]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4040,7 +3924,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[91]:</div>
+<div class="prompt input_prompt">In&nbsp;[89]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>leftRank a
@@ -4075,7 +3959,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[91]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[89]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4091,7 +3975,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="prompt input_prompt">In&nbsp;[90]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>doubleRank a
@@ -4126,7 +4010,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[92]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[90]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4142,7 +4026,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="prompt input_prompt">In&nbsp;[91]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rightRank a
@@ -4177,7 +4061,7 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[93]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[91]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4193,7 +4077,7 @@ c200, c201, c202, c211, _
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[94]:</div>
+<div class="prompt input_prompt">In&nbsp;[92]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>weakBiRank a
@@ -4228,6 +4112,84 @@ c200, c201, c202, c211, _
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[92]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>error
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>basisOfCenter()$AP
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> 
+   AP is not a valid type.
+
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[93]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>error
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[94]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>basisOfLeftNucleus()$AP
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> 
+   AP is not a valid type.
+
+</pre>
+</div>
+</div>
+
 <div class="output_area"><div class="prompt output_prompt">Out[94]:</div>
 
 
@@ -4247,7 +4209,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[95]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>basisOfCenter()$AP
+<div class=" highlight hl-spad"><pre>basisOfNucleus()$AP
 </pre></div>
 
 </div>
@@ -4286,7 +4248,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[96]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>basisOfLeftNucleus()$AP
+<div class=" highlight hl-spad"><pre>basisOfRightNucleus()$AP
 </pre></div>
 
 </div>
@@ -4325,7 +4287,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[97]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>basisOfNucleus()$AP
+<div class=" highlight hl-spad"><pre>basisOfCentroid()$AP
 </pre></div>
 
 </div>
@@ -4364,7 +4326,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[98]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>basisOfRightNucleus()$AP
+<div class=" highlight hl-spad"><pre>basisOfCommutingElements()$AP
 </pre></div>
 
 </div>
@@ -4403,7 +4365,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[99]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>basisOfCentroid()$AP
+<div class=" highlight hl-spad"><pre>basisOfLeftNucloid()$AP
 </pre></div>
 
 </div>
@@ -4442,7 +4404,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[100]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>basisOfCommutingElements()$AP
+<div class=" highlight hl-spad"><pre>basisOfMiddleNucleus()$AP
 </pre></div>
 
 </div>
@@ -4481,7 +4443,7 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[101]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>basisOfLeftNucloid()$AP
+<div class=" highlight hl-spad"><pre>basisOfRightNucloid()$AP
 </pre></div>
 
 </div>
@@ -4520,84 +4482,6 @@ c200, c201, c202, c211, _
 <div class="prompt input_prompt">In&nbsp;[102]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>basisOfMiddleNucleus()$AP
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   AP is not a valid type.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[102]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[103]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>basisOfRightNucloid()$AP
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   AP is not a valid type.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[103]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[104]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
 -- EOF
 --
@@ -4611,7 +4495,7 @@ c200, c201, c202, c211, _
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[104]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[102]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

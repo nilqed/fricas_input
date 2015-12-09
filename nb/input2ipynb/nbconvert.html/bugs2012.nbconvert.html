@@ -969,6 +969,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>xftestEquals(&quot;solve([2=%e^(b)+c,6=%e^(1+b)+c],[b,c])&quot;, _
+             &quot;[[b = log(4/(%e - 1)), c = (2*%e - 6)/(%e - 1)]]&quot;)
 </pre></div>
 
 </div>
@@ -978,70 +979,12 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: xftestEquals(&quot;solve([2=%e^(b)+c,6=%e^(1+b)+c],[b,c])&quot;, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>             &quot;[[b = log(4/(%e - 1)), c = (2*%e - 6)/(%e - 1)]]&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -1063,7 +1006,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>xftestEquals(&quot;solve(2000*(1-%e^(-(1/10)*n))-20*n=0)&quot;, &quot;[n = 0]&quot;)
@@ -1077,7 +1020,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1093,7 +1036,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;Gamma series at poles&quot;
@@ -1114,11 +1057,41 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>as := approximate(series(Gamma(x), x=0), 2);
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                    Type: Expression(Integer)
 </pre>
 </div>
 
@@ -1133,7 +1106,9 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>as := approximate(series(Gamma(x), x=0), 2);
+<div class=" highlight hl-spad"><pre>es := 1/x + digamma(1) + (- 3*polygamma(1,1) + 3*digamma(1)^2  + %pi^2)*x/6 _
+ + (polygamma(2,1) - 3*digamma(1)*polygamma(1,1) + digamma(1)^3  + _
+   %pi^2*digamma(1))*x^2/6
 </pre></div>
 
 </div>
@@ -1144,11 +1119,25 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>      
+</pre>
+</div>
+</div>
+
 <div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                    Type: Expression(Integer)
+<pre>        3                      3               2                   3          3
+       x polygamma(2,1) + (- 3x digamma(1) - 3x )polygamma(1,1) + x digamma(1)
+     + 
+         2          2       2 3                      2 2
+       3x digamma(1)  + (%pi x  + 6x)digamma(1) + %pi x  + 6
+  /
+     6x
+                                                    Type: Expression(Integer)
 </pre>
 </div>
 
@@ -1163,106 +1152,6 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>es := 1/x + digamma(1) + (- 3*polygamma(1,1) + 3*digamma(1)^2  + %pi^2)*x/6 _
- + (polygamma(2,1) - 3*digamma(1)*polygamma(1,1) + digamma(1)^3  + _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: es := 1/x + digamma(1) + (- 3*polygamma(1,1) + 3*digamma(1)^2  + %pi^2)*x/6 _
-  Line   2:  + (polygamma(2,1) - 3*digamma(1)*polygamma(1,1) + digamma(1)^3  + _
-  Line   3: )--premature end
-           .A
-  Error  A: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   1 error(s) parsing 
-   There are 1 exposed and 1 unexposed library operations named elt 
-      having 1 argument(s) but none was determined to be applicable. 
-      Use HyperDoc Browse, or issue
-                               )display op elt
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find application of object of type Expression(Integer) to 
-      argument(s) of type(s) 
-                                 Variable(+)
-      
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>   %pi^2*digamma(1))*x^2/6
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;as&quot;, &quot;es&quot;)
 </pre></div>
 
@@ -1274,7 +1163,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1290,7 +1179,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>as := approximate(series(Gamma(x), x=-1), 1);
@@ -1304,7 +1193,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1320,10 +1209,11 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>es := -1/(x + 1) - digamma(2) + _
+  (3*polygamma(1,2) - 3*digamma(2)^2 - %pi^2)*(x + 1)/6
 </pre></div>
 
 </div>
@@ -1336,19 +1226,81 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: es := -1/(x + 1) - digamma(2) + _
-  Line   2: )--premature end
-           AB
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   2 error(s) parsing 
+<pre>      
+</pre>
+</div>
+</div>
 
-   Continuing to read the file...
+<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
 
 
+<div class="output_text output_subarea output_execute_result">
+<pre>          2                                2                    2
+       (3x  + 6x + 3)polygamma(1,2) + (- 3x  - 6x - 3)digamma(2)
+     + 
+                                 2 2       2       2
+       (- 6x - 6)digamma(2) - %pi x  - 2%pi x - %pi  - 6
+  /
+     6x + 6
+                                                    Type: Expression(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;as&quot;, &quot;es&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testcase &quot;order of Puiseux series&quot;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
 </pre>
 </div>
 </div>
@@ -1357,7 +1309,8 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>                                                                   Type: Void
+</pre>
 </div>
 
 </div>
@@ -1371,7 +1324,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>  (3*polygamma(1,2) - 3*digamma(2)^2 - %pi^2)*(x + 1)/6
+<div class=" highlight hl-spad"><pre>xx := series(x^(1/4), x = 0);
 </pre></div>
 
 </div>
@@ -1386,11 +1339,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                2      2       2
-   (3x + 3)polygamma(1,2) + (- 3x - 3)digamma(2)  - %pi x - %pi
-   -------------------------------------------------------------
-                                 6
-                                                    Type: Expression(Integer)
+<pre>                       Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 </pre>
 </div>
 
@@ -1405,7 +1354,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;as&quot;, &quot;es&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;order(xx, 1/3)&quot;, &quot;1/4&quot;)
 </pre></div>
 
 </div>
@@ -1435,7 +1384,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;order of Puiseux series&quot;
+<div class=" highlight hl-spad"><pre>testEquals(&quot;order(xx, 1/4)&quot;, &quot;1/4&quot;)
 </pre></div>
 
 </div>
@@ -1445,13 +1394,6 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[35]:</div>
 
@@ -1472,7 +1414,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>xx := series(x^(1/4), x = 0);
+<div class=" highlight hl-spad"><pre>testEquals(&quot;order(xx, 1/5)&quot;, &quot;1/5&quot;)
 </pre></div>
 
 </div>
@@ -1487,7 +1429,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                       Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -1500,96 +1442,6 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[37]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;order(xx, 1/3)&quot;, &quot;1/4&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;order(xx, 1/4)&quot;, &quot;1/4&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;order(xx, 1/5)&quot;, &quot;1/5&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;partial functions&quot;
@@ -1610,7 +1462,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1626,7 +1478,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rn := Fraction(Integer)
@@ -1640,7 +1492,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1657,7 +1509,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>uts := UnivariateTaylorSeries(rn, &#39;x, 0)
@@ -1671,7 +1523,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1688,7 +1540,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>uls := UnivariateLaurentSeries(rn, &#39;x, 0)
@@ -1702,7 +1554,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1719,7 +1571,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>pef := ElementaryFunctionsUnivariateLaurentSeries(rn, uts, uls)
@@ -1733,7 +1585,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1751,7 +1603,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>s1 := monomial(1, -1)$uls
@@ -1765,7 +1617,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1783,7 +1635,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>s2 := 1$uls
@@ -1797,7 +1649,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[46]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1814,7 +1666,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue(&quot;expIfCan(s1)$pef case _&quot;failed_&quot;&quot;)
@@ -1828,7 +1680,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[47]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1844,7 +1696,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>xftestTrue(&quot;expIfCan(s2)$pef case _&quot;failed_&quot;&quot;)
@@ -1868,7 +1720,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[48]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1884,7 +1736,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;acot series&quot;
@@ -1905,6 +1757,101 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[46]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>sa := series(acot(x), x=0)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[47]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   %pi       1  3   1  5   1  7   1  9      11
+   --- - x + - x  - - x  + - x  - - x  + O(x  )
+    2        3      5      7      9
+                       Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>xs :=cot(sa)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[48]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>          12
+   x + O(x  )
+                       Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;order(xs - series(x, x=0), 10)&quot;, &quot;10&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
 <div class="output_area"><div class="prompt output_prompt">Out[49]:</div>
 
 
@@ -1924,7 +1871,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>sa := series(acot(x), x=0)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;limit((acot(1/2 + h) - acot(1/2))/h, h=0)&quot;, &quot;-4/5&quot;)
 </pre></div>
 
 </div>
@@ -1939,10 +1886,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   %pi       1  3   1  5   1  7   1  9      11
-   --- - x + - x  - - x  + - x  - - x  + O(x  )
-    2        3      5      7      9
-                       Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -1955,98 +1899,6 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[51]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>xs :=cot(sa)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[51]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>          12
-   x + O(x  )
-                       Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;order(xs - series(x, x=0), 10)&quot;, &quot;10&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[52]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;limit((acot(1/2 + h) - acot(1/2))/h, h=0)&quot;, &quot;-4/5&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[53]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;puiseux via lodo&quot;
@@ -2067,7 +1919,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[54]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[51]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2083,7 +1935,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>s1 := series(x^(1/3), x = 0)
@@ -2097,7 +1949,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[55]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[52]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2117,10 +1969,100 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>s2 := series(besselJ(1, 1 + x), x=0);
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[53]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                       Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>s3 := s2(s1);
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[54]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                       Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>s4 := series(besselJ(1, 1 + x^(1/3)), x=0);
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[55]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                       Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>s5 := series(x^(1/3)*exp(x), x = 0);
 </pre></div>
 
 </div>
@@ -2150,7 +2092,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[57]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>s3 := s2(s1);
+<div class=" highlight hl-spad"><pre>s6 := s2(s5);
 </pre></div>
 
 </div>
@@ -2180,7 +2122,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>s4 := series(besselJ(1, 1 + x^(1/3)), x=0);
+<div class=" highlight hl-spad"><pre>s7 := series(besselJ(1, 1 + x^(1/3)*exp(x)), x=0);
 </pre></div>
 
 </div>
@@ -2210,7 +2152,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>s5 := series(x^(1/3)*exp(x), x = 0);
+<div class=" highlight hl-spad"><pre>s12 := series(besselJ(1, 5 + x), x=0);
 </pre></div>
 
 </div>
@@ -2240,7 +2182,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>s6 := s2(s5);
+<div class=" highlight hl-spad"><pre>s13 := s12(s1);
 </pre></div>
 
 </div>
@@ -2270,7 +2212,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>s7 := series(besselJ(1, 1 + x^(1/3)*exp(x)), x=0);
+<div class=" highlight hl-spad"><pre>s14 := series(besselJ(1, 5 + x^(1/3)), x=0);
 </pre></div>
 
 </div>
@@ -2300,7 +2242,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>s12 := series(besselJ(1, 5 + x), x=0);
+<div class=" highlight hl-spad"><pre>testEquals(&quot;order(s3 - s4, 8)&quot;, &quot;8&quot;)
 </pre></div>
 
 </div>
@@ -2315,7 +2257,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                       Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -2330,7 +2272,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>s13 := s12(s1);
+<div class=" highlight hl-spad"><pre>testEquals(&quot;order(s6 - s7, 8)&quot;, &quot;8&quot;)
 </pre></div>
 
 </div>
@@ -2345,7 +2287,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                       Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -2360,7 +2302,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>s14 := series(besselJ(1, 5 + x^(1/3)), x=0);
+<div class=" highlight hl-spad"><pre>testEquals(&quot;order(s13 - s14, 7)&quot;, &quot;7&quot;)
 </pre></div>
 
 </div>
@@ -2375,7 +2317,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                       Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -2388,96 +2330,6 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[65]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;order(s3 - s4, 8)&quot;, &quot;8&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[65]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;order(s6 - s7, 8)&quot;, &quot;8&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[66]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;order(s13 - s14, 7)&quot;, &quot;7&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[67]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;reduction of nested roots&quot;
@@ -2498,7 +2350,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[68]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[65]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2514,7 +2366,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>eI := Expression(Integer)
@@ -2528,7 +2380,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[69]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[66]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2545,7 +2397,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>x := monomial(1,1)$SparseUnivariatePolynomial(eI)
@@ -2559,7 +2411,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[70]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[67]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2576,7 +2428,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>y := rootOf(x^3+(sqrt(z)+1)/(sqrt(z)-1)*x^2+1)
@@ -2590,7 +2442,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[71]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[68]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2607,7 +2459,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="prompt input_prompt">In&nbsp;[69]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>t := (y^2/(y^2+1))*(y^2/(y-1))
@@ -2621,7 +2473,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[72]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[69]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2642,7 +2494,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="prompt input_prompt">In&nbsp;[70]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;degree(numer(t), sqrt(z)::Kernel(eI))&quot;, &quot;1&quot;)
@@ -2656,7 +2508,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[73]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[70]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2672,7 +2524,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="prompt input_prompt">In&nbsp;[71]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue(&quot;degree(denom(t), sqrt(z)::Kernel(eI)) &lt;= 1&quot;)
@@ -2686,7 +2538,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[74]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[71]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2702,7 +2554,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="prompt input_prompt">In&nbsp;[72]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;equality of algebraic expressions&quot;
@@ -2723,7 +2575,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[72]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2739,7 +2591,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>a1 := (1 - 2*x)/(1 - sqrt(2*x))
@@ -2753,7 +2605,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[76]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[73]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2773,7 +2625,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>a2 := 1 + sqrt(2*x)
@@ -2787,7 +2639,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[74]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2805,7 +2657,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue(&quot;(a1 = a2)@Boolean&quot;)
@@ -2819,7 +2671,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[78]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2835,7 +2687,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;a1 - a2&quot;, &quot;0&quot;)
@@ -2849,7 +2701,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[79]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[76]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2865,7 +2717,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;equality of rootOf&quot;
@@ -2886,7 +2738,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2902,7 +2754,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>iAN := InnerAlgebraicNumber
@@ -2916,7 +2768,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[78]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2933,7 +2785,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rr3 := rootOf((x^3 - 3*x  + 5)::SUP(Integer))
@@ -2947,7 +2799,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[82]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[79]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2964,7 +2816,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rr4 := rootOf((x^3 - 3*x  + 5)::SUP(Integer))
@@ -2978,7 +2830,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[83]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2995,7 +2847,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue(&quot;(rr3 pretend iAN = rr4 pretend iAN)@Boolean&quot;)
@@ -3009,7 +2861,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[84]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3025,7 +2877,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;bad reduction in PGCD&quot;
@@ -3046,6 +2898,114 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[82]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>a1 := (9751*t - 13790)*y^2 + (- 27720*t + 39202)*y + 19700*t - 27860
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[83]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                   2
+   (9751t - 13790)y  + (- 27720t + 39202)y + 19700t - 27860
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>a2 := (78008*t^3  - 308686*t^2  + 415824*t - 186288)*y^2 + _
+        (-221760*t^3  + 877528*t^2  - 1182040*t + 529635)*y + _
+        157600*t^3  - 623640*t^2  + 840009*t - 376441
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>    
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[84]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>            3          2                     2
+     (78008t  - 308686t  + 415824t - 186288)y
+   + 
+               3          2                                3          2
+     (- 221760t  + 877528t  - 1182040t + 529635)y + 157600t  - 623640t
+   + 
+     840009t - 376441
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testTrue(&quot;every?(p +-&gt; p = 1, [gcd(a1, a2) for i in 1..1000])&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
 <div class="output_area"><div class="prompt output_prompt">Out[85]:</div>
 
 
@@ -3065,7 +3025,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[86]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>a1 := (9751*t - 13790)*y^2 + (- 27720*t + 39202)*y + 19700*t - 27860
+<div class=" highlight hl-spad"><pre>)set output algebra on
 </pre></div>
 
 </div>
@@ -3080,10 +3040,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                   2
-   (9751t - 13790)y  + (- 27720t + 39202)y + 19700t - 27860
-                                                    Type: Polynomial(Integer)
-</pre>
+<pre></pre>
 </div>
 
 </div>
@@ -3097,147 +3054,6 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="prompt input_prompt">In&nbsp;[87]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>a2 := (78008*t^3  - 308686*t^2  + 415824*t - 186288)*y^2 + _
-        (-221760*t^3  + 877528*t^2  - 1182040*t + 529635)*y + _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: a2 := (78008*t^3  - 308686*t^2  + 415824*t - 186288)*y^2 + _
-  Line   2:         (-221760*t^3  + 877528*t^2  - 1182040*t + 529635)*y + _
-  Line   3: )--premature end
-           AB
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   2 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[87]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[88]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>        157600*t^3  - 623640*t^2  + 840009*t - 376441
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[88]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>          3          2
-   157600t  - 623640t  + 840009t - 376441
-                                                    Type: Polynomial(Integer)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[89]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue(&quot;every?(p +-&gt; p = 1, [gcd(a1, a2) for i in 1..1000])&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[89]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[90]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>)set output algebra on
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[90]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[91]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>statistics()
 </pre></div>
 
@@ -3249,13 +3065,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>                    </pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[91]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[87]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3283,6 +3093,10 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
    test: 3
    testing in a domain without InputForm!
    Testsuite: bugs2012
+   Testcase: missing solutions
+   test: 4
+   testing in a domain without InputForm!
+   Testsuite: bugs2012
    Testcase: acot series
    test: 2
    testing in a domain without InputForm!
@@ -3293,46 +3107,17 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 
    =============================================================================
    Testsuite: bugs2012
-     failed (total): 1 (14)
-
-     failed testcases were:
-     ---------------------------------------------------------------------------
-     Testcase: Gamma series at poles
-       failed (total): 2 (2)
-
-       failed tests were:
-
-         1: EQUL: (as, es)
-         Output1:
-          3                      3               2
-         x polygamma(2,1) + (- 3x digamma(1) - 3x )polygamma(1,1)
-       + 
-          3          3     2          2       2 3                      2 2
-         x digamma(1)  + 3x digamma(1)  + (%pi x  + 6x)digamma(1) + %pi x  + 6
-    /
-       6x
-         Output2: es
-
-         2: EQUL: (as, es)
-         Output1:
-            2                                2                    2
-         (3x  + 6x + 3)polygamma(1,2) + (- 3x  - 6x - 3)digamma(2)
-       + 
-                                   2 2       2       2
-         (- 6x - 6)digamma(2) - %pi x  - 2%pi x - %pi  - 6
-    /
-       6x + 6
-         Output2: es
+     failed (total): 0 (14)
 
    =============================================================================
    testsuite | testcases: failed (total) | tests: failed (total)
-   bugs2012                    1    (14)               2    (26)
+   bugs2012                    0    (14)               0    (27)
    =============================================================================
    File summary.
-   unexpected failures: 2
-   expected failures: 5
+   unexpected failures: 0
+   expected failures: 6
    unexpected passes: 0
-   total tests: 26
+   total tests: 27
                                                                    Type: Void
 </pre>
 </div>
@@ -3345,7 +3130,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="prompt input_prompt">In&nbsp;[88]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -3361,7 +3146,7 @@ PolynomialIdeal(Fraction(Integer),DirectProduct(3,NonNegativeInteger),OrderedVar
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[92]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[88]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

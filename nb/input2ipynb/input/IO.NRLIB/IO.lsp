@@ -280,10 +280,13 @@
                                    (EXIT
                                     (COND
                                      ((NULL (SPADCALL |t| (QREFELT $ 21)))
-                                      (SEQ (|IO;writeContinuation| |f2| CN $)
-                                           (EXIT
-                                            (SPADCALL |f2| ","
-                                                      (QREFELT $ 8))))))))))
+                                      (SEQ
+                                       (SPADCALL (SPADCALL SL (QREFELT $ 43))
+                                                 CN (QREFELT $ 47))
+                                       (|IO;writeContinuation| |f2| CN $)
+                                       (EXIT
+                                        (SPADCALL |f2| ","
+                                                  (QREFELT $ 8))))))))))
                             (COND
                              ((SPADCALL |s| (QREFELT $ 22))
                               (SEQ (SPADCALL |s| CI (QREFELT $ 47))

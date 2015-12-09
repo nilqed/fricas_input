@@ -1140,6 +1140,7 @@ Warning: HyperTeX macro table not found
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;integrate(1/(1+x^4),x = %minusInfinity..%plusInfinity)&quot;, _
+           &quot;sqrt(2)/2*%pi&quot;)
 </pre></div>
 
 </div>
@@ -1150,31 +1151,12 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;integrate(1/(1+x^4),x = %minusInfinity..%plusInfinity)&quot;, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>                                                                   Type: Void
+</pre>
 </div>
 
 </div>
@@ -1188,45 +1170,6 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>           &quot;sqrt(2)/2*%pi&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>strNoPole := &quot;noPole&quot;
 </pre></div>
 
@@ -1238,7 +1181,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1255,10 +1198,11 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>xftestEquals(&quot;eval(integrate(1/(a+x^4),x=0..%plusInfinity, strNoPole), a=1)&quot;, _
+           &quot;integrate(1/(1+x^4),x=0..%plusInfinity)&quot;)
 </pre></div>
 
 </div>
@@ -1269,31 +1213,43 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: xftestEquals(&quot;eval(integrate(1/(a+x^4),x=0..%plusInfinity, strNoPole), a=1)&quot;, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
+<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
 
 
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
 </pre>
 </div>
+
 </div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;D(integrate((x^4+2*a*x^2+1)^-1, x=0..z, strNoPole), z)&quot;,
+           &quot;(z^4+2*a*z^2+1)^-1&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
 
 <div class="output_area"><div class="prompt output_prompt">Out[32]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>                                                                   Type: Void
+</pre>
 </div>
 
 </div>
@@ -1307,7 +1263,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>           &quot;integrate(1/(1+x^4),x=0..%plusInfinity)&quot;)
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 314&quot;
 </pre></div>
 
 </div>
@@ -1319,10 +1275,8 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
 </pre>
 </div>
 </div>
@@ -1331,7 +1285,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -1346,8 +1300,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;D(integrate((x^4+2*a*x^2+1)^-1, x=0..z, strNoPole), z)&quot;,
-           &quot;(z^4+2*a*z^2+1)^-1&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;integrate(2*atan(x)/(1+x^2),x)&quot;, &quot;atan(x)^2&quot;)
 </pre></div>
 
 </div>
@@ -1377,7 +1330,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 314&quot;
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 47&quot;
 </pre></div>
 
 </div>
@@ -1414,7 +1367,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;integrate(2*atan(x)/(1+x^2),x)&quot;, &quot;atan(x)^2&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;complexForm(log(%i) - log(-%i))&quot;, &quot;complexForm(%pi*%i)&quot;)
 </pre></div>
 
 </div>
@@ -1444,7 +1397,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 47&quot;
+<div class=" highlight hl-spad"><pre>testcase &quot;integrate((z^a+1)^b, z) crashes (issue 100)&quot;
 </pre></div>
 
 </div>
@@ -1481,7 +1434,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;complexForm(log(%i) - log(-%i))&quot;, &quot;complexForm(%pi*%i)&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;D(integrate((z^a+1)^b, z), z)&quot;, &quot;(z^a+1)^b&quot;)
 </pre></div>
 
 </div>
@@ -1511,7 +1464,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;integrate((z^a+1)^b, z) crashes (issue 100)&quot;
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 184&quot;
 </pre></div>
 
 </div>
@@ -1548,7 +1501,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;D(integrate((z^a+1)^b, z), z)&quot;, &quot;(z^a+1)^b&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;argument(-%i)&quot;, &quot;-%pi/2&quot;)
 </pre></div>
 
 </div>
@@ -1578,7 +1531,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 184&quot;
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 308&quot;
 </pre></div>
 
 </div>
@@ -1615,7 +1568,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;argument(-%i)&quot;, &quot;-%pi/2&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;D(integrate(x^a*(x^b+1)^p, x), x)&quot;, &quot;x^a*(x^b+1)^p&quot;)
 </pre></div>
 
 </div>
@@ -1645,7 +1598,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 308&quot;
+<div class=" highlight hl-spad"><pre>testcase &quot;laplace(log(z), z,w) crashes (issue 101)&quot;
 </pre></div>
 
 </div>
@@ -1682,7 +1635,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;D(integrate(x^a*(x^b+1)^p, x), x)&quot;, &quot;x^a*(x^b+1)^p&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;laplace(log(z), z, w)&quot;, &quot;(digamma 1 - log w)/w&quot;)
 </pre></div>
 
 </div>
@@ -1712,7 +1665,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;laplace(log(z), z,w) crashes (issue 101)&quot;
+<div class=" highlight hl-spad"><pre>testTrue &quot;(laplace(1/sqrt(z), z, w); true)&quot;
 </pre></div>
 
 </div>
@@ -1722,13 +1675,6 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
 
@@ -1749,7 +1695,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;laplace(log(z), z, w)&quot;, &quot;(digamma 1 - log w)/w&quot;)
+<div class=" highlight hl-spad"><pre>testTrue &quot;(laplace(sqrt(z), z, w); true)&quot;
 </pre></div>
 
 </div>
@@ -1779,7 +1725,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue &quot;(laplace(1/sqrt(z), z, w); true)&quot;
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 103&quot;
 </pre></div>
 
 </div>
@@ -1789,6 +1735,13 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
+</pre>
+</div>
+</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[47]:</div>
 
@@ -1809,7 +1762,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[48]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue &quot;(laplace(sqrt(z), z, w); true)&quot;
+<div class=" highlight hl-spad"><pre>testEquals(&quot;solve(z=z, z)&quot;, &quot;[0=0]&quot;)
 </pre></div>
 
 </div>
@@ -1839,7 +1792,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[49]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 103&quot;
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 114&quot;
 </pre></div>
 
 </div>
@@ -1876,7 +1829,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[50]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;solve(z=z, z)&quot;, &quot;[0=0]&quot;)
+<div class=" highlight hl-spad"><pre>dom:=(INT-&gt;INT)
 </pre></div>
 
 </div>
@@ -1891,7 +1844,8 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>   (Integer -&gt; Integer)
+                                                                   Type: Type
 </pre>
 </div>
 
@@ -1906,7 +1860,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 114&quot;
+<div class=" highlight hl-spad"><pre>g(f:dom):dom== x+-&gt;(f(x))^2
 </pre></div>
 
 </div>
@@ -1919,7 +1873,8 @@ Warning: HyperTeX macro table not found
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
+<pre>   Function declaration g : (Integer -&gt; Integer) -&gt; (Integer -&gt; Integer
+      ) has been added to workspace.
 </pre>
 </div>
 </div>
@@ -1943,75 +1898,6 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[52]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>dom:=(INT-&gt;INT)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[52]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   (Integer -&gt; Integer)
-                                                                   Type: Type
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[53]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>g(f:dom):dom== x+-&gt;(f(x))^2
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration g : (Integer -&gt; Integer) -&gt; (Integer -&gt; Integer
-      ) has been added to workspace.
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[53]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[54]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>p(x:INT):INT == x-1
 </pre></div>
 
@@ -2031,7 +1917,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[54]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[52]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2047,7 +1933,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>q := g p
@@ -2070,12 +1956,12 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[55]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[53]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>   theMap
-      #&lt;FUNCTION (LAMBDA (#:G33145 |envArg|) :IN |*1;g;1;initial|) {100A3D1F0B}&gt;
+      #&lt;FUNCTION (LAMBDA (#:G31964 |envArg|) :IN |*1;g;1;initial|) {100B46153B}&gt;
   ,
       655
                                                    Type: (Integer -&gt; Integer)
@@ -2090,7 +1976,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;q 3&quot;, &quot;4&quot;)
@@ -2104,7 +1990,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[56]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[54]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2120,7 +2006,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;issue 176&quot;
@@ -2141,6 +2027,68 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[55]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>p := -x*y^2+x*y+x^3-x^2
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[56]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>        2          3    2
+   - x y  + x y + x  - x
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;D(factor(p),x)::POLY INT&quot;, &quot;D(p, x)&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
 <div class="output_area"><div class="prompt output_prompt">Out[57]:</div>
 
 
@@ -2160,7 +2108,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[58]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>p := -x*y^2+x*y+x^3-x^2
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 182&quot;
 </pre></div>
 
 </div>
@@ -2171,13 +2119,18 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
+</pre>
+</div>
+</div>
+
 <div class="output_area"><div class="prompt output_prompt">Out[58]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>        2          3    2
-   - x y  + x y + x  - x
-                                                    Type: Polynomial(Integer)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -2192,7 +2145,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;D(factor(p),x)::POLY INT&quot;, &quot;D(p, x)&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;round(3.77623)::INT&quot;, &quot;4&quot;)
 </pre></div>
 
 </div>
@@ -2222,7 +2175,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 182&quot;
+<div class=" highlight hl-spad"><pre>testEquals(&quot;round(-3.77623)::INT&quot;, &quot;-4&quot;)
 </pre></div>
 
 </div>
@@ -2232,13 +2185,6 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[60]:</div>
 
@@ -2259,7 +2205,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;round(3.77623)::INT&quot;, &quot;4&quot;)
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 186&quot;
 </pre></div>
 
 </div>
@@ -2269,6 +2215,13 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
+</pre>
+</div>
+</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[61]:</div>
 
@@ -2289,73 +2242,6 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;round(-3.77623)::INT&quot;, &quot;-4&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[62]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[63]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 186&quot;
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[63]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[64]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>E := Expression Integer
 </pre></div>
 
@@ -2367,7 +2253,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[64]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[62]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2384,7 +2270,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>F := E -&gt; E
@@ -2398,7 +2284,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[65]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[63]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2415,7 +2301,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>compose(f:F, g:F):F == (e:E):E +-&gt; f(g(e))
@@ -2439,7 +2325,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[66]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[64]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2455,7 +2341,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>p(e:E):E == 2*e+1
@@ -2477,7 +2363,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[67]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[65]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2493,7 +2379,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>q(e:E):E == 3*e+1
@@ -2515,7 +2401,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[68]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[66]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2531,7 +2417,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;compose(p,q)(sin x)&quot;, &quot;6*sin(x) + 3&quot;)
@@ -2558,6 +2444,73 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[67]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 199&quot;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[68]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;D(integrate(exp(-x^2)+exp(x)/x,x),x)&quot;, &quot;exp(-x^2)+exp(x)/x&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
 <div class="output_area"><div class="prompt output_prompt">Out[69]:</div>
 
 
@@ -2577,7 +2530,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[70]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 199&quot;
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 19&quot;
 </pre></div>
 
 </div>
@@ -2614,7 +2567,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[71]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;D(integrate(exp(-x^2)+exp(x)/x,x),x)&quot;, &quot;exp(-x^2)+exp(x)/x&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;D(0^z, z)&quot;, &quot;0$EXPR INT&quot;)
 </pre></div>
 
 </div>
@@ -2644,7 +2597,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[72]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 19&quot;
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 211&quot;
 </pre></div>
 
 </div>
@@ -2681,7 +2634,8 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[73]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;D(0^z, z)&quot;, &quot;0$EXPR INT&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;eval(D(product((1-q^(n-i))/(1-q^(m-i)), i=0..m-1), q),[n=3,m=2])&quot;,_
+           &quot;(2*q+1)::EXPR INT&quot;)
 </pre></div>
 
 </div>
@@ -2711,131 +2665,6 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 211&quot;
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[74]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;eval(D(product((1-q^(n-i))/(1-q^(m-i)), i=0..m-1), q),[n=3,m=2])&quot;,_
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;eval(D(product((1-q^(n-i))/(1-q^(m-i)), i=0..m-1), q),[n=3,m=2])&quot;,_
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           &quot;(2*q+1)::EXPR INT&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[76]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>f:=operator `f;
 </pre></div>
 
@@ -2847,7 +2676,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[74]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2863,10 +2692,11 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;D(product(f(i,q),i=0..m),q)&quot;, _
+           &quot;product(f(j, q),j=0..m)*sum(D(f(i, q), q)/f(i, q), i=0..m)&quot;)
 </pre></div>
 
 </div>
@@ -2877,69 +2707,11 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;D(product(f(i,q),i=0..m),q)&quot;, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[78]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           &quot;product(f(j, q),j=0..m)*sum(D(f(i, q), q)/f(i, q), i=0..m)&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[79]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -2951,7 +2723,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;issue 278&quot;
@@ -2972,7 +2744,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[76]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2988,7 +2760,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;simplifyLog(2*sqrt(2)*log(2))&quot;, &quot;log 4 * sqrt 2&quot;)
@@ -3002,7 +2774,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3018,7 +2790,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;issue 83&quot;
@@ -3039,7 +2811,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[82]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[78]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3055,10 +2827,132 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;1::DMP([x],FRAC INT)::POLY FRAC INT&quot;, &quot;1&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[79]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;1::DMP([x],INT)::POLY INT&quot;, &quot;1&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>vv := 1::DMP([x],FRAC INT)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   1
+               Type: DistributedMultivariatePolynomial([x],Fraction(Integer))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>uu := vv ::POLY FRAC INT
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[82]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   1
+                                          Type: Polynomial(Fraction(Integer))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;1 * uu&quot;, &quot;1&quot;)
 </pre></div>
 
 </div>
@@ -3088,7 +2982,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[84]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;1::DMP([x],INT)::POLY INT&quot;, &quot;1&quot;)
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 102&quot;
 </pre></div>
 
 </div>
@@ -3098,6 +2992,13 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
+</pre>
+</div>
+</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[84]:</div>
 
@@ -3118,7 +3019,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[85]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>vv := 1::DMP([x],FRAC INT)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;solve(sinh(z)=cosh(z), z)&quot;, &quot;[]$List EQ EXPR INT&quot;)
 </pre></div>
 
 </div>
@@ -3133,8 +3034,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   1
-               Type: DistributedMultivariatePolynomial([x],Fraction(Integer))
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -3147,134 +3047,6 @@ Warning: HyperTeX macro table not found
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[86]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>uu := vv ::POLY FRAC INT
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[86]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   1
-                                          Type: Polynomial(Fraction(Integer))
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[87]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;1 * uu&quot;, &quot;1&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[87]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[88]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 102&quot;
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[88]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[89]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;solve(sinh(z)=cosh(z), z)&quot;, &quot;[]$List EQ EXPR INT&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[89]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[90]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;missing exports&quot;
@@ -3295,6 +3067,129 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[86]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>MyFD := DirectProduct(3, PrimeField(100000000000000006579))
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[87]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   DirectProduct(3,PrimeField(100000000000000006579))
+                                                                   Type: Type
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[88]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>myv := [3, 2, 1]::MyFD
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[88]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   [3,2,1]
+                     Type: DirectProduct(3,PrimeField(100000000000000006579))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[89]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>ii := lookup(myv)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[89]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   20000000000000002631700000000000086573062
+                                                        Type: PositiveInteger
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[90]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[3,2,1]::MyFD&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
 <div class="output_area"><div class="prompt output_prompt">Out[90]:</div>
 
 
@@ -3314,7 +3209,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[91]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>MyFD := DirectProduct(3, PrimeField(100000000000000006579))
+<div class=" highlight hl-spad"><pre>ii := lookup([1, 1, 1]::MyFD)
 </pre></div>
 
 </div>
@@ -3329,8 +3224,8 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   DirectProduct(3,PrimeField(100000000000000006579))
-                                                                   Type: Type
+<pre>   1
+                                                        Type: PositiveInteger
 </pre>
 </div>
 
@@ -3345,7 +3240,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[92]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>myv := [3, 2, 1]::MyFD
+<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[1,1,1]::MyFD&quot;)
 </pre></div>
 
 </div>
@@ -3360,8 +3255,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   [3,2,1]
-                     Type: DirectProduct(3,PrimeField(100000000000000006579))
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -3376,7 +3270,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[93]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>ii := lookup(myv)
+<div class=" highlight hl-spad"><pre>ii := lookup([1, 1, 0]::MyFD)
 </pre></div>
 
 </div>
@@ -3391,7 +3285,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   20000000000000002631700000000000086573062
+<pre>   100000000000000006579
                                                         Type: PositiveInteger
 </pre>
 </div>
@@ -3407,7 +3301,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[94]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[3,2,1]::MyFD&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[1,1,0]::MyFD&quot;)
 </pre></div>
 
 </div>
@@ -3437,7 +3331,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[95]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>ii := lookup([1, 1, 1]::MyFD)
+<div class=" highlight hl-spad"><pre>ii := lookup([1, 2, 3]::MyFD)
 </pre></div>
 
 </div>
@@ -3452,7 +3346,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   1
+<pre>   100000000000000006582
                                                         Type: PositiveInteger
 </pre>
 </div>
@@ -3468,7 +3362,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[96]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[1,1,1]::MyFD&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[1,2,3]::MyFD&quot;)
 </pre></div>
 
 </div>
@@ -3498,7 +3392,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[97]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>ii := lookup([1, 1, 0]::MyFD)
+<div class=" highlight hl-spad"><pre>testTrue &quot;(hash([3, 2, 1]::MyFD); true)&quot;
 </pre></div>
 
 </div>
@@ -3513,8 +3407,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   100000000000000006579
-                                                        Type: PositiveInteger
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -3529,7 +3422,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[98]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[1,1,0]::MyFD&quot;)
+<div class=" highlight hl-spad"><pre>MyFD:= Product(PrimeField(100000000000000006579), PrimeField(257))
 </pre></div>
 
 </div>
@@ -3544,7 +3437,8 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>   Product(PrimeField(100000000000000006579),PrimeField(257))
+                                                                   Type: Type
 </pre>
 </div>
 
@@ -3559,7 +3453,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[99]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>ii := lookup([1, 2, 3]::MyFD)
+<div class=" highlight hl-spad"><pre>myv := [1, 1]$MyFD
 </pre></div>
 
 </div>
@@ -3574,8 +3468,8 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   100000000000000006582
-                                                        Type: PositiveInteger
+<pre>   [1,1]
+             Type: Product(PrimeField(100000000000000006579),PrimeField(257))
 </pre>
 </div>
 
@@ -3590,7 +3484,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[100]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[1,2,3]::MyFD&quot;)
+<div class=" highlight hl-spad"><pre>ii := lookup(myv)
 </pre></div>
 
 </div>
@@ -3605,7 +3499,8 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>   1
+                                                        Type: PositiveInteger
 </pre>
 </div>
 
@@ -3620,7 +3515,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[101]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue &quot;(hash([3, 2, 1]::MyFD); true)&quot;
+<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[1, 1]$MyFD&quot;)
 </pre></div>
 
 </div>
@@ -3650,7 +3545,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[102]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>MyFD:= Product(PrimeField(100000000000000006579), PrimeField(257))
+<div class=" highlight hl-spad"><pre>ii := lookup([2, 1]$MyFD)
 </pre></div>
 
 </div>
@@ -3665,8 +3560,8 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   Product(PrimeField(100000000000000006579),PrimeField(257))
-                                                                   Type: Type
+<pre>   258
+                                                        Type: PositiveInteger
 </pre>
 </div>
 
@@ -3681,7 +3576,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[103]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>myv := [1, 1]$MyFD
+<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[2, 1]$MyFD&quot;)
 </pre></div>
 
 </div>
@@ -3696,8 +3591,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   [1,1]
-             Type: Product(PrimeField(100000000000000006579),PrimeField(257))
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -3712,7 +3606,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[104]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>ii := lookup(myv)
+<div class=" highlight hl-spad"><pre>ii := lookup([1, 2]$MyFD)
 </pre></div>
 
 </div>
@@ -3727,7 +3621,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   1
+<pre>   2
                                                         Type: PositiveInteger
 </pre>
 </div>
@@ -3743,7 +3637,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[105]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[1, 1]$MyFD&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[1, 2]$MyFD&quot;)
 </pre></div>
 
 </div>
@@ -3773,7 +3667,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[106]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>ii := lookup([2, 1]$MyFD)
+<div class=" highlight hl-spad"><pre>ii := lookup([2, 128]$MyFD)
 </pre></div>
 
 </div>
@@ -3788,7 +3682,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   258
+<pre>   385
                                                         Type: PositiveInteger
 </pre>
 </div>
@@ -3804,7 +3698,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[107]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[2, 1]$MyFD&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[2, 128]$MyFD&quot;)
 </pre></div>
 
 </div>
@@ -3834,7 +3728,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[108]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>ii := lookup([1, 2]$MyFD)
+<div class=" highlight hl-spad"><pre>testTrue &quot;(hash(myv); true)&quot;
 </pre></div>
 
 </div>
@@ -3849,8 +3743,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   2
-                                                        Type: PositiveInteger
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -3865,7 +3758,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[109]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[1, 2]$MyFD&quot;)
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 221&quot;
 </pre></div>
 
 </div>
@@ -3875,6 +3768,13 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
+</pre>
+</div>
+</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[109]:</div>
 
@@ -3895,7 +3795,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[110]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>ii := lookup([2, 128]$MyFD)
+<div class=" highlight hl-spad"><pre>testTrue &quot;PI has OASGP&quot;
 </pre></div>
 
 </div>
@@ -3910,8 +3810,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   385
-                                                        Type: PositiveInteger
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -3926,7 +3825,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[111]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;index(ii)$MyFD&quot;, &quot;[2, 128]$MyFD&quot;)
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 258&quot;
 </pre></div>
 
 </div>
@@ -3936,6 +3835,13 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
+</pre>
+</div>
+</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[111]:</div>
 
@@ -3956,7 +3862,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[112]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue &quot;(hash(myv); true)&quot;
+<div class=" highlight hl-spad"><pre>R==&gt;RectangularMatrix(2,4, PF 2)
 </pre></div>
 
 </div>
@@ -3986,7 +3892,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[113]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 221&quot;
+<div class=" highlight hl-spad"><pre>testTrue &quot;every?(zero?, [lookup(index(i)$R)$R - i for i in 1..2^8])&quot;
 </pre></div>
 
 </div>
@@ -3996,13 +3902,6 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[113]:</div>
 
@@ -4023,7 +3922,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[114]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue &quot;PI has OASGP&quot;
+<div class=" highlight hl-spad"><pre>testcase &quot;issue 198&quot;
 </pre></div>
 
 </div>
@@ -4033,6 +3932,13 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
+</pre>
+</div>
+</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[114]:</div>
 
@@ -4053,7 +3959,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[115]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 258&quot;
+<div class=" highlight hl-spad"><pre>cc := sqrt(2*log(e)/%pi)
 </pre></div>
 
 </div>
@@ -4064,18 +3970,15 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[115]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>    +-------+
+    |2log(e)
+    |-------
+   \|  %pi
+                                                    Type: Expression(Integer)
 </pre>
 </div>
 
@@ -4090,7 +3993,8 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[116]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>R==&gt;RectangularMatrix(2,4, PF 2)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;complexIntegrate(%i/2*e^(-%i*x^2),x)&quot;, _
+      &quot;(fresnelS(cc*x) + %i*fresnelC(cc*x))/(2*cc)&quot;)
 </pre></div>
 
 </div>
@@ -4120,7 +4024,8 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[117]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue &quot;every?(zero?, [lookup(index(i)$R)$R - i for i in 1..2^8])&quot;
+<div class=" highlight hl-spad"><pre>testEquals(&quot;complexIntegrate(-%i/2*e^(%i*x^2),x)&quot;, _
+      &quot;(fresnelS(cc*x) - %i*fresnelC(cc*x))/(2*cc)&quot;)
 </pre></div>
 
 </div>
@@ -4150,7 +4055,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[118]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;issue 198&quot;
+<div class=" highlight hl-spad"><pre>testEquals(&quot;complexIntegrate(log(x)/(x-1),x)&quot;, &quot;-dilog x&quot;)
 </pre></div>
 
 </div>
@@ -4160,13 +4065,6 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[118]:</div>
 
@@ -4187,7 +4085,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[119]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>cc := sqrt(2*log(e)/%pi)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;complexIntegrate(2*log(x)/(x-1),x)&quot;, &quot;-2*dilog x&quot;)
 </pre></div>
 
 </div>
@@ -4202,11 +4100,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>    +-------+
-    |2log(e)
-    |-------
-   \|  %pi
-                                                    Type: Expression(Integer)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -4219,242 +4113,6 @@ Warning: HyperTeX macro table not found
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[120]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;complexIntegrate(%i/2*e^(-%i*x^2),x)&quot;, _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;complexIntegrate(%i/2*e^(-%i*x^2),x)&quot;, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[120]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[121]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>      &quot;(fresnelS(cc*x) + %i*fresnelC(cc*x))/(2*cc)&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[121]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[122]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;complexIntegrate(-%i/2*e^(%i*x^2),x)&quot;, _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;complexIntegrate(-%i/2*e^(%i*x^2),x)&quot;, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[122]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[123]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>      &quot;(fresnelS(cc*x) - %i*fresnelC(cc*x))/(2*cc)&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[123]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[124]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;complexIntegrate(log(x)/(x-1),x)&quot;, &quot;-dilog x&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[124]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[125]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;complexIntegrate(2*log(x)/(x-1),x)&quot;, &quot;-2*dilog x&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[125]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[126]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;issue 408&quot;
@@ -4475,7 +4133,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[126]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[120]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4491,7 +4149,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[127]:</div>
+<div class="prompt input_prompt">In&nbsp;[121]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;abs(Gamma(1/5::EXPR INT)::EXPR DFLOAT - 4.5908437119988030532047582759) &lt; 10.0^(-13)&quot;
@@ -4505,7 +4163,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[127]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[121]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4521,7 +4179,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[128]:</div>
+<div class="prompt input_prompt">In&nbsp;[122]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;abs(digamma(1/5::EXPR INT)::EXPR DFLOAT + 5.2890398965921882955472079624) &lt; 10.0^(-13)&quot;
@@ -4535,7 +4193,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[128]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[122]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4551,7 +4209,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[129]:</div>
+<div class="prompt input_prompt">In&nbsp;[123]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;abs(besselJ(1,1::EXPR INT)::EXPR DFLOAT - 0.44005058574493351595968220371) &lt; 10.0^(-13)&quot;
@@ -4565,7 +4223,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[129]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[123]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4591,7 +4249,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[130]:</div>
+<div class="prompt input_prompt">In&nbsp;[124]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>xftestTrue &quot;abs(airyAi(1/5::EXPR INT)::EXPR DFLOAT - 0.303703154286381994892596723) &lt; 10.0^(-13)&quot;
@@ -4615,7 +4273,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[130]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[124]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4631,7 +4289,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[131]:</div>
+<div class="prompt input_prompt">In&nbsp;[125]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;issue 183&quot;
@@ -4652,7 +4310,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[131]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[125]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4668,7 +4326,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[132]:</div>
+<div class="prompt input_prompt">In&nbsp;[126]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>bt l ==
@@ -4684,7 +4342,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[132]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[126]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4700,10 +4358,11 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[133]:</div>
+<div class="prompt input_prompt">In&nbsp;[127]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>    else binaryTree(bt rest(l, #l quo 2 + 1), first l, _
+                    bt first(rest l, #l quo 2))
 </pre></div>
 
 </div>
@@ -4719,13 +4378,8 @@ Warning: HyperTeX macro table not found
 <pre>  Line   1:     else binaryTree(bt rest(l, #l quo 2 + 1), first l, _
            ....A
   Error  A: Improper syntax.
-  Line   2: )--premature end
-           .A
-  Error  A: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   2 error(s) parsing 
+  Line   2:                     bt first(rest l, #l quo 2))
+   1 error(s) parsing 
 
    Continuing to read the file...
 
@@ -4734,7 +4388,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[133]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[127]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4749,46 +4403,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[134]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>                    bt first(rest l, #l quo 2))
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[134]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[135]:</div>
+<div class="prompt input_prompt">In&nbsp;[128]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>tree := bt primes(1, 20);
@@ -4813,7 +4428,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[135]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[128]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4829,7 +4444,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[136]:</div>
+<div class="prompt input_prompt">In&nbsp;[129]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;any?(even?, tree)&quot;
@@ -4865,7 +4480,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[136]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[129]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4881,7 +4496,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[137]:</div>
+<div class="prompt input_prompt">In&nbsp;[130]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;not any?(x +-&gt; x &gt; 19, tree)&quot;
@@ -4917,7 +4532,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[137]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[130]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4933,7 +4548,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[138]:</div>
+<div class="prompt input_prompt">In&nbsp;[131]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;every?(prime?, tree)&quot;
@@ -4969,7 +4584,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[138]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[131]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4985,7 +4600,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[139]:</div>
+<div class="prompt input_prompt">In&nbsp;[132]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;not every?(x +-&gt; x &gt; 2, tree)&quot;
@@ -5021,7 +4636,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[139]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[132]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5037,7 +4652,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[140]:</div>
+<div class="prompt input_prompt">In&nbsp;[133]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;member?(17, tree)&quot;
@@ -5073,7 +4688,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[140]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[133]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5089,7 +4704,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[141]:</div>
+<div class="prompt input_prompt">In&nbsp;[134]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;not member?(4, tree)&quot;
@@ -5125,7 +4740,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[141]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[134]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5141,7 +4756,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[142]:</div>
+<div class="prompt input_prompt">In&nbsp;[135]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;any?(i+-&gt;(i=1)::Boolean,[1,2,3])&quot;
@@ -5155,7 +4770,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[142]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[135]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5171,7 +4786,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[143]:</div>
+<div class="prompt input_prompt">In&nbsp;[136]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;not every?(odd?, [1,2,3])&quot;
@@ -5185,7 +4800,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[143]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[136]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5201,7 +4816,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[144]:</div>
+<div class="prompt input_prompt">In&nbsp;[137]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;member?(2, [1,2,3])&quot;
@@ -5215,7 +4830,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[144]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[137]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5231,7 +4846,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[145]:</div>
+<div class="prompt input_prompt">In&nbsp;[138]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue &quot;not ([1,2,3] = [1,3,2])::Boolean&quot;
@@ -5245,7 +4860,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[145]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[138]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5261,7 +4876,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[146]:</div>
+<div class="prompt input_prompt">In&nbsp;[139]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;bug 9057&quot;
@@ -5282,7 +4897,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[146]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[139]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5298,7 +4913,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[147]:</div>
+<div class="prompt input_prompt">In&nbsp;[140]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f==n+-&gt;product(sum(1/i,i=1..j),j=1..n)
@@ -5311,6 +4926,278 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area"><div class="prompt output_prompt">Out[140]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[141]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;f(1)&quot;, &quot;1&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiling function f with type PositiveInteger -&gt; Expression(Integer
+      ) 
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[141]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[142]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>f==n+-&gt;product(product(1/i,i=1..j),j=1..n)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiled code for f has been cleared.
+   1 old definition(s) deleted for function or rule f 
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[142]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[143]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;f(1)&quot;, &quot;1&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiling function f with type PositiveInteger -&gt; Expression(Integer
+      ) 
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[143]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[144]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>f==n+-&gt;sum(sum(1/i,i=1..j),j=1..n)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiled code for f has been cleared.
+   1 old definition(s) deleted for function or rule f 
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[144]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[145]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;f(1)&quot;, &quot;1&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   There are 6 exposed and 2 unexposed library operations named sum 
+      having 2 argument(s) but none was determined to be applicable. 
+      Use HyperDoc Browse, or issue
+                               )display op sum
+      to learn more about the available operations. Perhaps 
+      package-calling the operation or using coercions on the arguments
+      will allow you to apply the operation.
+   Cannot find a definition or applicable library operation named sum 
+      with argument type(s) 
+          Union(Fraction(Polynomial(Integer)),Expression(Integer))
+                       SegmentBinding(PositiveInteger)
+      
+      Perhaps you should use &quot;@&quot; to indicate the required return type, 
+      or &quot;$&quot; to specify which version of the function you need.
+   FriCAS will attempt to step through and interpret the code.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[145]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[146]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>g:=operator &#39;g
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[146]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   g
+                                                          Type: BasicOperator
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[147]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>f==n+-&gt;sum(g(j),j=1..n)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiled code for f has been cleared.
+   1 old definition(s) deleted for function or rule f 
+</pre>
+</div>
+</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[147]:</div>
 
@@ -5331,7 +5218,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[148]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;f(1)&quot;, &quot;1&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;f(1)&quot;, &quot;g(1)&quot;)
 </pre></div>
 
 </div>
@@ -5369,278 +5256,6 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[149]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>f==n+-&gt;product(product(1/i,i=1..j),j=1..n)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiled code for f has been cleared.
-   1 old definition(s) deleted for function or rule f 
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[149]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[150]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;f(1)&quot;, &quot;1&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function f with type PositiveInteger -&gt; Expression(Integer
-      ) 
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[150]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[151]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>f==n+-&gt;sum(sum(1/i,i=1..j),j=1..n)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiled code for f has been cleared.
-   1 old definition(s) deleted for function or rule f 
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[151]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[152]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;f(1)&quot;, &quot;1&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   There are 6 exposed and 2 unexposed library operations named sum 
-      having 2 argument(s) but none was determined to be applicable. 
-      Use HyperDoc Browse, or issue
-                               )display op sum
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
-   Cannot find a definition or applicable library operation named sum 
-      with argument type(s) 
-          Union(Fraction(Polynomial(Integer)),Expression(Integer))
-                       SegmentBinding(PositiveInteger)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-   FriCAS will attempt to step through and interpret the code.
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[152]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[153]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>g:=operator &#39;g
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[153]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   g
-                                                          Type: BasicOperator
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[154]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>f==n+-&gt;sum(g(j),j=1..n)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiled code for f has been cleared.
-   1 old definition(s) deleted for function or rule f 
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[154]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[155]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;f(1)&quot;, &quot;g(1)&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function f with type PositiveInteger -&gt; Expression(Integer
-      ) 
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[155]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[156]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>statistics()
 </pre></div>
 
@@ -5652,7 +5267,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[156]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[149]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5670,6 +5285,14 @@ Warning: HyperTeX macro table not found
    Testsuite: bugs2007
    Testcase: Bug in sqrt() for UnivariateTaylorSeries (issue 312)
    test: 1
+   testing in a domain without InputForm!
+   Testsuite: bugs2007
+   Testcase: issue 293
+   test: 1
+   testing in a domain without InputForm!
+   Testsuite: bugs2007
+   Testcase: issue 293
+   test: 2
    testing in a domain without InputForm!
    Testsuite: bugs2007
    Testcase: issue 103
@@ -5709,13 +5332,13 @@ Warning: HyperTeX macro table not found
 
    =============================================================================
    testsuite | testcases: failed (total) | tests: failed (total)
-   bugs2007                    1    (31)               6    (64)
+   bugs2007                    1    (31)               6    (70)
    =============================================================================
    File summary.
    unexpected failures: 6
-   expected failures: 1
+   expected failures: 2
    unexpected passes: 0
-   total tests: 64
+   total tests: 70
                                                                    Type: Void
 </pre>
 </div>
@@ -5728,7 +5351,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[157]:</div>
+<div class="prompt input_prompt">In&nbsp;[150]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -5744,7 +5367,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[157]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[150]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

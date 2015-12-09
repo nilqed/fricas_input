@@ -353,6 +353,7 @@ Warning: HyperTeX macro table not found
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;(m: DIRRING INT := (n: PI): INT +-&gt; moebiusMu n;&quot; _
+           &quot; [m.i for i in 1..4])&quot;, &quot;[1,-1,-1,0]&quot;)
 </pre></div>
 
 </div>
@@ -363,45 +364,12 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;(m: DIRRING INT := (n: PI): INT +-&gt; moebiusMu n;&quot; _
-  Line   2: )--premature end
-           .A
-  Error  A: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   1 error(s) parsing 
-   There are no library operations named testEquals having 1 
-      argument(s) though there are 1 exposed operation(s) and 0 
-      unexposed operation(s) having a different number of arguments. 
-      Use HyperDoc Browse, or issue
-                             )what op testEquals
-      to learn what operations contain &quot; testEquals &quot; in their names, 
-      or issue
-                           )display op testEquals
-      to learn more about the available operations.
- 
-   Cannot find a definition or applicable library operation named 
-      testEquals with argument type(s) 
-                                   String
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>                                                                   Type: Void
+</pre>
 </div>
 
 </div>
@@ -415,7 +383,8 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>           &quot; [m.i for i in 1..4])&quot;, &quot;[1,-1,-1,0]&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;(m: DIRRING INT := [moebiusMu n for n in 1..]; &quot; _
+           &quot; [m.i for i in 1..4])&quot;, &quot;[1,-1,-1,0]&quot;)
 </pre></div>
 
 </div>
@@ -426,20 +395,11 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -452,108 +412,6 @@ Warning: HyperTeX macro table not found
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;(m: DIRRING INT := [moebiusMu n for n in 1..]; &quot; _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;(m: DIRRING INT := [moebiusMu n for n in 1..]; &quot; _
-  Line   2: )--premature end
-           .A
-  Error  A: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   1 error(s) parsing 
-   There are no library operations named testEquals having 1 
-      argument(s) though there are 1 exposed operation(s) and 0 
-      unexposed operation(s) having a different number of arguments. 
-      Use HyperDoc Browse, or issue
-                             )what op testEquals
-      to learn what operations contain &quot; testEquals &quot; in their names, 
-      or issue
-                           )display op testEquals
-      to learn more about the available operations.
- 
-   Cannot find a definition or applicable library operation named 
-      testEquals with argument type(s) 
-                                   String
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           &quot; [m.i for i in 1..4])&quot;, &quot;[1,-1,-1,0]&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;categories&quot;
@@ -574,11 +432,71 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
 <pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testTrue(&quot;DIRRING INT has CommutativeRing&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>mu: DIRRING FRAC INT := (n: PI): FRAC INT +-&gt; moebiusMu n;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                       Type: DirichletRing(Fraction(Integer))
 </pre>
 </div>
 
@@ -593,7 +511,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue(&quot;DIRRING INT has CommutativeRing&quot;)
+<div class=" highlight hl-spad"><pre>phi: DIRRING FRAC INT := (n: PI): FRAC INT +-&gt; eulerPhi n;
 </pre></div>
 
 </div>
@@ -605,6 +523,37 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                       Type: DirichletRing(Fraction(Integer))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;[(recip mu * phi).n for n in 1..10]&quot;,
+           &quot;[(phi * recip mu).n for n in 1..10]&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -620,40 +569,10 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>mu: DIRRING FRAC INT := (n: PI): FRAC INT +-&gt; moebiusMu n;
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                       Type: DirichletRing(Fraction(Integer))
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>phi: DIRRING FRAC INT := (n: PI): FRAC INT +-&gt; eulerPhi n;
+<div class=" highlight hl-spad"><pre>testTrue(&quot;DIRRING FRAC INT has Algebra FRAC INT&quot;)
 </pre></div>
 
 </div>
@@ -668,7 +587,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                       Type: DirichletRing(Fraction(Integer))
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -683,8 +602,8 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;[(recip mu * phi).n for n in 1..10]&quot;,
-           &quot;[(phi * recip mu).n for n in 1..10]&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;[(1/2 * phi).n for n in 1..10]&quot;,
+           &quot;[eulerPhi n/2  for n in 1..10]&quot;);
 </pre></div>
 
 </div>
@@ -714,7 +633,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue(&quot;DIRRING FRAC INT has Algebra FRAC INT&quot;)
+<div class=" highlight hl-spad"><pre>testcase &quot;identities&quot;
 </pre></div>
 
 </div>
@@ -724,6 +643,13 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
+</pre>
+</div>
+</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
 
@@ -744,8 +670,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;[(1/2 * phi).n for n in 1..10]&quot;,
-           &quot;[eulerPhi n/2  for n in 1..10]&quot;);
+<div class=" highlight hl-spad"><pre>mu: DIRRING INT := (n: PI): INT +-&gt; moebiusMu n;
 </pre></div>
 
 </div>
@@ -760,7 +685,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>                                                 Type: DirichletRing(Integer)
 </pre>
 </div>
 
@@ -775,7 +700,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;identities&quot;
+<div class=" highlight hl-spad"><pre>phi: DIRRING INT := (n: PI): INT +-&gt; eulerPhi n;
 </pre></div>
 
 </div>
@@ -786,18 +711,11 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>                                                 Type: DirichletRing(Integer)
 </pre>
 </div>
 
@@ -812,7 +730,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>mu: DIRRING INT := (n: PI): INT +-&gt; moebiusMu n;
+<div class=" highlight hl-spad"><pre>testEquals(&quot;[(recip mu).n for n in 1..10]&quot;, &quot;[1 for n in 1..10]&quot;)
 </pre></div>
 
 </div>
@@ -827,7 +745,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                 Type: DirichletRing(Integer)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -842,7 +760,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>phi: DIRRING INT := (n: PI): INT +-&gt; eulerPhi n;
+<div class=" highlight hl-spad"><pre>testEquals(&quot;[(recip mu * phi).n for n in 1..10]&quot;, &quot;[n for n in 1..10]&quot;)
 </pre></div>
 
 </div>
@@ -857,7 +775,7 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                 Type: DirichletRing(Integer)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -872,66 +790,6 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;[(recip mu).n for n in 1..10]&quot;, &quot;[1 for n in 1..10]&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;[(recip mu * phi).n for n in 1..10]&quot;, &quot;[n for n in 1..10]&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>statistics()
 </pre></div>
 
@@ -943,7 +801,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -963,13 +821,13 @@ Warning: HyperTeX macro table not found
 
    =============================================================================
    testsuite | testcases: failed (total) | tests: failed (total)
-   Dirichlet                   0     (3)               0     (6)
+   Dirichlet                   0     (3)               0     (8)
    =============================================================================
    File summary.
    unexpected failures: 0
    expected failures: 0
    unexpected passes: 0
-   total tests: 6
+   total tests: 8
                                                                    Type: Void
 </pre>
 </div>
@@ -982,7 +840,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -998,7 +856,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

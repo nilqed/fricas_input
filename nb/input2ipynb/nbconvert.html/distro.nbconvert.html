@@ -3486,6 +3486,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;removeDuplicates entries complete first(sem2j bn,10)&quot;, _
+    &quot;[2::Fraction Integer]&quot;)
 </pre></div>
 
 </div>
@@ -3496,31 +3497,12 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;removeDuplicates entries complete first(sem2j bn,10)&quot;, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[101]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>                                                                   Type: Void
+</pre>
 </div>
 
 </div>
@@ -3534,45 +3516,6 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="prompt input_prompt">In&nbsp;[102]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>    &quot;[2::Fraction Integer]&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[102]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[103]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>frp:=freePoissonDistribution 1
 </pre></div>
 
@@ -3584,7 +3527,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[103]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[102]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3601,7 +3544,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[104]:</div>
+<div class="prompt input_prompt">In&nbsp;[103]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>frpj:=jacobiParameters frp
@@ -3615,7 +3558,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[104]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[103]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3632,7 +3575,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[105]:</div>
+<div class="prompt input_prompt">In&nbsp;[104]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>gss:=gaussianDistribution 1
@@ -3646,7 +3589,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[105]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[104]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3663,7 +3606,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[106]:</div>
+<div class="prompt input_prompt">In&nbsp;[105]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>gss2:= classicalConvolution(gss,gss)
@@ -3677,7 +3620,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[106]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[105]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3694,7 +3637,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[107]:</div>
+<div class="prompt input_prompt">In&nbsp;[106]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>gss2j:=jacobiParameters gss2
@@ -3708,7 +3651,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[107]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[106]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3725,7 +3668,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[108]:</div>
+<div class="prompt input_prompt">In&nbsp;[107]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>gss2j1:=[2*k for k in 1..10]
@@ -3739,7 +3682,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[108]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[107]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3756,7 +3699,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[109]:</div>
+<div class="prompt input_prompt">In&nbsp;[108]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;removeDuplicates entries complete first(gss2j bn,10)&quot;, &quot;gss2j1&quot;)
@@ -3770,7 +3713,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[109]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[108]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3796,7 +3739,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[110]:</div>
+<div class="prompt input_prompt">In&nbsp;[109]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>bin2n:= [binomial(2*n,n) for n in 1..]
@@ -3810,7 +3753,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[110]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[109]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3827,7 +3770,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[111]:</div>
+<div class="prompt input_prompt">In&nbsp;[110]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>asin:Sequence Integer:= sequence [(if odd? k then 0 else bin2n
@@ -3842,7 +3785,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[111]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[110]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3859,7 +3802,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[112]:</div>
+<div class="prompt input_prompt">In&nbsp;[111]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>asind:= distributionByMoments [(if odd? k then 0 else bin2n (exquo(k,2)::Integer)) for k in 1..]
@@ -3873,7 +3816,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[112]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[111]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3890,7 +3833,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[113]:</div>
+<div class="prompt input_prompt">In&nbsp;[112]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>asind2:=monotoneConvolution(asind, asind)
@@ -3904,7 +3847,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[113]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[112]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3921,7 +3864,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[114]:</div>
+<div class="prompt input_prompt">In&nbsp;[113]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>asind4:=monotoneConvolution(asind2, asind2)
@@ -3935,7 +3878,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[114]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[113]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3952,7 +3895,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[115]:</div>
+<div class="prompt input_prompt">In&nbsp;[114]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>asind4d:=dilate(2, moments asind)
@@ -3966,7 +3909,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[115]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[114]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3983,7 +3926,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[116]:</div>
+<div class="prompt input_prompt">In&nbsp;[115]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;firstn (moments asind4, 10)&quot;, &quot;firstn (asind4d, 10)&quot;)
@@ -3997,7 +3940,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[116]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[115]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4023,7 +3966,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[117]:</div>
+<div class="prompt input_prompt">In&nbsp;[116]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>asin1:Distribution Fraction Integer:=arcsineDistribution 1
@@ -4037,7 +3980,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[117]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[116]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4056,7 +3999,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[118]:</div>
+<div class="prompt input_prompt">In&nbsp;[117]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>asin1m:=monotoneCumulants asin1
@@ -4070,7 +4013,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[118]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[117]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4087,7 +4030,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[119]:</div>
+<div class="prompt input_prompt">In&nbsp;[118]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>asin1m10:List Fraction Integer:= [(if k = 2 then 1 else 0) for k in 1..10]
@@ -4101,7 +4044,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[119]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[118]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4118,7 +4061,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[120]:</div>
+<div class="prompt input_prompt">In&nbsp;[119]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;firstn(asin1m, 10)&quot;, &quot;asin1m10&quot;)
@@ -4132,7 +4075,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[120]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[119]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4158,7 +4101,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[121]:</div>
+<div class="prompt input_prompt">In&nbsp;[120]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>sem:=wignerDistribution 1
@@ -4172,7 +4115,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[121]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[120]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4189,10 +4132,41 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[122]:</div>
+<div class="prompt input_prompt">In&nbsp;[121]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>fps:=freePoissonDistribution 1
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[121]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   [1,2,5,14,42,132,429,1430,4862,16796,...]
+                                                  Type: Distribution(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[122]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>fps1:=sem^2
 </pre></div>
 
 </div>
@@ -4223,7 +4197,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="prompt input_prompt">In&nbsp;[123]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>fps1:=sem^2
+<div class=" highlight hl-spad"><pre>fps0m:= moments fps
 </pre></div>
 
 </div>
@@ -4239,7 +4213,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 
 <div class="output_text output_subarea output_execute_result">
 <pre>   [1,2,5,14,42,132,429,1430,4862,16796,...]
-                                                  Type: Distribution(Integer)
+                                                      Type: Sequence(Integer)
 </pre>
 </div>
 
@@ -4254,7 +4228,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="prompt input_prompt">In&nbsp;[124]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>fps0m:= moments fps
+<div class=" highlight hl-spad"><pre>fps1m:= moments fps1
 </pre></div>
 
 </div>
@@ -4285,37 +4259,6 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="prompt input_prompt">In&nbsp;[125]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>fps1m:= moments fps1
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[125]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   [1,2,5,14,42,132,429,1430,4862,16796,...]
-                                                      Type: Sequence(Integer)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[126]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;firstn(fps0m, 10)&quot;, &quot;firstn(fps1m, 10)&quot;)
 </pre></div>
 
@@ -4327,7 +4270,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[126]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[125]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4343,7 +4286,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[127]:</div>
+<div class="prompt input_prompt">In&nbsp;[126]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;STRANS&quot;
@@ -4364,7 +4307,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[127]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[126]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4390,7 +4333,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[128]:</div>
+<div class="prompt input_prompt">In&nbsp;[127]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>R:= Fraction Integer
@@ -4404,7 +4347,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[128]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[127]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4421,7 +4364,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[129]:</div>
+<div class="prompt input_prompt">In&nbsp;[128]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>macro STrans(x, z) ==
@@ -4436,7 +4379,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[129]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[128]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4452,7 +4395,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[130]:</div>
+<div class="prompt input_prompt">In&nbsp;[129]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>fp:Distribution R:=freePoissonDistribution 1
@@ -4466,7 +4409,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[130]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[129]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4483,7 +4426,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[131]:</div>
+<div class="prompt input_prompt">In&nbsp;[130]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>fpS:=STrans (fp, z)
@@ -4497,7 +4440,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[131]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[130]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4515,7 +4458,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[132]:</div>
+<div class="prompt input_prompt">In&nbsp;[131]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>fpS1:= entries complete first(coefficients fpS, 10)
@@ -4529,7 +4472,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[132]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[131]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4546,7 +4489,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[133]:</div>
+<div class="prompt input_prompt">In&nbsp;[132]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>fpS2:= [(-1)^k for k in 0..9]
@@ -4560,7 +4503,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[133]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[132]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4577,7 +4520,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[134]:</div>
+<div class="prompt input_prompt">In&nbsp;[133]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;fpS1&quot;, &quot;fpS2&quot;)
@@ -4591,7 +4534,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[134]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[133]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4617,7 +4560,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[135]:</div>
+<div class="prompt input_prompt">In&nbsp;[134]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>fp2S:Sequence Fraction Integer:= sequence [(-1)^k for k in 0..]
@@ -4631,7 +4574,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[135]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[134]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4648,7 +4591,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[136]:</div>
+<div class="prompt input_prompt">In&nbsp;[135]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>fp2:Distribution Fraction Integer:= distributionBySTransform(1,0, fp2S)$Distribution Fraction Integer
@@ -4662,7 +4605,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[136]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[135]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4679,7 +4622,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[137]:</div>
+<div class="prompt input_prompt">In&nbsp;[136]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;firstn(moments fp2, 10)&quot;, &quot;firstn(moments fp, 10)&quot;)
@@ -4693,7 +4636,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[137]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[136]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4719,7 +4662,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[138]:</div>
+<div class="prompt input_prompt">In&nbsp;[137]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>pa:Distribution EXPR INT:=bernoulliDistribution01 a
@@ -4733,7 +4676,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[138]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[137]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4751,7 +4694,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[139]:</div>
+<div class="prompt input_prompt">In&nbsp;[138]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>pb:Distribution EXPR INT:=bernoulliDistribution01 b
@@ -4765,7 +4708,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[139]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[138]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4783,7 +4726,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[140]:</div>
+<div class="prompt input_prompt">In&nbsp;[139]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>papb:=freeMultiplicativeConvolution(pa,pb);
@@ -4797,7 +4740,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[140]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[139]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4813,7 +4756,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[141]:</div>
+<div class="prompt input_prompt">In&nbsp;[140]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>papbm1:=entries complete first(moments papb, 10);
@@ -4827,7 +4770,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[141]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[140]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4853,7 +4796,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[142]:</div>
+<div class="prompt input_prompt">In&nbsp;[141]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>aa:=a+b-2*a*b+sqrt(4*a*b*(1-a)*(1-b))
@@ -4867,7 +4810,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[142]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[141]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4886,7 +4829,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[143]:</div>
+<div class="prompt input_prompt">In&nbsp;[142]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>bb:=a+b-2*a*b-sqrt(4*a*b*(1-a)*(1-b))
@@ -4900,7 +4843,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[143]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[142]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4919,7 +4862,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[144]:</div>
+<div class="prompt input_prompt">In&nbsp;[143]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>Mpapb:=(1-z*(a+b)-sqrt((aa*z-1)*(bb*z-1)))/2/(z-1)
@@ -4933,7 +4876,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[144]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[143]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4954,7 +4897,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[145]:</div>
+<div class="prompt input_prompt">In&nbsp;[144]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>papbser:=series(Mpapb,z=0);
@@ -4968,7 +4911,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[145]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[144]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4984,7 +4927,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[146]:</div>
+<div class="prompt input_prompt">In&nbsp;[145]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>papbm2:=entries complete first (rest coefficients papbser, 10);
@@ -4998,7 +4941,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[146]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[145]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5014,7 +4957,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[147]:</div>
+<div class="prompt input_prompt">In&nbsp;[146]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;papbm1&quot;,&quot;papbm2&quot;)
@@ -5028,7 +4971,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[147]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[146]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5054,7 +4997,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[148]:</div>
+<div class="prompt input_prompt">In&nbsp;[147]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>p2:UnivariatePolynomial(z, Integer):= z^2
@@ -5068,7 +5011,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[148]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[147]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5086,7 +5029,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[149]:</div>
+<div class="prompt input_prompt">In&nbsp;[148]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>sem:= wignerDistribution 1
@@ -5100,7 +5043,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[149]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[148]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5117,10 +5060,41 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[150]:</div>
+<div class="prompt input_prompt">In&nbsp;[149]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>fp1:= freePoissonDistribution 1
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[149]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   [1,2,5,14,42,132,429,1430,4862,16796,...]
+                                                  Type: Distribution(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[150]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>fp2a:=p2(sem)
 </pre></div>
 
 </div>
@@ -5151,37 +5125,6 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="prompt input_prompt">In&nbsp;[151]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>fp2a:=p2(sem)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[151]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   [1,2,5,14,42,132,429,1430,4862,16796,...]
-                                                  Type: Distribution(Integer)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[152]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;firstn(moments fp1, 10)&quot;, &quot;firstn(moments fp2a, 10)&quot;)
 </pre></div>
 
@@ -5193,7 +5136,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[152]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[151]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5219,7 +5162,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[153]:</div>
+<div class="prompt input_prompt">In&nbsp;[152]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>R:= Fraction Integer
@@ -5233,7 +5176,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[153]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[152]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5250,7 +5193,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[154]:</div>
+<div class="prompt input_prompt">In&nbsp;[153]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>macro jcf1(x,z) ==
@@ -5265,7 +5208,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[154]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[153]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5281,7 +5224,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[155]:</div>
+<div class="prompt input_prompt">In&nbsp;[154]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>sem1:Distribution R:= wignerDistribution 1
@@ -5295,7 +5238,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[155]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[154]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5312,7 +5255,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[156]:</div>
+<div class="prompt input_prompt">In&nbsp;[155]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>j1:=jcf1(sem1, z)
@@ -5332,7 +5275,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[156]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[155]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5355,10 +5298,45 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[157]:</div>
+<div class="prompt input_prompt">In&nbsp;[156]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>j1c5:=(convergents j1) 5
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[156]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>       3
+      z  - 2z
+   ------------
+    4     2
+   z  - 3z  + 1
+                    Type: Fraction(UnivariatePolynomial(z,Fraction(Integer)))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[157]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>j1c5a:Fraction UP(z,Fraction Integer):= (z^3-2*z)/(z^4-3*z^2+1)
 </pre></div>
 
 </div>
@@ -5393,7 +5371,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="prompt input_prompt">In&nbsp;[158]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>j1c5a:Fraction UP(z,Fraction Integer):= (z^3-2*z)/(z^4-3*z^2+1)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;j1c5&quot;, &quot;j1c5a&quot;)
 </pre></div>
 
 </div>
@@ -5408,12 +5386,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>       3
-      z  - 2z
-   ------------
-    4     2
-   z  - 3z  + 1
-                    Type: Fraction(UnivariatePolynomial(z,Fraction(Integer)))
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -5428,7 +5401,8 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="prompt input_prompt">In&nbsp;[159]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;j1c5&quot;, &quot;j1c5a&quot;)
+<div class=" highlight hl-spad"><pre>macro jcf2(x,z) ==
+    JContinuedFraction(x,z)$DistributionContinuedFractionPackage(Integer, z)
 </pre></div>
 
 </div>
@@ -5458,37 +5432,6 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="prompt input_prompt">In&nbsp;[160]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>macro jcf2(x,z) ==
-    JContinuedFraction(x,z)$DistributionContinuedFractionPackage(Integer, z)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[160]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[161]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>sem2:Distribution Integer:= wignerDistribution 1
 </pre></div>
 
@@ -5500,7 +5443,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[161]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[160]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5517,7 +5460,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[162]:</div>
+<div class="prompt input_prompt">In&nbsp;[161]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>j2:=jcf2(sem2, z)
@@ -5537,7 +5480,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[162]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[161]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5560,10 +5503,45 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[163]:</div>
+<div class="prompt input_prompt">In&nbsp;[162]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>j2c5:=(convergents j2) 5
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[162]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>       3
+      z  - 2z
+   ------------
+    4     2
+   z  - 3z  + 1
+                    Type: Fraction(UnivariatePolynomial(z,Fraction(Integer)))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[163]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>j2c5a:Fraction UP(z,Fraction Integer):= (z^3-2*z)/(z^4-3*z^2+1)
 </pre></div>
 
 </div>
@@ -5598,41 +5576,6 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="prompt input_prompt">In&nbsp;[164]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>j2c5a:Fraction UP(z,Fraction Integer):= (z^3-2*z)/(z^4-3*z^2+1)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[164]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>       3
-      z  - 2z
-   ------------
-    4     2
-   z  - 3z  + 1
-                    Type: Fraction(UnivariatePolynomial(z,Fraction(Integer)))
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[165]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;j2c5&quot;, &quot;j2c5a&quot;)
 </pre></div>
 
@@ -5644,7 +5587,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[165]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[164]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5670,7 +5613,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[166]:</div>
+<div class="prompt input_prompt">In&nbsp;[165]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mm:= [m[k] for k in 1..];
@@ -5684,7 +5627,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[166]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[165]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5700,7 +5643,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[167]:</div>
+<div class="prompt input_prompt">In&nbsp;[166]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mu:= distributionByMoments mm;
@@ -5714,7 +5657,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[167]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[166]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5730,7 +5673,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[168]:</div>
+<div class="prompt input_prompt">In&nbsp;[167]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>op:= orthogonalPolynomials mu;
@@ -5744,7 +5687,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[168]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[167]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5760,7 +5703,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[169]:</div>
+<div class="prompt input_prompt">In&nbsp;[168]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>intp34:= integrate(op 2*op 3, mu)
@@ -5774,7 +5717,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[169]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[168]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5791,7 +5734,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[170]:</div>
+<div class="prompt input_prompt">In&nbsp;[169]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue(&quot;zero? intp34&quot;)
@@ -5805,7 +5748,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[170]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[169]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5831,7 +5774,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[171]:</div>
+<div class="prompt input_prompt">In&nbsp;[170]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mm1:Stream Fraction Polynomial Integer:= [m[k] for k in 1..];
@@ -5845,7 +5788,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[171]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[170]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5861,7 +5804,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[172]:</div>
+<div class="prompt input_prompt">In&nbsp;[171]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mu1:= distributionByMoments mm1;
@@ -5875,7 +5818,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[172]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[171]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5891,7 +5834,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[173]:</div>
+<div class="prompt input_prompt">In&nbsp;[172]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mc:= monotoneCumulants mu1;
@@ -5905,7 +5848,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[173]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[172]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5921,7 +5864,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[174]:</div>
+<div class="prompt input_prompt">In&nbsp;[173]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mm2:= distributionByMonotoneCumulants mc;
@@ -5935,7 +5878,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[174]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[173]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -5951,10 +5894,40 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[175]:</div>
+<div class="prompt input_prompt">In&nbsp;[174]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>m15:= mm1.5;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[174]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                          Type: Fraction(Polynomial(Integer))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[175]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>m25:= moment(mm2, 5);
 </pre></div>
 
 </div>
@@ -5984,36 +5957,6 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="prompt input_prompt">In&nbsp;[176]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>m25:= moment(mm2, 5);
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[176]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                          Type: Fraction(Polynomial(Integer))
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[177]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;m15&quot;, &quot;m25&quot;)
 </pre></div>
 
@@ -6025,7 +5968,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[177]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[176]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6051,7 +5994,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[178]:</div>
+<div class="prompt input_prompt">In&nbsp;[177]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)clear prop mu1 mu2 mm1 mm2 hh
@@ -6065,7 +6008,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[178]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[177]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6080,7 +6023,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[179]:</div>
+<div class="prompt input_prompt">In&nbsp;[178]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>hh:Stream Fraction Polynomial Integer:= [h[k] for k in 1..];
@@ -6094,7 +6037,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[179]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[178]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6110,7 +6053,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[180]:</div>
+<div class="prompt input_prompt">In&nbsp;[179]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mu1:= distributionByMonotoneCumulants hh;
@@ -6124,7 +6067,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[180]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[179]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6140,7 +6083,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[181]:</div>
+<div class="prompt input_prompt">In&nbsp;[180]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mm1:= moments mu1;
@@ -6154,7 +6097,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[181]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[180]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6170,7 +6113,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[182]:</div>
+<div class="prompt input_prompt">In&nbsp;[181]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mu2:= distributionByMoments mm1;
@@ -6184,7 +6127,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[182]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[181]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6200,7 +6143,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[183]:</div>
+<div class="prompt input_prompt">In&nbsp;[182]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>h15:= hh.5;
@@ -6214,7 +6157,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[183]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[182]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6230,7 +6173,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[184]:</div>
+<div class="prompt input_prompt">In&nbsp;[183]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>h25:= monotoneCumulants(mu2).5
@@ -6244,7 +6187,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[184]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[183]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6262,10 +6205,42 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[185]:</div>
+<div class="prompt input_prompt">In&nbsp;[184]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;h15&quot;, &quot;h25&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[184]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[185]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>expected() ==
+    messagePrint(&quot;testsuite | testcases: failed (total) | tests: failed (total)&quot;)$OutputForm
+    messagePrint(&quot;distro                      0     (5)               0    (37)&quot;)$OutputForm
 </pre></div>
 
 </div>
@@ -6295,38 +6270,6 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="prompt input_prompt">In&nbsp;[186]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>expected() ==
-    messagePrint(&quot;testsuite | testcases: failed (total) | tests: failed (total)&quot;)$OutputForm
-    messagePrint(&quot;distro                      0     (5)               0    (37)&quot;)$OutputForm
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[186]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[187]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>statistics()
 </pre></div>
 
@@ -6338,7 +6281,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[187]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[186]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6368,13 +6311,13 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 
    =============================================================================
    testsuite | testcases: failed (total) | tests: failed (total)
-   distro                      0     (5)               0    (36)
+   distro                      0     (5)               0    (37)
    =============================================================================
    File summary.
    unexpected failures: 0
    expected failures: 0
    unexpected passes: 0
-   total tests: 36
+   total tests: 37
                                                                    Type: Void
 </pre>
 </div>
@@ -6387,7 +6330,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[188]:</div>
+<div class="prompt input_prompt">In&nbsp;[187]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>expected()
@@ -6408,7 +6351,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[188]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[187]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6426,7 +6369,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[189]:</div>
+<div class="prompt input_prompt">In&nbsp;[188]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -6442,7 +6385,7 @@ Type: Record(puiseux: Fraction(Integer),laurent: Fraction(Integer),coef: Sequenc
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[189]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[188]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

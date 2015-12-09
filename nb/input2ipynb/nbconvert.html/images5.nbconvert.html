@@ -340,6 +340,7 @@ div#notebook {
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>  point [cx * (cx2 * (sq2 + cy) + (sx2 * sy * cy)), _
          sx * (cx2 * (sq2 + cy) + (sx2 * sy * cy)), _
+         -sx2 * (sq2 + cy) + cx2 * sy * cy]
 </pre></div>
 
 </div>
@@ -351,18 +352,9 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1:   point [cx * (cx2 * (sq2 + cy) + (sx2 * sy * cy)), _
-  Line   2:          sx * (cx2 * (sq2 + cy) + (sx2 * sy * cy)), _
-  Line   3: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
 
 </pre>
 </div>
@@ -372,7 +364,9 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   [cx cy sx2 sy + cx cx2 sq2 + cx cx2 cy, cy sx sx2 sy + (cx2 sq2 + cx2 cy)sx,
+    cx2 cy sy + (- sq2 - cy)sx2]
+                                             Type: Point(Polynomial(Integer))
 </pre>
 </div>
 
@@ -387,7 +381,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>         -sx2 * (sq2 + cy) + cx2 * sy * cy]
+<div class=" highlight hl-spad"><pre>draw(klein, 0..4*%pi, 0..2*%pi, var1Steps==50, var2Steps==50, _
+     title==&quot;Figure Eight Klein Bottle&quot;)
 </pre></div>
 
 </div>
@@ -399,9 +394,10 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiling function klein with type (DoubleFloat,DoubleFloat) -&gt; 
+      DoubleFloat 
+   Transmitting data...
 
 </pre>
 </div>
@@ -411,93 +407,8 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>draw(klein, 0..4*%pi, 0..2*%pi, var1Steps==50, var2Steps==50, _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: draw(klein, 0..4*%pi, 0..2*%pi, var1Steps==50, var2Steps==50, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>     title==&quot;Figure Eight Klein Bottle&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   ThreeDimensionalViewport: &quot;Figure Eight Klein Bottle&quot;
+                                               Type: ThreeDimensionalViewport
 </pre>
 </div>
 
@@ -519,7 +430,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)read ntube
@@ -542,7 +453,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -568,7 +479,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rotateBy(p, theta) ==
@@ -585,7 +496,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -611,7 +522,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>bcircle t ==
@@ -626,7 +537,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -652,7 +563,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>twist(u, t) ==
@@ -669,7 +580,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -685,10 +596,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>ntubeDrawOpt(bcircle, twist, 0..2*%pi, 0..2*%pi, _
+             var1Steps == 70, var2Steps == 250)
 </pre></div>
 
 </div>
@@ -701,61 +613,28 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: ntubeDrawOpt(bcircle, twist, 0..2*%pi, 0..2*%pi, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+<pre>   There are no library operations named ntubeDrawOpt 
+      Use HyperDoc Browse or issue
+                            )what op ntubeDrawOpt
+      to learn if there is any operation containing &quot; ntubeDrawOpt &quot; in
+      its name.
+ 
+   Cannot find a definition or applicable library operation named 
+      ntubeDrawOpt with argument type(s) 
+                           FunctionCalled(bcircle)
+                            FunctionCalled(twist)
+                                 Segment(Pi)
+                                 Segment(Pi)
+                              List(DrawOption)
+      
+      Perhaps you should use &quot;@&quot; to indicate the required return type, 
+      or &quot;$&quot; to specify which version of the function you need.
 
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>             var1Steps == 70, var2Steps == 250)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -791,7 +670,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>twist2(u, t) ==
@@ -808,7 +687,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -834,7 +713,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>cf(u,v) == sin(21*u)
@@ -848,7 +727,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -864,10 +743,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>ntubeDrawOpt(bcircle, twist2, 0..2*%pi, 0..2*%pi, _
+              colorFunction == cf, var1Steps == 168, var2Steps == 126)
 </pre></div>
 
 </div>
@@ -880,22 +760,30 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: ntubeDrawOpt(bcircle, twist2, 0..2*%pi, 0..2*%pi, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+<pre>   Compiling function cf with type (DoubleFloat,DoubleFloat) -&gt; 
+      DoubleFloat 
+   There are no library operations named ntubeDrawOpt 
+      Use HyperDoc Browse or issue
+                            )what op ntubeDrawOpt
+      to learn if there is any operation containing &quot; ntubeDrawOpt &quot; in
+      its name.
+ 
+   Cannot find a definition or applicable library operation named 
+      ntubeDrawOpt with argument type(s) 
+                           FunctionCalled(bcircle)
+                           FunctionCalled(twist2)
+                                 Segment(Pi)
+                                 Segment(Pi)
+                              List(DrawOption)
+      
+      Perhaps you should use &quot;@&quot; to indicate the required return type, 
+      or &quot;$&quot; to specify which version of the function you need.
 
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -911,46 +799,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>              colorFunction == cf, var1Steps == 168, var2Steps == 126)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -966,7 +815,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

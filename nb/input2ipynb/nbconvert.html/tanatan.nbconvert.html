@@ -467,6 +467,7 @@ div#notebook {
 <div class=" highlight hl-spad"><pre>thetans:=_
  [[construct(j,i.j,Is(argument(i.j).1,n * atan(y))) for j in 1..#i_
       |is?(i.j,tan) and is?(argument(i.j).1,n * atan(y))] _
+          for i in thetowers] ;
 </pre></div>
 
 </div>
@@ -476,72 +477,12 @@ div#notebook {
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: thetans:=_
-  Line   2:  [[construct(j,i.j,Is(argument(i.j).1,n * atan(y))) for j in 1..#i_
-           .A
-  Error  A: Missing mate.
-  Line   3:       |is?(i.j,tan) and is?(argument(i.j).1,n * atan(y))] _
-  Line   4: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Possibly missing a ] 
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   4 error(s) parsing 
-
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>          for i in thetowers] ;
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>Type: List(List(Record(i: Integer,k: Kernel(Expression(Integer)),z: List(Equation(Expression(Integer))))))
 </pre>
 </div>
 
@@ -563,13 +504,14 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>thesubs:=_
   [construct([j.k for j in thetans.i],_
              [tanNa(rhs(j.z.2),rhs(j.z.1) ::INT)$TangentExpansions(EXPR INT)_
                         for j in thetans.i]) _
+            for i in 1..#theproofs];
 </pre></div>
 
 </div>
@@ -580,72 +522,11 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: thesubs:=_
-  Line   2:   [construct([j.k for j in thetans.i],_
-           ..A
-  Error  A: Missing mate.
-  Line   3:              [tanNa(rhs(j.z.2),rhs(j.z.1) ::INT)$TangentExpansions(EXPR INT)_
-  Line   4:                         for j in thetans.i]) _
-  Line   5: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Possibly missing a ] 
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   4 error(s) parsing 
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>            for i in 1..#theproofs];
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>Type: List(Record(a: List(Kernel(Expression(Integer))),b: List(Expression(Integer))))
 </pre>
 </div>
 
@@ -667,7 +548,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>thezeros:=[eval(i,j.a,j.b) for i in theproofs for j in thesubs]
@@ -681,22 +562,12 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   thesubs is declared as being in List(Record(a: List(Kernel(
-      Expression(Integer))),b: List(Expression(Integer)))) but has not 
-      been given a value.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   [0,0,0,0,0]
+                                              Type: List(Expression(Integer))
 </pre>
 </div>
 
@@ -708,7 +579,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -724,7 +595,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

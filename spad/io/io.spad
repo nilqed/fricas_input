@@ -208,6 +208,7 @@ InputOutput() : Exports == Implementation where
         if isContinuation? s then
           push!(s,CN)
           if not isContinuation? t  then
+            push!(pop! SL, CN)
             writeContinuation(f2,CN)
             writeLine!(f2,",")
         --

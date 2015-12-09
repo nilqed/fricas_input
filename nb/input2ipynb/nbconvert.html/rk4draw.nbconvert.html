@@ -1440,6 +1440,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>llp := [[p0,p1],[p1,p2],[p2,p3],[p3,p4],[p4,p5],_
+       [p5,p6],[p6,p7],[p7,p8],[p8,p9],[p9,p10]]
 </pre></div>
 
 </div>
@@ -1451,17 +1452,17 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: llp := [[p0,p1],[p1,p2],[p2,p3],[p3,p4],[p4,p5],_
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+
+
+
+
+
+
+
+
 
 </pre>
 </div>
@@ -1471,7 +1472,17 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   [[[3.0,0.0],[3.0999999999999996,0.01980133316360838]],
+    [[3.0999999999999996,0.01980133316360838],[3.2,0.03921066169008301]],
+    [[3.2,0.03921066169008301],[3.3,0.05823596297824615]],
+    [[3.3,0.05823596297824615],[3.4,0.07688517999552073]],
+    [[3.4,0.07688517999552073],[3.5,0.09516620649658869]],
+    [[3.5,0.09516620649658869],[3.5999999999999996,0.11308687382224544]],
+    [[3.5999999999999996,0.11308687382224544],[3.7,0.13065493916981838]],
+    [[3.7,0.13065493916981838],[3.8,0.14787807523001478]],
+    [[3.8,0.14787807523001478],[3.9,0.16476386108904262]],
+    [[3.9,0.16476386108904262],[4.0,0.18131977429917756]]]
+                                         Type: List(List(Point(DoubleFloat)))
 </pre>
 </div>
 
@@ -1486,45 +1497,6 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>       [p5,p6],[p6,p7],[p7,p8],[p8,p9],[p9,p10]]
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>pc2 := dim green()
 </pre></div>
 
@@ -1536,7 +1508,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1553,7 +1525,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>lpc := [pc2, pc2, pc2, pc2, pc2, pc2, pc2, pc2, pc2, pc2]
@@ -1583,7 +1555,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1609,11 +1581,12 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>lc := [pastel blue(), light yellow(), dim green(),_
        bright red(), light green(),dim yellow(), _
+       bright blue(),dark red(), pastel red(), light blue()]
 </pre></div>
 
 </div>
@@ -1625,28 +1598,37 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: lc := [pastel blue(), light yellow(), dim green(),_
-  Line   2:        bright red(), light green(),dim yellow(), _
-  Line   3: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>
+
+
+
+
+
+
+
+
+
 
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   [[Hue: 22  Weight: 1.0] from the Pastel palette,
+    [Hue: 11  Weight: 1.0] from the Light palette,
+    [Hue: 14  Weight: 1.0] from the Dim palette,
+    [Hue: 1  Weight: 1.0] from the Bright palette,
+    [Hue: 14  Weight: 1.0] from the Light palette,
+    [Hue: 11  Weight: 1.0] from the Dim palette,
+    [Hue: 22  Weight: 1.0] from the Bright palette,
+    [Hue: 1  Weight: 1.0] from the Dark palette,
+    [Hue: 1  Weight: 1.0] from the Pastel palette,
+    [Hue: 22  Weight: 1.0] from the Light palette]
+                                                          Type: List(Palette)
 </pre>
 </div>
 
@@ -1658,46 +1640,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>       bright blue(),dark red(), pastel red(), light blue()]
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>size1 := 4::PositiveInteger
@@ -1711,7 +1654,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1728,7 +1671,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>lsize := [size1, size1, size1, size1, size1, size1, size1, size1, size1, size1]
@@ -1742,7 +1685,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1759,7 +1702,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>g:= makeGraphImage(llp,lpc,lc,lsize)$GRIMAGE
@@ -1773,33 +1716,12 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are no exposed library operations named makeGraphImage but 
-      there are 3 unexposed operations with that name. Use HyperDoc 
-      Browse or issue
-                         )display op makeGraphImage
-      to learn more about the available operations.
- 
-   Cannot find a definition or applicable library operation named 
-      makeGraphImage with argument type(s) 
-                                   Symbol
-                                List(Palette)
-                                   Symbol
-                            List(PositiveInteger)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[46]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   Graph with 10 point lists
+                                                             Type: GraphImage
 </pre>
 </div>
 
@@ -1811,7 +1733,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>makeViewport2D(g,[title(&quot;RK4&quot;)])$VIEW2D
@@ -1826,30 +1748,19 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are no exposed library operations named makeViewport2D but 
-      there are 2 unexposed operations with that name. Use HyperDoc 
-      Browse or issue
-                         )display op makeViewport2D
-      to learn more about the available operations.
- 
-   Cannot find a definition or applicable library operation named 
-      makeViewport2D with argument type(s) 
-                                   Symbol
-                              List(DrawOption)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Graph data being transmitted to the viewport manager...
+   FriCAS2D data being transmitted to the viewport manager...
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[47]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   TwoDimensionalViewport: &quot;RK4&quot;
+                                                 Type: TwoDimensionalViewport
 </pre>
 </div>
 
@@ -1861,7 +1772,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -1877,7 +1788,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[48]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[46]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

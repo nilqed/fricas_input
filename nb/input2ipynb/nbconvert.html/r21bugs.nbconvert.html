@@ -2448,6 +2448,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 [0,0,0,1,0,0,0,0],_
 [0,0,0,0,1,0,0,0],_
 [0,0,0,0,0,1,0,0],_
+[0,0,0,0,0,0,1,0]];
 </pre></div>
 
 </div>
@@ -2458,38 +2459,12 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: tt:Matrix SAEa:=[_
-  Line   2: [0,0,0,1,1,1,0,1],_
-  Line   3: [1,0,0,0,0,0,0,0],_
-  Line   4: [0,1,0,0,0,0,0,0],_
-  Line   5: [0,0,1,0,0,0,0,0],_
-  Line   6: [0,0,0,1,0,0,0,0],_
-  Line   7: [0,0,0,0,1,0,0,0],_
-  Line   8: [0,0,0,0,0,1,0,0],_
-  Line   9: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[60]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>Type: Matrix(SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2)),a^8+a^4+a^3+a^2+1))
+</pre>
 </div>
 
 </div>
@@ -2503,7 +2478,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>[0,0,0,0,0,0,1,0]];
+<div class=" highlight hl-spad"><pre>T:=transpose tt
 </pre></div>
 
 </div>
@@ -2514,20 +2489,26 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[61]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   +0  1  0  0  0  0  0  0+
+   |                      |
+   |0  0  1  0  0  0  0  0|
+   |                      |
+   |0  0  0  1  0  0  0  0|
+   |                      |
+   |1  0  0  0  1  0  0  0|
+   |                      |
+   |1  0  0  0  0  1  0  0|
+   |                      |
+   |1  0  0  0  0  0  1  0|
+   |                      |
+   |0  0  0  0  0  0  0  1|
+   |                      |
+   +1  0  0  0  0  0  0  0+
+Type: Matrix(SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2)),a^8+a^4+a^3+a^2+1))
 </pre>
 </div>
 
@@ -2542,7 +2523,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>T:=transpose tt
+<div class=" highlight hl-spad"><pre>T0:=T^91
 </pre></div>
 
 </div>
@@ -2553,32 +2534,26 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 1 unexposed library operations named 
-      transpose having 1 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                            )display op transpose
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      transpose with argument type(s) 
-                                Variable(tt)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[62]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   +0  1  1  1  0  1  0  1+
+   |                      |
+   |1  0  1  1  1  0  1  0|
+   |                      |
+   |0  1  0  1  1  1  0  1|
+   |                      |
+   |0  0  1  0  1  1  1  0|
+   |                      |
+   |0  1  1  0  0  0  1  0|
+   |                      |
+   |0  1  0  0  0  1  0  0|
+   |                      |
+   |1  1  0  1  0  1  1  1|
+   |                      |
+   +1  1  1  0  1  0  1  1+
+Type: Matrix(SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2)),a^8+a^4+a^3+a^2+1))
 </pre>
 </div>
 
@@ -2593,7 +2568,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>T0:=T^91
+<div class=" highlight hl-spad"><pre>T1:=T^95
 </pre></div>
 
 </div>
@@ -2608,9 +2583,22 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>    91
-   T
-                                                    Type: Polynomial(Integer)
+<pre>   +0  0  0  1  0  1  1  1+
+   |                      |
+   |1  0  0  0  1  0  1  1|
+   |                      |
+   |0  1  0  0  0  1  0  1|
+   |                      |
+   |0  0  1  0  0  0  1  0|
+   |                      |
+   |0  0  0  0  0  1  1  0|
+   |                      |
+   |1  0  0  1  0  1  0  0|
+   |                      |
+   |0  1  0  1  1  1  0  1|
+   |                      |
+   +0  0  1  0  1  1  1  0+
+Type: Matrix(SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2)),a^8+a^4+a^3+a^2+1))
 </pre>
 </div>
 
@@ -2623,38 +2611,6 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[64]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>T1:=T^95
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[64]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>    95
-   T
-                                                    Type: Polynomial(Integer)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)clear completely
@@ -2678,7 +2634,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[65]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[64]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2703,7 +2659,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>u1:=operator &#39;u1
@@ -2717,7 +2673,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[66]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[65]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2734,7 +2690,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[67]:</div>
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>u2:=operator &#39;u2
@@ -2748,7 +2704,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[67]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[66]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2765,7 +2721,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>eq1 := D(u1(t),t,2) + 5*u1(t) = 2*u2(t)
@@ -2779,7 +2735,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[68]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[67]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2798,7 +2754,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[69]:</div>
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>eq2 := D(u2(t),t,2) + 2*u2(t) = 2*u1(t)
@@ -2812,7 +2768,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[69]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[68]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2831,7 +2787,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
+<div class="prompt input_prompt">In&nbsp;[69]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>eq1/2
@@ -2845,7 +2801,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[70]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[69]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2866,7 +2822,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="prompt input_prompt">In&nbsp;[70]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>_rule(rhs %, lhs %)
@@ -2880,7 +2836,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[71]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[70]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2901,7 +2857,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="prompt input_prompt">In&nbsp;[71]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>%(lhs eq2)=%(rhs eq2)
@@ -2915,7 +2871,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[72]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[71]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2936,7 +2892,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="prompt input_prompt">In&nbsp;[72]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rightZero %
@@ -2950,7 +2906,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[73]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[72]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2971,7 +2927,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>-2*%
@@ -2985,7 +2941,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[74]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[73]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3004,7 +2960,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>eval(lhs %,u1,exp(r*t),t)
@@ -3026,7 +2982,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[74]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3044,7 +3000,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>%/exp(r*t)
@@ -3058,7 +3014,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[76]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3076,7 +3032,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>solve(%,r)
@@ -3090,7 +3046,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[76]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3108,7 +3064,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>[eval(exp(r*t),eq) for eq in %]
@@ -3122,7 +3078,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[78]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3141,7 +3097,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>map(complexForm, %::List EXPR COMPLEX INT)
@@ -3163,7 +3119,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[79]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[78]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3183,7 +3139,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[80]:</div>
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>[real %(1), imag %(1), real %(3), imag %(3)]
@@ -3197,7 +3153,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[79]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3215,7 +3171,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>gform:= u1(t)=reduce(+, [c[i]*%.i for i in 1..#%])
@@ -3229,7 +3185,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3248,7 +3204,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>_rule(lhs %, rhs %)
@@ -3262,7 +3218,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[82]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3281,7 +3237,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>%(lhs eq1)=rhs eq1
@@ -3295,7 +3251,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[83]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[82]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3314,7 +3270,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>%/2
@@ -3328,7 +3284,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[84]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[83]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3359,7 +3315,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="prompt input_prompt">In&nbsp;[84]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>inits := [u1(0)=1, eval(D(u1 t,t),t=0)=0, u2(0)=2, eval(D(u2 t,t),t=0)=0]
@@ -3373,7 +3329,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[85]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[84]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3392,7 +3348,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="prompt input_prompt">In&nbsp;[85]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>eqq := eq1-5*u1(t)
@@ -3406,7 +3362,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[86]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[85]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3425,7 +3381,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="prompt input_prompt">In&nbsp;[86]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>eval(eqq,t=0)
@@ -3439,7 +3395,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[87]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[86]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3458,7 +3414,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[88]:</div>
+<div class="prompt input_prompt">In&nbsp;[87]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>eval(%,inits)
@@ -3472,7 +3428,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[88]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[87]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3491,7 +3447,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[89]:</div>
+<div class="prompt input_prompt">In&nbsp;[88]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>inits:=cons(%,inits)
@@ -3505,7 +3461,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[89]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[88]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3524,7 +3480,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[90]:</div>
+<div class="prompt input_prompt">In&nbsp;[89]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>D(eqq,t)
@@ -3538,7 +3494,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[90]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[89]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3557,7 +3513,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[91]:</div>
+<div class="prompt input_prompt">In&nbsp;[90]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>eval(%,t=0)
@@ -3571,7 +3527,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[91]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[90]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3590,7 +3546,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="prompt input_prompt">In&nbsp;[91]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)clear completely
@@ -3614,7 +3570,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[92]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[91]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3639,7 +3595,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[93]:</div>
+<div class="prompt input_prompt">In&nbsp;[92]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>u:=operator &#39;u
@@ -3653,7 +3609,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[93]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[92]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3670,7 +3626,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[94]:</div>
+<div class="prompt input_prompt">In&nbsp;[93]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>exp:=D(u t,t)
@@ -3684,7 +3640,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[94]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[93]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3703,7 +3659,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[95]:</div>
+<div class="prompt input_prompt">In&nbsp;[94]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>k:=kernels(exp).1
@@ -3717,7 +3673,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[95]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[94]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3736,7 +3692,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[96]:</div>
+<div class="prompt input_prompt">In&nbsp;[95]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>l:=argument %
@@ -3750,7 +3706,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[96]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[95]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3767,7 +3723,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[97]:</div>
+<div class="prompt input_prompt">In&nbsp;[96]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>difop:=operator k
@@ -3781,7 +3737,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[97]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[96]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3798,7 +3754,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="prompt input_prompt">In&nbsp;[97]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>l2:=[l.1+l.2,l.2,l.3]
@@ -3812,7 +3768,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[98]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[97]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3829,7 +3785,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[99]:</div>
+<div class="prompt input_prompt">In&nbsp;[98]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>bug:=evaluate(difop,l2)
@@ -3843,7 +3799,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[99]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[98]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3862,7 +3818,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[100]:</div>
+<div class="prompt input_prompt">In&nbsp;[99]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>kernels(bug).1
@@ -3876,7 +3832,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[100]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[99]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3895,7 +3851,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[101]:</div>
+<div class="prompt input_prompt">In&nbsp;[100]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>argument %
@@ -3909,7 +3865,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[101]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[100]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3926,7 +3882,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[102]:</div>
+<div class="prompt input_prompt">In&nbsp;[101]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>eval(bug,t=0)
@@ -3940,7 +3896,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[102]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[101]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3959,7 +3915,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[103]:</div>
+<div class="prompt input_prompt">In&nbsp;[102]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)clear completely
@@ -3983,7 +3939,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[103]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[102]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3998,7 +3954,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[104]:</div>
+<div class="prompt input_prompt">In&nbsp;[103]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>R := Polynomial(PrimeField(3)) ;
@@ -4012,7 +3968,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[104]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[103]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4028,7 +3984,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[105]:</div>
+<div class="prompt input_prompt">In&nbsp;[104]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>A := UP(&#39;X, R)
@@ -4042,7 +3998,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[105]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[104]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4059,7 +4015,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[106]:</div>
+<div class="prompt input_prompt">In&nbsp;[105]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>X : A := monomial(1, 1) ;
@@ -4073,7 +4029,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[106]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[105]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4089,7 +4045,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[107]:</div>
+<div class="prompt input_prompt">In&nbsp;[106]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f : A := a*X^3 + b*X^2 + c*X + d
@@ -4103,7 +4059,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[107]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[106]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4121,7 +4077,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[108]:</div>
+<div class="prompt input_prompt">In&nbsp;[107]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>discriminant(f)
@@ -4135,7 +4091,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[108]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[107]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4153,7 +4109,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[109]:</div>
+<div class="prompt input_prompt">In&nbsp;[108]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>s := differentiate f
@@ -4167,7 +4123,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[109]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[108]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4184,7 +4140,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[110]:</div>
+<div class="prompt input_prompt">In&nbsp;[109]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>resultant(f,s)
@@ -4198,7 +4154,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[110]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[109]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4216,7 +4172,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[111]:</div>
+<div class="prompt input_prompt">In&nbsp;[110]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>exquo(%,leadingCoefficient(f))
@@ -4230,7 +4186,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[111]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[110]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -4247,7 +4203,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[112]:</div>
+<div class="prompt input_prompt">In&nbsp;[111]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -4263,7 +4219,7 @@ Type: SimpleAlgebraicExtension(PrimeField(2),UnivariatePolynomial(a,PrimeField(2
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[112]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[111]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

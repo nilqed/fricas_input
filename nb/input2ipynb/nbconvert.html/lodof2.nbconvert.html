@@ -908,6 +908,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testFactor ([(xx^9 + xx^3)*d +(-sqrt 91+7)*xx^8+(-sqrt 91 + 1)*xx^2, _
             d + ((sqrt 91 + 6)*xx^6 + sqrt 91)/(xx^7+xx), _
+            d + (5*xx^6 - 1)/(xx^7 + xx)], [sqrt 91])
 </pre></div>
 
 </div>
@@ -917,71 +918,13 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testFactor ([(xx^9 + xx^3)*d +(-sqrt 91+7)*xx^8+(-sqrt 91 + 1)*xx^2, _
-  Line   2:             d + ((sqrt 91 + 6)*xx^6 + sqrt 91)/(xx^7+xx), _
-  Line   3: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>            d + (5*xx^6 - 1)/(xx^7 + xx)], [sqrt 91])
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   Better to use old factorizer
+                                                                   Type: Void
 </pre>
 </div>
 
@@ -1003,7 +946,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testFactor ([d^3 + 2 * d^2 + 5 / xx * d + 7 / xx^2], [])
@@ -1017,7 +960,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1043,7 +986,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testFactor ([2*xx^3 * d^2 + 3*xx^2 * d - 2, 2*xx^3 * d^2 + 3*xx^2 * d - 2], [])
@@ -1057,7 +1000,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1075,7 +1018,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testFactor ([d^2 + xx^3 + x1^3, d^2 + xx^2 - x1^3], [])
@@ -1089,7 +1032,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1119,7 +1062,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testFactor ([d, d, d^3 + xx^2 * d^2 - x1^3 * d + (xx+1) / (xx-1)], [])
@@ -1133,7 +1076,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1151,7 +1094,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testFactor ([d, d, d^3 + xx^2 * d^2 - x1^3 * d + 1], [])
@@ -1165,7 +1108,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1193,7 +1136,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testFactor ([xx^6*d + (- sqrt(-1) + 5)*xx^5, _
@@ -1201,6 +1144,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
             d + 5/xx, _
             d + 4/xx, _
             d + 3*xx^2/(xx^3-1), _
+            d + (-xx^3-2)/(xx^4-xx)], [sqrt(-1)])
 </pre></div>
 
 </div>
@@ -1211,73 +1155,15 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testFactor ([xx^6*d + (- sqrt(-1) + 5)*xx^5, _
-  Line   2:             d + (sqrt(-1)+4)/xx, _
-  Line   3:             d + 5/xx, _
-  Line   4:             d + 4/xx, _
-  Line   5:             d + 3*xx^2/(xx^3-1), _
-  Line   6: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>            d + (-xx^3-2)/(xx^4-xx)], [sqrt(-1)])
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   Better to use old factorizer
+   Better to use old factorizer
+   Better to use old factorizer
+   Better to use old factorizer
+                                                                   Type: Void
 </pre>
 </div>
 
@@ -1299,7 +1185,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testFactor ([d^2 + x1 + xx, d, d, d^3 + xx^2 * d^2 - x1^3 * d + (xx+1) / (xx-1)], [])
@@ -1313,7 +1199,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1331,7 +1217,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>statistics()
@@ -1345,7 +1231,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1456,6 +1342,22 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
    Testcase: factor
    test: 24
    testing in a domain without InputForm!
+   Testsuite: LODOF2
+   Testcase: factor
+   test: 25
+   testing in a domain without InputForm!
+   Testsuite: LODOF2
+   Testcase: factor
+   test: 26
+   testing in a domain without InputForm!
+   Testsuite: LODOF2
+   Testcase: factor
+   test: 27
+   testing in a domain without InputForm!
+   Testsuite: LODOF2
+   Testcase: factor
+   test: 28
+   testing in a domain without InputForm!
 
    =============================================================================
    Testsuite: LODOF2
@@ -1463,13 +1365,13 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 
    =============================================================================
    testsuite | testcases: failed (total) | tests: failed (total)
-   LODOF2                      0     (1)               0    (24)
+   LODOF2                      0     (1)               0    (28)
    =============================================================================
    File summary.
    unexpected failures: 0
    expected failures: 0
    unexpected passes: 0
-   total tests: 24
+   total tests: 28
                                                                    Type: Void
 </pre>
 </div>
@@ -1482,7 +1384,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -1498,7 +1400,7 @@ Type: ((SparseUnivariatePolynomial(Expression(Integer)),List(Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

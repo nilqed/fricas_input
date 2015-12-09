@@ -788,6 +788,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>draw(curve(g1,g2),0..2*%pi,_
+           coordinates == polar,title == &quot;Parametric polar curve&quot;)
 </pre></div>
 
 </div>
@@ -799,17 +800,9 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: draw(curve(g1,g2),0..2*%pi,_
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Graph data being transmitted to the viewport manager...
+   FriCAS2D data being transmitted to the viewport manager...
 
 </pre>
 </div>
@@ -819,7 +812,8 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   TwoDimensionalViewport: &quot;Parametric polar curve&quot;
+                                                 Type: TwoDimensionalViewport
 </pre>
 </div>
 
@@ -832,45 +826,6 @@ div#notebook {
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           coordinates == polar,title == &quot;Parametric polar curve&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>h1(t:DFLOAT):DFLOAT == t
@@ -887,6 +842,44 @@ div#notebook {
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>   Function declaration h1 : DoubleFloat -&gt; DoubleFloat has been added 
+      to workspace.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>h2(t:DFLOAT):DFLOAT == 2
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Function declaration h2 : DoubleFloat -&gt; DoubleFloat has been added 
       to workspace.
 </pre>
 </div>
@@ -911,44 +904,6 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>h2(t:DFLOAT):DFLOAT == 2
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration h2 : DoubleFloat -&gt; DoubleFloat has been added 
-      to workspace.
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>draw(curve(h1,h2),-3..3,coordinates == parabolic,title == &quot;Parabolic plot&quot;)
 </pre></div>
 
@@ -970,7 +925,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -997,7 +952,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>i1(t:DFLOAT):DFLOAT == sin(t)*cos(3*t/5)
@@ -1014,6 +969,44 @@ div#notebook {
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>   Function declaration i1 : DoubleFloat -&gt; DoubleFloat has been added 
+      to workspace.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>i2(t:DFLOAT):DFLOAT == cos(t)*cos(3*t/5)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Function declaration i2 : DoubleFloat -&gt; DoubleFloat has been added 
       to workspace.
 </pre>
 </div>
@@ -1038,7 +1031,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>i2(t:DFLOAT):DFLOAT == cos(t)*cos(3*t/5)
+<div class=" highlight hl-spad"><pre>i3(t:DFLOAT):DFLOAT == cos(t)*sin(3*t/5)
 </pre></div>
 
 </div>
@@ -1051,7 +1044,7 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration i2 : DoubleFloat -&gt; DoubleFloat has been added 
+<pre>   Function declaration i3 : DoubleFloat -&gt; DoubleFloat has been added 
       to workspace.
 </pre>
 </div>
@@ -1076,44 +1069,6 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>i3(t:DFLOAT):DFLOAT == cos(t)*sin(3*t/5)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration i3 : DoubleFloat -&gt; DoubleFloat has been added 
-      to workspace.
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>draw(curve(i1,i2,i3),0..15*%pi,title == &quot;Parametric curve&quot;)
 </pre></div>
 
@@ -1135,7 +1090,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1152,7 +1107,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>draw(curve(i1,i2,i3),0..15*%pi,tubeRadius == .15,title == &quot;Tube around curve&quot;)
@@ -1173,7 +1128,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1190,7 +1145,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>j1(t:DFLOAT):DFLOAT == 4
@@ -1207,6 +1162,44 @@ div#notebook {
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>   Function declaration j1 : DoubleFloat -&gt; DoubleFloat has been added 
+      to workspace.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>j2(t:DFLOAT):DFLOAT == t
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Function declaration j2 : DoubleFloat -&gt; DoubleFloat has been added 
       to workspace.
 </pre>
 </div>
@@ -1231,44 +1224,6 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>j2(t:DFLOAT):DFLOAT == t
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration j2 : DoubleFloat -&gt; DoubleFloat has been added 
-      to workspace.
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>draw(curve(j1,j2,j2),-9..9,coordinates == cylindrical,title == &quot;Spiral&quot;)
 </pre></div>
 
@@ -1289,7 +1244,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1306,7 +1261,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>k1(t:DFLOAT):DFLOAT == 1
@@ -1323,6 +1278,44 @@ div#notebook {
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>   Function declaration k1 : DoubleFloat -&gt; DoubleFloat has been added 
+      to workspace.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>k2(t:DFLOAT):DFLOAT == t/7
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Function declaration k2 : DoubleFloat -&gt; DoubleFloat has been added 
       to workspace.
 </pre>
 </div>
@@ -1347,7 +1340,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>k2(t:DFLOAT):DFLOAT == t/7
+<div class=" highlight hl-spad"><pre>k3(t:DFLOAT):DFLOAT == t/5
 </pre></div>
 
 </div>
@@ -1360,7 +1353,7 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration k2 : DoubleFloat -&gt; DoubleFloat has been added 
+<pre>   Function declaration k3 : DoubleFloat -&gt; DoubleFloat has been added 
       to workspace.
 </pre>
 </div>
@@ -1385,7 +1378,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>k3(t:DFLOAT):DFLOAT == t/5
+<div class=" highlight hl-spad"><pre>draw(curve(k1,k2,k3),-70*%pi..70*%pi,coordinates == spherical,_
+           title == &quot;Gnarly curve on sphere&quot;)
 </pre></div>
 
 </div>
@@ -1398,8 +1392,11 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration k3 : DoubleFloat -&gt; DoubleFloat has been added 
-      to workspace.
+<pre>   Compiling function k1 with type DoubleFloat -&gt; DoubleFloat 
+   Compiling function k2 with type DoubleFloat -&gt; DoubleFloat 
+   Compiling function k3 with type DoubleFloat -&gt; DoubleFloat 
+   Transmitting data...
+
 </pre>
 </div>
 </div>
@@ -1408,93 +1405,8 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>draw(curve(k1,k2,k3),-70*%pi..70*%pi,coordinates == spherical,_
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: draw(curve(k1,k2,k3),-70*%pi..70*%pi,coordinates == spherical,_
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           title == &quot;Gnarly curve on sphere&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[32]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   ThreeDimensionalViewport: &quot;Gnarly curve on sphere&quot;
+                                               Type: ThreeDimensionalViewport
 </pre>
 </div>
 
@@ -1516,7 +1428,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>l(x:DFLOAT,y:DFLOAT):DFLOAT == cos(x*y)
@@ -1534,6 +1446,84 @@ div#notebook {
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>   Function declaration l : (DoubleFloat,DoubleFloat) -&gt; DoubleFloat 
       has been added to workspace.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>draw(l,-3..3,-3..3)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiling function l with type (DoubleFloat,DoubleFloat) -&gt; 
+      DoubleFloat 
+   Transmitting data...
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[32]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   ThreeDimensionalViewport: &quot;FriCAS3D&quot;
+                                               Type: ThreeDimensionalViewport
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>colorFunction1(x:DFLOAT,y:DFLOAT):DFLOAT == x
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Function declaration colorFunction1 : (DoubleFloat,DoubleFloat) -&gt; 
+      DoubleFloat has been added to workspace.
 </pre>
 </div>
 </div>
@@ -1557,7 +1547,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>draw(l,-3..3,-3..3)
+<div class=" highlight hl-spad"><pre>draw(l,-3..3,-3..3,colorFunction == colorFunction1)
 </pre></div>
 
 </div>
@@ -1570,8 +1560,8 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function l with type (DoubleFloat,DoubleFloat) -&gt; 
-      DoubleFloat 
+<pre>   Compiling function colorFunction1 with type (DoubleFloat,DoubleFloat
+      ) -&gt; DoubleFloat 
    Transmitting data...
 </pre>
 </div>
@@ -1597,7 +1587,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>colorFunction1(x:DFLOAT,y:DFLOAT):DFLOAT == x
+<div class=" highlight hl-spad"><pre>colorFunction2(x:DFLOAT,y:DFLOAT):DFLOAT == x^2 + y^2
 </pre></div>
 
 </div>
@@ -1610,7 +1600,7 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration colorFunction1 : (DoubleFloat,DoubleFloat) -&gt; 
+<pre>   Function declaration colorFunction2 : (DoubleFloat,DoubleFloat) -&gt; 
       DoubleFloat has been added to workspace.
 </pre>
 </div>
@@ -1635,7 +1625,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>draw(l,-3..3,-3..3,colorFunction == colorFunction1)
+<div class=" highlight hl-spad"><pre>draw(l,-3..3,-3..3,colorFunction == colorFunction2)
 </pre></div>
 
 </div>
@@ -1648,7 +1638,7 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function colorFunction1 with type (DoubleFloat,DoubleFloat
+<pre>   Compiling function colorFunction2 with type (DoubleFloat,DoubleFloat
       ) -&gt; DoubleFloat 
    Transmitting data...
 </pre>
@@ -1675,7 +1665,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>colorFunction2(x:DFLOAT,y:DFLOAT):DFLOAT == x^2 + y^2
+<div class=" highlight hl-spad"><pre>colorFunction3(x:DFLOAT,y:DFLOAT,z:DFLOAT):DFLOAT == -z
 </pre></div>
 
 </div>
@@ -1688,8 +1678,8 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration colorFunction2 : (DoubleFloat,DoubleFloat) -&gt; 
-      DoubleFloat has been added to workspace.
+<pre>   Function declaration colorFunction3 : (DoubleFloat,DoubleFloat,
+      DoubleFloat) -&gt; DoubleFloat has been added to workspace.
 </pre>
 </div>
 </div>
@@ -1713,7 +1703,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>draw(l,-3..3,-3..3,colorFunction == colorFunction2)
+<div class=" highlight hl-spad"><pre>draw(l,-3..3,-3..3,colorFunction == colorFunction3)
 </pre></div>
 
 </div>
@@ -1726,8 +1716,8 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function colorFunction2 with type (DoubleFloat,DoubleFloat
-      ) -&gt; DoubleFloat 
+<pre>   Compiling function colorFunction3 with type (DoubleFloat,DoubleFloat
+      ,DoubleFloat) -&gt; DoubleFloat 
    Transmitting data...
 </pre>
 </div>
@@ -1753,7 +1743,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>colorFunction3(x:DFLOAT,y:DFLOAT,z:DFLOAT):DFLOAT == -z
+<div class=" highlight hl-spad"><pre>m(u:DFLOAT,v:DFLOAT):DFLOAT == 1
 </pre></div>
 
 </div>
@@ -1766,8 +1756,8 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration colorFunction3 : (DoubleFloat,DoubleFloat,
-      DoubleFloat) -&gt; DoubleFloat has been added to workspace.
+<pre>   Function declaration m : (DoubleFloat,DoubleFloat) -&gt; DoubleFloat 
+      has been added to workspace.
 </pre>
 </div>
 </div>
@@ -1791,84 +1781,6 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>draw(l,-3..3,-3..3,colorFunction == colorFunction3)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function colorFunction3 with type (DoubleFloat,DoubleFloat
-      ,DoubleFloat) -&gt; DoubleFloat 
-   Transmitting data...
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   ThreeDimensionalViewport: &quot;FriCAS3D&quot;
-                                               Type: ThreeDimensionalViewport
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>m(u:DFLOAT,v:DFLOAT):DFLOAT == 1
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration m : (DoubleFloat,DoubleFloat) -&gt; DoubleFloat 
-      has been added to workspace.
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>draw(m,0..2*%pi,0..%pi,coordinates == spherical,title == &quot;Sphere&quot;)
 </pre></div>
 
@@ -1889,7 +1801,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1906,10 +1818,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>draw(m,0..2*%pi,0..%pi,coordinates == spherical,_
+           colorFunction == colorFunction2,title == &quot;Sphere&quot;)
 </pre></div>
 
 </div>
@@ -1921,27 +1834,19 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: draw(m,0..2*%pi,0..%pi,coordinates == spherical,_
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Transmitting data...
 
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   ThreeDimensionalViewport: &quot;Sphere&quot;
+                                               Type: ThreeDimensionalViewport
 </pre>
 </div>
 
@@ -1953,49 +1858,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           colorFunction == colorFunction2,title == &quot;Sphere&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>draw(m,-%pi/2..%pi/2,0..2*%pi,coordinates == oblateSpheroidal(1$DFLOAT),_
+           title == &quot;Oblate spheroidal coordinates&quot;)
 </pre></div>
 
 </div>
@@ -2007,66 +1874,19 @@ div#notebook {
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1: draw(m,-%pi/2..%pi/2,0..2*%pi,coordinates == oblateSpheroidal(1$DFLOAT),_
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Transmitting data...
 
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           title == &quot;Oblate spheroidal coordinates&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[46]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   ThreeDimensionalViewport: &quot;Oblate spheroidal coordinates&quot;
+                                               Type: ThreeDimensionalViewport
 </pre>
 </div>
 
@@ -2088,7 +1908,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>n1(u:DFLOAT,v:DFLOAT):DFLOAT == 5*sin(u)*cos(v)
@@ -2110,7 +1930,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[47]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2126,7 +1946,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>n2(u:DFLOAT,v:DFLOAT):DFLOAT == 4*sin(u)*sin(v)
@@ -2148,7 +1968,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[48]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2164,7 +1984,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>n3(u:DFLOAT,v:DFLOAT):DFLOAT == 3*cos(u)
@@ -2186,7 +2006,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[49]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2202,7 +2022,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>draw(surface(n1,n2,n3),0..%pi,0..2*%pi,title == &quot;Which came first?&quot;)
@@ -2229,7 +2049,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[50]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[46]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2246,7 +2066,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -2262,7 +2082,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[51]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[47]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

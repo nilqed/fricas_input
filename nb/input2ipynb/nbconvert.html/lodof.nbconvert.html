@@ -873,6 +873,7 @@ Type: LinearOrdinaryDifferentialOperator1(Fraction(UnivariatePolynomial(t,Algebr
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testFactor [(t^9 + t^3)*d +(-sqrt 91+7)*t^8+(-sqrt 91 + 1)*t^2, _
             d + ((sqrt 91 + 6)*t^6 + sqrt 91)/(t^7+t), _
+            d + (5*t^6 - 1)/(t^7 + t)]
 </pre></div>
 
 </div>
@@ -882,71 +883,12 @@ Type: LinearOrdinaryDifferentialOperator1(Fraction(UnivariatePolynomial(t,Algebr
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testFactor [(t^9 + t^3)*d +(-sqrt 91+7)*t^8+(-sqrt 91 + 1)*t^2, _
-  Line   2:             d + ((sqrt 91 + 6)*t^6 + sqrt 91)/(t^7+t), _
-  Line   3: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>            d + (5*t^6 - 1)/(t^7 + t)]
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -968,10 +910,55 @@ Type: LinearOrdinaryDifferentialOperator1(Fraction(UnivariatePolynomial(t,Algebr
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testFactor [d^3 + 2 * d^2 + 5 / t * d + 7 / t^2]
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>reducible order 6 operator (1-1-1-1-1-1)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testFactor [t^6*d + (- sqrt(-1) + 5)*t^5, _
+            d + (sqrt(-1)+4)/t, _
+            d + 5/t, _
+            d + 4/t, _
+            d + 3*t^2/(t^3-1), _
+            d + (-t^3-2)/(t^4-t)]
 </pre></div>
 
 </div>
@@ -1001,112 +988,6 @@ Type: LinearOrdinaryDifferentialOperator1(Fraction(UnivariatePolynomial(t,Algebr
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>reducible order 6 operator (1-1-1-1-1-1)</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testFactor [t^6*d + (- sqrt(-1) + 5)*t^5, _
-            d + (sqrt(-1)+4)/t, _
-            d + 5/t, _
-            d + 4/t, _
-            d + 3*t^2/(t^3-1), _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testFactor [t^6*d + (- sqrt(-1) + 5)*t^5, _
-  Line   2:             d + (sqrt(-1)+4)/t, _
-  Line   3:             d + 5/t, _
-  Line   4:             d + 4/t, _
-  Line   5:             d + 3*t^2/(t^3-1), _
-  Line   6: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>            d + (-t^3-2)/(t^4-t)]
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>reducible order 4 operator (2-2)</p>
 
 </div>
@@ -1114,7 +995,7 @@ Type: LinearOrdinaryDifferentialOperator1(Fraction(UnivariatePolynomial(t,Algebr
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>xftestFactor [2*t^3 * d^2 + 3*t^2 * d - 2, 2*t^3 * d^2 + 3*t^2 * d - 2]
@@ -1137,7 +1018,7 @@ Type: LinearOrdinaryDifferentialOperator1(Fraction(UnivariatePolynomial(t,Algebr
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1153,7 +1034,7 @@ Type: LinearOrdinaryDifferentialOperator1(Fraction(UnivariatePolynomial(t,Algebr
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>statistics()
@@ -1167,7 +1048,7 @@ Type: LinearOrdinaryDifferentialOperator1(Fraction(UnivariatePolynomial(t,Algebr
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1214,6 +1095,14 @@ Type: LinearOrdinaryDifferentialOperator1(Fraction(UnivariatePolynomial(t,Algebr
    Testcase: factor
    test: 8
    testing in a domain without InputForm!
+   Testsuite: factor$LODOF
+   Testcase: factor
+   test: 9
+   testing in a domain without InputForm!
+   Testsuite: factor$LODOF
+   Testcase: factor
+   test: 10
+   testing in a domain without InputForm!
 
    =============================================================================
    Testsuite: factor$LODOF
@@ -1221,13 +1110,13 @@ Type: LinearOrdinaryDifferentialOperator1(Fraction(UnivariatePolynomial(t,Algebr
 
    =============================================================================
    testsuite | testcases: failed (total) | tests: failed (total)
-   factor$LODOF                0     (1)               0     (8)
+   factor$LODOF                0     (1)               0    (10)
    =============================================================================
    File summary.
    unexpected failures: 0
    expected failures: 1
    unexpected passes: 0
-   total tests: 8
+   total tests: 10
                                                                    Type: Void
 </pre>
 </div>
@@ -1240,7 +1129,7 @@ Type: LinearOrdinaryDifferentialOperator1(Fraction(UnivariatePolynomial(t,Algebr
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -1256,7 +1145,7 @@ Type: LinearOrdinaryDifferentialOperator1(Fraction(UnivariatePolynomial(t,Algebr
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

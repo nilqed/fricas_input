@@ -437,6 +437,7 @@ Warning: HyperTeX macro table not found
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;columnSpace(M::RMATRIX(4,3,INT))&quot;, _
+           &quot;[[1,4,7,1],[2,5,8,1]]::List DIRPROD(4, INT)&quot;)
 </pre></div>
 
 </div>
@@ -447,31 +448,12 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;columnSpace(M::RMATRIX(4,3,INT))&quot;, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>                                                                   Type: Void
+</pre>
 </div>
 
 </div>
@@ -483,45 +465,6 @@ Warning: HyperTeX macro table not found
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           &quot;[[1,4,7,1],[2,5,8,1]]::List DIRPROD(4, INT)&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;Pfaffian&quot;
@@ -542,6 +485,39 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>m n == matrix [[(if i = j then 0 _
+                          else if i &lt; j _
+                               then x[i, j] _
+                               else -x[j, i]) for i in 1..n] for j in 1..n]
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
 <div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
 
 
@@ -561,9 +537,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>m n == matrix [[(if i = j then 0 _
-                          else if i &lt; j _
-                               then x[i, j] _
+<div class=" highlight hl-spad"><pre>testEquals(&quot;Pfaffian [[0,1,0,0],[-1,0,0,0],[0,0,0,1],[0,0,-1,0]]&quot;, &quot;1&quot;)
 </pre></div>
 
 </div>
@@ -574,35 +548,12 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: m n == matrix [[(if i = j then 0 _
-           ...............A
-  Error  A: Missing mate.
-  Line   2:                           else if i &lt; j _
-  Line   3:                                then x[i, j] _
-  Line   4: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Possibly missing a ] 
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   4 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>                                                                   Type: Void
+</pre>
 </div>
 
 </div>
@@ -616,7 +567,8 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>                               else -x[j, i]) for i in 1..n] for j in 1..n]
+<div class=" highlight hl-spad"><pre>testEquals(&quot;Pfaffian [[0, u, v, w],[-u, 0, x, y],[-v,-x,0,z],[-w,-y,-z,0]]&quot;, _
+           &quot;u*z-v*y+w*x&quot;)
 </pre></div>
 
 </div>
@@ -627,20 +579,11 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -655,7 +598,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;Pfaffian [[0,1,0,0],[-1,0,0,0],[0,0,0,1],[0,0,-1,0]]&quot;, &quot;1&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;Pfaffian m 3&quot;, &quot;0&quot;)
 </pre></div>
 
 </div>
@@ -665,6 +608,14 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiling function m with type PositiveInteger -&gt; Matrix(Polynomial(
+      Integer)) 
+</pre>
+</div>
+</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
 
@@ -685,142 +636,6 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;Pfaffian [[0, u, v, w],[-u, 0, x, y],[-v,-x,0,z],[-w,-y,-z,0]]&quot;, _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;Pfaffian [[0, u, v, w],[-u, 0, x, y],[-v,-x,0,z],[-w,-y,-z,0]]&quot;, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           &quot;u*z-v*y+w*x&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;Pfaffian m 3&quot;, &quot;0&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are no library operations named m 
-      Use HyperDoc Browse or issue
-                                 )what op m
-      to learn if there is any operation containing &quot; m &quot; in its name.
- 
-   Cannot find a definition or applicable library operation named m 
-      with argument type(s) 
-                               PositiveInteger
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;Pfaffian [[0,0],[0,0]]&quot;, &quot;0&quot;)
 </pre></div>
 
@@ -832,7 +647,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -848,7 +663,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>M := m 6;
@@ -862,19 +677,111 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
+<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                            Type: Matrix(Polynomial(Integer))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;(Pfaffian M)^2&quot;, &quot;determinant M&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testLibraryError &quot;Pfaffian [[1,2],[0,0]]&quot;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are no library operations named m 
-      Use HyperDoc Browse or issue
-                                 )what op m
-      to learn if there is any operation containing &quot; m &quot; in its name.
- 
-   Cannot find a definition or applicable library operation named m 
-      with argument type(s) 
-                               PositiveInteger
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
+<pre> 
+   &gt;&gt; Error detected within library code:
+   Pfaffian: only defined for antisymmetric square matrices!
+
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>error
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testLibraryError &quot;Pfaffian [[1,2,3],[0,0,0]]&quot;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre> 
+   &gt;&gt; Error detected within library code:
+   Pfaffian: only defined for antisymmetric square matrices!
 
 </pre>
 </div>
@@ -899,137 +806,6 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;(Pfaffian M)^2&quot;, &quot;determinant M&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 2 exposed and 0 unexposed library operations named 
-      Pfaffian having 1 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                            )display op Pfaffian
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      Pfaffian with argument type(s) 
-                                 Variable(M)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testLibraryError &quot;Pfaffian [[1,2],[0,0]]&quot;
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   &gt;&gt; Error detected within library code:
-   Pfaffian: only defined for antisymmetric square matrices!
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testLibraryError &quot;Pfaffian [[1,2,3],[0,0,0]]&quot;
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   &gt;&gt; Error detected within library code:
-   Pfaffian: only defined for antisymmetric square matrices!
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>statistics()
 </pre></div>
 
@@ -1041,7 +817,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1057,38 +833,31 @@ Warning: HyperTeX macro table not found
    =============================================================================
    WARNINGS:
    Testsuite: MATCAT
+   Testcase: columnSpace
+   test: 4
+   testing in a domain without InputForm!
+   Testsuite: MATCAT
    Testcase: Pfaffian
    test: 1
    testing in a domain without InputForm!
    Testsuite: MATCAT
    Testcase: Pfaffian
-   test: 3
+   test: 4
    testing in a domain without InputForm!
 
    =============================================================================
    Testsuite: MATCAT
-     failed (total): 1 (2)
-
-     failed testcases were:
-     ---------------------------------------------------------------------------
-     Testcase: Pfaffian
-       failed (total): 2 (6)
-
-     fatal tests were:
-
-         2: EQUL: (Pfaffian m 3, 0)
-
-         4: EQUL: ((Pfaffian M)^2, determinant M)
+     failed (total): 0 (2)
 
    =============================================================================
    testsuite | testcases: failed (total) | tests: failed (total)
-   MATCAT                      1     (2)               2     (9)
+   MATCAT                      0     (2)               0    (11)
    =============================================================================
    File summary.
-   unexpected failures: 2
+   unexpected failures: 0
    expected failures: 0
    unexpected passes: 0
-   total tests: 9
+   total tests: 11
                                                                    Type: Void
 </pre>
 </div>
@@ -1101,7 +870,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -1117,7 +886,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

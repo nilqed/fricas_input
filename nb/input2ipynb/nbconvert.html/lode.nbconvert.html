@@ -672,6 +672,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>deq := x^3 * differentiate(y x, x, 3) + x^2 * differentiate(y x, x, 2) - _
+2 * x * differentiate(y x, x) + 2 * y x - 2 * x^4
 </pre></div>
 
 </div>
@@ -682,30 +683,15 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: deq := x^3 * differentiate(y x, x, 3) + x^2 * differentiate(y x, x, 2) - _
-  Line   2: )--premature end
-           AB
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   2 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>    3 ,,,       2 ,,         ,                4
+   x y   (x) + x y  (x) - 2xy (x) + 2y(x) - 2x
+
+                                                    Type: Expression(Integer)
+</pre>
 </div>
 
 </div>
@@ -719,7 +705,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>2 * x * differentiate(y x, x) + 2 * y x - 2 * x^4
+<div class=" highlight hl-spad"><pre>res := solve(deq, y, x)
 </pre></div>
 
 </div>
@@ -734,10 +720,11 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>      ,                4
-   2xy (x) + 2y(x) - 2x
-
-                                                    Type: Expression(Integer)
+<pre>                 5      3      2               3     2      3      3     2
+                x  - 10x  + 20x  + 4         2x  - 3x  + 1 x  - 1 x  - 3x  - 1
+   [particular= --------------------,basis= [-------------,------,------------]]
+                         15x                       x          x         x
+Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Integer))),...)
 </pre>
 </div>
 
@@ -752,7 +739,8 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>res := solve(deq, y, x)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;res&quot;,
+           &quot;[(x^5-10*x^3+20*x^2+4)/(15*x),[(2*x^3-3*x^2+1)/x, (x^3-1)/x, (x^3-3*x^2-1)/x]]$SOL&quot;)
 </pre></div>
 
 </div>
@@ -767,8 +755,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   [particular= 0,basis= [cos(x),sin(x)]]
-Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Integer))),...)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -783,8 +770,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;res&quot;,
-           &quot;[(x^5-10*x^3+20*x^2+4)/(15*x),[(2*x^3-3*x^2+1)/x, (x^3-1)/x, (x^3-3*x^2-1)/x]]$SOL&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;eval(deq, y, res.particular + reduce(+, res.basis, 0), x)&quot;, &quot;0&quot;)
 </pre></div>
 
 </div>
@@ -794,6 +780,14 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiling function %BA with type Expression(Integer) -&gt; Expression(
+      Integer) 
+</pre>
+</div>
+</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
 
@@ -814,7 +808,8 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;eval(deq, y, res.particular + reduce(+, res.basis, 0), x)&quot;, &quot;0&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;solve(deq, y, x = 1, [b, 0, a])&quot;,
+           &quot;(2*x^5+10*(a-b-1)*x^3+(30*b-15*a+10)*x^2+10*b+5*a-2)/(30*x)&quot;)
 </pre></div>
 
 </div>
@@ -824,14 +819,6 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function %X with type Expression(Integer) -&gt; Expression(
-      Integer) 
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
 
@@ -852,62 +839,6 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;solve(deq, y, x = 1, [b, 0, a])&quot;,
-           &quot;(2*x^5+10*(a-b-1)*x^3+(30*b-15*a+10)*x^2+10*b+5*a-2)/(30*x)&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   There are 1 exposed and 0 unexposed library operations named 
-      testEqualsAux having 3 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                          )display op testEqualsAux
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      testEqualsAux with argument type(s) 
-                                   String
-                                   failed
-                        Fraction(Polynomial(Integer))
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcaseNoClear &quot;third order equation with nontrivial singularities&quot;
 </pre></div>
 
@@ -919,7 +850,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -935,11 +866,12 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>deq := (x^9 + x^3) * differentiate(y x, x, 3) + _
 18 * x^8 * differentiate(y x, x,2) - 90 * x * differentiate(y x, x) - _
+30 * (11*x^6-3) * y x
 </pre></div>
 
 </div>
@@ -950,31 +882,51 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: deq := (x^9 + x^3) * differentiate(y x, x, 3) + _
-  Line   2: 18 * x^8 * differentiate(y x, x,2) - 90 * x * differentiate(y x, x) - _
-  Line   3: )--premature end
-           AB
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   2 error(s) parsing 
-
-   Continuing to read the file...
+<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
 
 
+<div class="output_text output_subarea output_execute_result">
+<pre>     9    3  ,,,         8 ,,          ,             6
+   (x  + x )y   (x) + 18x y  (x) - 90xy (x) + (- 330x  + 90)y(x)
+
+                                                    Type: Expression(Integer)
 </pre>
 </div>
+
 </div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>res := solve(deq, y, x)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
 
 <div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>                                        +--+            +--+
+                                     - \|91 log(x)     \|91 log(x)
+                             x   x %e              x %e
+   [particular= 0,basis= [------,-----------------,---------------]]
+                           6            6                6
+                          x  + 1       x  + 1           x  + 1
+Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Integer))),...)
+</pre>
 </div>
 
 </div>
@@ -988,7 +940,8 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>30 * (11*x^6-3) * y x
+<div class=" highlight hl-spad"><pre>testEquals(&quot;res&quot;,
+           &quot;[0, [x/(x^6+1), x*exp(-sqrt 91*log x)/(x^6+1), x*exp(sqrt 91*log x)/(x^6+1)]]$SOL&quot;)
 </pre></div>
 
 </div>
@@ -1003,9 +956,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>        6
-   (330x  - 90)y(x)
-                                                    Type: Expression(Integer)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -1020,7 +971,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>res := solve(deq, y, x)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;eval(deq, y, res.particular + reduce(+, res.basis, 0), x)&quot;, &quot;0&quot;)
 </pre></div>
 
 </div>
@@ -1031,12 +982,19 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="output">
 
 
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiling function %CE with type Expression(Integer) -&gt; Expression(
+      Integer) 
+</pre>
+</div>
+</div>
+
 <div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   [particular= 0,basis= [cos(x),sin(x)]]
-Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Integer))),...)
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -1051,8 +1009,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;res&quot;,
-           &quot;[0, [x/(x^6+1), x*exp(-sqrt 91*log x)/(x^6+1), x*exp(sqrt 91*log x)/(x^6+1)]]$SOL&quot;)
+<div class=" highlight hl-spad"><pre>testcaseNoClear &quot;third order equation on a curve of genus 0&quot;
 </pre></div>
 
 </div>
@@ -1082,7 +1039,8 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;eval(deq, y, res.particular + reduce(+, res.basis, 0), x)&quot;, &quot;0&quot;)
+<div class=" highlight hl-spad"><pre>deq := (2*x+2)* differentiate(y x, x, 3) + 3* differentiate(y x, x, 2) + _
+(2*x^2+2*x)* differentiate(y x,x) - sqrt(x+1) * y x - 2*x^2 - x + 1
 </pre></div>
 
 </div>
@@ -1093,19 +1051,14 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function %BA with type Expression(Integer) -&gt; Expression(
-      Integer) 
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>            ,,,        ,,         2       ,           +-----+     2
+   (2x + 2)y   (x) + 3y  (x) + (2x  + 2x)y (x) - y(x)\|x + 1  - 2x  - x + 1
+
+                                                    Type: Expression(Integer)
 </pre>
 </div>
 
@@ -1120,7 +1073,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcaseNoClear &quot;third order equation on a curve of genus 0&quot;
+<div class=" highlight hl-spad"><pre>res := solve(deq, y, x)
 </pre></div>
 
 </div>
@@ -1135,7 +1088,9 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>                 +-----+
+   [particular= \|x + 1  + x,basis= []]
+Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Integer))),...)
 </pre>
 </div>
 
@@ -1150,118 +1105,6 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>deq := (2*x+2)* differentiate(y x, x, 3) + 3* differentiate(y x, x, 2) + _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: deq := (2*x+2)* differentiate(y x, x, 3) + 3* differentiate(y x, x, 2) + _
-  Line   2: )--premature end
-           AB
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   2 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>(2*x^2+2*x)* differentiate(y x,x) - sqrt(x+1) * y x - 2*x^2 - x + 1
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>      2       ,           +-----+     2
-   (2x  + 2x)y (x) - y(x)\|x + 1  - 2x  - x + 1
-
-                                                    Type: Expression(Integer)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>res := solve(deq, y, x)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   [particular= 0,basis= [cos(x),sin(x)]]
-Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Integer))),...)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;res&quot;, &quot;[sqrt(x+1)+x, []]$SOL&quot;)
 </pre></div>
 
@@ -1273,7 +1116,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1289,7 +1132,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;eval(deq, y, res.particular + reduce(+, res.basis, 0), x)&quot;, &quot;0&quot;)
@@ -1305,13 +1148,13 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function %BD with type Expression(Integer) -&gt; Expression(
+<pre>   Compiling function %CM with type Expression(Integer) -&gt; Expression(
       Integer) 
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[32]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1327,10 +1170,108 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcaseNoClear &quot;equation irreducible over the rational functions&quot;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>deq := 2*x^3*differentiate(y x,x,2) + 3*x^2*differentiate(y x,x) - 2*y x
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>     3 ,,        2 ,
+   2x y  (x) + 3x y (x) - 2y(x)
+
+                                                    Type: Expression(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>res := solve(deq, y, x)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[32]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                2      2
+                            - ----   ----
+                               +-+    +-+
+                              \|x    \|x
+   [particular= 0,basis= [%e      ,%e    ]]
+Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Integer))),...)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;res&quot;, &quot;[0,[exp(-2/sqrt(x)), exp(2/sqrt(x))]]$SOL&quot;)
 </pre></div>
 
 </div>
@@ -1360,104 +1301,6 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>deq := 2*x^3*differentiate(y x,x,2) + 3*x^2*differentiate(y x,x) - 2*y x
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[34]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>     3 ,,        2 ,
-   2x y  (x) + 3x y (x) - 2y(x)
-
-                                                    Type: Expression(Integer)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>res := solve(deq, y, x)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[35]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                2      2
-                            - ----   ----
-                               +-+    +-+
-                              \|x    \|x
-   [particular= 0,basis= [%e      ,%e    ]]
-Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Integer))),...)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;res&quot;, &quot;[0,[exp(-2/sqrt(x)), exp(2/sqrt(x))]]$SOL&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;eval(deq, y, res.particular + reduce(+, res.basis, 0), x)&quot;, &quot;0&quot;)
 </pre></div>
 
@@ -1471,13 +1314,13 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function %BQ with type Expression(Integer) -&gt; Expression(
+<pre>   Compiling function %CW with type Expression(Integer) -&gt; Expression(
       Integer) 
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[34]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1493,7 +1336,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>expected() ==
@@ -1509,7 +1352,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[35]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1525,7 +1368,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>statistics()
@@ -1539,15 +1382,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1589,65 +1424,14 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 
    =============================================================================
    Testsuite: lode
-     failed (total): 3 (6)
-
-     failed testcases were:
-     ---------------------------------------------------------------------------
-     Testcase: inhomogeneous equations with rational coefficients
-       failed (total): 2 (3)
-
-       failed tests were:
-
-        1: EQUL: (res, [(x^5-10*x^3+20*x^2+4)/(15*x),[(2*x^3-3*x^2+1)/x, (x^3-1
-  )/x, (x^3-3*x^2-1)/x]]$SOL)
-         Output1: [particular= 0,basis= [cos(x),sin(x)]]
-         Output2:
-                   5      3      2
-                  x  - 10x  + 20x  + 4
-     [particular= --------------------,
-                           15x
-                3     2      3      3     2
-              2x  - 3x  + 1 x  - 1 x  - 3x  - 1
-      basis= [-------------,------,------------]]
-                    x          x         x
-
-     fatal tests were:
-
-        3: EQUL: (solve(deq, y, x = 1, [b, 0, a]), (2*x^5+10*(a-b-1)*x^3+(30*b-
-  15*a+10)*x^2+10*b+5*a-2)/(30*x))
-     ---------------------------------------------------------------------------
-     Testcase: third order equation with nontrivial singularities
-       failed (total): 1 (2)
-
-       failed tests were:
-
-        1: EQUL: (res, [0, [x/(x^6+1), x*exp(-sqrt 91*log x)/(x^6+1), x*exp(sqr
-  t 91*log x)/(x^6+1)]]$SOL)
-         Output1: [particular= 0,basis= [cos(x),sin(x)]]
-         Output2:
-                                          +--+            +--+
-                                       - \|91 log(x)     \|91 log(x)
-                               x   x %e              x %e
-     [particular= 0,basis= [------,-----------------,---------------]]
-                             6            6                6
-                            x  + 1       x  + 1           x  + 1
-     ---------------------------------------------------------------------------
-     Testcase: third order equation on a curve of genus 0
-       failed (total): 1 (2)
-
-       failed tests were:
-
-         1: EQUL: (res, [sqrt(x+1)+x, []]$SOL)
-         Output1: [particular= 0,basis= [cos(x),sin(x)]]
-                                +-----+
-         Output2: [particular= \|x + 1  + x,basis= []]
+     failed (total): 0 (6)
 
    =============================================================================
    testsuite | testcases: failed (total) | tests: failed (total)
-   lode                        3     (6)               4    (13)
+   lode                        0     (6)               0    (13)
    =============================================================================
    File summary.
-   unexpected failures: 4
+   unexpected failures: 0
    expected failures: 0
    unexpected passes: 0
    total tests: 13
@@ -1663,7 +1447,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>expected()
@@ -1684,7 +1468,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1702,7 +1486,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -1718,7 +1502,7 @@ Type: Union(Record(particular: Expression(Integer),basis: List(Expression(Intege
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

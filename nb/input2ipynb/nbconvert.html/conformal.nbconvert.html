@@ -552,6 +552,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>    makeObject(c, vRange::Segment Float, colorFunction == cf, space == sp, _
+               tubeRadius == 0.02,  tubePoints == 6)
 </pre></div>
 
 </div>
@@ -564,16 +565,9 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1:     makeObject(c, vRange::Segment Float, colorFunction == cf, space == sp, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+<pre> 
+   Cannot convert the value from type Variable(vRange) to Segment(Float
+      ) .
 
 </pre>
 </div>
@@ -598,8 +592,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>               tubeRadius == 0.02,  tubePoints == 6)
-    u := u + delU
+<div class=" highlight hl-spad"><pre>    u := u + delU
   v := lo vRange
   -- draw the coodinate lines in the u direction
   for i in 1..vSteps repeat
@@ -619,10 +612,21 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1:                tubeRadius == 0.02,  tubePoints == 6)
-           ...................................................A
-  Error  A: Improper syntax.
-   1 error(s) parsing 
+<pre>Warning: HyperTeX macro table not found
+   There are 1 exposed and 0 unexposed library operations named lo 
+      having 1 argument(s) but none was determined to be applicable. 
+      Use HyperDoc Browse, or issue
+                               )display op lo
+      to learn more about the available operations. Perhaps 
+      package-calling the operation or using coercions on the arguments
+      will allow you to apply the operation.
+ 
+   Cannot find a definition or applicable library operation named lo 
+      with argument type(s) 
+                              Variable(vRange)
+      
+      Perhaps you should use &quot;@&quot; to indicate the required return type, 
+      or &quot;$&quot; to specify which version of the function you need.
 
 </pre>
 </div>
@@ -648,6 +652,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>    makeObject(c, uRange::Segment Float, colorFunction == cf, space == sp, _
+               tubeRadius == 0.02,  tubePoints == 6)
 </pre></div>
 
 </div>
@@ -660,16 +665,9 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1:     makeObject(c, uRange::Segment Float, colorFunction == cf, space == sp, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+<pre> 
+   Cannot convert the value from type Variable(uRange) to Segment(Float
+      ) .
 
 </pre>
 </div>
@@ -694,8 +692,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>               tubeRadius == 0.02,  tubePoints == 6)
-    v := v + delV
+<div class=" highlight hl-spad"><pre>    v := v + delV
   void()
 </pre></div>
 
@@ -707,22 +704,13 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1:                tubeRadius == 0.02,  tubePoints == 6)
-           ...................................................A
-  Error  A: Improper syntax.
-   1 error(s) parsing 
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   v + delV
+                                                    Type: Polynomial(Integer)
+                                                                   Type: Void
 </pre>
 </div>
 

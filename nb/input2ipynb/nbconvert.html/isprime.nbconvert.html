@@ -369,6 +369,7 @@ Warning: HyperTeX macro table not found
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>    s := delete(reduce(concat, _
                        [concat [&quot;* primeFactor(&quot;, string f, &quot;,1)&quot;] _
+                        for f in l]), 1)
 </pre></div>
 
 </div>
@@ -381,19 +382,10 @@ Warning: HyperTeX macro table not found
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1:     s := delete(reduce(concat, _
-  Line   2:                        [concat [&quot;* primeFactor(&quot;, string f, &quot;,1)&quot;] _
-           .......................A
-  Error  A: Missing mate.
-  Line   3: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Possibly missing a ] 
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   4 error(s) parsing 
+<pre> 
+   FriCAS cannot iterate with f over your form now. Perhaps you should 
+      try using a conversion to make sure your form is a list or 
+      stream, for example.
 
    Continuing to read the file...
 
@@ -418,45 +410,6 @@ Warning: HyperTeX macro table not found
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>                        for f in l]), 1)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>    testTrue(&quot;not prime? n&quot;)
@@ -496,7 +449,7 @@ Warning: HyperTeX macro table not found
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -524,7 +477,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testFactor [6763, 10627, 29947]
@@ -542,6 +495,43 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>   Compiling function testFactor with type List(Integer) -&gt; Void 
    Compiled code for testFactor has been cleared.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testFactor [1303, 16927, 157543]
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiling function testFactor with type List(Integer) -&gt; Void 
 </pre>
 </div>
 </div>
@@ -565,7 +555,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testFactor [1303, 16927, 157543]
+<div class=" highlight hl-spad"><pre>testFactor [3739, 18691, 153259]
 </pre></div>
 
 </div>
@@ -575,13 +565,6 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function testFactor with type List(Integer) -&gt; Void 
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
 
@@ -602,7 +585,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testFactor [3739, 18691, 153259]
+<div class=" highlight hl-spad"><pre>testFactor [46411, 232051, 417691]
 </pre></div>
 
 </div>
@@ -632,7 +615,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testFactor [46411, 232051, 417691]
+<div class=" highlight hl-spad"><pre>testFactor [21319, 106591, 3005839]
 </pre></div>
 
 </div>
@@ -662,7 +645,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testFactor [21319, 106591, 3005839]
+<div class=" highlight hl-spad"><pre>testcase &quot;negative integers&quot;
 </pre></div>
 
 </div>
@@ -672,6 +655,13 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output_wrapper">
 <div class="output">
 
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
+</pre>
+</div>
+</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[12]:</div>
 
@@ -692,7 +682,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;negative integers&quot;
+<div class=" highlight hl-spad"><pre>testTrue(&quot;prime?(-5)&quot;)
 </pre></div>
 
 </div>
@@ -702,13 +692,6 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
 
@@ -729,7 +712,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue(&quot;prime?(-5)&quot;)
+<div class=" highlight hl-spad"><pre>testTrue(&quot;not prime?(-15)&quot;)
 </pre></div>
 
 </div>
@@ -759,36 +742,6 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue(&quot;not prime?(-15)&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;Davenport Primality Testing Revisited&quot;
 </pre></div>
 
@@ -807,7 +760,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -833,7 +786,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue(&quot;not prime?(137716125329053 * 413148375987157)&quot;)
@@ -847,7 +800,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -873,7 +826,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue(&quot;not prime?(24444516448431392447461 * 48889032896862784894921)&quot;)
@@ -887,7 +840,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -903,7 +856,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;Zhenxiang Zhang, Two kinds of strong pseudoprimes up to 10^36&quot;
@@ -924,7 +877,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -950,7 +903,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>Table1 := [1543267864443420616877677640751301,
@@ -973,7 +926,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -989,7 +942,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>           3573966164315688081500989037680081,_
@@ -1014,6 +967,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
            808460124355439022735025127668137421,_
            812968039437255274477328666971353901,_
            816345937837238810402166547264426261,_
+           964006870224361626772797038309214301];
 </pre></div>
 
 </div>
@@ -1048,15 +1002,10 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
   Line  20:            808460124355439022735025127668137421,_
   Line  21:            812968039437255274477328666971353901,_
   Line  22:            816345937837238810402166547264426261,_
-  Line  23: )--premature end
-           AB
-  Error  A: syntax error at top level
+  Line  23:            964006870224361626772797038309214301];
+           ...............................................A
   Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+   1 error(s) parsing 
 
    Continuing to read the file...
 
@@ -1065,7 +1014,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1080,46 +1029,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           964006870224361626772797038309214301];
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue(&quot;not any?(prime?, Table1)&quot;)
@@ -1155,7 +1065,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1171,7 +1081,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>Table3 := [168790877523676911809192454171451,_
@@ -1193,6 +1103,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
            488694766114162789165236319667944651,_
            615953281715442032393107126795194451,_
            663871524013514481984275366839039183,_
+           678033047702587416969292603094702251];
 </pre></div>
 
 </div>
@@ -1203,87 +1114,11 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: Table3 := [168790877523676911809192454171451,_
-  Line   2:            404006419196517352340186908176331,_
-  Line   3:            638448294554274988128326408678791,_
-  Line   4:            7386491959322896977412581863267131,_
-  Line   5:            14987066152476389521373597949057667,_
-  Line   6:            22072884304282812126783178400582551,_
-  Line   7:            22237516761876676325875933714505851,_
-  Line   8:            22535137585571582393575508859041539,_
-  Line   9:            33197805689160640280977000730295751,_
-  Line  10:            73956318488637465060479221079709511,_
-  Line  11:            84699940865376876461361355974527971,_
-  Line  12:            86114946224343991256730573290132851,_
-  Line  13:            157909679385259051550191589707564171,_
-  Line  14:            164290818021112438861652311523405671,_
-  Line  15:            329688822383744772420052773006657151,_
-  Line  16:            381295376196063449827518388463105491,_
-  Line  17:            488694766114162789165236319667944651,_
-  Line  18:            615953281715442032393107126795194451,_
-  Line  19:            663871524013514481984275366839039183,_
-  Line  20: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           678033047702587416969292603094702251];
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                  Type: List(PositiveInteger)
 </pre>
 </div>
 
@@ -1295,7 +1130,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue(&quot;not any?(prime?, Table3)&quot;)
@@ -1309,33 +1144,11 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 1 exposed and 0 unexposed library operations named any? 
-      having 2 argument(s) but none was determined to be applicable. 
-      Use HyperDoc Browse, or issue
-                              )display op any?
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named any? 
-      with argument type(s) 
-                              Variable(prime?)
-                              Variable(Table3)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -1347,13 +1160,14 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>Proposition1dot1 := [1287836182261 * 2575672364521,_
                      54786377365501 * 109572754731001,_
                      172157429516701 * 344314859033401,_
                      531099297693901 * 1062198595387801,_
+                     27778299663977101 * 55556599327954201];
 </pre></div>
 
 </div>
@@ -1364,72 +1178,11 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: Proposition1dot1 := [1287836182261 * 2575672364521,_
-  Line   2:                      54786377365501 * 109572754731001,_
-  Line   3:                      172157429516701 * 344314859033401,_
-  Line   4:                      531099297693901 * 1062198595387801,_
-  Line   5: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>                     27778299663977101 * 55556599327954201];
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                  Type: List(PositiveInteger)
 </pre>
 </div>
 
@@ -1441,7 +1194,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue(&quot;not any?(prime?, Proposition1dot1)&quot;)
@@ -1455,33 +1208,11 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 1 exposed and 0 unexposed library operations named any? 
-      having 2 argument(s) but none was determined to be applicable. 
-      Use HyperDoc Browse, or issue
-                              )display op any?
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named any? 
-      with argument type(s) 
-                              Variable(prime?)
-                         Variable(Proposition1dot1)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -1503,7 +1234,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>xftestTrue(&quot;not prime?(149491 * 747451 * 34233211)&quot;)
@@ -1517,7 +1248,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1543,7 +1274,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testTrue(&quot;not prime?(399165290221 * 798330580441)&quot;)
@@ -1557,7 +1288,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1573,7 +1304,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>statistics()
@@ -1587,7 +1318,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[32]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1616,22 +1347,18 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
          Output1: false
      ---------------------------------------------------------------------------
      Testcase: Zhenxiang Zhang, Two kinds of strong pseudoprimes up to 10^36
-       failed (total): 3 (5)
+       failed (total): 1 (5)
 
      fatal tests were:
 
          1: TRUE: (not any?(prime?, Table1))
 
-         2: TRUE: (not any?(prime?, Table3))
-
-         3: TRUE: (not any?(prime?, Proposition1dot1))
-
    =============================================================================
    testsuite | testcases: failed (total) | tests: failed (total)
-   prime?$Integer              2     (4)               4    (10)
+   prime?$Integer              2     (4)               2    (10)
    =============================================================================
    File summary.
-   unexpected failures: 4
+   unexpected failures: 2
    expected failures: 1
    unexpected passes: 0
    total tests: 10
@@ -1647,7 +1374,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -1663,7 +1390,7 @@ are the only Carmichael numbers less than 10^16 with this property.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[33]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

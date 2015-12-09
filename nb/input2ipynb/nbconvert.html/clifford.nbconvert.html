@@ -1364,6 +1364,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>    coefficient(a,[2,3])$Ext * i + _
     coefficient(a,[3,1])$Ext * j + _
+    coefficient(a,[1,2])$Ext * k
 </pre></div>
 
 </div>
@@ -1373,55 +1374,8 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1:     coefficient(a,[2,3])$Ext * i + _
-  Line   2:     coefficient(a,[3,1])$Ext * j + _
-  Line   3: )--premature end
-           AB
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   2 error(s) parsing 
-
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[34]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>    coefficient(a,[1,2])$Ext * k
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[35]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1448,7 +1402,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>dual2(x*y)
@@ -1481,7 +1435,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[35]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1507,7 +1461,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)clear p qf
@@ -1521,7 +1475,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1536,7 +1490,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>K := FRAC INT
@@ -1550,7 +1504,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1567,7 +1521,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>g: SQMATRIX(4, K) := [[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,-1]]
@@ -1581,7 +1535,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1604,7 +1558,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>D := CLIF(4, K, g)
@@ -1618,7 +1572,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1646,7 +1600,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>gam := [e(i)$D for i in 1..4]
@@ -1660,7 +1614,7 @@ Type: CliffordAlgebra(3,Fraction(Polynomial(Integer)),[[0,0,0],[0,0,0],[0,0,0]])
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1701,7 +1655,7 @@ Type: List(CliffordAlgebra(4,Fraction(Integer),[[1,0,0,0],[0,-1,0,0],[0,0,-1,0],
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>m := 1; n:= 2; r := 3; s := 4;
@@ -1715,7 +1669,7 @@ Type: List(CliffordAlgebra(4,Fraction(Integer),[[1,0,0,0],[0,-1,0,0],[0,0,-1,0],
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1731,11 +1685,43 @@ Type: List(CliffordAlgebra(4,Fraction(Integer),[[1,0,0,0],[0,-1,0,0],[0,0,-1,0],
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>lhs := reduce(+,[reduce(+,[g(l,t)*gam(l)*gam(m)*gam(n)*gam(r)*gam(s)*gam(t)
              for l in 1..4]) for t in 1..4])
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   - 4e e e e
+       1 2 3 4
+Type: CliffordAlgebra(4,Fraction(Integer),[[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,-1]])
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>rhs := 2*(gam s * gam m*gam n*gam r + gam r*gam n*gam m*gam s)
 </pre></div>
 
 </div>
@@ -1767,38 +1753,6 @@ Type: CliffordAlgebra(4,Fraction(Integer),[[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,
 <div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>rhs := 2*(gam s * gam m*gam n*gam r + gam r*gam n*gam m*gam s)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   - 4e e e e
-       1 2 3 4
-Type: CliffordAlgebra(4,Fraction(Integer),[[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,-1]])
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
 -- EOF
 --
@@ -1812,7 +1766,7 @@ Type: CliffordAlgebra(4,Fraction(Integer),[[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

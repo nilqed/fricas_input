@@ -318,6 +318,7 @@ Warning: HyperTeX macro table not found
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;map(v +-&gt; &#39;x, c +-&gt; c^2, 0)&quot; _
            &quot;$POLYLIFT(INDE Symbol, Symbol, INT, POLY INT, POLY INT)&quot;, _
+           &quot;0&quot;)
 </pre></div>
 
 </div>
@@ -328,32 +329,12 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;map(v +-&gt; &apos;x, c +-&gt; c^2, 0)&quot; _
-  Line   2:            &quot;$POLYLIFT(INDE Symbol, Symbol, INT, POLY INT, POLY INT)&quot;, _
-  Line   3: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[4]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>                                                                   Type: Void
+</pre>
 </div>
 
 </div>
@@ -367,7 +348,9 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>           &quot;0&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;map(v +-&gt; &#39;x, c +-&gt; c^2, 1+r+s+s*t)&quot; _
+           &quot;$POLYLIFT(INDE Symbol, Symbol, INT, POLY INT, POLY INT)&quot;, _
+           &quot;x^2+2*x+1&quot;)
 </pre></div>
 
 </div>
@@ -378,20 +361,11 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -406,8 +380,9 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;map(v +-&gt; &#39;x, c +-&gt; c^2, 1+r+s+s*t)&quot; _
-           &quot;$POLYLIFT(INDE Symbol, Symbol, INT, POLY INT, POLY INT)&quot;, _
+<div class=" highlight hl-spad"><pre>testEquals(&quot;map(v +-&gt; (if v=&#39;s then &#39;x else sqrt v), c +-&gt; sqrt c, 1+2*r+3*s+4*s*t)&quot; _
+           &quot;$POLYLIFT(INDE Symbol, Symbol, INT, POLY INT, EXPR INT)&quot;, _
+           &quot;1+sqrt 2*sqrt r+sqrt 3*x+2*sqrt t*x&quot;)
 </pre></div>
 
 </div>
@@ -418,32 +393,12 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;map(v +-&gt; &apos;x, c +-&gt; c^2, 1+r+s+s*t)&quot; _
-  Line   2:            &quot;$POLYLIFT(INDE Symbol, Symbol, INT, POLY INT, POLY INT)&quot;, _
-  Line   3: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>                                                                   Type: Void
+</pre>
 </div>
 
 </div>
@@ -457,135 +412,6 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>           &quot;x^2+2*x+1&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;map(v +-&gt; (if v=&#39;s then &#39;x else sqrt v), c +-&gt; sqrt c, 1+2*r+3*s+4*s*t)&quot; _
-           &quot;$POLYLIFT(INDE Symbol, Symbol, INT, POLY INT, EXPR INT)&quot;, _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;map(v +-&gt; (if v=&apos;s then &apos;x else sqrt v), c +-&gt; sqrt c, 1+2*r+3*s+4*s*t)&quot; _
-  Line   2:            &quot;$POLYLIFT(INDE Symbol, Symbol, INT, POLY INT, EXPR INT)&quot;, _
-  Line   3: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>           &quot;1+sqrt 2*sqrt r+sqrt 3*x+2*sqrt t*x&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>statistics()
 </pre></div>
 
@@ -597,7 +423,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -617,13 +443,13 @@ Warning: HyperTeX macro table not found
 
    =============================================================================
    testsuite | testcases: failed (total) | tests: failed (total)
-   POLYLIFT                    0     (1)               0     (0)
+   POLYLIFT                    0     (1)               0     (3)
    =============================================================================
    File summary.
    unexpected failures: 0
    expected failures: 0
    unexpected passes: 0
-   total tests: 0
+   total tests: 3
                                                                    Type: Void
 </pre>
 </div>
@@ -636,7 +462,7 @@ Warning: HyperTeX macro table not found
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -652,7 +478,7 @@ Warning: HyperTeX macro table not found
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

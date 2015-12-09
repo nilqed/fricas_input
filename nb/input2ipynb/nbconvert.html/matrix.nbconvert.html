@@ -415,6 +415,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mat1 : IMATRIX(FRAC INT,-3,47) := _
+   matrix [[1/(i + j) for i in 1..5] for j in 1..5]
 </pre></div>
 
 </div>
@@ -424,57 +425,8 @@ div#notebook {
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: mat1 : IMATRIX(FRAC INT,-3,47) := _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>   matrix [[1/(i + j) for i in 1..5] for j in 1..5]
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -497,7 +449,46 @@ div#notebook {
    |1  1  1  1   1|
    |-  -  -  -  --|
    +6  7  8  9  10+
-                                              Type: Matrix(Fraction(Integer))
+                                 Type: IndexedMatrix(Fraction(Integer),-3,47)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>mat1inv := inverse mat1
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   +  450     - 4200    12600    - 15120     6300  +
+   |                                               |
+   |- 4200    44100    - 141120   176400   - 75600 |
+   |                                               |
+   | 12600   - 141120   470400   - 604800   264600 |
+   |                                               |
+   |- 15120   176400   - 604800   793800   - 352800|
+   |                                               |
+   + 6300    - 75600    264600   - 352800   158760 +
+                      Type: Union(IndexedMatrix(Fraction(Integer),-3,47),...)
 </pre>
 </div>
 
@@ -512,57 +503,6 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>mat1inv := inverse mat1
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 3 unexposed library operations named inverse
-      having 1 argument(s) but none was determined to be applicable. 
-      Use HyperDoc Browse, or issue
-                             )display op inverse
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      inverse with argument type(s) 
-                               Variable(mat1)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>mat1 * mat1inv
 </pre></div>
 
@@ -574,12 +514,20 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   mat1 mat1inv
-                                                    Type: Polynomial(Integer)
+<pre>   +1  0  0  0  0+
+   |             |
+   |0  1  0  0  0|
+   |             |
+   |0  0  1  0  0|
+   |             |
+   |0  0  0  1  0|
+   |             |
+   +0  0  0  0  1+
+                                 Type: IndexedMatrix(Fraction(Integer),-3,47)
 </pre>
 </div>
 
@@ -601,7 +549,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mat2 : MATRIX INT := matrix [[j^i for i in 0..4] for j in 1..5]
@@ -615,7 +563,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -640,7 +588,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rowEchelon  mat2
@@ -654,7 +602,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -679,10 +627,41 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>determinant mat2
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   288
+                                                        Type: PositiveInteger
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>minordet    mat2
 </pre></div>
 
 </div>
@@ -708,12 +687,23 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>same computation, different indexing</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>minordet    mat2
+<div class=" highlight hl-spad"><pre>mat3 : IMATRIX(INT,13,-7) := _
+   matrix [[j^i for i in 0..4] for j in 1..5]
 </pre></div>
 
 </div>
@@ -728,8 +718,16 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   288
-                                                        Type: PositiveInteger
+<pre>   +1  1  1    1    1 +
+   |                  |
+   |1  2  4    8   16 |
+   |                  |
+   |1  3  9   27   81 |
+   |                  |
+   |1  4  16  64   256|
+   |                  |
+   +1  5  25  125  625+
+                                           Type: IndexedMatrix(Integer,13,-7)
 </pre>
 </div>
 
@@ -739,22 +737,12 @@ div#notebook {
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>same computation, different indexing</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>mat3 : IMATRIX(INT,13,-7) := _
+<div class=" highlight hl-spad"><pre>rowEchelon  mat3
 </pre></div>
 
 </div>
@@ -765,31 +753,21 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: mat3 : IMATRIX(INT,13,-7) := _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>   +1  0  0  0  0 +
+   |              |
+   |0  1  1  1  1 |
+   |              |
+   |0  0  2  0  2 |
+   |              |
+   |0  0  0  6  12|
+   |              |
+   +0  0  0  0  24+
+                                           Type: IndexedMatrix(Integer,13,-7)
+</pre>
 </div>
 
 </div>
@@ -803,7 +781,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>   matrix [[j^i for i in 0..4] for j in 1..5]
+<div class=" highlight hl-spad"><pre>determinant mat3
 </pre></div>
 
 </div>
@@ -818,16 +796,8 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   +1  1  1    1    1 +
-   |                  |
-   |1  2  4    8   16 |
-   |                  |
-   |1  3  9   27   81 |
-   |                  |
-   |1  4  16  64   256|
-   |                  |
-   +1  5  25  125  625+
-                                                        Type: Matrix(Integer)
+<pre>   288
+                                                        Type: PositiveInteger
 </pre>
 </div>
 
@@ -842,108 +812,6 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>rowEchelon  mat3
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 4 unexposed library operations named 
-      rowEchelon having 1 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                           )display op rowEchelon
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      rowEchelon with argument type(s) 
-                               Variable(mat3)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>determinant mat3
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 1 unexposed library operations named 
-      determinant having 1 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                           )display op determinant
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      determinant with argument type(s) 
-                               Variable(mat3)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>minordet    mat3
 </pre></div>
 
@@ -955,32 +823,12 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 0 unexposed library operations named 
-      minordet having 1 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                            )display op minordet
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      minordet with argument type(s) 
-                               Variable(mat3)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[15]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   288
+                                                        Type: PositiveInteger
 </pre>
 </div>
 
@@ -1002,7 +850,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mat4 : MATRIX FRAC INT := matrix [[j^i for i in 0..4] for j in 1..5]
@@ -1016,7 +864,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[16]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1041,7 +889,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rowEchelon  mat4
@@ -1055,7 +903,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1080,7 +928,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>determinant mat4
@@ -1094,7 +942,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1111,7 +959,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>minordet    mat4
@@ -1125,7 +973,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1152,10 +1000,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mat5 : IMATRIX(FRAC INT,-113,37) := _
+   matrix [[j^i for i in 0..4] for j in 1..5]
 </pre></div>
 
 </div>
@@ -1166,31 +1015,91 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: mat5 : IMATRIX(FRAC INT,-113,37) := _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
+<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
 
 
+<div class="output_text output_subarea output_execute_result">
+<pre>   +1  1  1    1    1 +
+   |                  |
+   |1  2  4    8   16 |
+   |                  |
+   |1  3  9   27   81 |
+   |                  |
+   |1  4  16  64   256|
+   |                  |
+   +1  5  25  125  625+
+                               Type: IndexedMatrix(Fraction(Integer),-113,37)
 </pre>
 </div>
+
 </div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>rowEchelon  mat5
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   +1  0  0  0  0+
+   |             |
+   |0  1  0  0  0|
+   |             |
+   |0  0  1  0  0|
+   |             |
+   |0  0  0  1  0|
+   |             |
+   +0  0  0  0  1+
+                               Type: IndexedMatrix(Fraction(Integer),-113,37)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>determinant mat5
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
 
 <div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>   288
+                                                      Type: Fraction(Integer)
+</pre>
 </div>
 
 </div>
@@ -1204,7 +1113,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>   matrix [[j^i for i in 0..4] for j in 1..5]
+<div class=" highlight hl-spad"><pre>minordet    mat5
 </pre></div>
 
 </div>
@@ -1219,16 +1128,8 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   +1  1  1    1    1 +
-   |                  |
-   |1  2  4    8   16 |
-   |                  |
-   |1  3  9   27   81 |
-   |                  |
-   |1  4  16  64   256|
-   |                  |
-   +1  5  25  125  625+
-                                                        Type: Matrix(Integer)
+<pre>   288
+                                                      Type: Fraction(Integer)
 </pre>
 </div>
 
@@ -1243,159 +1144,6 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>rowEchelon  mat5
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 4 unexposed library operations named 
-      rowEchelon having 1 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                           )display op rowEchelon
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      rowEchelon with argument type(s) 
-                               Variable(mat5)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>determinant mat5
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 1 unexposed library operations named 
-      determinant having 1 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                           )display op determinant
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      determinant with argument type(s) 
-                               Variable(mat5)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>minordet    mat5
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 0 unexposed library operations named 
-      minordet having 1 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                            )display op minordet
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      minordet with argument type(s) 
-                               Variable(mat5)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>mat6 : MATRIX INT := matrix [[1,2,3],[4,5,6],[7,8,9]]
 </pre></div>
 
@@ -1407,7 +1155,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1428,7 +1176,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rowEchelon mat6
@@ -1442,7 +1190,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1463,7 +1211,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rank       mat6
@@ -1477,7 +1225,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1494,7 +1242,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>nullity    mat6
@@ -1508,7 +1256,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1525,7 +1273,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>nullSpace  mat6
@@ -1539,7 +1287,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1556,7 +1304,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mat7 : IMATRIX(FRAC INT,163,61657) := matrix [[1,2,3],[4,5,6],[7,8,9]]
@@ -1570,7 +1318,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[32]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1591,7 +1339,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rowEchelon mat7
@@ -1605,7 +1353,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[33]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[30]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1626,7 +1374,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>rank       mat7
@@ -1640,7 +1388,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[34]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1657,7 +1405,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>nullity    mat7
@@ -1671,7 +1419,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[35]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[32]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1688,7 +1436,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>nullSpace  mat7
@@ -1702,7 +1450,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[33]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1719,10 +1467,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>mat8 : MATRIX INT := _
+ matrix [[1,-2,13,0,5,-47],[-4,15,0,16,-2,1],[-7,0,8,-11,9,0]]
 </pre></div>
 
 </div>
@@ -1733,31 +1482,114 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: mat8 : MATRIX INT := _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
+<div class="output_area"><div class="prompt output_prompt">Out[34]:</div>
 
 
+<div class="output_text output_subarea output_execute_result">
+<pre>   + 1   - 2  13   0     5   - 47+
+   |                             |
+   |- 4  15   0    16   - 2   1  |
+   |                             |
+   +- 7   0   8   - 11   9    0  +
+                                                        Type: Matrix(Integer)
 </pre>
 </div>
+
 </div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>rowEchelon mat8
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[35]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   +1  5  65   16  23  - 234+
+   |                        |
+   |0  7  52   16  18  - 187|
+   |                        |
+   +0  0  203  21  80  - 703+
+                                                        Type: Matrix(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>rank       mat8
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   3
+                                                        Type: PositiveInteger
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>nullity    mat8
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
 
 <div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>   3
+                                                        Type: PositiveInteger
+</pre>
 </div>
 
 </div>
@@ -1771,7 +1603,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[38]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre> matrix [[1,-2,13,0,5,-47],[-4,15,0,16,-2,1],[-7,0,8,-11,9,0]]
+<div class=" highlight hl-spad"><pre>nullSpace  mat8
 </pre></div>
 
 </div>
@@ -1786,12 +1618,8 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   + 1   - 2  13   0     5   - 47+
-   |                             |
-   |- 4  15   0    16   - 2   1  |
-   |                             |
-   +- 7   0   8   - 11   9    0  +
-                                                        Type: Matrix(Integer)
+<pre>   [[- 49,- 44,- 3,29,0,0],[1187,506,- 560,0,1421,0],[5624,1405,4921,0,0,1421]]
+                                                  Type: List(Vector(Integer))
 </pre>
 </div>
 
@@ -1806,7 +1634,8 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>rowEchelon mat8
+<div class=" highlight hl-spad"><pre>mat9 : IMATRIX(FRAC INT,163,61657) := _
+ matrix [[1,-2,13,0,5,-47],[-4,15,0,16,-2,1],[-7,0,8,-11,9,0]]
 </pre></div>
 
 </div>
@@ -1817,32 +1646,16 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 4 unexposed library operations named 
-      rowEchelon having 1 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                           )display op rowEchelon
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      rowEchelon with argument type(s) 
-                               Variable(mat8)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   + 1   - 2  13   0     5   - 47+
+   |                             |
+   |- 4  15   0    16   - 2   1  |
+   |                             |
+   +- 7   0   8   - 11   9    0  +
+                             Type: IndexedMatrix(Fraction(Integer),163,61657)
 </pre>
 </div>
 
@@ -1857,7 +1670,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>rank       mat8
+<div class=" highlight hl-spad"><pre>rowEchelon mat9
 </pre></div>
 
 </div>
@@ -1868,32 +1681,22 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 4 exposed and 3 unexposed library operations named rank 
-      having 1 argument(s) but none was determined to be applicable. 
-      Use HyperDoc Browse, or issue
-                              )display op rank
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named rank 
-      with argument type(s) 
-                               Variable(mat8)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   +         49    1187    5624+
+   |1  0  0  --  - ----  - ----|
+   |         29    1421    1421|
+   |                           |
+   |         44     506    1405|
+   |0  1  0  --  - ----  - ----|
+   |         29    1421    1421|
+   |                           |
+   |          3    80      703 |
+   |0  0  1  --   ---    - --- |
+   +         29   203      203 +
+                             Type: IndexedMatrix(Fraction(Integer),163,61657)
 </pre>
 </div>
 
@@ -1908,7 +1711,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[41]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>nullity    mat8
+<div class=" highlight hl-spad"><pre>rank       mat9
 </pre></div>
 
 </div>
@@ -1919,32 +1722,12 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 1 unexposed library operations named nullity
-      having 1 argument(s) but none was determined to be applicable. 
-      Use HyperDoc Browse, or issue
-                             )display op nullity
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      nullity with argument type(s) 
-                               Variable(mat8)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   3
+                                                        Type: PositiveInteger
 </pre>
 </div>
 
@@ -1959,7 +1742,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>nullSpace  mat8
+<div class=" highlight hl-spad"><pre>nullity    mat9
 </pre></div>
 
 </div>
@@ -1970,32 +1753,12 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 3 unexposed library operations named 
-      nullSpace having 1 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                            )display op nullSpace
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      nullSpace with argument type(s) 
-                               Variable(mat8)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>   3
+                                                        Type: PositiveInteger
 </pre>
 </div>
 
@@ -2010,243 +1773,6 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>mat9 : IMATRIX(FRAC INT,163,61657) := _
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: mat9 : IMATRIX(FRAC INT,163,61657) := _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[44]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre> matrix [[1,-2,13,0,5,-47],[-4,15,0,16,-2,1],[-7,0,8,-11,9,0]]
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   + 1   - 2  13   0     5   - 47+
-   |                             |
-   |- 4  15   0    16   - 2   1  |
-   |                             |
-   +- 7   0   8   - 11   9    0  +
-                                                        Type: Matrix(Integer)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[45]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>rowEchelon mat9
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 4 unexposed library operations named 
-      rowEchelon having 1 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                           )display op rowEchelon
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      rowEchelon with argument type(s) 
-                               Variable(mat9)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[46]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>rank       mat9
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 4 exposed and 3 unexposed library operations named rank 
-      having 1 argument(s) but none was determined to be applicable. 
-      Use HyperDoc Browse, or issue
-                              )display op rank
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named rank 
-      with argument type(s) 
-                               Variable(mat9)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[46]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[47]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>nullity    mat9
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 1 unexposed library operations named nullity
-      having 1 argument(s) but none was determined to be applicable. 
-      Use HyperDoc Browse, or issue
-                             )display op nullity
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      nullity with argument type(s) 
-                               Variable(mat9)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[47]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[48]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>nullSpace  mat9
 </pre></div>
 
@@ -2258,32 +1784,14 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are 3 exposed and 3 unexposed library operations named 
-      nullSpace having 1 argument(s) but none was determined to be 
-      applicable. Use HyperDoc Browse, or issue
-                            )display op nullSpace
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
- 
-   Cannot find a definition or applicable library operation named 
-      nullSpace with argument type(s) 
-                               Variable(mat9)
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[48]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>       49   44    3         1187  506    80         5624 1405 703
+   [[- --,- --,- --,1,0,0],[----,----,- ---,0,1,0],[----,----,---,0,0,1]]
+       29   29   29         1421 1421   203         1421 1421 203
+                             Type: List(IndexedVector(Fraction(Integer),163))
 </pre>
 </div>
 
@@ -2295,7 +1803,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -2311,7 +1819,7 @@ div#notebook {
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[49]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

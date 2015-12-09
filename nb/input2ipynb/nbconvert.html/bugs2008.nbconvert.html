@@ -2466,6 +2466,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;parse(str)$InputForm&quot;, _
+           &quot;convert([packageCall(sin)$iP, 2::InputForm])@InputForm&quot;)
 </pre></div>
 
 </div>
@@ -2476,31 +2477,12 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: testEquals(&quot;parse(str)$InputForm&quot;, _
-  Line   2: )--premature end
-           AB
-  Error  A: syntax error at top level
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[68]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>                                                                   Type: Void
+</pre>
 </div>
 
 </div>
@@ -2514,45 +2496,6 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="prompt input_prompt">In&nbsp;[69]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>           &quot;convert([packageCall(sin)$iP, 2::InputForm])@InputForm&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[69]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[70]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>str := &quot;Float()&quot;
 </pre></div>
 
@@ -2564,7 +2507,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[70]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[69]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2581,7 +2524,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[71]:</div>
+<div class="prompt input_prompt">In&nbsp;[70]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;parse(str)$InputForm&quot;, &quot;getType()$iP&quot;)
@@ -2595,7 +2538,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[71]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[70]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2611,7 +2554,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[72]:</div>
+<div class="prompt input_prompt">In&nbsp;[71]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>str := &quot;sin(2)@Float()&quot;
@@ -2625,7 +2568,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[72]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[71]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2642,7 +2585,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[73]:</div>
+<div class="prompt input_prompt">In&nbsp;[72]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>if1 := parse(&quot;sin(2)&quot;)$InputForm
@@ -2656,7 +2599,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[73]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[72]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2673,7 +2616,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[74]:</div>
+<div class="prompt input_prompt">In&nbsp;[73]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;parse(str)$InputForm&quot;, &quot;atType(if1)$iP&quot;)
@@ -2687,7 +2630,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[74]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[73]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2703,7 +2646,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[75]:</div>
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>str := &quot;sin(2)::Float()&quot;
@@ -2717,7 +2660,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[74]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2734,7 +2677,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[76]:</div>
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;parse(str)$InputForm&quot;, &quot;coerceToType(if1)$iP&quot;)
@@ -2748,7 +2691,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[76]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[75]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2764,7 +2707,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[76]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>str := &quot;sin(2) pretend Float()&quot;
@@ -2778,7 +2721,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[76]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2795,7 +2738,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;parse(str)$InputForm&quot;, &quot;pretendOfType(if1)$iP&quot;)
@@ -2809,7 +2752,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[78]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[77]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2825,7 +2768,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;exp^log(x) (issue #23)&quot;
@@ -2846,6 +2789,36 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[78]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;exp^(2*log(x)) - (exp^log(x))^2&quot;, &quot;0&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
 <div class="output_area"><div class="prompt output_prompt">Out[79]:</div>
 
 
@@ -2863,36 +2836,6 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[80]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;exp^(2*log(x)) - (exp^log(x))^2&quot;, &quot;0&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[81]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;MAP is undefined&quot;
@@ -2913,7 +2856,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[80]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2929,7 +2872,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[82]:</div>
+<div class="prompt input_prompt">In&nbsp;[81]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>R:= UP(&#39;t, INT)
@@ -2943,7 +2886,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[82]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[81]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2960,7 +2903,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[83]:</div>
+<div class="prompt input_prompt">In&nbsp;[82]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>delta(x:R):R == D(x)
@@ -2982,7 +2925,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[83]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[82]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -2998,7 +2941,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[84]:</div>
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>W:= OREUP(&#39;x, R, 1, delta)
@@ -3020,7 +2963,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[84]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[83]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3038,7 +2981,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[85]:</div>
+<div class="prompt input_prompt">In&nbsp;[84]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>x: W := &#39;x
@@ -3052,7 +2995,7 @@ Type: UnivariateSkewPolynomial(E,UnivariatePolynomial(n,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[85]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[84]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3069,7 +3012,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[86]:</div>
+<div class="prompt input_prompt">In&nbsp;[85]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>t: W:= &#39;t
@@ -3083,7 +3026,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[86]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[85]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3100,7 +3043,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[87]:</div>
+<div class="prompt input_prompt">In&nbsp;[86]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;x*t&quot;, &quot;t*x+1&quot;)
@@ -3114,7 +3057,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[87]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[86]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3130,7 +3073,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[88]:</div>
+<div class="prompt input_prompt">In&nbsp;[87]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;Bad fixedPointExquo (issue #301)&quot;
@@ -3151,7 +3094,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[88]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[87]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3167,7 +3110,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[89]:</div>
+<div class="prompt input_prompt">In&nbsp;[88]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>a := operator &#39;a
@@ -3181,7 +3124,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[89]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[88]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3198,7 +3141,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[90]:</div>
+<div class="prompt input_prompt">In&nbsp;[89]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>sol := seriesSolve((2*x-2)*D(a(x),x)+4*a(x),a,x=0,[1])::UTS(EXPR INT, x, 0)
@@ -3221,7 +3164,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[90]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[89]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3239,7 +3182,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[91]:</div>
+<div class="prompt input_prompt">In&nbsp;[90]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testEquals(&quot;[coefficient(sol, i) for i in 0..7]&quot;, &quot;[1,2,3,4,5,6,7,8]&quot;)
@@ -3253,7 +3196,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[91]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[90]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3269,7 +3212,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="prompt input_prompt">In&nbsp;[91]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>testcase &quot;has with signature&quot;
@@ -3290,6 +3233,36 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[91]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[92]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testTrue(&quot;Float has exp : Float -&gt; Float&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
 <div class="output_area"><div class="prompt output_prompt">Out[92]:</div>
 
 
@@ -3309,7 +3282,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 <div class="prompt input_prompt">In&nbsp;[93]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue(&quot;Float has exp : Float -&gt; Float&quot;)
+<div class=" highlight hl-spad"><pre>testTrue(&quot;not(Float has foobar: Float -&gt; Float)&quot;)
 </pre></div>
 
 </div>
@@ -3339,7 +3312,9 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 <div class="prompt input_prompt">In&nbsp;[94]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testTrue(&quot;not(Float has foobar: Float -&gt; Float)&quot;)
+<div class=" highlight hl-spad"><pre>expected() ==
+    messagePrint(&quot;testsuite | testcases: failed (total) | tests: failed (total)&quot;)$OutputForm;
+    messagePrint(&quot;bugs2008                    0    (17)               0    (34)&quot;)$OutputForm
 </pre></div>
 
 </div>
@@ -3369,38 +3344,6 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 <div class="prompt input_prompt">In&nbsp;[95]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>expected() ==
-    messagePrint(&quot;testsuite | testcases: failed (total) | tests: failed (total)&quot;)$OutputForm;
-    messagePrint(&quot;bugs2008                    0    (17)               0    (34)&quot;)$OutputForm
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[95]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[96]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>statistics()
 </pre></div>
 
@@ -3412,7 +3355,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[96]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[95]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3503,13 +3446,13 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 
    =============================================================================
    testsuite | testcases: failed (total) | tests: failed (total)
-   bugs2008                    1    (16)               1    (31)
+   bugs2008                    1    (16)               1    (32)
    =============================================================================
    File summary.
    unexpected failures: 1
    expected failures: 0
    unexpected passes: 0
-   total tests: 31
+   total tests: 32
                                                                    Type: Void
 </pre>
 </div>
@@ -3522,7 +3465,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[97]:</div>
+<div class="prompt input_prompt">In&nbsp;[96]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>expected()
@@ -3543,7 +3486,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[97]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[96]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -3561,7 +3504,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[98]:</div>
+<div class="prompt input_prompt">In&nbsp;[97]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -3577,7 +3520,7 @@ Type: UnivariateSkewPolynomial(x,UnivariatePolynomial(t,Integer),R -&gt; R,theMa
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[98]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[97]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

@@ -364,6 +364,7 @@ div#notebook {
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>makeListFuns(fl:List(Expression Integer),_
+             seg:SegmentBinding Float):List(DoubleFloat-&gt;DoubleFloat) ==
 </pre></div>
 
 </div>
@@ -377,15 +378,11 @@ div#notebook {
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>  Line   1: makeListFuns(fl:List(Expression Integer),_
-  Line   2: )--premature end
-           AB
+  Line   2:              seg:SegmentBinding Float):List(DoubleFloat-&gt;DoubleFloat) ==
+           ......................................................................A
   Error  A: syntax error at top level
   Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   3 error(s) parsing 
+   2 error(s) parsing 
 
 </pre>
 </div>
@@ -410,8 +407,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>             seg:SegmentBinding Float):List(DoubleFloat-&gt;DoubleFloat) ==
-  lfuns:List(DoubleFloat-&gt;DoubleFloat) := empty()
+<div class=" highlight hl-spad"><pre>  lfuns:List(DoubleFloat-&gt;DoubleFloat) := empty()
   for f in fl repeat
     ff : (DoubleFloat-&gt;DoubleFloat) := makeFloatFunction(f, variable seg)$MakeFloatCompiledFunction(Expression Integer)
     lfuns := cons(ff, lfuns)
@@ -428,10 +424,11 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>  Line   1:              seg:SegmentBinding Float):List(DoubleFloat-&gt;DoubleFloat) ==
-           .....................................A
-  Error  A: Improper syntax.
-   1 error(s) parsing 
+<pre>Warning: HyperTeX macro table not found
+ 
+   FriCAS cannot iterate with f over your form now. Perhaps you should 
+      try using a conversion to make sure your form is a list or 
+      stream, for example.
 
 </pre>
 </div>
@@ -469,8 +466,7 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>Warning: HyperTeX macro table not found
-   There are no library operations named makeListFuns 
+<pre>   There are no library operations named makeListFuns 
       Use HyperDoc Browse or issue
                             )what op makeListFuns
       to learn if there is any operation containing &quot; makeListFuns &quot; in

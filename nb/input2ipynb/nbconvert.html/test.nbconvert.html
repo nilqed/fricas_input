@@ -6195,6 +6195,7 @@ Type: TwoDimensionalViewport
  if x case INT then output &quot;Integer Branch&quot; _
  else if x case STRING then output &quot;String Branch&quot; _
  else if x case FLOAT then output &quot;Float Branch&quot; _
+ else output &quot;don&#39;t know&quot;
 </pre></div>
 
 </div>
@@ -6204,99 +6205,8 @@ Type: TwoDimensionalViewport
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>  Line   1: sayBranch x == _
-  Line   2:  if x case INT then output &quot;Integer Branch&quot; _
-  Line   3:  else if x case STRING then output &quot;String Branch&quot; _
-  Line   4:  else if x case FLOAT then output &quot;Float Branch&quot; _
-  Line   5: )--premature end
-           AB
-  Error  A: Improper syntax.
-  Error  B: File 
-            /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input
-             ended where at least one )endif was still needed. An appropriate 
-            number of )endif lines has been assumed.
-   2 error(s) parsing 
-
-   Continuing to read the file...
-
-
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[153]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[154]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre> else output &quot;don&#39;t know&quot;
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-Daly Bug
-   NIL is not a valid identifier to use in FriCAS.
-
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[154]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>error
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[155]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>x:Union(INT,STRING,FLOAT)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[155]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6312,7 +6222,37 @@ Daly Bug
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[156]:</div>
+<div class="prompt input_prompt">In&nbsp;[154]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>x:Union(INT,STRING,FLOAT)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[154]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[155]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>x:=3
@@ -6326,7 +6266,7 @@ Daly Bug
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[156]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[155]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6343,7 +6283,7 @@ Type: Union(Integer,...)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[157]:</div>
+<div class="prompt input_prompt">In&nbsp;[156]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>sayBranch(x)
@@ -6359,25 +6299,16 @@ Type: Union(Integer,...)
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>   There are no library operations named sayBranch 
-      Use HyperDoc Browse or issue
-                             )what op sayBranch
-      to learn if there is any operation containing &quot; sayBranch &quot; in 
-      its name.
- 
+<pre> 
 Daly Bug
-   Cannot find a definition or applicable library operation named 
-      sayBranch with argument type(s) 
-                                   Integer
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
+   case is only used for Unions and the object on the left-hand side 
+      does not belong to a union.
 
 </pre>
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[157]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[156]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6404,7 +6335,7 @@ Daly Bug
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[158]:</div>
+<div class="prompt input_prompt">In&nbsp;[157]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -6425,7 +6356,7 @@ Daly Bug
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[158]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[157]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6440,7 +6371,7 @@ Daly Bug
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[159]:</div>
+<div class="prompt input_prompt">In&nbsp;[158]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>RFI := FRAC POLY INT
@@ -6454,7 +6385,7 @@ Daly Bug
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[159]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[158]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6471,7 +6402,7 @@ Type: Type
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[160]:</div>
+<div class="prompt input_prompt">In&nbsp;[159]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>g:DMP([x,y], RFI) := a^2*x^2/b^2 - c^2*y^2/d^2
@@ -6485,7 +6416,7 @@ Type: Type
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[160]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[159]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6506,7 +6437,7 @@ Type: DistributedMultivariatePolynomial([x,y],Fraction(Polynomial(Integer)))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[161]:</div>
+<div class="prompt input_prompt">In&nbsp;[160]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>factor g
@@ -6520,7 +6451,7 @@ Type: DistributedMultivariatePolynomial([x,y],Fraction(Polynomial(Integer)))
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[161]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[160]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6552,7 +6483,7 @@ Type: Factored(DistributedMultivariatePolynomial([x,y],Fraction(Polynomial(Integ
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[162]:</div>
+<div class="prompt input_prompt">In&nbsp;[161]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -6573,7 +6504,7 @@ Type: Factored(DistributedMultivariatePolynomial([x,y],Fraction(Polynomial(Integ
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[162]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[161]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6588,7 +6519,7 @@ Type: Factored(DistributedMultivariatePolynomial([x,y],Fraction(Polynomial(Integ
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[163]:</div>
+<div class="prompt input_prompt">In&nbsp;[162]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f(u:DoubleFloat, v:DoubleFloat):DoubleFloat == u+v
@@ -6605,6 +6536,44 @@ Type: Factored(DistributedMultivariatePolynomial([x,y],Fraction(Polynomial(Integ
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>   Function declaration f : (DoubleFloat,DoubleFloat) -&gt; DoubleFloat 
+      has been added to workspace.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[162]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[163]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>g(u:DoubleFloat, v:DoubleFloat):DoubleFloat == sin(u+v)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Function declaration g : (DoubleFloat,DoubleFloat) -&gt; DoubleFloat 
       has been added to workspace.
 </pre>
 </div>
@@ -6629,7 +6598,7 @@ Type: Factored(DistributedMultivariatePolynomial([x,y],Fraction(Polynomial(Integ
 <div class="prompt input_prompt">In&nbsp;[164]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>g(u:DoubleFloat, v:DoubleFloat):DoubleFloat == sin(u+v)
+<div class=" highlight hl-spad"><pre>h(u:DoubleFloat, v:DoubleFloat):DoubleFloat == u+cos(v)
 </pre></div>
 
 </div>
@@ -6642,7 +6611,7 @@ Type: Factored(DistributedMultivariatePolynomial([x,y],Fraction(Polynomial(Integ
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration g : (DoubleFloat,DoubleFloat) -&gt; DoubleFloat 
+<pre>   Function declaration h : (DoubleFloat,DoubleFloat) -&gt; DoubleFloat 
       has been added to workspace.
 </pre>
 </div>
@@ -6665,44 +6634,6 @@ Type: Factored(DistributedMultivariatePolynomial([x,y],Fraction(Polynomial(Integ
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[165]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>h(u:DoubleFloat, v:DoubleFloat):DoubleFloat == u+cos(v)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration h : (DoubleFloat,DoubleFloat) -&gt; DoubleFloat 
-      has been added to workspace.
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[165]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[166]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>draw(surface(f,g,h), 0..4, 0..2*%pi)
@@ -6729,7 +6660,7 @@ Type: Factored(DistributedMultivariatePolynomial([x,y],Fraction(Polynomial(Integ
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[166]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[165]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6757,7 +6688,7 @@ Type: ThreeDimensionalViewport
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[167]:</div>
+<div class="prompt input_prompt">In&nbsp;[166]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -6778,6 +6709,35 @@ Type: ThreeDimensionalViewport
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[166]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre></pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[167]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>)set mes test off
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
 <div class="output_area"><div class="prompt output_prompt">Out[167]:</div>
 
 
@@ -6794,35 +6754,6 @@ Type: ThreeDimensionalViewport
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[168]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>)set mes test off
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[168]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[169]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>(1+1)$Ring
@@ -6846,7 +6777,7 @@ Type: ThreeDimensionalViewport
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[169]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[168]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6862,7 +6793,7 @@ Type: ThreeDimensionalViewport
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[170]:</div>
+<div class="prompt input_prompt">In&nbsp;[169]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)set mes test on
@@ -6876,7 +6807,7 @@ Type: ThreeDimensionalViewport
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[170]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[169]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6902,7 +6833,7 @@ Type: ThreeDimensionalViewport
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[171]:</div>
+<div class="prompt input_prompt">In&nbsp;[170]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -6923,7 +6854,7 @@ Type: ThreeDimensionalViewport
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[171]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[170]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6938,7 +6869,7 @@ Type: ThreeDimensionalViewport
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[172]:</div>
+<div class="prompt input_prompt">In&nbsp;[171]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>s := series(sin(a*x), x=0)
@@ -6952,7 +6883,7 @@ Type: ThreeDimensionalViewport
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[172]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[171]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -6972,7 +6903,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[173]:</div>
+<div class="prompt input_prompt">In&nbsp;[172]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>s - a*x
@@ -6992,7 +6923,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[173]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[172]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7015,7 +6946,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[174]:</div>
+<div class="prompt input_prompt">In&nbsp;[173]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>s - sin(a*x)
@@ -7029,7 +6960,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[174]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[173]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7058,7 +6989,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[175]:</div>
+<div class="prompt input_prompt">In&nbsp;[174]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -7079,7 +7010,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[175]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[174]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7094,7 +7025,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[176]:</div>
+<div class="prompt input_prompt">In&nbsp;[175]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>sin %i
@@ -7108,7 +7039,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[176]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[175]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7125,7 +7056,7 @@ Type: Expression(Complex(Integer))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[177]:</div>
+<div class="prompt input_prompt">In&nbsp;[176]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>sin sqrt 2
@@ -7139,7 +7070,7 @@ Type: Expression(Complex(Integer))
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[177]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[176]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7157,7 +7088,7 @@ Type: Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[178]:</div>
+<div class="prompt input_prompt">In&nbsp;[177]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>%i*sqrt(2)
@@ -7171,7 +7102,7 @@ Type: Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[178]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[177]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7189,7 +7120,7 @@ Type: Expression(Complex(Integer))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[179]:</div>
+<div class="prompt input_prompt">In&nbsp;[178]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>sin(%i*sqrt 2)
@@ -7203,7 +7134,7 @@ Type: Expression(Complex(Integer))
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[179]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[178]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7221,7 +7152,7 @@ Type: Expression(Complex(Integer))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[180]:</div>
+<div class="prompt input_prompt">In&nbsp;[179]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>%i * sin(x)
@@ -7235,7 +7166,7 @@ Type: Expression(Complex(Integer))
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[180]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[179]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7252,7 +7183,7 @@ Type: Expression(Complex(Integer))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[181]:</div>
+<div class="prompt input_prompt">In&nbsp;[180]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>sin(x/sqrt(2))
@@ -7266,7 +7197,7 @@ Type: Expression(Complex(Integer))
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[181]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[180]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7297,7 +7228,7 @@ Type: Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[182]:</div>
+<div class="prompt input_prompt">In&nbsp;[181]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -7318,6 +7249,35 @@ Type: Expression(Integer)
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[181]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre></pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[182]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>)set message test off
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
 <div class="output_area"><div class="prompt output_prompt">Out[182]:</div>
 
 
@@ -7334,35 +7294,6 @@ Type: Expression(Integer)
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[183]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>)set message test off
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[183]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[184]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>primaryDecomp xx
@@ -7397,7 +7328,7 @@ Type: Expression(Integer)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[184]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[183]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7413,7 +7344,7 @@ Type: Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[185]:</div>
+<div class="prompt input_prompt">In&nbsp;[184]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)set message test on
@@ -7427,7 +7358,7 @@ Type: Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[185]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[184]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7453,7 +7384,7 @@ Type: Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[186]:</div>
+<div class="prompt input_prompt">In&nbsp;[185]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -7474,7 +7405,7 @@ Type: Expression(Integer)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[186]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[185]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7489,7 +7420,7 @@ Type: Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[187]:</div>
+<div class="prompt input_prompt">In&nbsp;[186]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f l ==
@@ -7504,7 +7435,7 @@ Type: Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[187]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[186]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7520,7 +7451,7 @@ Type: Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[188]:</div>
+<div class="prompt input_prompt">In&nbsp;[187]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f [10,2,53]
@@ -7542,7 +7473,7 @@ Type: Expression(Integer)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[188]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[187]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7559,7 +7490,7 @@ Type: PositiveInteger
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[189]:</div>
+<div class="prompt input_prompt">In&nbsp;[188]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>g l ==
@@ -7574,7 +7505,7 @@ Type: PositiveInteger
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[189]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[188]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7590,7 +7521,7 @@ Type: PositiveInteger
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[190]:</div>
+<div class="prompt input_prompt">In&nbsp;[189]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>w := g [23,1,341,12] ;
@@ -7612,7 +7543,7 @@ Type: PositiveInteger
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[190]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[189]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7628,7 +7559,7 @@ Type: PositiveInteger
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[191]:</div>
+<div class="prompt input_prompt">In&nbsp;[190]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>w(1) + w(3)
@@ -7642,7 +7573,7 @@ Type: PositiveInteger
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[191]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[190]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7680,7 +7611,7 @@ Type: PositiveInteger
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[192]:</div>
+<div class="prompt input_prompt">In&nbsp;[191]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -7701,7 +7632,7 @@ Type: PositiveInteger
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[192]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[191]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7716,7 +7647,7 @@ Type: PositiveInteger
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[193]:</div>
+<div class="prompt input_prompt">In&nbsp;[192]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>a := 2/3
@@ -7730,7 +7661,7 @@ Type: PositiveInteger
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[193]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[192]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7749,7 +7680,7 @@ Type: Fraction(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[194]:</div>
+<div class="prompt input_prompt">In&nbsp;[193]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)set mes test off
@@ -7763,7 +7694,7 @@ Type: Fraction(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[194]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[193]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7778,7 +7709,7 @@ Type: Fraction(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[195]:</div>
+<div class="prompt input_prompt">In&nbsp;[194]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>a::PF 3
@@ -7801,7 +7732,7 @@ Type: Fraction(Integer)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[195]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[194]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7817,7 +7748,7 @@ Type: Fraction(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[196]:</div>
+<div class="prompt input_prompt">In&nbsp;[195]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)set mes test on
@@ -7831,7 +7762,7 @@ Type: Fraction(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[196]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[195]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7846,7 +7777,7 @@ Type: Fraction(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[197]:</div>
+<div class="prompt input_prompt">In&nbsp;[196]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>b := x+1
@@ -7860,7 +7791,7 @@ Type: Fraction(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[197]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[196]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7877,7 +7808,7 @@ Type: Polynomial(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[198]:</div>
+<div class="prompt input_prompt">In&nbsp;[197]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>b:: EXPR FLOAT
@@ -7891,7 +7822,7 @@ Type: Polynomial(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[198]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[197]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7918,7 +7849,7 @@ Type: Expression(Float)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[199]:</div>
+<div class="prompt input_prompt">In&nbsp;[198]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -7939,7 +7870,7 @@ Type: Expression(Float)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[199]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[198]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -7954,7 +7885,7 @@ Type: Expression(Float)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[200]:</div>
+<div class="prompt input_prompt">In&nbsp;[199]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>symbol(s:Symbol,i:Integer):Symbol ==
@@ -7980,6 +7911,36 @@ Type: Expression(Float)
 </div>
 </div>
 
+<div class="output_area"><div class="prompt output_prompt">Out[199]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[200]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>f(a,b) == symbol(a,b)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
 <div class="output_area"><div class="prompt output_prompt">Out[200]:</div>
 
 
@@ -7997,36 +7958,6 @@ Type: Expression(Float)
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[201]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>f(a,b) == symbol(a,b)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[201]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[202]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f(&#39;abc,3)
@@ -8049,7 +7980,7 @@ Type: Expression(Float)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[202]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[201]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8077,7 +8008,7 @@ Type: Symbol
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[203]:</div>
+<div class="prompt input_prompt">In&nbsp;[202]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -8098,7 +8029,7 @@ Type: Symbol
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[203]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[202]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8113,7 +8044,7 @@ Type: Symbol
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[204]:</div>
+<div class="prompt input_prompt">In&nbsp;[203]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f := operator &#39;f
@@ -8127,7 +8058,7 @@ Type: Symbol
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[204]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[203]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8144,7 +8075,7 @@ Type: BasicOperator
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[205]:</div>
+<div class="prompt input_prompt">In&nbsp;[204]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>y := f(x)
@@ -8158,7 +8089,7 @@ Type: BasicOperator
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[205]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[204]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8175,7 +8106,7 @@ Type: Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[206]:</div>
+<div class="prompt input_prompt">In&nbsp;[205]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>foo(u) == sin(u)
@@ -8189,7 +8120,7 @@ Type: Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[206]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[205]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8205,7 +8136,7 @@ Type: Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[207]:</div>
+<div class="prompt input_prompt">In&nbsp;[206]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>eval(y, &#39;f, foo)
@@ -8234,7 +8165,7 @@ Type: Expression(Integer)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[207]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[206]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8262,7 +8193,7 @@ Type: Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[208]:</div>
+<div class="prompt input_prompt">In&nbsp;[207]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -8283,7 +8214,7 @@ Type: Expression(Integer)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[208]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[207]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8298,7 +8229,7 @@ Type: Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[209]:</div>
+<div class="prompt input_prompt">In&nbsp;[208]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>init()$(PF 3)
@@ -8312,7 +8243,7 @@ Type: Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[209]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[208]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8339,7 +8270,7 @@ Type: PrimeField(3)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[210]:</div>
+<div class="prompt input_prompt">In&nbsp;[209]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>draw((x,y) +-&gt; x^2 - y^2, -1..1, -1..1)
@@ -8360,7 +8291,7 @@ Type: PrimeField(3)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[210]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[209]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8388,7 +8319,7 @@ Type: ThreeDimensionalViewport
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[211]:</div>
+<div class="prompt input_prompt">In&nbsp;[210]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>dmp := DMP([u1,u2,u3],Fraction INT)
@@ -8402,7 +8333,7 @@ Type: ThreeDimensionalViewport
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[211]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[210]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8419,7 +8350,7 @@ Type: Type
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[212]:</div>
+<div class="prompt input_prompt">In&nbsp;[211]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>p : dmp := 2*u1^4*u2*u3
@@ -8433,7 +8364,7 @@ Type: Type
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[212]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[211]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8451,7 +8382,7 @@ Type: DistributedMultivariatePolynomial([u1,u2,u3],Fraction(Integer))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[213]:</div>
+<div class="prompt input_prompt">In&nbsp;[212]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>e1 := degree p
@@ -8465,7 +8396,7 @@ Type: DistributedMultivariatePolynomial([u1,u2,u3],Fraction(Integer))
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[213]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[212]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8492,10 +8423,41 @@ Type: DirectProduct(3,NonNegativeInteger)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[214]:</div>
+<div class="prompt input_prompt">In&nbsp;[213]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>e2 : DirectProduct(3,NonNegativeInteger) := e1
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[213]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   [4,1,1]
+Type: DirectProduct(3,NonNegativeInteger)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[214]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>sup(e1,e1)
 </pre></div>
 
 </div>
@@ -8521,12 +8483,22 @@ Type: DirectProduct(3,NonNegativeInteger)
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>if you give to many infos to the Interpreter it has problems</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[215]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>sup(e1,e1)
+<div class=" highlight hl-spad"><pre>sup(e1,e1)$DirectProduct(3,NonNegativeInteger)
 </pre></div>
 
 </div>
@@ -8557,47 +8529,6 @@ Type: DirectProduct(3,NonNegativeInteger)
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>if you give to many infos to the Interpreter it has problems</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[216]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>sup(e1,e1)$DirectProduct(3,NonNegativeInteger)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[216]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>   [4,1,1]
-Type: DirectProduct(3,NonNegativeInteger)
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
 <p>Some other bug.</p>
 
 </div>
@@ -8605,7 +8536,7 @@ Type: DirectProduct(3,NonNegativeInteger)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[217]:</div>
+<div class="prompt input_prompt">In&nbsp;[216]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)clear all
@@ -8626,7 +8557,7 @@ Type: DirectProduct(3,NonNegativeInteger)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[217]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[216]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8641,7 +8572,7 @@ Type: DirectProduct(3,NonNegativeInteger)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[218]:</div>
+<div class="prompt input_prompt">In&nbsp;[217]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>sum:=0
@@ -8655,7 +8586,7 @@ Type: DirectProduct(3,NonNegativeInteger)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[218]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[217]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8672,7 +8603,7 @@ Type: NonNegativeInteger
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[219]:</div>
+<div class="prompt input_prompt">In&nbsp;[218]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>m:=matrix [[1,2],[3,4]]
@@ -8686,7 +8617,7 @@ Type: NonNegativeInteger
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[219]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[218]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8705,7 +8636,7 @@ Type: Matrix(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[220]:</div>
+<div class="prompt input_prompt">In&nbsp;[219]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>lastcol:=ncols(m)
@@ -8719,7 +8650,7 @@ Type: Matrix(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[220]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[219]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8736,7 +8667,7 @@ Type: PositiveInteger
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[221]:</div>
+<div class="prompt input_prompt">In&nbsp;[220]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>for r in 1..nrows(m) repeat
@@ -8755,7 +8686,7 @@ Type: PositiveInteger
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[221]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[220]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8771,7 +8702,7 @@ Type: PositiveInteger
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[222]:</div>
+<div class="prompt input_prompt">In&nbsp;[221]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>sum
@@ -8785,7 +8716,7 @@ Type: PositiveInteger
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[222]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[221]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8813,7 +8744,7 @@ Type: PositiveInteger
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[223]:</div>
+<div class="prompt input_prompt">In&nbsp;[222]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -8834,7 +8765,7 @@ Type: PositiveInteger
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[223]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[222]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8849,7 +8780,7 @@ Type: PositiveInteger
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[224]:</div>
+<div class="prompt input_prompt">In&nbsp;[223]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>splitPoly(f,var) ==
@@ -8864,7 +8795,7 @@ Type: PositiveInteger
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[224]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[223]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8880,7 +8811,7 @@ Type: PositiveInteger
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[225]:</div>
+<div class="prompt input_prompt">In&nbsp;[224]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>g:=sin(x)+cos(x)
@@ -8894,7 +8825,7 @@ Type: PositiveInteger
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[225]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[224]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8911,7 +8842,7 @@ Type: Expression(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[226]:</div>
+<div class="prompt input_prompt">In&nbsp;[225]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>k:=kernels(g).1
@@ -8925,7 +8856,7 @@ Type: Expression(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[226]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[225]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8942,7 +8873,7 @@ Type: Kernel(Expression(Integer))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[227]:</div>
+<div class="prompt input_prompt">In&nbsp;[226]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)set mes test off
@@ -8956,7 +8887,7 @@ Type: Kernel(Expression(Integer))
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[227]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[226]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -8971,7 +8902,7 @@ Type: Kernel(Expression(Integer))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[228]:</div>
+<div class="prompt input_prompt">In&nbsp;[227]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>splitPoly([g],k) -- this is an incorrect call
@@ -9022,7 +8953,7 @@ Type: Kernel(Expression(Integer))
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[228]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[227]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9038,7 +8969,7 @@ Type: Kernel(Expression(Integer))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[229]:</div>
+<div class="prompt input_prompt">In&nbsp;[228]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)set mes test on
@@ -9052,7 +8983,7 @@ Type: Kernel(Expression(Integer))
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[229]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[228]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9067,7 +8998,7 @@ Type: Kernel(Expression(Integer))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[230]:</div>
+<div class="prompt input_prompt">In&nbsp;[229]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>splitPoly(numer g,k) -- this is a correct call
@@ -9091,7 +9022,7 @@ Type: Kernel(Expression(Integer))
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[230]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[229]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9119,7 +9050,7 @@ Type: List(SparseMultivariatePolynomial(Integer,Kernel(Expression(Integer))))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[231]:</div>
+<div class="prompt input_prompt">In&nbsp;[230]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -9140,7 +9071,7 @@ Type: List(SparseMultivariatePolynomial(Integer,Kernel(Expression(Integer))))
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[231]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[230]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9155,7 +9086,7 @@ Type: List(SparseMultivariatePolynomial(Integer,Kernel(Expression(Integer))))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[232]:</div>
+<div class="prompt input_prompt">In&nbsp;[231]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f x ==
@@ -9172,7 +9103,7 @@ Type: List(SparseMultivariatePolynomial(Integer,Kernel(Expression(Integer))))
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[232]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[231]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9188,7 +9119,7 @@ Type: List(SparseMultivariatePolynomial(Integer,Kernel(Expression(Integer))))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[233]:</div>
+<div class="prompt input_prompt">In&nbsp;[232]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f 3
@@ -9209,7 +9140,7 @@ Type: List(SparseMultivariatePolynomial(Integer,Kernel(Expression(Integer))))
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[233]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[232]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9239,7 +9170,7 @@ Type: DoubleFloat
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[234]:</div>
+<div class="prompt input_prompt">In&nbsp;[233]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -9260,7 +9191,7 @@ Type: DoubleFloat
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[234]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[233]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9275,7 +9206,7 @@ Type: DoubleFloat
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[235]:</div>
+<div class="prompt input_prompt">In&nbsp;[234]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f x == 1/factorial(x)
@@ -9289,7 +9220,7 @@ Type: DoubleFloat
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[235]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[234]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9305,7 +9236,7 @@ Type: DoubleFloat
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[236]:</div>
+<div class="prompt input_prompt">In&nbsp;[235]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>series(f, x=0)
@@ -9326,7 +9257,7 @@ Type: DoubleFloat
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[236]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[235]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9359,7 +9290,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[237]:</div>
+<div class="prompt input_prompt">In&nbsp;[236]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -9380,7 +9311,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[237]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[236]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9395,10 +9326,40 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[238]:</div>
+<div class="prompt input_prompt">In&nbsp;[237]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>node_a == i1+i2+i3-i5+i6=0
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[237]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[238]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>node_b == -i2-i3+i4-i6=0
 </pre></div>
 
 </div>
@@ -9428,7 +9389,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 <div class="prompt input_prompt">In&nbsp;[239]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>node_b == -i2-i3+i4-i6=0
+<div class=" highlight hl-spad"><pre>i1 == va/r1
 </pre></div>
 
 </div>
@@ -9458,7 +9419,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 <div class="prompt input_prompt">In&nbsp;[240]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>i1 == va/r1
+<div class=" highlight hl-spad"><pre>i2 == (va-vb)/r2
 </pre></div>
 
 </div>
@@ -9488,7 +9449,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 <div class="prompt input_prompt">In&nbsp;[241]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>i2 == (va-vb)/r2
+<div class=" highlight hl-spad"><pre>i3 == (va-vb)/r3
 </pre></div>
 
 </div>
@@ -9518,7 +9479,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 <div class="prompt input_prompt">In&nbsp;[242]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>i3 == (va-vb)/r3
+<div class=" highlight hl-spad"><pre>i4 == vb/r4
 </pre></div>
 
 </div>
@@ -9548,36 +9509,6 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 <div class="prompt input_prompt">In&nbsp;[243]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>i4 == vb/r4
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[243]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[244]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>node_a
 </pre></div>
 
@@ -9603,7 +9534,7 @@ Type: UnivariatePuiseuxSeries(Expression(Integer),x,0)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[244]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[243]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9622,7 +9553,7 @@ Type: Equation(Fraction(Polynomial(Integer)))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[245]:</div>
+<div class="prompt input_prompt">In&nbsp;[244]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>node_b
@@ -9646,7 +9577,7 @@ Type: Equation(Fraction(Polynomial(Integer)))
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[245]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[244]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9665,10 +9596,40 @@ Type: Equation(Fraction(Polynomial(Integer)))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[246]:</div>
+<div class="prompt input_prompt">In&nbsp;[245]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>ans == solve([node_a,node_b],[va,vb]) -- (*)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[245]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[246]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>x1 == rhs(ans.1.1)
 </pre></div>
 
 </div>
@@ -9698,7 +9659,7 @@ Type: Equation(Fraction(Polynomial(Integer)))
 <div class="prompt input_prompt">In&nbsp;[247]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>x1 == rhs(ans.1.1)
+<div class=" highlight hl-spad"><pre>x2 == rhs(ans.1.2)
 </pre></div>
 
 </div>
@@ -9728,36 +9689,6 @@ Type: Equation(Fraction(Polynomial(Integer)))
 <div class="prompt input_prompt">In&nbsp;[248]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>x2 == rhs(ans.1.2)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[248]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>Type: Void
-</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[249]:</div>
-<div class="inner_cell">
-    <div class="input_area">
 <div class=" highlight hl-spad"><pre>x1       -- (^)
 </pre></div>
 
@@ -9779,7 +9710,7 @@ Type: Equation(Fraction(Polynomial(Integer)))
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[249]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[248]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9798,7 +9729,7 @@ Type: Fraction(Polynomial(Integer))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[250]:</div>
+<div class="prompt input_prompt">In&nbsp;[249]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>r1 == 2  -- (^*)
@@ -9822,7 +9753,7 @@ Type: Fraction(Polynomial(Integer))
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[250]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[249]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9838,7 +9769,7 @@ Type: Fraction(Polynomial(Integer))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[251]:</div>
+<div class="prompt input_prompt">In&nbsp;[250]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>x1       -- (^^)
@@ -9867,7 +9798,7 @@ Type: Fraction(Polynomial(Integer))
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[251]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[250]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9897,7 +9828,7 @@ Type: Fraction(Polynomial(Integer))
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[252]:</div>
+<div class="prompt input_prompt">In&nbsp;[251]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>&quot;asd&quot; &quot;sdfsdf&quot; &quot;dfgdfg&quot;
@@ -9911,7 +9842,7 @@ Type: Fraction(Polynomial(Integer))
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[252]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[251]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9939,7 +9870,7 @@ Type: String
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[253]:</div>
+<div class="prompt input_prompt">In&nbsp;[252]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)clear all
@@ -9960,7 +9891,7 @@ Type: String
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[253]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[252]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -9975,7 +9906,7 @@ Type: String
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[254]:</div>
+<div class="prompt input_prompt">In&nbsp;[253]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>s := 3.4
@@ -9989,7 +9920,7 @@ Type: String
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[254]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[253]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -10006,7 +9937,7 @@ Type: Float
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[255]:</div>
+<div class="prompt input_prompt">In&nbsp;[254]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>while s &gt; 1.0 repeat (s := 1/2; print s)
@@ -10020,7 +9951,7 @@ Type: Float
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[255]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[254]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -10039,7 +9970,7 @@ Type: Void
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[256]:</div>
+<div class="prompt input_prompt">In&nbsp;[255]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>s
@@ -10053,7 +9984,7 @@ Type: Void
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[256]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[255]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -10072,7 +10003,7 @@ Type: Fraction(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[257]:</div>
+<div class="prompt input_prompt">In&nbsp;[256]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>)cl all
@@ -10093,7 +10024,7 @@ Type: Fraction(Integer)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[257]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[256]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -10108,7 +10039,7 @@ Type: Fraction(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[258]:</div>
+<div class="prompt input_prompt">In&nbsp;[257]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f x ==
@@ -10126,7 +10057,7 @@ Type: Fraction(Integer)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[258]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[257]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -10142,7 +10073,7 @@ Type: Fraction(Integer)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[259]:</div>
+<div class="prompt input_prompt">In&nbsp;[258]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>f(3.4)
@@ -10164,7 +10095,7 @@ Type: Fraction(Integer)
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[259]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[258]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -10193,7 +10124,7 @@ Type: Float
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[260]:</div>
+<div class="prompt input_prompt">In&nbsp;[259]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>t x ==
@@ -10209,7 +10140,7 @@ Type: Float
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[260]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[259]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -10225,7 +10156,7 @@ Type: Float
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[261]:</div>
+<div class="prompt input_prompt">In&nbsp;[260]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>t 1
@@ -10247,7 +10178,7 @@ Type: Float
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[261]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[260]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -10264,7 +10195,7 @@ Type: List(PositiveInteger)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[262]:</div>
+<div class="prompt input_prompt">In&nbsp;[261]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -10280,7 +10211,7 @@ Type: List(PositiveInteger)
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[262]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[261]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">

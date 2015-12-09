@@ -1,0 +1,2436 @@
+kfp@helix:~/Development/fricas_input/nb/input2ipynb$ ./make.sh > log
+
+[NbConvertApp] Converting notebook agcd.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 56344 bytes to agcd.nbconvert.ipynb
+[NbConvertApp] Converting notebook algaggr.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 15931 bytes to algaggr.nbconvert.ipynb
+[NbConvertApp] Converting notebook algbrbf.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 7504 bytes to algbrbf.nbconvert.ipynb
+[NbConvertApp] Converting notebook algfacob.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 21681 bytes to algfacob.nbconvert.ipynb
+[NbConvertApp] Converting notebook allfact.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 14837 bytes to allfact.nbconvert.ipynb
+[NbConvertApp] Converting notebook antoine.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 6278 bytes to antoine.nbconvert.ipynb
+[NbConvertApp] Converting notebook arith.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 16740 bytes to arith.nbconvert.ipynb
+[NbConvertApp] Converting notebook array.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 21769 bytes to array.nbconvert.ipynb
+[NbConvertApp] Converting notebook arrows.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 2714 bytes to arrows.nbconvert.ipynb
+[NbConvertApp] Converting notebook assign.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 6689 bytes to assign.nbconvert.ipynb
+[NbConvertApp] Converting notebook atansqrt.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 3242 bytes to atansqrt.nbconvert.ipynb
+[NbConvertApp] Converting notebook axiom.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 3597 bytes to axiom.nbconvert.ipynb
+[NbConvertApp] Converting notebook bags.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 20020 bytes to bags.nbconvert.ipynb
+[NbConvertApp] Converting notebook bernpoly.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 9879 bytes to bernpoly.nbconvert.ipynb
+[NbConvertApp] Converting notebook bouquet.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4088 bytes to bouquet.nbconvert.ipynb
+[NbConvertApp] Converting notebook bug6357.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 2736 bytes to bug6357.nbconvert.ipynb
+[NbConvertApp] Converting notebook bugs2007.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 86866 bytes to bugs2007.nbconvert.ipynb
+[NbConvertApp] Converting notebook bugs2008.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 56406 bytes to bugs2008.nbconvert.ipynb
+[NbConvertApp] Converting notebook bugs2009.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+(no restarts: If you didn't do this on purpose, please report it as a bug.)
+
+(SB-INT:SEQUENCE-BOUNDING-INDICES-BAD-ERROR "\"A\"" 1 7)
+0] [NbConvertApp] ERROR | Timeout waiting for execute reply (30s).
+                If your cell should take longer than this, you can increase the timeout with:
+
+                    c.ExecutePreprocessor.timeout = SECONDS
+
+                in jupyter_nbconvert_config.py
+
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/notebook.py", line 26, in from_notebook_node
+    nb_copy, resources = super(NotebookExporter, self).from_notebook_node(nb, resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 130, in from_notebook_node
+    nb_copy, resources = self._preprocess(nb_copy, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 302, in _preprocess
+    nbc, resc = preprocessor(nbc, resc)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 47, in __call__
+    return self.preprocess(nb,resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 83, in preprocess
+    nb, resources = super(ExecutePreprocessor, self).preprocess(nb, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 70, in preprocess
+    nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 97, in preprocess_cell
+    outputs = self.run_cell(cell)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 140, in run_cell
+    raise exception("Cell execution timed out, see log"
+RuntimeError: Cell execution timed out, see log for details.
+[NbConvertApp] Converting notebook bugs2010.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+(no restarts: If you didn't do this on purpose, please report it as a bug.)
+
+(SB-FORMAT::INTERPRET-DIRECTIVE-LIST #<SB-SYS:FD-STREAM for "file /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input" {1005D9E1F3}> (#<~=> " 0 then res := min(res, i)
+    res") NIL NIL)
+0] [NbConvertApp] ERROR | Timeout waiting for execute reply (30s).
+                If your cell should take longer than this, you can increase the timeout with:
+
+                    c.ExecutePreprocessor.timeout = SECONDS
+
+                in jupyter_nbconvert_config.py
+
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/notebook.py", line 26, in from_notebook_node
+    nb_copy, resources = super(NotebookExporter, self).from_notebook_node(nb, resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 130, in from_notebook_node
+    nb_copy, resources = self._preprocess(nb_copy, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 302, in _preprocess
+    nbc, resc = preprocessor(nbc, resc)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 47, in __call__
+    return self.preprocess(nb,resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 83, in preprocess
+    nb, resources = super(ExecutePreprocessor, self).preprocess(nb, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 70, in preprocess
+    nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 97, in preprocess_cell
+    outputs = self.run_cell(cell)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 140, in run_cell
+    raise exception("Cell execution timed out, see log"
+RuntimeError: Cell execution timed out, see log for details.
+[NbConvertApp] Converting notebook bugs2011.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 29704 bytes to bugs2011.nbconvert.ipynb
+[NbConvertApp] Converting notebook bugs2012.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 49457 bytes to bugs2012.nbconvert.ipynb
+[NbConvertApp] Converting notebook bugs2013.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 39901 bytes to bugs2013.nbconvert.ipynb
+[NbConvertApp] Converting notebook bugs2014.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 61303 bytes to bugs2014.nbconvert.ipynb
+[NbConvertApp] Converting notebook bugs2015.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 28207 bytes to bugs2015.nbconvert.ipynb
+[NbConvertApp] Converting notebook calculus2.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 77014 bytes to calculus2.nbconvert.ipynb
+[NbConvertApp] Converting notebook cardinal.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 8674 bytes to cardinal.nbconvert.ipynb
+[NbConvertApp] Converting notebook cdraw.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 14864 bytes to cdraw.nbconvert.ipynb
+[NbConvertApp] Converting notebook ch.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 9024 bytes to ch.nbconvert.ipynb
+[NbConvertApp] Converting notebook clifford.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 25269 bytes to clifford.nbconvert.ipynb
+[NbConvertApp] Converting notebook coercels.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4894 bytes to coercels.nbconvert.ipynb
+[NbConvertApp] Converting notebook collect.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 33632 bytes to collect.nbconvert.ipynb
+[NbConvertApp] Converting notebook color.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 8248 bytes to color.nbconvert.ipynb
+[NbConvertApp] Converting notebook conformal.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 19916 bytes to conformal.nbconvert.ipynb
+[NbConvertApp] Converting notebook constant.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 20254 bytes to constant.nbconvert.ipynb
+[NbConvertApp] Converting notebook contfrac.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 32350 bytes to contfrac.nbconvert.ipynb
+[NbConvertApp] Converting notebook coordsys.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 25601 bytes to coordsys.nbconvert.ipynb
+[NbConvertApp] Converting notebook cycles.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 43534 bytes to cycles.nbconvert.ipynb
+[NbConvertApp] Converting notebook cyfactor.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 10067 bytes to cyfactor.nbconvert.ipynb
+[NbConvertApp] Converting notebook cyldec.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+(no restarts: If you didn't do this on purpose, please report it as a bug.)
+
+(SB-FORMAT::INTERPRET-DIRECTIVE-LIST #<SB-SYS:FD-STREAM for "file /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input" {1007794E03}> (#<~=> " sp1 => iterate
+        pf := eval(p1, lvars, samplePoint(c2))
+        rval := retract(pf)@Ran
+        rval < 0 => return false
+    return true") NIL NIL)
+0] [NbConvertApp] ERROR | Timeout waiting for execute reply (30s).
+                If your cell should take longer than this, you can increase the timeout with:
+
+                    c.ExecutePreprocessor.timeout = SECONDS
+
+                in jupyter_nbconvert_config.py
+
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/notebook.py", line 26, in from_notebook_node
+    nb_copy, resources = super(NotebookExporter, self).from_notebook_node(nb, resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 130, in from_notebook_node
+    nb_copy, resources = self._preprocess(nb_copy, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 302, in _preprocess
+    nbc, resc = preprocessor(nbc, resc)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 47, in __call__
+    return self.preprocess(nb,resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 83, in preprocess
+    nb, resources = super(ExecutePreprocessor, self).preprocess(nb, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 70, in preprocess
+    nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 97, in preprocess_cell
+    outputs = self.run_cell(cell)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 140, in run_cell
+    raise exception("Cell execution timed out, see log"
+RuntimeError: Cell execution timed out, see log for details.
+[NbConvertApp] Converting notebook damped.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 17565 bytes to damped.nbconvert.ipynb
+[NbConvertApp] Converting notebook danzwill.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 14347 bytes to danzwill.nbconvert.ipynb
+[NbConvertApp] Converting notebook de2re.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 6256 bytes to de2re.nbconvert.ipynb
+[NbConvertApp] Converting notebook defintef.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 8565 bytes to defintef.nbconvert.ipynb
+[NbConvertApp] Converting notebook defs.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 38166 bytes to defs.nbconvert.ipynb
+[NbConvertApp] Converting notebook dhtri.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 5485 bytes to dhtri.nbconvert.ipynb
+[NbConvertApp] Converting notebook dirichlet.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 11901 bytes to dirichlet.nbconvert.ipynb
+[NbConvertApp] Converting notebook discrgrp.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 33459 bytes to discrgrp.nbconvert.ipynb
+[NbConvertApp] Converting notebook distro.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 97535 bytes to distro.nbconvert.ipynb
+[NbConvertApp] Converting notebook divisor.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 12528 bytes to divisor.nbconvert.ipynb
+[NbConvertApp] Converting notebook dpol.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 13355 bytes to dpol.nbconvert.ipynb
+[NbConvertApp] Converting notebook draw2dSF.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 7116 bytes to draw2dSF.nbconvert.ipynb
+[NbConvertApp] Converting notebook drawalg.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 1774 bytes to drawalg.nbconvert.ipynb
+[NbConvertApp] Converting notebook drawcfn.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 33662 bytes to drawcfn.nbconvert.ipynb
+[NbConvertApp] Converting notebook drawcfun.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 34506 bytes to drawcfun.nbconvert.ipynb
+[NbConvertApp] Converting notebook drawcurv.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 18850 bytes to drawcurv.nbconvert.ipynb
+[NbConvertApp] Converting notebook drawcx.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 17825 bytes to drawcx.nbconvert.ipynb
+[NbConvertApp] Converting notebook drawex.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 22266 bytes to drawex.nbconvert.ipynb
+[NbConvertApp] Converting notebook draw.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 23040 bytes to draw.nbconvert.ipynb
+[NbConvertApp] Converting notebook drawpoly.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4069 bytes to drawpoly.nbconvert.ipynb
+[NbConvertApp] Converting notebook drawx.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 13355 bytes to drawx.nbconvert.ipynb
+[NbConvertApp] Converting notebook dropt.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 31362 bytes to dropt.nbconvert.ipynb
+[NbConvertApp] Converting notebook efi.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 9231 bytes to efi.nbconvert.ipynb
+[NbConvertApp] Converting notebook eigen.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 39117 bytes to eigen.nbconvert.ipynb
+[NbConvertApp] Converting notebook elemfun.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 16886 bytes to elemfun.nbconvert.ipynb
+[NbConvertApp] Converting notebook elemnum.ipynb to notebook
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 141, in read
+    return reads(fp.read(), as_version, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 74, in reads
+    nb = reader.reads(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 58, in reads
+    nb_dict = parse_json(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 17, in parse_json
+    raise NotJSONError(("Notebook does not appear to be JSON: %r" % s)[:77] + "...")
+nbformat.reader.NotJSONError: Notebook does not appear to be JSON: u'{\n "cells": [\n{\n"cell_type" : "mark...
+[NbConvertApp] Converting notebook elfuts.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 30634 bytes to elfuts.nbconvert.ipynb
+[NbConvertApp] Converting notebook ellip.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 25538 bytes to ellip.nbconvert.ipynb
+[NbConvertApp] Converting notebook elt.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4222 bytes to elt.nbconvert.ipynb
+[NbConvertApp] Converting notebook equation2.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 12334 bytes to equation2.nbconvert.ipynb
+[NbConvertApp] Converting notebook equation.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 13930 bytes to equation.nbconvert.ipynb
+[NbConvertApp] Converting notebook errortrap.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 9783 bytes to errortrap.nbconvert.ipynb
+[NbConvertApp] Converting notebook eval.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 16794 bytes to eval.nbconvert.ipynb
+[NbConvertApp] Converting notebook exint.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 13674 bytes to exint.nbconvert.ipynb
+[NbConvertApp] Converting notebook exlap.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 7753 bytes to exlap.nbconvert.ipynb
+[NbConvertApp] Converting notebook expexpan.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 13772 bytes to expexpan.nbconvert.ipynb
+[NbConvertApp] Converting notebook explot2d.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 6716 bytes to explot2d.nbconvert.ipynb
+[NbConvertApp] Converting notebook expps.ipynb to notebook
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 141, in read
+    return reads(fp.read(), as_version, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 74, in reads
+    nb = reader.reads(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 58, in reads
+    nb_dict = parse_json(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 17, in parse_json
+    raise NotJSONError(("Notebook does not appear to be JSON: %r" % s)[:77] + "...")
+nbformat.reader.NotJSONError: Notebook does not appear to be JSON: u'{\n "cells": [\n{\n"cell_type" : "code...
+[NbConvertApp] Converting notebook expr.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 17599 bytes to expr.nbconvert.ipynb
+[NbConvertApp] Converting notebook exprpoly.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 12372 bytes to exprpoly.nbconvert.ipynb
+[NbConvertApp] Converting notebook exsum.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 12306 bytes to exsum.nbconvert.ipynb
+[NbConvertApp] Converting notebook ffdemo.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 187485 bytes to ffdemo.nbconvert.ipynb
+[NbConvertApp] Converting notebook fferr.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4330 bytes to fferr.nbconvert.ipynb
+[NbConvertApp] Converting notebook ffrac.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 8168 bytes to ffrac.nbconvert.ipynb
+[NbConvertApp] Converting notebook ffx72.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 9877 bytes to ffx72.nbconvert.ipynb
+[NbConvertApp] Converting notebook fib.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 2937 bytes to fib.nbconvert.ipynb
+[NbConvertApp] Converting notebook finite.ipynb to notebook
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 141, in read
+    return reads(fp.read(), as_version, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 74, in reads
+    nb = reader.reads(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 58, in reads
+    nb_dict = parse_json(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 17, in parse_json
+    raise NotJSONError(("Notebook does not appear to be JSON: %r" % s)[:77] + "...")
+nbformat.reader.NotJSONError: Notebook does not appear to be JSON: u'{\n "cells": [\n{\n"cell_type" : "code...
+[NbConvertApp] Converting notebook fixed.ipynb to notebook
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 141, in read
+    return reads(fp.read(), as_version, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 74, in reads
+    nb = reader.reads(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 58, in reads
+    nb_dict = parse_json(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 17, in parse_json
+    raise NotJSONError(("Notebook does not appear to be JSON: %r" % s)[:77] + "...")
+nbformat.reader.NotJSONError: Notebook does not appear to be JSON: u'{\n "cells": [\n{\n"cell_type" : "mark...
+[NbConvertApp] Converting notebook float2.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 19061 bytes to float2.nbconvert.ipynb
+[NbConvertApp] Converting notebook float.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 8288 bytes to float.nbconvert.ipynb
+[NbConvertApp] Converting notebook fname.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 7149 bytes to fname.nbconvert.ipynb
+[NbConvertApp] Converting notebook fnla.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4706 bytes to fnla.nbconvert.ipynb
+[NbConvertApp] Converting notebook fns.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 19541 bytes to fns.nbconvert.ipynb
+[NbConvertApp] Converting notebook fparfrac.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 17481 bytes to fparfrac.nbconvert.ipynb
+[NbConvertApp] Converting notebook fr.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 34126 bytes to fr.nbconvert.ipynb
+[NbConvertApp] Converting notebook function.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 38117 bytes to function.nbconvert.ipynb
+[NbConvertApp] Converting notebook fun.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 21875 bytes to fun.nbconvert.ipynb
+[NbConvertApp] Converting notebook galois.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 21560 bytes to galois.nbconvert.ipynb
+[NbConvertApp] Converting notebook genups.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 35111 bytes to genups.nbconvert.ipynb
+[NbConvertApp] Converting notebook gonshor.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 75918 bytes to gonshor.nbconvert.ipynb
+[NbConvertApp] Converting notebook grdef.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 7971 bytes to grdef.nbconvert.ipynb
+[NbConvertApp] Converting notebook grpthry.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 167767 bytes to grpthry.nbconvert.ipynb
+[NbConvertApp] Converting notebook heat.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 9381 bytes to heat.nbconvert.ipynb
+[NbConvertApp] Converting notebook herm.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 26583 bytes to herm.nbconvert.ipynb
+[NbConvertApp] Converting notebook huang.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 18425 bytes to huang.nbconvert.ipynb
+[NbConvertApp] Converting notebook i_bugs.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+(no restarts: If you didn't do this on purpose, please report it as a bug.)
+
+(SB-INT:SEQUENCE-BOUNDING-INDICES-BAD-ERROR "\"1=2\"" 1 7)
+0] [NbConvertApp] ERROR | Timeout waiting for execute reply (30s).
+                If your cell should take longer than this, you can increase the timeout with:
+
+                    c.ExecutePreprocessor.timeout = SECONDS
+
+                in jupyter_nbconvert_config.py
+
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/notebook.py", line 26, in from_notebook_node
+    nb_copy, resources = super(NotebookExporter, self).from_notebook_node(nb, resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 130, in from_notebook_node
+    nb_copy, resources = self._preprocess(nb_copy, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 302, in _preprocess
+    nbc, resc = preprocessor(nbc, resc)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 47, in __call__
+    return self.preprocess(nb,resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 83, in preprocess
+    nb, resources = super(ExecutePreprocessor, self).preprocess(nb, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 70, in preprocess
+    nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 97, in preprocess_cell
+    outputs = self.run_cell(cell)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 140, in run_cell
+    raise exception("Cell execution timed out, see log"
+RuntimeError: Cell execution timed out, see log for details.
+[NbConvertApp] Converting notebook ico.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 33232 bytes to ico.nbconvert.ipynb
+[NbConvertApp] Converting notebook ideal.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 10806 bytes to ideal.nbconvert.ipynb
+[NbConvertApp] Converting notebook ifact.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4266 bytes to ifact.nbconvert.ipynb
+[NbConvertApp] Converting notebook images1.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 2844 bytes to images1.nbconvert.ipynb
+[NbConvertApp] Converting notebook images2.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 8179 bytes to images2.nbconvert.ipynb
+[NbConvertApp] Converting notebook images3.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 3833 bytes to images3.nbconvert.ipynb
+[NbConvertApp] Converting notebook images5.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 11968 bytes to images5.nbconvert.ipynb
+[NbConvertApp] Converting notebook images6.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4971 bytes to images6.nbconvert.ipynb
+[NbConvertApp] Converting notebook images7.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 11585 bytes to images7.nbconvert.ipynb
+[NbConvertApp] Converting notebook images8.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 8670 bytes to images8.nbconvert.ipynb
+[NbConvertApp] Converting notebook infprod.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 8531 bytes to infprod.nbconvert.ipynb
+[NbConvertApp] Converting notebook intaf.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 12898 bytes to intaf.nbconvert.ipynb
+[NbConvertApp] Converting notebook intdeq.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 7132 bytes to intdeq.nbconvert.ipynb
+[NbConvertApp] Converting notebook intef.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 11969 bytes to intef.nbconvert.ipynb
+[NbConvertApp] Converting notebook integ.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] ERROR | Timeout waiting for execute reply (30s).
+                If your cell should take longer than this, you can increase the timeout with:
+
+                    c.ExecutePreprocessor.timeout = SECONDS
+
+                in jupyter_nbconvert_config.py
+
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/notebook.py", line 26, in from_notebook_node
+    nb_copy, resources = super(NotebookExporter, self).from_notebook_node(nb, resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 130, in from_notebook_node
+    nb_copy, resources = self._preprocess(nb_copy, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 302, in _preprocess
+    nbc, resc = preprocessor(nbc, resc)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 47, in __call__
+    return self.preprocess(nb,resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 83, in preprocess
+    nb, resources = super(ExecutePreprocessor, self).preprocess(nb, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 70, in preprocess
+    nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 97, in preprocess_cell
+    outputs = self.run_cell(cell)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 140, in run_cell
+    raise exception("Cell execution timed out, see log"
+RuntimeError: Cell execution timed out, see log for details.
+[NbConvertApp] Converting notebook intg0.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 18579 bytes to intg0.nbconvert.ipynb
+[NbConvertApp] Converting notebook intheory.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+(no restarts: If you didn't do this on purpose, please report it as a bug.)
+
+(SB-FORMAT::INTERPRET-DIRECTIVE-LIST #<SB-SYS:FD-STREAM for "file /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input" {10061FD913}> (#<~=> " 0 repeat
+    q := a quo b
+    r := a-q*b
+    print [a, \"=\", q, \"*(\", b, \")+\", r]
+    (a, b) := (b, r)
+    (c1, d1) := (d1, c1-q*d1)
+  a " #<~=> " 1 => error(\"moduli are not relatively prime\")
+  positiveRemainder(c1, borg)") NIL NIL)
+0] [NbConvertApp] ERROR | Timeout waiting for execute reply (30s).
+                If your cell should take longer than this, you can increase the timeout with:
+
+                    c.ExecutePreprocessor.timeout = SECONDS
+
+                in jupyter_nbconvert_config.py
+
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/notebook.py", line 26, in from_notebook_node
+    nb_copy, resources = super(NotebookExporter, self).from_notebook_node(nb, resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 130, in from_notebook_node
+    nb_copy, resources = self._preprocess(nb_copy, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 302, in _preprocess
+    nbc, resc = preprocessor(nbc, resc)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 47, in __call__
+    return self.preprocess(nb,resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 83, in preprocess
+    nb, resources = super(ExecutePreprocessor, self).preprocess(nb, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 70, in preprocess
+    nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 97, in preprocess_cell
+    outputs = self.run_cell(cell)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 140, in run_cell
+    raise exception("Cell execution timed out, see log"
+RuntimeError: Cell execution timed out, see log for details.
+[NbConvertApp] Converting notebook intmix.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 6019 bytes to intmix.nbconvert.ipynb
+[NbConvertApp] Converting notebook intrf.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 11490 bytes to intrf.nbconvert.ipynb
+[NbConvertApp] Converting notebook ipftest.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4583 bytes to ipftest.nbconvert.ipynb
+[NbConvertApp] Converting notebook is.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 5451 bytes to is.nbconvert.ipynb
+[NbConvertApp] Converting notebook isprime.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 25077 bytes to isprime.nbconvert.ipynb
+[NbConvertApp] Converting notebook jet.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 68440 bytes to jet.nbconvert.ipynb
+[NbConvertApp] Converting notebook knot2.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 5515 bytes to knot2.nbconvert.ipynb
+[NbConvertApp] Converting notebook knot.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 3295 bytes to knot.nbconvert.ipynb
+[NbConvertApp] Converting notebook kuipers.ipynb to notebook
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 141, in read
+    return reads(fp.read(), as_version, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 74, in reads
+    nb = reader.reads(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 58, in reads
+    nb_dict = parse_json(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 17, in parse_json
+    raise NotJSONError(("Notebook does not appear to be JSON: %r" % s)[:77] + "...")
+nbformat.reader.NotJSONError: Notebook does not appear to be JSON: u'{\n "cells": [\n{\n"cell_type" : "code...
+[NbConvertApp] Converting notebook laplace.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 16109 bytes to laplace.nbconvert.ipynb
+[NbConvertApp] Converting notebook leg.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 3415 bytes to leg.nbconvert.ipynb
+[NbConvertApp] Converting notebook limit.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 40927 bytes to limit.nbconvert.ipynb
+[NbConvertApp] Converting notebook linalg.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 53640 bytes to linalg.nbconvert.ipynb
+[NbConvertApp] Converting notebook lindep.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 8370 bytes to lindep.nbconvert.ipynb
+[NbConvertApp] Converting notebook lode.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 24941 bytes to lode.nbconvert.ipynb
+[NbConvertApp] Converting notebook lodesys.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 12251 bytes to lodesys.nbconvert.ipynb
+[NbConvertApp] Converting notebook lodo2.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 16262 bytes to lodo2.nbconvert.ipynb
+[NbConvertApp] Converting notebook lodof2.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 23740 bytes to lodof2.nbconvert.ipynb
+[NbConvertApp] Converting notebook lodof.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 17715 bytes to lodof.nbconvert.ipynb
+[NbConvertApp] Converting notebook lodo.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 44046 bytes to lodo.nbconvert.ipynb
+[NbConvertApp] Converting notebook loop.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 13481 bytes to loop.nbconvert.ipynb
+[NbConvertApp] Converting notebook lupfact.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 15495 bytes to lupfact.nbconvert.ipynb
+[NbConvertApp] Converting notebook macbug.ipynb to notebook
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 141, in read
+    return reads(fp.read(), as_version, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 74, in reads
+    nb = reader.reads(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 58, in reads
+    nb_dict = parse_json(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 17, in parse_json
+    raise NotJSONError(("Notebook does not appear to be JSON: %r" % s)[:77] + "...")
+nbformat.reader.NotJSONError: Notebook does not appear to be JSON: u'{\n "cells": [\n{\n"cell_type" : "mark...
+[NbConvertApp] Converting notebook macros.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 3059 bytes to macros.nbconvert.ipynb
+[NbConvertApp] Converting notebook mantepse.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 84073 bytes to mantepse.nbconvert.ipynb
+[NbConvertApp] Converting notebook mapleok.ipynb to notebook
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 141, in read
+    return reads(fp.read(), as_version, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 74, in reads
+    nb = reader.reads(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 58, in reads
+    nb_dict = parse_json(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 17, in parse_json
+    raise NotJSONError(("Notebook does not appear to be JSON: %r" % s)[:77] + "...")
+nbformat.reader.NotJSONError: Notebook does not appear to be JSON: u'{\n "cells": [\n{\n"cell_type" : "code...
+[NbConvertApp] Converting notebook marcbench.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 115102 bytes to marcbench.nbconvert.ipynb
+[NbConvertApp] Converting notebook matbug.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 12434 bytes to matbug.nbconvert.ipynb
+[NbConvertApp] Converting notebook matcat.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 12764 bytes to matcat.nbconvert.ipynb
+[NbConvertApp] Converting notebook matrix22.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 11693 bytes to matrix22.nbconvert.ipynb
+[NbConvertApp] Converting notebook matrix.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 28237 bytes to matrix.nbconvert.ipynb
+[NbConvertApp] Converting notebook matrox.ipynb to notebook
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 141, in read
+    return reads(fp.read(), as_version, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 74, in reads
+    nb = reader.reads(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 58, in reads
+    nb_dict = parse_json(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 17, in parse_json
+    raise NotJSONError(("Notebook does not appear to be JSON: %r" % s)[:77] + "...")
+nbformat.reader.NotJSONError: Notebook does not appear to be JSON: u'{\n "cells": [\n{\n"cell_type" : "code...
+[NbConvertApp] Converting notebook mfinfact.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 12997 bytes to mfinfact.nbconvert.ipynb
+[NbConvertApp] Converting notebook misc_draw.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 16032 bytes to misc_draw.nbconvert.ipynb
+[NbConvertApp] Converting notebook mobius.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] ERROR | Timeout waiting for execute reply (30s).
+                If your cell should take longer than this, you can increase the timeout with:
+
+                    c.ExecutePreprocessor.timeout = SECONDS
+
+                in jupyter_nbconvert_config.py
+
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/notebook.py", line 26, in from_notebook_node
+    nb_copy, resources = super(NotebookExporter, self).from_notebook_node(nb, resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 130, in from_notebook_node
+    nb_copy, resources = self._preprocess(nb_copy, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 302, in _preprocess
+    nbc, resc = preprocessor(nbc, resc)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 47, in __call__
+    return self.preprocess(nb,resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 83, in preprocess
+    nb, resources = super(ExecutePreprocessor, self).preprocess(nb, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 70, in preprocess
+    nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 97, in preprocess_cell
+    outputs = self.run_cell(cell)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 140, in run_cell
+    raise exception("Cell execution timed out, see log"
+RuntimeError: Cell execution timed out, see log for details.
+[NbConvertApp] Converting notebook mountain.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 15099 bytes to mountain.nbconvert.ipynb
+[NbConvertApp] Converting notebook mset.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 8861 bytes to mset.nbconvert.ipynb
+[NbConvertApp] Converting notebook mts.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 10801 bytes to mts.nbconvert.ipynb
+[NbConvertApp] Converting notebook mult2d.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 9496 bytes to mult2d.nbconvert.ipynb
+[NbConvertApp] Converting notebook mult3d.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 23627 bytes to mult3d.nbconvert.ipynb
+[NbConvertApp] Converting notebook multfact.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 3549 bytes to multfact.nbconvert.ipynb
+[NbConvertApp] Converting notebook multiple.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 6201 bytes to multiple.nbconvert.ipynb
+[NbConvertApp] Converting notebook multKnot.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 5494 bytes to multKnot.nbconvert.ipynb
+[NbConvertApp] Converting notebook ndftip.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 53846 bytes to ndftip.nbconvert.ipynb
+[NbConvertApp] Converting notebook negfloats.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 2864 bytes to negfloats.nbconvert.ipynb
+[NbConvertApp] Converting notebook nepip.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 27897 bytes to nepip.nbconvert.ipynb
+[NbConvertApp] Converting notebook newton.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4405 bytes to newton.nbconvert.ipynb
+[NbConvertApp] Converting notebook nlode.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 11734 bytes to nlode.nbconvert.ipynb
+[NbConvertApp] Converting notebook noonburg.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 8267 bytes to noonburg.nbconvert.ipynb
+[NbConvertApp] Converting notebook noptip.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4614 bytes to noptip.nbconvert.ipynb
+[NbConvertApp] Converting notebook nqip.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 13544 bytes to nqip.nbconvert.ipynb
+[NbConvertApp] Converting notebook nsfip.ipynb to notebook
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 141, in read
+    return reads(fp.read(), as_version, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 74, in reads
+    nb = reader.reads(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 58, in reads
+    nb_dict = parse_json(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 17, in parse_json
+    raise NotJSONError(("Notebook does not appear to be JSON: %r" % s)[:77] + "...")
+nbformat.reader.NotJSONError: Notebook does not appear to be JSON: u'{\n "cells": [\n{\n"cell_type" : "mark...
+[NbConvertApp] Converting notebook ntube.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+(no restarts: If you didn't do this on purpose, please report it as a bug.)
+
+(SB-FORMAT::INTERPRET-DIRECTIVE-LIST #<SB-SYS:FD-STREAM for "file /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input" {1006AD3AA3}> (#<~=> " oldT) then
+      frame := nfrenetFrame(spaceCurve, t, delT)
+      oldT := t
+    p := planeCurve(v, t)
+    frame.value + p.1*frame.normal + p.2*frame.binormal") NIL NIL)
+0] [NbConvertApp] ERROR | Timeout waiting for execute reply (30s).
+                If your cell should take longer than this, you can increase the timeout with:
+
+                    c.ExecutePreprocessor.timeout = SECONDS
+
+                in jupyter_nbconvert_config.py
+
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/notebook.py", line 26, in from_notebook_node
+    nb_copy, resources = super(NotebookExporter, self).from_notebook_node(nb, resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 130, in from_notebook_node
+    nb_copy, resources = self._preprocess(nb_copy, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 302, in _preprocess
+    nbc, resc = preprocessor(nbc, resc)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 47, in __call__
+    return self.preprocess(nb,resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 83, in preprocess
+    nb, resources = super(ExecutePreprocessor, self).preprocess(nb, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 70, in preprocess
+    nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 97, in preprocess_cell
+    outputs = self.run_cell(cell)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 140, in run_cell
+    raise exception("Cell execution timed out, see log"
+RuntimeError: Cell execution timed out, see log for details.
+[NbConvertApp] Converting notebook numbers.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 51948 bytes to numbers.nbconvert.ipynb
+[NbConvertApp] Converting notebook octonion.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 15692 bytes to octonion.nbconvert.ipynb
+[NbConvertApp] Converting notebook ode.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 9037 bytes to ode.nbconvert.ipynb
+[NbConvertApp] Converting notebook of.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 50285 bytes to of.nbconvert.ipynb
+[NbConvertApp] Converting notebook operator.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 5053 bytes to operator.nbconvert.ipynb
+[NbConvertApp] Converting notebook ord.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 19902 bytes to ord.nbconvert.ipynb
+[NbConvertApp] Converting notebook padic.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 12725 bytes to padic.nbconvert.ipynb
+[NbConvertApp] Converting notebook palette.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4530 bytes to palette.nbconvert.ipynb
+[NbConvertApp] Converting notebook parabola.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 1734 bytes to parabola.nbconvert.ipynb
+[NbConvertApp] Converting notebook parpcurv.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 2740 bytes to parpcurv.nbconvert.ipynb
+[NbConvertApp] Converting notebook parscurv.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 2670 bytes to parscurv.nbconvert.ipynb
+[NbConvertApp] Converting notebook parsurf.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 5691 bytes to parsurf.nbconvert.ipynb
+[NbConvertApp] Converting notebook pascal1.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 4753 bytes to pascal1.nbconvert.ipynb
+[NbConvertApp] Converting notebook pascal.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 7684 bytes to pascal.nbconvert.ipynb
+[NbConvertApp] Converting notebook pat.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 10144 bytes to pat.nbconvert.ipynb
+[NbConvertApp] Converting notebook patmatch.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 11984 bytes to patmatch.nbconvert.ipynb
+[NbConvertApp] Converting notebook perm.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 39381 bytes to perm.nbconvert.ipynb
+[NbConvertApp] Converting notebook pfr.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 11624 bytes to pfr.nbconvert.ipynb
+[NbConvertApp] Converting notebook pgcd.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 10063 bytes to pgcd.nbconvert.ipynb
+[NbConvertApp] Converting notebook plotfile.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 16292 bytes to plotfile.nbconvert.ipynb
+[NbConvertApp] Converting notebook plotlist.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 7402 bytes to plotlist.nbconvert.ipynb
+[NbConvertApp] Converting notebook pmint.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 21013 bytes to pmint.nbconvert.ipynb
+[NbConvertApp] Converting notebook polycoer.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 21791 bytes to polycoer.nbconvert.ipynb
+[NbConvertApp] Converting notebook poly.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 30548 bytes to poly.nbconvert.ipynb
+[NbConvertApp] Converting notebook polylift.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 6343 bytes to polylift.nbconvert.ipynb
+[NbConvertApp] Converting notebook psgenfcn.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 19180 bytes to psgenfcn.nbconvert.ipynb
+[NbConvertApp] Converting notebook r20abugs.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 54583 bytes to r20abugs.nbconvert.ipynb
+[NbConvertApp] Converting notebook r20bugs.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 24531 bytes to r20bugs.nbconvert.ipynb
+[NbConvertApp] Converting notebook r21bugsbig.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] ERROR | Timeout waiting for execute reply (30s).
+                If your cell should take longer than this, you can increase the timeout with:
+
+                    c.ExecutePreprocessor.timeout = SECONDS
+
+                in jupyter_nbconvert_config.py
+
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/notebook.py", line 26, in from_notebook_node
+    nb_copy, resources = super(NotebookExporter, self).from_notebook_node(nb, resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 130, in from_notebook_node
+    nb_copy, resources = self._preprocess(nb_copy, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 302, in _preprocess
+    nbc, resc = preprocessor(nbc, resc)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 47, in __call__
+    return self.preprocess(nb,resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 83, in preprocess
+    nb, resources = super(ExecutePreprocessor, self).preprocess(nb, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 70, in preprocess
+    nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 97, in preprocess_cell
+    outputs = self.run_cell(cell)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 140, in run_cell
+    raise exception("Cell execution timed out, see log"
+RuntimeError: Cell execution timed out, see log for details.
+[NbConvertApp] Converting notebook r21bugs.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 66140 bytes to r21bugs.nbconvert.ipynb
+[NbConvertApp] Converting notebook radff.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 14908 bytes to radff.nbconvert.ipynb
+[NbConvertApp] Converting notebook reclos.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 43293 bytes to reclos.nbconvert.ipynb
+[NbConvertApp] Converting notebook reductio.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 9555 bytes to reductio.nbconvert.ipynb
+[NbConvertApp] Converting notebook repa6.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 79477 bytes to repa6.nbconvert.ipynb
+[NbConvertApp] Converting notebook ribbon.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 1703 bytes to ribbon.nbconvert.ipynb
+[NbConvertApp] Converting notebook ribbons.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 1850 bytes to ribbons.nbconvert.ipynb
+[NbConvertApp] Converting notebook rk4draw.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 26899 bytes to rk4draw.nbconvert.ipynb
+[NbConvertApp] Converting notebook robidoux.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 9990 bytes to robidoux.nbconvert.ipynb
+[NbConvertApp] Converting notebook roots.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 5174 bytes to roots.nbconvert.ipynb
+[NbConvertApp] Converting notebook ruleset.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 9376 bytes to ruleset.nbconvert.ipynb
+[NbConvertApp] Converting notebook rules.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 16036 bytes to rules.nbconvert.ipynb
+[NbConvertApp] Converting notebook scherk.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 11408 bytes to scherk.nbconvert.ipynb
+[NbConvertApp] Converting notebook scope.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 3075 bytes to scope.nbconvert.ipynb
+[NbConvertApp] Converting notebook series2.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 27118 bytes to series2.nbconvert.ipynb
+[NbConvertApp] Converting notebook series3.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 49272 bytes to series3.nbconvert.ipynb
+[NbConvertApp] Converting notebook series.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 15411 bytes to series.nbconvert.ipynb
+[NbConvertApp] Converting notebook skew.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 25460 bytes to skew.nbconvert.ipynb
+[NbConvertApp] Converting notebook solvetra.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 37766 bytes to solvetra.nbconvert.ipynb
+[NbConvertApp] Converting notebook space3.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 96908 bytes to space3.nbconvert.ipynb
+[NbConvertApp] Converting notebook ssolve.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 25858 bytes to ssolve.nbconvert.ipynb
+[NbConvertApp] Converting notebook stream2.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 39044 bytes to stream2.nbconvert.ipynb
+[NbConvertApp] Converting notebook streams.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 17205 bytes to streams.nbconvert.ipynb
+[NbConvertApp] Converting notebook synonym.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 3974 bytes to synonym.nbconvert.ipynb
+[NbConvertApp] Converting notebook t111293.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 9286 bytes to t111293.nbconvert.ipynb
+[NbConvertApp] Converting notebook table.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 5804 bytes to table.nbconvert.ipynb
+[NbConvertApp] Converting notebook tanatan.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 7052 bytes to tanatan.nbconvert.ipynb
+[NbConvertApp] Converting notebook tensor.ipynb to notebook
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 141, in read
+    return reads(fp.read(), as_version, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/__init__.py", line 74, in reads
+    nb = reader.reads(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 58, in reads
+    nb_dict = parse_json(s, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/nbformat/reader.py", line 17, in parse_json
+    raise NotJSONError(("Notebook does not appear to be JSON: %r" % s)[:77] + "...")
+nbformat.reader.NotJSONError: Notebook does not appear to be JSON: u'{\n "cells": [\n{\n"cell_type" : "code...
+[NbConvertApp] Converting notebook test.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 159222 bytes to test.nbconvert.ipynb
+[NbConvertApp] Converting notebook tetra.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 17032 bytes to tetra.nbconvert.ipynb
+[NbConvertApp] Converting notebook tknot.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 3706 bytes to tknot.nbconvert.ipynb
+[NbConvertApp] Converting notebook tree.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 19809 bytes to tree.nbconvert.ipynb
+[NbConvertApp] Converting notebook triglim.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 7510 bytes to triglim.nbconvert.ipynb
+[NbConvertApp] Converting notebook tsetcatbutcher.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 49935 bytes to tsetcatbutcher.nbconvert.ipynb
+[NbConvertApp] Converting notebook tsetcatchemical.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 39371 bytes to tsetcatchemical.nbconvert.ipynb
+[NbConvertApp] Converting notebook tsetcatvermeer.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 15693 bytes to tsetcatvermeer.nbconvert.ipynb
+[NbConvertApp] Converting notebook tutchap1.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 10482 bytes to tutchap1.nbconvert.ipynb
+[NbConvertApp] Converting notebook tutchap2.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 47115 bytes to tutchap2.nbconvert.ipynb
+[NbConvertApp] Converting notebook tutchap3.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 47920 bytes to tutchap3.nbconvert.ipynb
+[NbConvertApp] Converting notebook tutchap4.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 16671 bytes to tutchap4.nbconvert.ipynb
+[NbConvertApp] Converting notebook tutchap67.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+(no restarts: If you didn't do this on purpose, please report it as a bug.)
+
+(SB-FORMAT::INTERPRET-DIRECTIVE-LIST #<SB-SYS:FD-STREAM for "file /home/kfp/Development/fricas_input/nb/input2ipynb/ipynb/.tmp-ispad-40694.input" {1009DBFC23}> (#<~=> " j repeat _
+               offDiags := union(offDiags,badUnit(i,j))
+") NIL NIL)
+0] [NbConvertApp] ERROR | Timeout waiting for execute reply (30s).
+                If your cell should take longer than this, you can increase the timeout with:
+
+                    c.ExecutePreprocessor.timeout = SECONDS
+
+                in jupyter_nbconvert_config.py
+
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/notebook.py", line 26, in from_notebook_node
+    nb_copy, resources = super(NotebookExporter, self).from_notebook_node(nb, resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 130, in from_notebook_node
+    nb_copy, resources = self._preprocess(nb_copy, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 302, in _preprocess
+    nbc, resc = preprocessor(nbc, resc)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 47, in __call__
+    return self.preprocess(nb,resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 83, in preprocess
+    nb, resources = super(ExecutePreprocessor, self).preprocess(nb, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 70, in preprocess
+    nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 97, in preprocess_cell
+    outputs = self.run_cell(cell)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 140, in run_cell
+    raise exception("Cell execution timed out, see log"
+RuntimeError: Cell execution timed out, see log for details.
+[NbConvertApp] Converting notebook unittest.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+(no restarts: If you didn't do this on purpose, please report it as a bug.)
+
+(SB-INT:SEQUENCE-BOUNDING-INDICES-BAD-ERROR "\"OK\"" 1 7)
+0] [NbConvertApp] ERROR | Timeout waiting for execute reply (30s).
+                If your cell should take longer than this, you can increase the timeout with:
+
+                    c.ExecutePreprocessor.timeout = SECONDS
+
+                in jupyter_nbconvert_config.py
+
+Traceback (most recent call last):
+  File "/usr/local/bin/jupyter-nbconvert", line 11, in <module>
+    sys.exit(main())
+  File "/usr/local/lib/python2.7/dist-packages/jupyter_core/application.py", line 267, in launch_instance
+    return super(JupyterApp, cls).launch_instance(argv=argv, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/traitlets/config/application.py", line 592, in launch_instance
+    app.start()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 289, in start
+    self.convert_notebooks()
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 412, in convert_notebooks
+    self.convert_single_notebook(notebook_filename)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 383, in convert_single_notebook
+    output, resources = self.export_single_notebook(notebook_filename, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/nbconvertapp.py", line 335, in export_single_notebook
+    output, resources = self.exporter.from_filename(notebook_filename, resources=resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 165, in from_filename
+    return self.from_notebook_node(nbformat.read(f, as_version=4), resources=resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/notebook.py", line 26, in from_notebook_node
+    nb_copy, resources = super(NotebookExporter, self).from_notebook_node(nb, resources, **kw)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 130, in from_notebook_node
+    nb_copy, resources = self._preprocess(nb_copy, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/exporters/exporter.py", line 302, in _preprocess
+    nbc, resc = preprocessor(nbc, resc)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 47, in __call__
+    return self.preprocess(nb,resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 83, in preprocess
+    nb, resources = super(ExecutePreprocessor, self).preprocess(nb, resources)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/base.py", line 70, in preprocess
+    nb.cells[index], resources = self.preprocess_cell(cell, resources, index)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 97, in preprocess_cell
+    outputs = self.run_cell(cell)
+  File "/usr/local/lib/python2.7/dist-packages/nbconvert/preprocessors/execute.py", line 140, in run_cell
+    raise exception("Cell execution timed out, see log"
+RuntimeError: Cell execution timed out, see log for details.
+[NbConvertApp] Converting notebook vectors.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 7342 bytes to vectors.nbconvert.ipynb
+[NbConvertApp] Converting notebook view2d.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 21513 bytes to view2d.nbconvert.ipynb
+[NbConvertApp] Converting notebook viewdef.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 13398 bytes to viewdef.nbconvert.ipynb
+[NbConvertApp] Converting notebook vsbasis.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 43060 bytes to vsbasis.nbconvert.ipynb
+[NbConvertApp] Converting notebook wester.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 173289 bytes to wester.nbconvert.ipynb
+[NbConvertApp] Converting notebook zimmer.ipynb to notebook
+[NbConvertApp] Executing notebook with kernel: ifricas
+[NbConvertApp] Writing 125501 bytes to zimmer.nbconvert.ipynb
+[NbConvertApp] Converting notebook agcd.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 253107 bytes to agcd.nbconvert.html
+[NbConvertApp] Converting notebook algaggr.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 210744 bytes to algaggr.nbconvert.html
+[NbConvertApp] Converting notebook algbrbf.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 198484 bytes to algbrbf.nbconvert.html
+[NbConvertApp] Converting notebook algfacob.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 217050 bytes to algfacob.nbconvert.html
+[NbConvertApp] Converting notebook allfact.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 207664 bytes to allfact.nbconvert.html
+[NbConvertApp] Converting notebook antoine.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 196026 bytes to antoine.nbconvert.html
+[NbConvertApp] Converting notebook arith.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 210998 bytes to arith.nbconvert.html
+[NbConvertApp] Converting notebook array.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 216232 bytes to array.nbconvert.html
+[NbConvertApp] Converting notebook arrows.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 191065 bytes to arrows.nbconvert.html
+[NbConvertApp] Converting notebook assign.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 196760 bytes to assign.nbconvert.html
+[NbConvertApp] Converting notebook atansqrt.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 192232 bytes to atansqrt.nbconvert.html
+[NbConvertApp] Converting notebook axiom.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 193439 bytes to axiom.nbconvert.html
+[NbConvertApp] Converting notebook bags.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 215467 bytes to bags.nbconvert.html
+[NbConvertApp] Converting notebook bernpoly.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 200027 bytes to bernpoly.nbconvert.html
+[NbConvertApp] Converting notebook bouquet.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 192771 bytes to bouquet.nbconvert.html
+[NbConvertApp] Converting notebook bug6357.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 191110 bytes to bug6357.nbconvert.html
+[NbConvertApp] Converting notebook bugs2007.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 303681 bytes to bugs2007.nbconvert.html
+[NbConvertApp] Converting notebook bugs2008.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 262343 bytes to bugs2008.nbconvert.html
+[NbConvertApp] Converting notebook bugs2011.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 226864 bytes to bugs2011.nbconvert.html
+[NbConvertApp] Converting notebook bugs2012.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 253296 bytes to bugs2012.nbconvert.html
+[NbConvertApp] Converting notebook bugs2013.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 239213 bytes to bugs2013.nbconvert.html
+[NbConvertApp] Converting notebook bugs2014.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 269663 bytes to bugs2014.nbconvert.html
+[NbConvertApp] Converting notebook bugs2015.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 225414 bytes to bugs2015.nbconvert.html
+[NbConvertApp] Converting notebook calculus2.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 284385 bytes to calculus2.nbconvert.html
+[NbConvertApp] Converting notebook cardinal.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 199608 bytes to cardinal.nbconvert.html
+[NbConvertApp] Converting notebook cdraw.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 206488 bytes to cdraw.nbconvert.html
+[NbConvertApp] Converting notebook ch.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 196979 bytes to ch.nbconvert.html
+[NbConvertApp] Converting notebook clifford.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 221641 bytes to clifford.nbconvert.html
+[NbConvertApp] Converting notebook coercels.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 194215 bytes to coercels.nbconvert.html
+[NbConvertApp] Converting notebook collect.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 232019 bytes to collect.nbconvert.html
+[NbConvertApp] Converting notebook color.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 198795 bytes to color.nbconvert.html
+[NbConvertApp] Converting notebook conformal.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 212815 bytes to conformal.nbconvert.html
+[NbConvertApp] Converting notebook constant.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 215693 bytes to constant.nbconvert.html
+[NbConvertApp] Converting notebook contfrac.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 227832 bytes to contfrac.nbconvert.html
+[NbConvertApp] Converting notebook coordsys.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 219883 bytes to coordsys.nbconvert.html
+[NbConvertApp] Converting notebook cycles.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 242835 bytes to cycles.nbconvert.html
+[NbConvertApp] Converting notebook cyfactor.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 199754 bytes to cyfactor.nbconvert.html
+[NbConvertApp] Converting notebook damped.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 207215 bytes to damped.nbconvert.html
+[NbConvertApp] Converting notebook danzwill.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 206196 bytes to danzwill.nbconvert.html
+[NbConvertApp] Converting notebook de2re.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 196383 bytes to de2re.nbconvert.html
+[NbConvertApp] Converting notebook defintef.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 198713 bytes to defintef.nbconvert.html
+[NbConvertApp] Converting notebook defs.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 237290 bytes to defs.nbconvert.html
+[NbConvertApp] Converting notebook dhtri.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 194699 bytes to dhtri.nbconvert.html
+[NbConvertApp] Converting notebook dirichlet.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 203489 bytes to dirichlet.nbconvert.html
+[NbConvertApp] Converting notebook discrgrp.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 232355 bytes to discrgrp.nbconvert.html
+[NbConvertApp] Converting notebook distro.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 320749 bytes to distro.nbconvert.html
+[NbConvertApp] Converting notebook divisor.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 204084 bytes to divisor.nbconvert.html
+[NbConvertApp] Converting notebook dpol.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 206174 bytes to dpol.nbconvert.html
+[NbConvertApp] Converting notebook draw2dSF.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 196246 bytes to draw2dSF.nbconvert.html
+[NbConvertApp] Converting notebook drawalg.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 189979 bytes to drawalg.nbconvert.html
+[NbConvertApp] Converting notebook drawcfn.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 232094 bytes to drawcfn.nbconvert.html
+[NbConvertApp] Converting notebook drawcfun.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 233318 bytes to drawcfun.nbconvert.html
+[NbConvertApp] Converting notebook drawcurv.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 213529 bytes to drawcurv.nbconvert.html
+[NbConvertApp] Converting notebook drawcx.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 211304 bytes to drawcx.nbconvert.html
+[NbConvertApp] Converting notebook drawex.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 215575 bytes to drawex.nbconvert.html
+[NbConvertApp] Converting notebook draw.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 216885 bytes to draw.nbconvert.html
+[NbConvertApp] Converting notebook drawpoly.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 192039 bytes to drawpoly.nbconvert.html
+[NbConvertApp] Converting notebook drawx.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 204973 bytes to drawx.nbconvert.html
+[NbConvertApp] Converting notebook dropt.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 228308 bytes to dropt.nbconvert.html
+[NbConvertApp] Converting notebook efi.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 200506 bytes to efi.nbconvert.html
+[NbConvertApp] Converting notebook eigen.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 232841 bytes to eigen.nbconvert.html
+[NbConvertApp] Converting notebook elemfun.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 210770 bytes to elemfun.nbconvert.html
+[NbConvertApp] Converting notebook elfuts.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 225650 bytes to elfuts.nbconvert.html
+[NbConvertApp] Converting notebook ellip.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 222523 bytes to ellip.nbconvert.html
+[NbConvertApp] Converting notebook elt.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 193579 bytes to elt.nbconvert.html
+[NbConvertApp] Converting notebook equation2.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 204290 bytes to equation2.nbconvert.html
+[NbConvertApp] Converting notebook equation.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 204636 bytes to equation.nbconvert.html
+[NbConvertApp] Converting notebook errortrap.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 200301 bytes to errortrap.nbconvert.html
+[NbConvertApp] Converting notebook eval.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 210567 bytes to eval.nbconvert.html
+[NbConvertApp] Converting notebook exint.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 206012 bytes to exint.nbconvert.html
+[NbConvertApp] Converting notebook exlap.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 198629 bytes to exlap.nbconvert.html
+[NbConvertApp] Converting notebook expexpan.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 204102 bytes to expexpan.nbconvert.html
+[NbConvertApp] Converting notebook explot2d.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 196712 bytes to explot2d.nbconvert.html
+[NbConvertApp] Converting notebook expr.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 211597 bytes to expr.nbconvert.html
+[NbConvertApp] Converting notebook exprpoly.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 204517 bytes to exprpoly.nbconvert.html
+[NbConvertApp] Converting notebook exsum.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 205133 bytes to exsum.nbconvert.html
+[NbConvertApp] Converting notebook ffdemo.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 444599 bytes to ffdemo.nbconvert.html
+[NbConvertApp] Converting notebook fferr.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 193506 bytes to fferr.nbconvert.html
+[NbConvertApp] Converting notebook ffrac.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 198705 bytes to ffrac.nbconvert.html
+[NbConvertApp] Converting notebook ffx72.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 201463 bytes to ffx72.nbconvert.html
+[NbConvertApp] Converting notebook fib.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 191796 bytes to fib.nbconvert.html
+[NbConvertApp] Converting notebook float2.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 213959 bytes to float2.nbconvert.html
+[NbConvertApp] Converting notebook float.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 199426 bytes to float.nbconvert.html
+[NbConvertApp] Converting notebook fname.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 197959 bytes to fname.nbconvert.html
+[NbConvertApp] Converting notebook fnla.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 194014 bytes to fnla.nbconvert.html
+[NbConvertApp] Converting notebook fns.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 210749 bytes to fns.nbconvert.html
+[NbConvertApp] Converting notebook fparfrac.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 208451 bytes to fparfrac.nbconvert.html
+[NbConvertApp] Converting notebook fr.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 234147 bytes to fr.nbconvert.html
+[NbConvertApp] Converting notebook function.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 237316 bytes to function.nbconvert.html
+[NbConvertApp] Converting notebook fun.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 216051 bytes to fun.nbconvert.html
+[NbConvertApp] Converting notebook galois.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 213528 bytes to galois.nbconvert.html
+[NbConvertApp] Converting notebook genups.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 229968 bytes to genups.nbconvert.html
+[NbConvertApp] Converting notebook gonshor.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 283377 bytes to gonshor.nbconvert.html
+[NbConvertApp] Converting notebook grdef.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 198824 bytes to grdef.nbconvert.html
+[NbConvertApp] Converting notebook grpthry.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 337055 bytes to grpthry.nbconvert.html
+[NbConvertApp] Converting notebook heat.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 200091 bytes to heat.nbconvert.html
+[NbConvertApp] Converting notebook herm.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 222485 bytes to herm.nbconvert.html
+[NbConvertApp] Converting notebook huang.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 207260 bytes to huang.nbconvert.html
+[NbConvertApp] Converting notebook ico.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 231862 bytes to ico.nbconvert.html
+[NbConvertApp] Converting notebook ideal.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 202085 bytes to ideal.nbconvert.html
+[NbConvertApp] Converting notebook ifact.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 193513 bytes to ifact.nbconvert.html
+[NbConvertApp] Converting notebook images1.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 191121 bytes to images1.nbconvert.html
+[NbConvertApp] Converting notebook images2.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 197206 bytes to images2.nbconvert.html
+[NbConvertApp] Converting notebook images3.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 191958 bytes to images3.nbconvert.html
+[NbConvertApp] Converting notebook images5.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 203010 bytes to images5.nbconvert.html
+[NbConvertApp] Converting notebook images6.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 194340 bytes to images6.nbconvert.html
+[NbConvertApp] Converting notebook images7.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 201818 bytes to images7.nbconvert.html
+[NbConvertApp] Converting notebook images8.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 198885 bytes to images8.nbconvert.html
+[NbConvertApp] Converting notebook infprod.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 199262 bytes to infprod.nbconvert.html
+[NbConvertApp] Converting notebook intaf.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 203480 bytes to intaf.nbconvert.html
+[NbConvertApp] Converting notebook intdeq.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 196074 bytes to intdeq.nbconvert.html
+[NbConvertApp] Converting notebook intef.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 202530 bytes to intef.nbconvert.html
+[NbConvertApp] Converting notebook intg0.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 210466 bytes to intg0.nbconvert.html
+[NbConvertApp] Converting notebook intmix.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 195234 bytes to intmix.nbconvert.html
+[NbConvertApp] Converting notebook intrf.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 201477 bytes to intrf.nbconvert.html
+[NbConvertApp] Converting notebook ipftest.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 193823 bytes to ipftest.nbconvert.html
+[NbConvertApp] Converting notebook is.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 194709 bytes to is.nbconvert.html
+[NbConvertApp] Converting notebook isprime.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 218182 bytes to isprime.nbconvert.html
+[NbConvertApp] Converting notebook jet.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 261920 bytes to jet.nbconvert.html
+[NbConvertApp] Converting notebook knot2.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 195377 bytes to knot2.nbconvert.html
+[NbConvertApp] Converting notebook knot.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 191854 bytes to knot.nbconvert.html
+[NbConvertApp] Converting notebook laplace.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 208630 bytes to laplace.nbconvert.html
+[NbConvertApp] Converting notebook leg.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 192387 bytes to leg.nbconvert.html
+[NbConvertApp] Converting notebook limit.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 238713 bytes to limit.nbconvert.html
+[NbConvertApp] Converting notebook linalg.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 253390 bytes to linalg.nbconvert.html
+[NbConvertApp] Converting notebook lindep.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 199302 bytes to lindep.nbconvert.html
+[NbConvertApp] Converting notebook lode.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 219214 bytes to lode.nbconvert.html
+[NbConvertApp] Converting notebook lodesys.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 203139 bytes to lodesys.nbconvert.html
+[NbConvertApp] Converting notebook lodo2.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 208400 bytes to lodo2.nbconvert.html
+[NbConvertApp] Converting notebook lodof2.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 216109 bytes to lodof2.nbconvert.html
+[NbConvertApp] Converting notebook lodof.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 210318 bytes to lodof.nbconvert.html
+[NbConvertApp] Converting notebook lodo.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 240960 bytes to lodo.nbconvert.html
+[NbConvertApp] Converting notebook loop.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 206233 bytes to loop.nbconvert.html
+[NbConvertApp] Converting notebook lupfact.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 207299 bytes to lupfact.nbconvert.html
+[NbConvertApp] Converting notebook macros.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 192050 bytes to macros.nbconvert.html
+[NbConvertApp] Converting notebook mantepse.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 300245 bytes to mantepse.nbconvert.html
+[NbConvertApp] Converting notebook marcbench.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 373335 bytes to marcbench.nbconvert.html
+[NbConvertApp] Converting notebook matbug.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 201178 bytes to matbug.nbconvert.html
+[NbConvertApp] Converting notebook matcat.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 204155 bytes to matcat.nbconvert.html
+[NbConvertApp] Converting notebook matrix22.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 201725 bytes to matrix22.nbconvert.html
+[NbConvertApp] Converting notebook matrix.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 222530 bytes to matrix.nbconvert.html
+[NbConvertApp] Converting notebook mfinfact.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 202281 bytes to mfinfact.nbconvert.html
+[NbConvertApp] Converting notebook misc_draw.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 207415 bytes to misc_draw.nbconvert.html
+[NbConvertApp] Converting notebook mountain.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 207321 bytes to mountain.nbconvert.html
+[NbConvertApp] Converting notebook mset.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 200013 bytes to mset.nbconvert.html
+[NbConvertApp] Converting notebook mts.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 201909 bytes to mts.nbconvert.html
+[NbConvertApp] Converting notebook mult2d.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 198925 bytes to mult2d.nbconvert.html
+[NbConvertApp] Converting notebook mult3d.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 217727 bytes to mult3d.nbconvert.html
+[NbConvertApp] Converting notebook multfact.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 192561 bytes to multfact.nbconvert.html
+[NbConvertApp] Converting notebook multiple.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 196191 bytes to multiple.nbconvert.html
+[NbConvertApp] Converting notebook multKnot.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 194712 bytes to multKnot.nbconvert.html
+[NbConvertApp] Converting notebook ndftip.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 254852 bytes to ndftip.nbconvert.html
+[NbConvertApp] Converting notebook negfloats.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 191681 bytes to negfloats.nbconvert.html
+[NbConvertApp] Converting notebook nepip.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 222057 bytes to nepip.nbconvert.html
+[NbConvertApp] Converting notebook newton.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 193694 bytes to newton.nbconvert.html
+[NbConvertApp] Converting notebook nlode.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 203154 bytes to nlode.nbconvert.html
+[NbConvertApp] Converting notebook noonburg.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 196249 bytes to noonburg.nbconvert.html
+[NbConvertApp] Converting notebook noptip.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 193816 bytes to noptip.nbconvert.html
+[NbConvertApp] Converting notebook nqip.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 204410 bytes to nqip.nbconvert.html
+[NbConvertApp] Converting notebook numbers.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 256691 bytes to numbers.nbconvert.html
+[NbConvertApp] Converting notebook octonion.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 209802 bytes to octonion.nbconvert.html
+[NbConvertApp] Converting notebook ode.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 199703 bytes to ode.nbconvert.html
+[NbConvertApp] Converting notebook of.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 253627 bytes to of.nbconvert.html
+[NbConvertApp] Converting notebook operator.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 194248 bytes to operator.nbconvert.html
+[NbConvertApp] Converting notebook ord.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 211410 bytes to ord.nbconvert.html
+[NbConvertApp] Converting notebook padic.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 203984 bytes to padic.nbconvert.html
+[NbConvertApp] Converting notebook palette.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 193678 bytes to palette.nbconvert.html
+[NbConvertApp] Converting notebook parabola.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 189801 bytes to parabola.nbconvert.html
+[NbConvertApp] Converting notebook parpcurv.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 191138 bytes to parpcurv.nbconvert.html
+[NbConvertApp] Converting notebook parscurv.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 191074 bytes to parscurv.nbconvert.html
+[NbConvertApp] Converting notebook parsurf.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 195213 bytes to parsurf.nbconvert.html
+[NbConvertApp] Converting notebook pascal1.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 194377 bytes to pascal1.nbconvert.html
+[NbConvertApp] Converting notebook pascal.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 197837 bytes to pascal.nbconvert.html
+[NbConvertApp] Converting notebook patmatch.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 203949 bytes to patmatch.nbconvert.html
+[NbConvertApp] Converting notebook pat.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 202000 bytes to pat.nbconvert.html
+[NbConvertApp] Converting notebook perm.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 240099 bytes to perm.nbconvert.html
+[NbConvertApp] Converting notebook pfr.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 202700 bytes to pfr.nbconvert.html
+[NbConvertApp] Converting notebook pgcd.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 199705 bytes to pgcd.nbconvert.html
+[NbConvertApp] Converting notebook plotfile.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 209036 bytes to plotfile.nbconvert.html
+[NbConvertApp] Converting notebook plotlist.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 196587 bytes to plotlist.nbconvert.html
+[NbConvertApp] Converting notebook pmint.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 214467 bytes to pmint.nbconvert.html
+[NbConvertApp] Converting notebook polycoer.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 217853 bytes to polycoer.nbconvert.html
+[NbConvertApp] Converting notebook polylift.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 195506 bytes to polylift.nbconvert.html
+[NbConvertApp] Converting notebook poly.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 229391 bytes to poly.nbconvert.html
+[NbConvertApp] Converting notebook psgenfcn.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 209582 bytes to psgenfcn.nbconvert.html
+[NbConvertApp] Converting notebook r20abugs.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 246713 bytes to r20abugs.nbconvert.html
+[NbConvertApp] Converting notebook r20bugs.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 219690 bytes to r20bugs.nbconvert.html
+[NbConvertApp] Converting notebook r21bugs.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 273782 bytes to r21bugs.nbconvert.html
+[NbConvertApp] Converting notebook radff.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 207468 bytes to radff.nbconvert.html
+[NbConvertApp] Converting notebook reclos.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 244185 bytes to reclos.nbconvert.html
+[NbConvertApp] Converting notebook reductio.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 201041 bytes to reductio.nbconvert.html
+[NbConvertApp] Converting notebook repa6.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 272012 bytes to repa6.nbconvert.html
+[NbConvertApp] Converting notebook ribbon.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 189660 bytes to ribbon.nbconvert.html
+[NbConvertApp] Converting notebook ribbons.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 189801 bytes to ribbons.nbconvert.html
+[NbConvertApp] Converting notebook rk4draw.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 222554 bytes to rk4draw.nbconvert.html
+[NbConvertApp] Converting notebook robidoux.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 200894 bytes to robidoux.nbconvert.html
+[NbConvertApp] Converting notebook roots.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 194990 bytes to roots.nbconvert.html
+[NbConvertApp] Converting notebook ruleset.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 198775 bytes to ruleset.nbconvert.html
+[NbConvertApp] Converting notebook rules.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 207891 bytes to rules.nbconvert.html
+[NbConvertApp] Converting notebook scherk.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 201419 bytes to scherk.nbconvert.html
+[NbConvertApp] Converting notebook scope.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 191669 bytes to scope.nbconvert.html
+[NbConvertApp] Converting notebook series2.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 220575 bytes to series2.nbconvert.html
+[NbConvertApp] Converting notebook series3.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 252074 bytes to series3.nbconvert.html
+[NbConvertApp] Converting notebook series.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 206039 bytes to series.nbconvert.html
+[NbConvertApp] Converting notebook skew.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 221609 bytes to skew.nbconvert.html
+[NbConvertApp] Converting notebook solvetra.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 228310 bytes to solvetra.nbconvert.html
+[NbConvertApp] Converting notebook space3.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 319709 bytes to space3.nbconvert.html
+[NbConvertApp] Converting notebook ssolve.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 220831 bytes to ssolve.nbconvert.html
+[NbConvertApp] Converting notebook stream2.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 241247 bytes to stream2.nbconvert.html
+[NbConvertApp] Converting notebook streams.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 212241 bytes to streams.nbconvert.html
+[NbConvertApp] Converting notebook synonym.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 191920 bytes to synonym.nbconvert.html
+[NbConvertApp] Converting notebook t111293.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 200765 bytes to t111293.nbconvert.html
+[NbConvertApp] Converting notebook table.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 194683 bytes to table.nbconvert.html
+[NbConvertApp] Converting notebook tanatan.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 197498 bytes to tanatan.nbconvert.html
+[NbConvertApp] Converting notebook test.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 403147 bytes to test.nbconvert.html
+[NbConvertApp] Converting notebook tetra.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 209578 bytes to tetra.nbconvert.html
+[NbConvertApp] Converting notebook tknot.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 192574 bytes to tknot.nbconvert.html
+[NbConvertApp] Converting notebook tree.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 214539 bytes to tree.nbconvert.html
+[NbConvertApp] Converting notebook triglim.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 197287 bytes to triglim.nbconvert.html
+[NbConvertApp] Converting notebook tsetcatbutcher.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 237150 bytes to tsetcatbutcher.nbconvert.html
+[NbConvertApp] Converting notebook tsetcatchemical.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 225902 bytes to tsetcatchemical.nbconvert.html
+[NbConvertApp] Converting notebook tsetcatvermeer.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 206624 bytes to tsetcatvermeer.nbconvert.html
+[NbConvertApp] Converting notebook tutchap1.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 202285 bytes to tutchap1.nbconvert.html
+[NbConvertApp] Converting notebook tutchap2.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 249961 bytes to tutchap2.nbconvert.html
+[NbConvertApp] Converting notebook tutchap3.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 247935 bytes to tutchap3.nbconvert.html
+[NbConvertApp] Converting notebook tutchap4.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 207306 bytes to tutchap4.nbconvert.html
+[NbConvertApp] Converting notebook vectors.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 196903 bytes to vectors.nbconvert.html
+[NbConvertApp] Converting notebook view2d.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 209336 bytes to view2d.nbconvert.html
+[NbConvertApp] Converting notebook viewdef.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 206479 bytes to viewdef.nbconvert.html
+[NbConvertApp] Converting notebook vsbasis.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 245254 bytes to vsbasis.nbconvert.html
+[NbConvertApp] Converting notebook wester.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 399827 bytes to wester.nbconvert.html
+[NbConvertApp] Converting notebook zimmer.nbconvert.ipynb to html
+/usr/local/lib/python2.7/dist-packages/nbconvert/filters/highlight.py:131: UserWarning: No lexer found for language u'spad'. Treating as plain text.
+  warn("No lexer found for language %r. Treating as plain text." % language)
+[NbConvertApp] Writing 362716 bytes to zimmer.nbconvert.html
+kfp@helix:~/Development/fricas_input/nb/input2ipynb$

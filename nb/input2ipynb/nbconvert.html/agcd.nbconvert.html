@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>ssolve.nbconvert</title>
+<title>agcd.nbconvert</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -241,7 +241,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testsuite &quot;SSOLVE&quot;
+<div class=" highlight hl-spad"><pre>testsuite &quot;algebraic gcd&quot;
 </pre></div>
 
 </div>
@@ -279,7 +279,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;fractions&quot;
+<div class=" highlight hl-spad"><pre>testcase &quot;single extension&quot;
 </pre></div>
 
 </div>
@@ -311,12 +311,22 @@ Warning: HyperTeX macro table not found
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Setup gcd routines</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>SSOLVE ==&gt; EXPRSOL(INT, EXPR INT, UFPS EXPR INT, UFPS SMPEXPR EXPR INT)
+<div class=" highlight hl-spad"><pre>pA := U32Vector
 </pre></div>
 
 </div>
@@ -331,7 +341,8 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>   U32Vector
+                                                                   Type: Type
 </pre>
 </div>
 
@@ -346,7 +357,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>USOLVE ==&gt; UTSSOL(FRAC INT, UFPS FRAC INT, UFPS SMPEXPR FRAC INT)
+<div class=" highlight hl-spad"><pre>pPA := PrimitiveArray(pA)
 </pre></div>
 
 </div>
@@ -361,7 +372,8 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>   PrimitiveArray(U32Vector)
+                                                                   Type: Type
 </pre>
 </div>
 
@@ -376,7 +388,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>f := operator &#39;f
+<div class=" highlight hl-spad"><pre>mD1 := Record(svz : Symbol, sm : pA, sp : Integer)
 </pre></div>
 
 </div>
@@ -391,8 +403,8 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   f
-                                                          Type: BasicOperator
+<pre>   Record(svz: Symbol,sm: U32Vector,sp: Integer)
+                                                                   Type: Type
 </pre>
 </div>
 
@@ -407,7 +419,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;coefficient(seriesSolve(s +-&gt; 1/2-s, [])$USOLVE, 0)&quot;, &quot;1/2&quot;)
+<div class=" highlight hl-spad"><pre>mOP := ModularAlgebraicGcdTools2
 </pre></div>
 
 </div>
@@ -422,7 +434,8 @@ Warning: HyperTeX macro table not found
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>   ModularAlgebraicGcdTools2
+                                                                   Type: Type
 </pre>
 </div>
 
@@ -437,7 +450,7 @@ Warning: HyperTeX macro table not found
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;coefficient(seriesSolve(1- 2*f x, f, x, [])$SSOLVE, 0)&quot;, &quot;1/2&quot;)
+<div class=" highlight hl-spad"><pre>mGCD := ModularAlgebraicGcd(pPA, mD1, mOP)
 </pre></div>
 
 </div>
@@ -447,74 +460,15 @@ Warning: HyperTeX macro table not found
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function %A with type (UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Expression(Integer))),
-      UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Expression(Integer))))
-       -&gt; UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Expression(Integer))) 
-</pre>
-</div>
-</div>
 
 <div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>  ModularAlgebraicGcd(PrimitiveArray(U32Vector),Record(svz: Symbol,sm: U32Vecto
+  r,sp: Integer),ModularAlgebraicGcdTools2)
+                                                                   Type: Type
 </pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-spad"><pre>xftestEquals(&quot;coefficient(seriesSolve(1/2-f x, f, x, [])$SSOLVE, 0)&quot;, &quot;1/2&quot;)
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function %B with type (UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Expression(Integer))),
-      UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Expression(Integer))))
-       -&gt; UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Expression(Integer))) 
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>SIMPLE-CONTROL-ERROR: 
-attempt to THROW to a tag that does not exist: |coerceFailure|
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre></pre>
 </div>
 
 </div>
@@ -528,17 +482,17 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>failure probably due to missing / in UFPS.</p>
+<p>helper to prepare data</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;initial values&quot;
+<div class=" highlight hl-spad"><pre>mreduction(x, z, m) == multivariate(pseudoRemainder(univariate(x, z), univariate(m, z)), z)
 </pre></div>
 
 </div>
@@ -549,18 +503,53 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
+<div class="output_area"><div class="prompt output_prompt">Out[9]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
 </pre>
 </div>
+
 </div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>case 1</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>p1 := 3*t*x^2 + (-2*t^2 + 3*t)*z*x + 15*x + 15*z - 2*t^3
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
 
 <div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>         2                     2           3
+   ((- 2t  + 3t)x + 15)z + 3t x  + 15x - 2t
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -575,7 +564,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>SSOLVE ==&gt; EXPRSOL(INT, EXPR INT, UFPS EXPR INT, UFPS SMPEXPR EXPR INT)
+<div class=" highlight hl-spad"><pre>q1 := 3*t*z*x^2 + 15*z*x + (-2*t^3 + 3*t)*x - 2*t^2*z + 15
 </pre></div>
 
 </div>
@@ -590,7 +579,9 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>        2           2          3
+   (3t x  + 15x - 2t )z + (- 2t  + 3t)x + 15
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -605,7 +596,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>USOLVE ==&gt; UTSSOL(FRAC INT, UFPS FRAC INT, UFPS SMPEXPR FRAC INT)
+<div class=" highlight hl-spad"><pre>m := z^2 - t
 </pre></div>
 
 </div>
@@ -620,7 +611,9 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>    2
+   z  - t
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -635,7 +628,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>f := operator &#39;f
+<div class=" highlight hl-spad"><pre>g1 := algebraicGcd(p1, q1, [m], [t], x, [z])$mGCD
 </pre></div>
 
 </div>
@@ -650,8 +643,9 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   f
-                                                          Type: BasicOperator
+<pre>       2
+   - 2t z + 3t x + 15
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -666,7 +660,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testLibraryError(&quot;seriesSolve(s +-&gt; 1/2-s, [1])$USOLVE&quot;)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;g1&quot;, &quot;-2*t^2*z+(3*t*x+15)&quot;)
 </pre></div>
 
 </div>
@@ -677,21 +671,11 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre> 
-   &gt;&gt; Error detected within library code:
-   seriesSolve: there is no solution with the given initial values
-
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[14]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                                                                   Type: Void
 </pre>
 </div>
 
@@ -706,7 +690,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testLibraryError(&quot;seriesSolve(D(f x, x, 2) - f x - 1, f, x, [1])$SSOLVE&quot;)
+<div class=" highlight hl-spad"><pre>p5 := mreduction(p1^5, z, m)
 </pre></div>
 
 </div>
@@ -718,18 +702,10 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>   Compiling function %D with type (UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Expression(Integer))),
-      UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Expression(Integer))))
-       -&gt; UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Expression(Integer))) 
- 
-   &gt;&gt; Error detected within library code:
-   seriesSolve: coefficient does not appear in equation
-
-</pre>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiling function mreduction with type (Polynomial(Integer),
+      Variable(z),Polynomial(Integer)) -&gt; Polynomial(Integer) 
+                                                                                                                                                                                                </pre>
 </div>
 </div>
 
@@ -737,7 +713,115 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>error
+<pre>                6        5  9            5         4  8
+         (- 810t  + 1215t )x  + (- 16200t  + 30375t )x
+       + 
+                9        8        7        6          4          3  7
+         (- 720t  + 5400t  - 8100t  + 2430t  - 121500t  + 303750t )x
+       + 
+                 8         7          6         5          3           2  6
+         (- 7200t  + 81000t  - 162000t  + 60750t  - 405000t  + 1518750t )x
+       + 
+                  12        11        10         9        8         7          6
+             - 32t   + 1200t   - 7200t   + 10800t  - 4050t  - 17757t  + 405000t
+           + 
+                       5          4          2
+             - 1215000t  + 607500t  - 506250t  + 3796875t
+        *
+            5
+           x
+       + 
+                  10         9          8         7        6          5
+             6000t   - 72000t  + 162000t  - 81000t  + 6075t  + 675000t
+           + 
+                       4           3
+             - 4050000t  + 3037500t  + 3796875
+        *
+            4
+           x
+       + 
+                   13        12        11        10          8          7
+             - 320t   + 2400t   - 3600t   + 1080t   - 180000t  + 810000t
+           + 
+                      6         5           3           2
+             - 607500t  + 60750t  - 5062500t  + 7593750t
+        *
+            3
+           x
+       + 
+                   11         10         9           6           5          4
+             12000t   - 36000t   + 16200t  + 1350000t  - 2025000t  + 303750t
+           + 
+             7593750t
+        *
+            2
+           x
+       + 
+                14       13         9         8           4          3
+         (- 160t   + 240t   - 90000t  + 81000t  - 2531250t  + 759375t )x
+       + 
+              12          7          2
+         1200t   + 135000t  + 759375t
+    *
+       z
+   + 
+         5 10        4 9         8        7        6         3  8
+     243t x   + 6075t x  + (1080t  - 4050t  + 2430t  + 60750t )x
+   + 
+            7         6         5          2  7
+     (16200t  - 81000t  + 60750t  + 303750t )x
+   + 
+             11        10         9        8        7         6          5
+         240t   - 3600t   + 10800t  - 8100t  + 1215t  + 81000t  - 607500t
+       + 
+                4
+         607500t  + 759375t
+    *
+        6
+       x
+   + 
+              10         9          8          7         6          5
+         1200t   - 36000t  + 162000t  - 162000t  + 30375t  + 135000t
+       + 
+                   4           3
+         - 2025000t  + 3037500t  + 759375
+    *
+        5
+       x
+   + 
+               13        12        11        10       9         8          7
+         - 160t   + 2400t   - 7200t   + 5400t   - 810t  - 90000t  + 810000t
+       + 
+                   6          5           3           2
+         - 1215000t  + 303750t  - 2531250t  + 7593750t
+    *
+        4
+       x
+   + 
+               11         10         9         8           6           5
+         12000t   - 72000t   + 81000t  - 16200t  + 1350000t  - 4050000t
+       + 
+                 4
+         1518750t  + 7593750t
+    *
+        3
+       x
+   + 
+               14        13       12          9          8          7
+         - 320t   + 1200t   - 720t   - 180000t  + 405000t  - 121500t
+       + 
+                   4           3
+         - 5062500t  + 3796875t
+    *
+        2
+       x
+   + 
+           12        11          7          6           2        15         10
+     (6000t   - 7200t   + 675000t  - 405000t  + 3796875t )x - 32t   - 18000t
+   + 
+              5
+     - 506250t
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -752,7 +836,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;Bell numbers&quot;
+<div class=" highlight hl-spad"><pre>q4 := mreduction(q1^4, z, m)
 </pre></div>
 
 </div>
@@ -765,8 +849,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
+<pre>                                                                            </pre>
 </div>
 </div>
 
@@ -774,7 +857,55 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>                7       5  7           6        4  6
+         (- 216t  + 324t )x  + (- 3240t  + 6480t )x
+       + 
+               10       8        6         5       4         3  5
+         (- 96t   + 864t  - 1296t  - 16200t  + 324t  + 48600t )x
+       + 
+                9        7         5         4        3          2  4
+         (- 480t  + 8640t  - 19440t  - 27000t  + 6480t  + 162000t )x
+       + 
+                  11       9       7         6       5         4         2
+               64t   - 576t  + 864t  + 21600t  - 216t  - 97200t  + 48600t
+             + 
+               202500t
+        *
+            3
+           x
+       + 
+                 8        6        4          3            2
+         (- 2880t  + 8640t  - 3240t  - 162000t  + 162000t)x
+       + 
+             10      8         5         3                  7         2
+         (64t   - 96t  + 21600t  - 16200t  + 202500)x - 480t  - 27000t
+    *
+       z
+   + 
+        6 8        5 7        9       7       5         4  6
+     81t x  + 1620t x  + (216t  - 864t  + 486t  + 12150t )x
+   + 
+           8         6        4         3  5
+     (2160t  - 12960t  + 9720t  + 40500t )x
+   + 
+            12       10        8        7       6         5      4         3
+         16t   - 384t   + 1296t  + 5400t  - 864t  - 64800t  + 81t  + 72900t
+       + 
+               2
+         50625t
+    *
+        4
+       x
+   + 
+             9         7         5          4        3          2  3
+     (- 1920t  + 12960t  - 12960t  - 108000t  + 1620t  + 243000t )x
+   + 
+         11       9       7         6         4         2            2
+     (96t   - 384t  + 216t  + 32400t  - 64800t  + 12150t  + 303750t)x
+   + 
+             8        6          3                 10        5
+     (- 1920t  + 2160t  - 108000t  + 40500t)x + 16t   + 5400t  + 50625
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -789,7 +920,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>U ==&gt; UFPS SMPEXPR FRAC INT
+<div class=" highlight hl-spad"><pre>g4 := algebraicGcd(p5, q4, [m], [t], x, [z])$mGCD
 </pre></div>
 
 </div>
@@ -800,11 +931,22 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="output">
 
 
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>  </pre>
+</div>
+</div>
+
 <div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>            5 3        4 2         8         3         7         2        4 4
+     (- 216t x  - 3240t x  + (- 96t  - 16200t )x - 480t  - 27000t )z + 81t x
+   + 
+        3 3        7         2  2         6                 10        5
+   1620t x  + (216t  + 12150t )x  + (2160t  + 40500t)x + 16t   + 5400t  + 50625
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -819,7 +961,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>USOLVE ==&gt; UTSSOL(FRAC INT, UFPS FRAC INT, U)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;g4&quot;, &quot;mreduction(g1^4, z, m)&quot;)
 </pre></div>
 
 </div>
@@ -844,14 +986,26 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>from clicliclic on sci.math.symbolic</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>h(z : U) : U ==
-    x := monomial(1, 1)$U
-    z.(x*recip(1+x)) - 1 - x*z
+<div class=" highlight hl-spad"><pre>pol := (8*b*e^2 - 4*c*d*e + d^3)*x^6 + 2*(16*a*e^2 + 2*b*d*e - _
+ 4*c^2*e + c*d^2)*x^5 + 5*(8*a*d*e - 4*b*c*e + b*d^2)*x^4 _
+ + 20*(a*d^2 - b^2*e)*x^3 - 5*(8*a*b*e - 4*a*c*d + b^2*d)*x^2 _
+ - 2*(16*a^2*e + 2*a*b*d - 4*a*c^2 + b^2*c)*x _
+ - 8*a^2*d + 4*a*b*c - b^3
 </pre></div>
 
 </div>
@@ -864,12 +1018,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Function declaration h : UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Fraction(Integer))) -&gt; 
-      UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Fraction(Integer))) has 
-      been added to workspace.
-
+<pre>      
 </pre>
 </div>
 </div>
@@ -878,7 +1027,18 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>          2             3  6         2             2         2  5
+     (8b e  - 4c d e + d )x  + (32a e  + (4b d - 8c )e + 2c d )x
+   + 
+                             2  4         2         2  3
+     ((40a d - 20b c)e + 5b d )x  + (- 20b e + 20a d )x
+   + 
+                             2    2         2                 2     2        2
+     (- 40a b e + (20a c - 5b )d)x  + (- 32a e - 4a b d + 8a c  - 2b c)x - 8a d
+   + 
+               3
+     4a b c - b
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -893,7 +1053,9 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;coefficient(seriesSolve(h, [])$USOLVE, 6)&quot;, &quot;203&quot;)
+<div class=" highlight hl-spad"><pre>cc := 64*a^3*e^3 - 48*a^2*b*d*e^2 - 64*a^2*c^2*e^2 + 48*a^2*c*d^2*e _
+ - 8*a^2*d^4 + 48*a*b^2*c*e^2 - 4*a*b^2*d^2*e - 16*a*b*c^2*d*e _
+ + 4*a*b*c*d^3 - 8*b^4*e^2 + 4*b^3*c*d*e - b^3*d^3
 </pre></div>
 
 </div>
@@ -906,10 +1068,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function h with type UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Fraction(Integer))) -&gt; 
-      UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Fraction(Integer))) 
+<pre>  
 </pre>
 </div>
 </div>
@@ -918,7 +1077,12 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>        3 3         2         2 2        2      4  2
+     64a e  + (- 48a b d - 64a c  + 48a b c - 8b )e
+   + 
+          2        2  2             2     3          2 4              3  3
+     ((48a c - 4a b )d  + (- 16a b c  + 4b c)d)e - 8a d  + (4a b c - b )d
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -933,7 +1097,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>SSOLVE ==&gt; EXPRSOL(INT, EXPR INT, UFPS EXPR INT, UFPS SMPEXPR EXPR INT)
+<div class=" highlight hl-spad"><pre>lc1 := leadingCoefficient(univariate(pol, c))
 </pre></div>
 
 </div>
@@ -948,7 +1112,9 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>         5
+   - 8e x  + 8a x
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -963,7 +1129,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>f := operator &#39;f
+<div class=" highlight hl-spad"><pre>lc2 := leadingCoefficient(univariate(cc, c))
 </pre></div>
 
 </div>
@@ -978,8 +1144,9 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>   f
-                                                          Type: BasicOperator
+<pre>        2 2
+   - 64a e  - 16a b d e
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -989,23 +1156,12 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 </div>
 
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>Fails because evaluation of 'z/(1+z)' needs fractions.
- But also interpreter is too weak to infer types...</p>
-
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>xftestEquals(&quot;coefficient(seriesSolve(f(z/(1+z)) - 1 - z*f z, f, z, [])$SSOLVE, 6)&quot;, &quot;203&quot;)
+<div class=" highlight hl-spad"><pre>lcg := gcd(lc1, lc2)
 </pre></div>
 
 </div>
@@ -1016,46 +1172,13 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   There are 30 exposed and 4 unexposed library operations named elt 
-      having 2 argument(s) but none was determined to be applicable. 
-      Use HyperDoc Browse, or issue
-                               )display op elt
-      to learn more about the available operations. Perhaps 
-      package-calling the operation or using coercions on the arguments
-      will allow you to apply the operation.
-   Cannot find a definition or applicable library operation named elt 
-      with argument type(s) 
-UnivariateFormalPowerSeries(SparseMultivariatePolynomialExpressions(Expression(Integer)))
-Fraction(UnivariateFormalPowerSeries(SparseMultivariatePolynomialExpressions(Expression(Integer))))
-      
-      Perhaps you should use &quot;@&quot; to indicate the required return type, 
-      or &quot;$&quot; to specify which version of the function you need.
-   FriCAS will attempt to step through and interpret the code.
-   Compiling function %E with type (UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Expression(Integer))),
-      UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Expression(Integer))))
-       -&gt; UnivariateFormalPowerSeries(
-      SparseMultivariatePolynomialExpressions(Expression(Integer))) 
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>SIMPLE-CONTROL-ERROR: 
-attempt to THROW to a tag that does not exist: |coerceFailure|
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[23]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre></pre>
+<pre>   8
+                                                    Type: Polynomial(Integer)
+</pre>
 </div>
 
 </div>
@@ -1069,7 +1192,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testcase &quot;eval in map&quot;
+<div class=" highlight hl-spad"><pre>lc1 := lc1 exquo lcg
 </pre></div>
 
 </div>
@@ -1080,18 +1203,13 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="output">
 
 
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>   All user variables and function definitions have been cleared.
-</pre>
-</div>
-</div>
-
 <div class="output_area"><div class="prompt output_prompt">Out[24]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>        5
+   - e x  + a x
+                                         Type: Union(Polynomial(Integer),...)
 </pre>
 </div>
 
@@ -1106,7 +1224,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>R ==&gt; FRAC POLY INT
+<div class=" highlight hl-spad"><pre>lc2 := lc2 exquo lcg
 </pre></div>
 
 </div>
@@ -1121,7 +1239,9 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>       2 2
+   - 8a e  - 2a b d e
+                                         Type: Union(Polynomial(Integer),...)
 </pre>
 </div>
 
@@ -1136,7 +1256,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>U ==&gt; UTS(R, t, 0)
+<div class=" highlight hl-spad"><pre>pol := lc2*pol - lc1*cc
 </pre></div>
 
 </div>
@@ -1147,11 +1267,48 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="output">
 
 
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                </pre>
+</div>
+</div>
+
 <div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>           2   4       2         2    3        2 3           2  2         4   6
+     (- 64a b e  + (32a c - 16a b )d e  + (- 8a d  + 8a b c d )e  - 2a b d e)x
+   + 
+               3 4          2           2      4  3
+         - 192a e  + (- 144a b d + 48a b c - 8b )e
+       + 
+              2         2  2     3     2        2 4    3 3
+         ((32a c - 12a b )d  + 4b c d)e  + (- 8a d  - b d )e
+    *
+        5
+       x
+   + 
+             3        2     3          2   2        2     2        2 3   4
+     ((- 320a d + 160a b c)e  + (- 120a b d  + 40a b c d)e  - 10a b d e)x
+   + 
+          2 2 3          3 2        3   2      2   3   3
+     (160a b e  + (- 160a d  + 40a b d)e  - 40a b d e)x
+   + 
+          3   3          3        2 2    2         2           3  2   2
+     (320a b e  + (- 160a c + 120a b )d e  + (- 40a b c + 10a b )d e)x
+   + 
+             4 3        3         2 2        4  2         3       2 2  2
+         192a e  + (144a b d - 32a b c + 8a b )e  + (- 48a c + 12a b )d e
+       + 
+           3 4        2         3  3
+         8a d  + (- 4a b c + a b )d
+    *
+       x
+   + 
+         4       3        2 3  2       3   2        2 2        4
+     (64a d - 32a b c + 8a b )e  + (16a b d  + (- 8a b c + 2a b )d)e
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -1166,7 +1323,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>UE ==&gt; UTS(SMPEXPR R, t, 0)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;degree(pol, c)&quot;, &quot;1&quot;)
 </pre></div>
 
 </div>
@@ -1196,7 +1353,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>USOLVE ==&gt; UTSSOL(R, U, UE)
+<div class=" highlight hl-spad"><pre>npol := resultant(univariate(pol, c), univariate(cc, c));
 </pre></div>
 
 </div>
@@ -1211,7 +1368,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -1226,7 +1383,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>t0 := monomial(1, 1)$UE;
+<div class=" highlight hl-spad"><pre>nfac := factor(npol);
 </pre></div>
 
 </div>
@@ -1241,7 +1398,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>Type: UnivariateTaylorSeries(SparseMultivariatePolynomialExpressions(Fraction(Polynomial(Integer))),t,0)
+<pre>                                          Type: Factored(Polynomial(Integer))
 </pre>
 </div>
 
@@ -1256,7 +1413,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[30]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>Fxeq0 f == map(c +-&gt; map(d +-&gt; eval(d, &#39;x = 0), c), f)
+<div class=" highlight hl-spad"><pre>nfac1 := factors(nfac).4.factor;
 </pre></div>
 
 </div>
@@ -1271,7 +1428,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -1286,7 +1443,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>Fyeq0 f == map(c +-&gt; map(d +-&gt; eval(d, &#39;y = 0), c), f)
+<div class=" highlight hl-spad"><pre>fac1 := algebraicGcd(pol, nfac1, [cc], [a, b, d, e], x, [c])$mGCD
 </pre></div>
 
 </div>
@@ -1297,11 +1454,22 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="output">
 
 
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>  </pre>
+</div>
+</div>
+
 <div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>         2 2             2       2                3             2        2
+     (16a e  - 4a b d e)x  + (16a d - 16a b c + 4b )e x + (- 16a c + 4a b )e
+   + 
+       2 2                3
+     8a d  + (- 4a b c + b )d
+                                                    Type: Polynomial(Integer)
 </pre>
 </div>
 
@@ -1316,7 +1484,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>Fyeqx f == map(c +-&gt; map(d +-&gt; eval(d, &#39;y = x), c), f)
+<div class=" highlight hl-spad"><pre>testEquals(&quot;degree(fac1, x)&quot;, &quot;2&quot;)
 </pre></div>
 
 </div>
@@ -1341,12 +1509,22 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Compute the other factor using division</p>
+
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>s : UE -&gt; UE
+<div class=" highlight hl-spad"><pre>fF := Fraction(Polynomial(Integer))
 </pre></div>
 
 </div>
@@ -1361,7 +1539,8 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>                                                                   Type: Void
+<pre>   Fraction(Polynomial(Integer))
+                                                                   Type: Type
 </pre>
 </div>
 
@@ -1376,9 +1555,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>s := f +-&gt; (-1*t0*x*y^3+((-4*t0+1)*x+-1*t0)*y^2+((2*t0+-1)*x^2+-1*t0*x)*y+t0*x^2)*f+((_
-  t0*x^2+2*t0*x+t0)*y^2*Fyeqx f+((-1*t0*y^2+2*t0*x*y+-1*t0*x^2)*Fyeq0 f+(((t0*x+t0)*y_
-  ^2+(-1*t0*x^2+-1*t0*x)*y)*Fxeq0 f+(-1*x*y^2+x^2*y))));
+<div class=" highlight hl-spad"><pre>ccf := univariate(cc, c)::SUP(fF)
 </pre></div>
 
 </div>
@@ -1391,23 +1568,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>   Compiling function Fyeqx with type UnivariateTaylorSeries(
-      SparseMultivariatePolynomialExpressions(Fraction(Polynomial(
-      Integer))),t,0) -&gt; UnivariateTaylorSeries(
-      SparseMultivariatePolynomialExpressions(Fraction(Polynomial(
-      Integer))),t,0) 
-   Compiling function Fyeq0 with type UnivariateTaylorSeries(
-      SparseMultivariatePolynomialExpressions(Fraction(Polynomial(
-      Integer))),t,0) -&gt; UnivariateTaylorSeries(
-      SparseMultivariatePolynomialExpressions(Fraction(Polynomial(
-      Integer))),t,0) 
-   Compiling function Fxeq0 with type UnivariateTaylorSeries(
-      SparseMultivariatePolynomialExpressions(Fraction(Polynomial(
-      Integer))),t,0) -&gt; UnivariateTaylorSeries(
-      SparseMultivariatePolynomialExpressions(Fraction(Polynomial(
-      Integer))),t,0) 
-
-</pre>
+<pre>  </pre>
 </div>
 </div>
 
@@ -1415,7 +1576,12 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>Type: (UnivariateTaylorSeries(SparseMultivariatePolynomialExpressions(Fraction(Polynomial(Integer))),t,0) -&gt; UnivariateTaylorSeries(SparseMultivariatePolynomialExpressions(Fraction(Polynomial(Integer))),t,0))
+<pre>           2 2              2         2 2       2 2     3            3
+     (- 64a e  - 16a b d e)?  + (48a b e  + (48a d  + 4b d)e + 4a b d )?
+   + 
+        3 3         2        4  2       2 2      2 4    3 3
+     64a e  + (- 48a b d - 8b )e  - 4a b d e - 8a d  - b d
+              Type: SparseUnivariatePolynomial(Fraction(Polynomial(Integer)))
 </pre>
 </div>
 
@@ -1430,7 +1596,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>r := seriesSolve(s, [])$USOLVE;
+<div class=" highlight hl-spad"><pre>aE := SAE(fF, SUP(fF), ccf)
 </pre></div>
 
 </div>
@@ -1445,7 +1611,11 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>              Type: UnivariateTaylorSeries(Fraction(Polynomial(Integer)),t,0)
+<pre>  SimpleAlgebraicExtension(Fraction(Polynomial(Integer)),SparseUnivariatePolyno
+  mial(Fraction(Polynomial(Integer))),(-64*a^2*e^2+-16*a*b*d*e)*?^2+(48*a*b^2*e
+  ^2+(48*a^2*d^2+4*b^3*d)*e+4*a*b*d^3)*?+(64*a^3*e^3+(-48*a^2*b*d+-8*b^4)*e^2+-
+  4*a*b^2*d^2*e+(-8*a^2*d^4+(-(b^3))*d^3)))
+                                                                   Type: Type
 </pre>
 </div>
 
@@ -1460,8 +1630,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-spad"><pre>testEquals(&quot;entries complete first(coefficients r, 4)&quot;,
-           &quot;[1,y+1,y^2+(x+4)*y+2,y^3+(2*x+7)*y^2+(2*x^2+10*x+17)*y+(x+6)]&quot;)
+<div class=" highlight hl-spad"><pre>avar := create()$SingletonAsOrderedSet
 </pre></div>
 
 </div>
@@ -1473,6 +1642,49 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 
 
 <div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   &quot;?&quot;
+                                                  Type: SingletonAsOrderedSet
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>to_aE(t : fF) : aE == reduce(univariate(t, c)::SUP(fF))$aE
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Function declaration to_aE : Fraction(Polynomial(Integer)) -&gt; 
+      SimpleAlgebraicExtension(Fraction(Polynomial(Integer)),
+      SparseUnivariatePolynomial(Fraction(Polynomial(Integer))),(-64*a^
+      2*e^2+-16*a*b*d*e)*?^2+(48*a*b^2*e^2+(48*a^2*d^2+4*b^3*d)*e+4*a*b
+      *d^3)*?+(64*a^3*e^3+(-48*a^2*b*d+-8*b^4)*e^2+-4*a*b^2*d^2*e+(-8*a
+      ^2*d^4+(-(b^3))*d^3))) has been added to workspace.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1488,7 +1700,1066 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>polf := map(to_aE, univariate(pol, x)::SUP(fF));
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiling function to_aE with type Fraction(Polynomial(Integer)) -&gt; 
+      SimpleAlgebraicExtension(Fraction(Polynomial(Integer)),
+      SparseUnivariatePolynomial(Fraction(Polynomial(Integer))),(-64*a^
+      2*e^2+-16*a*b*d*e)*?^2+(48*a*b^2*e^2+(48*a^2*d^2+4*b^3*d)*e+4*a*b
+      *d^3)*?+(64*a^3*e^3+(-48*a^2*b*d+-8*b^4)*e^2+-4*a*b^2*d^2*e+(-8*a
+      ^2*d^4+(-(b^3))*d^3))) 
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Type: SparseUnivariatePolynomial(SimpleAlgebraicExtension(Fraction(Polynomial(Integer)),SparseUnivariatePolynomial(Fraction(Polynomial(Integer))),(-64*a^2*e^2+-16*a*b*d*e)*?^2+(48*a*b^2*e^2+(48*a^2*d^2+4*b^3*d)*e+4*a*b*d^3)*?+(64*a^3*e^3+(-48*a^2*b*d+-8*b^4)*e^2+-4*a*b^2*d^2*e+(-8*a^2*d^4+(-(b^3))*d^3))))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>facf1 := map(to_aE, univariate(fac1, x)::SUP(fF));
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Type: SparseUnivariatePolynomial(SimpleAlgebraicExtension(Fraction(Polynomial(Integer)),SparseUnivariatePolynomial(Fraction(Polynomial(Integer))),(-64*a^2*e^2+-16*a*b*d*e)*?^2+(48*a*b^2*e^2+(48*a^2*d^2+4*b^3*d)*e+4*a*b*d^3)*?+(64*a^3*e^3+(-48*a^2*b*d+-8*b^4)*e^2+-4*a*b^2*d^2*e+(-8*a^2*d^4+(-(b^3))*d^3))))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>qr := divide(polf, facf1);
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Type: Record(quotient: SparseUnivariatePolynomial(SimpleAlgebraicExtension(Fraction(Polynomial(Integer)),SparseUnivariatePolynomial(Fraction(Polynomial(Integer))),(-64*a^2*e^2+-16*a*b*d*e)*?^2+(48*a*b^2*e^2+(48*a^2*d^2+4*b^3*d)*e+4*a*b*d^3)*?+(64*a^3*e^3+(-48*a^2*b*d+-8*b^4)*e^2+-4*a*b^2*d^2*e+(-8*a^2*d^4+(-(b^3))*d^3)))),remainder: SparseUnivariatePolynomial(SimpleAlgebraicExtension(Fraction(Polynomial(Integer)),SparseUnivariatePolynomial(Fraction(Polynomial(Integer))),(-64*a^2*e^2+-16*a*b*d*e)*?^2+(48*a*b^2*e^2+(48*a^2*d^2+4*b^3*d)*e+4*a*b*d^3)*?+(64*a^3*e^3+(-48*a^2*b*d+-8*b^4)*e^2+-4*a*b^2*d^2*e+(-8*a^2*d^4+(-(b^3))*d^3)))))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;qr.remainder&quot;, &quot;0&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[41]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>facf2 := qr.quotient;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Type: SparseUnivariatePolynomial(SimpleAlgebraicExtension(Fraction(Polynomial(Integer)),SparseUnivariatePolynomial(Fraction(Polynomial(Integer))),(-64*a^2*e^2+-16*a*b*d*e)*?^2+(48*a*b^2*e^2+(48*a^2*d^2+4*b^3*d)*e+4*a*b*d^3)*?+(64*a^3*e^3+(-48*a^2*b*d+-8*b^4)*e^2+-4*a*b^2*d^2*e+(-8*a^2*d^4+(-(b^3))*d^3))))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>from_aE(t : aE) : fF == eval(lift(t), avar, c)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Function declaration from_aE : SimpleAlgebraicExtension(Fraction(
+      Polynomial(Integer)),SparseUnivariatePolynomial(Fraction(
+      Polynomial(Integer))),(-64*a^2*e^2+-16*a*b*d*e)*?^2+(48*a*b^2*e^2
+      +(48*a^2*d^2+4*b^3*d)*e+4*a*b*d^3)*?+(64*a^3*e^3+(-48*a^2*b*d+-8*
+      b^4)*e^2+-4*a*b^2*d^2*e+(-8*a^2*d^4+(-(b^3))*d^3))) -&gt; Fraction(
+      Polynomial(Integer)) has been added to workspace.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>fac2fF := retract(eval(map(from_aE, facf2), avar, x))@fF;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   Compiling function from_aE with type SimpleAlgebraicExtension(
+      Fraction(Polynomial(Integer)),SparseUnivariatePolynomial(Fraction
+      (Polynomial(Integer))),(-64*a^2*e^2+-16*a*b*d*e)*?^2+(48*a*b^2*e^
+      2+(48*a^2*d^2+4*b^3*d)*e+4*a*b*d^3)*?+(64*a^3*e^3+(-48*a^2*b*d+-8
+      *b^4)*e^2+-4*a*b^2*d^2*e+(-8*a^2*d^4+(-(b^3))*d^3))) -&gt; Fraction(
+      Polynomial(Integer)) 
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                          Type: Fraction(Polynomial(Integer))
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>fac2 := numer(fac2fF)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                                        </pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>               3   4       3     3         3 3        3 2  2       2   3
+         - 256a b e  + 128a c d e  + (- 32a d  + 16a b d )e  - 8a b c d e
+       + 
+             2 5
+         2a b d
+    *
+        4
+       x
+   + 
+               4 4         2 2         4  3       2 2 2           3      5    2
+         - 768a e  + (- 64a b c + 32a b )e  + (64a b d  + (- 32a b c + 8b )d)e
+       + 
+              3 3     4   2      4 4
+         (8a b d  - 4b c d )e + b d
+    *
+        3
+       x
+   + 
+                4        3          2 3  3
+         (- 384a d - 384a b c + 192a b )e
+       + 
+             3   2          2 2         4    2       2 2 3        3   2
+         (96a b d  + (- 192a b c + 48a b )d)e  + (72a b d  - 24a b c d )e
+       + 
+             3 4
+         6a b d
+    *
+        2
+       x
+   + 
+                4        3 2  3        4 2          3         2 3    2
+         (- 768a c + 384a b )e  + (128a d  + (- 384a b c + 96a b )d)e
+       + 
+             3   3      2 2   2        2 2 4
+         (96a b d  - 48a b c d )e + 16a b d
+    *
+       x
+   + 
+         4   3          4       3 2    2       4 3         3        2 3  2
+     128a b e  + (- 256a c + 64a b )d e  + (64a d  + (- 64a b c + 8a b )d )e
+   + 
+        3   4
+     16a b d
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>den := denom(fac2fF)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[46]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>      3 2      2            2 2
+   64a e  - 32a b d e + 4a b d
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;gcd(den*pol - fac1*fac2, cc)&quot;, &quot;cc&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[47]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testcase &quot;multiple extensions&quot;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   All user variables and function definitions have been cleared.
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[48]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>mP := Polynomial(Integer)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[49]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   Polynomial(Integer)
+                                                                   Type: Type
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>mPU := SparseUnivariatePolynomial(mP)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[50]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   SparseUnivariatePolynomial(Polynomial(Integer))
+                                                                   Type: Type
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>mD := Record(svz : List(Symbol), sm : List(mP), msizes : List(Integer), sp : Integer)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[51]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>  Record(svz: List(Symbol),sm: List(Polynomial(Integer)),msizes: List(Integer),
+  sp: Integer)
+                                                                   Type: Type
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>mOP := ModularAlgebraicGcdTools3
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[52]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   ModularAlgebraicGcdTools3
+                                                                   Type: Type
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>mGCD := ModularAlgebraicGcd(mPU, mD, mOP)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[53]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>  ModularAlgebraicGcd(SparseUnivariatePolynomial(Polynomial(Integer)),Record(sv
+  z: List(Symbol),sm: List(Polynomial(Integer)),msizes: List(Integer),sp: Integ
+  er),ModularAlgebraicGcdTools3)
+                                                                   Type: Type
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>m1 := (t + z2 + 1)*z1^2 - 3*z2 + t
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[54]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>      2                   2
+   (z1  - 3)z2 + (t + 1)z1  + t
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>m2 := (t + 1)*z2^2 - 7*t
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[55]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>            2
+   (t + 1)z2  - 7t
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>g := x - t - z1 - z2
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[56]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   - z2 - z1 + x - t
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>g2 := algebraicGcd(g*g, g*g, [m1, m2], [t], x, [z1, z2])$mGCD
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                </pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[57]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>            4     3     2                    4     3     2                5
+         (2t  + 8t  - 2t  - 6t + 2)z1 + (- 2t  - 8t  + 2t  + 6t - 2)x + 2t
+       + 
+           4     3     2
+         8t  + 2t  + 5t  + 12t + 3
+    *
+       z2
+   + 
+           4     3     2                5     4     3     2
+     ((- 2t  - 8t  + 2t  + 6t - 2)x + 2t  + 8t  - 2t  - 6t  + 2t)z1
+   + 
+       4     3    2           2        5     4     3     2           6     5
+     (t  + 4t  - t  - 3t + 1)x  + (- 2t  - 8t  + 2t  + 6t  - 2t)x + t  + 4t
+   + 
+       4      3      2
+     5t  + 15t  - 51t  - 15t
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;degree(g2, x)&quot;, &quot;2&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[58]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>a := t*(x + z1) + z2
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[59]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   z2 + t z1 + t x
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>b := x + t*z1 - z2
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[60]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>   - z2 + t z1 + x
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>f1 := a^2*g^2
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                            </pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[61]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>       4                                  3
+     z2  + ((2t + 2)z1 + (2t - 2)x + 2t)z2
+   + 
+           2            2       2           2             2           2
+         (t  + 4t + 1)z1  + ((2t  - 2)x + 4t  + 2t)z1 + (t  - 4t + 1)x
+       + 
+            2           2
+         (4t  - 2t)x + t
+    *
+         2
+       z2
+   + 
+            2        3       2            3     2   2
+         (2t  + 2t)z1  + ((2t  - 2t)x + 2t  + 4t )z1
+       + 
+             2       2     3      3           2       3      3     2  2     3
+       ((- 2t  - 2t)x  + 4t x + 2t )z1 + (- 2t  + 2t)x  + (2t  - 4t )x  + 2t x
+    *
+       z2
+   + 
+      2  4     3  3        2 2     3     4   2        3 2     4        2 4
+     t z1  + 2t z1  + (- 2t x  + 2t x + t )z1  + (- 2t x  + 2t x)z1 + t x
+   + 
+         3 3    4 2
+     - 2t x  + t x
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>f2 := b^2*g^2
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                    </pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[62]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>       4                             3
+     z2  + ((- 2t + 2)z1 - 4x + 2t)z2
+   + 
+        2            2                  2             2           2   2
+     ((t  - 4t + 1)z1  + ((6t - 6)x - 4t  + 2t)z1 + 6x  - 6t x + t )z2
+   + 
+            2        3         2                3     2   2
+         (2t  - 2t)z1  + ((- 2t  + 8t - 2)x + 2t  - 4t )z1
+       + 
+                     2      2            3        3       2     2
+         ((- 6t + 6)x  + (8t  - 4t)x - 2t )z1 - 4x  + 6t x  - 2t x
+    *
+       z2
+   + 
+      2  4         2            3   3
+     t z1  + ((- 2t  + 2t)x + 2t )z1
+   + 
+        2           2        3     2      4   2
+     ((t  - 4t + 1)x  + (- 2t  + 4t )x + t )z1
+   + 
+               3        2       2     3        4       3    2 2
+     ((2t - 2)x  + (- 4t  + 2t)x  + 2t x)z1 + x  - 2t x  + t x
+                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>p1 := algebraicGcd(f1, f1, [m1, m2], [t], x, [z1, z2])$mGCD;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[63]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>gg := algebraicGcd(p1, f2, [m1, m2], [t], x, [z1, z2])$mGCD;
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[64]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                    Type: Polynomial(Integer)
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>testEquals(&quot;g2 - gg&quot;, &quot;0&quot;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[65]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>                                                                   Type: Void
+</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[66]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-spad"><pre>)set output algebra on
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[66]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre></pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[67]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>statistics()
@@ -1502,7 +2773,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[67]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
@@ -1515,18 +2786,36 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
    * testLibraryError does not prevent FriCAS from aborting the current block.
      Thus, if a block contains other test functions, they will not be executed
      and statistics() will not notice!
+   =============================================================================
+   WARNINGS:
+   Testsuite: algebraic gcd
+   Testcase: single extension
+   test: 3
+   testing in a domain without InputForm!
+   Testsuite: algebraic gcd
+   Testcase: single extension
+   test: 4
+   testing in a domain without InputForm!
+   Testsuite: algebraic gcd
+   Testcase: single extension
+   test: 5
+   testing in a domain without InputForm!
+   Testsuite: algebraic gcd
+   Testcase: multiple extensions
+   test: 1
+   testing in a domain without InputForm!
 
    =============================================================================
-   Testsuite: SSOLVE
-     failed (total): 0 (4)
+   Testsuite: algebraic gcd
+     failed (total): 0 (2)
 
    =============================================================================
    testsuite | testcases: failed (total) | tests: failed (total)
-   SSOLVE                      0     (4)               0     (8)
+   algebraic gcd               0     (2)               0     (8)
    =============================================================================
    File summary.
    unexpected failures: 0
-   expected failures: 2
+   expected failures: 0
    unexpected passes: 0
    total tests: 8
                                                                    Type: Void
@@ -1541,7 +2830,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="prompt input_prompt">In&nbsp;[68]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-spad"><pre>--
@@ -1557,7 +2846,7 @@ attempt to THROW to a tag that does not exist: |coerceFailure|
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[68]:</div>
 
 
 <div class="output_text output_subarea output_execute_result">
