@@ -25,3 +25,12 @@
       (push s symbols))
    symbols))
 
+(defun |lambdaFuncallSpad| (f)
+ (lambda (x) (funcall f x nil)))
+ 
+(defun |mkLispFunction1| (f)
+ (lambda (x) (spadcall x f)))
+ 
+(defun |lispFromSpad| (f dom args)
+ (let ((spadf (|getFunctionFromDomain| f (list dom) args)))
+   (lambda (x) (spadcall x spadf))))

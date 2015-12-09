@@ -43,12 +43,7 @@ InputOutput() : Exports == Implementation where
     readInputFile: STR -> List(STR)
       ++ Read input file to a list of strings 
       ++ escaping strings in strings
-      
-    inputToIPyNB : STR -> STR
-      ++ Convert .input to .ipynb (full)
-      
-    --coerce : % -> OutputForm
-	
+      	
 	
   Implementation ==  add 
     
@@ -137,42 +132,6 @@ InputOutput() : Exports == Implementation where
       concat(r)
 
 
-    inputToNotebook(f) == 
-      fi:FileName:=concat(f,".input")::FileName
-      ~exists?(fi) => error "No such file."
-      f1: TextFile := open(fi,"input")
-      fo:FileName:=concat(f,".ipynb")::FileName
-      exists?(fo) => error "File already exists."
-      f2: TextFile := open(fo,"output")      
-      writeLine!(f2,"{")
-      writeLine!(f2," _"cells_": [")
-      l:List(String):=[]
-      while not endOfFile? f1 repeat
-        s := readLine! f1
-        while isContinuation?(s) and ~endOfFile?(f1) repeat
-          l:=concat(l,s)
-          s := readLine! f1
-        if l~=[] then 
-          s:=combineCont(concat(l,s))
-          l:=[]
-        s := escapeQM(s)
-        if isComment?(s) then
-          s:=elt(s,3..#s)
-          s:=writeMarkdownCell(f2,s)
-          writeLine!(f2,",")
-        else
-          if s~="" then 
-            s:=writeCodeCell(f2,s)
-            writeLine!(f2,",")
-      writeCodeCell(f2,"")
-      writeLine!(f2," ],")
-      writeHeader(f2,fo::STR)
-      writeLine!(f2,"}")
-      close! f1
-      close! f2
-      fo::STR
-
-
     readInputFile(f) ==
       fi:FileName:=f::FileName
       ~exists?(fi) => error "No such file."
@@ -215,7 +174,7 @@ InputOutput() : Exports == Implementation where
       writeCodeCell(f,r)
 
 
-    inputToIPyNB(f) ==
+    inputToNotebook(f) ==
       fo:FileName:=concat(f,".ipynb")::FileName
       exists?(fo) => error "File already exists."
       f2: TextFile := open(fo,"output") 
@@ -235,44 +194,42 @@ InputOutput() : Exports == Implementation where
         while isEmpty?(s) and not empty?(SL) repeat 
           s:=pop! SL
         -- no empty line from here
-        while true repeat
-          if isComment? s then
-            push!(s,CO)
-            break
-          if not empty? CO then
+        if empty? SL then
+          t:STR:=""
+        else
+          t:=top SL
+        --  
+        if isComment? s then
+          push!(s,CO)
+          if not isComment? t then
             writeComment(f2,CO)
             writeLine!(f2,",")
-          --
-          if isContinuation? s then
-            push!(s,CN)
-            break
-          if not empty? CN then
-            push!(s,CN)
+        --
+        if isContinuation? s then
+          push!(s,CN)
+          if not isContinuation? t  then
             writeContinuation(f2,CN)
             writeLine!(f2,",")
-            break
-          --
-          if isIndent? s and not empty? CI then
-            push!(s,CI)
-            break
-          --
-          if not empty? CI then
+        --
+        if isIndent? s then
+          push!(s,CI)
+          if not isIndent? t then
             writeCode(f2,CI)
             writeLine!(f2,",")
-          --
+        --
+        if not (isIndent?(s) or isComment?(s) or isContinuation?(s)) then
           push!(s,CI)
-          break
+          if not isIndent? t then
+            writeCode(f2,CI)
+            writeLine!(f2,",")            
       --  
       if not empty? CI then 
         writeCode(f2,CI)
         writeLine!(f2,",")
-      writeCodeCell(f2,"")
+      writeCodeCell(f2,"--\n-- EOF\n--")
       writeLine!(f2," ],")
       writeHeader(f2,fo::STR)
       writeLine!(f2,"}")
       close! f2
       fo::STR
-      
-      
-
         
