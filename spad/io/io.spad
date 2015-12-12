@@ -17,6 +17,7 @@ InputOutput() : Exports == Implementation where
   STR ==> String
   TXT ==> TextFile
   STS ==> Stack(String)
+  MSM ==> MoreSystemCommands
   
   
   Exports ==  with
@@ -44,7 +45,9 @@ InputOutput() : Exports == Implementation where
       ++ Read input file to a list of strings 
       ++ escaping strings in strings
       	
-	
+    evalTexFile :STR -> STR
+      ++ Eval a TeX file containing spad code after '%->'
+
   Implementation ==  add 
     
      
@@ -233,4 +236,37 @@ InputOutput() : Exports == Implementation where
       writeLine!(f2,"}")
       close! f2
       fo::STR
-        
+ 
+ 
+    evalTexFile(f:STR):STR ==
+      so:String:="/tmp/evaltex.input"
+      ss:String:="/tmp/evaltex.spool"
+      fi:FileName:=f::FileName
+      fo:FileName:=so::FileName
+      fs:FileName:=ss::FileName
+      ~exists?(fi) => error "No such file."
+      f1: TextFile := open(fi,"input")@TextFile
+      f2: TextFile := open(fo,"output")@TextFile
+      while not endOfFile? f1 repeat
+        s := readLine! f1
+        if #s > 2 and s.(1..3)="%->" then
+          s:=s.(4..#s)
+        else
+          if #s > 15 and leftTrim(s,char 32).(1..16)="\begin{document}"  then
+            writeLine!(f2,"macros...")
+          else
+            s:=concat("-- ",s)
+        writeLine! (f2,s)
+      close! f1
+      close! f2  
+      --
+      systemCommand("set output algebra off")$MSM
+      systemCommand("set output tex on")$MSM
+      systemCommand(concat("spool ",ss))$MSM
+      systemCommand(concat("read ",so))$MSM
+      systemCommand("spool")$MSM
+      systemCommand("set output tex off")$MSM
+      systemCommand("set output algebra on")$MSM
+      --
+      ss
+      
