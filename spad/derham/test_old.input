@@ -10,7 +10,7 @@
 
 )clear all
 
-N:=47  -- number of tests
+N:=50  -- number of tests
 
 der:=DERHAM(INT,[x,y,z]) 
 [dx,dy,dz]:=[generator(j)$der for j in 1..3]
@@ -164,7 +164,9 @@ res.44 := test(dx*(dy*dz)=(dx*dy)*dz)
 res.45 := test(d (d alpha) = 0)
 res.46 := test(coefficient(d alpha,dy*dz) = D(c(q),y)-D(b(q),z))  
 res.47 := test(coefficient(d beta, dx*dy*dz) = D(w(q),x)-D(v(q),y)+D(u(q),z))
-
+res.48 := test(td(a(q))$der = d(a(q)*one))
+res.49 := test(d(alpha+beta)=d(alpha)+d(beta))
+res.50 := test(d(v(q)*1$der)*alpha+v(q)*d(alpha) = d(v(q)*alpha))
 
 -- ===============
 -- === SUMMARY ===

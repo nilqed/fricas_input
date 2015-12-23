@@ -379,6 +379,12 @@ DeRhamComplex(CoefRing, listIndVar) : Exports == Implementation where
 
       dim : % -> NNI
         ++  dim(f) returns the dimension of the base space (#listIndVar)
+        
+      getCoeffRing : % -> Type
+        ++  getCoeffRing(f) returns the coeffcient ring.
+        
+      getIndVars : % -> List Symbol
+        ++  getIndVars(f) returns the list of index variables.
 
       coerce : % -> List Term
         ++  coerce to a list of low level terms = Record(ExtAlgBasis,R) 
@@ -425,6 +431,9 @@ DeRhamComplex(CoefRing, listIndVar) : Exports == Implementation where
 
       terms : % -> List Term
       terms(a) == convert(a)@List Term
+      
+      getCoeffRing(a) == CoefRing
+      getIndVars(a) == listIndVar
 
       coerce(a:%):List(Term) == convert(a)@List Term  
 
