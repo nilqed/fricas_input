@@ -1,0 +1,145 @@
+)abbrev package JUPY Jupyter
+++ Author: Kurt Pagani <nilqed@gmail.com>
+++ Date Created: 11-NOV-2015 
+++ License: BSD
+++ Date Last Updated:
+++ Basic Operations:
+++ Related Domains:
+++ Keywords:
+++ Examples:
+++ References:
+++
+++ Description:
+++ Support package for iSPAD
+++
+Jupyter() : Exports == Implementation where
+
+  DF  ==> DoubleFloat
+  EF  ==> Expression Float
+  LF  ==> List Float
+  LDF ==> List DoubleFloat
+  SBF ==> SegmentBinding Float
+  STR ==> String
+  INT ==> Integer
+
+  Exports ==  with
+
+    jHtml : String -> FileName
+      ++ html display in ispad
+
+    jMarkdown : String -> FileName
+      ++ markdown display in ispad
+      
+    jLatex : String -> FileName
+      ++ latex display in ispad
+
+    jJavascript : String -> FileName
+      ++ javascript display in ispad
+
+    jDraw : (EF,SBF) -> FileName
+      ++ GnuDraw 2D in Notebook
+                 
+    jDraw : (EF,SBF,SBF) -> FileName
+      ++ GnuDraw 3D in Notebook
+
+    jDrawXY : (LDF,LDF) -> FileName
+      ++ GnuDraw 2D - (x,y) lists
+
+    jsxPlot : (STR,INT,INT,List INT,Boolean,LF,LF) -> FileName
+
+  Implementation ==  add
+
+    htmlFile:String := ".jhtml.html"
+    mdFile:String   := ".jmd.md"
+    texFile:String  := ".jtex.tex"
+    jsFile:String   := ".jjs.js"
+
+    jFormat(s:String,f:String):FileName == 
+      f1:TextFile:=open(f::FileName,"output")
+      write!(f1,s)
+      close!(f1)
+      f::FileName
+
+    jHtml(s)       == jFormat(s,htmlFile)
+    jMarkdown(s)   == jFormat(s,mdFile)
+    jLatex(s)      == jFormat(s,texFile)
+    jJavascript(s) == jFormat(s,jsFile)
+
+    -- jDraw
+
+    outFile:String := ".jpgd.dat"
+    pngFile:String := ".jpgd.png"
+    gplOpts:String := "'set terminal png'"
+    sysGplt:String := "system gnuplot -e"
+    sysPcmd:String := concat [sysGplt," ",gplOpts," ",outFile," > ",pngFile]
+
+    jDraw(f,r) ==
+      gnuDraw(f,r,outFile)$GnuDraw
+      systemCommand(sysPcmd)$MoreSystemCommands
+      return pngFile::FileName  
+
+    jDraw(f,r,s) ==
+      gnuDraw(f,r,s,outFile)$GnuDraw
+      systemCommand(sysPcmd)$MoreSystemCommands
+      return pngFile::FileName
+
+    jDrawXY(x:List(DF),y:List(DF)):FileName ==
+      gnuDraw(x,y,outFile)$GnuDraw
+      systemCommand(sysPcmd)$MoreSystemCommands
+      return pngFile::FileName  
+
+    -----------
+    -- jsxGraph
+    -----------
+    
+    jsxHome:STR:="/home/kfp/Development/fricas_input/spad/jupyter/js/"
+    
+    jsxCSS:STR:=concat(jsxHome,"jsxgraph.css")
+    jsxJS:STR:=concat(jsxHome,"jsxgraphcore.js")
+    jsxH1:STR:="<head> <link rel=_"stylesheet_" type=_"text/css_" href=_""
+    jsxH2:STR:="_"/><script type=_"text/javascript_" src=_""
+    jsxH3:STR:="_"></script></head>"
+    jsxHeader:STR:=concat[jsxH1,jsxCSS,jsxH2,jsxJS,jsxH3]
+    
+    jsxDiv(id:String ,width:Integer , height:Integer):String ==
+      s1:="<div id=_"" 
+      s2:=id
+      s3:="_" class=_"jxgbox_" style=_"width:"
+      s4:=string(width)
+      s5:="px; height:"
+      s6:=string(height)
+      s7:="px;_"></div>"
+      concat [s1,s2,s3,s4,s5,s6,s7]
+      
+    jsxScript(id:String, bb:List Integer, axis:Boolean,js:String):String ==
+      s1:="<script type=_"text/javascript_"> "
+      s2:="var b = JXG.JSXGraph.initBoard('"
+      s3:=id
+      s4:="', {boundingbox:"
+      s5:=concat ["[",string(bb.1),",",string(bb.2),","]
+      s6:=concat [string(bb.3),",",string(bb.4),"], axis:"]
+      s7:="true"
+      --if axis then s7:="true" else s7:="false"
+      s8:="});" 
+      zz:="</script>"
+      concat [s1,s2,s3,s4,s5,s6,s7,s8,js,zz]
+      
+    -- jsxPlot("box4",500,400,[-15,15,15,-15],true,[x for x in 1..15],
+    --     [x^2/10.0 for x in 1..15])
+    --
+    jsxPlot(id,w,h,bb,axis,X,Y) ==
+      xs:List STR:=[convert(x)@STR for x in X]
+      ys:List STR:=[convert(y)@STR for y in Y]
+      sx:STR:=unparse(convert(xs)@InputForm)
+      sy:STR:=unparse(convert(ys)@InputForm)
+      s1:STR:=concat["var dataX = ",sx,";"]
+      s2:STR:=concat["var dataY = ",sy,";"]
+      s3:="b.create('curve', [dataX,dataY],{strokeColor:'red',strokeWidth:3});"
+      js:=concat[s1,s2,s3] -- script
+      s:=concat [jsxHeader,jsxDiv(id,w,h),jsxScript(id,bb,axis,js)]      
+      f:=concat(id,".html")
+      jFormat(s,f)
+      
+      
+    
+    

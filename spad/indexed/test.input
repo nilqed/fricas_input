@@ -1,0 +1,37 @@
+-- ======================
+-- Testing: IndexedObject
+-- ======================
+
+-- Examples
+
+-- Creation
+T:=mkIdxObj('T,[i,j,!k,l])
+S:=mkIdxObj('S,[i,k,!l])
+U:=mkIdxObj('S,[i,j,!k,l,m,!m])
+g:=mkIdxObj('g,[i,j])
+invg:=mkIdxObj('g,[!i,!j])
+delta:=mkIdxObj('delta,[!i,j])
+
+
+-- also by coercion
+Q:=['Q,k,!l,i,!j]::List(Symbol)::IndexedObject
+R:=['R,!k,i,k,j]::List(Symbol)::IndexedObject  -- Riemann Tensor
+
+-- Getting symbol and indices
+getSymbol T    -- T of course
+getIndices T 
+covariantIndices T
+contravariantIndices T
+
+-- Getting contractibleIndices
+contractibleIndices R
+
+-- Conjugate
+conjugate R
+conjugate T
+
+-- Co/Homologic?
+homologic?(T,S)
+homologic?(T,U)
+
+cohomologic?(T, conjugate T)

@@ -1,0 +1,191 @@
+)abbrev domain IDXOBJ IndexedObject
+++ Author: Kurt Pagani
+++ Date Created: Sat Dec 19 23:28:32 CET 2015
+++ License: BSD (same as Axiom)
+++ Date Last Updated:
+++ Basic Operations: 
+++ Related Domains: 
+++ Also See:
+++ AMS Classifications:
+++ Keywords: 
+++ Examples:
+++ References:
+++
+++ Description:
+++ 
+++
+IndexedObject() : Exports == Implementation where
+    
+  SYM ==> Symbol
+  LS  ==> List Symbol
+  NNI ==> NonNegativeInteger
+  SEG ==> Segment NNI
+  OF  ==> OutputForm
+  
+  --optional type declarations, e.g.
+  --PINT   ==> Polynomial(Integer)
+  --SBPINT ==> SegmentBinding(PINT)
+  
+  Exports == Join(CoercibleTo OutputForm, ConvertibleTo String) with
+    
+    --list of exported operations, e.g.
+    rmSupMark : SYM -> SYM
+      ++ removes the sup prefix (!)
+      
+    sup? : SYM -> Boolean
+      ++ sup?(s) is true if s is an upper index (prefixed by !)
+      
+    mkIdxObj : (Symbol,List Symbol) -> %
+      ++ creates an indexed object
+      
+    getIndices : % -> List Symbol
+      ++ return the indices
+      
+    getSymbol : % -> Symbol
+      ++ return the main symbol
+      
+    covariantIndices : % -> List Symbol
+      ++ return the covariant indices
+      
+    contravariantIndices : % -> List Symbol
+      ++ return the contravariant indices    
+      
+    contractibleIndices : % -> List Symbol
+      ++ return symbols which appear as lower as well as upper indexes
+      
+    homologic? : (%,%) -> Boolean
+      ++ Two IndexedObjects are homologic if they have the same structure
+      ++ of indices, whereby contractions do not count. 
+      
+    cohomologic? : (%,%) -> Boolean
+      ++ Two IndexedObjects are cohomologic if they are dual to each other.
+      
+    conjugate : % -> %
+      
+    coerce : % -> OutputForm
+      ++ coerce to OutputForm
+      
+    coerce : List SYM -> %
+	  ++ coerce to indexed symbol
+	
+  Implementation ==  add 
+  
+    --dim1:= #ind  -- rank
+    --dim2:= (hi seg) - (lo seg) + 1  -- dim index range 
+
+    Rep := Record(ls: List SYM)
+    
+    
+    sup?(s:Symbol):Boolean ==
+      scripted? s => false
+      ss:String:=string s
+      ss.1 = char "!" and  #ss > 1 => true
+      false
+        
+    rmSupMark(s:Symbol):Symbol ==
+      not sup? s => s
+      leftTrim(string s, char "!")::Symbol
+ 
+
+    mkIdxObj(s,ls) == concat(s,ls)::%
+    
+    getIndices(x) == rest x.ls
+    getSymbol(x) == first x.ls
+      
+    covariantIndices(x) ==
+      y:=rest x.ls
+      [s for s in y | ~sup?(s)]
+      
+    contravariantIndices(x) ==
+      y:=rest x.ls
+      l:=[s for s in y | sup?(s)]
+      map(rmSupMark,l)
+
+
+    contractibleIndices(x) ==
+      l:Set(Symbol):=set covariantIndices(x)
+      u:Set(Symbol):=set contravariantIndices(x)
+      r:Set(Symbol):=intersect(l,u)
+      parts(r)
+      
+
+    -- helper function (!recursive!)
+    duplicates?(l:List Symbol):Boolean ==
+      #l < 2 => false
+      member?(l.1,rest l) => true
+      duplicates?(rest.l)
+
+
+    -- helper function
+    addSupMark(s:Symbol):Symbol ==
+      ss:String:=string s
+      ss:=concat("!",ss)
+      ss::Symbol
+      
+
+    homologic?(x,y) ==
+      ix:=getIndices x
+      iy:=getIndices y
+      cx:=contractibleIndices x
+      cy:=contractibleIndices y
+      for c in cx repeat
+        remove!(c,ix)
+        remove!(addSupMark(c),ix)
+      for d in cy repeat
+        remove!(d,iy)
+        remove!(addSupMark(d),iy)
+      return(ix=iy)
+
+
+    conjugate(x) ==
+      ix:=getIndices x
+      cx:List(Symbol):=[]
+      for c in ix repeat
+        if sup?(c) then
+          cx:=concat(cx,rmSupMark(c))
+        else
+          cx:=concat(cx,addSupMark(c))
+      mkIdxObj(getSymbol x, cx)
+        
+
+    cohomologic?(x,y) == 
+      homologic?(conjugate(x),y)
+
+    coerce(l:List SYM):% ==
+      err:="Symbols must be unscripted."
+      sym:=first l
+      idx:=rest l
+      scripted? sym => error err
+      for x in idx repeat
+        xx:=rmSupMark x
+        scripted? xx => error err
+        ss:=string xx
+        #ss ~= 1 => error "Length one symbols only allowed."
+      res:=[l]::Rep
+      duplicates? covariantIndices(res) => error "Duplicate lower indexes"
+      duplicates? contravariantIndices(res) => error "Duplicate upper indexes"
+      res
+ 
+    coerce(x:%):OF ==
+      bc:Character:=char(32)
+      b:Symbol:=bc::String::Symbol
+      l:=x.ls
+      sym:=first l
+      idx:=rest l
+      sub:=[]
+      sup:=[]
+      for x in idx repeat
+        if sup? x then
+          sup:=concat(sup, rmSupMark x)
+          sub:=concat(sub, b)
+        else
+          sub:=concat(sub, x)
+          sup:=concat(sup, b)
+      osup:=hconcat [s::OF for s in sup]
+      osub:=hconcat [s::OF for s in sub]
+      s:OF:=scripts(sym::OF, [osub,osup])
+        
+      
+    -- [T,i,!j,k,!l,!m ]::List Symbol::IDXOBJ  
+
+   
