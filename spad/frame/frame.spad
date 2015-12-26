@@ -1,0 +1,58 @@
+)abbrev domain FVEC FrameVector
+++ Author: Kurt Pagani
+++ Date Created: Sat Dec 26 03:08:58 CET 2015
+++ License: BSD
+++ Date Last Updated:
+++ Basic Operations: 
+++ Related Domains: 
+++ Keywords: 
+++ Examples:
+++ References:
+++
+++ Description:
+++ 
+++
+FrameVector(R,s,r) : Exports == Implementation where
+  
+  R:Field
+  s:Symbol
+  r:Segment(NonNegativeInteger)
+  
+  OF   ==>  OutputForm
+  NNI  ==>  NonNegativeInteger
+  CARD ==>  CardinalNumber
+  
+  Exports == Join(CoercibleTo OutputForm, VectorSpace R) with
+    
+    getFrame : () -> List(%)
+    dim : % -> NNI
+    coerce : % -> OutputForm
+    coerce : % -> Vector R
+    coerce : Vector(R) -> %
+	
+  Implementation == FreeModule(R,OrderedVariableList _
+      [subscript(s,[j::OF]) for j in lo(r)..hi(r)]) add 
+ 
+
+    B:=OrderedVariableList [subscript(s,[j::OF]) for j in lo(r)..hi(r)]
+    L:List(B):= enumerate()$B
+    n:NNI:=#L
+  
+    Rep := FreeModule(R,B) 
+    rep(x:%):Rep == x pretend Rep
+    per(x:Rep):% == x pretend %
+    
+    dimension() == (#L)::CARD
+    dim(x) == #L
+    
+    getFrame() == [L.j::Rep for j in lo(r)..hi(r)]
+    
+    coerce(x:%):OF == coerce(rep(x))$Rep
+    
+    coerce(x:%):Vector R == 
+      [coefficient(rep x,L.j) for j in lo(r)..hi(r)]
+      
+    coerce(v:Vector R):% ==
+      #v ~= n => error "Dimension mismatch"
+      b:=getFrame()
+      reduce(_+,[v.j*b.j for j in lo(r)..hi(r)])

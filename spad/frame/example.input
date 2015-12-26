@@ -1,0 +1,22 @@
+R==>EXPR INT
+
+V4:=FVEC(R,g,1..4)
+VV4:=FCOVEC(R,g,1..4)
+
+g:=getFrame()$V4
+gg:=getFrame()$VV4
+
+
+v:=reduce(+,[superscript('v,[j])::R*g.j for j in 1..4])
+vv:=reduce(+,[subscript('v,[j])::R*gg.j for j in 1..4])
+
+w:=v::Vector(R)
+ww:=vv::Vector(R)
+
+w.1:=1
+ww.1:=sin(t)::R
+
+w
+ww
+
+dot(w,ww)

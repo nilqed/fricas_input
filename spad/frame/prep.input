@@ -1,0 +1,20 @@
+)clear all
+B:=OrderedVariableList [e[j] for j in 1..4]
+L:= enumerate()$B
+R==>EXPR INT
+V:=FreeModule(R,B) 
+e:=[L.j::V for j in 1..4]
+
+x:=reduce(_+,[x[j]::R*e.j for j in 1..4])
+y:=reduce(_+,[y[j]::R*e.j for j in 1..4])
+
+-- useful
+listOfTerms x
+leadingTerm x
+reductum x
+zero? x
+zero? (0*x)
+coefficient(x,L.1)  -- notice: you must use L here (not e!)
+coefficient(y,L.4)  -- dito
+coefficients(x)
+
