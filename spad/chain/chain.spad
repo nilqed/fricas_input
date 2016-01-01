@@ -19,8 +19,6 @@ CellMap(R,n) : Exports == Implementation where
     cellMap   : (DOM,MAP) -> %
     getDom    : % -> DOM
     getMap    : % -> MAP
-    faceLo    : (%,NNI) -> %
-    faceHi    : (%,NNI) -> %
     faces     : % -> List List(%)
     coerce    : % -> OutputForm
 
@@ -43,14 +41,20 @@ CellMap(R,n) : Exports == Implementation where
       ~test(#f(v)=n) => error concat("#Range ~= ", string n) 
       construct(d,f)
 
-    faceLo(x:%,i:NNI):% ==
+    faceLoHi(x:%,i:NNI,lo:Boolean):% ==
       l:NNI:=#(x.d)
       v:List X
       for j in 1..l repeat
         if j=i then
-          s:X:=lo(x.d.i)
+          if lo then
+            s:X:=lo(x.d.i)
+          else
+            s:X:=hi(x.d.i)
         else
-          s:X:=subscript('x,[j::OF])::X
+          if j>i then
+            s:X:=subscript('%,[(j-1)::OF])::X
+          else
+            s:X:=subscript('%,[j::OF])::X
         v:=concat(v,s::X)
       vv:=delete(v,i..i)
       d:List(Segment X):=delete(x.d,i..i)
@@ -58,34 +62,20 @@ CellMap(R,n) : Exports == Implementation where
       cellMap(d,f)
       
 
-    faceHi(x:%,i:NNI):% ==
-      l:NNI:=#(x.d)
-      v:List X
-      for j in 1..l repeat
-        if j=i then
-          s:X:=hi(x.d.i)
-        else
-          s:X:=subscript('x,[j::OF])::X
-        v:=concat(v,s::X)
-      vv:=delete(v,i..i)
-      d:List(Segment X):=delete(x.d,i..i)
-      f:MAP:=vv+->(x.f) v
-      cellMap(d,f)
-
-
     faces(x:%):List List(%) ==
       l:NNI:=#(x.d)
-      [[faceLo(x,j), faceHi(x,j)] for j in 1..l]
+      [[faceLoHi(x,j,true), faceLoHi(x,j,false)] for j in 1..l]
         
 
     getDom(x) == x.d
     getMap(x) == x.f
+    
       
       
     coerce(x) == 
       v:List X
       for j in 1..#(x.d) repeat
-        s:X:=subscript('x,[j::OF])::X
+        s:X:=subscript('%,[j::OF])::X
         v:=concat(v,s::X)
       r:List X:=(x.f) v
       hconcat ["|",x.d::OF," -> ",r::OF,"|"]
@@ -93,7 +83,7 @@ CellMap(R,n) : Exports == Implementation where
     
       
    
-)abbrev domain CNCX ChainComplex
+)abbrev domain CHCO ChainComplex
 ++
 ChainComplex(R,n) : Exports == Implementation where
 
@@ -107,10 +97,23 @@ ChainComplex(R,n) : Exports == Implementation where
   CTOF ==> CoercibleTo OutputForm
   X    ==> Expression R
   OF   ==> OutputForm
+  MAP  ==> List X -> List X
+  DOM  ==> List(Segment X)
 
   Exports == Join(AbelianGroup ,CTOF, RetractableTo CMAP) with
  
-    bdry : % -> %
+    bdry      : % -> %
+    size      : % -> NNI
+    nthCoef   : (%,Integer) -> Integer
+    nthFactor : (%,Integer) -> CMAP
+    zero?     : % -> Boolean 
+    _=        : (%,%) -> Boolean
+    terms     : % -> List(Record(gen: CMAP,exp: Integer))
+    mapGen    : ((CMAP -> CMAP),%) -> %
+    mapCoef   : ((Integer -> Integer),%) -> %
+    chainTerm : (DOM,MAP) -> %
+    
+    
     --coerce : % -> OutputForm
     
   Implementation == FreeAbelianGroup(CMAP) add
@@ -129,12 +132,11 @@ ChainComplex(R,n) : Exports == Implementation where
         ct:=[(nthCoef(c,j)*nthFactor(c,j))::Rep for j in 1..size(c)]
         reduce("+",map(bdry,ct))
         
-    
--- g:=cellMap([a::X..b,c..d],Z+->[Z.1,Z.2,Z.2])$CellMap(INT,3)
--- f:=cellMap([a::X..b,c..d,0..1],Z+->[Z.1,Z.2,Z.2+Z.1])$CellMap(INT,3)
--- f:=f::ChainComplex(INT,3)
--- g:=g::ChainComplex(INT,3)
--- 2*f+g
+ 
+    chainTerm(d:DOM,f:MAP):% == cellMap(d,f)$CMAP::%
+
+
+
 
 
      

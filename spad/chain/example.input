@@ -1,0 +1,38 @@
+)clear all
+X==>EXPR INT
+
+-- Cell map
+g:=cellMap([a::X..b,c..d],Z+->[Z.1,Z.2,Z.2])$CellMap(INT,3)
+f:=cellMap([a::X..b,c..d,0..1],Z+->[Z.1,Z.2,Z.2+Z.1])$CellMap(INT,3)
+
+-- Chain Complex
+F:=f::ChainComplex(INT,3)
+G:=g::ChainComplex(INT,3)
+2*F+G
+
+-- Direct method w/o cellMap
+H:=chainTerm([a..b,c..d,e..s],Z+->[Z.1,Z.2,Z.3,1])$ChainComplex(INT,4)
+
+-- number of terms
+size H
+
+-- boundary of H
+dH:=bdry H
+size dH
+
+-- boundary of boundary => zero
+zero? (bdry dH)
+bdry dH
+
+-- Manifold S2
+--
+-- [0..2*pi] x [0..pi/2] -> (cos($2)*sin($1), sin($2)*sin($1),cos($1))
+-- [0..2*pi] x [0..-pi/2] -> (cos($2)*sin($1), sin($2)*sin($1),cos($1))
+-- bdry [0..2*pi] x [0..pi/2] = ([2*pi]-[0]) x [0..pi/2] + [0..2pi]x([pi/2]-[0])  
+-- (0,0,1)-(cos z.1, sin z.1, 0)
+-- (0,0,-1)-(cos z.1, sin z.1, 0)
+S2map:List(X)->List(X):=z+->[cos(z.1)*cos(z.2),sin(z.1)*cos(z.2),sin(z.2)]
+S2p:=chainTerm([0..2*%pi::X,0..%pi::X/2],S2map)$ChainComplex(INT,3)
+S2m:=chainTerm([0..2*%pi::X,0..-%pi::X/2],S2map)$ChainComplex(INT,3)
+
+S2:=S2p-S2m
