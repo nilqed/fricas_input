@@ -1,0 +1,24 @@
+)clear all
+
+X==>EXPR INT
+
+F(n,k)==k*binomial(n,k)
+
+jj:=1
+ii:=1
+
+A1(i) == reduce(_+,[a[i,j]*F(n-j,k-i)/F(n,k) for j in 0..jj])
+A:=reduce(_+,[A1(i) for i in 0..ii])
+B:=normalize(A)
+C:=numerator(B)
+P(k) == C::Polynomial(Integer)
+d:=degree(P(k),k)
+Eq:=[coefficient(P(k),k,l)=0 for l in 0..d]
+
+v:=[[a[i,j] for i in 0..ii] for j in 0..jj]
+Sol:=solve(Eq,reduce(concat,v))
+
+G:=operator 'G
+S:=reduce(_+,[reduce(_+,[a[i,j]*G(n-j,k-i) for j in 0..jj]) for i in 0..ii])
+  
+[subst(%,Sol.l)=0 for l in 1..#Sol]
