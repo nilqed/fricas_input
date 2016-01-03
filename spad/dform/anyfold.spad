@@ -1,0 +1,73 @@
+)abbrev package ANYF Anyfold
+++ Author: Kurt Pagani
+++ Date Created: Sat Jan 02 19:52:00 CET 2016
+++ License: BSD
+++ References:
+++ Description: Differential form methods, geometric integration
+++ Requires DeRhamComplex, ChainComplex
+++
+Anyfold(R,v) : Exports == Implementation where
+    
+  R: Join(Ring,Comparable)
+  v: List Symbol
+
+  X   ==> Expression R
+  OF  ==> OutputForm
+  DRC ==> DeRhamComplex(R,v)
+  CHC ==> ChainComplex(R,#v)
+  BOP ==> BasicOperator
+  NNI ==> NonNegativeInteger
+  
+  
+  Exports ==  with
+    
+    _* : (List X, List DRC) -> DRC
+    _* : (List DRC, List DRC) -> DRC
+    d : DRC -> DRC
+    one :  -> DRC
+    zero : -> DRC
+    baseForms : () -> List DRC
+    coordVector : () -> List X
+    coordSymbols : () -> List Symbol
+    vectorField : Symbol -> List X
+    scalarField : Symbol -> X
+    covectorField : Symbol -> List DRC
+    nullForm : Symbol -> DRC
+    
+	
+	
+  Implementation ==  add 
+    
+    n:NNI:=#v
+    d(f) == exteriorDifferential(f)
+    one () == 1@DRC
+    zero() == 0@DRC
+    baseForms() == [generator(j)$DRC for j in 1..n]
+    coordVector() == [s::X for s in v]
+    coordSymbols() == v
+    
+    vectorField(s:Symbol):List X ==
+      ls:=[subscript(s,[j::OF]) for j in 1..n]
+      op:=[operator t for t in ls]
+      x:=[a::X for a in v]
+      [f x for f in op]
+    
+    scalarField(s:Symbol):X ==
+      f:=operator s
+      f [a::X for a in v]
+
+
+    covectorField(s:Symbol):List DRC ==
+      vf:=vectorField(s)
+      [a*1@DRC for a in vf]
+
+    nullForm(s:Symbol):DRC == scalarField(s)*1@DRC
+
+
+    (l:List(X) * x:List DRC):DRC == 
+      l:List DRC:=[l.j * x.j for j in 1..n]
+      reduce(_+,l)
+
+    (x:List DRC * y:List DRC):DRC == 
+      l:List DRC:=[x.j * y.j for j in 1..n]
+      reduce(_+,l)
