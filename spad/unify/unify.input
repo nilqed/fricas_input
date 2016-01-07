@@ -1,0 +1,103 @@
+)clear all
+R   ==> Expression Integer
+IF  ==> InputForm
+EQR ==> Equation R
+
+
+symbolClash(x:EQR):Boolean ==
+  [l,r]:=[lhs x, rhs x]
+  [kl,kr]:=map(mainKernel,[l,r])
+  if (kl case Kernel(R)) and (kr case Kernel(R)) then
+    return test(name kl ~= name kr)
+  else
+    true
+  
+
+termReduce(x:EQR):Union(List(EQR),"failed") ==
+  l:=lhs x
+  r:=rhs x
+  kl:=mainKernel l
+  kr:=mainKernel r
+  if (kl case Kernel(R)) and (kr case Kernel(R)) then
+    al:=argument kl
+    ar:=argument kr
+    #al ~= #ar => "failed"
+    [al.j = ar.j for j in 1..#al]
+  else
+    "failed"
+  
+
+app?(x:R):Boolean ==
+  k:=mainKernel(x)
+  if (k case Kernel R) then
+    test(height k > 1)
+  else
+    false
+ 
+var?(x:R):Boolean == not(app?(x) or number?(x))
+
+reduceWith2(x:List EQR, y:List EQR):List EQR ==
+  r:=x
+  for i in 1..#y repeat
+    r:=[subst(r.j,y.i) for j in 1..#x]
+  return r
+
+reduceWith(x:List EQR, y:List EQR):List EQR ==
+    [subst(lhs(x.i),y) = subst(rhs(x.i),y) for i in 1..#x]
+    
+
+occurs(x:R,y:R):Boolean ==
+  member?(x,variables(y)::List R)
+
+unify(x:List EQR,S:List EQR):Union(List EQR,"failed") ==
+  if empty? x then return S
+  l:=lhs(first x)
+  r:=rhs(first x)
+  if l = r  then return unify(rest x,S)
+  if number? l and number? r then return "failed"
+  if (app? l or number? l) and var? r then 
+    return unify(concat([r=l],rest x),S)
+  if var? l then
+    if occurs(l,r) then return "failed"
+    return unify(reduceWith(rest x,[l=r]),concat(reduceWith(S,[l=r]),[l=r]))
+  if app? l and app? r then
+    if symbolClash(l=r) then return "failed"
+    return unify(concat(termReduce(l=r),rest x),S)
+
+
+
+p:=operator 'p
+f:=operator 'f
+g:=operator 'g
+h:=operator 'h
+
+P1:=[f(g(x),x) = f(y,a)]
+P2:=[f(x,h(x),y) = f(g(z), u, z)] 
+P3:=[p(a,x,f(y)) = p(u,v,w),p(a,x,f(y))= p(a, s,f(c)),p(u,v,w) = p(a,s,f(c))] 
+
+P4:=[f(x, b, g(z)) = f(f(y), y, g(u))] 
+P5:=[p(a,x,h(g(z))) = p(z,h(y),h(y))] 
+P6:=[p(f(a),g(x)) = p(y,y)]  --should fail => 0
+P7:=[p(x,x) = p(y,f(y))]     -- should fail => 0
+
+P8:=[sin(x+y) = sin(u^2+v^2)] 
+
+P9:=[c+b=a+c,a+b=b+c] 
+P10:=[c+b=a+c,a+b=b+c,a*b=c*d]
+
+P11:=[g(x,f(x,b))=g(f(a,b),f(y,z))]
+
+U1:=unify(P1,[])   -- [y= g(a),x= a]
+U2:=unify(P2,[])   -- [x= g(z),u= h(g(z)),y= z]
+U3:=unify(P3,[])   -- [a= u,x= s,w= f(c),v= s,y= c]
+U4:=unify(P4,[])   -- [x= f(y),b= y,z= u]
+U5:=unify(P5,[])   -- [a= z,x= h(g(z)),y= g(z)]
+U6:=unify(P6,[])   -- failed
+U7:=unify(P7,[])   -- failed
+U8:=unify(P8,[])   -- ?
+--U9:=unify(P9,[])   -- left hand side must be a single kernel
+--U10:=unify(P10,[]) -- left hand side must be a single kernel
+U11:=unify(P11,[]) -- [x= f(a,z),y= f(a,z),b= z]
+
+R11:=reduceWith(P11,U11)
+test(R11.1)
