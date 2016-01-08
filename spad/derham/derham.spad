@@ -43,13 +43,17 @@ ExtAlgBasis() : Exports == Implementation where
 
    Exports == OrderedSet with
    
-     coerce : L I -> %
+     coerce : List(I) -> %
         ++ coerce(l) converts a list of 0's and 1's into a basis
         ++ element, where 1 (respectively 0) designates that the
         ++ variable of the corresponding index of l is (respectively, is not)
         ++ present.
         ++ Error: if an element of l is not 0 or 1.
-        
+
+
+     convert : % -> List(I)
+        ++ convert to a list of integers
+
      degree : %   -> NNI
         ++ degree(x) gives the numbers of 1's in x, i.e., the number
         ++ of non-zero exponents in the basis element that x represents.
@@ -91,6 +95,7 @@ ExtAlgBasis() : Exports == Implementation where
      Nul n == [0 for i in 1..n]
 
      coerce x == coerce(x @ Rep)$(L I)
+     convert(x:%):List(I) == x@Rep
      
      
 )abbrev domain ANTISYM AntiSymm
@@ -388,7 +393,8 @@ DeRhamComplex(CoefRing, listIndVar) : Exports == Implementation where
 
       coerce : % -> List Term
         ++  coerce to a list of low level terms = Record(ExtAlgBasis,R) 
-
+        
+        
   Implementation == ASY add
   
       Rep := ASY
@@ -436,6 +442,7 @@ DeRhamComplex(CoefRing, listIndVar) : Exports == Implementation where
       getIndVars(a) == listIndVar
 
       coerce(a:%):List(Term) == convert(a)@List Term  
+      
 
       coerce(a) : O ==
         a = 0$Rep => 0$I::O

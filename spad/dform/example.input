@@ -2,6 +2,9 @@
 -- Anyfold   requires the new DERHAM !!!,  )co ../derham/derham
 -- Moving frames (see FrameVector)
 ----------
+
+)clear values all
+
 M:=Anyfold(INT,[subscript(x,[j::OutputForm]) for j in 1..3])
 
 -- basis 1-forms and coordinate vector
@@ -37,3 +40,24 @@ vectorField(W)$M * dx
 J:=covectorField(J)$M
 J*dx
 
+--
+--
+--
+
+g:=diagonalMatrix([1,1,1])$SquareMatrix(3,EXPR INT)
+a1:=hodgeStar(g,1)$M
+a2:=hodgeStar(g,dx.1*dx.2)$M
+a3:=hodgeStar(g,dx.3)$M
+dx.3 * %
+
+--
+proj(a1+a2+a3,0)$M
+proj(a1+a2+a3,1)$M
+proj(a1+a2+a3,2)$M
+proj(a1+a2+a3,3)$M
+
+
+--
+
+dot(g,dx.1,dx.1)$M
+dot(g,a2,dx.2)$M
