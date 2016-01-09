@@ -167,6 +167,9 @@ AntiSymm(R : Ring, lVar : List Symbol) : Exports == Implementation where
       convert : % -> List(Term)
         ++  convert(p) converts p to a list of terms
 
+      convert : List(Term) -> %
+        ++  convert a list of terms back to p
+
 
   Implementation == FMR add
   
@@ -298,6 +301,7 @@ AntiSymm(R : Ring, lVar : List Symbol) : Exports == Implementation where
         reduce(_+, [makeTerm(t.coef, t.base) for t in (a @ Rep)])$L(O)
 
       convert(a:%):List(Term) == a@Rep
+      convert(t:List Term):% == t
 
 
 
@@ -393,7 +397,10 @@ DeRhamComplex(CoefRing, listIndVar) : Exports == Implementation where
 
       coerce : % -> List Term
         ++  coerce to a list of low level terms = Record(ExtAlgBasis,R) 
-        
+
+      convert : List Term -> %
+        ++  convert a list of terms back: convert(coerce %)=%
+
         
   Implementation == ASY add
   
@@ -443,6 +450,7 @@ DeRhamComplex(CoefRing, listIndVar) : Exports == Implementation where
 
       coerce(a:%):List(Term) == convert(a)@List Term  
       
+      convert(t:List Term):% == convert(t)$ASY
 
       coerce(a) : O ==
         a = 0$Rep => 0$I::O

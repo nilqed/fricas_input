@@ -55,7 +55,11 @@ Anyfold(R,v) : Exports == Implementation where
     lieDerivative : (SMR, Vector(X),DRC) -> DRC
       ++ Calculates the Lie derivative L_X(a) of the differential 
       ++ form a with respect to the vector field X (w.r.t. metric g).
-	
+
+
+    pullBack : (List(X)->List(X), DRC) -> DRC
+    
+
 	
   Implementation ==  add 
     
@@ -109,8 +113,8 @@ Anyfold(R,v) : Exports == Implementation where
 
 
     -- list the positions of a's (a=0,1) in x
-    pos(x:EAB, a:NNI):List(NNI) ==
-      y:= x pretend List(NNI) 
+    pos(x:EAB, a:Integer):List(Integer) ==
+      y:List(Integer):= convert(x)$EAB 
       [j for j in 1..#y | y.j=a]
 
 
@@ -160,10 +164,10 @@ Anyfold(R,v) : Exports == Implementation where
       s := [copy(r) for r in t] -- we need a copy of x!
       for j in 1..#t repeat
         s.j.k := flip(s.j.k)
-        fs:= [s.j] pretend DRC
-        ft:= [t.j] pretend DRC
+        fs:= convert([s.j])$DRC
+        ft:= convert([t.j])$DRC
         s.j.c := s.j.c * w * dot1(g,t.j,t.j)/leadingCoefficient(ft*fs)
-      s pretend DRC
+      convert(s)$DRC
 
 
     -- export
@@ -172,7 +176,7 @@ Anyfold(R,v) : Exports == Implementation where
       t:List REA := x::List REA
       idx := [j for j in 1..#t | #pos(t.j.k,1)=p]
       s := [copy(t.j) for j in idx::List(NNI)]
-      s pretend DRC
+      convert(s)$DRC
       
       
     interiorProduct(g:SMR,w:Vector X,x:DRC):DRC ==
@@ -196,4 +200,5 @@ Anyfold(R,v) : Exports == Implementation where
       b := interiorProduct(g,w, exteriorDifferential(x))
       a+b
   
-
+    --
+    
