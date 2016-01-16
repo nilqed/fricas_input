@@ -1,11 +1,11 @@
 ----------
--- Anyfold   requires the new DERHAM !!!,  )co ../derham/derham
+-- LocalFrame   requires the new DERHAM !!!,  )co ../derham/derham
 -- Moving frames (see FrameVector)
 ----------
 
 )clear values all
 
-M:=Anyfold(INT,[subscript(x,[j::OutputForm]) for j in 1..3])
+M:=LocalFrame(INT,[subscript(x,[j::OutputForm]) for j in 1..3])
 
 -- basis 1-forms and coordinate vector
 dx:=baseForms()$M

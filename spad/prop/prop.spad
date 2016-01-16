@@ -1,0 +1,213 @@
+)abbrev package PROP Proposition
+++ Author: Kurt Pagani
+++ Date Created: Thu Jan 14 02:08:19 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+Proposition(R) : Exports == Implementation where
+  
+  R:Join(Ring, Comparable)
+  
+  X   ==> Expression R
+  OF  ==> OutputForm
+  SY  ==> Symbol
+  
+  
+  Exports ==  with
+    
+    _<    : (X,X) -> %
+    _<_=  : (X,X) -> %
+    _>    : (X,X) -> %
+    _>_=  : (X,X) -> %
+    _=    : (X,X) -> %
+    _<_>  : (X,X) -> %
+    
+    
+    _/_\  : (%,%) -> %
+    _\_/  : (%,%) -> %
+    _>_>  : (%,%) -> %
+    _^    : (%,%) -> %
+    _~    :  %    -> %
+    
+    all   : (X,%) -> %
+    ex    : (X,%) -> %
+
+    all   : (List X, %) -> %
+    ex    : (List X, %) -> %
+
+    getOp   : % -> Symbol
+    getArgs : % -> List Union(X,%)
+    
+    atomic?   : % -> Boolean
+    quant?    : % -> Boolean
+    negation? : % -> Boolean
+
+    termVars  : % -> List Symbol
+    quantVars : % -> List Symbol
+    freeVars  : % -> List Symbol
+    boundVars : % -> List Symbol
+
+    free?  : (Symbol,%) -> Boolean
+    bound? : (Symbol,%) -> Boolean
+
+    nnf : % -> %
+
+
+    coerce  : % -> OutputForm
+	
+	
+  Implementation ==  add 
+    
+    UTP ==> Union(X,%)
+    Rep := Record(op:Symbol, a: List UTP)
+    
+    
+    t1 <  t2 == ['< ,[t1,t2]]::Rep
+    t1 <= t2 == ['<=,[t1,t2]]::Rep
+    t1 >  t2 == ['> ,[t1,t2]]::Rep
+    t1 >= t2 == ['>=,[t1,t2]]::Rep
+    t1 =  t2 == ['= ,[t1,t2]]::Rep
+    
+    x /\ y   == ['/\  ,[x,y]]::Rep
+    x \/ y   == ['\/  ,[x,y]]::Rep
+    x >> y   == ['=>  ,[x,y]]::Rep
+    x ^ y    == ["<=>"::Symbol ,[x,y]]::Rep
+    
+    ~ x == ['~,[x]]::Rep
+  
+    all(t:X,x:%):% == 
+      l:=variables(t)
+      l = [] => error "Term must be a variable."
+      if test (t = l.1::X) then
+        ['all,[t,x]]::Rep
+      else
+        error "Term must be a variable."
+      
+    ex(t:X,x:%) == 
+      l:=variables(t)
+      l = [] => error "Term must be a variable."
+      if test (t = l.1::X) then
+        ['ex,[t,x]]::Rep
+      else
+        error "Term must be a variable."
+
+
+    all(lt:List X,x:%):% ==
+      y:=x
+      for t in lt repeat
+        y:=all(t,y)
+      return y
+
+
+    ex(lt:List X,x:%):% ==
+      y:=x
+      for t in lt repeat
+        y:=ex(t,y)
+      return y
+
+
+    getOp(x) == x.op
+    getArgs(x) == x.a
+    
+
+    termOp?(s:Symbol):Boolean == 
+      member?(s,['<,'<=,'>,'>=,'=]::List Symbol)
+    
+    connOp?(s:Symbol):Boolean ==
+      member?(s,['/\,'\/,'=>,"<=>"::Symbol]::List Symbol)
+
+
+    atomic?(x) == 
+      termOp? x.op
+      -- other predicates later   
+   
+    quant?(x) ==
+      x.op = 'all => true
+      x.op = 'ex  => true
+      false
+
+
+    negation?(x) ==
+      x.op = '~ => true
+      false
+      
+
+    termVars(x:%):List Symbol == 
+      a:=getArgs x
+      if atomic? x then
+        aa:=[s::X for s in a | s case X]
+        lv:=[variables(t) for t in aa]
+        r:List Symbol:=concat lv
+        return r
+      else
+        concat [termVars(t::%) for t in a | t case %]
+
+
+    quantVars(x:%):List Symbol ==
+      a:=getArgs x
+      atomic? x => []
+      if quant? x and (a.1 case X) then
+        return concat(variables(a.1::X),quantVars(a.2::%))
+      else
+        concat [quantVars(t::%) for t in a | t case %]
+
+
+    free?(s,x) ==
+      a:=getArgs(x)
+      atomic? x => member?(s,termVars x)
+      negation? x => free?(s,a.1::%)
+      connOp? x.op => free?(s,a.1::%) or free?(s,a.2::%)
+      quant? x => test(s::X ~= a.1::X) and free?(s,a.2::%)
+      false
+      
+
+    bound?(s,x) ==
+      a:=getArgs(x)
+      atomic? x => false
+      negation? x => bound?(s,a.1::%)
+      connOp? x.op => bound?(s,a.1::%) or bound?(s,a.2::%)
+      quant? x => test(s::X = a.1::X) or bound?(s,a.2::%)
+      false
+
+    
+    freeVars(x) ==
+      tv:=removeDuplicates termVars(x)
+      [v for v in tv | free?(v,x)]
+
+    boundVars(x) ==
+      tv:=removeDuplicates termVars(x)
+      [v for v in tv | bound?(v,x)]
+
+
+    nnf(x) ==
+      a:=getArgs(x)
+      x.op = "=>"::SY => nnf(~a.1::%) \/ nnf(a.2::%)
+      x.op = "<=>"::SY => (nnf(a.1::%)\/ nnf(~a.2::%))/\(nnf(~a.1::%)\/nnf(a.2::%))
+      if x.op = '~ then
+        atomic?(a.1::%) => x
+        b:=getArgs(a.1::%)
+        if (a.1::%).op = '\/  then return (nnf(~b.1::%) /\ nnf(~b.2::%))
+        if (a.1::%).op = '/\  then return (nnf(~b.1::%) \/ nnf(~b.2::%))
+        if (a.1::%).op = '~   then return  nnf(b.1::%)
+        if (a.1::%).op = 'all then return  nnf(ex(b.1::X,nnf(~b.2::%)))
+        if (a.1::%).op = 'ex  then return  nnf(all(b.1::X,nnf(~b.2::%)))
+      x.op = '/\ => nnf(a.1::%) /\ nnf(a.2::%)
+      x.op = '\/ => nnf(a.1::%) \/ nnf(a.2::%)
+      x.op = 'all => all(a.1::X,nnf(a.2::%))
+      x.op = 'ex  => ex(a.1::X,nnf(a.2::%))
+      x
+        
+
+    coerce(x) ==
+      blank:Character:=char(32) ; b:=blank::OF
+      termOp? x.op => paren(hconcat [x.a.1::OF,b,x.op::OF,b,x.a.2::OF])
+      connOp? x.op => hconcat [x.a.1::OF,b,x.op::OF,b,x.a.2::OF]
+      if x.op = '~ then  
+        if atomic?(x.a.1::%) then 
+          return hconcat [x.op::OF,x.a.1::OF]
+        else
+          return hconcat [x.op::OF,paren(x.a.1::OF)]
+      x.op = 'all  => bracket hconcat ["\"::OF,x.a.1::OF,"."::OF,x.a.2::OF]
+      x.op = 'ex   => bracket hconcat ["?"::OF,x.a.1::OF,"."::OF,x.a.2::OF]
+      

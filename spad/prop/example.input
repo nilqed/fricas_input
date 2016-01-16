@@ -1,0 +1,60 @@
+-- P ==> PROP INT
+-- p:=all(a,all(b,all(c,(a=b)$P/\(b=c)$P >> (a=c)$P)))
+-- (2<3)@P
+-- all([a,b,c],...), all([],p) -> p
+-- termVars p -> [a,b,b,c,a,c], all vars in atomic formulas
+-- quantVars p --> [a,b,c] , all vars in quants
+-- q:=(x<y)$P >> all(x,(x>z)$P)
+-- freeVars q not disjoint w. boundVars q
+-- symbol(GENSYM()$Lisp)
+
+X ==> EXPR INT
+P ==> PROP INT
+
+--
+-- Atomic propostions
+--
+a1:= (x<y)$P
+a2:= (2>3)$P
+a3:= (x+y=z)$P
+a4:= (1-1>=0)$P
+a5:= (x^2+b*x-c=0)$P
+
+--
+-- Conjunction, disjunction
+--
+b1:=a1/\a2
+b2:=a3/\a4/\a5
+b3:=a3\/a1
+b4:=a1\/(a2/\a3)\/a5
+
+--
+-- Implication, equivalence
+--
+c1:=a1 >> b1
+c2:=a5 >> a3 >> a4
+c3:=a2^a3
+c4:=((a1>>a2)/\(a2>>a1))^(a1^a2)
+
+--
+-- Negation
+--
+d1:=~a1
+d2:=~b1
+d3:=~c1
+d4:=~d1
+
+--
+-- Quantifiers
+--
+
+e1:= all(x,ex(y,a1))
+e2:= ex(z,a3)
+e3:= all([x,y,z],a3)
+e4:= ex([x,y],all(z,a3))
+
+--
+
+
+
+

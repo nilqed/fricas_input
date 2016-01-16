@@ -1,12 +1,13 @@
-)abbrev package ANYF Anyfold
+)abbrev package LOCFR LocalFrame
 ++ Author: Kurt Pagani
 ++ Date Created: Sat Jan 02 19:52:00 CET 2016
 ++ License: BSD
 ++ References:
-++ Description: Differential form methods, geometric integration
-++ Requires DeRhamComplex, ChainComplex
+++ Description: Differential form methods
+++ Requires DeRhamComplex
+++ LocalFrame aka coordinate chart
 ++
-Anyfold(R,v) : Exports == Implementation where
+LocalFrame(R,v) : Exports == Implementation where
     
   R: Join(Ring,Comparable)
   v: List Symbol
@@ -57,7 +58,8 @@ Anyfold(R,v) : Exports == Implementation where
       ++ form a with respect to the vector field X (w.r.t. metric g).
 
 
-    pullBack : (List(X)->List(X), DRC) -> DRC
+    pullBack : (List(X)->List(X),List Symbol, DRC) -> DRC
+      ++ Pullback of a differential form by f:dom -> v
     
 
 	
@@ -201,4 +203,15 @@ Anyfold(R,v) : Exports == Implementation where
       a+b
   
     --
-    
+    pullBack(f,dom,x) ==
+      rdom:List X:=[r::X for r in dom]
+      val:List(X):=f(rdom)
+      #val ~= #v => error "Incompatible range"
+      t:List REA := x::List REA
+      s := [copy(r) for r in t] -- we need a copy of x!
+      cv:List X:=coordVector()
+      el:List Equation(X)=[cv.j=val.j for j in 1..#cv]
+      N:=DeRhamComplex(R,dom)
+      --subst : (%,List(Equation(%))) -> %
+      x
+      
