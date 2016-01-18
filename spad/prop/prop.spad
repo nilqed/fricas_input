@@ -35,6 +35,8 @@ Proposition(R) : Exports == Implementation where
 
     all   : (List X, %) -> %
     ex    : (List X, %) -> %
+    
+    pred  : (Symbol, List X) -> %
 
     getOp   : % -> Symbol
     getArgs : % -> List Union(X,%)
@@ -42,6 +44,8 @@ Proposition(R) : Exports == Implementation where
     atomic?   : % -> Boolean
     quant?    : % -> Boolean
     negation? : % -> Boolean
+    binConn?  : % -> Boolean
+    userPred? : % -> Boolean
 
     termVars  : % -> List Symbol
     quantVars : % -> List Symbol
@@ -52,7 +56,15 @@ Proposition(R) : Exports == Implementation where
     bound? : (Symbol,%) -> Boolean
 
     nnf : % -> %
+    
+    quantFree? : % -> Boolean  -- quantifier free formula ?
+    sentence?  : % -> Boolean  -- first order sentence = no free variables
 
+    gensym : () -> Symbol
+    
+    --varSubst : (%,Equation X) -> %  -- debugging only
+    --stdVars  : % -> %               -- debugging only
+    standardizeVariables : % -> %
 
     coerce  : % -> OutputForm
 	
@@ -84,7 +96,7 @@ Proposition(R) : Exports == Implementation where
       else
         error "Term must be a variable."
       
-    ex(t:X,x:%) == 
+    ex(t:X,x:%):% == 
       l:=variables(t)
       l = [] => error "Term must be a variable."
       if test (t = l.1::X) then
@@ -118,9 +130,26 @@ Proposition(R) : Exports == Implementation where
       member?(s,['/\,'\/,'=>,"<=>"::Symbol]::List Symbol)
 
 
+    userPred?(x) ==
+      termOp? x.op => false
+      connOp? x.op => false
+      quant? x => false
+      negation? x => false
+      true
+
+
+    pred(p:Symbol, lt:List X):% ==
+      ~userPred?([p,[]]::Rep) => error "Illegal predicate symbol."
+      l:List UTP:=[t for t in lt]
+      [p,l]::Rep
+      
+
+
     atomic?(x) == 
-      termOp? x.op
-      -- other predicates later   
+      termOp? x.op => true
+      userPred? x => true
+      false
+         
    
     quant?(x) ==
       x.op = 'all => true
@@ -131,7 +160,39 @@ Proposition(R) : Exports == Implementation where
     negation?(x) ==
       x.op = '~ => true
       false
+
+
+    binConn?(x) ==
+      connOp? x.op => true
+      false
+
+
+    --local
+    allQuant?(x:%):Boolean == 
+      quant? x => test(x.op = 'all)
+      false
       
+    exQuant?(x:%):Boolean == 
+      quant? x => test(x.op = 'ex)
+      false
+      
+    conj?(x:%):Boolean ==  
+      binConn? x => test(x.op = '/\)
+      false
+      
+    disj?(x:%):Boolean == 
+      binConn? x => test(x.op = '\/)
+      false
+      
+    impl?(x:%):Boolean == 
+      binConn? x => test(x.op = '=>)
+      false
+      
+    equiv?(x:%):Boolean == 
+      binConn? x => test(x.op = "<=>"::Symbol)
+      false
+    --  
+
 
     termVars(x:%):List Symbol == 
       a:=getArgs x
@@ -181,23 +242,77 @@ Proposition(R) : Exports == Implementation where
 
 
     nnf(x) ==
+      atomic? x => x
       a:=getArgs(x)
-      x.op = "=>"::SY => nnf(~a.1::%) \/ nnf(a.2::%)
-      x.op = "<=>"::SY => (nnf(a.1::%)\/ nnf(~a.2::%))/\(nnf(~a.1::%)\/nnf(a.2::%))
+      x.op = "=>"::SY => (nnf(~a.1::%) \/ nnf(a.2::%))
+      x.op = "<=>"::SY => ((nnf(a.1::%)\/ nnf(~a.2::%))/\(nnf(~a.1::%)\/nnf(a.2::%)))
       if x.op = '~ then
-        atomic?(a.1::%) => x
+        if atomic?(a.1::%) then return x
         b:=getArgs(a.1::%)
         if (a.1::%).op = '\/  then return (nnf(~b.1::%) /\ nnf(~b.2::%))
         if (a.1::%).op = '/\  then return (nnf(~b.1::%) \/ nnf(~b.2::%))
         if (a.1::%).op = '~   then return  nnf(b.1::%)
         if (a.1::%).op = 'all then return  nnf(ex(b.1::X,nnf(~b.2::%)))
         if (a.1::%).op = 'ex  then return  nnf(all(b.1::X,nnf(~b.2::%)))
-      x.op = '/\ => nnf(a.1::%) /\ nnf(a.2::%)
-      x.op = '\/ => nnf(a.1::%) \/ nnf(a.2::%)
+        return nnf(~nnf(a.1::%))
+      x.op = '/\ => (nnf(a.1::%) /\ nnf(a.2::%))
+      x.op = '\/ => (nnf(a.1::%) \/ nnf(a.2::%))
       x.op = 'all => all(a.1::X,nnf(a.2::%))
       x.op = 'ex  => ex(a.1::X,nnf(a.2::%))
-      x
+  
         
+
+    quantFree?(x) ==
+      quant? x => false
+      atomic? x => true
+      negation? x => quantFree?(x.a.1::%)
+      binConn? x => quantFree?(x.a.1::%) and quantFree?(x.a.2::%)
+      
+
+    sentence?(x) ==
+      empty? freeVars(x) => true
+      false
+
+   
+    gensym() == symbol(GENSYM()$Lisp)$SExpression
+
+
+    varSubst(x:%,eq:Equation X):% ==
+      -- assuming negation normal form
+      if atomic? x then
+        l:List X:=[t::X for t in x.a]
+        return [x.op,[subst(t,eq) for t in l]]::Rep
+      negation? x => ~varSubst(x.a.1::%,eq)
+      if binConn? x then
+        return [x.op,[varSubst(x.a.1::%,eq),varSubst(x.a.2::%,eq)]]::Rep
+      if quant? x then
+        return [x.op,[x.a.1::X,varSubst(x.a.2::%,eq)]]::Rep
+      
+
+    stdVars(x:%):% ==
+      -- assuming negation normal form
+      atomic? x => x
+      negation? x => ~stdVars(x.a.1::%)
+      if binConn? x then
+        if x.op = '/\ then 
+          return (stdVars(x.a.1::%)/\stdVars(x.a.2::%))
+        if x.op = '\/ then
+          return (stdVars(x.a.1::%)\/stdVars(x.a.2::%))
+      if quant? x then
+        g:X:=gensym()::X
+        if quantFree?(x.a.2::%) then
+          if x.op = 'all then 
+            return all(g,varSubst(x.a.2::%,x.a.1::X=g))
+          if x.op = 'ex then 
+            return ex(g,varSubst(x.a.2::%,x.a.1::X=g))          
+        else
+          if x.op = 'all then 
+            return all(g,varSubst(stdVars(x.a.2::%),x.a.1::X=g))
+          if x.op = 'ex then 
+            return ex(g,varSubst(stdVars(x.a.2::%),x.a.1::X=g))    
+
+
+    standardizeVariables(x) == stdVars nnf(x)
 
     coerce(x) ==
       blank:Character:=char(32) ; b:=blank::OF
@@ -210,4 +325,5 @@ Proposition(R) : Exports == Implementation where
           return hconcat [x.op::OF,paren(x.a.1::OF)]
       x.op = 'all  => bracket hconcat ["\"::OF,x.a.1::OF,"."::OF,x.a.2::OF]
       x.op = 'ex   => bracket hconcat ["?"::OF,x.a.1::OF,"."::OF,x.a.2::OF]
+      userPred? x => hconcat [x.op::OF,paren([o::OF for o in x.a])]
       

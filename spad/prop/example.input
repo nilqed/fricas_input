@@ -8,6 +8,9 @@
 -- freeVars q not disjoint w. boundVars q
 -- symbol(GENSYM()$Lisp)
 
+)clear all
+)co /home/kfp/Development/fricas_input/spad/prop/prop
+
 X ==> EXPR INT
 P ==> PROP INT
 
@@ -54,7 +57,12 @@ e3:= all([x,y,z],a3)
 e4:= ex([x,y],all(z,a3))
 
 --
-
+-- User predicates
+--
+f1:=pred('p,[x,y,z::X])
+f2:=pred('mother,[A,B::X])
+p(x)== pred('p,[x::X])
+all(x,p(x)) >> ex(y,p(y)) >> p(z)
 
 
 
