@@ -1,0 +1,116 @@
+)abbrev package PROP Proposition
+++ Author: Kurt Pagani
+++ Date Created: Mon Jan 18 17:32:02 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+Proposition(R) : Exports == Implementation where
+
+  R:Join(Ring, Comparable)
+
+  X   ==> Expression R
+  IF  ==> InputForm
+  OF  ==> OutputForm
+  SY  ==> Symbol
+
+  SEX ==> SExpression
+  
+  
+  Exports == Join(CoercibleTo OF, ConvertibleTo IF) with 
+
+    _/_\  : (%,%) -> %
+    _\_/  : (%,%) -> %
+    _>_>  : (%,%) -> %
+    _~    :  %    -> %
+    _^    : (%,%) -> %
+    _<_<  : (%,%) -> %
+    
+    all   : (X,%) -> %
+    ex    : (X,%) -> %
+    
+    all   : (List X,%) -> %
+    ex    : (List X,%) -> %
+      
+    _=    : (X,X) -> %
+    _<    : (X,X) -> %
+    _>    : (X,X) -> %
+    _>_=  : (X,X) -> %
+    _<_=  : (X,X) -> %
+    
+    
+    pred  : (Symbol,List X) -> %
+    true  : () -> %
+    false : () -> %
+    
+    
+    assert  : (%,Symbol) -> %
+    assert1  : % -> %
+
+
+  Implementation == SEX  add 
+  
+
+    Rep:=SEX
+
+
+    if X has ConvertibleTo(IF) then
+
+      x /\ y == CONJUNCTION(x,y)$Lisp
+      x \/ y == DISJUNCTION(x,y)$Lisp
+      x >> y == IMPLICATION(x,y)$Lisp
+      x ^  y == EQUIVALENCE(x,y)$Lisp
+      x << y == IMPLIED_BY(x,y)$Lisp
+      ~ x    == NEGATION(x)$Lisp
+
+
+      all(lx:List X, y:%):% ==
+        xx:IF:=convert(lx)@IF
+        ALLQUANT(cdr xx,y)$Lisp
+        
+        
+      ex(lx:List X, y:%):% ==
+        xx:IF:=convert(lx)@IF
+        EXQUANT(cdr xx,y)$Lisp
+        
+
+      all(x:X,y:%):% == all([x],y)
+       
+      ex (x:X,y:%):% == ex([x],y)
+        
+
+      pred(s:Symbol, lx:List X):% ==
+        xx:IF:=convert(lx)@IF
+        PREDICATE(s,cdr xx)$Lisp
+        
+      true()  == TRUESYM()$Lisp
+      false() == FALSESYM()$Lisp
+
+      assert(x,y) == TELL(x,y)$Lisp
+      assert1(x) == SNARKASSERT(x)$Lisp
+ 
+      t = s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        EQLTERM(tt,ss)$Lisp
+        
+      t < s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        LTTERM(tt,ss)$Lisp        
+
+      t > s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        GTTERM(tt,ss)$Lisp
+        
+      t <= s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        LEQTERM(tt,ss)$Lisp
+
+      t >= s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        GEQTERM(tt,ss)$Lisp
+   
