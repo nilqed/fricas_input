@@ -1,0 +1,86 @@
+)clear all
+)read /home/kfp/Development/fricas_input/spad/snark/snark.lisp
+)co /home/kfp/Development/fricas_input/spad/snark/snark
+
+X ==> EXPR INT
+P ==> PROP INT
+
+
+
+
+)lisp (snark::initialize)
+)lisp (snark::use-resolution t)
+)lisp (snark::use-paramodulation t)
+)lisp (snark::use-assertion-analysis t)
+--)lisp (snark::assert-context :ROOT)
+)lisp (snark::run-time-limit 60)
+--)lisp (snark::use-clausification)
+--)lisp (snark::use-equality-elimination)
+
+--)lisp (snark::print-assertion-analysis-note t)
+
+--)lisp (snark::declare-relation '= 2)
+--)lisp (snark::declare-constant '|e|)
+
+
+
+-- Axioms of equality
+
+reflexivity:=all(x,(x=x)$P)
+symmetry:=all([x,y],(x=y)$P >> (y=x)$P)
+transitivity:=all([x,y,z],((x=y)$P /\ (y=z)$P)>>(x=z)$P)
+
+--[assert s for s in [reflexivity,symmetry,transitivity]]
+
+-- Group
+
+*:BOP:=operator 'op
+/:BOP:=operator 'inv
+e:X
+
+-- Axioms
+
+leftId := all(x,(e*x=x)$P)
+leftInv := all(x,(/x*x=e)$P)
+assoc := all([x,y,z],(x*(y*z)=(x*y)*z)$P)
+
+
+-- Hypotheses
+leftCancel := all([x,y,z], (x*y=x*z)$P >> (y=z)$P)
+rightId := all(x,(x*e=x)$P)
+rightInv := all(x,(x*/x=e)$P)
+rightInvUnique := all([x,y],(x*y=e)$P >> (y=/x)$P)
+invInvolution := all(x, (/(/x)=x)$P)
+invProd := all([x,y],( /(x*y)=(/y)*(/x))$P)
+
+-- Clear the BOP's
+)clear prop *
+)clear prop /
+
+
+-- Init/prove
+[assert s for s in [leftId,leftInv,assoc]]
+prove rightInv
+
+)if false
+(in-package :snark)
+(INITIALIZE)
+(USE-RESOLUTION T)
+(USE-PARAMODULATION T)
+(ASSERT '(FORALL (U) (= (OP E U) U)))
+(ASSERT '(FORALL (U) (= (OP (INV U) U) E)))
+(ASSERT '(FORALL (U V W) (= (OP U (OP V W)) (OP (OP U V) W))))
+(PROVE '(FORALL (U V W) (IMPLIES (= (OP U V) (OP U W)) (= V W))))
+
+(in-package :snark)
+(INITIALIZE)
+(USE-RESOLUTION T)
+(USE-PARAMODULATION T)
+(ASSERT '(FORALL (|x|) (= (|op| |e| |x|) |x|)))
+(ASSERT '(FORALL (|x|) (= (|op| (|inv| |x|) |x|) |e|)))
+(ASSERT '(FORALL (|x| |y| |z|) (= (|op| |x| (|op| |y| |z|)) (|op| (|op| |x| |y|) |z|))))
+(PROVE '(FORALL (|x| |y| |z|) (IMPLIES (= (|op| |x| |y|) (|op| |x| |z|)) (= |y| |z|))))
+
+
+)endif
+

@@ -45,7 +45,8 @@ Proposition(R) : Exports == Implementation where
     
     
     assert  : (%,Symbol) -> %
-    assert1  : % -> %
+    assert  : % -> %
+    prove   : % -> %
 
 
   Implementation == SEX  add 
@@ -86,8 +87,9 @@ Proposition(R) : Exports == Implementation where
       true()  == TRUESYM()$Lisp
       false() == FALSESYM()$Lisp
 
-      assert(x,y) == TELL(x,y)$Lisp
-      assert1(x) == SNARKASSERT(x)$Lisp
+      assert(x,y) == SNARKASSERT2(x,y)$Lisp
+      assert(x) == ASSUME(x)$Lisp
+      prove(x) == PROVE(x)$Lisp
  
       t = s ==
         tt:IF:=convert(t)$X
