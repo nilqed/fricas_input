@@ -1,0 +1,105 @@
+-- Example
+-- Test the basic interface: assert, retract, facts, prove
+-- Problems 63,64,65 
+--
+-- Seventy-Five Problems for Testing
+-- Automatic Theorem Provers
+-- FRANCIS JEFFRY PELLETIER
+-- Department of Philosophy. University of Alberta, Edmonton, Canada T6G 2E5.
+-- Journal of Automated Reasoning 2 (1986) 191-216.
+-- http://www.sfu.ca/~jeffpell/papers/75ATPproblems86.pdf
+
+
+)clear all
+)read /home/kfp/Development/fricas_input/spad/snark/snark.lisp
+)co /home/kfp/Development/fricas_input/spad/snark/snark
+
+X ==> EXPR INT
+P ==> PROP INT
+
+f:=operator 'f
+
+a:=all([x,y,z], (f(f(x,y),z)=f(x,f(y,z)))$P)
+b:=all(x,(f('a,x)=x)$P)
+c:=all(x,ex(y, (f(y,x)='a)$P))
+
+
+-- Assert and prove
+)lisp (snark::initialize)
+)lisp (snark::use-resolution t)
+)lisp (snark::use-paramodulation t) -- important here
+)lisp (snark::run-time-limit 60)
+
+assert a
+assert b
+assert c
+
+-- Problem 63
+p63:=all([x,y,z], ((f(x,y)=f(z,y))$P >> (x=z)$P))
+prove p63
+
+
+--Problem 64
+-- Assert and prove
+)lisp (snark::initialize)
+)lisp (snark::use-resolution t)
+)lisp (snark::use-paramodulation t) -- important here
+)lisp (snark::run-time-limit 60)
+
+[assert s for s in [a,b,c]]
+p64:=all([x,y],(f(y,x)='a)$P >>(f(x,y)='a)$P)
+prove p64
+
+
+--Problem 65
+-- Assert and prove
+)lisp (snark::initialize)
+)lisp (snark::use-resolution t)
+)lisp (snark::use-paramodulation t) -- important here
+)lisp (snark::run-time-limit 60)
+
+[assert s for s in [a,b,c]]
+
+h1:=all(x, (f(x,x)='a)$P)
+h2:=all([x,y], (f(x,y)=f(y,x))$P)
+p65:=h1>>h2
+
+prove p65
+
+
+--Problem 54
+-- Assert and prove
+)lisp (snark::initialize)
+)lisp (snark::use-resolution t)
+)lisp (snark::use-paramodulation t) -- important here
+)lisp (snark::run-time-limit 60)
+
+
+axiom:=all(u,ex(v,all(w,pred(p,[w,v])$P^(w=u)$P)))
+conj:=~(ex(u,all(v,pred(p,[v,u])$P ^ all(w,pred(p,[v,w])$P >> _
+         ex(x,pred(p,[x,w])$P /\ ~ex(y,pred(p,[y,w])$P /\ pred(p,[y,x])$P))))))
+
+assert axiom
+prove conj
+
+
+--
+-- The same problem ... simplified
+--
+
+-- Assert and prove
+)lisp (snark::initialize)
+)lisp (snark::use-resolution t)
+)lisp (snark::use-paramodulation t) -- important here
+)lisp (snark::run-time-limit 60)
+
+p(x,y) == pred('p,[x,y])$P
+
+ax:=all(u,ex(v,all(w,p(w,v)^(w=u)$P)))
+cj:=~(ex(u,all(v,p(v,u) ^ all(w,p(v,w) >> _
+         ex(x,p(x,w) /\ ~ex(y,p(y,w) /\ p(y,x)))))))
+
+assert ax
+prove cj
+
+

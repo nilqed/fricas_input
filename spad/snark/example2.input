@@ -1,0 +1,53 @@
+)clear all
+)read /home/kfp/Development/fricas_input/spad/snark/snark.lisp
+)co /home/kfp/Development/fricas_input/spad/snark/snark
+
+X ==> EXPR INT
+P ==> PROP INT
+
+
+mother:=operator 'mother
+father:=operator 'father
+
+parent:(X,X)->P
+grandparent:(X,X)->P
+
+parent(x,y)==pred('parent,[x,y])
+grandparent(x,y)==pred('grandparent,[x,y])
+
+-- Axioms
+f_is_p:=all(x,parent(father('x),'x))  
+m_is_p:=all(x,parent(mother('x),'x))
+p_of_p_if_gp:=all([x,y,z],(parent('x,'y)/\parent('y,'z))>>grandparent('x,'z))
+ 
+
+-- Conjecture 
+carol_has_gp:=ex(z,grandparent('z,carol))
+
+-- Let us collect the facts into a list
+H:=[f_is_p,m_is_p,p_of_p_if_gp]
+
+
+-- Assert and prove
+)lisp (snark::initialize)
+)lisp (snark::use-resolution t)
+)lisp (snark::run-time-limit 60)
+
+--)lisp (snark::declare-variable '|x|)
+--)lisp (snark::declare-variable '|y|)
+--)lisp (snark::declare-variable '|z|)
+
+[assert s for s in H]
+prove carol_has_gp
+
+-- Define an answer predicate
+ans:=pred('ans,[Z?::X])$P
+
+)lisp (snark::initialize)
+)lisp (snark::use-resolution t)
+)lisp (snark::run-time-limit 60)
+
+[assert s for s in H]
+prove carol_has_gp
+
+
