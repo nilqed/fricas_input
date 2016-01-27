@@ -1,4 +1,4 @@
-)abbrev package PROP Proposition
+)abbrev domain PROP Proposition
 ++ Author: Kurt Pagani
 ++ Date Created: Mon Jan 18 17:32:02 CET 2016
 ++ License: BSD
@@ -44,10 +44,24 @@ Proposition(R) : Exports == Implementation where
     false : () -> %
     
     
-    assert  : (%,Symbol) -> %
-    assert  : % -> %
-    prove   : % -> %
+    assume  : % -> SEX
+    assert  : % -> SEX
+    prove   : % -> SEX
+    prove   : (%,List %) -> SEX
 
+
+    runTimeLimit   : PositiveInteger -> PositiveInteger
+    runTimeLimit?  : () -> SEX
+
+    useResolution  : Boolean -> Boolean
+    useResolution? : () -> Boolean
+
+    useHyperResolution  : Boolean -> Boolean
+    useHyperResolution? : () -> Boolean
+    
+    useParaModulation  : Boolean -> Boolean
+    useParaModulation? : () -> Boolean
+    
 
   Implementation == SEX  add 
   
@@ -87,9 +101,13 @@ Proposition(R) : Exports == Implementation where
       true()  == TRUESYM()$Lisp
       false() == FALSESYM()$Lisp
 
-      assert(x,y) == SNARKASSERT2(x,y)$Lisp
+      assume(x) == ASSUME(x)$Lisp
       assert(x) == ASSUME(x)$Lisp
       prove(x) == PROVE(x)$Lisp
+      
+      prove(x,y) == 
+        a:List(SEX):=[assert s for s in y]
+        prove x
  
       t = s ==
         tt:IF:=convert(t)$X
@@ -116,3 +134,20 @@ Proposition(R) : Exports == Implementation where
         ss:IF:=convert(s)$X 
         GEQTERM(tt,ss)$Lisp
    
+
+    -- Options
+    b2l(b:Boolean):Symbol == if b then "T"::Symbol else NIL::Symbol
+
+    runTimeLimit(t) == RUN_-TIME_-LIMIT(t)$Lisp
+    runTimeLimit?() == RUN_-TIME_-LIMIT?()$Lisp
+    
+    useResolution(b) == USE_-RESOLUTION(b2l b)$Lisp
+    useResolution?() == USE_-RESOLUTION?()$Lisp
+    
+    useHyperResolution(b) == USE_-HYPERRESOLUTION(b2l b)$Lisp
+    useHyperResolution?() == USE_-HYPERRESOLUTION?()$Lisp
+    
+    useParaModulation(b) == USE_-PARAMODULATION(b2l b)$Lisp
+    useParaModulation?() == USE_-PARAMODULATION?()$Lisp
+      
+    

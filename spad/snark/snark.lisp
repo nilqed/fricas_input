@@ -1,40 +1,31 @@
-(in-package :snark)
-(defun snarkassert (x) (apply 'assert (list x)))
-(defun snarkassert2 (x y) (apply 'assert '(x :name y)))
-(defun snarkprove (x) (apply 'prove (list x)))
-(export 'snarkassert)
-(export 'snarkassert2)
-(export 'snarkprove)
-(export 'assertion)
-(export 'negated_conjecture)
-(export 'assume)
-(export 'prove)
+;(in-package :snark)
+
+;(export 'assertion)
+;(export 'negated_conjecture)
+;(export 'assume)
+;(export 'prove)
+
+
 
 (in-package :boot)
 
 ;(defvar +snark+ nil)
 ;(if (find-package "SNARK") (setq +snark+ t))
-(import 'snark::snarkassert)
-(import 'snark::snarkassert2)
-(import 'snark::snarkprove)
+
 (import 'snark::assertion)
 (import 'snark::negated_conjecture)
 (import 'snark::assume)
 (import 'snark::prove)
+(import 'snark::run-time-limit)
+(import 'snark::run-time-limit?)
+(import 'snark::use-resolution)
+(import 'snark::use-resolution?)
+(import 'snark::use-hyperresolution)
+(import 'snark::use-hyperresolution?)
+(import 'snark::use-paramodulation)
+(import 'snark::use-paramodulation?)
 
-;(shadow 'row)
-;(shadow '&)
-;(shadow '(|$false| |$true| |type|))
-;(shadow '(=> ~))
-;(shadow '(VAR ARGS |file| EMBED ZERO _ ?))
-;(shadow '(DEQUEUE IFF IMPLIES IMPLIED-BY FORALL FALSE EXISTS QUIT COLLECT))
-;(shadow '(NONE TRUE))
-;(use-package :snark-lisp)
-;(use-package :snark-deque)
-;(use-package :snark-sparse-array)
-;(use-package :snark-dpll)
-;(use-package :snark)
-
+;(defun prove_with_answer (x y) (prove x :answer y))
 
 
 (defun allquant    (x y) (list snark-lisp::'forall x y))
@@ -54,5 +45,8 @@
 (defun gtterm      (x y) (list '> x y))
 (defun leqterm     (x y) (list '<= x y))
 (defun geqterm     (x y) (list '>= x y))
+
+
+
 
 
