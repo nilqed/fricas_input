@@ -1,0 +1,30 @@
+)clear all
+
+Q ==> Fraction Integer
+F ==> RealClosure Q
+P ==> Polynomial F
+CADP ==> CylindricalAlgebraicDecompositionPackage(F)
+CELL ==> Cell F
+
+macro cad == cylindricalDecomposition
+
+p1:=(y^4 - 2*y^3 + y^2 - 3*x^2*y + 2*x^4)$P
+--p1:=(x^2+y^2-1)$P
+--p1:=(x-y)$P
+function(p1,'P1,'x,'y)
+
+L:=[p1]
+lc:=cad(L,[x,y])$CADP
+
+sp:=[samplePoint(lc.j) for j in 1..#lc]
+sv:=[P1(u.1,u.2) for u in sp]
+
+dims:=[dimension(lc.j) for j in 1..#lc]
+
+precision(30)
+lf:=[[relativeApprox(coord,2^(-precision()))::Float for coord in point] for point in sp]
+lp := [ point(term::List(DoubleFloat))$Point(DoubleFloat) for term in lf ]
+[ sign(eval(p1,variables(p1),samplePoint(cell))::F) for cell in lc ]
+
+
+

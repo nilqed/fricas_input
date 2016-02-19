@@ -1,0 +1,15 @@
+
+)clear complete
+
+Ran := RECLOS(FRAC INT)
+Cad := CAD(Ran)
+p1 : POLY(Ran) := x^2+y^2-1
+p2 : POLY(Ran) := y-x^2
+lpols : List(POLY(Ran)) := [p1,p2]
+cad := cylindricalDecomposition(lpols)$Cad
+precision(30)
+ls := [ samplePoint cell for cell in cad]
+lf := [ [relativeApprox(coord,2^(-precision()))::Float for coord in point] for point in ls]
+lp := [ point(term::List(DoubleFloat))$Point(DoubleFloat) for term in lf ]
+[ sign(eval(p1,variables(p1),samplePoint(cell))::Ran) for cell in cad ]
+--[ sign(eval(p2,variables(p2),samplePoint(cell))::Ran) for cell in cad ]

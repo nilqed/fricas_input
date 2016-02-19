@@ -1,0 +1,71 @@
+)clear all
+
+Q ==> Fraction Integer
+F ==> RealClosure Q
+P ==> Polynomial F
+CADP ==> CylindricalAlgebraicDecompositionPackage(F)
+CELL ==> Cell F
+
+macro cad == cylindricalDecomposition
+macro size == #
+
+p1:=( x^2 + y^2 -1 )$P
+p2:=( x^3 - y^2)$P
+
+
+L:=[p1,p2]                 -- list of polynomials
+V:=[y,x]                   -- list of variables (default order)
+lc:=cad(L)$CADP          -- CAD
+
+-- list sample points of CAD l
+samplePoints(l) == [samplePoint(l.j) for j in 1..#l]
+
+-- list dimensions of cells in CAD l
+dimensions(l) == [dimension(l.j) for j in 1..#l]
+
+-- calculate relative approximations (sample points)
+approxPoints(sps) ==
+  precision(30)
+  lf:=[[relativeApprox(c,2^(-precision()))::Float for c in p] for p in sps]
+  lp:=[ point(term::List(DoubleFloat))$Point(DoubleFloat) for term in lf]
+  
+
+-- evaluate polynomial p at sample points l=[p1 ... ]
+--values(l,p) == [eval(p,variables(p),samplePoint(cell))::F for cell in l]
+values(l,p,vars) == [eval(p,vars,samplePoint(cell))::F for cell in l]
+
+-- list of the sign of the polynomial p in each cell
+--signs(l,p) == [sign(eval(p,variables(p),samplePoint(cell))::F) for cell in l]
+signs(l,p,vars) == [sign(eval(p,vars,samplePoint(cell))::F) for cell in l]
+
+-- list the indices of the cells where p=0
+zeroCells(l,p,vars) == 
+  sgn:=signs(l,p,vars)
+  [j for j in 1..#l | sgn.j=0]
+
+
+-- list the projection sets until []
+projSets(lpol,vars) ==
+  lp1:=projectionSet([univariate(pol, first vars) for pol in lpol])$CADP
+  vr:=rest vars
+  vr=[] or lp1=[] => [lp1]
+  concat(lp1,projSets(lp1,vr))
+
+
+-- create induced CAD, i.e. project cells to one less dimension
+induceCAD(l) == [projection cell for cell in l]
+
+projSP(sp) == [rest x for x in sp]
+
+-- A:=projSP(samplePoints lc)
+-- B:=samplePoints(induceCAD lc)
+-- test(A=B) --> true
+
+-- 
+
+s1:=signs(lc,p1,V)
+s2:=signs(lc,p2,V)
+a1:=[j for j in 1..#s1 | s1.j=-1]
+a2:=[j for j in 1..#s2 | s2.j=0]
+
+sol:=parts intersect(a1::Set(PI),a2::Set(PI))

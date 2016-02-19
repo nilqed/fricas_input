@@ -1,0 +1,257 @@
+)lisp (if (not (find-package "SNARK-LISP")) (defpackage :snark-lisp))
+)lisp (defun allquant    (x y) (list 'snark-lisp::forall x y))
+)lisp (defun exquant     (x y) (list 'snark-lisp::exists x y))
+)lisp (defun conjunction (x y) (list 'snark-lisp::and x y))
+)lisp (defun disjunction (x y) (list 'snark-lisp::or x y))
+)lisp (defun negation      (x) (list 'snark-lisp::not x))
+)lisp (defun implication (x y) (list 'snark-lisp::implies x y))
+)lisp (defun equivalence (x y) (list 'snark-lisp::iff x y))
+)lisp (defun implied_by  (x y) (list 'snark-lisp::implied-by x y))
+)lisp (defun predicate   (s x) (cons s x))
+)lisp (defun truesym        () 'snark-lisp::true)
+)lisp (defun falsesym       () 'snark-lisp::false)
+)lisp (defun eqlterm     (x y) (list '= x y))
+)lisp (defun ltterm      (x y) (list '< x y))
+)lisp (defun gtterm      (x y) (list '> x y))
+)lisp (defun leqterm     (x y) (list '<= x y))
+)lisp (defun geqterm     (x y) (list '>= x y))
+--
+)lisp (defun allquantp    (x) (eq x 'snark-lisp::forall))
+)lisp (defun exquantp     (x) (eq x 'snark-lisp::exists))
+)lisp (defun conjunctionp (x) (eq x 'snark-lisp::and))
+)lisp (defun disjunctionp (x) (eq x 'snark-lisp::or))
+)lisp (defun negationp    (x) (eq x 'snark-lisp::not))
+)lisp (defun implicationp (x) (eq x 'snark-lisp::implies))
+)lisp (defun equivalencep (x) (eq x 'snark-lisp::iff))
+)lisp (defun implied_by_p (x) (eq x 'snark-lisp::implied-by))
+)lisp (defun truesymp     (x) (eq x 'snark-lisp::true))
+)lisp (defun falsesymp    (x) (eq x 'snark-lisp::false))
+)lisp (defun truef () t)
+)lisp (defun falsef () nil)
+--
+)abbrev domain PROP Proposition
+++ Author: Kurt Pagani
+++ Date Created: Mon Jan 18 17:32:02 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+Proposition(R) : Exports == Implementation where
+
+  R: Join(Ring, Comparable)  -- needs $P without Ring (?)
+
+  X   ==> Expression R
+  IF  ==> InputForm
+  OF  ==> OutputForm
+  SY  ==> Symbol
+
+  SEX ==> SExpression
+  
+  
+  Exports == Join(CoercibleTo OF, ConvertibleTo IF) with 
+
+    _/_\  : (%,%) -> %
+    _\_/  : (%,%) -> %
+    _>_>  : (%,%) -> %
+    _~    :  %    -> %
+    _^    : (%,%) -> %
+    _<_<  : (%,%) -> %
+    
+    all   : (X,%) -> %
+    ex    : (X,%) -> %
+    
+    all   : (List X,%) -> %
+    ex    : (List X,%) -> %
+      
+    _=    : (X,X) -> %
+    _<    : (X,X) -> %
+    _>    : (X,X) -> %
+    _>_=  : (X,X) -> %
+    _<_=  : (X,X) -> %
+    
+    
+    pred  : (Symbol,List X) -> %
+    true  : () -> %
+    false : () -> %
+
+
+    allQuant?    : % -> Boolean
+    exQuant?     : % -> Boolean
+    conjunction? : % -> Boolean
+    disjunction? : % -> Boolean
+    negation?    : % -> Boolean
+    implication? : % -> Boolean
+    equivalence? : % -> Boolean
+    impliedBy?   : % -> Boolean
+    trueSymbol?  : % -> Boolean
+    falseSymbol? : % -> Boolean
+    constant?    : % -> Boolean
+    atomicProp?  : % -> Boolean
+
+   
+    quantVars : % -> List X
+    quantProp : % -> %
+    connProps : % -> List %
+    negProp   : % -> %
+
+    convert : % -> SEX
+    
+
+  Implementation == SEX  add 
+  
+
+    Rep:=SEX
+
+
+    if X has ConvertibleTo(IF) then
+
+      x /\ y == CONJUNCTION(x,y)$Lisp
+      x \/ y == DISJUNCTION(x,y)$Lisp
+      x >> y == IMPLICATION(x,y)$Lisp
+      x ^  y == EQUIVALENCE(x,y)$Lisp
+      x << y == IMPLIED_BY(x,y)$Lisp
+      ~ x    == NEGATION(x)$Lisp
+
+
+      all(lx:List X, y:%):% ==
+        xx:IF:=convert(lx)@IF
+        ALLQUANT(cdr xx,y)$Lisp
+        
+        
+      ex(lx:List X, y:%):% ==
+        xx:IF:=convert(lx)@IF
+        EXQUANT(cdr xx,y)$Lisp
+        
+
+      all(x:X,y:%):% == all([x],y)
+       
+      ex (x:X,y:%):% == ex([x],y)
+        
+
+      pred(s:Symbol, lx:List X):% ==
+        xx:IF:=convert(lx)@IF
+        PREDICATE(s,cdr xx)$Lisp
+        
+      true()  == TRUESYM()$Lisp
+      false() == FALSESYM()$Lisp
+      
+ 
+      t = s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        EQLTERM(tt,ss)$Lisp
+        
+      t < s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        LTTERM(tt,ss)$Lisp        
+
+      t > s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        GTTERM(tt,ss)$Lisp
+        
+      t <= s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        LEQTERM(tt,ss)$Lisp
+
+      t >= s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        GEQTERM(tt,ss)$Lisp
+
+
+    -- predicates
+    
+    allQuant?(x) == 
+      atom? x => false
+      ALLQUANTP(car x)$Lisp = TRUEF()$Lisp => true
+      false
+
+    exQuant?(x) == 
+      atom? x => false
+      EXQUANTP(car x)$Lisp = TRUEF()$Lisp => true
+      false
+
+    conjunction?(x) == 
+      atom? x => false
+      CONJUNCTIONP(car x)$Lisp = TRUEF()$Lisp => true
+      false
+
+    disjunction?(x) == 
+      atom? x => false
+      DISJUNCTIONP(car x)$Lisp = TRUEF()$Lisp => true
+      false
+
+    negation?(x) == 
+      atom? x => false
+      NEGATIONP(car x)$Lisp = TRUEF()$Lisp => true
+      false
+
+    implication?(x) == 
+      atom? x => false
+      IMPLICATIONP(car x)$Lisp = TRUEF()$Lisp => true
+      false
+
+    equivalence?(x) == 
+      atom? x => false
+      EQUIVALENCEP(car x)$Lisp = TRUEF()$Lisp => true
+      false
+
+    impliedBy?(x) == 
+      atom? x => false
+      IMPLIED_BY_P(car x)$Lisp = TRUEF()$Lisp => true
+      false
+
+    trueSymbol?(x) ==
+      ~atom? x => false
+      TRUESYMP(x)$Lisp = TRUEF()$Lisp => true
+      false
+
+    falseSymbol?(x) == 
+      ~atom? x => false
+      FALSESYMP(x)$Lisp = TRUEF()$Lisp => true
+      false
+
+    constant?(x) == atom? x
+   
+    atomicProp?(x) ==
+      constant? x => true
+      negation? x => false
+      allQuant?(x) or exQuant?(x) => false
+      conjunction?(x) or disjunction?(x) => false
+      implication?(x) or impliedBy?(x) => false
+      equivalence? x => false
+      true
+
+    -- extraction
+    
+    quantVars(x) ==
+      not (allQuant? x or exQuant? x) => []
+      s:List %:=destruct(car cdr x)
+      [symbol(t)::X for t in s]
+
+
+    quantProp(x) == 
+      not (allQuant? x or exQuant? x) => x
+      car cdr cdr x
+      
+    connProps(x) ==
+      atomicProp? x => []
+      allQuant? x or exQuant? x => []
+      negation? x => []
+      [x.2,x.3]
+
+    negProp(x) ==
+      not negation? x => x
+      x.2
+
+    -- conversion
+    
+    convert(x:%):SEX == x::Rep
+    
+    --coerce(x:%):OF ==
+      --o:IF:=x pretend IF
+      --unparse(o)::OF    
+      

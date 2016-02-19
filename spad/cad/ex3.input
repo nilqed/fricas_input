@@ -1,0 +1,36 @@
+)clear all
+
+Q ==> Fraction Integer
+F ==> RealClosure Q
+P ==> Polynomial F
+CADP ==> CylindricalAlgebraicDecompositionPackage(F)
+CELL ==> Cell F
+
+macro cad == cylindricalDecomposition
+
+p1:=( a*x^2 + b*x +c )$P
+
+
+L:=[p1]
+lc:=cad(L)$CADP
+
+sp:=[samplePoint(lc.j) for j in 1..#lc]
+
+dims:=[dimension(lc.j) for j in 1..#lc]
+
+precision(30)
+lf:=[[relativeApprox(coord,2^(-precision()))::Float for coord in point] for point in sp]
+lp := [ point(term::List(DoubleFloat))$Point(DoubleFloat) for term in lf ]
+sgn:=[ sign(eval(p1,variables(p1),samplePoint(cell))::F) for cell in lc ]
+
+--
+
+elim_x:=[eval(p1,[x],samplePoint(cell)) for cell in lc]
+
+[elim_x.j for j in 1..#lc | sgn.j=0] 
+
+lpols1 := projectionSet([univariate(pol, x) for pol in L])$CADP
+lpols2 := projectionSet([univariate(pol, a) for pol in lpols1])$CADP
+lpols3 := projectionSet([univariate(pol, b) for pol in lpols2])$CADP
+
+res1 := discriminantSet([univariate(pol,x) for pol in L])$CADP 
