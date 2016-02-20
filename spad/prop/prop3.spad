@@ -1,0 +1,191 @@
+)lisp (if (not (find-package "SNARK-LISP")) (defpackage :snark-lisp))
+)lisp (defun allquant    (x y) (list 'snark-lisp::forall x y))
+)lisp (defun exquant     (x y) (list 'snark-lisp::exists x y))
+)lisp (defun conjunction (x y) (list 'snark-lisp::and x y))
+)lisp (defun disjunction (x y) (list 'snark-lisp::or x y))
+)lisp (defun negation      (x) (list 'snark-lisp::not x))
+)lisp (defun implication (x y) (list 'snark-lisp::implies x y))
+)lisp (defun equivalence (x y) (list 'snark-lisp::iff x y))
+)lisp (defun impliedby   (x y) (list 'snark-lisp::implied-by x y))
+)lisp (defun predicate   (s x) (cons s x))
+)lisp (defun truesym        () 'snark-lisp::true)
+)lisp (defun falsesym       () 'snark-lisp::false)
+)lisp (defun eqlterm     (x y) (list '= x y))
+)lisp (defun ltterm      (x y) (list '< x y))
+)lisp (defun gtterm      (x y) (list '> x y))
+)lisp (defun leqterm     (x y) (list '<= x y))
+)lisp (defun geqterm     (x y) (list '>= x y))
+--
+)lisp (defun allquantp    (x) (eq x 'snark-lisp::forall))
+)lisp (defun exquantp     (x) (eq x 'snark-lisp::exists))
+)lisp (defun conjunctionp (x) (eq x 'snark-lisp::and))
+)lisp (defun disjunctionp (x) (eq x 'snark-lisp::or))
+)lisp (defun negationp    (x) (eq x 'snark-lisp::not))
+)lisp (defun implicationp (x) (eq x 'snark-lisp::implies))
+)lisp (defun equivalencep (x) (eq x 'snark-lisp::iff))
+)lisp (defun impliedbyp   (x) (eq x 'snark-lisp::implied-by))
+)lisp (defun truesymp     (x) (eq x 'snark-lisp::true))
+)lisp (defun falsesymp    (x) (eq x 'snark-lisp::false))
+)lisp (defun truef () t)
+)lisp (defun falsef () nil)
+--
+)abbrev domain PROP Proposition
+++ Author: Kurt Pagani
+++ Date Created: Mon Jan 18 17:32:02 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+Proposition(R) : Exports == Implementation where
+
+  R: Join(Ring, Comparable)  -- needs $P without Ring (?)
+
+  X   ==> Expression R
+  IF  ==> InputForm
+  OF  ==> OutputForm
+  SY  ==> Symbol
+
+  SEX ==> SExpression
+  
+  
+  Exports == Join(CoercibleTo OF, ConvertibleTo IF) with 
+
+    _/_\  : (%,%) -> %
+    _\_/  : (%,%) -> %
+    _>_>  : (%,%) -> %
+    _~    :  %    -> %
+    _^    : (%,%) -> %
+    _<_<  : (%,%) -> %
+    
+    all   : (X,%) -> %
+    ex    : (X,%) -> %
+    
+    all   : (List X,%) -> %
+    ex    : (List X,%) -> %
+      
+    _=    : (X,X) -> %
+    _<    : (X,X) -> %
+    _>    : (X,X) -> %
+    _>_=  : (X,X) -> %
+    _<_=  : (X,X) -> %
+    
+    
+    pred  : (Symbol,List X) -> %
+    true  : () -> %
+    false : () -> %
+
+    convert : % -> SEX
+    kind    : % -> Symbol
+    fst     : % -> Union(%,List X)
+    snd     : % -> %
+    
+    infix   : % -> OF
+
+  Implementation == SEX  add 
+  
+
+    Rep:=SEX
+
+
+    if X has ConvertibleTo(IF) then
+
+      x /\ y == CONJUNCTION(x,y)$Lisp
+      x \/ y == DISJUNCTION(x,y)$Lisp
+      x >> y == IMPLICATION(x,y)$Lisp
+      x ^  y == EQUIVALENCE(x,y)$Lisp
+      x << y == IMPLIEDBY(x,y)$Lisp
+      ~ x    == NEGATION(x)$Lisp
+
+
+      all(lx:List X, y:%):% ==
+        --? sort lx = variables lx
+        xx:IF:=convert(lx)@IF
+        ALLQUANT(cdr xx,y)$Lisp
+        
+        
+      ex(lx:List X, y:%):% ==
+        xx:IF:=convert(lx)@IF
+        EXQUANT(cdr xx,y)$Lisp
+        
+
+      all(x:X,y:%):% == all([x],y)
+       
+      ex (x:X,y:%):% == ex([x],y)
+        
+
+      pred(s:Symbol, lx:List X):% ==
+        xx:IF:=convert(lx)@IF
+        PREDICATE(s,cdr xx)$Lisp
+        
+      true()  == TRUESYM()$Lisp
+      false() == FALSESYM()$Lisp
+      
+ 
+      t = s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        EQLTERM(tt,ss)$Lisp
+        
+      t < s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        LTTERM(tt,ss)$Lisp        
+
+      t > s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        GTTERM(tt,ss)$Lisp
+        
+      t <= s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        LEQTERM(tt,ss)$Lisp
+
+      t >= s ==
+        tt:IF:=convert(t)$X
+        ss:IF:=convert(s)$X 
+        GEQTERM(tt,ss)$Lisp
+
+
+    
+    -- conversion
+    
+    convert(x:%):SEX == x::Rep
+    
+    kind(x:%):Symbol ==
+      s:SEX:=convert(x)@SEX
+      t:SEX:=TRUEF()$Lisp
+      atom? s => 
+        TRUESYMP(s)$Lisp = t   => 'true_symbol
+        FALSESYMP(s)$Lisp = t  => 'false_symbol
+        'constant
+      s:=car s
+      ALLQUANTP(s)$Lisp = t    => 'universal
+      EXQUANTP(s)$Lisp = t     => 'existential
+      CONJUNCTIONP(s)$Lisp = t => 'conjunction
+      DISJUNCTIONP(s)$Lisp = t => 'disjunction
+      NEGATIONP(s)$Lisp = t    => 'negation
+      IMPLICATIONP(s)$Lisp = t => 'implication
+      EQUIVALENCEP(s)$Lisp = t => 'equivalence
+      IMPLIEDBYP(s)$Lisp = t   => 'reverse_implication
+      'predicate
+      
+    fst(x) ==
+      s:SY:=kind x
+      if s='universal or s='existential then
+        return [symbol(convert(y)@SEX)::X for y in destruct(x.2)]
+      s='predicate => x
+      return x.2
+
+    snd(x) ==
+      s:SY:=kind x
+      if s='universal or s='existential then
+        return x.3
+      s='predicate => FALSEF()$Lisp
+      s='negation => FALSEF()$Lisp
+      return x.3
+
+    --coerce(x:%):OF ==
+      --o:IF:=x pretend IF
+      --message(unparse o)$OF    
+      
