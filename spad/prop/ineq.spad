@@ -1,0 +1,297 @@
+)abbrev domain INEQTY InEquality
+++ Author: kfp
+++ Date Created: Sun Oct 26 02:21:23 CEST 2014
+++ License: BSD (same as Axiom)
+++ Date Last Updated:
+++ Basic Operations: 
+++ Related Domains: 
+++ Also See:
+++ AMS Classifications:
+++ Keywords: 
+++ Examples:
+++ References:
+++
+++ Description:
+++ 
+++
+InEquality(S:Comparable) : Exports == Implementation where
+
+  OF ==> OutputForm  
+
+  Exports == Join(Comparable , CoercibleTo OutputForm) with
+
+    "<"  : (S,S) -> %
+      ++ < means lesser than
+
+    "<=" : (S,S) -> %
+      ++ <= means lesser than or equal
+
+    ">"  : (S,S) -> %
+      ++ > means greater than
+
+    ">=" : (S,S) -> %
+      ++ >= means greater than or equal
+
+    eql  : (S,S) -> %
+      ++ = means equal
+
+    neq  : (S,S) -> %
+      ++ neq means not equal.
+
+    lhs  : % -> S
+      ++ lhs returns the left hand side of the inequality
+
+    rhs  : % -> S
+      ++ rhs returns the right hand side of the inequality
+
+    rel  : % -> Symbol
+      ++ rel returns the inequality (relation) symbol 
+
+    converse : % -> %
+      ++ converse inequality 
+
+    coerce : % -> OF
+      ++ coerce to output form
+
+  Implementation ==  add 
+
+    Rep := Record(rel:Symbol , lhs : S, rhs : S)
+
+    s:List(Symbol):=['<,'<=,'>,'>=,'=,'~=]
+
+    l:S <  r:S == [s.1, l, r]$Rep
+    l:S <= r:S == [s.2, l, r]$Rep
+    l:S >  r:S == [s.3, l, r]$Rep
+    l:S >= r:S == [s.4, l, r]$Rep
+    eql(l:S,r:S) == [s.5, l, r]$Rep
+    neq(l:S,r:S) == [s.6, l, r]$Rep
+
+    lhs x == x.lhs
+    rhs x == x.rhs
+    rel x == x.rel
+
+    converse x == 
+      x.rel = s.1 => [s.3, x.rhs, x.lhs]$Rep
+      x.rel = s.2 => [s.4, x.rhs, x.lhs]$Rep
+      x.rel = s.3 => [s.1, x.rhs, x.lhs]$Rep
+      x.rel = s.4 => [s.2, x.rhs, x.lhs]$Rep
+      x.rel = s.5 => [s.5, x.rhs, x.lhs]$Rep
+      x.rel = s.6 => [s.6, x.rhs, x.lhs]$Rep
+
+    coerce(x:%):OF == 
+      hconcat [x.lhs::OF," ", x.rel::OF, " ", x.rhs::OF] 
+
+)abbrev domain PROP Prop
+++ Prop is the domain of Propositions over a type T
+Prop(T:Comparable) : Exports == Implementation where
+
+  S   ==> Symbol
+  PI  ==> PositiveInteger
+  EQT ==> InEquality(T)
+  TT  ==> Union(S,T,PI,EQT)
+
+  Exports == with
+
+        assert : InEquality(T) -> %
+          ++ assert an equation of type InEquality(T)
+        assert : Equation(T) -> %
+          ++ assert an equation of type Equation(T) (convenience)       
+        And : (%,%) -> %
+          ++ And means the logical connective 'and'
+        Or  : (%,%) -> %
+          ++ Or means the logical connective 'or'
+        Imp : (%,%) -> %
+          ++ Imp means the logical connective 'implies'
+        Eqv : (%,%) -> %
+          ++ Eqv means the logical connective 'equivalent'
+        Not : % -> %
+          ++ Not means negation 'not'
+        All : (Symbol,%) -> %
+          ++ All means the universal quantifier 'forall'
+        Ex  : (Symbol,%) -> %
+          ++ Ex means the existential quantifier 'exists'
+
+        coerce : % -> OutputForm
+          ++ coerce to output form
+
+        qvars : % -> List(TT)
+          ++ qvars lists all quantifier variables
+
+        nnf : % -> %
+          ++ nnf means negation normal form 'nnf'
+
+  Implementation == add    -- BinaryTree(TT) add 
+
+    Rep := BinaryTree(TT)
+
+    -- map x in TT to Rep
+    iD(x:TT):%   == binaryTree(x)$Rep
+
+    rs:List(Symbol):=['<,'<=,'>,'>=,'=,'~=]
+
+    -----------------------
+    -- Op id's
+    -- 1  ..... and
+    -- 2  ..... or
+    -- 3  ..... implies
+    -- 4  ..... equivalent
+    -- 5  ..... not
+    -- 6  ..... forall
+    -- 7  ..... exists
+    -- 8,9 .... reserved
+    -- 10 ..... equality
+    -- 11 ..... neq
+    -- 12 ..... lt
+    -- 13 ..... leq
+    -- 14 ..... gt
+    -- 15 ..... geq
+    -----------------------
+
+    -- assert an element of type Equation(T)
+    assert(s:Equation(T)):% == binaryTree(iD lhs s,10,iD rhs s)$Rep
+
+    assert(s:EQT):% == 
+      rel s = rs.1 => binaryTree(iD lhs s,12,iD rhs s)$Rep
+      rel s = rs.2 => binaryTree(iD lhs s,13,iD rhs s)$Rep
+      rel s = rs.3 => binaryTree(iD lhs s,14,iD rhs s)$Rep
+      rel s = rs.4 => binaryTree(iD lhs s,15,iD rhs s)$Rep
+      rel s = rs.5 => binaryTree(iD lhs s,10,iD rhs s)$Rep
+      rel s = rs.6 => binaryTree(iD lhs s,11,iD rhs s)$Rep
+
+    -- variable, the only nodes without left/right
+    var(x:S):%     == binaryTree(x)$Rep
+
+    And(p:%,q:%):% == binaryTree(p,1,q)$Rep
+    Or (p:%,q:%):% == binaryTree(p,2,q)$Rep
+    Imp(p:%,q:%):% == binaryTree(p,3,q)$Rep
+    Eqv(p:%,q:%):% == binaryTree(p,4,q)$Rep
+
+    Not(p:%):%     == binaryTree(p,5,empty())$Rep
+
+    All(x:S,p:%):% == binaryTree(var x,6,p)$Rep
+    Ex (x:S,p:%):% == binaryTree(var x,7,p)$Rep
+
+    coerce(p) == 
+      OF ==> OutputForm
+      lp:OF:="("
+      rp:OF:=")"
+      lb:OF:="{"
+      rb:OF:="}"
+      lk:OF:="["
+      rk:OF:="]"
+      of:OF:=""
+      s0:OF:="."
+      s1:OF:=" & "
+      s2:OF:=" | "
+      s3:OF:=" => "
+      s4:OF:=" <=> "
+      s5:OF:="~"
+      s6:OF:="\"
+      s7:OF:="?"
+      s10:OF:=" = "
+      s11:OF:=" ~= "
+      s12:OF:=" < "
+      s13:OF:=" <= "
+      s14:OF:=" > "
+      s15:OF:=" >= "
+      empty? p => of
+      val:= value p
+      val=1 => of:=hconcat [of,lp,coerce(left p),s1,coerce(right p),rp]
+      val=2 => of:=hconcat [of,lp,coerce(left p),s2,coerce(right p),rp]
+      val=3 => of:=hconcat [of,lp,coerce(left p),s3,coerce(right p),rp]
+      val=4 => of:=hconcat [of,lp,coerce(left p),s4,coerce(right p),rp]
+      val=5 => of:=hconcat [of,s5,lp,coerce(left p),rp]
+      val=6 => of:=hconcat [of,s6,coerce(left p),s0,lk,coerce(right p),rk]
+      val=7 => of:=hconcat [of,s7,coerce(left p),s0,lk,coerce(right p),rk]
+      val=10=> of:=hconcat [of,lb,coerce(left p),s10,coerce(right p),rb] 
+      val=11=> of:=hconcat [of,lb,coerce(left p),s11,coerce(right p),rb] 
+      val=12=> of:=hconcat [of,lb,coerce(left p),s12,coerce(right p),rb] 
+      val=13=> of:=hconcat [of,lb,coerce(left p),s13,coerce(right p),rb] 
+      val=14=> of:=hconcat [of,lb,coerce(left p),s14,coerce(right p),rb] 
+      val=15=> of:=hconcat [of,lb,coerce(left p),s15,coerce(right p),rb] 
+      of:=hconcat[of,val::OF]
+      of
+
+    --local  
+    mvNot(p:%):% ==
+      val := value p
+      val=1 => Or(Not(left p),Not(right p))::Rep
+      val=2 => And(Not(left p),Not(right p))::Rep
+      val=3 => And(left p, Not(right p))::Rep
+      val=4 => Not(Or(And(left p,right p),And(Not(left p),Not(right p))))
+      val=5 => (left p)::Rep
+      val=6 => Ex(value(left p)::S, Not(right p))::Rep
+      val=7 => All(value(left p)::S, Not(right p))::Rep
+      val=10 => binaryTree(left p,11,right p)$Rep
+      val=11 => binaryTree(left p,10,right p)$Rep
+      val=12 => binaryTree(left p,15,right p)$Rep
+      val=13 => binaryTree(left p,14,right p)$Rep
+      val=14 => binaryTree(left p,13,right p)$Rep
+      val=15 => binaryTree(left p,12,right p)$Rep
+      p::Rep
+
+    nnf(p:%):% ==
+      empty? p => p::Rep
+      val := value p
+      val=1 => And(nnf(left p),nnf(right p))
+      val=2 => Or(nnf(left p),nnf(right p))
+      val=3 => nnf(Or(Not(left p),right p))
+      val=4 => nnf(And(Or(left p,Not(right p)),Or(Not(left p),right p)))
+      val=5 => nnf(mvNot(left p))
+      val=6 => All(value(left p)::S, nnf(right p))
+      val=7 => Ex(value(left p)::S, nnf(right p))
+      p::Rep
+
+    qvars(p:%):List(TT) == 
+      L:List(TT):=[]
+      empty? p => []::List(TT)
+      val := value p
+      if (val case S) then
+        L:=append(L,[val])
+      else
+        L:=append(L,qvars(left p))
+        L:=append(L,qvars(right p))
+      L
+
+)abbrev domain SUBSET SubsetOf
+++ Author: kfp
+++ Date Created: Mon Nov 03 20:41:24 CET 2014
+++ License: BSD (same as Axiom)
+++ Date Last Updated:
+++ Basic Operations: 
+++ Related Domains: 
+++ Also See:
+++ AMS Classifications:
+++ Keywords: 
+++ Examples:
+++ References:
+++
+++ Description:
+++ 
+++
+SubsetOf(T:Comparable) : Exports == Implementation where
+
+  OF ==> OutputForm
+
+  Exports == Join(Comparable , CoercibleTo OutputForm) with
+
+    setOfAll : (List Symbol, Prop T ) -> %
+
+    member? : (List T,%) -> Boolean
+
+    coerce : % -> OutputForm
+
+  Implementation == Prop(T) add 
+
+    Rep := Record(s:List Symbol, p:Prop T)
+
+    setOfAll(ls,P) == [ls,P]::Rep
+
+    member?(t,ss) == false
+
+    coerce(ss:%):OF ==
+      r:=ss::Rep
+      sym:OF:=(r.s)::OF
+      prop:OF:=(r.p)::OF
+      hconcat ["Set of all "::OF, sym," such that "::OF, prop]
+

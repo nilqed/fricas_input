@@ -101,3 +101,18 @@ U11:=unify(P11,[]) -- [x= f(a,z),y= f(a,z),b= z]
 
 R11:=reduceWith(P11,U11)
 test(R11.1)
+
+P12:=[p(a,x,h(g(z)))=p(z,h(y),h(y))]
+unify(P12,[]) -- ok
+
+P13:=[p(f(a),g(x))=p(y,y)]
+unify(P13,[]) -- should fail
+    
+E1:=[f(x1)=f(g(x0,x0))]
+E2:=[f(x1,x2)=f(g(x0,x0)),g(x1,x1)]
+E3:=[f(x1,x2,x3)=f(g(x0,x0),g(x1,x1),g(x2,x2))]
+
+unify(E1,[])  --
+unify(E2,[])  -- E1+...
+unify(E3,[])  -- E1+E2+...  may be exponential
+

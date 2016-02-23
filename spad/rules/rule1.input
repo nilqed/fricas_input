@@ -1,0 +1,45 @@
+--
+-- rules for unification preprocessing
+-- 
+
+R==>EXPR INT
+EQR==>Equation R
+LEQR==> List EQR
+
+
+plus:=operator 'plus
+minus:=operator 'minus
+mult:=operator 'mult
+divide:=operator 'divide
+expt:=operator 'expt
+
+plus_rule  := rule x+y == plus(x,y)
+minus_rule := rule x-y == minus(x,y)
+mult_rule  := rule x*y == mult(x,y)
+div_rule   := rule x/y == divide(x,y)
+expt_rule  := rule x^y == expt(x,y)
+
+prefrules := rule   -- bad
+  x+y == plus(x,y)
+  x-y == minus(x,y)
+  x*y == mult(x,y)
+  x/y == divide(x,y)
+  x^y == expt(x,y)
+  
+
+apply_rules(x) ==
+  a:=plus_rule x
+  b:=minus_rule a
+  c:=mult_rule b
+  d:=div_rule c
+  e:=expt_rule d
+  e
+
+preproc(l:LEQR):LEQR == 
+  [apply_rules(lhs y)=apply_rules(rhs y) for y in l]
+  
+
+l:=[x+y=x*y,x*(y+z)=u,u^n=n-w]
+preproc l
+
+  

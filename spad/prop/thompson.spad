@@ -1,0 +1,25 @@
+)abbrev domain AND And
+++ Author: Kurt Pagani
+++ Date Created: Sat Feb 20 20:30:41 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+And(A:Type,B:Type) : Exports == Implementation where
+  
+  Exports == with
+    
+    andIntro : (A,B) -> %
+    andElim1 : % -> A
+    andElim2 : % -> B
+	
+  Implementation ==  add 
+
+    Rep := Record(fst:A, snd:B)
+    
+    andIntro(a,b) == [a,b]::Rep
+    andElim1(p)   == p.fst
+    andElim2(p)   == p.snd
+    
+    
+   
