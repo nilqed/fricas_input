@@ -1,0 +1,166 @@
+)abbrev domain ELIV ElementaryInterval
+++ Author: Kurt Pagani
+++ Date Created: Mon Feb 29 00:48:37 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+ElementaryInterval() : Exports == Implementation where
+  
+  I ==> Integer
+  
+  Exports == Join(CoercibleTo OutputForm) with
+    
+    degenerate? : % -> Boolean
+    in? : (%,%) -> Boolean
+    equal? : (%,%) -> Boolean
+    coerce : List I -> %
+    coerce : % -> List I
+    coerce : % -> OutputForm
+	
+	
+  Implementation ==  add 
+
+    Rep := Record(lb:I,dg:Boolean)
+    
+    degenerate? x == x.dg
+    
+    in?(x,y) == 
+      x.lb = y.lb and ~y.dg => true
+      x.lb = y.lb and x.dg => true
+      x.lb = y.lb + 1 and x.dg => true
+      false
+    
+    equal?(x,y) == (x.lb = y.lb) and (x.dg = y.dg) 
+    
+    coerce(l:List I):% == 
+      #l=1 => [l.1,true]
+      #l=2 and l.2=1+l.1 => [l.1,false]
+      error "Expected [l,l+1] or [l], l an integer."
+      
+    coerce(x:%):List I ==
+      x.dg => [x.lb]
+      return [x.lb,x.lb+1]::List I
+      
+    coerce(x:%):OutputForm == x::List I::OutputForm
+    
+    
+)abbrev domain ELCU ElementaryCube
+++ Author: Kurt Pagani
+++ Date Created: Mon Feb 29 02:36:09 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+ElementaryCube() : Exports == Implementation where
+  
+  ELIV ==> ElementaryInterval
+  NNI ==> NonNegativeInteger
+  PI ==> Positive Integer
+  I ==> Integer
+  O ==> OutputForm
+  
+  Exports == Join(CoercibleTo OutputForm) with
+    
+ 
+    coerce : ELIV -> %
+    coerce : List List I -> %
+    coerce : List ELIV -> %
+    coerce : % -> OutputForm
+    
+    elt : (%,I) -> ELIV
+    
+
+    _* : (%,ELIV) -> %
+    _* : (ELIV,%) -> %
+    _* : (%,%) -> %
+	
+    emb : % -> NNI
+    dim : % -> NNI
+
+	
+    subset? : (%,%) -> Boolean
+    equal?  : (%,%) -> Boolean
+    
+    face?        : (%,%) -> Boolean
+    properFace?  : (%,%) -> Boolean
+    primaryFace? : (%,%) -> Boolean
+
+  Implementation ==  List(ELIV) add 
+
+    Rep := List(ELIV) 
+    
+    coerce(x:ELIV):% == [x]
+    
+    coerce(l:List List I):% == [x::ELIV for x in l]
+    
+    coerce(l:List ELIV):% == l
+    
+    coerce(c:%):OutputForm ==
+      infix(" X "::Symbol::O,[y::O for y in c])
+      
+    x:% * y:ELIV == concat(x,y) 
+    y:ELIV * x:% == concat(y,x)
+    x:% * y:%    == concat(x,y)
+
+    emb(x:%):NNI == #x
+    
+    dim(x:%):NNI == #[j for j in x | ~degenerate?(j)$ELIV]
+        
+        
+    subset?(x,y) == 
+      #x ~= #y => false
+      reduce("and",[in?(x.j,y.j) for j in 1..#x])
+      
+    equal?(x,y) ==
+      #x ~= #y => false
+      reduce("and",[equal?(x.i,y.i) for i in 1..#x])
+      
+    face?(x,y) == subset?(x,y)
+    properFace?(x,y) == face?(x,y) and ~equal?(x,y)
+    primaryFace?(x,y) == face?(x,y) and dim(x)=dim(y)-1
+
+
+
+   
+-- chain(X:ELCU):ELCU->INT == (Y:ELCU):INT+->(if equal?(X,Y) then 1 else 0)
+-- CC:=chain(C) -> CC I = 0 and CC C = 1
+)abbrev domain ELCH ElementaryChain
+++ Author: Kurt Pagani
+++ Date Created: Mon Feb 29 21:21:35 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+ElementaryChain() : Exports == Implementation where
+  
+  ELCU ==> ElementaryCube
+  INT  ==> Integer
+  OF   ==> OutputForm
+  
+  Exports == Join(CoercibleTo OutputForm) with
+    
+    chain : ELCU -> %
+    
+    support : % -> ELCU
+
+    elt : (%,ELCU) -> INT
+
+    coerce : % -> OutputForm
+	
+	
+  Implementation ==  add 
+
+    Rep := Record(spt:ELCU, map:ELCU -> INT)
+    
+    chain(X:ELCU):% == 
+      [X,(Y:ELCU):INT+->(if equal?(X,Y) then 1 else 0)]::Rep
+   
+
+    support(c:%):ELCU == c.spt
+
+    elt(c:%, x:ELCU):INT == (c.map)(x)
+    
+    coerce(c:%):OF == bracket (c.spt::OF)
+
+    

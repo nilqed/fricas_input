@@ -1,0 +1,128 @@
+)abbrev domain FASC FiniteAbstractSimplicialComplex
+++ Author: Kurt Pagani
+++ Date Created: Sat Feb 27 00:13:46 CET 2016
+++ License: BSD
+++ References: Dmitry Kozlov, Combinatorial Algebraic Topology
+++   Algorithms and Computation in Mathematics - Vol 21
+++ Description: A finite abstract simplicial complex is a finite set A
+++ together with a collection D of subsets of A such that if X is in D
+++ and Y is a subset of X then Y also is in D.
+++
+FiniteAbstractSimplicialComplex(S) : Exports == Implementation where
+  
+  S:SetCategory
+  SET ==> Set(S)
+  NUL ==> empty()$SET
+  NNI ==> NonNegativeInteger
+  B   ==> Boolean
+  
+  
+  Exports == Join(CoercibleTo OutputForm) with
+    
+    gen : (SET,List SET) -> %
+    
+    baseSet  : % -> SET
+    vertices : % -> List SET
+    skeleton : (NNI,%) -> List SET
+
+    void?    : % -> Boolean
+    empty?   : % -> Boolean
+    
+    subcomplex? : (%,%) -> Boolean
+
+    deletion : (SET,%) -> %
+    link     : (SET,%) -> %
+    
+    closedStar : (SET,%) -> %
+    openStar   : (SET,%) -> List SET
+ 
+    coerce : % -> List SET
+    coerce : % -> OutputForm
+    
+	
+  Implementation == List(SET)  add 
+
+    Rep := Record(set:SET,asc:List(SET))
+
+
+    -- compute the set of all subsets of S0
+    powerSet(S0:SET):Set SET ==
+      S0=NUL => set[NUL]
+      card:=cardinality(S0)
+      if card=1 then
+        return(set [set[],S0])
+      else
+        x:=members(S0).card
+        S1:=remove(x,S0)
+        S1P:=powerSet(S1)
+        S1Px:Set SET:=set [union(set[x],s) for s in members(S1P)]
+        return(union(S1P,S1Px))
+
+   
+    -- check if the generators actually are subsets
+    chkIfSubsets(s:SET,l:List SET):Boolean ==
+      ss:List B:=[subset?(x,s)$SET for x in l] 
+      conj:=(a:B,b:B):B+->a and b
+      reduce(conj,ss)  
+
+
+    -- generate a FASC when given a set and a collection of subsets
+    gen(s,l) ==
+      l=[] => [s,[]]::Rep  -- void FASC
+      l=[NUL] => [s,l]::Rep     -- empty FASC
+      l:=removeDuplicates l
+      not chkIfSubsets(s,l) => error "** some not subset" 
+      ps:List Set SET:=[powerSet(x) for x in l]
+      up:Set SET:=reduce(union,ps)
+      return [s,members up]::Rep
+    
+
+    -- base set
+    baseSet(c:%):SET == c.set
+
+    -- extract the vertices
+    vertices(c:%):List SET == [v for v in c.asc | #v=1]
+
+    -- d-skeleton
+    skeleton(d:NNI,c:%) == [x for x in c.asc | #x <= d+1]
+ 
+    -- void?, empty?
+    void?(c:%):B == test(c.asc=[])
+    empty?(c:%):B == test(c.asc=[NUL])
+ 
+ 
+    -- subcomplex?
+    subcomplex?(c:%,d:%):B ==
+      c.set ~= d.set => false
+      conj:=(a:B,b:B):B+->a and b
+      reduce(conj,[member?(x,d.asc) for x in c.asc]) 
+    
+ 
+    -- deletion
+    deletion(t:SET,c:%) ==
+      not member?(t, c.asc) => error "simplex not in base set"
+      [c.set,[x for x in c.asc | ~subset?(t,x)]]::Rep
+
+    -- link
+    linkCondition(c:%,t:SET,x:SET):Boolean ==
+      intersect(t,x)~=NUL => false
+      return member?(union(t,x),c.asc)
+      
+    link(t:SET,c:%):% ==
+      not member?(t, c.asc) => error "simplex not in complex"
+      [c.set,[x for x in c.asc | linkCondition(c,t,x)]]::Rep
+
+    -- star
+    closedStar(t:SET,c:%):% ==
+      not member?(t, c.asc) => error "simplex not in complex"
+      [c.set,[x for x in c.asc | member?(union(x,t),c.asc)]]::Rep
+
+    openStar(t:SET,c:%):List SET ==
+      not member?(t, c.asc) => error "simplex not in complex"
+      [x for x in c.asc | subset?(t,x)]
+
+
+    -- coerce to a list of sets
+    coerce(c:%):List SET == c.asc
+    coerce(c:%):OutputForm == (c.asc)::OutputForm
+   

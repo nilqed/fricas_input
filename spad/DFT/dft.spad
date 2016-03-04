@@ -1,0 +1,131 @@
+)abbrev package DFT DiscreteFourierTransform
+++ Author: Kurt Pagani
+++ Date Created: Wed Mar 02 23:13:52 CET 2016
+++ License: BSD
+++ References: en.wikipedia.org/wiki/Discrete_Fourier_transform_%28general%29
+++ Description:
+++
+DiscreteFourierTransform(R,n,a) : Exports == Implementation where
+  
+  R:Ring
+  n:PositiveInteger
+  a:R
+  
+  MATR ==> Matrix R
+  
+  Exports ==  with
+    
+    dftMatrix  : () -> MATR
+    dftMatrix? : MATR -> Boolean
+    
+    dftInvMatrix : () -> MATR
+    
+    dft  : Vector R -> Vector R
+    idft : Vector R -> Vector R
+	
+	
+  Implementation ==  add 
+  
+    
+    dftMatrix?(m:Matrix R):Boolean ==
+      a^n ~= 1::R => false 
+      r1:List R:=[reduce(_+,entries(row(m,k))) for k in 2..n]
+      r2:List Boolean:=[test(x=0) for x in r1]
+      r:=reduce(_and,r2)
+    
+    dftMatrix() ==
+      m:MATR:=matrix [[a^(i*j) for i in 0..n-1] for j in 0..n-1]
+      dftMatrix?(m) => m
+      error "Not given a principal n-th root of unity."
+      
+    dftInvMatrix() ==
+      b:=recip(a)
+      c:=recip(n*1::R)
+      if b case R and c case R then 
+        m:MATR:=c * matrix [[b^(i*j) for i in 0..n-1] for j in 0..n-1]
+      else
+        error "Not invertible."
+
+    M:= dftMatrix()
+    IM:= dftInvMatrix()
+ 
+    dft(v) ==
+      #v ~= n => error "wrong dimension of vector."
+      M * v
+      
+    idft(v) ==
+      #v ~= n => error "wrong dimension of vector."
+      IM * v      
+ 
+   
+-- Examples
+-----------
+-- R:=IntegerMod 5
+-- a:=2::R
+-- n:=4
+-- DFTZ5==>DFT(R,n,a)
+-- dftMatrix()$DFTZ5
+-- dftInvMatrix()$DFTZ5
+-- dft([1,2,3,4])$DFTZ5
+-- idft([0,4,3,2])$DFTZ5
+   
+-- R:=Expression Complex Integer
+-- n:=3
+-- a:=exp(-2*%i*%pi/n)
+-- ...   
+
+
+)abbrev package UDFT UnitaryDiscreteFourierTransform
+++ Author: Kurt Pagani
+++ Date Created: Thu Mar 03 03:47:06 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+UnitaryDiscreteFourierTransform(n) : Exports == Implementation where
+  
+  n:PositiveInteger
+ 
+  R ==> Expression Integer
+  C ==> Complex R
+  
+  Exports == with
+    
+    udftMatrix    : () -> Matrix C
+    udftInvMatrix : () -> Matrix C
+    
+    udft  : Vector C -> Vector C
+    iudft : Vector C -> Vector C
+	
+	
+  Implementation == add 
+    
+
+    a(m:PositiveInteger):C ==
+      q:R:=(2/m)::Fraction(Integer)::R
+      c2:C:=complex(q,0)$C
+      im:C:=complex(0,1)$C
+      pi:R:=pi()::R
+      exp(-c2*im*pi)
+      
+    
+    X:=DiscreteFourierTransform(C,n,a(n))
+    
+    
+    udftMatrix() == dftMatrix()$X  -- factor missing yet +7sqrt(n)
+    udftInvMatrix() == dftInvMatrix()$X  -- dito
+     
+    U  := udftMatrix()
+    IU := udftInvMatrix()
+ 
+    udft(v) ==
+      #v ~= n => error "wrong dimension of vector."
+      U * v
+      
+    iudft(v) ==
+      #v ~= n => error "wrong dimension of vector."
+      IU * v      
+ 
+-- simplifyExp complexNormalize ...
+-- 
+   

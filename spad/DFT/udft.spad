@@ -1,0 +1,54 @@
+)abbrev package UDFT UnitaryDiscreteFourierTransform
+++ Author: Kurt Pagani
+++ Date Created: Thu Mar 03 03:47:06 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+UnitaryDiscreteFourierTransform(n) : Exports == Implementation where
+  
+  n:PositiveInteger
+ 
+  X ==> Expression Integer
+  Q ==> Fraction Integer
+  R ==> Complex X
+  
+  Exports == with
+    
+    udftMatrix    : () -> Matrix R
+    udftInvMatrix : () -> Matrix R
+    
+    udft  : Vector R -> Vector R
+    iudft : Vector R -> Vector R
+	
+	
+  Implementation == add 
+      
+    --import from ComplexTrigonometricManipulations(X,R)
+    --import from TranscendentalManipulations(X,R)
+    
+
+    udftMatrix() == 
+      a:R:=exp(-(2/n)::Q::X*pi()$X*complex(1,0)$R)::R
+      c:R:=1/sqrt(n::X)::R
+      c * matrix [[a^(i*j) for i in 0..n-1] for j in 0..n-1] 
+    
+    udftInvMatrix() == 
+      b:R:=exp((2/n)::Q::X*pi()$X*complex(1,0)$R)::R
+      c:R:=1/sqrt(n::X)::R
+      c * matrix [[b^(i*j) for i in 0..n-1] for j in 0..n-1]
+     
+    U  := udftMatrix()
+    IU := udftInvMatrix()
+ 
+    udft(v) ==
+      #v ~= n => error "wrong dimension of vector."
+      U * v
+      
+    iudft(v) ==
+      #v ~= n => error "wrong dimension of vector."
+      IU * v      
+
+-- Example
+--  udft([j for j in 1..13])$UDFT(13)  
+   
