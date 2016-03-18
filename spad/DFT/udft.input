@@ -1,0 +1,30 @@
+NNI ==> NonNegativeInteger
+PI ==> PositiveInteger
+C  ==> Expression Complex Fraction Integer
+MC ==> Matrix C
+
+
+ei(n:PI,m:Integer):C ==
+  q:=divide(m,n)
+  (-1)^q.quotient*exp(-%pi*%i*q.remainder/n)
+
+udftMatrix(n:PI):MC ==
+  c:=1/sqrt(n)
+  c * matrix [[ei(n,2*(i*j)) for i in 0..n-1] for j in 0..n-1]
+
+udftInvMatrix(n:PI):MC ==
+  c:=1/sqrt(n)
+  c * matrix [[ei(n,-2*(i*j)) for i in 0..n-1] for j in 0..n-1]
+
+udft(v:Vector C):Vector C ==
+  n:NNI:=#v
+  udftMatrix(n)*v
+
+
+iudft(v:Vector C):Vector C ==
+  n:NNI:=#v
+  udftInvMatrix(n)*v
+
+v:=[j::C for j in  1..7]
+
+

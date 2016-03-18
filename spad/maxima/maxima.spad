@@ -1,0 +1,73 @@
+)abbrev domain MAXIMA MaximaExpr
+++ Author: Kurt Pagani
+++ Date Created: Thu Mar 17 20:53:38 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+MaximaExpr(R) : Exports == Implementation where
+  
+  R: Join(Ring, Comparable, ConvertibleTo InputForm)
+  
+  X ==> Expression R
+  
+  IF ==> InputForm
+  OF ==> OutputForm
+  
+  SEX ==> SExpression
+  
+  
+  Exports == Join(CoercibleTo OF, ConvertibleTo IF) with
+    
+    coerce : X -> %  
+    --coerce : List List X -> %
+    --coerce : List X -> List %
+    coerce : List X -> %
+    coerce : List % -> %
+    coerce : Equation X -> %
+    coerce : % -> OutputForm
+	
+    _= : (%,%)-> %
+    
+    inputForm  : % -> IF
+    maximaForm : % -> IF
+    
+	
+  Implementation == IF add 
+
+    Rep := Record(inp:IF, max:IF)
+    
+    inputForm(x) == x.inp
+    maximaForm(x) == x.max
+    
+    coerce(x:X):% == 
+      y:IF:=convert(x)@IF
+      --convert(y)@SEX
+      [y,SPAD2MAX(y)$Lisp]::Rep
+      
+    --coerce(x:List X):List % == [s::% for s in x]    
+      
+    coerce(x:List %):% ==
+      lst:IF:=convert('construct::Symbol)$IF
+      u:List(IF):=concat(lst,[z.inp for z in x])
+      y:IF:=convert(u)@IF
+      [y,SPAD2MAX(y)$Lisp]::Rep 
+      --c:SEX:=convert('construct::Symbol)$SEX
+      --y:SEX:=convert(concat(c,[s@Rep for s in x]))$SEX
+   
+      
+    coerce(x:List X):% == 
+      y:IF:=convert(x)@IF
+      [y,SPAD2MAX(y)$Lisp]::Rep   
+    
+
+    coerce(x:Equation X):% ==
+      (lhs x)::% = (rhs x)::%
+    --coerce(x:List List X):% == [y::% for y in x]::%
+    
+    x:% = y:% == 
+      a:IF:=LIST('=,x.inp,y.inp)$Lisp
+      [a,SPAD2MAX(a)$Lisp]::Rep
+      
+      
+    coerce(x:%):OF == (x.max)::OF

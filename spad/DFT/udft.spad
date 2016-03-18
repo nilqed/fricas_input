@@ -29,12 +29,15 @@ UnitaryDiscreteFourierTransform(n) : Exports == Implementation where
     
 
     udftMatrix() == 
-      a:R:=exp(-(2/n)::Q::X*pi()$X*complex(1,0)$R)::R
+      a:R:=exp(-(2/n)::Q::X*pi()$X*complex(0,1)$R)::R
       c:R:=1/sqrt(n::X)::R
       c * matrix [[a^(i*j) for i in 0..n-1] for j in 0..n-1] 
     
+    
+    
+    
     udftInvMatrix() == 
-      b:R:=exp((2/n)::Q::X*pi()$X*complex(1,0)$R)::R
+      b:R:=exp((2/n)::Q::X*pi()$X*complex(0,1)$R)::R
       c:R:=1/sqrt(n::X)::R
       c * matrix [[b^(i*j) for i in 0..n-1] for j in 0..n-1]
      
