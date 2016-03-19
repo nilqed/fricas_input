@@ -1,0 +1,69 @@
+)lisp (load "maxima.lisp")
+)abbrev package MAX Maxima
+++ Author: Kurt Pagani
+++ Date Created: Sat Mar 19 00:09:38 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+Maxima() : Exports == Implementation where
+  
+  IF ==> InputForm
+  OF ==> OutputForm
+ 
+  XI ==> Expression Integer
+  
+  SEX ==> SExpression
+  
+  Exports ==  with
+
+    spad2max : XI -> SEX
+    max2sex  : SEX -> SEX
+    max2spad : SEX -> Any
+    
+    meval2sex    : XI -> SEX
+    mevalDsiplay : XI -> SEX
+    meval        : XI -> Any 
+    
+    mIntegrate : (XI,XI) -> Any
+	
+  Implementation ==  add
+
+    spad2max(x:XI):SEX ==
+      y:IF:=convert(x)@IF
+      SPAD2MAX(y)$Lisp
+
+    max2sex(x:SEX):SEX ==
+      MAX2SPAD(x)$Lisp
+
+    max2spad(x:SEX):Any ==
+      y:=convert(MAX2SPAD(x)$Lisp)@IF
+      --s:String:=unparse(y)
+      r:Any:=interpret(y)$IF
+
+    mevalDisplay(x:XI):SEX ==
+      y:IF:=convert(x)@IF
+      MEVALD(SPAD2MAX(y)$Lisp)$Lisp
+
+    meval2sex(x:XI):SEX ==
+      y:IF:=convert(x)@IF
+      MEVAL(SPAD2MAX(y)$Lisp)$Lisp
+
+      
+    meval(x:XI):Any ==
+      y:SEX:=meval2sex(x)
+      max2spad(y)
+
+
+    mIntegrate(x:XI,v:XI):Any ==
+      r:SEX:=MAXINTEGRATE(meval2sex(x),meval2sex(v))$Lisp
+      max2spad(r)
+--
+-- (117) -> mIntegrate(x^2,x)
+--
+--          1  3
+--   (117)  - x
+--          3
+--                                          Type: Polynomial(Fraction(Integer))
+-- LOG,COS,INTEGRATE ... to def yet
+--

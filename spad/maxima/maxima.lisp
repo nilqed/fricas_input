@@ -1,5 +1,5 @@
 ;;;
-;;; Code from R.J. Fateman's MMA **
+;;; Parts of code from R.J. Fateman's MMA **
 ;;;
 ;;;
 
@@ -7,6 +7,11 @@
 
 (eval-when (:load-toplevel)
   (if (find-package "MAXIMA") nil  (defpackage :maxima)))
+
+
+;;; works, cool!
+(defun maxima::mplus2 (a b) (list '(mplus) a b)) 
+(defun maxima::mtimes2 (a b) (list '(mtimes) a b)) 
 
 (defparameter macsubs '(
   
@@ -19,8 +24,8 @@
   (> . maxima::mgreaterp) 
   (>= . maxima::mgeqp)
   (<= . maxima::mleqp) 
-  (+ . maxima::mplus)
-  (* . maxima::mtimes) 
+  (+ . maxima::mplus2)
+  (* . maxima::mtimes2) 
   (^ . maxima::mexpt)
   (/ . maxima::rat)
   (|sin| . maxima::%sin) 
@@ -55,7 +60,7 @@
  (|CompoundExpression| . mprogn)
  (|If| . mcond) (|Module| . mprog) 
  (/ . rat)
- (|Real| . mplus)  ;; huh?
+ ;(|Real| . mplus)  ;; huh?
  (|Sequence| . $segment)
 ))
 
@@ -114,6 +119,8 @@
 
 
 
-(defun |meval| (e) (maxima::meval e))
-(defun |mevald| (e) (maxima::displa (|meval| e))) 
+(defun meval (e) (maxima::meval e))
+(defun mevald (e) (maxima::displa (meval e))) 
+
+(defun maxintegrate (x v) (maxima::$integrate x v))
 
