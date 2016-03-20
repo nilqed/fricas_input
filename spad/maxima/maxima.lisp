@@ -1,5 +1,8 @@
+;;; ==========================================================================
+;;; EMBEDDABLE-MAXIMA in FriCAS, Lisp interface SPAD <-> MAX, V 10-03-2016
+;;; ==========================================================================
+;;; Parts of code from R.J. Fateman's MMA **  (BSD licensed, as this code)
 ;;;
-;;; Parts of code from R.J. Fateman's MMA **
 ;;;
 ;;;
 
@@ -8,10 +11,13 @@
 (eval-when (:load-toplevel)
   (if (find-package "MAXIMA") nil  (defpackage :maxima)))
 
-
+;;; Since _+ is 2-ary while mplus is n-ary we need a work-around.
+;;; We define mplus2, mtimes2 in terms of mplus, mtimes ...
 ;;; works, cool!
-(defun maxima::mplus2 (a b) (list '(mplus) a b)) 
-(defun maxima::mtimes2 (a b) (list '(mtimes) a b)) 
+;;; not necessary anymore (see function "spadify")
+;(defun maxima::mplus2 (a b) (list '(maxima::mplus) a b)) 
+;(defun maxima::mtimes2 (a b) (list '(maxima::mtimes) a b)) 
+
 
 (defparameter macsubs '(
   
@@ -24,17 +30,20 @@
   (> . maxima::mgreaterp) 
   (>= . maxima::mgeqp)
   (<= . maxima::mleqp) 
-  (+ . maxima::mplus2)
-  (* . maxima::mtimes2) 
+  (+ . maxima::mplus)
+  (* . maxima::mtimes) 
   (^ . maxima::mexpt)
-  (/ . maxima::rat)
+  ;(/ . maxima::rat)
+  (/ . maxima::spadrat)
   (|sin| . maxima::%sin) 
-  (|cos| . maxima::%cos) 
+  (|cos| . maxima::%cos)
+  (|log| . maxima::%log)
+  (|exp| . maxima::%exp)
   (|construct| . maxima::mlist)
   (|N| . maxima::Numeric_eval) 
   (|CompoundExpression| . maxima::mprogn)
   (|If| . maxima::mcond) (|Module| . maxima::mprog) 
-  (|Real| . maxima::mplus)  ;; huh?
+  ;(|Real| . maxima::mplus)  ;; huh?
   (|Sequence| . maxima::$segment)
   
 ))
@@ -50,11 +59,16 @@
  (> . mgreaterp) 
  (>= . mgeqp)
  (<= . mleqp) 
+ ;(|msum| . mplus)
  (+ . mplus)
- (* . mtimes) 
+ ;(|mprod| . mtimes)
+ (* . mtimes)
  (^ . mexpt)
- (|sin| . %sin) 
- (|cos| . %cos) 
+ (|sin| . sin) 
+ (|cos| . cos) 
+ (|log| . log)
+ (|%e| . %E)
+ (|__integrate| . integrate)
  (|construct| . mlist)
  (|N| . Numeric_eval) 
  (|CompoundExpression| . mprogn)
@@ -92,7 +106,7 @@
 
 
 
-(defun max2spad(e)
+(defun max2spad0(e)
   (cond ((atom e) 
 	 (cond ((symbolp e) 
 		(let ((name(st$ e))) ;;fiddle with stripdollar,
@@ -118,9 +132,43 @@
 		(subseq r 1) r) :boot)))
 
 
+(defun spadify(e)
+  (cond ((atom e) e)
+        ((eq (car e) '+) 
+            (let ((a (spadify (cdr e))))
+              (if (> (length a) 1)
+                (reduce (lambda (x y) (list '+ x y)) a)
+                (list (spadify (car a))))))
+        ((eq (car e) '*) 
+            (let ((a (spadify (cdr e))))
+              (if (> (length a) 1)
+                (reduce (lambda (x y) (list '* x y)) a)
+                (list (spadify (car a))))))
+        (t (cons (spadify (car e)) (spadify (cdr e))))))
+ 
 
-(defun meval (e) (maxima::meval e))
-(defun mevald (e) (maxima::displa (meval e))) 
+(defun max2spad(e)
+    (spadify (max2spad0 e)))
+      
+      
+    
 
+(import 'maxima::meval)
+(import 'maxima::displa)
+;(defun meval (e) (maxima::meval e))
+(defun mevald (e) (maxima::displa (maxima::meval e))) 
+
+
+;;; Problems with RAT (MRAT?, no way)
+;;; http://def.fe.up.pt/pipermail/maxima-discuss/2010/033213.html
+;;; We are going to circumvent RAT ...
+(defun maxima::spadrat (a b)
+   (list '(maxima::mtimes maxima::simp) 
+        a (list '(maxima::mexpt maxima::simp) b -1))) 
+   
+;;;
+;;; Maxima integrate (simple test case)
+;;;
 (defun maxintegrate (x v) (maxima::$integrate x v))
+(defun maxdifferentiate (x v) (maxima::$diff x v))
 
