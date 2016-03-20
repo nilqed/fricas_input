@@ -1,0 +1,43 @@
+size 12.0 12.0
+
+begin graph
+math
+title "x^2+y^2-1 < 0 \wedge\, x^3-y^2 = 0"
+xaxis min -1.5 max 1.5
+yaxis min -1.5 max 1.5
+let d1 = sin(x), cos(x) from 0 to 2*pi  !! non-graphs
+let d2 = x^(3/2) from 0 to 0.7549
+let d3 = -1*d2
+let d4 = 4*x^2-4 from -1.5 to 1.5
+let d5 = -4*x^3 from -1.5 to 1.5 
+let d6 = x^6+2*x^5+x^4-2*x^3-2*x^2+1 from -1.5 to 1.5
+let d7 = -1,0
+let d8 = -0.75,0
+let d9 =  0,0
+let d10 = 0.75,0
+let d11 = 0.7549,0
+let d12 = 1,0
+let d13 = 33/32,0
+d1 line color blue
+d2 line color red
+d3 line color red
+d4 line color gray
+d5 line color gray
+d6 line color gray
+d7 line color green marker cross
+d8 line color green marker cross
+d9 line color green marker cross
+d10 line color green marker cross
+d11 line color orange marker cross
+d12 line color green marker cross
+d13 line color orange marker cross
+end graph
+
+begin key
+position br
+offset 0.2 0.2
+text "p1=0" fill blue
+text "solution" fill red
+text "projSet" fill gray
+end key
+
