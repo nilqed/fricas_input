@@ -1,0 +1,913 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.63 Polynomial &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.64 Quaternion" href="section-9.64.html" />
+    <link rel="prev" title="9.62 Permanent" href="section-9.62.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="polynomial">
+<h1>9.63 Polynomial<a class="headerlink" href="#polynomial" title="Permalink to this headline">¶</a></h1>
+<p>The domain constructor Polynomial (abbreviation: POLY) provides
+polynomials with an arbitrary number of unspecified variables.</p>
+<p>It is used to create the default polynomial domains in FriCAS. Here the
+coefficients are integers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Here the coefficients have type Float.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="o">-</span> <span class="mf">2.3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z-2.3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Float</sub></p>
+<p>And here we have a polynomial in two variables with coefficients which
+have type Fraction Integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">z</span> <span class="o">+</span> <span class="mi">3</span><span class="o">/</span><span class="mi">4</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-z+y2+34</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+<p>The representation of objects of domains created by Polynomial is that
+of recursive univariate polynomials.The term univariate means one
+variable. multivariate means possibly more than one variable.</p>
+<p>This recursive structure is sometimes obvious from the display of a
+polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y2+(x+1)y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>In this example, you see that the polynomial is stored as a polynomial
+in y with coefficients that are polynomials in x with integer
+coefficients. In fact, you really don&#8217;t need to worry about the
+representation unless you are working on an advanced application where
+it is critical. The polynomial types created from
+DistributedMultivariatePolynomial and
+NewDistributedMultivariatePolynomial (discussed in
+<a class="reference external" href="section-9.16.html#DistributedMultivariatePolynomialXmpPage">DistributedMultivariatePolynomialXmpPage</a>
+) are stored and displayed in a non-recursive manner.</p>
+<p>You see a flat display of the above polynomial by converting to one of
+those types.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="p">::</span> <span class="n">DMP</span><span class="p">([</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">],</span><span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y2+yx+y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DistributedMultivariatePolynomial([y,x],Integer)</sub></p>
+<p>We will demonstrate many of the polynomial facilities by using two
+polynomials with integer coefficients.</p>
+<p>By default, the interpreter expands polynomial expressions, even if they
+are written in a factored format.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">z</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(xy2-2xy+x)z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>See <a class="reference external" href="section-9.22.html#FactoredXmpPage">FactoredXmpPage</a> to see how
+to create objects in factored form directly.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">z</span><span class="o">+</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(xy-x)z+5xy-5x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>The fully factored form can be recovered by using
+factorfactorPolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x(y-1)(z+5)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial Integer</sub></p>
+<p>This is the same name used for the operation to factor integers. Such
+reuse of names is called overloading and makes it much easier to think
+of solving problems in general ways. FriCAS facilities for factoring
+polynomials created with Polynomial are currently restricted to the
+integer and rational number coefficient cases. There are more complete
+facilities for factoring univariate polynomials: see
+<a class="reference external" href="ugProblemFactorPage">ugProblemFactorPage</a> in Section
+<a class="reference external" href="ugProblemFactorNumber">ugProblemFactorNumber</a> .</p>
+<p>The standard arithmetic operations are available for polynomials.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">-</span> <span class="n">q</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(-x2y2+2x2y-x2)z2+((-10x2+x)y2+(20x2-2x)y-10x2+x)z-25x2y2+50x2y-25x2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>The operation gcdgcdPolynomial is used to compute the greatest common
+divisor of two polynomials.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gcd</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>xy-x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>In the case of p and q, the gcd is obvious from their definitions. We
+factor the gcd to show this relationship better.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span> <span class="o">%</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x(y-1)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial Integer</sub></p>
+<p>The least common multiple is computed by using lcmlcmPolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lcm</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(xy2-2xy+x)z2+(5xy2-10xy+5x)z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Use contentcontentPolynomial to compute the greatest common divisor of
+the coefficients of the polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">content</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Many of the operations on polynomials require you to specify a variable.
+For example, resultantresultantPolynomial requires you to give the
+variable in which the polynomials should be expressed.</p>
+<p>This computes the resultant of the values of p and q, considering them
+as polynomials in the variable z. They do not share a root when thought
+of as polynomials in z.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">resultant</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>5x2y3-15x2y2+15x2y-5x2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>This value is 0 because as polynomials in x the polynomials have a
+common root.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">resultant</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>The data type used for the variables created by Polynomial is Symbol. As
+mentioned above, the representation used by Polynomial is recursive and
+so there is a main variable for nonconstant polynomials.</p>
+<p>The operation mainVariablemainVariablePolynomial returns this variable.
+The return type is actually a union of Symbol and &#8220;failed&#8221;.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mainVariable</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Symbol,...)</sub></p>
+<p>The latter branch of the union is be used if the polynomial has no
+variables, that is, is a constant.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mainVariable</span><span class="p">(</span><span class="mi">1</span> <span class="p">::</span> <span class="n">POLY</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;failed&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+<p>You can also use the predicate ground?ground?Polynomial to test whether
+a polynomial is in fact a member of its ground ring.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>ground? p
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>ground?(1 :: POLY INT)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>The complete list of variables actually used in a particular polynomial
+is returned by variablesvariablesPolynomial. For constant polynomials,
+this list is empty.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">variables</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[z,y,x]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Symbol</sub></p>
+<p>The degreedegreePolynomial operation returns the degree of a polynomial
+in a specific variable.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">degree</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">degree</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">degree</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>If you give a list of variables for the second argument, a list of the
+degrees in those variables is returned.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">degree</span><span class="p">(</span><span class="n">p</span><span class="p">,[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List NonNegativeInteger</sub></p>
+<p>The minimum degree of a variable in a polynomial is computed using
+minimumDegreeminimumDegreePolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">minimumDegree</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The total degree of a polynomial is returned by
+totalDegreetotalDegreePolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">totalDegree</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>It is often convenient to think of a polynomial as a leading monomial
+plus the remaining terms.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leadingMonomial</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>xy2z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>The reductumreductumPolynomial operation returns a polynomial consisting
+of the sum of the monomials after the first.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reductum</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(-2xy+x)z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>These have the obvious relationship that the original polynomial is
+equal to the leading monomial plus the reductum.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">-</span> <span class="n">leadingMonomial</span> <span class="n">p</span> <span class="o">-</span> <span class="n">reductum</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>The value returned by leadingMonomialleadingMonomialPolynomial includes
+the coefficient of that term. This is extracted by using
+leadingCoefficientleadingCoefficientPolynomial on the original
+polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leadingCoefficient</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The operation evalevalPolynomial is used to substitute a value for a
+variable in a polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(xy2-2xy+x)z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>This value may be another variable, a constant or a polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(wy2-2wy+w)z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(y2-2y+1)z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Actually, all the things being substituted are just polynomials, some
+more trivial than others.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(y4-2y3+2y-1)z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Derivatives are computed using the DDPolynomial operation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(y2-2y+1)z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>The first argument is the polynomial and the second is the variable.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(2xy-2x)z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Even if the polynomial has only one variable, you must specify it.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>xy2-2xy+x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Integration of polynomials is similar and the
+integrateintegratePolynomial operation is used.</p>
+<p>Integration requires that the coefficients support division.
+Consequently, FriCAS converts polynomials over the integers to
+polynomials over the rational numbers before integrating them.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">integrate</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(13xy3-xy2+xy)z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+<p>It is not possible, in general, to divide two polynomials. In our
+example using polynomials over the integers, the operation
+monicDividemonicDividePolynomial divides a polynomial by a monic
+polynomial (that is, a polynomial with leading coefficient equal to 1).
+The result is a record of the quotient and remainder of the division.</p>
+<p>You must specify the variable in which to express the polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">qr</span> <span class="p">:</span><span class="o">=</span> <span class="n">monicDivide</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[quotient=(y2-2y+1)z,remainder=(-y2+2y-1)z]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(quotient: Polynomial Integer,remainder: Polynomial Integer)</sub></p>
+<p>The selectors of the components of the record are quotient and
+remainder. Issue this to extract the remainder.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">qr</span><span class="o">.</span><span class="n">remainder</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(-y2+2y-1)z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Now that we can extract the components, we can demonstrate the
+relationship among them and the arguments to our original expression qr
+:= monicDivide(p,x+1,x).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">-</span> <span class="p">((</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">qr</span><span class="o">.</span><span class="n">quotient</span> <span class="o">+</span> <span class="n">qr</span><span class="o">.</span><span class="n">remainder</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>If the / operator is used with polynomials, a fraction object is
+created. In this example, the result is an object of type Fraction
+Polynomial Integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span><span class="o">/</span><span class="n">q</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(y-1)zz+5</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Polynomial Integer</sub></p>
+<p>If you use rational numbers as polynomial coefficients, the resulting
+object is of type Polynomial Fraction Integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">4</span><span class="o">/</span><span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-y+23x2+45</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+<p>This can be converted to a fraction of polynomials and back again, if
+required.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="p">::</span> <span class="n">FRAC</span> <span class="n">POLY</span> <span class="n">INT</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-15y+10x2+1215</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="p">::</span> <span class="n">POLY</span> <span class="n">FRAC</span> <span class="n">INT</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-y+23x2+45</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+<p>To convert the coefficients to floating point, map the numeric operation
+on the coefficients of the polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">map</span><span class="p">(</span><span class="n">numeric</span><span class="p">,</span><span class="o">%</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1.0y+0.66666666666666666667x2+0.8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Float</sub></p>
+<p>For more information on related topics, see
+<a class="reference external" href="section-9.83.html#UnivariatePolynomialXmpPage">UnivariatePolynomialXmpPage</a>
+,
+<a class="reference external" href="section-9.16.html#DistributedMultivariatePolynomialXmpPage">MultivariatePolynomialXmpPage</a>
+, and
+<a class="reference external" href="section-9.16.html#DistributedMultivariatePolynomialXmpPage">DistributedMultivariatePolynomialXmpPage</a>
+. You can also issue the system command )show Polynomial to display the
+full list of operations defined by Polynomial.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.62.html" title="previous chapter">9.62 Permanent</a></li>
+      <li>Next: <a href="section-9.64.html" title="next chapter">9.64 Quaternion</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.63.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.63.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

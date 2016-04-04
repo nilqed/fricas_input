@@ -1,0 +1,169 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.9 Limits &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="1.10 Series" href="section-1.10.html" />
+    <link rel="prev" title="1.8 Polynomials" href="section-1.8.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="limits">
+<h1>1.9 Limits<a class="headerlink" href="#limits" title="Permalink to this headline">¶</a></h1>
+<p>FriCAS&#8217;s limit function is usually used to evaluate limits of quotients
+where the numerator and denominator limit both tend to zero or both tend
+to infinity. To find the limit of an expression f as a real variable x
+tends to a limit value <code class="docutils literal"><span class="pre">a</span></code>,</p>
+<div class="math">
+\[\lim_{x\rightarrow a} f(x)\]</div>
+<p>enter <code class="docutils literal"><span class="pre">limit(f,</span> <span class="pre">x=a)</span></code>. Use <em>complexLimit</em> if the
+variable is complex. Additional information and examples of limits are
+in Section <a class="reference external" href="section-8.6.html#ugProblemLimits">ugProblemLimits</a> .</p>
+<p>You can take limits of functions with parameters.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="p">:</span><span class="o">=</span> <span class="n">csc</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="n">csch</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{\csc
+\left(
+{{a \  x}}
+\right)}
+\over {\textrm{csch}
+\left(
+{{b \  x}}
+\right)}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>As you can see, the limit is expressed in terms of the parameters.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[b \over a\]</div>
+<p><sub>Type: Union(OrderedCompletion Expression Integer,...)</sub></p>
+<p>A variable may also approach plus or minus infinity:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">k</span><span class="o">/</span><span class="n">x</span><span class="p">)</span><span class="o">^</span><span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{{x+k} \over x}} ^ {x}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Use <code class="docutils literal"><span class="pre">%plusInfinity</span></code> and <code class="docutils literal"><span class="pre">%minusInfinity</span></code> to denote ∞ and -∞.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="n">x</span><span class="o">=%</span><span class="n">plusInfinity</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{e} ^ {k}\]</div>
+<p><sub>Type: Union(OrderedCompletion Expression Integer,...)</sub></p>
+<p>A function can be defined on both sides of a particular value, but may
+tend to different limits as its variable approaches that value from the
+left and from the right.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[
+{\textrm{leftHandLimit}=-1}, \: {\textrm{rightHandLimit}=1}
+\right]\]</div>
+<p><sub>Type: Union(Record(leftHandLimit: Union(OrderedCompletion Expression ...</sub></p>
+<p>As x approaches 0 along the real axis, exp(-1/x^2) tends to 0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: Union(OrderedCompletion Expression Integer,...)</sub></p>
+<p>However, if x is allowed to approach 0 along any path in the complex
+plane, the limiting value of exp(-1/x^2) depends on the path taken
+because the function has an essential singularity at x=0. This is
+reflected in the error message returned by the function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complexLimit</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\verb#&quot;failed&quot;#\]</div>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-1.8.html" title="previous chapter">1.8 Polynomials</a></li>
+      <li>Next: <a href="section-1.10.html" title="next chapter">1.10 Series</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.9.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-1.9.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

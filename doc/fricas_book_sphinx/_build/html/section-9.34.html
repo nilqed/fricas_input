@@ -1,0 +1,920 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.34 Integer &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.35 IntegerLinearDependence" href="section-9.35.html" />
+    <link rel="prev" title="9.33 HexadecimalExpansion" href="section-9.33.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="integer">
+<h1>9.34 Integer<a class="headerlink" href="#integer" title="Permalink to this headline">¶</a></h1>
+<p>FriCAS provides many operations for manipulating arbitrary precision
+integers. In this section we will show some of those that come from
+Integer itself plus some that are implemented in other packages. More
+examples of using integers are in the following sections:
+<a class="reference external" href="ugIntroNumbersPage">ugIntroNumbersPage</a> in section
+<a class="reference external" href="ugIntroNumbersNumber">ugIntroNumbersNumber</a>
+<a class="reference external" href="section-9.36.html#IntegerNumberTheoryFunctionsXmpPage">IntegerNumberTheoryFunctionsXmpPage</a>
+,
+<a class="reference external" href="section-9.15.html#DecimalExpansionXmpPage">DecimalExpansionXmpPage</a>
+, <a class="reference external" href="section-9.4.html#BinaryExpansionXmpPage">BinaryExpansionXmpPage</a>
+,
+<a class="reference external" href="section-9.33.html#HexadecimalExpansionXmpPage">HexadecimalExpansionXmpPage</a>
+, and
+<a class="reference external" href="section-9.65.html#RadixExpansionXmpPage">RadixExpansionXmpPage</a> .</p>
+<div class="section" id="basic-functions">
+<h2>9.34.1 Basic Functions<a class="headerlink" href="#basic-functions" title="Permalink to this headline">¶</a></h2>
+<p>The size of an integer in FriCAS is only limited by the amount of
+computer storage you have available. The usual arithmetic operations are
+available.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2</span><span class="o">^</span><span class="p">(</span><span class="mi">5678</span> <span class="o">-</span> <span class="mi">4856</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="mi">17</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>480481077043500814718154092512592439123952613987168226347385561008808420007630829308634252709141208374307457227821149607627692202643343568752733498024953930242542523045817764949544214392905306388478705146745768073877141698859815495632935288783334250628775936</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>There are a number of ways of working with the sign of an integer. Let&#8217;s
+use this x as an example.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="o">-</span><span class="mi">101</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-101</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Integer</sub></p>
+<p>First of all, there is the absolute value function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>101</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The signsignInteger operation returns -1 if its argument is negative, 0
+if zero and 1 if positive.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sign</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Integer</sub></p>
+<p>You can determine if an integer is negative in several other ways.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>negative?(x)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>Similarly, you can find out if it is positive.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>positive?(x)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>This is the recommended way of determining whether an integer is zero.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>zero?(x)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="line-block">
+<div class="line">Use the zero?zero?Integer operation whenever you are testing any</div>
+</div>
+<p>mathematical object for equality with zero. This is usually more
+efficient that using = (think of matrices: it is easier to tell if a
+matrix is zero by just checking term by term than constructing another
+zero matrix and comparing the two matrices term by term) and also avoids
+the problem that = is usually used for creating equations.</p>
+<p>This is the recommended way of determining whether an integer is equal
+to one.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>one?(x)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>This syntax is used to test equality using =. It says that you want a
+Boolean (true or false) answer rather than an equation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">101</span><span class="p">)</span><span class="nd">@Boolean</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>The operations odd?odd?Integer and even?even?Integer determine whether
+an integer is odd or even, respectively. They each return a Boolean
+object.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>odd?(x)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>even?(x)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>The operation gcdgcdInteger computes the greatest common divisor of two
+integers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gcd</span><span class="p">(</span><span class="mi">56788</span><span class="p">,</span><span class="mi">43688</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The operation lcmlcmInteger computes their least common multiple.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lcm</span><span class="p">(</span><span class="mi">56788</span><span class="p">,</span><span class="mi">43688</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>620238536</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>To determine the maximum of two integers, use maxmaxInteger.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">max</span><span class="p">(</span><span class="mi">678</span><span class="p">,</span><span class="mi">567</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>678</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>To determine the minimum, use minminInteger.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">min</span><span class="p">(</span><span class="mi">678</span><span class="p">,</span><span class="mi">567</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>567</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The reduce operation is used to extend binary operations to more than
+two arguments. For example, you can use reduce to find the maximum
+integer in a list or compute the least common multiple of all integers
+in the list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reduce</span><span class="p">(</span><span class="nb">max</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="o">-</span><span class="mi">89</span><span class="p">,</span><span class="mi">78</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="o">-</span><span class="mi">45</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>100</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reduce</span><span class="p">(</span><span class="nb">min</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="o">-</span><span class="mi">89</span><span class="p">,</span><span class="mi">78</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="o">-</span><span class="mi">45</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-89</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reduce</span><span class="p">(</span><span class="n">gcd</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="o">-</span><span class="mi">89</span><span class="p">,</span><span class="mi">78</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="o">-</span><span class="mi">45</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reduce</span><span class="p">(</span><span class="n">lcm</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="o">-</span><span class="mi">89</span><span class="p">,</span><span class="mi">78</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="o">-</span><span class="mi">45</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1041300</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The infix operator / is not used to compute the quotient of integers.
+Rather, it is used to create rational numbers as described in
+<a class="reference external" href="section-9.12.html#ContinuedFractionXmpPage">FractionXmpPage</a> .</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">13</span> <span class="o">/</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>134</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>The infix operation quoquoInteger computes the integer quotient.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">13</span> <span class="n">quo</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The infix operation remremInteger computes the integer remainder.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">13</span> <span class="n">rem</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>One integer is evenly divisible by another if the remainder is zero. The
+operation exquoexquoInteger can also be used. See
+<a class="reference external" href="ugTypesUnionsPage">ugTypesUnionsPage</a> in Section
+<a class="reference external" href="ugTypesUnionsNumber">ugTypesUnionsNumber</a> for an example.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>zero?(167604736446952 rem 2003644)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>The operation dividedivideInteger returns a record of the quotient and
+remainder and thus is more efficient when both are needed.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="p">:</span><span class="o">=</span> <span class="n">divide</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[quotient=3,remainder=1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(quotient: Integer,remainder: Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span><span class="o">.</span><span class="n">quotient</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Records are discussed in detail in Section
+<a class="reference external" href="section-2.4.html#ugTypesRecords">ugTypesRecords</a> .</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span><span class="o">.</span><span class="n">remainder</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+<div class="section" id="primes-and-factorization">
+<h2>9.34.2 Primes and Factorization<a class="headerlink" href="#primes-and-factorization" title="Permalink to this headline">¶</a></h2>
+<p>Use the operation factorfactorInteger to factor integers. It returns an
+object of type Factored Integer. See
+<a class="reference external" href="section-9.22.html#FactoredXmpPage">FactoredXmpPage</a> for a
+discussion of the manipulation of factored objects.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span> <span class="mi">102400</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>21252</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>The operation prime?prime?Integer returns true or false depending on
+whether its argument is a prime.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>prime? 7
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>prime? 8
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>The operation nextPrimenextPrimeIntegerPrimesPackage returns the least
+prime number greater than its argument.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nextPrime</span> <span class="mi">100</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>101</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The operation prevPrimeprevPrimeIntegerPrimesPackage returns the
+greatest prime number less than its argument.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">prevPrime</span> <span class="mi">100</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>97</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>To compute all primes between two integers (inclusively), use the
+operation primesprimesIntegerPrimesPackage.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">primes</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="mi">175</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[173,167,163,157,151,149,139,137,131,127,113,109,107,103,101]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>You might sometimes want to see the factorization of an integer when it
+is considered a Gaussian integer. See
+<a class="reference external" href="section-9.11.html#ComplexXmpPage">ComplexXmpPage</a> for more details.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="mi">2</span> <span class="p">::</span> <span class="n">Complex</span> <span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-i(1+i)2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Complex Integer</sub></p>
+</div>
+<div class="section" id="some-number-theoretic-functions">
+<h2>9.34.3 Some Number Theoretic Functions<a class="headerlink" href="#some-number-theoretic-functions" title="Permalink to this headline">¶</a></h2>
+<p>FriCAS provides several number theoretic operations for integers. More
+examples are in
+<a class="reference external" href="section-9.36.html#IntegerNumberTheoryFunctionsXmpPage">IntegerNumberTheoryFunctionsXmpPage</a>
+.</p>
+<p>The operation fibonaccifibonacciIntegerNumberTheoryFunctions computes
+the Fibonacci numbers. The algorithm has running time for argument n.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">fibonacci</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,1,1,2,3,5,8,13,21,34,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Integer</sub></p>
+<p>The operation legendrelegendreIntegerNumberTheoryFunctions computes the
+Legendre symbol for its two integer arguments where the second one is
+prime. If you know the second argument to be prime, use
+jacobijacobiIntegerNumberTheoryFunctions instead where no check is made.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">legendre</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,1,-1,1,1,1,-1,-1,-1,1,-1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>The operation jacobijacobiIntegerNumberTheoryFunctions computes the
+Jacobi symbol for its two integer arguments. By convention, 0 is
+returned if the greatest common divisor of the numerator and denominator
+is not 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">jacobi</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">15</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="mi">9</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,1,1,0,1,0,0,-1,1,0]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>The operation eulerPhieulerPhiIntegerNumberTheoryFunctions computes the
+values of Euler&#8217;s -function where equals the number of positive integers
+less than or equal to n that are relatively prime to the positive
+integer n.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">eulerPhi</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,1,2,2,4,2,6,4,6,4,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Integer</sub></p>
+<p>The operation moebiusMumoebiusMuIntegerNumberTheoryFunctions computes
+the Möbius λ function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">moebiusMu</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,-1,-1,0,-1,1,-1,0,0,1,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Integer</sub></p>
+<p>Although they have somewhat limited utility, FriCAS provides Roman
+numerals.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="n">roman</span><span class="p">(</span><span class="mi">78</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>LXXVIII</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RomanNumeral</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">roman</span><span class="p">(</span><span class="mi">87</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>LXXXVII</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RomanNumeral</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>CLXV</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RomanNumeral</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>MMMMMMDCCLXXXVI</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RomanNumeral</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="n">rem</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>IX</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RomanNumeral</sub></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">9.34 Integer</a><ul>
+<li><a class="reference internal" href="#basic-functions">9.34.1 Basic Functions</a></li>
+<li><a class="reference internal" href="#primes-and-factorization">9.34.2 Primes and Factorization</a></li>
+<li><a class="reference internal" href="#some-number-theoretic-functions">9.34.3 Some Number Theoretic Functions</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.33.html" title="previous chapter">9.33 HexadecimalExpansion</a></li>
+      <li>Next: <a href="section-9.35.html" title="next chapter">9.35 IntegerLinearDependence</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.34.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.34.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

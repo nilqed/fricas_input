@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>12.11 Conditionals &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="12.12 Anonymous Categories" href="section-12.12.html" />
+    <link rel="prev" title="12.10 Parameters" href="section-12.10.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="conditionals">
+<h1>12.11 Conditionals<a class="headerlink" href="#conditionals" title="Permalink to this headline">¶</a></h1>
+<p>As categories have parameters, the actual operations exported by a
+conditional category can depend on these parameters. As an example, the
+operation determinantdeterminantMatrixCategory from category
+MatrixCategory is only exported when the underlying domain R has
+commutative multiplication:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>if R has commutative(&quot;*&quot;) then
+   determinant: $ -&gt; R
+</pre></div>
+</div>
+<p>Conditionals can also define conditional extensions of a category. Here
+is a portion of the definition of QuotientFieldCategory:
+QuotientFieldCategory</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>QuotientFieldCategory(R) : Category == ... with ...
+     if R has OrderedSet then OrderedSet
+     if R has IntegerNumberSystem then
+       ceiling: $ -&gt; R
+         ...
+</pre></div>
+</div>
+<p>Think of category QuotientFieldCategory(R) as denoting the domain
+Fraction(R), the class of all fractions of the form a/b for elements of
+R. The first conditional means in English: If the elements of R are
+totally ordered ( R is an OrderedSet), then so are the fractions a/b.
+Fraction</p>
+<p>The second conditional is used to conditionally export an operation
+ceiling which returns the smallest integer greater than or equal to its
+argument. Clearly, ceiling makes sense for integers but not for
+polynomials and other algebraic structures. Because of this conditional,
+the domain Fraction(Integer) exports an operation ceiling: Fraction
+Integer-&gt;Integer, but Fraction Polynomial Integer does not.</p>
+<p>Conditionals can also appear in the default definitions for the
+operations of a category. For example, a default definition for
+ceilingceilingField within the part following the add reads:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">R</span> <span class="n">has</span> <span class="n">IntegerNumberSystem</span> <span class="n">then</span>
+    <span class="n">ceiling</span> <span class="n">x</span> <span class="o">==</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>Here the predicate used is identical to the predicate in the Exports
+part. This need not be the case. See
+<a class="reference external" href="section-11.8.html#ugPackagesConds">ugPackagesConds</a> for a more
+complicated example.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-12.10.html" title="previous chapter">12.10 Parameters</a></li>
+      <li>Next: <a href="section-12.12.html" title="next chapter">12.12 Anonymous Categories</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-12.11.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-12.11.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

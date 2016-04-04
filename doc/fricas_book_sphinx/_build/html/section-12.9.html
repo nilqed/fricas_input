@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>12.9 Attributes &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="12.10 Parameters" href="section-12.10.html" />
+    <link rel="prev" title="12.8 Correctness" href="section-12.8.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="attributes">
+<h1>12.9 Attributes<a class="headerlink" href="#attributes" title="Permalink to this headline">¶</a></h1>
+<p>Most axioms are not computationally useful. Those that are can be
+explicitly expressed by what FriCAS calls an attribute. The attribute
+commutative(&#8220;*&#8221;), for example, is used to assert that a domain has
+commutative multiplication. Its definition is given by its
+documentation:</p>
+<p>A domain R has commutative(&#8220;*&#8221;) if it has an operation &#8220;*&#8221;: (R,R)-&gt;R
+such that x*y=y*x.</p>
+<p>Just as you can test whether a domain has the category Ring, you can
+test that a domain has a given attribute.</p>
+<p>Do polynomials over the integers have commutative multiplication?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Polynomial</span> <span class="n">Integer</span> <span class="n">has</span> <span class="n">commutative</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Do matrices over the integers have commutative multiplication?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Matrix</span> <span class="n">Integer</span> <span class="n">has</span> <span class="n">commutative</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Attributes are used to conditionally export and define operations for a
+domain (see
+<a class="reference external" href="section-13.3.html#ugDomainsAssertions">ugDomainsAssertions</a> ).
+Attributes can also be asserted in a category definition.</p>
+<p>After mentioning category Ring many times in this book, it is high time
+that we show you its definition: Ring</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Ring(): Category ==
+  Join(Rng,Monoid,LeftModule($: Rng)) with
+      characteristic: -&gt; NonNegativeInteger
+      coerce: Integer -&gt; $
+      unitsKnown
+    add
+      n:Integer
+      coerce(n) == n * 1$$
+</pre></div>
+</div>
+<p>There are only two new things here. First, look at the $$ on the last
+line. This is not a typographic error! The first $ says that the 1 is to
+come from some domain. The second $ says that the domain is this domain.
+If $ is Fraction(Integer), this line reads coerce(n) == n *
+1$Fraction(Integer).</p>
+<p>The second new thing is the presence of attribute unitsKnown. FriCAS can
+always distinguish an attribute from an operation. An operation has a
+name and a type. An attribute has no type. The attribute unitsKnown
+asserts a rather subtle mathematical fact that is normally taken for
+granted when working with rings.With this axiom, the units of a domain
+are the set of elements x that each have a multiplicative inverse y in
+the domain. Thus 1 and -1 are units in domain Integer. Also, for
+Fraction Integer, the domain of rational numbers, all non-zero elements
+are units. Because programs can test for this attribute, FriCAS can
+correctly handle rather more complicated mathematical structures (ones
+that are similar to rings but do not have this attribute).</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-12.8.html" title="previous chapter">12.8 Correctness</a></li>
+      <li>Next: <a href="section-12.10.html" title="next chapter">12.10 Parameters</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-12.9.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-12.9.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

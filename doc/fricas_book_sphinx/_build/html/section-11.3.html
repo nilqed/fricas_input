@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>11.3 Abstract Datatypes &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="11.4 Capsules" href="section-11.4.html" />
+    <link rel="prev" title="11.2 Syntax" href="section-11.2.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="abstract-datatypes">
+<h1>11.3 Abstract Datatypes<a class="headerlink" href="#abstract-datatypes" title="Permalink to this headline">¶</a></h1>
+<p>A constructor as defined in FriCAS is called an abstract datatype in the
+computer science literature. Abstract datatypes separate specification
+(what operations are provided) from implementation (how the operations
+are implemented). The Exports (specification) part of a constructor is
+said to be public (it provides the user interface to the package)
+whereas the Implementation part is private (information here is
+effectively hidden&#8212;programs cannot take advantage of it).</p>
+<p>The Exports part specifies what operations the package provides to
+users. As an author of a package, you must ensure that the
+Implementation part provides a function for each operation in the
+Exports part.The DrawComplex package enhances the facility described in
+Chapter <a class="reference external" href="section-10.8.html#ugIntProgCompFuns">ugIntProgCompFuns</a> by
+allowing a complex function to have arrows emanating from the surface to
+indicate the direction of the complex argument.</p>
+<p>An important difference between interactive programming and the use of
+packages is in the handling of global variables such as realSteps and
+imagSteps. In interactive programming, you simply change the values of
+variables by assignment. With packages, such variables are local to the
+package&#8212;their values can only be set using functions exported by the
+package. In our example package, we provide two functions setRealSteps
+and setImagSteps for this purpose.</p>
+<p>Another local variable is clipValue which can be changed using the
+exported operation setClipValue. This value is referenced by the
+internal function clipFun that decides whether to use the computed value
+of the function at a point or, if the magnitude of that value is too
+large, the value assigned to clipValue (with the appropriate sign).</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-11.2.html" title="previous chapter">11.2 Syntax</a></li>
+      <li>Next: <a href="section-11.4.html" title="next chapter">11.4 Capsules</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-11.3.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-11.3.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

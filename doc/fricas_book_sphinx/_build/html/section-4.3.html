@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4.3 Common Features of Using Output Formats &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="4.4 Monospace Two-Dimensional Mathematical Format" href="section-4.4.html" />
+    <link rel="prev" title="4.2 The .axiom.input File" href="section-4.2.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="common-features-of-using-output-formats">
+<h1>4.3 Common Features of Using Output Formats<a class="headerlink" href="#common-features-of-using-output-formats" title="Permalink to this headline">¶</a></h1>
+<p>In this section we discuss how to start and stop the display output
+formats:common features of the different output formats and how to send
+the output to the screen or to a file. file:sending output to To fix
+ideas, we use FORTRAN output format for most of the examples.</p>
+<p>You can use the )set output system output formats:starting command to
+output formats:stopping toggle or redirect the different kinds of
+output. set output The name of the kind of output follows output in the
+command. The names are</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>fortran</td>
+<td>for FORTRAN output.</td>
+</tr>
+<tr class="row-even"><td>algebra</td>
+<td>for monospace two-dimensional mathematical output.</td>
+</tr>
+<tr class="row-odd"><td>tex</td>
+<td>for TeX output.</td>
+</tr>
+<tr class="row-even"><td>script</td>
+<td>for IBM Script Formula Format output.</td>
+</tr>
+</tbody>
+</table>
+<p>For example, issue )set output fortran on to turn on FORTRAN format and
+issue )set output fortran off to turn it off. By default, algebra is on
+and all others are off. set output fortran When output is started, it is
+sent to the screen. To send the output to a file, give the file name
+without output formats:sending to file directory or extension. FriCAS
+appends a file extension depending on the kind of output being produced.</p>
+<p>Issue this to redirect FORTRAN output to, for example, the file
+linalg.sfort.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">output</span> <span class="n">fortran</span> <span class="n">linalg</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">FORTRAN</span> <span class="n">output</span> <span class="n">will</span> <span class="n">be</span> <span class="n">written</span> <span class="n">to</span> <span class="n">file</span> <span class="n">linalg</span><span class="o">.</span><span class="n">sfort</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>You must also turn on the creation of FORTRAN output. The above just
+says where it goes if it is created.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">output</span> <span class="n">fortran</span> <span class="n">on</span>
+</pre></div>
+</div>
+<p>In what directory is this output placed? It goes into the directory from
+which you started FriCAS, or if you have used the )cd system command,
+the one that you specified with )cd. cd You should use )cd before you
+send the output to the file.</p>
+<p>You can always direct output back to the screen by issuing this. output
+formats:sending to screen</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">output</span> <span class="n">fortran</span> <span class="n">console</span>
+</pre></div>
+</div>
+<p>Let&#8217;s make sure FORTRAN formatting is off so that nothing we do from now
+on produces FORTRAN output.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">output</span> <span class="n">fortran</span> <span class="n">off</span>
+</pre></div>
+</div>
+<p>We also delete the demonstrated output file we created.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">system</span> <span class="n">rm</span> <span class="n">linalg</span><span class="o">.</span><span class="n">sfort</span>
+</pre></div>
+</div>
+<p>You can abbreviate the words on, off, and console to the minimal number
+of characters needed to distinguish them. Because of this, you cannot
+send output to files called on.sfort, off.sfort, of.sfort,
+console.sfort, consol.sfort and so on.</p>
+<p>The width of the output on the page is set by output formats:line length
+)set output length for all formats except FORTRAN. set output length Use
+)set fortran fortlength to change the FORTRAN line length from its
+default value of 72.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-4.2.html" title="previous chapter">4.2 The .axiom.input File</a></li>
+      <li>Next: <a href="section-4.4.html" title="next chapter">4.4 Monospace Two-Dimensional Mathematical Format</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-4.3.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-4.3.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.35 IntegerLinearDependence &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.36 IntegerNumberTheoryFunctions" href="section-9.36.html" />
+    <link rel="prev" title="9.34 Integer" href="section-9.34.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="integerlineardependence">
+<h1>9.35 IntegerLinearDependence<a class="headerlink" href="#integerlineardependence" title="Permalink to this headline">¶</a></h1>
+<p>The elements v1,…,vn of a module M over a ring R are said to be linearly
+dependent over R if there exist c1,…,cn in R, not all 0, such that
+c1v1+…cnvn=0. If such ci&#8217;s exist, they form what is called a linear
+dependence relation over R for the vi&#8217;s.</p>
+<p>The package IntegerLinearDependence provides functions for testing
+whether some elements of a module over the integers are linearly
+dependent over the integers, and to find the linear dependence
+relations, if any.</p>
+<p>Consider the domain of two by two square matrices with integer entries.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="p">:</span><span class="o">=</span> <span class="n">SQMATRIX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>SquareMatrix(2,Integer)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Now create three such matrices.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m1</span><span class="p">:</span> <span class="n">M</span> <span class="p">:</span><span class="o">=</span> <span class="n">squareMatrix</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[120-1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m2</span><span class="p">:</span> <span class="n">M</span> <span class="p">:</span><span class="o">=</span> <span class="n">squareMatrix</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[231-2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m3</span><span class="p">:</span> <span class="n">M</span> <span class="p">:</span><span class="o">=</span> <span class="n">squareMatrix</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[342-3]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<p>This tells you whether m1, m2 and m3 are linearly dependent over the
+integers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>linearlyDependentOverZ? vector [m1, m2, m3]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>Since they are linearly dependent, you can ask for the dependence
+relation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="n">linearDependenceOverZ</span> <span class="n">vector</span> <span class="p">[</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,-2,1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Vector Integer,...)</sub></p>
+<p>This means that the following linear combination should be 0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">c</span><span class="o">.</span><span class="mi">1</span> <span class="o">*</span> <span class="n">m1</span> <span class="o">+</span> <span class="n">c</span><span class="o">.</span><span class="mi">2</span> <span class="o">*</span> <span class="n">m2</span> <span class="o">+</span> <span class="n">c</span><span class="o">.</span><span class="mi">3</span> <span class="o">*</span> <span class="n">m3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<p>When a given set of elements are linearly dependent over R, this also
+means that at least one of them can be rewritten as a linear combination
+of the others with coefficients in the quotient field of R.</p>
+<p>To express a given element in terms of other elements, use the operation
+solveLinearlyOverQsolveLinearlyOverQIntegerLinearDependence.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solveLinearlyOverQ</span><span class="p">(</span><span class="n">vector</span> <span class="p">[</span><span class="n">m1</span><span class="p">,</span> <span class="n">m3</span><span class="p">],</span> <span class="n">m2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[12,12]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Vector Fraction Integer,...)</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.34.html" title="previous chapter">9.34 Integer</a></li>
+      <li>Next: <a href="section-9.36.html" title="next chapter">9.36 IntegerNumberTheoryFunctions</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.35.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.35.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

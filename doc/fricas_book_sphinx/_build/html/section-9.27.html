@@ -1,0 +1,711 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.27 Float &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.28 Fraction" href="section-9.28.html" />
+    <link rel="prev" title="9.26 FlexibleArray" href="section-9.26.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="float">
+<h1>9.27 Float<a class="headerlink" href="#float" title="Permalink to this headline">¶</a></h1>
+<p>FriCAS provides two kinds of floating point numbers. The domain Float
+(abbreviation FLOAT) implements a model of arbitrary precision floating
+point numbers. The domain DoubleFloat (abbreviation DFLOAT) is intended
+to make available hardware floating point arithmetic in FriCAS. The
+actual model of floating point that DoubleFloat provides is
+system-dependent. For example, on the IBM system 370 FriCAS uses IBM
+double precision which has fourteen hexadecimal digits of precision or
+roughly sixteen decimal digits. Arbitrary precision floats allow the
+user to specify the precision at which arithmetic operations are
+computed. Although this is an attractive facility, it comes at a cost.
+Arbitrary-precision floating-point arithmetic typically takes twenty to
+two hundred times more time than hardware floating point.</p>
+<p>For more information about FriCAS&#8217;s numeric and graphic facilities, see
+<a class="reference external" href="ugGraphPage">ugGraphPage</a> in Section
+<a class="reference external" href="ugGraphNumber">ugGraphNumber</a> ,
+<a class="reference external" href="section-8.1.html#ugProblemNumeric">ugProblemNumeric</a> , and
+<a class="reference external" href="section-9.17.html#DoubleFloatXmpPage">DoubleFloatXmpPage</a> .</p>
+<div class="section" id="introduction-to-float">
+<h2>9.27.1 Introduction to Float<a class="headerlink" href="#introduction-to-float" title="Permalink to this headline">¶</a></h2>
+<p>Scientific notation is supported for input and output of floating point
+numbers. A floating point number is written as a string of digits
+containing a decimal point optionally followed by the letter E, and then
+the exponent.</p>
+<p>We begin by doing some calculations using arbitrary precision floats.
+The default precision is twenty decimal digits.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">1.234</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1.234</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>A decimal base for the exponent is assumed, so the number 1.234E2
+denotes .</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">1.234E2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>123.4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>The normal arithmetic operations are available for floating point
+numbers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.2</span> <span class="o">+</span> <span class="mf">2.3</span> <span class="o">/</span> <span class="mf">3.4</span> <span class="o">^</span> <span class="mf">4.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1.0996972790671286226</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+</div>
+<div class="section" id="conversion-functions">
+<h2>9.27.2 Conversion Functions<a class="headerlink" href="#conversion-functions" title="Permalink to this headline">¶</a></h2>
+<p>You can use conversion (<a class="reference external" href="ugTypesConvertPage">ugTypesConvertPage</a> in
+Section <a class="reference external" href="ugTypesConvertNumber">ugTypesConvertNumber</a> ) to go back and
+forth between Integer, Fraction Integer and Float, as appropriate.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">3</span> <span class="p">::</span> <span class="n">Float</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3.0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="p">::</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="p">::</span> <span class="n">Fraction</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>Since you are explicitly asking for a conversion, you must take
+responsibility for any loss of exactness.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="mi">3</span><span class="o">/</span><span class="mi">7</span> <span class="p">::</span> <span class="n">Float</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.42857142857142857143</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">::</span> <span class="n">Fraction</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>37</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>This conversion cannot be performed: use truncatetruncateFloat or
+roundroundFloat if that is what you intend.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">::</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Cannot</span> <span class="n">convert</span> <span class="kn">from</span> <span class="nn">type</span> <span class="n">Float</span> <span class="n">to</span> <span class="n">Integer</span> <span class="k">for</span> <span class="n">value</span>
+<span class="mf">0.4285714285</span> <span class="mi">7142857143</span>
+</pre></div>
+</div>
+<p>The operations truncatetruncateFloat and roundroundFloat truncate ...</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">truncate</span> <span class="mf">3.6</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3.0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>and round to the nearest integral Float respectively.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">round</span> <span class="mf">3.6</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4.0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">truncate</span><span class="p">(</span><span class="o">-</span><span class="mf">3.6</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-3.0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">round</span><span class="p">(</span><span class="o">-</span><span class="mf">3.6</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-4.0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>The operation fractionPartfractionPartFloat computes the fractional part
+of x, that is, x - truncate x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fractionPart</span> <span class="mf">3.6</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.6</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>The operation digitsdigitsFloat allows the user to set the precision. It
+returns the previous value it was using.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">digits</span> <span class="mi">40</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>20</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sqrt</span> <span class="mf">0.2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.4472135954999579392818347337462552470881</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>pi()$Float
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3.141592653589793238462643383279502884197</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>The precision is only limited by the computer memory available.
+Calculations at 500 or more digits of precision are not difficult.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">digits</span> <span class="mi">500</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>40</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>pi()$Float
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>Reset digitsdigitsFloat to its default value.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">digits</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>500</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Numbers of type Float are represented as a record of two integers,
+namely, the mantissa and the exponent where the base of the exponent is
+binary. That is, the floating point number (m,e) represents the number .
+A consequence of using a binary base is that decimal numbers can not, in
+general, be represented exactly.</p>
+</div>
+<div class="section" id="output-functions">
+<h2>9.27.3 Output Functions<a class="headerlink" href="#output-functions" title="Permalink to this headline">¶</a></h2>
+<p>A number of operations exist for specifying how numbers of type Float
+are to be displayed. By default, spaces are inserted every ten digits in
+the output for readability.Note that you cannot include spaces in the
+input form of a floating point number, though you can use underscores.</p>
+<p>Output spacing can be modified with the outputSpacingoutputSpacingFloat
+operation. This inserts no spaces and then displays the value of x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputSpacing</span> <span class="mi">0</span><span class="p">;</span> <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">sqrt</span> <span class="mf">0.2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.44721359549995793928</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>Issue this to have the spaces inserted every 5 digits.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputSpacing</span> <span class="mi">5</span><span class="p">;</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.44721359549995793928</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>By default, the system displays floats in either fixed format or
+scientific format, depending on the magnitude of the number.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="mi">10</span><span class="o">^</span><span class="mi">10</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.44721359549995793928E&nbsp;-10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>A particular format may be requested with the operations
+outputFloatingoutputFloatingFloat and outputFixedoutputFixedFloat.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputFloating</span><span class="p">();</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.44721359549995793928E&nbsp;0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputFixed</span><span class="p">();</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.000000000044721359549995793928</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>Additionally, you can ask for n digits to be displayed after the decimal
+point.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputFloating</span> <span class="mi">2</span><span class="p">;</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.45E&nbsp;-10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputFixed</span> <span class="mi">2</span><span class="p">;</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.45</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>This resets the output printing to the default behavior.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputGeneral</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+</div>
+<div class="section" id="an-example-determinant-of-a-hilbert-matrix">
+<h2>9.27.4 An Example: Determinant of a Hilbert Matrix<a class="headerlink" href="#an-example-determinant-of-a-hilbert-matrix" title="Permalink to this headline">¶</a></h2>
+<p>Consider the problem of computing the determinant of a 10 by 10 Hilbert
+matrix. The (i,j)-th entry of a Hilbert matrix is given by 1/(i+j+1).</p>
+<p>First do the computation using rational numbers to obtain the exact
+result.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">:</span> <span class="n">Matrix</span> <span class="n">Fraction</span> <span class="n">Integer</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="mi">9</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span>
+</pre></div>
+</div>
+<p>in 0..9]</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[11213141516171819110121314151617181911011113141516171819110111112141516171819110111112113151617181911011111211311416171819110111112113114115171819110111112113114115116181911011111211311411511611719110111112113114115116117118110111112113114115116117118119]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Fraction Integer</sub></p>
+<p>This version of determinantdeterminantMatrix uses Gaussian elimination.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span><span class="p">:</span><span class="o">=</span> <span class="n">determinant</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>146206893947914691316295628839036278726983680000000000</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="p">::</span> <span class="n">Float</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.21641792264314918691E&nbsp;-52</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>Now use hardware floats. Note that a semicolon (;) is used to prevent
+the display of the matrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>b: Matrix DoubleFloat := matrix [ [1/(i+j+1$DoubleFloat) for j in 0..9]
+</pre></div>
+</div>
+<p>for i in 0..9];</p>
+<p><sub>Type: Matrix DoubleFloat</sub></p>
+<p>The result given by hardware floats is correct only to four significant
+digits of precision. In the jargon of numerical analysis, the Hilbert
+matrix is said to be ill-conditioned.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">determinant</span> <span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2.1643677945721411e-53</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DoubleFloat</sub></p>
+<p>Now repeat the computation at a higher precision using Float.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">digits</span> <span class="mi">40</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>20</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>c: Matrix Float := matrix [ [1/(i+j+1$Float) for j in 0..9] for i in
+</pre></div>
+</div>
+<p>0..9];</p>
+<p><sub>Type: Matrix Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">determinant</span> <span class="n">c</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.2164179226431491869060594983622617436159E&nbsp;-52</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>Reset digitsdigitsFloat to its default value.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">digits</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>40</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">9.27 Float</a><ul>
+<li><a class="reference internal" href="#introduction-to-float">9.27.1 Introduction to Float</a></li>
+<li><a class="reference internal" href="#conversion-functions">9.27.2 Conversion Functions</a></li>
+<li><a class="reference internal" href="#output-functions">9.27.3 Output Functions</a></li>
+<li><a class="reference internal" href="#an-example-determinant-of-a-hilbert-matrix">9.27.4 An Example: Determinant of a Hilbert Matrix</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.26.html" title="previous chapter">9.26 FlexibleArray</a></li>
+      <li>Next: <a href="section-9.28.html" title="next chapter">9.28 Fraction</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.27.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.27.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.4 Computation of Eigenvalues and Eigenvectors &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="8.5 Solution of Linear and Polynomial Equations" href="section-8.5.html" />
+    <link rel="prev" title="8.3 Manipulating Symbolic Roots of a Polynomial" href="section-8.3.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p>Index &lt;book-index.html&gt;`__</p>
+<div class="section" id="computation-of-eigenvalues-and-eigenvectors">
+<h1>8.4 Computation of Eigenvalues and Eigenvectors<a class="headerlink" href="#computation-of-eigenvalues-and-eigenvectors" title="Permalink to this headline">¶</a></h1>
+<p>In this section we show you some of FriCAS&#8217;s facilities for computing
+and eigenvalue manipulating eigenvalues and eigenvectors, also called
+eigenvector characteristic values and characteristic vectors,
+characteristic:value respectively. characteristic:vector</p>
+<p>Let&#8217;s first create a matrix with integer entries.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m1</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[12121-21-24]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<p>To get a list of the rational eigenvalues, use the operation
+eigenvalues.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leig</span> <span class="p">:</span><span class="o">=</span> <span class="n">eigenvalues</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<p><sub>Type: List Union(Fraction Polynomial Integer,SuchThat(Symbol,Polynomial</sub>
+Integer))</p>
+<p>Given an explicit eigenvalue, eigenvector computes the eigenvectors
+corresponding to it.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eigenvector</span><span class="p">(</span><span class="n">first</span><span class="p">(</span><span class="n">leig</span><span class="p">),</span><span class="n">m1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[0-121]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Matrix Fraction Polynomial Fraction Integer</sub></p>
+<p>The operation eigenvectors returns a list of pairs of values and
+vectors. When an eigenvalue is rational, FriCAS gives you the value
+explicitly; otherwise, its minimal polynomial is given, (the polynomial
+of lowest degree with the eigenvalues as roots), together with a
+parametric representation of the eigenvector using the eigenvalue. This
+means that if you ask FriCAS to solve the minimal polynomial, then you
+can substitute these roots polynomial:minimal into the parametric form
+of the corresponding eigenvectors. minimal polynomial</p>
+<p>You must be aware that unless an exact eigenvalue has been computed, the
+eigenvector may be badly in error.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eigenvectors</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<p><sub>Type: List Record(eigval: Union(Fraction Polynomial</sub>
+Integer,SuchThat(Symbol,Polynomial Integer)),eigmult:
+NonNegativeInteger,eigvec: List Matrix Fraction Polynomial Integer)</p>
+<p>Another possibility is to use the operation radicalEigenvectors tries to
+compute explicitly the eigenvectors in terms of radicals. radical</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">radicalEigenvectors</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[radval=21+12,radmult=1,radvect=[[21+1221]]],[radval=-21+12,radmult=1,radvect=[[-21+1221]]],[radval=5,radmult=1,radvect=[[0-121]]]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Record(radval: Expression Integer,radmult: Integer,radvect:</sub>
+List Matrix Expression Integer)</p>
+<p>Alternatively, FriCAS can compute real or complex approximations to the
+approximation eigenvectors and eigenvalues using the operations
+realEigenvectors or complexEigenvectors. They each take an additional
+argument to specify the precision required. precision In the real case,
+this means that each approximation will be within of the actual result.
+In the complex case, this means that each approximation will be within
+of the actual result in each of the real and imaginary parts.</p>
+<p>The precision can be specified as a Float if the results are desired in
+floating-point notation, or as Fraction Integer if the results are to be
+expressed using rational (or complex rational) numbers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">realEigenvectors</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[outval=5,outmult=1,outvect=[[0-121]]],[outval=57172048,outmult=1,outvect=[[5717204821]]],[outval=-36692048,outmult=1,outvect=[[-3669204821]]]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Record(outval: Fraction Integer,outmult: Integer,outvect:</sub>
+List Matrix Fraction Integer)</p>
+<p>If an n by n matrix has n distinct eigenvalues (and therefore n
+eigenvectors) the operation eigenMatrix gives you a matrix of the
+eigenvectors.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eigenMatrix</span><span class="p">(</span><span class="n">m1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[21+12-21+12022-12111]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Matrix Expression Integer,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m2</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">],[</span><span class="mi">18</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-5-2187]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eigenMatrix</span><span class="p">(</span><span class="n">m2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;failed&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+<p>If a symmetric matrix matrix:symmetric has a basis of orthonormal
+eigenvectors, then basis:orthonormal orthonormalBasis computes a list of
+these vectors. orthonormal basis</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m3</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1221]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">orthonormalBasis</span><span class="p">(</span><span class="n">m3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[-1212],[1212]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Matrix Expression Integer</sub></p>
+<p>Index &lt;book-index.html&gt;`__</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-8.3.html" title="previous chapter">8.3 Manipulating Symbolic Roots of a Polynomial</a></li>
+      <li>Next: <a href="section-8.5.html" title="next chapter">8.5 Solution of Linear and Polynomial Equations</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-8.4.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-8.4.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

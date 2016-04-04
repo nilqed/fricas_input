@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>11.5 Input Files vs. Packages &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="11.6 Compiling Packages" href="section-11.6.html" />
+    <link rel="prev" title="11.4 Capsules" href="section-11.4.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="input-files-vs-packages">
+<h1>11.5 Input Files vs. Packages<a class="headerlink" href="#input-files-vs-packages" title="Permalink to this headline">¶</a></h1>
+<p>A good question at this point would be Is writing a package more
+difficult than writing an input file?</p>
+<p>The programs in input files are designed for flexibility and
+ease-of-use. FriCAS can usually work out all of your types as it reads
+your program and does the computations you request. Let&#8217;s say that you
+define a one-argument function without giving its type. When you first
+apply the function to a value, this value is understood by FriCAS as
+identifying the type for the argument parameter. Most of the time FriCAS
+goes through the body of your function and figures out the target type
+that you have in mind. FriCAS sometimes fails to get it right.
+Then&#8212;and only then&#8212;do you need a declaration to tell FriCAS what
+type you want.</p>
+<p>Input files are usually written to be read by FriCAS&#8212;and by you.
+<a class="reference external" href="file:input:vs">file:input:vs</a>. package Without suitable documentation and declarations,
+your input files package:vs. input file are likely incomprehensible to a
+colleague&#8212;and to you some months later!</p>
+<p>Packages are designed for legibility, as well as run-time efficiency.
+There are few new concepts you need to learn to write packages. Rather,
+you just have to be explicit about types and type conversions. The types
+of all functions are pre-declared so that FriCAS&#8212;and the reader&#8212;
+knows precisely what types of arguments can be passed to and from the
+functions (certainly you don&#8217;t want a colleague to guess or to have to
+work this out from context!). The types of local variables are also
+declared. Type conversions are explicit, never automatic.There is one
+exception to this rule: conversions from a subdomain to a domain are
+automatic. After all, the objects both have the domain as a common type.</p>
+<p>In summary, packages are more tedious to write than input files. When
+writing input files, you can casually go ahead, giving some facts now,
+leaving others for later. Writing packages requires forethought, care
+and discipline.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-11.4.html" title="previous chapter">11.4 Capsules</a></li>
+      <li>Next: <a href="section-11.6.html" title="next chapter">11.6 Compiling Packages</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-11.5.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-11.5.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

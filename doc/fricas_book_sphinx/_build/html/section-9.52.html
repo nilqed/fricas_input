@@ -1,0 +1,766 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.52 Matrix &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.53 MultiSet" href="section-9.53.html" />
+    <link rel="prev" title="9.51 MappingPackage1" href="section-9.51.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="matrix">
+<h1>9.52 Matrix<a class="headerlink" href="#matrix" title="Permalink to this headline">¶</a></h1>
+<p>The Matrix domain provides arithmetic operations on matrices and
+standard functions from linear algebra. This domain is similar to the
+TwoDimensionalArray domain, except that the entries for Matrix must
+belong to a Ring.</p>
+<div class="section" id="creating-matrices">
+<h2>9.52.1 Creating Matrices<a class="headerlink" href="#creating-matrices" title="Permalink to this headline">¶</a></h2>
+<p>There are many ways to create a matrix from a collection of values or
+from existing matrices.</p>
+<p>If the matrix has almost all items equal to the same value, use
+newnewMatrix to create a matrix filled with that value and then reset
+the entries that are different.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[000000000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<p>To change the entry in the second row, third column to 5, use
+seteltseteltMatrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">setelt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>5</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>An alternative syntax is to use assignment.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The matrix was destructively modified.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0100005000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<p>If you already have the matrix entries as a list of lists, use
+matrixmatrixMatrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[12340987]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<p>If the matrix is diagonal, use diagonalMatrixdiagonalMatrixMatrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dm</span> <span class="p">:</span><span class="o">=</span> <span class="n">diagonalMatrix</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="p">,</span><span class="n">x</span><span class="o">^</span><span class="mi">4</span><span class="p">,</span><span class="n">x</span><span class="o">^</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[100000x200000x300000x400000x5]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Polynomial Integer</sub></p>
+<p>Use setRowsetRowMatrix and setColumnsetColumnMatrix to change a row or
+column of a matrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>setRow!(dm,5,vector [1,1,1,1,1])
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[100000x200000x300000x4011111]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>setColumn!(dm,2,vector [y,y,y,y,y])
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1y0000y0000yx3000y0x401y111]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Polynomial Integer</sub></p>
+<p>Use copycopyMatrix to make a copy of a matrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cdm</span> <span class="p">:</span><span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">dm</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1y0000y0000yx3000y0x401y111]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Polynomial Integer</sub></p>
+<p>This is useful if you intend to modify a matrix destructively but want a
+copy of the original.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">setelt</span><span class="p">(</span><span class="n">dm</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="o">^</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-x7+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">dm</span><span class="p">,</span><span class="n">cdm</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[1y0000y0000yx300-x7+1y0x401y111],[1y0000y0000yx3000y0x401y111]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Matrix Polynomial Integer</sub></p>
+<p>Use subMatrixsubMatrixMatrix to extract part of an existing matrix. The
+syntax is subMatrix(m, firstrow, lastrow, firstcol, lastcol).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">subMatrix</span><span class="p">(</span><span class="n">dm</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[y00yx30]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Polynomial Integer</sub></p>
+<p>To change a submatrix, use setsubMatrixsetsubMatrixMatrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="p">:</span><span class="o">=</span> <span class="n">diagonalMatrix</span> <span class="p">[</span><span class="mf">1.2</span><span class="p">,</span><span class="o">-</span><span class="mf">1.3</span><span class="p">,</span><span class="mf">1.4</span><span class="p">,</span><span class="o">-</span><span class="mf">1.5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1.20.00.00.00.0-1.30.00.00.00.01.40.00.00.00.0-1.5]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Float</sub></p>
+<p>If e is too big to fit where you specify, an error message is displayed.
+Use subMatrixsubMatrixMatrix to extract part of e, if necessary.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">e</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mf">6.7</span><span class="p">,</span><span class="mf">9.11</span><span class="p">],[</span><span class="o">-</span><span class="mf">31.33</span><span class="p">,</span><span class="mf">67.19</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[6.79.11-31.3367.19]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Float</sub></p>
+<p>This changes the submatrix of d whose upper left corner is at the first
+row and second column and whose size is that of e.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>setsubMatrix!(d,1,2,e)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1.26.79.110.00.0-31.3367.190.00.00.01.40.00.00.00.0-1.5]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1.26.79.110.00.0-31.3367.190.00.00.01.40.00.00.00.0-1.5]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Float</sub></p>
+<p>Matrices can be joined either horizontally or vertically to make new
+matrices.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">],[</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">7</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[121314151617]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">3</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="o">/</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="o">/</span><span class="mi">11</span><span class="p">],[</span><span class="mi">3</span><span class="o">/</span><span class="mi">13</span><span class="p">,</span><span class="mi">3</span><span class="o">/</span><span class="mi">17</span><span class="p">,</span><span class="mi">3</span><span class="o">/</span><span class="mi">19</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[3537311313317319]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Fraction Integer</sub></p>
+<p>Use horizConcathorizConcatMatrix to append them side to side. The two
+matrices must have the same number of rows.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">horizConcat</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1213143537311151617313317319]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Fraction Integer</sub></p>
+<p>Use vertConcatvertConcatMatrix to stack one upon the other. The two
+matrices must have the same number of columns.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">vab</span> <span class="p">:</span><span class="o">=</span> <span class="n">vertConcat</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1213141516173537311313317319]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Fraction Integer</sub></p>
+<p>The operation transposetransposeMatrix is used to create a new matrix by
+reflection across the main diagonal.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">transpose</span> <span class="n">vab</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1215353131316373171417311319]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Fraction Integer</sub></p>
+</div>
+<div class="section" id="operations-on-matrices">
+<h2>9.52.2 Operations on Matrices<a class="headerlink" href="#operations-on-matrices" title="Permalink to this headline">¶</a></h2>
+<p>FriCAS provides both left and right scalar multiplication.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1234]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">4</span> <span class="o">*</span> <span class="n">m</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-20-40-60-80]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<p>You can add, subtract, and multiply matrices provided, of course, that
+the matrices have compatible dimensions. If not, an error message is
+displayed.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span><span class="p">([</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">],[</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[10-2-351]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<p>This following product is defined but n * m is not.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">*</span> <span class="n">n</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-5100-920-2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<p>The operations nrowsnrowsMatrix and ncolsncolsMatrix return the number
+of rows and columns of a matrix. You can extract a row or a column of a
+matrix using the operations rowrowMatrix and columncolumnMatrix. The
+object returned is a Vector.</p>
+<p>Here is the third column of the matrix n.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">vec</span> <span class="p">:</span><span class="o">=</span> <span class="n">column</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-2,1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector Integer</sub></p>
+<p>You can multiply a matrix on the left by a row vector and on the right
+by a column vector.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">vec</span> <span class="o">*</span> <span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,0]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector Integer</sub></p>
+<p>Of course, the dimensions of the vector and the matrix must be
+compatible or an error message is returned.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">*</span> <span class="n">vec</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,-2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector Integer</sub></p>
+<p>The operation inverseinverseMatrix computes the inverse of a matrix if
+the matrix is invertible, and returns &#8220;failed&#8221; if not.</p>
+<p>This Hilbert matrix is invertible.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hilb</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span><span class="p">([</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[121314131415141516]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">inverse</span><span class="p">(</span><span class="n">hilb</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[72-240180-240900-720180-720600]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Matrix Fraction Integer,...)</sub></p>
+<p>This matrix is not invertible.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mm</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span><span class="p">([</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">],</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">],</span> <span class="p">[</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">16</span><span class="p">]</span> <span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[12345678910111213141516]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">inverse</span><span class="p">(</span><span class="n">mm</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;failed&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+<p>The operation determinantdeterminantMatrix computes the determinant of a
+matrix provided that the entries of the matrix belong to a
+CommutativeRing.</p>
+<p>The above matrix mm is not invertible and, hence, must have determinant
+0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">determinant</span><span class="p">(</span><span class="n">mm</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>The operation tracetraceSquareMatrix computes the trace of a square
+matrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">trace</span><span class="p">(</span><span class="n">mm</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>34</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The operation rankrankMatrix computes the rank of a matrix: the maximal
+number of linearly independent rows or columns.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rank</span><span class="p">(</span><span class="n">mm</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The operation nullitynullityMatrix computes the nullity of a matrix: the
+dimension of its null space.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nullity</span><span class="p">(</span><span class="n">mm</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The operation nullSpacenullSpaceMatrix returns a list containing a basis
+for the null space of a matrix. Note that the nullity is the number of
+elements in a basis for the null space.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nullSpace</span><span class="p">(</span><span class="n">mm</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[1,-2,1,0],[2,-3,0,1]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Vector Integer</sub></p>
+<p>The operation rowEchelonrowEchelonMatrix returns the row echelon form of
+a matrix. It is easy to see that the rank of this matrix is two and that
+its nullity is also two.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rowEchelon</span><span class="p">(</span><span class="n">mm</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[12340481200000000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<p>For more information on related topics, see
+<a class="reference external" href="ugIntroTwoDimPage">ugIntroTwoDimPage</a> in Section
+<a class="reference external" href="ugIntroTwoDimNumber">ugIntroTwoDimNumber</a> ,
+<a class="reference external" href="ugProblemEigenPage">ugProblemEigenPage</a> in Section
+<a class="reference external" href="ugProblemEigenNumber">ugProblemEigenNumber</a> ,
+<a class="reference external" href="ugxFloatHilbertPage">ugxFloatHilbertPage</a> in Section
+<a class="reference external" href="ugxFloatHilbertNumber">ugxFloatHilbertNumber</a> ,
+<a class="reference external" href="section-9.62.html#PermanentXmpPage">PermanentXmpPage</a> ,
+<a class="reference external" href="section-9.85.html#VectorXmpPage">VectorXmpPage</a> ,
+<a class="reference external" href="section-9.57.html#OneDimensionalArrayXmpPage">OneDimensionalArrayXmpPage</a>
+, and
+<a class="reference external" href="section-9.82.html#TwoDimensionalArrayXmpPage">TwoDimensionalArrayXmpPage</a>
+.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">9.52 Matrix</a><ul>
+<li><a class="reference internal" href="#creating-matrices">9.52.1 Creating Matrices</a></li>
+<li><a class="reference internal" href="#operations-on-matrices">9.52.2 Operations on Matrices</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.51.html" title="previous chapter">9.51 MappingPackage1</a></li>
+      <li>Next: <a href="section-9.53.html" title="next chapter">9.53 MultiSet</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.52.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.52.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

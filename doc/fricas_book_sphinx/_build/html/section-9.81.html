@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.81 TextFile &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.82 TwoDimensionalArray" href="section-9.82.html" />
+    <link rel="prev" title="9.80 Table" href="section-9.80.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="textfile">
+<h1>9.81 TextFile<a class="headerlink" href="#textfile" title="Permalink to this headline">¶</a></h1>
+<p>The domain TextFile allows FriCAS to read and write character data and
+exchange text with other programs. This type behaves in FriCAS much like
+a File of strings, with additional operations to cause new lines. We
+give an example of how to produce an upper case copy of a file.</p>
+<p>This is the file from which we read the text.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f1</span><span class="p">:</span> <span class="n">TextFile</span> <span class="p">:</span><span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/etc/group&quot;</span><span class="p">,</span> <span class="s2">&quot;input&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;/etc/group&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: TextFile</sub></p>
+<p>This is the file to which we write the text.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f2</span><span class="p">:</span> <span class="n">TextFile</span> <span class="p">:</span><span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/tmp/MOTD&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;/tmp/MOTD&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: TextFile</sub></p>
+<p>Entire lines are handled using the readLinereadLineTextFile and
+writeLinewriteLineTextFile operations.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>l := readLine! f1
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;root:x:0:root&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>writeLine!(f2, upperCase l)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;ROOT:X:0:ROOT&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>Use the endOfFile?endOfFile?TextFile operation to check if you have
+reached the end of the file.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>while not endOfFile? f1 repeat
+    s := readLine! f1
+    writeLine!(f2, upperCase s)
+</pre></div>
+</div>
+<p>Void</p>
+<p>The file f1 is exhausted and should be closed.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>close! f1
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;/etc/group&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: TextFile</sub></p>
+<p>It is sometimes useful to write lines a bit at a time. The
+writewriteTextFile operation allows this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>write!(f2, &quot;-The-&quot;)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;-The-&#8220;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>write!(f2, &quot;-End-&quot;)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;-End-&#8220;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>This ends the line. This is done in a machine-dependent manner.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>writeLine! f2
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>close! f2
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;/tmp/MOTD&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: TextFile</sub></p>
+<p>Finally, clean up.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">system</span> <span class="n">rm</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">MOTD</span>
+</pre></div>
+</div>
+<p>For more information on related topics, see
+<a class="reference external" href="section-9.24.html#FileXmpPage">FileXmpPage</a> ,
+<a class="reference external" href="section-9.38.html#KeyedAccessFileXmpPage">KeyedAccessFileXmpPage</a> ,
+and <a class="reference external" href="section-9.41.html#LibraryXmpPage">LibraryXmpPage</a> .</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.80.html" title="previous chapter">9.80 Table</a></li>
+      <li>Next: <a href="section-9.82.html" title="next chapter">9.82 TwoDimensionalArray</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.81.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.81.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.2 Writing Types and Modes &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="2.3 Declarations" href="section-2.3.html" />
+    <link rel="prev" title="2.1 The Basic Idea" href="section-2.1.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="writing-types-and-modes">
+<h1>2.2 Writing Types and Modes<a class="headerlink" href="#writing-types-and-modes" title="Permalink to this headline">¶</a></h1>
+<p>We have already seen in the last section
+<a class="reference external" href="section-2.1.html#ugTypesBasic">ugTypesBasic</a> several examples of
+types. Most of these examples had either no arguments (for example,
+Integer) or one argument (for example, Polynomial (Integer)). In this
+section we give details about writing arbitrary types. We then define
+modes and discuss how to write them. We conclude the section with a
+discussion on constructor abbreviations.</p>
+<p>When might you need to write a type or mode? You need to do so when you
+declare variables.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span> <span class="n">PositiveInteger</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>You need to do so when you declare functions (See Section
+<a class="reference external" href="section-2.3.html#ugTypesDeclare">ugTypesDeclare</a> ),</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">String</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>You need to do so when you convert an object from one type to another
+(See Section <a class="reference external" href="section-2.7.html#ugTypesConvert">ugTypesConvert</a> ).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="mi">2</span> <span class="p">::</span> <span class="n">Complex</span><span class="p">(</span><span class="n">Integer</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{i \  {{{\left( 1+i
+  \right)}} ^ {2}}}\]</div>
+<p><sub>Type: Factored Complex Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(2 = 3) $Integer
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{false}\]</div>
+<p><sub>Type: Boolean</sub></p>
+<p>You need to do so when you give computation target type information (See
+Section <a class="reference external" href="section-2.9.html#ugTypesPkgCall">ugTypesPkgCall</a> ).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span><span class="nd">@Boolean</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{false}\]</div>
+<p><sub>Type: Boolean</sub></p>
+<div class="section" id="types-with-no-arguments">
+<h2>2.2.1 Types with No Arguments<a class="headerlink" href="#types-with-no-arguments" title="Permalink to this headline">¶</a></h2>
+<p>A constructor with no arguments can be written either with or without
+parentheses:using with types trailing opening and closing parentheses <code class="docutils literal"><span class="pre">()</span></code>.</p>
+<div class="line-block">
+<div class="line">Boolean() is the same as Boolean</div>
+<div class="line">Integer() is the same as Integer</div>
+<div class="line">String() is the same as String</div>
+<div class="line">Void() is the same as Void</div>
+</div>
+<p>It is customary to omit the parentheses.</p>
+</div>
+<div class="section" id="types-with-one-argument">
+<h2>2.2.2 Types with One Argument<a class="headerlink" href="#types-with-one-argument" title="Permalink to this headline">¶</a></h2>
+<p>A constructor with one argument can frequently be type:using parentheses
+written with no parentheses:using with types parentheses. Types nest
+from right to left so that Complex Fraction Polynomial Integer is the
+same as Complex (Fraction (Polynomial (Integer))). You need to use
+parentheses to force the application of a constructor to the correct
+argument, but you need not use any more than is necessary to remove
+ambiguities.</p>
+<p>Here are some guidelines for using parentheses (they are possibly
+slightly more restrictive than they need to be).</p>
+<p>If the argument is an expression like 2+3 then you must enclose the
+argument in parentheses.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">e</span> <span class="p">:</span> <span class="n">PrimeField</span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>If the type is to be used with <em>package calling</em> then you must enclose the
+argument in parentheses.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>content(2) $Polynomial(Integer)
+</pre></div>
+</div>
+<div class="math">
+\[2\]</div>
+<p><sub>Type: Integer</sub></p>
+<p>Alternatively, you can write the type without parentheses then enclose
+the whole type expression with parentheses.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>content(2) $(Polynomial Complex Fraction Integer)
+</pre></div>
+</div>
+<div class="math">
+\[2\]</div>
+<p><sub>Type: Complex Fraction Integer</sub></p>
+<p>If you supply computation target type information (See Section
+<a class="reference external" href="section-2.9.html#ugTypesPkgCall">ugTypesPkgCall</a> ) then you should
+enclose the argument in parentheses.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="nd">@Fraction</span><span class="p">(</span><span class="n">Polynomial</span><span class="p">(</span><span class="n">Integer</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[2 \over 3\]</div>
+<p><sub>Type: Fraction Polynomial Integer</sub></p>
+<p>If the type itself has parentheses around it and we are not in the case
+of the first example above, then the parentheses can usually be omitted.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="nd">@Fraction</span><span class="p">(</span><span class="n">Polynomial</span> <span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[2 \over 3\]</div>
+<p><sub>Type: Fraction Polynomial Integer</sub></p>
+<p>If the type is used in a declaration and the argument is a single-word
+type, integer or symbol, then the parentheses can usually be omitted.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">)</span> <span class="p">:</span> <span class="n">Complex</span> <span class="n">Polynomial</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+</div>
+<div class="section" id="types-with-more-than-one-argument">
+<h2>2.2.3 Types with More Than One Argument<a class="headerlink" href="#types-with-more-than-one-argument" title="Permalink to this headline">¶</a></h2>
+<p>If a constructor type:using parentheses has more than parentheses:using
+with types one argument, you must use parentheses. Some examples are</p>
+<div class="line-block">
+<div class="line">UnivariatePolynomial(x, Float)</div>
+<div class="line">MultivariatePolynomial([z,w,r], Complex Float)</div>
+<div class="line">SquareMatrix(3, Integer)</div>
+<div class="line">FactoredFunctions2(Integer,Fraction Integer)</div>
+</div>
+</div>
+<div class="section" id="modes">
+<h2>2.2.4 Modes<a class="headerlink" href="#modes" title="Permalink to this headline">¶</a></h2>
+<p>A mode is a type that possibly is a question mark <code class="docutils literal"><span class="pre">(?)</span></code> or contains one
+in an argument position. For example, the following are all modes.</p>
+<div class="line-block">
+<div class="line">?</div>
+<div class="line">Polynomial ?</div>
+<div class="line">Matrix Polynomial ?</div>
+<div class="line">SquareMatrix(3,?)</div>
+<div class="line">Integer</div>
+<div class="line">OneDimensionalArray(Float)</div>
+</div>
+<p>As is evident from these examples, a mode is a type with a part that is
+not specified (indicated by a question mark). Only one ? is allowed per
+mode and it must appear in the most deeply nested argument that is a
+type. Thus ?(Integer), Matrix(? (Polynomial)), SquareMatrix(?, Integer)
+(it requires a numeric argument) and SquareMatrix(?, ?) are all invalid.
+The question mark must take the place of a domain, not data. This rules
+out, for example, the two SquareMatrix expressions.</p>
+<p>Modes can be used for declarations (See Section
+<a class="reference external" href="section-2.3.html#ugTypesDeclare">ugTypesDeclare</a> ) and conversions
+(Section <a class="reference external" href="section-2.7.html#ugTypesConvert">ugTypesConvert</a> ).
+However, you cannot use a mode for package calling or giving target type
+information.</p>
+</div>
+<div class="section" id="abbreviations">
+<h2>2.2.5 Abbreviations<a class="headerlink" href="#abbreviations" title="Permalink to this headline">¶</a></h2>
+<p>Every constructor has an abbreviation that abbreviation:constructor you
+can freely constructor:abbreviation substitute for the constructor name.
+In some cases, the abbreviation is nothing more than the capitalized
+version of the constructor name.</p>
+<p>Aside from allowing types to be written more concisely, abbreviations
+are used by FriCAS to name various system files for constructors (such
+as library filenames, test input files and example files). Here are some
+common abbreviations.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>COMPLEX abbreviates Complex</td>
+<td>DFLOAT abbreviates DoubleFloat</td>
+</tr>
+<tr class="row-even"><td>EXPR abbreviates Expression</td>
+<td>FLOAT abbreviates Float</td>
+</tr>
+<tr class="row-odd"><td>FRAC abbreviates Fraction</td>
+<td>INT abbreviates Integer</td>
+</tr>
+<tr class="row-even"><td>MATRIX abbreviates Matrix</td>
+<td>NNI abbreviates NonNegativeInteger</td>
+</tr>
+<tr class="row-odd"><td>PI abbreviates PositiveInteger</td>
+<td>POLY abbreviates Polynomial</td>
+</tr>
+<tr class="row-even"><td>STRING abbreviates String</td>
+<td>UP abbreviates UnivariatePolynomial</td>
+</tr>
+</tbody>
+</table>
+<p>You can combine both full constructor names and abbreviations in a type
+expression. Here are some types using abbreviations.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="26%" />
+<col width="41%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>POLY INT</td>
+<td>is the same as</td>
+<td>Polynomial(INT)</td>
+</tr>
+<tr class="row-even"><td>POLY(Integer)</td>
+<td>is the same as</td>
+<td>Polynomial(Integer)</td>
+</tr>
+<tr class="row-odd"><td>POLY(Integer)</td>
+<td>is the same as</td>
+<td>Polynomial(INT)</td>
+</tr>
+<tr class="row-even"><td>FRAC(COMPLEX(INT))</td>
+<td>is the same as</td>
+<td>Fraction Complex Integer</td>
+</tr>
+<tr class="row-odd"><td>FRAC(COMPLEX(INT))</td>
+<td>is the same as</td>
+<td>FRAC(Complex Integer)</td>
+</tr>
+</tbody>
+</table>
+<p>There are several ways of finding the names of constructors and their
+abbreviations. For a specific constructor, use <code class="docutils literal"><span class="pre">)abbreviation</span></code> query.
+abbreviation You can also use the <code class="docutils literal"><span class="pre">)what</span></code> system command to see the names
+and abbreviations of constructors. what For more information about
+<code class="docutils literal"><span class="pre">)what</span></code>, see <a class="reference external" href="ugSysCmdwhat">ugSysCmdwhat</a> .</p>
+<p><code class="docutils literal"><span class="pre">)abbreviation</span> <span class="pre">query</span></code> can be abbreviated (no pun intended) to <code class="docutils literal"><span class="pre">)abb</span> <span class="pre">q</span></code>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">abb</span> <span class="n">q</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">INT</span> <span class="n">abbreviates</span> <span class="n">domain</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p>The )abbreviation query command lists the constructor name if you give
+the abbreviation. Issue )abb q if you want to see the names and
+abbreviations of all FriCAS constructors.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">abb</span> <span class="n">q</span> <span class="n">DMP</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">DMP</span> <span class="n">abbreviates</span> <span class="n">domain</span> <span class="n">DistributedMultivariatePolynomial</span>
+</pre></div>
+</div>
+<p>Issue this to see all packages whose names contain the string ode. what
+packages</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">what</span> <span class="n">packages</span> <span class="n">ode</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">----------------------</span> <span class="n">Packages</span> <span class="o">-----------------------</span>
+<span class="n">Packages</span> <span class="k">with</span> <span class="n">names</span> <span class="n">matching</span> <span class="n">patterns</span><span class="p">:</span>
+     <span class="n">ode</span>
+ <span class="n">EXPRODE</span>  <span class="n">ExpressionSpaceODESolver</span>
+ <span class="n">FCPAK1</span>   <span class="n">FortranCodePackage1</span>
+ <span class="n">GRAY</span>     <span class="n">GrayCode</span>
+ <span class="n">LODEEF</span>   <span class="n">ElementaryFunctionLODESolver</span>
+ <span class="n">NODE1</span>    <span class="n">NonLinearFirstOrderODESolver</span>
+ <span class="n">ODECONST</span> <span class="n">ConstantLODE</span>
+ <span class="n">ODEEF</span>    <span class="n">ElementaryFunctionODESolver</span>
+ <span class="n">ODEINT</span>   <span class="n">ODEIntegration</span>
+ <span class="n">ODEPAL</span>   <span class="n">PureAlgebraicLODE</span>
+ <span class="n">ODERAT</span>   <span class="n">RationalLODE</span>
+ <span class="n">ODERED</span>   <span class="n">ReduceLODE</span>
+ <span class="n">ODESYS</span>   <span class="n">SystemODESolver</span>
+ <span class="n">ODETOOLS</span> <span class="n">ODETools</span>
+ <span class="n">UTSODE</span>   <span class="n">UnivariateTaylorSeriesODESolver</span>
+ <span class="n">UTSODETL</span> <span class="n">UTSodetools</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2.2 Writing Types and Modes</a><ul>
+<li><a class="reference internal" href="#types-with-no-arguments">2.2.1 Types with No Arguments</a></li>
+<li><a class="reference internal" href="#types-with-one-argument">2.2.2 Types with One Argument</a></li>
+<li><a class="reference internal" href="#types-with-more-than-one-argument">2.2.3 Types with More Than One Argument</a></li>
+<li><a class="reference internal" href="#modes">2.2.4 Modes</a></li>
+<li><a class="reference internal" href="#abbreviations">2.2.5 Abbreviations</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-2.1.html" title="previous chapter">2.1 The Basic Idea</a></li>
+      <li>Next: <a href="section-2.3.html" title="next chapter">2.3 Declarations</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-2.2.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-2.2.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

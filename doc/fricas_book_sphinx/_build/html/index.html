@@ -1,0 +1,763 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>FriCAS User Guide &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="#" />
+    <link rel="next" title="0.1 Introduction to FriCAS" href="section-0.1.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fricas-user-guide">
+<h1>FriCAS User Guide<a class="headerlink" href="#fricas-user-guide" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="section-0.1.html">0.1 Introduction to FriCAS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-0.1.html#symbolic-computation">0.1.1 Symbolic Computation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.1.html#numeric-computation">0.1.2 Numeric Computation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.1.html#graphics">0.1.3 Graphics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.1.html#hyperdoc">0.1.4 HyperDoc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.1.html#interactive-programming">0.1.5 Interactive Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.1.html#data-structures">0.1.6 Data Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.1.html#mathematical-structures">0.1.7 Mathematical Structures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.1.html#pattern-matching">0.1.8 Pattern Matching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.1.html#polymorphic-algorithms">0.1.9 Polymorphic Algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.1.html#extensibility">0.1.10 Extensibility</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-0.2.html">0.2 A Technical Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-0.2.html#types-are-defined-by-abstract-datatype-programs">0.2.1 Types are Defined by Abstract Datatype Programs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.2.html#the-type-of-basic-objects-is-a-domain-or-subdomain">0.2.2 The Type of Basic Objects is a Domain or Subdomain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.2.html#domains-have-types-called-categories">0.2.3 Domains Have Types Called Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.2.html#operations-can-refer-to-abstract-types">0.2.4 Operations Can Refer To Abstract Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.2.html#categories-form-hierarchies">0.2.5 Categories Form Hierarchies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.2.html#domains-belong-to-categories-by-assertion">0.2.6 Domains Belong to Categories by Assertion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.2.html#packages-are-clusters-of-polymorphic-operations">0.2.7 Packages Are Clusters of Polymorphic Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.2.html#the-interpreter-builds-domains-dynamically">0.2.8 The Interpreter Builds Domains Dynamically</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.2.html#fricas-code-is-compiled">0.2.9 FriCAS Code is Compiled</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.2.html#fricas-is-extensible">0.2.10 FriCAS is Extensible</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-0.3.html">0.3 Using FriCAS as a Pocket Calculator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-0.3.html#basic-arithmetic">0.3.1 Basic Arithmetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.3.html#type-conversion">0.3.2 Type Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.3.html#useful-functions">0.3.3 Useful Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-0.4.html">0.4 Using FriCAS as a Symbolic Calculator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-0.4.html#expressions-involving-symbols">0.4.1 Expressions Involving Symbols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.4.html#complex-numbers">0.4.2 Complex Numbers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.4.html#number-representations">0.4.3 Number Representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.4.html#modular-arithmetic">0.4.4 Modular Arithmetic</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-0.5.html">0.5 General Points about FriCAS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-0.5.html#computation-without-output">0.5.1 Computation Without Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.5.html#accessing-earlier-results">0.5.2 Accessing Earlier Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.5.html#splitting-expressions-over-several-lines">0.5.3 Splitting Expressions Over Several Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.5.html#comments-and-descriptions">0.5.4 Comments and Descriptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.5.html#control-of-result-types">0.5.5 Control of Result Types</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-0.6.html">0.6 Data Structures in FriCAS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-0.6.html#lists">0.6.1 Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.6.html#segmented-lists">0.6.2 Segmented Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.6.html#streams">0.6.3 Streams</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.6.html#arrays-vectors-strings-and-bits">0.6.4 Arrays, Vectors, Strings, and Bits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.6.html#flexible-arrays">0.6.5 Flexible Arrays</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-0.7.html">0.7 Functions, Choices, and Loops</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-0.7.html#reading-code-from-a-file">0.7.1 Reading Code from a File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.7.html#blocks">0.7.2 Blocks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.7.html#functions">0.7.3 Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.7.html#choices">0.7.4 Choices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.7.html#loops">0.7.5 Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.7.html#the-repeat-loop">0.7.5.1 The repeat loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.7.html#the-while-loop">0.7.5.2 The while loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-0.7.html#the-for-loop">0.7.5.3 The for loop</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.0.html">1.0 An Overview of FriCAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.1.html">1.1 Starting Up and Winding Down</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-1.1.html#clef">1.1.1 Clef</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.2.html">1.2 Typographic Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.3.html">1.3 The FriCAS Language</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-1.3.html#arithmetic-expressions">1.3.1 Arithmetic Expressions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-1.3.html#previous-results">1.3.2 Previous Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-1.3.html#some-types">1.3.3 Some Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-1.3.html#symbols-variables-assignments-and-declarations">1.3.4 Symbols, Variables, Assignments, and Declarations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-1.3.html#conversion">1.3.5 Conversion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-1.3.html#calling-functions">1.3.6 Calling Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-1.3.html#some-predefined-macros">1.3.7 Some Predefined Macros</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-1.3.html#long-lines">1.3.8 Long Lines</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-1.3.html#comments">1.3.9 Comments</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.4.html">1.4 Numbers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.5.html">1.5 Data Structures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.6.html">1.6 Expanding to Higher Dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.7.html">1.7 Writing Your Own Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.8.html">1.8 Polynomials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.9.html">1.9 Limits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.10.html">1.10 Series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.11.html">1.11 Derivatives</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.12.html">1.12 Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.13.html">1.13 Differential Equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.14.html">1.14 Solution of Equations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.15.html">1.15 System Commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-1.15.html#undo">1.15.1 Undo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-1.16.html">1.16 Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.0.html">2.0 Using Types and Modes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.1.html">2.1 The Basic Idea</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-2.1.html#domain-constructors">2.1.1 Domain Constructors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.2.html">2.2 Writing Types and Modes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-2.2.html#types-with-no-arguments">2.2.1 Types with No Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-2.2.html#types-with-one-argument">2.2.2 Types with One Argument</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-2.2.html#types-with-more-than-one-argument">2.2.3 Types with More Than One Argument</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-2.2.html#modes">2.2.4 Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-2.2.html#abbreviations">2.2.5 Abbreviations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.3.html">2.3 Declarations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.4.html">2.4 Records</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.5.html">2.5 Unions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-2.5.html#unions-without-selectors">2.5.1 Unions Without Selectors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-2.5.html#unions-with-selectors">2.5.2 Unions With Selectors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.6.html">2.6 The Any Domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.7.html">2.7 Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.8.html">2.8 Subdomains Again</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.9.html">2.9 Package Calling and Target Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.10.html">2.10 Resolving Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.11.html">2.11 Exposing Domains and Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-2.12.html">2.12 Commands for Snooping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-3.0.html">3.0 Using HyperDoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-3.1.html">3.1 Headings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-3.2.html">3.2 Key Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-3.3.html">3.3 Scroll Bars</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-3.4.html">3.4 Input Areas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-3.5.html">3.5 Radio Buttons and Toggles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-3.6.html">3.6 Search Strings</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-3.6.html#logical-searches">3.6.1 Logical Searches</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-3.7.html">3.7 Example Pages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-3.8.html">3.8 X Window Resources for HyperDoc</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-4.0.html">4.0 Input Files and Output Styles</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-4.1.html">4.1 Input Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-4.2.html">4.2 The .axiom.input File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-4.3.html">4.3 Common Features of Using Output Formats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-4.4.html">4.4 Monospace Two-Dimensional Mathematical Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-4.5.html">4.5 TeX Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-4.6.html">4.6 IBM Script Formula Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-4.7.html">4.7 FORTRAN Format</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-5.0.html">5.0 Interactive Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-5.1.html">5.1 Immediate and Delayed Assignments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-5.2.html">5.2 Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-5.3.html">5.3 if-then-else</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-5.4.html">5.4 Loops</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#compiling-vs-interpreting-loops">5.4.1 Compiling vs. Interpreting Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#return-in-loops">5.4.2 return in Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#break-in-loops">5.4.3 break in Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#break-vs-in-loop-bodies">5.4.4 break vs. =&gt; in Loop Bodies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#more-examples-of-break">5.4.5 More Examples of break</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#iterate-in-loops">5.4.6 iterate in Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#while-loops">5.4.7 while Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#for-loops">5.4.8 for Loops</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#for-i-in-n-m-repeat">5.4.9 for i in n..m repeat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#for-i-in-n-m-by-s-repeat">5.4.10 for i in n..m by s repeat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#for-i-in-n-repeat">5.4.11 for i in n.. repeat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#for-x-in-l-repeat">5.4.12 for x in l repeat</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#such-that-predicates">5.4.13 Such that Predicates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#parallel-iteration">5.4.14 Parallel Iteration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-5.4.html#mixing-loop-modifiers">5.4.15 Mixing Loop Modifiers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-5.5.html">5.5 Creating Lists and Streams with Iterators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-5.6.html">5.6 An Example: Streams of Primes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.0.html">6.0 Functions, Macros and Rules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.1.html">6.1 Functions vs. Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.2.html">6.2 Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.3.html">6.3 Introduction to Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.4.html">6.4 Declaring the Type of Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.5.html">6.5 One-Line Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.6.html">6.6 Declared vs. Undeclared Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.7.html">6.7 Functions vs. Operations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.8.html">6.8 Delayed Assignments vs. Functions with No Arguments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.9.html">6.9 How FriCAS Determines What Function to Use</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.10.html">6.10 Compiling vs. Interpreting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.11.html">6.11 Piece-Wise Function Definitions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-6.11.html#a-basic-example">6.11.1 A Basic Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-6.11.html#picking-up-the-pieces">6.11.2 Picking Up the Pieces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-6.11.html#predicates">6.11.3 Predicates</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.12.html">6.12 Caching Previously Computed Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.13.html">6.13 Recurrence Relations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.14.html">6.14 Making Functions from Objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.15.html">6.15 Functions Defined with Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.16.html">6.16 Free and Local Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.17.html">6.17 Anonymous Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-6.17.html#some-examples">6.17.1 Some Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-6.17.html#declaring-anonymous-functions">6.17.2 Declaring Anonymous Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.18.html">6.18 Example: A Database</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.19.html">6.19 Example: A Famous Triangle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.20.html">6.20 Example: Testing for Palindromes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-6.21.html">6.21 Rules and Pattern Matching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-7.0.html">7.0 Graphics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-7.1.html">7.1 Two-Dimensional Graphics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#plotting-two-dimensional-functions-of-one-variable">7.1.1 Plotting Two-Dimensional Functions of One Variable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#plotting-two-dimensional-parametric-plane-curves">7.1.2 Plotting Two-Dimensional Parametric Plane Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#plotting-plane-algebraic-curves">7.1.3 Plotting Plane Algebraic Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#two-dimensional-options">7.1.4 Two-Dimensional Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#color">7.1.5 Color</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#palette">7.1.6 Palette</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#two-dimensional-control-panel">7.1.7 Two-Dimensional Control-Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#transformations">7.1.7.1 Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#messages">7.1.7.2 Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#multiple-graphs">7.1.7.3 Multiple Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#buttons">7.1.7.4 Buttons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#operations-for-two-dimensional-graphics">7.1.8 Operations for Two-Dimensional Graphics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#addendum-building-two-dimensional-graphs">7.1.9 Addendum: Building Two-Dimensional Graphs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#creating-a-two-dimensional-viewport-from-a-list-of-points">7.1.9.1 Creating a Two-Dimensional Viewport from a List of Points</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#creating-a-two-dimensional-viewport-of-a-list-of-points-from-a-file">7.1.9.2 Creating a Two-Dimensional Viewport of a List of Points from a File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.1.html#addendum-appending-a-graph-to-a-viewport-window-containing-a-graph">7.1.10 Addendum: Appending a Graph to a Viewport Window Containing a Graph</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-7.2.html">7.2 Three-Dimensional Graphics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#plotting-three-dimensional-functions-of-two-variables">7.2.1 Plotting Three-Dimensional Functions of Two Variables</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#plotting-three-dimensional-parametric-space-curves">7.2.2 Plotting Three-Dimensional Parametric Space Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#plotting-three-dimensional-parametric-surfaces">7.2.3 Plotting Three-Dimensional Parametric Surfaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#three-dimensional-options">7.2.4 Three-Dimensional Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#the-makeobject-command">7.2.5 The makeObject Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#building-three-dimensional-objects-from-primitives">7.2.6 Building Three-Dimensional Objects From Primitives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#cube-example">7.2.6.1 Cube Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#coordinate-system-transformations">7.2.7 Coordinate System Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#three-dimensional-clipping">7.2.8 Three-Dimensional Clipping</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#three-dimensional-control-panel">7.2.9 Three-Dimensional Control-Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#transformations">7.2.9.1 Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#messages">7.2.9.2 Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#colormap">7.2.9.3 Colormap</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#buttons">7.2.9.4 Buttons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#light">7.2.9.5 Light</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#view-volume">7.2.9.6 View Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#operations-for-three-dimensional-graphics">7.2.10 Operations for Three-Dimensional Graphics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-7.2.html#customization-using-xdefaults">7.2.11 Customization using .Xdefaults</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.0.html">8.0 Advanced Problem Solving</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.1.html">8.1 Numeric Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.2.html">8.2 Polynomial Factorization</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-8.2.html#integer-and-rational-number-coefficients">8.2.1 Integer and Rational Number Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.2.html#finite-field-coefficients">8.2.2 Finite Field Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.2.html#simple-algebraic-extension-field-coefficients">8.2.3 Simple Algebraic Extension Field Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.2.html#factoring-rational-functions">8.2.4 Factoring Rational Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.3.html">8.3 Manipulating Symbolic Roots of a Polynomial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-8.3.html#using-a-single-root-of-a-polynomial">8.3.1 Using a Single Root of a Polynomial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.3.html#using-all-roots-of-a-polynomial">8.3.2 Using All Roots of a Polynomial</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.4.html">8.4 Computation of Eigenvalues and Eigenvectors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.5.html">8.5 Solution of Linear and Polynomial Equations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-8.5.html#solution-of-systems-of-linear-equations">8.5.1 Solution of Systems of Linear Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.5.html#solution-of-a-single-polynomial-equation">8.5.2 Solution of a Single Polynomial Equation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.5.html#solution-of-systems-of-polynomial-equations">8.5.3 Solution of Systems of Polynomial Equations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.6.html">8.6 Limits</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.7.html">8.7 Laplace Transforms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.8.html">8.8 Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.9.html">8.9 Working with Power Series</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-8.9.html#creation-of-power-series">8.9.1 Creation of Power Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.9.html#coefficients-of-power-series">8.9.2 Coefficients of Power Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.9.html#power-series-arithmetic">8.9.3 Power Series Arithmetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.9.html#functions-on-power-series">8.9.4 Functions on Power Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.9.html#converting-to-power-series">8.9.5 Converting to Power Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.9.html#power-series-from-formulas">8.9.6 Power Series from Formulas</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.9.html#substituting-numerical-values-in-power-series">8.9.7 Substituting Numerical Values in Power Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.9.html#example-bernoulli-polynomials-and-sums-of-powers">8.9.8 Example: Bernoulli Polynomials and Sums of Powers</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.10.html">8.10 Solution of Differential Equations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-8.10.html#closed-form-solutions-of-linear-differential-equations">8.10.1 Closed-Form Solutions of Linear Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.10.html#closed-form-solutions-of-non-linear-differential-equations">8.10.2 Closed-Form Solutions of Non-Linear Differential Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.10.html#power-series-solutions-of-differential-equations">8.10.3 Power Series Solutions of Differential Equations</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.11.html">8.11 Finite Fields</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-8.11.html#modular-arithmetic-and-prime-fields">8.11.1 Modular Arithmetic and Prime Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.11.html#extensions-of-finite-fields">8.11.2 Extensions of Finite Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.11.html#irreducible-modulus-polynomial-representations">8.11.3 Irreducible Modulus Polynomial Representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.11.html#cyclic-group-representations">8.11.4 Cyclic Group Representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.11.html#normal-basis-representations">8.11.5 Normal Basis Representations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.11.html#conversion-operations-for-finite-fields">8.11.6 Conversion Operations for Finite Fields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-8.11.html#utility-operations-for-finite-fields">8.11.7 Utility Operations for Finite Fields</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.12.html">8.12 Primary Decomposition of Ideals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.13.html">8.13 Computation of Galois Groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-8.14.html">8.14 Non-Associative Algebras and Modelling Genetic Laws</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.1.html">9.1 AssociationList</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.2.html">9.2 BalancedBinaryTree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.3.html">9.3 BasicOperator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.4.html">9.4 BinaryExpansion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.5.html">9.5 BinarySearchTree</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.6.html">9.6 CardinalNumber</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.7.html">9.7 CartesianTensor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-9.7.html#forming-tensors">7.1 Forming tensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.7.html#multiplication">7.2 Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.7.html#selecting-components">7.3 Selecting Components</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.7.html#contraction">7.4 Contraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.7.html#transpositions">7.5 Transpositions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.7.html#arithmetic">7.6 Arithmetic</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.7.html#specific-tensors">7.7 Specific Tensors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.7.html#properties-of-the-cartesiantensor-domain">7.8 Properties of the CartesianTensor domain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.7.html#tensor-calculus">7.9 Tensor Calculus</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.8.html">9.8 Character</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.9.html">9.9 CharacterClass</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.10.html">9.10 CliffordAlgebra</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-9.10.html#the-complex-numbers-as-a-clifford-algebra">9.10.1 The Complex Numbers as a Clifford Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.10.html#the-quaternion-numbers-as-a-clifford-algebra">9.10.2 The Quaternion Numbers as a Clifford Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.10.html#the-exterior-algebra-on-a-three-space">9.10.3 The Exterior Algebra on a Three Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.10.html#the-dirac-spin-algebra">9.10.4 The Dirac Spin Algebra</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.11.html">9.11 Complex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.12.html">9.12 ContinuedFraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.13.html">9.13 CycleIndicators</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.14.html">9.14 DeRhamComplex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.15.html">9.15 DecimalExpansion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.16.html">9.16 DistributedMultivariatePolynomial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.17.html">9.17 DoubleFloat</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.18.html">9.18 EqTable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.19.html">9.19 Equation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.20.html">9.20 Exit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.21.html">9.21 Expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.22.html">9.22 Factored</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-9.22.html#decomposing-factored-objects">9.22.1 Decomposing Factored Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.22.html#expanding-factored-objects">9.22.2 Expanding Factored Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.22.html#arithmetic-with-factored-objects">9.22.3 Arithmetic with Factored Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.22.html#creating-new-factored-objects">9.22.4 Creating New Factored Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.22.html#factored-objects-with-variables">9.22.5 Factored Objects with Variables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.23.html">9.23 FactoredFunctions2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.24.html">9.24 File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.25.html">9.25 FileName</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.26.html">9.26 FlexibleArray</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.27.html">9.27 Float</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-9.27.html#introduction-to-float">9.27.1 Introduction to Float</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.27.html#conversion-functions">9.27.2 Conversion Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.27.html#output-functions">9.27.3 Output Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.27.html#an-example-determinant-of-a-hilbert-matrix">9.27.4 An Example: Determinant of a Hilbert Matrix</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.28.html">9.28 Fraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.29.html">9.29 FullPartialFractionExpansion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.30.html">9.30 GeneralSparseTable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.31.html">9.31 GroebnerFactorizationPackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.32.html">9.32 Heap</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.33.html">9.33 HexadecimalExpansion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.34.html">9.34 Integer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-9.34.html#basic-functions">9.34.1 Basic Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.34.html#primes-and-factorization">9.34.2 Primes and Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.34.html#some-number-theoretic-functions">9.34.3 Some Number Theoretic Functions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.35.html">9.35 IntegerLinearDependence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.36.html">9.36 IntegerNumberTheoryFunctions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.37.html">9.37 Kernel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.38.html">9.38 KeyedAccessFile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.39.html">9.39 LexTriangularPackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.40.html">9.40 LazardSetSolvingPackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.41.html">9.41 Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.42.html">9.42 LieExponentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.43.html">9.43 LiePolynomial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.44.html">9.44 LinearOrdinaryDifferentialOperator</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-9.44.html#differential-operators-with-series-coefficients">9.44.1 Differential Operators with Series Coefficients</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.45.html">9.45 LinearOrdinaryDifferentialOperator1</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-9.45.html#differential-operators-with-rational-function-coefficients">9.45.1 Differential Operators with Rational Function Coefficients</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.46.html">9.46 LinearOrdinaryDifferentialOperator2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-9.46.html#differential-operators-with-constant-coefficients">9.46.1 Differential Operators with Constant Coefficients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.46.html#differential-operators-with-matrix-coefficients-operating-on-vectors">9.46.2 Differential Operators with Matrix Coefficients Operating on Vectors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.47.html">9.47 List</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-9.47.html#creating-lists">9.47.1 Creating Lists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.47.html#accessing-list-elements">9.47.2 Accessing List Elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.47.html#changing-list-elements">9.47.3 Changing List Elements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.47.html#other-functions">9.47.4 Other Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.47.html#dot-dot">9.47.5 Dot, Dot</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.48.html">9.48 LyndonWord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.49.html">9.49 Magma</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.50.html">9.50 MakeFunction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.51.html">9.51 MappingPackage1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.52.html">9.52 Matrix</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-9.52.html#creating-matrices">9.52.1 Creating Matrices</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-9.52.html#operations-on-matrices">9.52.2 Operations on Matrices</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.53.html">9.53 MultiSet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.54.html">9.54 MultivariatePolynomial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.55.html">9.55 None</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.56.html">9.56 Octonion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.57.html">9.57 OneDimensionalArray</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.58.html">9.58 Operator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.59.html">9.59 OrderedVariableList</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.60.html">9.60 OrderlyDifferentialPolynomial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.61.html">9.61 PartialFraction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.62.html">9.62 Permanent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.63.html">9.63 Polynomial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.64.html">9.64 Quaternion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.65.html">9.65 RadixExpansion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.66.html">9.66 RealClosure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.67.html">9.67 RegularTriangularSet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.68.html">9.68 RomanNumeral</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.69.html">9.69 Segment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.70.html">9.70 SegmentBinding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.71.html">9.71 Set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.72.html">9.72 SingleInteger</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.73.html">9.73 SparseTable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.74.html">9.74 SquareMatrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.75.html">9.75 SquareFreeRegularTriangularSet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.76.html">9.76 Stream</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.77.html">9.77 String</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.78.html">9.78 StringTable</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.79.html">9.79 Symbol</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.80.html">9.80 Table</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.81.html">9.81 TextFile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.82.html">9.82 TwoDimensionalArray</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.83.html">9.83 UnivariatePolynomial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.84.html">9.84 UniversalSegment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.85.html">9.85 Vector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.86.html">9.86 Void</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.87.html">9.87 WuWenTsunTriangularSet</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.88.html">9.88 XPBWPolynomial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.89.html">9.89 XPolynomial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.90.html">9.90 XPolynomialRing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-9.91.html">9.91 ZeroDimensionalSolvePackage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-10.0.html">10.0 Interactive Programming</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-10.1.html">10.1 Drawing Ribbons Interactively</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-10.2.html">10.2 A Ribbon Program</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-10.3.html">10.3 Coloring and Positioning Ribbons</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-10.4.html">10.4 Points, Lines, and Curves</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-10.5.html">10.5 A Bouquet of Arrows</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-10.6.html">10.6 Diversion: When Things Go Wrong</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-10.7.html">10.7 Drawing Complex Vector Fields</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-10.8.html">10.8 Drawing Complex Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-10.9.html">10.9 Functions Producing Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-10.10.html">10.10 Automatic Newton Iteration Formulas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-11.0.html">11.0 Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-11.1.html">11.1 Names, Abbreviations, and File Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-11.2.html">11.2 Syntax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-11.3.html">11.3 Abstract Datatypes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-11.4.html">11.4 Capsules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-11.5.html">11.5 Input Files vs. Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-11.6.html">11.6 Compiling Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-11.7.html">11.7 Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-11.8.html">11.8 Conditionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-11.9.html">11.9 Testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-11.10.html">11.10 How Packages Work</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.0.html">12.0 Categories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.1.html">12.1 Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.2.html">12.2 Exports</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.3.html">12.3 Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.4.html">12.4 Hierarchies</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.5.html">12.5 Membership</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.6.html">12.6 Defaults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.7.html">12.7 FriCASs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.8.html">12.8 Correctness</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.9.html">12.9 Attributes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.10.html">12.10 Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.11.html">12.11 Conditionals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-12.12.html">12.12 Anonymous Categories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.0.html">13.0 Domains</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.1.html">13.1 Domains vs. Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.2.html">13.2 Definitions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.3.html">13.3 Category Assertions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.4.html">13.4 A Demo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.5.html">13.5 Browse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.6.html">13.6 Representation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.7.html">13.7 Multiple Representations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.8.html">13.8 Add Domain</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.9.html">13.9 Defaults</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.10.html">13.10 Origins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.11.html">13.11 Short Forms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.12.html">13.12 Example 1: Clifford Algebra</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-13.13.html">13.13 Example 2: Building A Query Facility</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-13.13.html#a-little-query-language">13.13.1 A Little Query Language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-13.13.html#the-database-constructor">13.13.2 The Database Constructor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-13.13.html#query-equations">13.13.3 Query Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-13.13.html#datalists">13.13.4 DataLists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-13.13.html#index-cards">13.13.5 Index Cards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-13.13.html#creating-a-database">13.13.6 Creating a Database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-13.13.html#putting-it-all-together">13.13.7 Putting It All Together</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-13.13.html#example-queries">13.13.8 Example Queries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-14.0.html">14.0 Browse</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-14.1.html">14.1 The Front Page: Searching the Library</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-14.1.html#constructors">14.1.1 Constructors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.1.html#operations">14.1.2 Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.1.html#attributes">14.1.3 Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.1.html#general">14.1.4 General</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.1.html#documentation">14.1.5 Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.1.html#complete">14.1.6 Complete</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-14.2.html">14.2 The Constructor Page</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#constructor-page-buttons">14.2.1 Constructor Page Buttons</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#description">14.2.1.1 Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#operations">14.2.1.2 Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#attributes">14.2.1.3 Attributes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#examples">14.2.1.4 Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#exports">14.2.1.5 Exports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#related-operations">14.2.1.6 Related Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#cross-reference">14.2.2 Cross Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#parents">14.2.2.1 Parents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#ancestors">14.2.2.2 Ancestors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#relatives">14.2.2.3 Relatives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#dependents">14.2.2.4 Dependents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#lineage">14.2.2.5 Lineage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#clients">14.2.2.6 Clients</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#benefactors">14.2.2.7 Benefactors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#children">14.2.2.8 Children</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#descendants">14.2.2.9 Descendants</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#domains">14.2.2.10 Domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#views-of-constructors">14.2.3 Views Of Constructors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#names">14.2.3.1 names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#abbrs">14.2.3.2 abbrs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#kinds">14.2.3.3 kinds</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#files">14.2.3.4 files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#parameters">14.2.3.5 parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#filter">14.2.3.6 filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#documentation">14.2.3.7 documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#conditions">14.2.3.8 conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.2.html#giving-parameters-to-constructors">14.2.4 Giving Parameters to Constructors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-14.3.html">14.3 Miscellaneous Features of Browse</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#the-description-page-for-operations">14.3.1 The Description Page for Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#arguments">14.3.1.1 Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#returns">14.3.1.2 Returns</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#origin">14.3.1.3 Origin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#conditions">14.3.1.4 Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#description">14.3.1.5 Description</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#where">14.3.1.6 Where</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#views-of-operations">14.3.2 Views of Operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#names">14.3.2.1 names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#filter">14.3.2.2 filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#documentation">14.3.2.3 documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#signatures">14.3.2.4 signatures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#parameters">14.3.2.5 parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#origins">14.3.2.6 origins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#id1">14.3.2.7 conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#usage">14.3.2.8 usage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#implementation">14.3.2.9 implementation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#generalize">14.3.2.10 generalize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#all-domains">14.3.2.11 all domains</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-14.3.html#capitalization-convention">14.3.3 Capitalization Convention</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-15.0.html">15.0 FriCAS Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-15.1.html">15.1 Important Things to Read First</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-15.2.html">15.2 The New FriCAS Library Compiler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-15.3.html">15.3 The NAG Library Link</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#interpreting-nag-documentation">15.3.1 Interpreting NAG Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#correspondence-between-fortran-and-fricas-types">15.3.1.1 Correspondence Between Fortran and FriCAS types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#classification-of-nag-parameters">15.3.1.2 Classification of NAG parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#ifail">15.3.1.3 IFAIL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#using-the-link">15.3.2 Using the Link</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#providing-values-for-argument-subprograms">15.3.3 Providing values for Argument Subprograms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#providing-asps-via-fortranexpression">15.3.3.1 Providing ASPs via FortranExpression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#providing-asps-via-fortrancode">15.3.3.2 Providing ASPs via FortranCode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#providing-asps-via-filename">15.3.3.3 Providing ASPs via FileName</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#general-fortran-generation-utilities-in-fricas">15.3.4 General Fortran-generation utilities in FriCAS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#template-manipulation">15.3.4.1 Template Manipulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#manipulating-the-fortran-output-stream">15.3.4.2 Manipulating the Fortran Output Stream</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#fortran-types">15.3.4.3 Fortran Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#fortranscalartype">15.3.4.4 FortranScalarType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#fortrantype">15.3.4.5 FortranType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#symboltable">15.3.4.6 SymbolTable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#thesymboltable">15.3.4.7 TheSymbolTable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#advanced-fortran-code-generation">15.3.4.8 Advanced Fortran Code Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#switch">15.3.4.9 Switch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#fortrancode">15.3.4.10 FortranCode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#fortranprogram">15.3.4.11 FortranProgram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="section-15.3.html#some-technical-information">15.3.5 Some technical information</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="section-15.4.html">15.4 Interactive Front-end and Language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-15.5.html">15.5 Library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-15.6.html">15.6 HyperTex</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-15.7.html">15.7 Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.0.html">16.0 FriCAS System Commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.1.html">16.1 Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.2.html">16.2 )abbreviation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.3.html">16.3 )boot</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.4.html">16.4 )cd</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.5.html">16.5 )close</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.6.html">16.6 )clear</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.7.html">16.7 )compile</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.8.html">16.8 )display</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.9.html">16.9 )edit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.10.html">16.10 )fin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.11.html">16.11 )frame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.12.html">16.12 )help</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.13.html">16.13 )history</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.14.html">16.14 )library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.15.html">16.15 )lisp</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.16.html">16.16 )load</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.17.html">16.17 )trace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.18.html">16.18 )pquit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.19.html">16.19 )quit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.20.html">16.20 )read</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.21.html">16.21 )set</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.22.html">16.22 )show</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.23.html">16.23 )spool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.24.html">16.24 )synonym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.25.html">16.25 )system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.26.html">16.26 )trace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.27.html">16.27 )undo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-16.28.html">16.28 )what</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-17.1.html">17.1 FriCAS Categories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-18.1.html">18.1 FriCAS Domains</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-19.1.html">19.1 FriCAS Packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.0.html">21.0 Programs for AXIOM Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.1.html">21.1 images1.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.2.html">21.2 images2.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.3.html">21.3 images3.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.4.html">21.4 images5.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.5.html">21.5 images6.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.6.html">21.6 images7.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.7.html">21.7 images8.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.8.html">21.8 conformal.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.9.html">21.9 tknot.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.10.html">21.10 ntube.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.11.html">21.11 dhtri.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.12.html">21.12 tetra.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.13.html">21.13 antoine.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="section-21.14.html">21.14 scherk.input</a></li>
+<li class="toctree-l1"><a class="reference internal" href="book-index.html">Index</a></li>
+</ul>
+</div>
+<div class="section" id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">FriCAS User Guide</a><ul>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="section-0.1.html" title="next chapter">0.1 Introduction to FriCAS</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/index.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.79 Symbol &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.80 Table" href="section-9.80.html" />
+    <link rel="prev" title="9.78 StringTable" href="section-9.78.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="symbol">
+<h1>9.79 Symbol<a class="headerlink" href="#symbol" title="Permalink to this headline">¶</a></h1>
+<p>Symbols are one of the basic types manipulated by FriCAS. The Symbol
+domain provides ways to create symbols of many varieties.</p>
+<p>The simplest way to create a symbol is to single quote an identifier.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">:</span> <span class="n">Symbol</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>This gives the symbol even if x has been assigned a value. If x has not
+been assigned a value, then it is possible to omit the quote.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">XX</span><span class="p">:</span> <span class="n">Symbol</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>Declarations must be used when working with symbols, because otherwise
+the interpreter tries to place values in a more specialized type
+Variable.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Variable a</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">B</span> <span class="p">:</span><span class="o">=</span> <span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>b</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Variable b</sub></p>
+<p>The normal way of entering polynomials uses this fact.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x2+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Another convenient way to create symbols is to convert a string. This is
+useful when the name is to be constructed by a program.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s2">&quot;Hello&quot;</span><span class="p">::</span><span class="n">Symbol</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Hello</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>Sometimes it is necessary to generate new unique symbols, for example,
+to name constants of integration. The expression new() generates a
+symbol starting with %.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>new()$Symbol
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%A</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>Successive calls to newnewSymbol produce different symbols.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>new()$Symbol
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%B</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>The expression new(&#8220;s&#8221;) produces a symbol starting with %s.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>new(&quot;xyz&quot;)$Symbol
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%xyz0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>A symbol can be adorned in various ways. The most basic thing is
+applying a symbol to a list of subscripts.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>xi,j</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>Somewhat less pretty is to attach subscripts, superscripts or arguments.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">U</span> <span class="p">:</span><span class="o">=</span> <span class="n">subscript</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>u1,2,1,2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">V</span> <span class="p">:</span><span class="o">=</span> <span class="n">superscript</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">[</span><span class="n">n</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>vn</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="n">argscript</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="p">[</span><span class="n">t</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>p(t)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>It is possible to test whether a symbol has scripts using the
+scripted?scripted?Symbol test.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>scripted? U
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>scripted? X
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>If a symbol is not scripted, then it may be converted to a string.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">string</span> <span class="n">X</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;x&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>The basic parts can always be extracted using the namenameSymbol and
+scriptsscriptsSymbol operations.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="n">U</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>u</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">scripts</span> <span class="n">U</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[sub=[1,2,1,2],sup=[],presup=[],presub=[],args=[]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record( sub: List OutputForm, sup: List OutputForm, presup: List</sub>
+OutputForm, presub: List OutputForm, args: List OutputForm)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="n">X</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">scripts</span> <span class="n">X</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[sub=[],sup=[],presup=[],presub=[],args=[]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record( sub: List OutputForm, sup: List OutputForm, presup: List</sub>
+OutputForm, presub: List OutputForm, args: List OutputForm)</p>
+<p>The most general form is obtained using the scriptscriptSymbol
+operation. This operation takes an argument which is a list containing,
+in this order, lists of subscripts, superscripts, presuperscripts,
+presubscripts and arguments to a symbol.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">M</span> <span class="p">:</span><span class="o">=</span> <span class="n">script</span><span class="p">(</span><span class="n">Mammoth</span><span class="p">,</span> <span class="p">[</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">],[</span><span class="n">k</span><span class="p">,</span><span class="n">l</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">],[</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">w</span><span class="p">]</span> <span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>20,1Mammothi,jk,l(u,v,w)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">scripts</span> <span class="n">M</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[sub=[i,j],sup=[k,l],presup=[0,1],presub=[2],args=[u,v,w]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record( sub: List OutputForm, sup: List OutputForm, presup: List</sub>
+OutputForm, presub: List OutputForm, args: List OutputForm)</p>
+<p>If trailing lists of scripts are omitted, they are assumed to be empty.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="p">:</span><span class="o">=</span> <span class="n">script</span><span class="p">(</span><span class="n">Nut</span><span class="p">,</span> <span class="p">[</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">],[</span><span class="n">k</span><span class="p">,</span><span class="n">l</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span> <span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0,1Nuti,jk,l</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">scripts</span> <span class="n">N</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[sub=[i,j],sup=[k,l],presup=[0,1],presub=[],args=[]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record( sub: List OutputForm, sup: List OutputForm, presup: List</sub>
+OutputForm, presub: List OutputForm, args: List OutputForm)</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.78.html" title="previous chapter">9.78 StringTable</a></li>
+      <li>Next: <a href="section-9.80.html" title="next chapter">9.80 Table</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.79.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.79.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

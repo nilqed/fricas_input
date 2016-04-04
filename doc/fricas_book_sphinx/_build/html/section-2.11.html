@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.11 Exposing Domains and Packages &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="2.12 Commands for Snooping" href="section-2.12.html" />
+    <link rel="prev" title="2.10 Resolving Types" href="section-2.10.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="exposing-domains-and-packages">
+<h1>2.11 Exposing Domains and Packages<a class="headerlink" href="#exposing-domains-and-packages" title="Permalink to this headline">¶</a></h1>
+<p>In this section we discuss how FriCAS makes some operations available to
+you while hiding others that are meant to be used by developers or only
+in rare cases. If you are a new user of FriCAS, it is likely that
+everything you need is available by default and you may want to skip
+over this section on first reading.</p>
+<p>Every constructor:exposed domain and package in the FriCAS library
+either exposed (meaning that you can use its operations without doing
+anything special) or it is hidden (meaning you have to either package call
+(see <a class="reference external" href="section-2.9.html#ugTypesPkgCall">ugTypesPkgCall</a>) the operations it
+contains or explicitly expose it to use the operations). The initial
+exposure status for a constructor is set in the file <em>exposed.lsp</em> (see
+the Installer&#8217;s Note exposed.lsp for FriCAS if you need to know the location
+of this file). Constructors are collected together in groups. Categories are
+all in the exposure group categories and the bulk of the basic set of packages
+and domains that are exposed are in the exposure group basic. Here is an
+abbreviated sample of the file (without the Lisp parentheses):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">basic</span>
+
+        <span class="n">AlgebraicNumber</span>                          <span class="n">AN</span>
+        <span class="n">AlgebraGivenByStructuralConstants</span>        <span class="n">ALGSC</span>
+        <span class="n">Any</span>                                      <span class="n">ANY</span>
+        <span class="n">AnyFunctions1</span>                            <span class="n">ANY1</span>
+        <span class="n">BinaryExpansion</span>                          <span class="n">BINARY</span>
+        <span class="n">Boolean</span>                                  <span class="n">BOOLEAN</span>
+        <span class="n">CardinalNumber</span>                           <span class="n">CARD</span>
+        <span class="n">CartesianTensor</span>                          <span class="n">CARTEN</span>
+        <span class="n">Character</span>                                <span class="n">CHAR</span>
+        <span class="n">CharacterClass</span>                           <span class="n">CCLASS</span>
+        <span class="n">CliffordAlgebra</span>                          <span class="n">CLIF</span>
+        <span class="n">Color</span>                                    <span class="n">COLOR</span>
+        <span class="n">Complex</span>                                  <span class="n">COMPLEX</span>
+        <span class="n">ContinuedFraction</span>                        <span class="n">CONTFRAC</span>
+        <span class="n">DecimalExpansion</span>                         <span class="n">DECIMAL</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">categories</span>
+
+        <span class="n">AbelianGroup</span>                             <span class="n">ABELGRP</span>
+        <span class="n">AbelianMonoid</span>                            <span class="n">ABELMON</span>
+        <span class="n">AbelianMonoidRing</span>                        <span class="n">AMR</span>
+        <span class="n">AbelianSemiGroup</span>                         <span class="n">ABELSG</span>
+        <span class="n">Aggregate</span>                                <span class="n">AGG</span>
+        <span class="n">Algebra</span>                                  <span class="n">ALGEBRA</span>
+        <span class="n">AlgebraicallyClosedField</span>                 <span class="n">ACF</span>
+        <span class="n">AlgebraicallyClosedFunctionSpace</span>         <span class="n">ACFS</span>
+        <span class="n">ArcHyperbolicFunctionCategory</span>            <span class="n">AHYP</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>For each constructor in a group, the full name and the abbreviation is
+given. There are other groups in exposed.lsp but initially only the
+constructors in exposure groups basic categories naglink and anna are
+exposed.</p>
+<p>As an interactive user of FriCAS, you do not need to modify this file.
+Instead, use )set expose to expose, hide or query the exposure status of
+an individual constructor or exposure group. set expose The reason for
+having exposure groups is to be able to expose or hide multiple
+constructors with a single command. For example, you might group
+together into exposure group quantum a number of domains and packages
+useful for quantum mechanical computations. These probably should not be
+available to every user, but you want an easy way to make the whole
+collection visible to FriCAS when it is looking for operations to apply.</p>
+<p>If you wanted to hide all the basic constructors available by default,
+you would issue )set expose drop group basic. set expose drop group We
+do not recommend that you do this. If, however, you discover that you
+have hidden all the basic constructors, you should issue )set expose add
+group basic to restore your default environment. set expose add group</p>
+<p>It is more likely that you would want to expose or hide individual
+constructors. In <a class="reference external" href="section-6.19.html#ugUserTriangle">ugUserTriangle</a>
+we use several operations from OutputForm, a domain usually hidden. To
+avoid package calling every operation from OutputForm, we expose the
+domain and let FriCAS conclude that those operations should be used. Use
+<code class="docutils literal"><span class="pre">)set</span> <span class="pre">expose</span> <span class="pre">add</span></code> constructor and )set expose drop constructor to expose
+and hide a constructor, respectively. set expose drop constructor You
+should use the constructor name, not the abbreviation. The <code class="docutils literal"><span class="pre">)set</span> <span class="pre">expose</span></code>
+command guides you through these options. set expose add constructor</p>
+<p>If you expose a previously hidden constructor, FriCAS exhibits new
+behavior (that was your intention) though you might not expect the
+results that you get. OutputForm is, in fact, one of the worst offenders
+in this regard. OutputForm This domain is meant to be used by other
+domains for creating a structure that FriCAS knows how to display. It
+has functions like + that form output representations rather than do
+mathematical calculations. Because of the order in which FriCAS looks at
+constructors when it is deciding what operation to apply, OutputForm
+might be used instead of what you expect.</p>
+<p>This is a polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[2 \  x\]</div>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Expose OutputForm.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">expose</span> <span class="n">add</span> <span class="n">constructor</span> <span class="n">OutputForm</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">OutputForm</span> <span class="ow">is</span> <span class="n">now</span> <span class="n">explicitly</span> <span class="n">exposed</span> <span class="ow">in</span> <span class="n">frame</span> <span class="n">G82322</span>
+</pre></div>
+</div>
+<p>This is what we get when OutputForm is automatically available.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[x + x\]</div>
+<p><sub>Type: OutputForm</sub></p>
+<p>Hide OutputForm so we don&#8217;t run into problems with any later examples!</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">expose</span> <span class="n">drop</span> <span class="n">constructor</span> <span class="n">OutputForm</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">OutputForm</span> <span class="ow">is</span> <span class="n">now</span> <span class="n">explicitly</span> <span class="n">hidden</span> <span class="ow">in</span> <span class="n">frame</span> <span class="n">G82322</span>
+</pre></div>
+</div>
+<p>Finally, exposure is done on a frame-by-frame basis. A frame (see
+<a class="reference external" href="section-16.11.html#ugSysCmdframe">ugSysCmdframe</a> )
+is one of possibly several logical FriCAS workspaces within a
+physical one, each having its own environment (for example, variables
+and function definitions). If you have several FriCAS workspace windows
+on your screen, they are all different frames, automatically created for
+you by HyperDoc. Frames can be manually created, made active and
+destroyed by the <code class="docutils literal"><span class="pre">)frame</span></code> system command. frame They do not share exposure
+information, so you need to use <code class="docutils literal"><span class="pre">)set</span> <span class="pre">expose</span></code> in each one to add or drop
+constructors from view.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-2.10.html" title="previous chapter">2.10 Resolving Types</a></li>
+      <li>Next: <a href="section-2.12.html" title="next chapter">2.12 Commands for Snooping</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-2.11.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-2.11.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

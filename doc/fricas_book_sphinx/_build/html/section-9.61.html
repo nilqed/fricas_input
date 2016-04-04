@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.61 PartialFraction &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.62 Permanent" href="section-9.62.html" />
+    <link rel="prev" title="9.60 OrderlyDifferentialPolynomial" href="section-9.60.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="partialfraction">
+<h1>9.61 PartialFraction<a class="headerlink" href="#partialfraction" title="Permalink to this headline">¶</a></h1>
+<p>A partial fraction is a decomposition of a quotient into a sum of
+quotients where the denominators of the summands are powers of
+primes.Most people first encounter partial fractions when they are
+learning integral calculus. For a technical discussion of partial
+fractions, see, for example, Lang&#8217;s Algebra. For example, the rational
+number 1/6 is decomposed into 1/2-1/3. You can compute partial fractions
+of quotients of objects from domains belonging to the category
+EuclideanDomain. For example, Integer, Complex Integer, and
+UnivariatePolynomial(x, Fraction Integer) all belong to EuclideanDomain.
+In the examples following, we demonstrate how to decompose quotients of
+each of these kinds of object into partial fractions. Issue the system
+command )show PartialFraction to display the full list of operations
+defined by PartialFraction.</p>
+<p>It is necessary that we know how to factor the denominator when we want
+to compute a partial fraction. Although the interpreter can often do
+this automatically, it may be necessary for you to include a call to
+factor. In these examples, it is not necessary to factor the
+denominators explicitly.</p>
+<p>The main operation for computing partial fractions is called
+partialFractionpartialFractionPartialFraction and we use this to compute
+a decomposition of 1 / 10!. The first argument to
+partialFractionpartialFractionPartialFraction is the numerator of the
+quotient and the second argument is the factored denominator.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">partialFraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">factorial</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>15928-2334-1252+17</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PartialFraction Integer</sub></p>
+<p>Since the denominators are powers of primes, it may be possible to
+expand the numerators further with respect to those primes. Use the
+operation padicFractionpadicFractionPartialFraction to do this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">padicFraction</span><span class="p">(</span><span class="o">%</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>12+124+125+126+127+128-232-133-234-25-252+17</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PartialFraction Integer</sub></p>
+<p>The operation compactFractioncompactFractionPartialFraction returns an
+expanded fraction into the usual form. The compacted version is used
+internally for computational efficiency.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">compactFraction</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>15928-2334-1252+17</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PartialFraction Integer</sub></p>
+<p>You can add, subtract, multiply and divide partial fractions. In
+addition, you can extract the parts of the decomposition.
+numberOfFractionalTermsnumberOfFractionalTermsPartialFraction computes
+the number of terms in the fractional part. This does not include the
+whole part of the fraction, which you get by calling
+wholePartwholePartPartialFraction. In this example, the whole part is
+just 0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">numberOfFractionalTerms</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>12</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The operation nthFractionalTermnthFractionalTermPartialFraction returns
+the individual terms in the decomposition. Notice that the object
+returned is a partial fraction itself.
+firstNumerfirstNumerPartialFraction and
+firstDenomfirstDenomPartialFraction extract the numerator and
+denominator of the first term of the fraction.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nthFractionalTerm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>125</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PartialFraction Integer</sub></p>
+<p>Given two gaussian integers (see
+<a class="reference external" href="section-9.11.html#ComplexXmpPage">ComplexXmpPage</a> ), you can
+decompose their quotient into a partial fraction.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">partialFraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span> <span class="mi">13</span> <span class="o">+</span> <span class="mi">14</span> <span class="o">*</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-11+2i+43+8i</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PartialFraction Complex Integer</sub></p>
+<p>To convert back to a quotient, simply use a conversion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="p">::</span> <span class="n">Fraction</span> <span class="n">Complex</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-i14+13i</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Complex Integer</sub></p>
+<p>To conclude this section, we compute the decomposition of</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>              <span class="mi">1</span>
+<span class="o">-------------------------------</span>
+              <span class="mi">2</span>       <span class="mi">3</span>       <span class="mi">4</span>
+<span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The polynomials in this object have type UnivariatePolynomial(x,
+Fraction Integer).</p>
+<p>We use the primeFactorprimeFactorFactored operation (see
+<a class="reference external" href="section-9.22.html#FactoredXmpPage">FactoredXmpPage</a> ) to create the
+denominator in factored form directly.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="p">:</span> <span class="n">FR</span> <span class="n">UP</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">FRAC</span> <span class="n">INT</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="o">*</span><span class="p">,[</span><span class="n">primeFactor</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">4</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x+1)(x+2)2(x+3)3(x+4)4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored UnivariatePolynomial(x,Fraction Integer)</sub></p>
+<p>These are the compact and expanded partial fractions for the quotient.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">partialFraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">u</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1648x+1+14x+716(x+2)2+-178x2-12x-1398(x+3)3+607324x3+10115432x2+3914x+44179324(x+4)4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PartialFraction UnivariatePolynomial(x,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">padicFraction</span> <span class="o">%</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1648x+1+14x+2-116(x+2)2-178x+3+34(x+3)2-12(x+3)3+607324x+4+403432(x+4)2+1336(x+4)3+112(x+4)4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PartialFraction UnivariatePolynomial(x,Fraction Integer)</sub></p>
+<p>All see
+<a class="reference external" href="section-9.29.html#FullPartialFractionExpansionXmpPage">FullPartialFractionExpansionXmpPage</a>
+for examples of factor-free conversion of quotients to full partial
+fractions.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.60.html" title="previous chapter">9.60 OrderlyDifferentialPolynomial</a></li>
+      <li>Next: <a href="section-9.62.html" title="next chapter">9.62 Permanent</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.61.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.61.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

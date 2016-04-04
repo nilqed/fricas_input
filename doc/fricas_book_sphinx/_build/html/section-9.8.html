@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.8 Character &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.9 CharacterClass" href="section-9.9.html" />
+    <link rel="prev" title="9.7 CartesianTensor" href="section-9.7.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="character">
+<h1>9.8 Character<a class="headerlink" href="#character" title="Permalink to this headline">¶</a></h1>
+<p>The members of the domain Character are values representing letters,
+numerals and other text elements. For more information on related
+topics, see
+<a class="reference external" href="section-9.9.html#CharacterClassXmpPage">CharacterClassXmpPage</a> and
+<a class="reference external" href="section-9.77.html#StringXmpPage">StringXmpPage</a> .</p>
+<p>Characters can be obtained using String notation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">chars</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">char</span> <span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="n">char</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="n">char</span> <span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="n">char</span> <span class="s2">&quot;8&quot;</span><span class="p">,</span> <span class="n">char</span> <span class="s2">&quot;+&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[a,A,X,8,+]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Character</sub></p>
+<p>Certain characters are available by name. This is the blank character.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">space</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Character</sub></p>
+<p>This is the quote that is used in strings.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">quote</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Character</sub></p>
+<p>This is the escape character that allows quotes and other characters
+within strings.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">escape</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<p><sub>Type: Character</sub></p>
+<p>Characters are represented as integers in a machine-dependent way. The
+integer value can be obtained using the ordordCharacter operation. It is
+always true that char(ord c) = c and ord(char i) = i, provided that i is
+in the range 0..size()$Character-1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="nb">ord</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chars</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[97,65,88,56,43]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>The lowerCaselowerCaseCharacter operation converts an upper case letter
+to the corresponding lower case letter. If the argument is not an upper
+case letter, then it is returned unchanged.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">upperCase</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chars</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[A,A,X,8,+]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Character</sub></p>
+<p>Likewise, the upperCaseupperCaseCharacter operation converts lower case
+letters to upper case.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">lowerCase</span> <span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chars</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[a,a,x,8,+]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Character</sub></p>
+<p>A number of tests are available to determine whether characters belong
+to certain families.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[alphabetic? c for c in chars]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[true,true,true,false,false]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[upperCase? c for c in chars]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[false,true,true,false,false]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[lowerCase? c for c in chars]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[true,false,false,false,false]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[digit? c for c in chars]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[false,false,false,true,false]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[hexDigit? c for c in chars]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[true,true,false,true,false]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[alphanumeric? c for c in chars]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[true,true,true,true,false]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Boolean</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.7.html" title="previous chapter">9.7 CartesianTensor</a></li>
+      <li>Next: <a href="section-9.9.html" title="next chapter">9.9 CharacterClass</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.8.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.8.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

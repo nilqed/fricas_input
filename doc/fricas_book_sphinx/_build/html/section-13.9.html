@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13.9 Defaults &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="13.10 Origins" href="section-13.10.html" />
+    <link rel="prev" title="13.8 Add Domain" href="section-13.8.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="defaults">
+<h1>13.9 Defaults<a class="headerlink" href="#defaults" title="Permalink to this headline">¶</a></h1>
+<p>In Chapter <a class="reference external" href="section-11.0.html#ugPackages">ugPackages</a> we saw that
+categories can provide default implementations for their operations. How
+and when are they used? When FriCAS finds that QuadraticForm(2, Fraction
+Integer) does not implement the operations <a href="#id1"><span class="problematic" id="id2">*</span></a>, +, and -, it goes to
+SquareMatrix(2,Fraction Integer) to find it. As it turns out,
+SquareMatrix(2, Fraction Integer) does not implement any of these
+operations!</p>
+<p>What does FriCAS do then? Here is its overall strategy. First, FriCAS
+looks for a function in the capsule for the domain. If it is not there,
+FriCAS looks in the add-domain for the operation. If that fails, FriCAS
+searches the add-domain of the add-domain, and so on. If all those fail,
+it then searches the default packages for the categories of which the
+domain is a member. In the case of QuadraticForm, it searches
+AbelianGroup, then its parents, grandparents, and so on. If this fails,
+it then searches the default packages of the add-domain. Whenever a
+function is found, the search stops immediately and the function is
+returned. When all fails, the system calls error to report this
+unfortunate news to you. To find out the actual order of constructors
+searched for QuadraticForm, consult Browse: from the QuadraticForm,
+click on Cross Reference, then on Lineage.</p>
+<p>Let&#8217;s apply this search strategy for our example 3*q-q+q. The scalar
+multiplication comes first. FriCAS finds a default implementation in
+AbelianGroup&amp;. Remember from
+<a class="reference external" href="section-12.6.html#ugCategoriesDefaults">ugCategoriesDefaults</a> that
+SemiGroup provides a default definition for xn by repeated squaring.
+AbelianGroup similarly provides a definition for nx by repeated
+doubling.</p>
+<p>But the search of the defaults for QuadraticForm fails to find any + or
+* in the default packages for the ancestors of QuadraticForm. So it now
+searches among those for SquareMatrix. Category MatrixCategory, which
+provides a uniform interface for all matrix domains, is a grandparent of
+SquareMatrix and has a capsule defining many functions for matrices,
+including matrix addition, subtraction, and scalar multiplication. The
+default package MatrixCategory&amp; is where the functions for + and - (from
+QuadraticForm) come from.</p>
+<p>You can use Browse to discover where the operations for QuadraticForm
+are implemented. First, get the page describing QuadraticForm. With your
+mouse somewhere in this window, type a 2, press the Tab key, and then
+enter Fraction Integer to indicate that you want the domain
+QuadraticForm(2, Fraction Integer). Now click on Operations to get a
+table of operations and on * to get a page describing the * operation.
+Finally, click on implementation at the bottom.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-13.8.html" title="previous chapter">13.8 Add Domain</a></li>
+      <li>Next: <a href="section-13.10.html" title="next chapter">13.10 Origins</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-13.9.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-13.9.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

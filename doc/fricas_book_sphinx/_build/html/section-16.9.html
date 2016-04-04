@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.9 )edit &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="16.10 )fin" href="section-16.10.html" />
+    <link rel="prev" title="16.8 )display" href="section-16.8.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="edit">
+<h1>16.9 )edit<a class="headerlink" href="#edit" title="Permalink to this headline">¶</a></h1>
+<p>ugSysCmdedit</p>
+<p>edit</p>
+<blockquote>
+<div><p>User Level Required: interpreter</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)edit [filename]</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>This command is used to edit files. It works in conjunction with the
+)read and )compile commands to remember the name of the file on which
+you are working. By specifying the name fully, you can edit any file you
+wish. Thus</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">edit</span> <span class="o">/</span><span class="n">u</span><span class="o">/</span><span class="n">julius</span><span class="o">/</span><span class="n">matrix</span><span class="o">.</span><span class="n">input</span>
+</pre></div>
+</div>
+<p>will place you in an editor looking at the file /u/julius/matrix.input.
+editing files By default, the editor is vi, vi but if you have an EDITOR
+shell environment variable defined, that editor will be used. When
+FriCAS is running under the X Window System, it will try to open a
+separate xterm running your editor if it thinks one is necessary. Korn
+shell For example, under the Korn shell, if you issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">EDITOR</span><span class="o">=</span><span class="n">emacs</span>
+</pre></div>
+</div>
+<p>then the emacs emacs editor will be used by )edit.</p>
+<p>If you do not specify a file name, the last file you edited, read or
+compiled will be used. If there is no last file you will be placed in
+the editor editing an empty unnamed file.</p>
+<p>It is possible to use the )system command to edit a file directly. For
+example,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">system</span> <span class="n">emacs</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">rc</span><span class="o">.</span><span class="n">tcpip</span>
+</pre></div>
+</div>
+<p>calls emacs to edit the file. emacs</p>
+<blockquote>
+<div>Also See: )system ugSysCmdsystem, )compile ugSysCmdcompile, and )read</div></blockquote>
+<p>ugSysCmdread.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.8.html" title="previous chapter">16.8 )display</a></li>
+      <li>Next: <a href="section-16.10.html" title="next chapter">16.10 )fin</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.9.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.9.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

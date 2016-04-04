@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.1 AssociationList &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.2 BalancedBinaryTree" href="section-9.2.html" />
+    <link rel="prev" title="8.14 Non-Associative Algebras and Modelling Genetic Laws" href="section-8.14.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p>Index &lt;book-index.html&gt;`__</p>
+<div class="section" id="associationlist">
+<h1>9.1 AssociationList<a class="headerlink" href="#associationlist" title="Permalink to this headline">¶</a></h1>
+<p>The AssociationList constructor provides a general structure for
+associative storage. This type provides association lists in which data
+objects can be saved according to keys of any type. For a given
+association list, specific types must be chosen for the keys and
+entries. You can think of the representation of an association list as a
+list of records with key and entry fields.</p>
+<p>Association lists are a form of table and so most of the operations
+available for Table are also available for AssociationList. They can
+also be viewed as lists and can be manipulated accordingly.</p>
+<p>This is a Record type with age and gender fields.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="p">:</span><span class="o">=</span> <span class="n">Record</span><span class="p">(</span><span class="n">monthsOld</span> <span class="p">:</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">gender</span> <span class="p">:</span> <span class="n">String</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Record(monthsOld:Integer,gender:String)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>In this expression, al is declared to be an association list whose keys
+are strings and whose entries are the above records.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">al</span> <span class="p">:</span> <span class="n">AssociationList</span><span class="p">(</span><span class="n">String</span><span class="p">,</span><span class="n">Data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The tabletableAssociationList operation is used to create an empty
+association list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">al</span> <span class="p">:</span><span class="o">=</span> <span class="n">table</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>table()</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: AssociationList(String,Record(monthsOld: Integer,gender: String))</sub></p>
+<p>You can use assignment syntax to add things to the association list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>al.&quot;bob&quot; := [407,&quot;male&quot;]$Data
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[monthsOld=407,gender=&#8221;male&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(monthsOld: Integer,gender: String)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>al.&quot;judith&quot; := [366,&quot;female&quot;]$Data
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[monthsOld=366,gender=&#8221;female&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(monthsOld: Integer,gender: String)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>al.&quot;katie&quot; := [24,&quot;female&quot;]$Data
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[monthsOld=24,gender=&#8221;female&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(monthsOld: Integer,gender: String)</sub></p>
+<p>Perhaps we should have included a species field.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>al.&quot;smokie&quot; := [200,&quot;female&quot;]$Data
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[monthsOld=200,gender=&#8221;female&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(monthsOld: Integer,gender: String)</sub></p>
+<p>Now look at what is in the association list. Note that the last-added
+(key, entry) pair is at the beginning of the list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">al</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>table(&#8220;smokie&#8221;=[monthsOld=200,gender=&#8221;female&#8221;],&#8221;katie&#8221;=[monthsOld=24,gender=&#8221;female&#8221;],&#8221;judith&#8221;=[monthsOld=366,gender=&#8221;female&#8221;],&#8221;bob&#8221;=[monthsOld=407,gender=&#8221;male&#8221;])</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: AssociationList(String,Record(monthsOld: Integer,gender: String))</sub></p>
+<p>You can reset the entry for an existing key.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>al.&quot;katie&quot; := [23,&quot;female&quot;]$Data
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[monthsOld=23,gender=&#8221;female&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(monthsOld: Integer,gender: String)</sub></p>
+<p>Use deletedeleteAssociationList to destructively remove an element of
+the association list. Use deletedeleteAssociationList to return a copy
+of the association list with the element deleted. The second argument is
+the index of the element to delete.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>delete!(al,1)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>table(&#8220;katie&#8221;=[monthsOld=23,gender=&#8221;female&#8221;],&#8221;judith&#8221;=[monthsOld=366,gender=&#8221;female&#8221;],&#8221;bob&#8221;=[monthsOld=407,gender=&#8221;male&#8221;])</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: AssociationList(String,Record(monthsOld: Integer,gender: String))</sub></p>
+<p>For more information about tables, see
+<a class="reference external" href="section-9.18.html#EqTableXmpPage">TableXmpPage</a> . For more
+information about lists, see
+<a class="reference external" href="section-9.1.html#AssociationListXmpPage">ListXmpPage</a> .</p>
+<p>Index &lt;book-index.html&gt;`__</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-8.14.html" title="previous chapter">8.14 Non-Associative Algebras and Modelling Genetic Laws</a></li>
+      <li>Next: <a href="section-9.2.html" title="next chapter">9.2 BalancedBinaryTree</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.1.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.1.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

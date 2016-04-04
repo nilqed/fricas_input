@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.11 )frame &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="16.12 )help" href="section-16.12.html" />
+    <link rel="prev" title="16.10 )fin" href="section-16.10.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="frame">
+<h1>16.11 )frame<a class="headerlink" href="#frame" title="Permalink to this headline">¶</a></h1>
+<p>ugSysCmdframe</p>
+<p>frame</p>
+<blockquote>
+<div><p>User Level Required: interpreter</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)frame new frameName</p>
+<p>)frame drop [frameName]</p>
+<p>)frame next</p>
+<p>)frame last</p>
+<p>)frame names</p>
+<p>)frame import frameName [objectName1 [objectName2 ...]]</p>
+<p>)set message frame on | off</p>
+<p>)set message prompt frame</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>A frame can be thought of as a logical session within the physical
+session that you get when you start the system. You can have as many
+frames as you want, within the limits of your computer&#8217;s storage, paging
+space, and so on. Each frame has its own step number, environment and
+history. You can have a variable named a in one frame and it will have
+nothing to do with anything that might be called a in any other frame.</p>
+<p>Some frames are created by the HyperDoc program and these can have
+pretty strange names, since they are generated automatically. frame
+names To find out the names of all frames, issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">frame</span> <span class="n">names</span>
+</pre></div>
+</div>
+<p>It will indicate the name of the current frame.</p>
+<p>You create a new frame frame new `` quark`` by issuing</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">frame</span> <span class="n">new</span> <span class="n">quark</span>
+</pre></div>
+</div>
+<p>The history facility can be turned on by issuing either )set history on
+or )history )on. If the history facility is on and you are saving
+history information in a file rather than in the FriCAS environment then
+a history file with filename quark.axh will be created as you enter
+commands. If you wish to go back to what you were doing in the frame
+next `` initial`` frame, use frame last</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">frame</span> <span class="nb">next</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">frame</span> <span class="n">last</span>
+</pre></div>
+</div>
+<p>to cycle through the ring of available frames to get back to ``
+initial``.</p>
+<p>If you want to throw away a frame (say `` quark``), issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">frame</span> <span class="n">drop</span> <span class="n">quark</span>
+</pre></div>
+</div>
+<p>If you omit the name, the current frame is dropped. frame drop</p>
+<p>If you do use frames with the history facility on and writing to a file,
+you may want to delete some of the older history files. <a class="reference external" href="file:history">file:history</a>
+These are directories, so you may want to issue a command like rm -r
+quark.axh to the operating system.</p>
+<p>You can bring things from another frame by using frame import )frame
+import. For example, to bring the f and g from the frame `` quark`` to
+the current frame, issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">frame</span> <span class="kn">import</span> <span class="nn">quark</span> <span class="n">f</span> <span class="n">g</span>
+</pre></div>
+</div>
+<p>If you want everything from the frame `` quark``, issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">frame</span> <span class="kn">import</span> <span class="nn">quark</span>
+</pre></div>
+</div>
+<p>You will be asked to verify that you really want everything.</p>
+<p>There are two )set flags set message frame to make it easier to tell
+where you are.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">message</span> <span class="n">frame</span> <span class="n">on</span> <span class="o">|</span> <span class="n">off</span>
+</pre></div>
+</div>
+<p>will print more messages about frames when it is set on. By default, it
+is off.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">message</span> <span class="n">prompt</span> <span class="n">frame</span>
+</pre></div>
+</div>
+<p>will give a prompt set message prompt frame that looks like</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">initial</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span>
+</pre></div>
+</div>
+<p>prompt:with frame name when you start up. In this case, the frame name
+and step make up the prompt.</p>
+<blockquote>
+<div>Also See: )history ugSysCmdhistory and )set ugSysCmdset.</div></blockquote>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.10.html" title="previous chapter">16.10 )fin</a></li>
+      <li>Next: <a href="section-16.12.html" title="next chapter">16.12 )help</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.11.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.11.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

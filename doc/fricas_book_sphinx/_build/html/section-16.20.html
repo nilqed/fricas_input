@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.20 )read &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="16.21 )set" href="section-16.21.html" />
+    <link rel="prev" title="16.19 )quit" href="section-16.19.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="read">
+<h1>16.20 )read<a class="headerlink" href="#read" title="Permalink to this headline">¶</a></h1>
+<p>ugSysCmdread</p>
+<p>read</p>
+<blockquote>
+<div><p>User Level Required: interpreter</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)read [fileName]</p>
+<p>)read [fileName] [)quiet] [)ifthere]</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>This command is used to read .input files into FriCAS. <a class="reference external" href="file:input">file:input</a> The
+command</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">read</span> <span class="n">matrix</span><span class="o">.</span><span class="n">input</span>
+</pre></div>
+</div>
+<p>will read the contents of the file matrix.input into FriCAS. The .input
+file extension is optional. See
+<a class="reference external" href="section-4.1.html#ugInOutIn">ugInOutIn</a> for more information about
+.input files.</p>
+<p>This command remembers the previous file you edited, read or compiled.
+If you do not specify a file name, the previous file will be read.</p>
+<p>The )ifthere option checks to see whether the .input file exists. If it
+does not, the )read command does nothing. If you do not use this option
+and the file does not exist, you are asked to give the name of an
+existing .input file.</p>
+<p>The )quiet option suppresses output while the file is being read.</p>
+<blockquote>
+<div>Also See: )compile ugSysCmdcompile, )edit ugSysCmdedit, and )history</div></blockquote>
+<p>ugSysCmdhistory.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.19.html" title="previous chapter">16.19 )quit</a></li>
+      <li>Next: <a href="section-16.21.html" title="next chapter">16.21 )set</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.20.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.20.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

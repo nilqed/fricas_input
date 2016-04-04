@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.13 )history &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="16.14 )library" href="section-16.14.html" />
+    <link rel="prev" title="16.12 )help" href="section-16.12.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="history">
+<h1>16.13 )history<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h1>
+<p>ugSysCmdhistory</p>
+<p>history</p>
+<blockquote>
+<div><p>User Level Required: interpreter</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)history )on</p>
+<p>)history )off</p>
+<p>)history )write historyInputFileName</p>
+<p>)history )show [n] [both]</p>
+<p>)history )save savedHistoryName</p>
+<p>)history )restore [savedHistoryName]</p>
+<p>)history )reset</p>
+<p>)history )change n</p>
+<p>)history )memory</p>
+<p>)history )file</p>
+<p>%</p>
+<p>%%(n)</p>
+<p>)set history on | off</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>The history facility within FriCAS allows you to restore your
+environment to that of another session and recall previous computational
+results. Additional commands allow you to review previous input lines
+and to create an .input file of the lines typed to <a class="reference external" href="file:input">file:input</a> FriCAS.</p>
+<p>FriCAS saves your input and output if the history facility is turned on
+(which is the default). This information is saved if either of</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">history</span> <span class="n">on</span>
+<span class="p">)</span><span class="n">history</span> <span class="p">)</span><span class="n">on</span>
+</pre></div>
+</div>
+<p>has been issued. Issuing either</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">history</span> <span class="n">off</span>
+<span class="p">)</span><span class="n">history</span> <span class="p">)</span><span class="n">off</span>
+</pre></div>
+</div>
+<p>will discontinue the recording of information. history )on set history
+on set history off history )off</p>
+<p>Whether the facility is disabled or not, the value of % in FriCAS always
+refers to the result of the last computation. If you have not yet
+entered anything, % evaluates to an object of type Variable(&#8216;%). The
+function %% may be used to refer to other previous results if the
+history facility is enabled. In that case, %%(n) is the output from step
+n if n &gt; 0. If n &lt; 0, the step is computed relative to the current step.
+Thus %%(-1) is also the previous step, %%(-2), is the step before that,
+and so on. If an invalid step number is given, FriCAS will signal an
+error.</p>
+<p>The environment information can either be saved in a file or entirely in
+memory (the default). Each frame
+(<a class="reference external" href="section-16.11.html#ugSysCmdframe">ugSysCmdframe</a> ) has its own
+history database. When it is kept in a file, some of it may also be kept
+in memory for efficiency. When the information is saved in a file, the
+name of the file is of the form FRAME.axh where `` FRAME`` is the name
+of the current frame. The history file is placed in the current working
+directory (see <a class="reference external" href="ugSysCmdcd">ugSysCmdcd</a> ). Note that these history
+database files are not text files (in fact, they are directories
+themselves), and so are not in human-readable format.</p>
+<p>The options to the )history command are as follows:</p>
+<dl class="docutils">
+<dt>)change n</dt>
+<dd>will set the number of steps that are saved in memory to n. This
+option only has effect when the history data is maintained in a
+file. If you have issued )history )memory (or not changed the
+default) there is no need to use )history )change. history )change</dd>
+<dt>)on</dt>
+<dd>will start the recording of information. If the workspace is not
+empty, you will be asked to confirm this request. If you do so, the
+workspace will be cleared and history data will begin being saved.
+You can also turn the facility on by issuing )set history on.</dd>
+<dt>)off</dt>
+<dd>will stop the recording of information. The )history )show command
+will not work after issuing this command. Note that this command may
+be issued to save time, as there is some performance penalty paid
+for saving the environment data. You can also turn the facility off
+by issuing )set history off.</dd>
+<dt>)file</dt>
+<dd>indicates that history data should be saved in an external file on
+disk.</dd>
+<dt>)memory</dt>
+<dd>indicates that all history data should be kept in memory rather than
+saved in a file. Note that if you are computing with very large
+objects it may not be practical to kept this data in memory.</dd>
+<dt>)reset</dt>
+<dd>will flush the internal list of the most recent workspace
+calculations so that the data structures may be garbage collected by
+the underlying Common Lisp system. Like )history )change, this
+option only has real effect when history data is being saved in a
+file.</dd>
+<dt>)restore [savedHistoryName]</dt>
+<dd>completely clears the environment and restores it to a saved
+session, if possible. The )save option below allows you to save a
+session to a file with a given name. If you had issued )history
+)save jacobi the command )history )restore jacobi would clear the
+current workspace and load the contents of the named saved session.
+If no saved session name is specified, the system looks for a file
+called last.axh.</dd>
+<dt>)save savedHistoryName</dt>
+<dd>is used to save a snapshot of the environment in a file. This file
+is placed in the current working directory (see
+<a class="reference external" href="ugSysCmdcd">ugSysCmdcd</a> ). Use )history )restore to restore the
+environment to the state preserved in the file. This option also
+creates an input file containing all the lines of input since you
+created the workspace frame (for example, by starting your FriCAS
+session) or last did a )clear all or )clear completely.</dd>
+<dt>)show [n] [both]</dt>
+<dd>can show previous input lines and output results. )show will display
+up to twenty of the last input lines (fewer if you haven&#8217;t typed in
+twenty lines). )show n will display up to n of the last input lines.
+)show both will display up to five of the last input lines and
+output results. )show n both will display up to n of the last input
+lines and output results.</dd>
+<dt>)write historyInputFile</dt>
+<dd><blockquote class="first">
+<div>creates an .input file with the input lines typed since the start of
+the session/frame or the last )clear all or )clear completely. If
+historyInputFileName does not contain a period (.) in the filename,
+.input is appended to it. For example, )history )write chaos and
+)history )write chaos.input both write the input lines to a file
+called chaos.input in your current working directory. If you issued
+one or more )undo commands, )history )write eliminates all input
+lines backtracked over as a result of )undo. You can edit this file
+and then use )read to have FriCAS process the contents.</div></blockquote>
+<p class="last">Also See: )frame ugSysCmdframe, )read ugSysCmdread, )set ugSysCmdset,</p>
+</dd>
+</dl>
+<p>and )undo ugSysCmdundo.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.12.html" title="previous chapter">16.12 )help</a></li>
+      <li>Next: <a href="section-16.14.html" title="next chapter">16.14 )library</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.13.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.13.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

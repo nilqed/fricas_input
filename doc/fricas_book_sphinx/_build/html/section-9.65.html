@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.65 RadixExpansion &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.66 RealClosure" href="section-9.66.html" />
+    <link rel="prev" title="9.64 Quaternion" href="section-9.64.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="radixexpansion">
+<h1>9.65 RadixExpansion<a class="headerlink" href="#radixexpansion" title="Permalink to this headline">¶</a></h1>
+<p>It possible to expand numbers in general bases.</p>
+<p>Here we expand 111 in base 5. This means</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">111</span><span class="p">::</span><span class="n">RadixExpansion</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>421</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RadixExpansion 5</sub></p>
+<p>You can expand fractions to form repeating expansions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">24</span><span class="p">)::</span><span class="n">RadixExpansion</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.00110‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RadixExpansion 2</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">24</span><span class="p">)::</span><span class="n">RadixExpansion</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.012‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RadixExpansion 3</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">24</span><span class="p">)::</span><span class="n">RadixExpansion</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.152‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RadixExpansion 8</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">24</span><span class="p">)::</span><span class="n">RadixExpansion</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.2083‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RadixExpansion 10</sub></p>
+<p>For bases from 11 to 36 the letters A through Z are used.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">24</span><span class="p">)::</span><span class="n">RadixExpansion</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.26</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RadixExpansion 12</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">24</span><span class="p">)::</span><span class="n">RadixExpansion</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.35‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RadixExpansion 16</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">24</span><span class="p">)::</span><span class="n">RadixExpansion</span><span class="p">(</span><span class="mi">36</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.7I</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RadixExpansion 36</sub></p>
+<p>For bases greater than 36, the ragits are separated by blanks.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">24</span><span class="p">)::</span><span class="n">RadixExpansion</span><span class="p">(</span><span class="mi">38</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.734312512‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RadixExpansion 38</sub></p>
+<p>The RadixExpansion type provides operations to obtain the individual
+ragits. Here is a rational number in base 8.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">76543</span><span class="o">/</span><span class="mi">210</span><span class="p">)::</span><span class="n">RadixExpansion</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>554.37307‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RadixExpansion 8</sub></p>
+<p>The operation wholeRagitswholeRagitsRadixExpansion returns a list of the
+ragits for the integral part of the number.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="p">:</span><span class="o">=</span> <span class="n">wholeRagits</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[5,5,4]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>The operations prefixRagitsprefixRagitsRadixExpansion and
+cycleRagitscycleRagitsRadixExpansion return lists of the initial and
+repeating ragits in the fractional part of the number.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f0</span> <span class="p">:</span><span class="o">=</span> <span class="n">prefixRagits</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[3]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f1</span> <span class="p">:</span><span class="o">=</span> <span class="n">cycleRagits</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[7,3,0,7]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>You can construct any radix expansion by giving the whole, prefix and
+cycle parts. The declaration is necessary to let FriCAS know the base of
+the ragits.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span><span class="p">:</span><span class="n">RadixExpansion</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span><span class="o">=</span><span class="n">wholeRadix</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="o">+</span><span class="n">fractRadix</span><span class="p">(</span><span class="n">f0</span><span class="p">,</span><span class="n">f1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>554.37307‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RadixExpansion 8</sub></p>
+<p>If there is no repeating part, then the list [0] should be used.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">v</span><span class="p">:</span> <span class="n">RadixExpansion</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">fractRadix</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">11</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.123B0‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RadixExpansion 12</sub></p>
+<p>If you are not interested in the repeating nature of the expansion, an
+infinite stream of ragits can be obtained using
+fractRagitsfractRagitsRadixExpansion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fractRagits</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[3,7,3,0,7,7‾]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Integer</sub></p>
+<p>Of course, it&#8217;s possible to recover the fraction representation:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">::</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>76543210</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>More examples of expansions are available in
+<a class="reference external" href="section-9.15.html#DecimalExpansionXmpPage">DecimalExpansionXmpPage</a>
+, <a class="reference external" href="section-9.4.html#BinaryExpansionXmpPage">BinaryExpansionXmpPage</a>
+, and
+<a class="reference external" href="section-9.33.html#HexadecimalExpansionXmpPage">HexadecimalExpansionXmpPage</a>
+.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.64.html" title="previous chapter">9.64 Quaternion</a></li>
+      <li>Next: <a href="section-9.66.html" title="next chapter">9.66 RealClosure</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.65.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.65.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

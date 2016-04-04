@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>11.10 How Packages Work &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="12.0 Categories" href="section-12.0.html" />
+    <link rel="prev" title="11.9 Testing" href="section-11.9.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="how-packages-work">
+<h1>11.10 How Packages Work<a class="headerlink" href="#how-packages-work" title="Permalink to this headline">¶</a></h1>
+<p>Recall that packages as abstract datatypes are compiled independently
+and put into the library. The curious reader may ask: <code class="docutils literal"><span class="pre">How</span> <span class="pre">is</span> <span class="pre">the</span>
+<span class="pre">interpreter</span> <span class="pre">able</span> <span class="pre">to</span> <span class="pre">find</span> <span class="pre">an</span> <span class="pre">operation</span> <span class="pre">such</span> <span class="pre">as</span> <span class="pre">bubbleSort!?</span> <span class="pre">Also,</span> <span class="pre">how</span> <span class="pre">is</span>
+<span class="pre">a</span> <span class="pre">single</span> <span class="pre">compiled</span> <span class="pre">function</span> <span class="pre">such</span> <span class="pre">as</span> <span class="pre">bubbleSort!</span> <span class="pre">able</span> <span class="pre">to</span> <span class="pre">sort</span> <span class="pre">data</span> <span class="pre">of</span>
+<span class="pre">different</span> <span class="pre">types?</span></code></p>
+<p>After the interpreter loads the package SortPackage, the four operations
+from the package become known to the interpreter. Each of these
+operations is expressed as a modemap in which the type modemap of the
+operation is written in terms of symbolic domains.</p>
+<p>See the modemaps for bubbleSort!.</p>
+<p>)display op bubbleSort!</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>There are 2 exposed functions called bubbleSort! :
+   [1] D1 -&gt; D1 from SortPackage(D2,D1)
+         if D2 has ORDSET and D2 has OBJECT and D1 has
+         IndexedAggregate(Integer, D2) with
+              finiteAggregate
+              shallowlyMutable
+   [2] (D1,((D3,D3) -&gt; Boolean)) -&gt; D1 from SortPackage(D3,D1)
+         if D3 has OBJECT and D1 has
+         IndexedAggregate(Integer,D3) with
+              finiteAggregate
+              shallowlyMutable
+</pre></div>
+</div>
+<p>What happens if you ask for bubbleSort!([1,-5,3])? There is a unique
+modemap for an operation named bubbleSort! with one argument. Since
+[1,-5,3] is a list of integers, the symbolic domain D1 is defined as
+List(Integer). For some operation to apply, it must satisfy the
+predicate for some D2. What D2? The third expression of the and requires
+D1 has IndexedAggregate(Integer, D2) with two attributes. So the
+interpreter searches for an IndexedAggregate among the ancestors of List
+(Integer) (see
+<a class="reference external" href="section-12.4.html#ugCategoriesHier">ugCategoriesHier</a> ). It finds
+one: IndexedAggregate(Integer, Integer). The interpreter tries defining
+D2 as Integer. After substituting for D1 and D2, the predicate evaluates
+to true. An applicable operation has been found!</p>
+<p>Now FriCAS builds the package SortPackage(List(Integer), Integer).
+According to its definition, this package exports the required
+operation: bubbleSort!: List Integer-&gt;List Integer. The interpreter then
+asks the package for a function implementing this operation. The package
+gets all the functions it needs (for example, rest and swap) from the
+appropriate domains and then it returns a bubbleSort! to the interpreter
+together with the local environment for bubbleSort!. The interpreter
+applies the function to the argument [1,-5,3]. The bubbleSort! function
+is executed in its local environment and produces the result.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-11.9.html" title="previous chapter">11.9 Testing</a></li>
+      <li>Next: <a href="section-12.0.html" title="next chapter">12.0 Categories</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-11.10.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-11.10.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

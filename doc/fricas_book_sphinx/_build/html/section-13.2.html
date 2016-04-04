@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13.2 Definitions &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="13.3 Category Assertions" href="section-13.3.html" />
+    <link rel="prev" title="13.1 Domains vs. Packages" href="section-13.1.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="definitions">
+<h1>13.2 Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
+<p>The syntax for defining a domain constructor is the same as for any
+function in FriCAS:</p>
+<blockquote>
+<div>DomainForm : Exports == Implementation</div></blockquote>
+<p>As this definition usually extends over many lines, a where expression
+is generally used instead. where</p>
+<div class="line-block">
+<div class="line">A recommended format for the definition of a domain is:</div>
+</div>
+<blockquote>
+<div>DomainForm : Exports == Implementation where
+optional type declarations
+Exports == [ Category Assertions] with
+list of exported operations
+Implementation == [ Add Domain] add
+[Rep := Representation]
+list of function definitions for exported operations</div></blockquote>
+<p>Note: The brackets [ ] here denote optionality.</p>
+<p>A complete domain constructor definition for QuadraticForm is shown
+below. Interestingly, this little domain illustrates all the new
+concepts you need to learn.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>)abbrev domain QFORM QuadraticForm
+++ Description:
+++   This domain provides modest support for
+++   quadratic forms.
+QuadraticForm(n, K): Exports == Implementation where
+    n: PositiveInteger
+    K: Field
+    Exports == AbelianGroup with                --The exports
+      quadraticForm: SquareMatrix(n,K) -&gt; $     --export this
+        ++ \\bs{}axiom\\{quadraticForm(m)\\} creates a quadratic
+        ++ quadratic form from a symmetric,
+        ++ square matrix \\bs{}axiom\\{m\\}.
+      matrix:  $ -&gt; SquareMatrix(n,K)           -- export matrix
+        ++ \\bs{}axiom\\{matrix(qf)\\} creates a square matrix
+        ++ from the quadratic form \\bs{}axiom\\{qf\\}.
+      elt: ( $, DirectProduct(n,K)) -&gt; K        -- export elt
+        ++ \\bs{}axiom\\{qf(v)\\} evaluates the quadratic form
+        ++ \\bs{}axiom\\{qf\\} on the vector \\bs{}axiom\\{v\\},
+        ++ producing a scalar.
+    Implementation == SquareMatrix(n,K) add     --The exports
+      Rep := SquareMatrix(n,K)                  --representation
+      quadraticForm m ==                        --definition
+        not symmetric? m =&gt; error
+          &quot;quadraticForm requires a symmetric matrix&quot;
+        m :: $
+      matrix q == q :: Rep                      --definition
+      elt(q,v) == dot(v, (matrix q * v))        --definition
+</pre></div>
+</div>
+<p>The QuadraticForm domain.</p>
+<p>A domain constructor can take any number and type of parameters.
+QuadraticForm takes a positive integer n and a field K as arguments.
+Like a package, a domain has a set of explicit exports and an
+implementation described by a capsule. Domain constructors are
+documented in the same way as package constructors.</p>
+<p>Domain QuadraticForm(n, K), for a given positive integer n and domain K,
+explicitly exports three operations:</p>
+<ul class="simple">
+<li>quadraticForm(A) creates a quadratic form from a matrix A.</li>
+<li>matrix(q) returns the matrix A used to create the quadratic form q.</li>
+<li>q.v computes the scalar vTAv for a given vector v.</li>
+</ul>
+<p>Compared with the corresponding syntax given for the definition of a
+package, you see that a domain constructor has three optional parts to
+its definition: Category Assertions, Add Domain, and Representation.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-13.1.html" title="previous chapter">13.1 Domains vs. Packages</a></li>
+      <li>Next: <a href="section-13.3.html" title="next chapter">13.3 Category Assertions</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-13.2.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-13.2.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

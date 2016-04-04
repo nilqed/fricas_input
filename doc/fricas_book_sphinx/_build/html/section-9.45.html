@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.45 LinearOrdinaryDifferentialOperator1 &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.46 LinearOrdinaryDifferentialOperator2" href="section-9.46.html" />
+    <link rel="prev" title="9.44 LinearOrdinaryDifferentialOperator" href="section-9.44.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="linearordinarydifferentialoperator1">
+<h1>9.45 LinearOrdinaryDifferentialOperator1<a class="headerlink" href="#linearordinarydifferentialoperator1" title="Permalink to this headline">¶</a></h1>
+<p>LinearOrdinaryDifferentialOperator1(A) is the domain of linear ordinary
+differential operators with coefficients in the differential ring A.</p>
+<div class="section" id="differential-operators-with-rational-function-coefficients">
+<h2>9.45.1 Differential Operators with Rational Function Coefficients<a class="headerlink" href="#differential-operators-with-rational-function-coefficients" title="Permalink to this headline">¶</a></h2>
+<p>This example shows differential operators with rational function
+coefficients. In this case operator multiplication is non-commutative
+and, since the coefficients form a field, an operator division algorithm
+exists.</p>
+<p>We begin by defining RFZ to be the rational functions in x with integer
+coefficients and Dx to be the differential operator for d/dx.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">RFZ</span> <span class="p">:</span><span class="o">=</span> <span class="n">Fraction</span> <span class="n">UnivariatePolynomial</span><span class="p">(</span><span class="s1">&#39;x, Integer)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>FractionUnivariatePolynomial(x,Integer)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span> <span class="n">RFZ</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction UnivariatePolynomial(x,Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Dx</span> <span class="p">:</span> <span class="n">LODO1</span> <span class="n">RFZ</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>D</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+<p>Operators are created using the usual arithmetic operations.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span> <span class="n">LODO1</span> <span class="n">RFZ</span> <span class="p">:</span><span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">Dx</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">Dx</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3x2D2+2D+1x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span> <span class="n">LODO1</span> <span class="n">RFZ</span> <span class="p">:</span><span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">Dx</span> <span class="o">+</span> <span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>15x3D3+(51x2+10x)D2+29D+7x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+<p>Operator multiplication corresponds to functional composition.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x4+1x2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction UnivariatePolynomial(x,Integer)</sub></p>
+<p>Since operator coefficients depend on x, the multiplication is not
+commutative.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">b</span> <span class="o">-</span> <span class="n">b</span><span class="o">*</span><span class="n">a</span><span class="p">)</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-75x4+540x-75x4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction UnivariatePolynomial(x,Integer)</sub></p>
+<p>When the coefficients of operator polynomials come from a field, as in
+this case, it is possible to define operator division. Division on the
+left and division on the right yield different results when the
+multiplication is non-commutative.</p>
+<div class="line-block">
+<div class="line">The results of leftDivideleftDivideLinearOrdinaryDifferentialOperator1</div>
+</div>
+<p>and rightDividerightDivideLinearOrdinaryDifferentialOperator1 are
+quotient-remainder pairs satisfying:</p>
+<div class="line-block">
+<div class="line">leftDivide(a,b) = [q, r] such that a = b*q + r</div>
+<div class="line-block">
+<div class="line">rightDivide(a,b) = [q, r] such that a = q*b + r</div>
+</div>
+</div>
+<p>In both cases, the degreedegreeLinearOrdinaryDifferentialOperator1 of
+the remainder, r, is less than the degree of b.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ld</span> <span class="p">:</span><span class="o">=</span> <span class="n">leftDivide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[quotient=5xD+7,remainder=0]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(quotient: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer), remainder:
+LinearOrdinaryDifferentialOperator1 Fraction
+UnivariatePolynomial(x,Integer))</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">*</span> <span class="n">ld</span><span class="o">.</span><span class="n">quotient</span> <span class="o">+</span> <span class="n">ld</span><span class="o">.</span><span class="n">remainder</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>15x3D3+(51x2+10x)D2+29D+7x=15x3D3+(51x2+10x)D2+29D+7x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+<p>The operations of left and right division are so-called because the
+quotient is obtained by dividing a on that side by b.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rd</span> <span class="p">:</span><span class="o">=</span> <span class="n">rightDivide</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[quotient=5xD+7,remainder=10D+5x]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(quotient: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer), remainder:
+LinearOrdinaryDifferentialOperator1 Fraction
+UnivariatePolynomial(x,Integer))</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">rd</span><span class="o">.</span><span class="n">quotient</span> <span class="o">*</span> <span class="n">b</span> <span class="o">+</span> <span class="n">rd</span><span class="o">.</span><span class="n">remainder</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>15x3D3+(51x2+10x)D2+29D+7x=15x3D3+(51x2+10x)D2+29D+7x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+<p>Operations rightQuotientrightQuotientLinearOrdinaryDifferentialOperator1
+and rightRemainderrightRemainderLinearOrdinaryDifferentialOperator1 are
+available if only one of the quotient or remainder are of interest to
+you. This is the quotient from right division.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rightQuotient</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>5xD+7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+<p>This is the remainder from right division. The corresponding left
+functions leftQuotientleftQuotientLinearOrdinaryDifferentialOperator1
+and leftRemainderleftRemainderLinearOrdinaryDifferentialOperator1 are
+also available.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rightRemainder</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>10D+5x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+<p>For exact division, the operations
+leftExactQuotientleftExactQuotientLinearOrdinaryDifferentialOperator1
+and
+rightExactQuotientrightExactQuotientLinearOrdinaryDifferentialOperator1
+are supplied. These return the quotient but only if the remainder is
+zero. The call rightExactQuotient(a,b) would yield an error.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leftExactQuotient</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>5xD+7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer),...)</p>
+<p>The division operations allow the computation of left and right greatest
+common divisors (leftGcdleftGcdLinearOrdinaryDifferentialOperator1 and
+rightGcdrightGcdLinearOrdinaryDifferentialOperator1) via remainder
+sequences, and consequently the computation of left and right least
+common multiples (rightLcmrightLcmLinearOrdinaryDifferentialOperator1
+and leftLcmleftLcmLinearOrdinaryDifferentialOperator1).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">e</span> <span class="p">:</span><span class="o">=</span> <span class="n">leftGcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3x2D2+2D+1x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+<p>Note that a greatest common divisor doesn&#8217;t necessarily divide a and b
+on both sides. Here the left greatest common divisor does not divide a
+on the right.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leftRemainder</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rightRemainder</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>10D+5x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+<p>Similarly, a least common multiple is not necessarily divisible from
+both sides.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">rightLcm</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>15x3D3+(51x2+10x)D2+29D+7x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rightRemainder</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>10D+5x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leftRemainder</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator1 Fraction</sub>
+UnivariatePolynomial(x,Integer)</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">9.45 LinearOrdinaryDifferentialOperator1</a><ul>
+<li><a class="reference internal" href="#differential-operators-with-rational-function-coefficients">9.45.1 Differential Operators with Rational Function Coefficients</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.44.html" title="previous chapter">9.44 LinearOrdinaryDifferentialOperator</a></li>
+      <li>Next: <a href="section-9.46.html" title="next chapter">9.46 LinearOrdinaryDifferentialOperator2</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.45.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.45.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

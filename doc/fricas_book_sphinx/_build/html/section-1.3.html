@@ -1,0 +1,506 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.3 The FriCAS Language &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="1.4 Numbers" href="section-1.4.html" />
+    <link rel="prev" title="1.2 Typographic Conventions" href="section-1.2.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-fricas-language">
+<h1>1.3 The FriCAS Language<a class="headerlink" href="#the-fricas-language" title="Permalink to this headline">¶</a></h1>
+<p>The FriCAS language is a rich language for performing interactive
+computations and for building components of the FriCAS library. Here we
+present only some basic aspects of the language that you need to know
+for the rest of this chapter. Our discussion here is intentionally
+informal, with details unveiled on an as needed basis. For more
+information on a particular construct, we suggest you consult the index.</p>
+<div class="section" id="arithmetic-expressions">
+<h2>1.3.1 Arithmetic Expressions<a class="headerlink" href="#arithmetic-expressions" title="Permalink to this headline">¶</a></h2>
+<p>For arithmetic expressions, use the <code class="docutils literal"><span class="pre">+</span></code> and - operator as in
+mathematics. Use * for multiplication, and ^ for exponentiation. To
+create a fraction, use <code class="docutils literal"><span class="pre">/</span></code>. When an expression contains several operators,
+those of highest precedence are evaluated first. For arithmetic
+operators, ^ has highest precedence, * and / have the next highest
+precedence, and <code class="docutils literal"><span class="pre">+</span></code> and <code class="docutils literal"><span class="pre">-</span></code> have the lowest precedence.</p>
+<p>FriCAS puts implicit parentheses around operations of higher precedence,
+and groups those of equal precedence from left to right.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[-194\]</div>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>The above expression is equivalent to this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">((</span><span class="mi">3</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">3</span> <span class="o">^</span> <span class="mi">2</span><span class="p">)))</span> <span class="o">-</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[-194\]</div>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>If an expression contains subexpressions enclosed in parentheses, the
+parenthesized subexpressions are evaluated first (from left to right,
+from inside out).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">3</span><span class="o">/</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="mi">3</span> <span class="o">^</span> <span class="p">(</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[114\]</div>
+<p><sub>Type: Fraction Integer</sub></p>
+</div>
+<div class="section" id="previous-results">
+<h2>1.3.2 Previous Results<a class="headerlink" href="#previous-results" title="Permalink to this headline">¶</a></h2>
+<p>Use the percent sign <code class="docutils literal"><span class="pre">%</span></code> to refer to the last result.
+result:previous Also, use <code class="docutils literal"><span class="pre">%%&quot;</span> <span class="pre">to</span> <span class="pre">refer</span> <span class="pre">to</span> <span class="pre">previous</span> <span class="pre">results.</span>
+<span class="pre">percentpercent&#64;{%%}</span> <span class="pre">``%%(-1)</span></code> is equivalent to <code class="docutils literal"><span class="pre">%</span></code>, <code class="docutils literal"><span class="pre">%%(-2)</span></code>
+returns the next to the last result, and so on. <code class="docutils literal"><span class="pre">%%(1)</span></code> returns the
+result from step number 1, <code class="docutils literal"><span class="pre">%%(2)</span></code> returns the result from step
+number 2, and so on. <code class="docutils literal"><span class="pre">%%(0)</span></code> is not defined.</p>
+<p>This is ten to the tenth power.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">10</span> <span class="o">^</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<div class="math">
+\[10000000000\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This is the last result minus one.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="o">-</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[9999999999\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This is the last result.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[9999999999\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This is the result from step number 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[10000000000\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+<div class="section" id="some-types">
+<h2>1.3.3 Some Types<a class="headerlink" href="#some-types" title="Permalink to this headline">¶</a></h2>
+<p>Everything in FriCAS has a type. The type determines what operations you
+can perform on an object and how the object can be used.
+Chapter~<a class="reference external" href="section-2.0.html#ugTypes">ugTypes</a> is dedicated to the
+interactive use of types. Several of the final chapters discuss how
+types are built and how they are organized in the FriCAS library.</p>
+<p>Positive integers are given type PositiveInteger.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">8</span>
+</pre></div>
+</div>
+<div class="math">
+\[8\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Negative ones are given type Integer. This fine distinction is helpful
+to the FriCAS interpreter.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span><span class="mi">8</span>
+</pre></div>
+</div>
+<div class="math">
+\[-8\]</div>
+<p><sub>Type: Integer</sub></p>
+<p>Here a positive integer exponent gives a polynomial result.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">^</span><span class="mi">8</span>
+</pre></div>
+</div>
+<div class="math">
+\[x^8\]</div>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Here a negative integer exponent produces a fraction.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\frac{1}{x^8}\]</div>
+<p><sub>Type: Fraction Polynomial Integer</sub></p>
+</div>
+<div class="section" id="symbols-variables-assignments-and-declarations">
+<h2>1.3.4 Symbols, Variables, Assignments, and Declarations<a class="headerlink" href="#symbols-variables-assignments-and-declarations" title="Permalink to this headline">¶</a></h2>
+<p>A symbol is a literal used for the input of things like the variables in
+polynomials and power series.</p>
+<p>We use the three symbols x, y, and z in entering this polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="o">*</span><span class="n">z</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{{y} ^ {2}} \  {{z} ^ {2}}} -{2 \  x \  y \  z}+{{x} ^ {2}}\]</div>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>A symbol has a name beginning with an uppercase or lowercase alphabetic
+symbol:naming character, <code class="docutils literal"><span class="pre">%</span></code>, or <code class="docutils literal"><span class="pre">!</span></code>. Successive characters (if
+any) can be any of the above, digits, or ?. Case is distinguished: the
+symbol points is different from the symbol Points.</p>
+<p>A symbol can also be used in FriCAS as a variable. A variable refers to
+a value. To assign a value to a variable, variable:naming the operator
+<code class="docutils literal"><span class="pre">:=</span></code> assignment is used. FriCAS actually has two forms of
+assignment: immediate assignment, as discussed here, and delayed
+assignment. See Section
+<a class="reference external" href="section-5.1.html#ugLangAssign">ugLangAssign</a> for details. A
+variable initially has no restrictions on the kinds of declaration
+values to which it can refer.</p>
+<p>This assignment gives the value 4 (an integer) to a variable named x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<div class="math">
+\[4\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This gives the value z+3/5 (a polynomial) to x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">z</span> <span class="o">+</span> <span class="mi">3</span><span class="o">/</span><span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[z+{3 \over 5}\]</div>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+<p>To restrict the types of objects that can be assigned to a variable, use
+a declaration</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>After a variable is declared to be of some type, only values of that
+type can be assigned to that variable.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="mi">89</span>
+</pre></div>
+</div>
+<div class="math">
+\[89\]</div>
+<p><sub>Type: Integer</sub></p>
+<p>The declaration for y forces values assigned to y to be converted to
+integer values.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">sin</span> <span class="o">%</span><span class="n">pi</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: Integer</sub></p>
+<p>If no such conversion is possible, FriCAS refuses to assign a value to
+y.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Cannot&nbsp;convert&nbsp;right-hand&nbsp;side&nbsp;of&nbsp;assignment
+2
+-
+3
+&nbsp;&nbsp;&nbsp;to&nbsp;an&nbsp;object&nbsp;of&nbsp;the&nbsp;type&nbsp;Integer&nbsp;of&nbsp;the&nbsp;left-hand&nbsp;side.</p>
+</div>
+<p>A type declaration can also be given together with an assignment. The
+declaration can assist FriCAS in choosing the correct operations to
+apply.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span> <span class="n">Float</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[0.66666666666666666667\]</div>
+<p><sub>Type: Float</sub></p>
+<p>Any number of expressions can be given on input line. Just separate them
+by semicolons. Only the result of evaluating the last expression is
+displayed.</p>
+<p>These two expressions have the same effect as the previous single
+expression.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span> <span class="n">Float</span><span class="p">;</span> <span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[0.66666666666666666667\]</div>
+<p><sub>Type: Float</sub></p>
+<p>The type of a symbol is either Symbol or Variable(name) where name is
+the name of the symbol.</p>
+<p>By default, the interpreter gives this symbol the type Variable(q).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span>
+</pre></div>
+</div>
+<div class="math">
+\[q\]</div>
+<p><sub>Type: Variable q</sub></p>
+<p>When multiple symbols are involved, Symbol is used.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">q</span><span class="p">,</span> <span class="n">r</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[[q,r]\]</div>
+<p><sub>Type: List OrderedVariableList [q,r]</sub></p>
+<p>What happens when you try to use a symbol that is the name of a
+variable?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span>
+</pre></div>
+</div>
+<div class="math">
+\[0.66666666666666666667\]</div>
+<p><sub>Type: Float</sub></p>
+<p>Use a single quote <a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">``</span></a>&#8216; before quote the name to get the symbol.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s1">&#39;f</span>
+</pre></div>
+</div>
+<div class="math">
+\[f\]</div>
+<p><sub>Type: Variable f</sub></p>
+<p>Quoting a name creates a symbol by preventing evaluation of the name as
+a variable. Experience will teach you when you are most likely going to
+need to use a quote. We try to point out the location of such trouble
+spots.</p>
+</div>
+<div class="section" id="conversion">
+<h2>1.3.5 Conversion<a class="headerlink" href="#conversion" title="Permalink to this headline">¶</a></h2>
+<p>Objects of one type can usually be converted to objects of several other
+types. To convert an object to a new type, use the <code class="docutils literal"><span class="pre">::</span></code> infix
+operator. Conversion is discussed in detail in
+<a class="reference external" href="section-2.7.html#ugTypesConvert">ugTypesConvert</a>. For example, to
+display an object, it is necessary to convert the object to type
+OutputForm.</p>
+<p>This produces a polynomial with rational number coefficients.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="n">r</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{r} ^ {2}}+{2 \over 3}\]</div>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+<p>Create a quotient of polynomials with integer coefficients by using
+<code class="docutils literal"><span class="pre">::</span></code>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">::</span> <span class="n">Fraction</span> <span class="n">Polynomial</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{3 \  {{r} ^ {2}}}+2} \over 3\]</div>
+<p><sub>Type: Fraction Polynomial Integer</sub></p>
+<p>Some conversions can be performed automatically when FriCAS tries to
+evaluate your input. Others conversions must be explicitly requested.</p>
+</div>
+<div class="section" id="calling-functions">
+<h2>1.3.6 Calling Functions<a class="headerlink" href="#calling-functions" title="Permalink to this headline">¶</a></h2>
+<p>As we saw earlier, when you want to add or subtract two values, you
+place the arithmetic operator <code class="docutils literal"><span class="pre">+</span></code> or - between the two arguments
+denoting the values. To use most other FriCAS operations, however, you
+use another syntax: function:calling write the name of the operation
+first, then an open parenthesis, then each of the arguments separated by
+commas, and, finally, a closing parenthesis. If the operation takes only
+one argument and the argument is a number or a symbol, you can omit the
+parentheses.</p>
+<p>This calls the operation factor with the single integer argument 120.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{2} ^ {3}} \  3 \  5\]</div>
+<p><sub>Type: Factored Integer</sub></p>
+<p>This is a call to divide with the two integer arguments 125 and 7.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">divide</span><span class="p">(</span><span class="mi">125</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[
+{quotient={17}}, \: {remainder=6}
+\right]\]</div>
+<p><sub>Type: Record(quotient: Integer, remainder: Integer)</sub></p>
+<p>This calls quatern with four floating-point arguments.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">quatern</span><span class="p">(</span><span class="mf">3.4</span><span class="p">,</span><span class="mf">5.6</span><span class="p">,</span><span class="mf">2.9</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{3.4}+{{5.6} \  i}+{{2.9} \  j}+{{0.1} \  k}\]</div>
+<p><sub>Type: Quaternion Float</sub></p>
+<p>This is the same as factorial(10).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factorial</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<div class="math">
+\[3628800\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>An operation that returns a Boolean value (that is, true or false)
+frequently has a name suffixed with a question mark (<code class="docutils literal"><span class="pre">?</span></code>). For example,
+the even? operation returns true if its integer argument is an even
+number, false otherwise.</p>
+<p>An operation that can be destructive on one or more arguments usually
+has a name ending in a exclamation point (<code class="docutils literal"><span class="pre">!</span></code>). This actually means
+that it is allowed to update its arguments but it is not required to do
+so. For example, the underlying representation of a collection type may
+not allow the very last element to be removed and so an empty object may
+be returned instead. Therefore it is important that you use the object
+returned by the operation and not rely on a physical change having
+occurred within the object. Usually destructive operations are provided
+for efficiency reasons.</p>
+</div>
+<div class="section" id="some-predefined-macros">
+<h2>1.3.7 Some Predefined Macros<a class="headerlink" href="#some-predefined-macros" title="Permalink to this headline">¶</a></h2>
+<p>FriCAS provides several macros for your convenience.See
+<a class="reference external" href="section-6.2.html#ugUserMacros">ugUserMacros</a> for a discussion on
+how to write your own macros. Macros are names macro:predefined (or
+forms) that expand to larger expressions for commonly used values.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%i</td>
+<td>The square root of -1.</td>
+</tr>
+<tr class="row-even"><td>%e</td>
+<td>The base of the natural logarithm.</td>
+</tr>
+<tr class="row-odd"><td>%pi</td>
+<td>π.</td>
+</tr>
+<tr class="row-even"><td>%infinity</td>
+<td>∞.</td>
+</tr>
+<tr class="row-odd"><td>%plusInfinity</td>
+<td>+∞.</td>
+</tr>
+<tr class="row-even"><td>%minusInfinity</td>
+<td>-∞.</td>
+</tr>
+</tbody>
+</table>
+<p>To display all the macros (along with anything you have defined in the
+workspace), issue the system command <code class="docutils literal"><span class="pre">)display</span> <span class="pre">all</span></code>.</p>
+</div>
+<div class="section" id="long-lines">
+<h2>1.3.8 Long Lines<a class="headerlink" href="#long-lines" title="Permalink to this headline">¶</a></h2>
+<p>When you enter FriCAS expressions from your keyboard, there will be
+times when they are too long to fit on one line. FriCAS does not care
+how long your lines are, so you can let them continue from the right
+margin to the left side of the next line.</p>
+<p>Alternatively, you may want to enter several shorter lines and have
+FriCAS glue them together. To get this glue, put an underscore (_) at
+the end of each line you wish to continue.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2</span><span class="n">_</span>
+<span class="o">+</span><span class="n">_</span>
+<span class="mi">3</span>
+</pre></div>
+</div>
+<p>is the same as if you had entered</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2</span><span class="o">+</span><span class="mi">3</span>
+</pre></div>
+</div>
+<p>FriCAS statements in an input file (see Section
+<a class="reference external" href="section-4.1.html#ugInOutIn">ugInOutIn</a> ), can use indentation to
+indicate the program structure . (see Section
+<a class="reference external" href="section-5.2.html#ugLangBlocks">ugLangBlocks</a> ).</p>
+</div>
+<div class="section" id="comments">
+<h2>1.3.9 Comments<a class="headerlink" href="#comments" title="Permalink to this headline">¶</a></h2>
+<p>Comment statements begin with two consecutive hyphens or two consecutive
+plus signs and continue until the end of the line.</p>
+<p>The comment beginning with &#8211; is ignored by FriCAS.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>2 + 3 -- this is rather simple, no?
+</pre></div>
+</div>
+<div class="math">
+\[5\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>There is no way to write long multi-line comments other than starting
+each line with <code class="docutils literal"><span class="pre">--</span></code> or <code class="docutils literal"><span class="pre">++</span></code>.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1.3 The FriCAS Language</a><ul>
+<li><a class="reference internal" href="#arithmetic-expressions">1.3.1 Arithmetic Expressions</a></li>
+<li><a class="reference internal" href="#previous-results">1.3.2 Previous Results</a></li>
+<li><a class="reference internal" href="#some-types">1.3.3 Some Types</a></li>
+<li><a class="reference internal" href="#symbols-variables-assignments-and-declarations">1.3.4 Symbols, Variables, Assignments, and Declarations</a></li>
+<li><a class="reference internal" href="#conversion">1.3.5 Conversion</a></li>
+<li><a class="reference internal" href="#calling-functions">1.3.6 Calling Functions</a></li>
+<li><a class="reference internal" href="#some-predefined-macros">1.3.7 Some Predefined Macros</a></li>
+<li><a class="reference internal" href="#long-lines">1.3.8 Long Lines</a></li>
+<li><a class="reference internal" href="#comments">1.3.9 Comments</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-1.2.html" title="previous chapter">1.2 Typographic Conventions</a></li>
+      <li>Next: <a href="section-1.4.html" title="next chapter">1.4 Numbers</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.3.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-1.3.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

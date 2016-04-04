@@ -1,0 +1,385 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.6 Limits &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="8.7 Laplace Transforms" href="section-8.7.html" />
+    <link rel="prev" title="8.5 Solution of Linear and Polynomial Equations" href="section-8.5.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="limits">
+<h1>8.6 Limits<a class="headerlink" href="#limits" title="Permalink to this headline">¶</a></h1>
+<p>To compute a limit, you must specify a functional expression, limit a
+variable, and a limiting value for that variable. If you do not specify
+a direction, FriCAS attempts to compute a two-sided limit.</p>
+<p>Issue this to compute the limit</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">((</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-12</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(OrderedCompletion Fraction Polynomial Integer,...)</sub></p>
+<p>Sometimes the limit when approached from the left is different from the
+limit from the right and, in this case, you may wish to ask for a
+one-sided limit. Also, if you have a function that is only defined on
+one side of a particular value, limit:one-sided vs. two-sided you can
+compute a one-sided limit.</p>
+<p>The function log(x) is only defined to the right of zero, that is, for
+x&gt;0. Thus, when computing limits of functions involving log(x), you
+probably want a right-hand limit.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(OrderedCompletion Expression Integer,...)</sub></p>
+<p>When you do not specify right or left as the optional fourth argument,
+limit tries to compute a two-sided limit. Here the limit from the left
+does not exist, as FriCAS indicates when you try to take a two-sided
+limit.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[leftHandLimit=&#8221;failed&#8221;,rightHandLimit=0]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Record(leftHandLimit: Union(OrderedCompletion Expression</sub>
+Integer,&#8221;failed&#8221;), rightHandLimit: Union(OrderedCompletion Expression
+Integer,&#8221;failed&#8221;)),...)</p>
+<p>A function can be defined on both sides of a particular value, but tend
+to different limits as its variable approaches that value from the left
+and from the right. We can construct an example of this as follows:
+Since y2 is simply the absolute value of y, the function y2/y is simply
+the sign ( +1 or -1) of the nonzero real number y. Therefore, y2/y=-1
+for y&lt;0 and y2/y=+1 for y&gt;0.</p>
+<p>This is what happens when we take the limit at y=0. The answer returned
+by FriCAS gives both a left-hand and a right-hand limit.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">y</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[leftHandLimit=-1,rightHandLimit=1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Record(leftHandLimit: Union(OrderedCompletion Expression</sub>
+Integer,&#8221;failed&#8221;), rightHandLimit: Union(OrderedCompletion Expression
+Integer,&#8221;failed&#8221;)),...)</p>
+<p>Here is another example, this time using a more complicated function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">))</span><span class="o">/</span><span class="n">t</span><span class="p">,</span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[leftHandLimit=-12,rightHandLimit=12]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Record(leftHandLimit: Union(OrderedCompletion Expression</sub>
+Integer,&#8221;failed&#8221;), rightHandLimit: Union(OrderedCompletion Expression
+Integer,&#8221;failed&#8221;)),...)</p>
+<p>You can compute limits at infinity by passing either limit:at infinity
++∞ or -∞ as the third argument of limit.</p>
+<p>To do this, use the constants %plusInfinity and %minusInfinity.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="o">%</span><span class="n">plusInfinity</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>35</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(OrderedCompletion Expression Integer,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="o">%</span><span class="n">minusInfinity</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-35</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(OrderedCompletion Expression Integer,...)</sub></p>
+<p>You can take limits of functions with parameters. limit:of function with
+parameters As you can see, the limit is expressed in terms of the
+parameters.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">sinh</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">tan</span><span class="p">(</span><span class="n">b</span><span class="o">*</span><span class="n">x</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ab</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(OrderedCompletion Expression Integer,...)</sub></p>
+<p>When you use limit, you are taking the limit of a real function of a
+real variable.</p>
+<p>When you compute this, FriCAS returns 0 because, as a function of a real
+variable, sin(1/z) is always between -1 and 1, so z*sin(1/z) tends to 0
+as z tends to 0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">z</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">z</span><span class="p">),</span><span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(OrderedCompletion Expression Integer,...)</sub></p>
+<p>However, as a function of a complex variable, sin(1/z) is badly
+limit:real vs. complex behaved near 0 (one says that sin(1/z) has an
+essential singularity essential singularity at z=0).
+singularity:essential</p>
+<p>When viewed as a function of a complex variable, z*sin(1/z) does not
+approach any limit as z tends to 0 in the complex plane. FriCAS
+indicates this when we call complexLimit.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complexLimit</span><span class="p">(</span><span class="n">z</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">z</span><span class="p">),</span><span class="n">z</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;failed&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+<p>Here is another example. As x approaches 0 along the real axis,
+exp(-1/x**2) tends to 0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(OrderedCompletion Expression Integer,...)</sub></p>
+<p>However, if x is allowed to approach 0 along any path in the complex
+plane, the limiting value of exp(-1/x**2) depends on the path taken
+because the function has an essential singularity at x=0. This is
+reflected in the error message returned by the function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complexLimit</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;failed&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+<p>You can also take complex limits at infinity, that is, limits of a
+function of z as z approaches infinity on the Riemann sphere. Use the
+symbol %infinity to denote complex infinity.</p>
+<p>As above, to compute complex limits rather than real limits, use
+complexLimit.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complexLimit</span><span class="p">((</span><span class="mi">2</span> <span class="o">+</span> <span class="n">z</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">z</span><span class="p">),</span><span class="n">z</span> <span class="o">=</span> <span class="o">%</span><span class="n">infinity</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OnePointCompletion Fraction Polynomial Integer</sub></p>
+<p>In many cases, a limit of a real function of a real variable exists when
+the corresponding complex limit does not. This limit exists.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">limit</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">x</span><span class="p">,</span><span class="n">x</span> <span class="o">=</span> <span class="o">%</span><span class="n">plusInfinity</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(OrderedCompletion Expression Integer,...)</sub></p>
+<p>But this limit does not.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complexLimit</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">x</span><span class="p">,</span><span class="n">x</span> <span class="o">=</span> <span class="o">%</span><span class="n">infinity</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;failed&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-8.5.html" title="previous chapter">8.5 Solution of Linear and Polynomial Equations</a></li>
+      <li>Next: <a href="section-8.7.html" title="next chapter">8.7 Laplace Transforms</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-8.6.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-8.6.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

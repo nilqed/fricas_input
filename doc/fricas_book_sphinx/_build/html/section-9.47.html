@@ -1,0 +1,704 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.47 List &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.48 LyndonWord" href="section-9.48.html" />
+    <link rel="prev" title="9.46 LinearOrdinaryDifferentialOperator2" href="section-9.46.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="list">
+<h1>9.47 List<a class="headerlink" href="#list" title="Permalink to this headline">¶</a></h1>
+<p>A list is a finite collection of elements in a specified order that can
+contain duplicates. A list is a convenient structure to work with
+because it is easy to add or remove elements and the length need not be
+constant. There are many different kinds of lists in FriCAS, but the
+default types (and those used most often) are created by the List
+constructor. For example, there are objects of type List Integer, List
+Float and List Polynomial Fraction Integer. Indeed, you can even have
+List List List Boolean (that is, lists of lists of lists of Boolean
+values). You can have lists of any type of FriCAS object.</p>
+<div class="section" id="creating-lists">
+<h2>9.47.1 Creating Lists<a class="headerlink" href="#creating-lists" title="Permalink to this headline">¶</a></h2>
+<p>The easiest way to create a list with, for example, the elements 2, 4,
+5, 6 is to enclose the elements with square brackets and separate the
+elements with commas.</p>
+<p>The spaces after the commas are optional, but they do improve the
+readability.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[2,4,5,6]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>To create a list with the single element 1, you can use either [1] or
+the operation listlistList.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>Once created, two lists k and m can be concatenated by issuing
+append(k,m). appendappendList does not physically join the lists, but
+rather produces a new list with the elements coming from the two
+arguments.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">append</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,5,6,7]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>Use consconsList to append an element onto the front of a list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cons</span><span class="p">(</span><span class="mi">10</span><span class="p">,[</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[10,9,8,7]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+</div>
+<div class="section" id="accessing-list-elements">
+<h2>9.47.2 Accessing List Elements<a class="headerlink" href="#accessing-list-elements" title="Permalink to this headline">¶</a></h2>
+<p>To determine whether a list has any elements, use the operation
+empty?empty?List.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>empty? [x+1]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>Alternatively, equality with the list constant nilnilList can be tested.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">([]</span> <span class="o">=</span> <span class="n">nil</span><span class="p">)</span><span class="nd">@Boolean</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>We&#8217;ll use this in some of the following examples.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[4,3,7,3,8,5,9,2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>Each of the next four expressions extracts the firstfirstList element of
+k.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">first</span> <span class="n">k</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span><span class="o">.</span><span class="n">first</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span><span class="o">.</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The last two forms generalize to k.i and k(i), respectively, where 1≤i≤n
+and n equals the length of k.</p>
+<p>This length is calculated by #.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="c1">#k</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Performing an operation such as k.i is sometimes referred to as indexing
+into k or elting into k. The latter phrase comes about because the name
+of the operation that extracts elements is called elteltList. That is,
+k.3 is just alternative syntax for elt(k,3). It is important to remember
+that list indices begin with 1. If we issue k := [1,3,2,9,5] then k.4
+returns 9. It is an error to use an index that is not in the range from
+1 to the length of the list.</p>
+<p>The last element of a list is extracted by any of the following three
+expressions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">last</span> <span class="n">k</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span><span class="o">.</span><span class="n">last</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This form computes the index of the last element and then extracts the
+element from the list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span><span class="o">.</span><span class="p">(</span> <span class="c1">#k)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+<div class="section" id="changing-list-elements">
+<h2>9.47.3 Changing List Elements<a class="headerlink" href="#changing-list-elements" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;ll use this in some of the following examples.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[4,3,7,3,8,5,9,2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>List elements are reset by using the k.i form on the left-hand side of
+an assignment. This expression resets the first element of k to 999.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span><span class="o">.</span><span class="mi">1</span> <span class="p">:</span><span class="o">=</span> <span class="mi">999</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>999</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>As with indexing into a list, it is an error to use an index that is not
+within the proper bounds. Here you see that k was modified.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[999,3,7,3,8,5,9,2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>The operation that performs the assignment of an element to a particular
+position in a list is called seteltseteltList. This operation is
+destructive in that it changes the list. In the above example, the
+assignment returned the value 999 and k was modified. For this reason,
+lists are called mutable objects: it is possible to change part of a
+list (mutate it) rather than always returning a new list reflecting the
+intended modifications.</p>
+<p>Moreover, since lists can share structure, changes to one list can
+sometimes affect others.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="n">cons</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">k</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,1,2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>Change the second element of m.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span><span class="o">.</span><span class="mi">2</span> <span class="p">:</span><span class="o">=</span> <span class="mi">99</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>99</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>See, m was altered.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,99,2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>But what about k? It changed too!</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[99,2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+</div>
+<div class="section" id="other-functions">
+<h2>9.47.4 Other Functions<a class="headerlink" href="#other-functions" title="Permalink to this headline">¶</a></h2>
+<p>An operation that is used frequently in list processing is that which
+returns all elements in a list after the first element.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>Use the restrestList operation to do this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rest</span> <span class="n">k</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[2,3]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>To remove duplicate elements in a list k, use
+removeDuplicatesremoveDuplicatesList.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">removeDuplicates</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[4,3,5]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>To get a list with elements in the order opposite to those in a list k,
+use reversereverseList.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reverse</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[6,5,4,3,2,1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>To test whether an element is in a list, use member?member?List:
+member?(a,k) returns true or false depending on whether a is in k or
+not.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>member?(1/2,[3/4,5/6,1/2])
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>member?(1/12,[3/4,5/6,1/2])
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>As an exercise, the reader should determine how to get a list containing
+all but the last of the elements in a given non-empty list
+k.reverse(rest(reverse(k))) works.</p>
+</div>
+<div class="section" id="dot-dot">
+<h2>9.47.5 Dot, Dot<a class="headerlink" href="#dot-dot" title="Permalink to this headline">¶</a></h2>
+<p>Certain lists are used so often that FriCAS provides an easy way of
+constructing them. If n and m are integers, then expand [n..m] creates a
+list containing n, n+1, ... m. If n &gt; m then the list is empty. It is
+actually permissible to leave off the m in the dot-dot construction (see
+below).</p>
+<p>The dot-dot notation can be used more than once in a list construction
+and with specific elements being given. Items separated by dots are
+called segments.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mf">20.</span><span class="o">.</span><span class="mi">23</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1..3,10..10,20..23]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Segment PositiveInteger</sub></p>
+<p>Segments can be expanded into the range of items between the endpoints
+by using expandexpandSegment.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expand</span> <span class="p">[</span><span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mf">20.</span><span class="o">.</span><span class="mi">23</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,10,20,21,22,23]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>What happens if we leave off a number on the right-hand side of ..?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expand</span> <span class="p">[</span><span class="mf">1.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,4,5,6,7,8,9,10,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Integer</sub></p>
+<p>What is created in this case is a Stream which is a generalization of a
+list. See <a class="reference external" href="section-9.76.html#StreamXmpPage">StreamXmpPage</a> for more
+information.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">9.47 List</a><ul>
+<li><a class="reference internal" href="#creating-lists">9.47.1 Creating Lists</a></li>
+<li><a class="reference internal" href="#accessing-list-elements">9.47.2 Accessing List Elements</a></li>
+<li><a class="reference internal" href="#changing-list-elements">9.47.3 Changing List Elements</a></li>
+<li><a class="reference internal" href="#other-functions">9.47.4 Other Functions</a></li>
+<li><a class="reference internal" href="#dot-dot">9.47.5 Dot, Dot</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.46.html" title="previous chapter">9.46 LinearOrdinaryDifferentialOperator2</a></li>
+      <li>Next: <a href="section-9.48.html" title="next chapter">9.48 LyndonWord</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.47.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.47.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

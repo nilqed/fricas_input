@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13.11 Short Forms &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="13.12 Example 1: Clifford Algebra" href="section-13.12.html" />
+    <link rel="prev" title="13.10 Origins" href="section-13.10.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="short-forms">
+<h1>13.11 Short Forms<a class="headerlink" href="#short-forms" title="Permalink to this headline">¶</a></h1>
+<p>In FriCAS, a domain could be defined using only an add-domain and no
+capsule. Although we talk about rational numbers as quotients of
+integers, there is no type RationalNumber in FriCAS. To create such a
+type, you could compile the following short-form definition:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">RationalNumber</span><span class="p">()</span> <span class="o">==</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The Exports part of this definition is missing and is taken to be
+equivalent to that of Fraction(Integer). Because of the add-domain
+philosophy, you get precisely what you want. The effect is to create a
+little stub of a domain. When a user asks to add two rational numbers,
+FriCAS would ask RationalNumber for a function implementing this +.
+Since the domain has no capsule, the domain then immediately sends its
+request to Fraction (Integer).</p>
+<p>The short form definition for domains is used to define such domains as
+MultivariatePolynomial: MultivariatePolynomial</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">MultivariatePolynomial</span><span class="p">(</span><span class="n">vl</span><span class="p">:</span> <span class="n">List</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="n">Ring</span><span class="p">)</span> <span class="o">==</span>
+   <span class="n">SparseMultivariatePolynomial</span><span class="p">(</span><span class="n">R</span><span class="p">,</span>
+      <span class="n">OrderedVariableList</span> <span class="n">vl</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-13.10.html" title="previous chapter">13.10 Origins</a></li>
+      <li>Next: <a href="section-13.12.html" title="next chapter">13.12 Example 1: Clifford Algebra</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-13.11.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-13.11.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

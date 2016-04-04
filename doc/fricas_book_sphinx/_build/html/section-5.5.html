@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>5.5 Creating Lists and Streams with Iterators &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="5.6 An Example: Streams of Primes" href="section-5.6.html" />
+    <link rel="prev" title="5.4 Loops" href="section-5.4.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="creating-lists-and-streams-with-iterators">
+<h1>5.5 Creating Lists and Streams with Iterators<a class="headerlink" href="#creating-lists-and-streams-with-iterators" title="Permalink to this headline">¶</a></h1>
+<p>All of what we did for loops in
+<a class="reference external" href="section-5.4.html#ugLangLoops">ugLangLoops</a> iteration can be
+transformed into expressions that create lists list:created by iterator
+and streams. stream:created by iterator The repeat, break or iterate
+words are not used but all the other ideas carry over. Before we give
+you the general rule, here are some examples which give you the idea.</p>
+<p>This creates a simple list of the integers from 1 to 10.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">list</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,4,5,6,7,8,9,10]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>Create a stream of the integers greater than or equal to 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">stream</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,4,5,6,7,8,9,10,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream PositiveInteger</sub></p>
+<p>This is a list of the prime integers between 1 and 10, inclusive.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[i for i in 1..10 | prime? i]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[2,3,5,7]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>This is a stream of the prime integers greater than or equal to 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[i for i in 1.. | prime? i]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[2,3,5,7,11,13,17,19,23,29,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream PositiveInteger</sub></p>
+<p>This is a list of the integers between 1 and 10, inclusive, whose
+squares are less than 700.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">10</span> <span class="k">while</span> <span class="n">i</span><span class="o">*</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">700</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,4,5,6,7,8,9,10]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>This is a stream of the integers greater than or equal to 1 whose
+squares are less than 700.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span> <span class="k">while</span> <span class="n">i</span><span class="o">*</span><span class="n">i</span> <span class="o">&lt;</span> <span class="mi">700</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,4,5,6,7,8,9,10,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream PositiveInteger</sub></p>
+<p>Here is the general rule. collection</p>
+<p>The general syntax of a collection is</p>
+<p>[ collectExpression iterator1 iterator2 ... iteratorN ]</p>
+<div class="line-block">
+<div class="line">where each iteratori is either a for or a while clause. The loop</div>
+</div>
+<p>terminates immediately when the end test of any iteratori succeeds or
+when a return expression is evaluated in collectExpression. The value
+returned by the collection is either a list or a stream of elements, one
+for each iteration of the collectExpression.</p>
+<p>Be careful when you use while stream:using while &#64;{using while} to
+create a stream. By default, FriCAS tries to compute and display the
+first ten elements of a stream. If the while condition is not satisfied
+quickly, FriCAS can spend a long (possibly infinite) time trying to
+compute stream:number of elements computed the elements. Use )set
+streams calculate to change the default to something else. set streams
+calculate This also affects the number of terms computed and displayed
+for power series. For the purposes of this book, we have used this
+system command to display fewer than ten terms.</p>
+<p>Use nested iterators to create lists of iteration:nested lists which can
+then be given as an argument to matrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="n">x</span><span class="o">^</span><span class="n">i</span><span class="o">+</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">10.</span><span class="o">.</span><span class="mi">12</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x+10x2+10x3+10x+11x2+11x3+11x+12x2+12x3+12]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Polynomial Integer</sub></p>
+<p>You can also create lists of streams, streams of lists and streams of
+streams. Here is a stream of streams.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="p">[</span><span class="n">i</span><span class="o">/</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">j</span><span class="o">+</span><span class="mf">1.</span><span class="o">.</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[2,3,4,5,6,7,8,9,10,11,…],[32,2,52,3,72,4,92,5,112,6,…],.[43,53,2,73,83,3,103,113,4,133,…],[54,32,74,2,94,52,114,3,134,72,…],[65,75,85,95,2,115,125,135,145,3,…],[76,43,32,53,116,2,136,73,52,83,…],[87,97,107,117,127,137,2,157,167,177,…],[98,54,118,32,138,74,158,2,178,94,…],[109,119,43,139,149,53,169,179,2,199,…],.[1110,65,1310,75,32,85,1710,95,1910,2,…],…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Stream Fraction Integer</sub></p>
+<p>You can use parallel iteration across lists and streams to create
+iteration:parallel new lists.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">i</span><span class="o">/</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">3.</span><span class="o">.</span> <span class="n">by</span> <span class="mi">10</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">2.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[32,133,234,335,436,537,638,739,8310,9311,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Fraction Integer</sub></p>
+<p>Iteration stops if the end of a list or stream is reached.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">i</span><span class="o">^</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">7</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">2.</span><span class="o">.</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,8,81,1024,15625,279936,5764801]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Integer</sub></p>
+<p>As with loops, you can combine these modifiers to make very complicated
+conditions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[ [ [i,j] for i in 10..15 | prime? i] for j in 17..22 | j =
+</pre></div>
+</div>
+<p>squareFreePart j]</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[[11,17],[13,17]],[[11,19],[13,19]],[[11,21],[13,21]],[[11,22],[13,22]]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List List PositiveInteger</sub></p>
+<p>See List (section
+<a class="reference external" href="section-9.1.html#AssociationListXmpPage">ListXmpPage</a> ) and Stream
+(section <a class="reference external" href="section-9.76.html#StreamXmpPage">StreamXmpPage</a> ) for more
+information on creating and manipulating lists and streams,
+respectively.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-5.4.html" title="previous chapter">5.4 Loops</a></li>
+      <li>Next: <a href="section-5.6.html" title="next chapter">5.6 An Example: Streams of Primes</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-5.5.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-5.5.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

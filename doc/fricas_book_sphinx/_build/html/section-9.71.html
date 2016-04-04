@@ -1,0 +1,424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.71 Set &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.72 SingleInteger" href="section-9.72.html" />
+    <link rel="prev" title="9.70 SegmentBinding" href="section-9.70.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="set">
+<h1>9.71 Set<a class="headerlink" href="#set" title="Permalink to this headline">¶</a></h1>
+<p>The Set domain allows one to represent explicit finite sets of values.
+These are similar to lists, but duplicate elements are not allowed.</p>
+<p>Sets can be created by giving a fixed set of values ...</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="p">:</span><span class="o">=</span> <span class="nb">set</span> <span class="p">[</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">z</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{x2-1,y2-1,z2-1}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set Polynomial Integer</sub></p>
+<p>or by using a collect form, just as for lists. In either case, the set
+is formed from a finite collection of values.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>t := set [x^i - i+1 for i in 2..10 | prime? i]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{x2-1,x3-2,x5-4,x7-6}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set Polynomial Integer</sub></p>
+<p>The basic operations on sets are intersectintersectSet, unionunionSet,
+differencedifferenceSet, and symmetricDifferencesymmetricDifferenceSet.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">intersect</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{x2-1}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="p">:</span><span class="o">=</span> <span class="n">union</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{x2-1,x3-2,x5-4,x7-6,y2-1,z2-1}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set Polynomial Integer</sub></p>
+<p>The set difference(s,t) contains those members of s which are not in t.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">difference</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{y2-1,z2-1}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set Polynomial Integer</sub></p>
+<p>The set symmetricDifference(s,t) contains those elements which are in s
+or t but not in both.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">symmetricDifference</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{x3-2,x5-4,x7-6,y2-1,z2-1}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set Polynomial Integer</sub></p>
+<p>Set membership is tested using the member?member?Set operation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>member?(y, s)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>member?((y+1)*(y-1), s)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>The subset?subset?Set function determines whether one set is a subset of
+another.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>subset?(i, s)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>subset?(u, s)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>When the base type is finite, the absolute complement of a set is
+defined. This finds the set of all multiplicative generators of
+PrimeField 11&#8212;the integers mod 11.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>gs := set [g for i in 1..11 | primitive?(g := i::PF 11)]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{2,6,7,8}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set PrimeField 11</sub></p>
+<p>The following values are not generators.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complement</span> <span class="n">gs</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{1,3,4,5,9,10,0}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set PrimeField 11</sub></p>
+<p>Often the members of a set are computed individually; in addition,
+values can be inserted or removed from a set over the course of a
+computation.</p>
+<p>There are two ways to do this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="nb">set</span> <span class="p">[</span><span class="n">i</span><span class="o">^</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{1,4,9,16,25}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set PositiveInteger</sub></p>
+<p>One is to view a set as a data structure and to apply updating
+operations.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>insert!(32, a)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{1,4,9,16,25,32}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>remove!(25, a)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{1,4,9,16,32}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{1,4,9,16,32}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set PositiveInteger</sub></p>
+<p>The other way is to view a set as a mathematical entity and to create
+new sets from old.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">b0</span> <span class="p">:</span><span class="o">=</span> <span class="nb">set</span> <span class="p">[</span><span class="n">i</span><span class="o">^</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{1,4,9,16,25}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">union</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="p">{</span><span class="mi">32</span><span class="p">})</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{1,4,9,16,25,32}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">difference</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="p">{</span><span class="mi">25</span><span class="p">})</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{1,4,9,16,32}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{1,4,9,16,25}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set PositiveInteger</sub></p>
+<p>For more information about lists, see
+<a class="reference external" href="section-9.1.html#AssociationListXmpPage">ListXmpPage</a> .</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.70.html" title="previous chapter">9.70 SegmentBinding</a></li>
+      <li>Next: <a href="section-9.72.html" title="next chapter">9.72 SingleInteger</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.71.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.71.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

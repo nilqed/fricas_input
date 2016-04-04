@@ -1,0 +1,251 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.4 Records &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="2.5 Unions" href="section-2.5.html" />
+    <link rel="prev" title="2.3 Declarations" href="section-2.3.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="records">
+<h1>2.4 Records<a class="headerlink" href="#records" title="Permalink to this headline">¶</a></h1>
+<p>A Record is an object composed of one or more other objects, Record each
+of which is referenced with a <em>selector</em>.
+Components can all belong to the same type or each can have a different
+type.</p>
+<p>The syntax for writing a Record type is</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Record</span><span class="p">(</span><span class="n">selector1</span><span class="p">:</span><span class="n">type1</span><span class="p">,</span> <span class="n">selector2</span><span class="p">:</span><span class="n">type2</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">selectorN</span><span class="p">:</span><span class="n">typeN</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You must be <strong>careful</strong> if a selector has the same name as a variable in
+the workspace. If this occurs, precede the selector name by a single
+quote quote.</p>
+<p>Record components are implicitly ordered. All the components of a record
+can be set at once by assigning the record a bracketed tuple of values
+of the proper length. For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span> <span class="n">Record</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">Integer</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;two&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{[a=1,b=&quot;two&quot;]}\]</div>
+<p><sub>Type: Record(a: Integer,b: String)</sub></p>
+<p>To access a component of a record r, write the name r, followed by a
+period, followed by a selector.</p>
+<p>The object returned by this computation is a record with two components:
+a quotient part and a remainder part.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="p">:</span><span class="o">=</span> <span class="n">divide</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{[quotient=2,remainder=1]}\]</div>
+<p><sub>Type: Record(quotient: Integer,remainder: Integer)</sub></p>
+<p>This is the quotient part.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span><span class="o">.</span><span class="n">quotient</span>
+</pre></div>
+</div>
+<div class="math">
+\[2\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This is the remainder part.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span><span class="o">.</span><span class="n">remainder</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>You can use selector expressions on the left-hand side of an assignment
+to change destructively the components of a record.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span><span class="o">.</span><span class="n">quotient</span> <span class="p">:</span><span class="o">=</span> <span class="mi">8978</span>
+</pre></div>
+</div>
+<div class="math">
+\[8978\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The selected component quotient has the value 8978, which is what is
+returned by the assignment. Check that the value of u was modified.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{[quotient=8978,remainder=1]}\]</div>
+<p><sub>Type: Record(quotient: Integer,remainder: Integer)</sub></p>
+<p>Selectors are evaluated. Thus you can use variables that evaluate to
+selectors instead of the selectors themselves.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;quotient</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{quotient}\]</div>
+<p><sub>Type: Variable quotient</sub></p>
+<p>Be <strong>careful!</strong> A selector could have the same name as a variable in the
+workspace. If this occurs, precede the selector name by a single quote,
+as in selector:quoting u.&#8217;quotient.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">divide</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[2\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Here we declare that the value of bd has two components: a string, to be
+accessed via name, and an integer, to be accessed via birthdayMonth.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bd</span> <span class="p">:</span> <span class="n">Record</span><span class="p">(</span><span class="n">name</span> <span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">birthdayMonth</span> <span class="p">:</span> <span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>You must initially set the value of the entire Record at once.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bd</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Judith&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{[name=&quot;Judith&quot;,birthdayMonth=3]}\]</div>
+<p><sub>Type: Record(name: String,birthdayMonth: Integer)</sub></p>
+<p>Once set, you can change any of the individual components.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bd</span><span class="o">.</span><span class="n">name</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;Katie&quot;</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{ &quot;Katie&quot;}\]</div>
+<p><sub>Type: String</sub></p>
+<p>Records may be nested and the selector names can be shared at different
+levels.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span> <span class="n">Record</span><span class="p">(</span><span class="n">a</span> <span class="p">:</span> <span class="n">Record</span><span class="p">(</span><span class="n">b</span><span class="p">:</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">Integer</span><span class="p">),</span> <span class="n">b</span><span class="p">:</span> <span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The record r has a b selector at two different levels. Here is an
+initial value for r.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="mi">3</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{[a=[b=1,c=2],b=3]}\]</div>
+<p><sub>Type: Record(a: Record(b: Integer,c: Integer),b: Integer)</sub></p>
+<p>This extracts the b component from the a component of r.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This extracts the b component from r.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span><span class="o">.</span><span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[3\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>You can also use spaces or parentheses to refer to Record components.
+This is the same as r.a.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{[b=1,c=2]}\]</div>
+<p><sub>Type: Record(b: Integer,c: Integer)</sub></p>
+<p>This is the same as r.b.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[3\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This is the same as r.b:=10.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<div class="math">
+\[10\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Look at r to make sure it was modified.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{[a=[b=1,c=2],b=10]}\]</div>
+<p><sub>Type: Record(a: Record(b: Integer,c: Integer),b: Integer)</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-2.3.html" title="previous chapter">2.3 Declarations</a></li>
+      <li>Next: <a href="section-2.5.html" title="next chapter">2.5 Unions</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-2.4.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-2.4.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

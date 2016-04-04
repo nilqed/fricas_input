@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.10 Resolving Types &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="2.11 Exposing Domains and Packages" href="section-2.11.html" />
+    <link rel="prev" title="2.9 Package Calling and Target Types" href="section-2.9.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="resolving-types">
+<h1>2.10 Resolving Types<a class="headerlink" href="#resolving-types" title="Permalink to this headline">¶</a></h1>
+<p>In this section we briefly describe an internal process by which resolve
+FriCAS determines a type to which two objects of possibly different
+types can be converted. We do this to give you further insight into how
+FriCAS takes your input, analyzes it, and produces a result.</p>
+<p>What happens when you enter x+1 to FriCAS? Let&#8217;s look at what you get
+from the two terms of this expression.</p>
+<p>This is a symbolic object whose type indicates the name.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[x\]</div>
+<p><sub>Type: Variable x</sub></p>
+<p>This is a positive integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>There are no operations in PositiveInteger that add positive integers to
+objects of type <code class="docutils literal"><span class="pre">Variable(x)</span></code> nor are there any in Variable(x). Before it
+can add the two parts, FriCAS must come up with a common type to which
+both x and 1 can be converted. We say that FriCAS must resolve the two
+types into a common type. In this example, the common type is
+<code class="docutils literal"><span class="pre">Polynomial(Integer)</span></code>.</p>
+<p>Once this is determined, both parts are converted into polynomials, and
+the addition operation from Polynomial(Integer) is used to get the
+answer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[x + 1\]</div>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>FriCAS can always resolve two types: if nothing resembling the original
+types can be found, then Any is be used. Any This is fine and useful in
+some cases.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s2">&quot;string&quot;</span><span class="p">,</span><span class="mf">3.14159</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[
+\verb#&quot;string&quot;#, \: {3.14159}
+\right]\]</div>
+<p><sub>Type: List Any</sub></p>
+<p>In other cases objects of type Any can&#8217;t be used by the operations you
+specified.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s2">&quot;string&quot;</span> <span class="o">+</span> <span class="mf">3.14159</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">There</span> <span class="n">are</span> <span class="mi">11</span> <span class="n">exposed</span> <span class="ow">and</span> <span class="mi">5</span> <span class="n">unexposed</span> <span class="n">library</span> <span class="n">operations</span> <span class="n">named</span> <span class="o">+</span>
+  <span class="n">having</span> <span class="mi">2</span> <span class="n">argument</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">but</span> <span class="n">none</span> <span class="n">was</span> <span class="n">determined</span> <span class="n">to</span> <span class="n">be</span> <span class="n">applicable</span><span class="o">.</span>
+  <span class="n">Use</span> <span class="n">HyperDoc</span> <span class="n">Browse</span><span class="p">,</span> <span class="ow">or</span> <span class="n">issue</span>
+                            <span class="p">)</span><span class="n">display</span> <span class="n">op</span> <span class="o">+</span>
+  <span class="n">to</span> <span class="n">learn</span> <span class="n">more</span> <span class="n">about</span> <span class="n">the</span> <span class="n">available</span> <span class="n">operations</span><span class="o">.</span> <span class="n">Perhaps</span>
+  <span class="n">package</span><span class="o">-</span><span class="n">calling</span> <span class="n">the</span> <span class="n">operation</span> <span class="ow">or</span> <span class="n">using</span> <span class="n">coercions</span> <span class="n">on</span> <span class="n">the</span>
+  <span class="n">arguments</span> <span class="n">will</span> <span class="n">allow</span> <span class="n">you</span> <span class="n">to</span> <span class="n">apply</span> <span class="n">the</span> <span class="n">operation</span><span class="o">.</span>
+
+<span class="n">Cannot</span> <span class="n">find</span> <span class="n">a</span> <span class="n">definition</span> <span class="ow">or</span> <span class="n">applicable</span> <span class="n">library</span> <span class="n">operation</span> <span class="n">named</span> <span class="o">+</span>
+  <span class="k">with</span> <span class="n">argument</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                               <span class="n">String</span>
+                                <span class="n">Float</span>
+
+  <span class="n">Perhaps</span> <span class="n">you</span> <span class="n">should</span> <span class="n">use</span> <span class="s2">&quot;@&quot;</span> <span class="n">to</span> <span class="n">indicate</span> <span class="n">the</span> <span class="n">required</span> <span class="k">return</span> <span class="nb">type</span><span class="p">,</span>
+  <span class="ow">or</span> <span class="s2">&quot;$&quot;</span> <span class="n">to</span> <span class="n">specify</span> <span class="n">which</span> <span class="n">version</span> <span class="n">of</span> <span class="n">the</span> <span class="n">function</span> <span class="n">you</span> <span class="n">need</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Although this example was contrived, your expressions may need to be
+qualified slightly to help FriCAS resolve the types involved. You may
+need to declare a few variables, do some package calling, provide some
+target type information or do some explicit conversions.</p>
+<p>We suggest that you just enter the expression you want evaluated and see
+what FriCAS does. We think you will be impressed with its ability to do
+what I mean. If FriCAS is still being obtuse, give it some hints. As you
+work with FriCAS, you will learn where it needs a little help to analyze
+quickly and perform your computations.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-2.9.html" title="previous chapter">2.9 Package Calling and Target Types</a></li>
+      <li>Next: <a href="section-2.11.html" title="next chapter">2.11 Exposing Domains and Packages</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-2.10.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-2.10.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

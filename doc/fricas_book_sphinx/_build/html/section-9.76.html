@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.76 Stream &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.77 String" href="section-9.77.html" />
+    <link rel="prev" title="9.75 SquareFreeRegularTriangularSet" href="section-9.75.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="stream">
+<h1>9.76 Stream<a class="headerlink" href="#stream" title="Permalink to this headline">¶</a></h1>
+<p>A Stream object is represented as a list whose last element contains the
+wherewithal to create the next element, should it ever be required.</p>
+<p>Let ints be the infinite stream of non-negative integers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ints</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,1,2,3,4,5,6,7,8,9,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream NonNegativeInteger</sub></p>
+<p>By default, ten stream elements are calculated. This number may be
+changed to something else by the system command )set streams calculate.
+For the display purposes of this book, we have chosen a smaller value.</p>
+<p>More generally, you can construct a stream by specifying its initial
+value and a function which, when given an element, creates the next
+element.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span> <span class="n">List</span> <span class="n">INT</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">INT</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="n">x</span> <span class="o">==</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fibs</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">generate</span><span class="p">(</span><span class="n">f</span><span class="p">,[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])]]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">f</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">List</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,1,2,3,5,8,13,21,34,55,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Integer</sub></p>
+<p>You can create the stream of odd non-negative integers by either
+filtering them from the integers, or by evaluating an expression for
+each integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[i for i in ints | odd? i]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,3,5,7,9,11,13,15,17,19,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream NonNegativeInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">odds</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ints</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,3,5,7,9,11,13,15,17,19,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream NonNegativeInteger</sub></p>
+<p>You can accumulate the initial segments of a stream using the
+scanscanStreamFunctions2 operation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">scan</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="o">+</span><span class="p">,</span><span class="n">odds</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,4,9,16,25,36,49,64,81,100,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream NonNegativeInteger</sub></p>
+<p>The corresponding elements of two or more streams can be combined in
+this way.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">ints</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">odds</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,3,10,21,36,55,78,105,136,171,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream NonNegativeInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">map</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">ints</span><span class="p">,</span><span class="n">odds</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,3,10,21,36,55,78,105,136,171,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream NonNegativeInteger</sub></p>
+<p>Many operations similar to those applicable to lists are available for
+streams.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">first</span> <span class="n">ints</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rest</span> <span class="n">ints</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,4,5,6,7,8,9,10,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream NonNegativeInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fibs</span> <span class="mi">20</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>6765</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The packages StreamFunctions1, StreamFunctions2 and StreamFunctions3
+export some useful stream manipulation operations. For more information,
+see <a class="reference external" href="ugLangItsPage">ugLangItsPage</a> in Section
+<a class="reference external" href="ugLangItsNumber">ugLangItsNumber</a> ,
+<a class="reference external" href="ugProblemSeriesPage">ugProblemSeriesPage</a> in Section
+<a class="reference external" href="ugProblemSeriesNumber">ugProblemSeriesNumber</a> ,
+<a class="reference external" href="chapter-9.1-12.html#ContinuedFractionXmpPage">ContinuedFractionXmpPage</a>
+, and <a class="reference external" href="section-9.1.html#AssociationListXmpPage">ListXmpPage</a> .</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.75.html" title="previous chapter">9.75 SquareFreeRegularTriangularSet</a></li>
+      <li>Next: <a href="section-9.77.html" title="next chapter">9.77 String</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.76.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.76.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

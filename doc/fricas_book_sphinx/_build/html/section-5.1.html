@@ -1,0 +1,379 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>5.1 Immediate and Delayed Assignments &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="5.2 Blocks" href="section-5.2.html" />
+    <link rel="prev" title="5.0 Interactive Language" href="section-5.0.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="immediate-and-delayed-assignments">
+<h1>5.1 Immediate and Delayed Assignments<a class="headerlink" href="#immediate-and-delayed-assignments" title="Permalink to this headline">¶</a></h1>
+<p>A variable in FriCAS refers to a value. A variable has a name beginning
+with an uppercase or lowercase alphabetic character, <code class="docutils literal"><span class="pre">%</span></code>, or
+<code class="docutils literal"><span class="pre">!</span></code>. Successive characters (if any) can be any of the above, digits,
+or ?. Case is distinguished. The following are all examples of valid,
+distinct variable names:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>a             tooBig?    a1B2c3%!?
+A             %j         numberOfPoints
+beta6         %J         numberofpoints
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">:=</span></code> operator is the immediate assignment operator.
+assignment:immediate Use it to associate a value with a variable.
+immediate assignment</p>
+<p>The syntax for immediate assignment for a single variable is</p>
+<p>variable := expression</p>
+<div class="line-block">
+<div class="line">The value returned by an immediate assignment is the value of</div>
+</div>
+<p>expression.</p>
+<p>The right-hand side of the expression is evaluated, yielding 1. This
+value is then assigned to a.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The right-hand side of the expression is evaluated, yielding 1. This
+value is then assigned to b. Thus a and b both have the value 1 after
+the sequence of assignments.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>What is the value of b if a is assigned the value 2?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>As you see, the value of b is left unchanged.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This is what we mean when we say this kind of assignment is immediate; b
+has no dependency on a after the initial assignment. This is the usual
+notion of assignment found in programming languages such as C, C
+language:assignment PASCAL PASCAL:assignment and FORTRAN.
+FORTRAN:assignment</p>
+<p>FriCAS provides delayed assignment with ==. assignment:delayed This
+implements a delayed assignment delayed evaluation of the right-hand
+side and dependency checking.</p>
+<p>The syntax for delayed assignment is</p>
+<p>variable == expression</p>
+<div class="line-block">
+<div class="line">The value returned by a delayed assignment is the unique value of</div>
+</div>
+<p>Void.</p>
+<p>Using a and b as above, these are the corresponding delayed assignments.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">==</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The right-hand side of each delayed assignment is left unevaluated until
+the variables on the left-hand sides are evaluated. Therefore this
+evaluation and ...</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">a</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">PositiveInteger</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>this evaluation seem the same as before.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">b</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">PositiveInteger</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>If we change a to 2</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">==</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">a</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">b</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="mi">1</span> <span class="n">old</span> <span class="n">definition</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">deleted</span> <span class="k">for</span> <span class="n">function</span> <span class="ow">or</span> <span class="n">rule</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>then a evaluates to 2, as expected, but</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">a</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">PositiveInteger</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">a</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>the value of b reflects the change to a.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">b</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">PositiveInteger</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">b</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>It is possible to set several variables at the same time
+assignment:multiple immediate by using multiple immediate assignment a
+tuple of variables and a tuple of expressions. Note that a tuple is a
+collection of things separated by commas, often surrounded by
+parentheses.</p>
+<p>The syntax for multiple immediate assignments is</p>
+<p>( var1, var2, ..., varN ) := ( expr1, expr2, ..., exprN )</p>
+<div class="line-block">
+<div class="line">The value returned by an immediate assignment is the value of exprN.</div>
+</div>
+<p>This sets x to 1 and y to 2.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Multiple immediate assigments are parallel in the sense that the
+expressions on the right are all evaluated before any assignments on the
+left are made. However, the order of evaluation of these expressions is
+undefined.</p>
+<p>You can use multiple immediate assignment to swap the values held by
+variables.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>x has the previous value of y.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>y has the previous value of x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>There is no syntactic form for multiple delayed assignments. See the
+discussion in section <a class="reference external" href="section-6.8.html#ugUserDelay">ugUserDelay</a>
+about how FriCAS differentiates between delayed assignments and user
+functions of no arguments.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-5.0.html" title="previous chapter">5.0 Interactive Language</a></li>
+      <li>Next: <a href="section-5.2.html" title="next chapter">5.2 Blocks</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-5.1.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-5.1.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

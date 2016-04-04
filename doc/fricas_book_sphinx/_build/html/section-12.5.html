@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>12.5 Membership &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="12.6 Defaults" href="section-12.6.html" />
+    <link rel="prev" title="12.4 Hierarchies" href="section-12.4.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="membership">
+<h1>12.5 Membership<a class="headerlink" href="#membership" title="Permalink to this headline">¶</a></h1>
+<p>We say a category designates a class of domains. What class of domains?
+category:membership That is, how does FriCAS know what domains belong to
+what categories? The simple answer to this basic question is key to the
+design of FriCAS:</p>
+<blockquote>
+<div>Domains belong to categories by assertion.</div></blockquote>
+<p>When a domain is defined, it is asserted to belong to one or more
+categories. Suppose, for example, that an author of domain String wishes
+to use the binary operator * to denote concatenation. Thus
+&#8220;hello&#8221;*&#8221;there&#8221; would produce the string &#8220;hellothere&#8221;. Actually,
+concatenation of strings in FriCAS is done by juxtaposition or by using
+the operation concatconcatString. The expression &#8220;hello&#8221;&#8220;there&#8221; produces
+the string &#8220;hellothere&#8221;. The author of String could then assert that
+String is a member of SemiGroup. According to our definition of
+SemiGroup, strings would then also have the operation ** defined
+automatically. Then &#8220;&#8211;&#8221;<a href="#id1"><span class="problematic" id="id2">**</span></a>4 would produce a string of eight dashes
+&#8220;&#8212;&#8212;&#8211;&#8221;. Since String is a member of SemiGroup, it also is a member
+of SetCategory and thus has an operation = for testing that two strings
+are equal.</p>
+<p>Now turn to the algebraic category hierarchy inside the front cover of
+this book. Any domain that is a member of a category extending SemiGroup
+is a member of SemiGroup (that is, it is a semigroup). In particular,
+any domain asserted to be a Ring is a semigroup since Ring extends
+Monoid, that, in turn, extends SemiGroup. The definition of Integer in
+FriCAS asserts that Integer is a member of category IntegerNumberSystem,
+that, in turn, asserts that it is a member of EuclideanDomain. Now
+EuclideanDomain extends PrincipalIdealDomain and so on. If you trace up
+the hierarchy, you see that EuclideanDomain extends Ring, and,
+therefore, SemiGroup. Thus Integer is a semigroup and also exports the
+operations * and <a href="#id3"><span class="problematic" id="id4">**</span></a>.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-12.4.html" title="previous chapter">12.4 Hierarchies</a></li>
+      <li>Next: <a href="section-12.6.html" title="next chapter">12.6 Defaults</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-12.5.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-12.5.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.7 )compile &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="16.8 )display" href="section-16.8.html" />
+    <link rel="prev" title="16.6 )clear" href="section-16.6.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="compile">
+<h1>16.7 )compile<a class="headerlink" href="#compile" title="Permalink to this headline">¶</a></h1>
+<p>ugSysCmdcompile</p>
+<p>compile</p>
+<blockquote>
+<div><p>User Level Required: compiler</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)compile</p>
+<p>)compile fileName</p>
+<p>)compile fileName.as</p>
+<p>)compile directory/fileName.as</p>
+<p>)compile fileName.ao</p>
+<p>)compile directory/fileName.ao</p>
+<p>)compile fileName.al</p>
+<p>)compile directory/fileName.al</p>
+<p>)compile fileName.lsp</p>
+<p>)compile directory/fileName.lsp</p>
+<p>)compile fileName.spad</p>
+<p>)compile directory/fileName.spad</p>
+<p>)compile fileName )new</p>
+<p>)compile fileName )old</p>
+<p>)compile fileName )translate</p>
+<p>)compile fileName )quiet</p>
+<p>)compile fileName )noquiet</p>
+<p>)compile fileName )moreargs</p>
+<p>)compile fileName )onlyargs</p>
+<p>)compile fileName )break</p>
+<p>)compile fileName )nobreak</p>
+<p>)compile fileName )library</p>
+<p>)compile fileName )nolibrary</p>
+<p>)compile fileName )vartrace</p>
+<p>)compile fileName )constructor nameOrAbbrev</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>You use this command to invoke the new FriCAS library compiler or the
+old FriCAS system compiler. The )compile system command is actually a
+combination of FriCAS processing and a call to the Aldor compiler. It is
+performing double-duty, acting as a front-end to both the Aldor compiler
+and the old FriCAS system compiler. (The old FriCAS system compiler was
+written in Lisp and was an integral part of the FriCAS environment. The
+Aldor compiler is written in C and executed by the operating system when
+called from within FriCAS.)</p>
+<p>The command compiles files with file extensions .as, .ao and .al with
+the Aldor compiler and files with file extension .spad with the old
+FriCAS system compiler. It also can compile files with file extension
+.lsp. These are assumed to be Lisp files genererated by the Aldor
+compiler. If you omit the file extension, the command looks to see if
+you have specified the )new or )old option. If you have given one of
+these options, the corresponding compiler is used. Otherwise, the
+command first looks in the standard system directories for files with
+extension .as, .ao and .al and then files with extension .spad. The
+first file found has the appropriate compiler invoked on it. If the
+command cannot find a matching file, an error message is displayed and
+the command terminates.</p>
+<p>The )translate option is used to invoke a special version of the old
+system compiler that will translate a .spad file to a .as file. That is,
+the .spad file will be parsed and analyzed and a file using the new
+syntax will be created. By default, the .as file is created in the same
+directory as the .spad file. If that directory is not writable, the
+current directory is used. If the current directory is not writable, an
+error message is given and the command terminates. Note that )translate
+implies the )old option so the file extension can safely be omitted. If
+)translate is given, all other options are ignored. Please be aware that
+the translation is not necessarily one hundred percent complete or
+correct. You should attempt to compile the output with the Aldor
+compiler and make any necessary corrections.</p>
+<p>We now describe the options for the new Aldor compiler.</p>
+<p>The first thing )compile does is look for a source code filename among
+its arguments. Thus</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">compile</span> <span class="n">mycode</span><span class="o">.</span><span class="k">as</span>
+<span class="p">)</span><span class="nb">compile</span> <span class="o">/</span><span class="n">u</span><span class="o">/</span><span class="n">jones</span><span class="o">/</span><span class="k">as</span><span class="o">/</span><span class="n">mycode</span><span class="o">.</span><span class="k">as</span>
+<span class="p">)</span><span class="nb">compile</span> <span class="n">mycode</span>
+</pre></div>
+</div>
+<p>all invoke )compiler on the file /u/jones/as/mycode.as if the current
+FriCAS working directory is /u/jones/as. (Recall that you can set the
+working directory via the )cd command. If you don&#8217;t set it explicitly,
+it is the directory from which you started FriCAS.)</p>
+<p>This is frequently all you need to compile your file. This simple
+command:</p>
+<ol class="arabic simple">
+<li>Invokes the Aldor compiler and produces Lisp output.</li>
+<li>Calls the Lisp compiler if the Aldor compilation was successful.</li>
+<li>Uses the )library command to tell FriCAS about the contents of your
+compiled file and arrange to have those contents loaded on demand.</li>
+</ol>
+<p>Should you not want the )library command automatically invoked, call
+)compile with the )nolibrary option. For example,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">compile</span> <span class="n">mycode</span><span class="o">.</span><span class="k">as</span> <span class="p">)</span><span class="n">nolibrary</span>
+</pre></div>
+</div>
+<p>The general description of Aldor command line arguments is in the Aldor
+documentation. The default options used by the )compile command can be
+viewed and set using the )set compiler args FriCAS system command. The
+current defaults are</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">O</span> <span class="o">-</span><span class="n">Fasy</span> <span class="o">-</span><span class="n">Fao</span> <span class="o">-</span><span class="n">Flsp</span> <span class="o">-</span><span class="n">laxiom</span> <span class="o">-</span><span class="n">Mno</span><span class="o">-</span><span class="n">AXL_W_WillObsolete</span> <span class="o">-</span><span class="n">DFriCAS</span>
+</pre></div>
+</div>
+<p>These options mean:</p>
+<ul class="simple">
+<li>-O: perform all optimizations,</li>
+<li>-Fasy: generate a .asy file,</li>
+<li>-Fao: generate a .ao file,</li>
+<li>-Flsp: generate a .lsp (Lisp) file, Lisp:code generation</li>
+<li>-laxiom: use the axiom library libaxiom.al,</li>
+<li>-Mno-AXL_W_WillObsolete: do not display messages about older
+generated files becoming obsolete, and</li>
+<li>-DFriCAS: define the global assertion FriCAS so that the Aldor
+libraries for generating stand-alone code are not accidentally used
+with FriCAS.</li>
+</ul>
+<p>To supplement these default arguments, use the )moreargs option on
+)compile. For example,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">compile</span> <span class="n">mycode</span><span class="o">.</span><span class="k">as</span> <span class="p">)</span><span class="n">moreargs</span> <span class="s2">&quot;-v&quot;</span>
+</pre></div>
+</div>
+<p>uses the default arguments and appends the -v (verbose) argument flag.
+The additional argument specification must be enclosed in double quotes.</p>
+<p>To completely replace these default arguments for a particular use of
+)compile, use the )onlyargs option. For example,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">compile</span> <span class="n">mycode</span><span class="o">.</span><span class="k">as</span> <span class="p">)</span><span class="n">onlyargs</span> <span class="s2">&quot;-v -O&quot;</span>
+</pre></div>
+</div>
+<p>only uses the -v (verbose) and -O (optimize) arguments. The argument
+specification must be enclosed in double quotes. In this example, Lisp
+code is not produced and so the compilation output will not be available
+to FriCAS.</p>
+<p>To completely replace the default arguments for all calls to )compile
+within your FriCAS session, use )set compiler args. For example, to use
+the above arguments for all compilations, issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">compiler</span> <span class="n">args</span> <span class="s2">&quot;-v -O&quot;</span>
+</pre></div>
+</div>
+<p>Make sure you include the necessary -l and -Y arguments along with those
+needed for Lisp file creation. As above, the argument specification must
+be enclosed in double quotes.</p>
+<p>By default, the )library system command exposes all domains and
+categories it processes. This means that the FriCAS intepreter will
+consider those domains and categories when it is trying to resolve a
+reference to a function. Sometimes domains and categories should not be
+exposed. For example, a domain may just be used privately by another
+domain and may not be meant for top-level use. The )library command
+should still be used, though, so that the code will be loaded on demand.
+In this case, you should use the )nolibrary option on )compile and the
+)noexpose option in the )library command. For example,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">compile</span> <span class="n">mycode</span><span class="o">.</span><span class="k">as</span> <span class="p">)</span><span class="n">nolibrary</span>
+<span class="p">)</span><span class="n">library</span> <span class="n">mycode</span> <span class="p">)</span><span class="n">noexpose</span>
+</pre></div>
+</div>
+<p>Once you have established your own collection of compiled code, you may
+find it handy to use the )dir option on the )library command. This
+causes )library to process all compiled code in the specified directory.
+For example,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">library</span> <span class="p">)</span><span class="nb">dir</span> <span class="o">/</span><span class="n">u</span><span class="o">/</span><span class="n">jones</span><span class="o">/</span><span class="k">as</span><span class="o">/</span><span class="n">quantum</span>
+</pre></div>
+</div>
+<p>You must give an explicit directory after )dir, even if you want all
+compiled code in the current working directory processed, e.g.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">library</span> <span class="p">)</span><span class="nb">dir</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>The )compile command works with several file extensions. We saw above
+what happens when it is invoked on a file with extension .as. A .ao file
+is a portable binary compiled version of a .as file, and )compile simply
+passes the .ao file onto Aldor. The generated Lisp file is compiled and
+)library is automatically called, just as if you had specified a .as
+file.</p>
+<p>A .al file is an archive file containing .ao files. The archive is
+created (on Unix systems) with the ar program. When )compile is given a
+.al file, it creates a directory whose name is based on that of the
+archive. For example, if you issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">compile</span> <span class="n">mylib</span><span class="o">.</span><span class="n">al</span>
+</pre></div>
+</div>
+<p>the directory mylib.axldir is created. All members of the archive are
+unarchived into the directory and )compile is called on each .ao file
+found. It is your responsibility to remove the directory and its
+contents, if you choose to do so.</p>
+<p>A .lsp file is a Lisp source file, presumably, in our context, generated
+by Aldor when called with the -Flsp option. When )compile is used with a
+.lsp file, the Lisp file is compiled and )library is called. You must
+also have present a .asy generated from the same source file.</p>
+<p>The following are descriptions of options for the old system compiler.</p>
+<p>You can compile category, domain, and package constructors contained in
+files with file extension .spad. You can compile individual constructors
+or every constructor in a file.</p>
+<p>The full filename is remembered between invocations of this command and
+)edit commands. The sequence of commands</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">compile</span> <span class="n">matrix</span><span class="o">.</span><span class="n">spad</span>
+<span class="p">)</span><span class="n">edit</span>
+<span class="p">)</span><span class="nb">compile</span>
+</pre></div>
+</div>
+<p>will call the compiler, edit, and then call the compiler again on the
+file matrix.spad. If you do not specify a directory, the working current
+directory (see <a class="reference external" href="ugSysCmdcd">ugSysCmdcd</a> ) is searched for the file.
+If the file is not found, the standard system directories are searched.</p>
+<p>If you do not give any options, all constructors within a file are
+compiled. Each constructor should have an )abbreviation command in the
+file in which it is defined. We suggest that you place the )abbreviation
+commands at the top of the file in the order in which the constructors
+are defined. The list of commands serves as a table of contents for the
+file. abbreviation</p>
+<p>The )library option causes directories containing the compiled code for
+each constructor to be created in the working current directory. The
+name of such a directory consists of the constructor abbreviation and
+the .NRLIB file extension. For example, the directory containing the
+compiled code for the MATRIX constructor is called MATRIX.NRLIB. The
+)nolibrary option says that such files should not be created. The
+default is )library. Note that the semantics of )library and )nolibrary
+for the new Aldor compiler and for the old system compiler are
+completely different.</p>
+<p>The )vartrace option causes the compiler to generate extra code for the
+constructor to support conditional tracing of variable assignments. (see
+<a class="reference external" href="ugSysCmdtrace">ugSysCmdtrace</a> ). Without this option, this code is
+suppressed and one cannot use the )vars option for the trace command.</p>
+<p>The )constructor option is used to specify a particular constructor to
+compile. All other constructors in the file are ignored. The constructor
+name or abbreviation follows )constructor. Thus either</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">compile</span> <span class="n">matrix</span><span class="o">.</span><span class="n">spad</span> <span class="p">)</span><span class="n">constructor</span> <span class="n">RectangularMatrix</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">compile</span> <span class="n">matrix</span><span class="o">.</span><span class="n">spad</span> <span class="p">)</span><span class="n">constructor</span> <span class="n">RMATRIX</span>
+</pre></div>
+</div>
+<p>compiles the RectangularMatrix constructor defined in matrix.spad.</p>
+<p>The )break and )nobreak options determine what the old system compiler
+does when it encounters an error. )break is the default and it indicates
+that processing should stop at the first error. The value of the )set
+break variable then controls what happens.</p>
+<blockquote>
+<div>Also See: )abbreviation ugSysCmdabbreviation, )edit ugSysCmdedit, and</div></blockquote>
+<p>)library ugSysCmdlibrary.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.6.html" title="previous chapter">16.6 )clear</a></li>
+      <li>Next: <a href="section-16.8.html" title="next chapter">16.8 )display</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.7.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.7.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

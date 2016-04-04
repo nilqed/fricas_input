@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>12.7 FriCASs &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="12.8 Correctness" href="section-12.8.html" />
+    <link rel="prev" title="12.6 Defaults" href="section-12.6.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fricass">
+<h1>12.7 FriCASs<a class="headerlink" href="#fricass" title="Permalink to this headline">¶</a></h1>
+<p>In the previous section you saw the complete FriCAS program defining
+axiom SemiGroup. According to this definition semigroups are sets with
+the operations * and ^. SemiGroup</p>
+<p>You might ask: ``Aside from the notion of default packages, isn&#8217;t a
+category just a macro, that is, a shorthand equivalent to the two
+operations * and ** with their types?&#8217;&#8217; If a category were a macro,
+every time you saw the word SemiGroup, you would rewrite it by its list
+of exported operations. Furthermore, every time you saw the exported
+operations of SemiGroup among the exports of a constructor, you could
+conclude that the constructor exported SemiGroup.</p>
+<p>A category is not a macro and here is why. The definition for SemiGroup
+has documentation that states:</p>
+<p>Category SemiGroup denotes the class of all multiplicative semigroups,
+that is, a set with an associative operation <a href="#id1"><span class="problematic" id="id2">*</span></a>.</p>
+<p>FriCASs:</p>
+<p>associative(&#8220;*&#8221; : ($,$)-&gt;$) &#8211; (x*y)*z = x*(y*z)</p>
+<p>According to the author&#8217;s remarks, the mere exporting of an operation
+named * and ** is not enough to qualify the domain as a SemiGroup. In
+fact, a domain can be a semigroup only if it explicitly exports a **
+and a * satisfying the associativity axiom.</p>
+<p>In general, a category name implies a set of axioms, even mathematical
+theorems. There are numerous axioms from Ring, for example, that are
+well-understood from the literature. No attempt is made to list them
+all. Nonetheless, all such mathematical facts are implicit by the use of
+the name Ring.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-12.6.html" title="previous chapter">12.6 Defaults</a></li>
+      <li>Next: <a href="section-12.8.html" title="next chapter">12.8 Correctness</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-12.7.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-12.7.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

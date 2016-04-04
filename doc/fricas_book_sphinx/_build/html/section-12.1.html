@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>12.1 Definitions &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="12.2 Exports" href="section-12.2.html" />
+    <link rel="prev" title="12.0 Categories" href="section-12.0.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="definitions">
+<h1>12.1 Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
+<p>A category is defined by a function with exactly the same format as
+category:definition any other function in FriCAS.</p>
+<p>The definition of a category has the syntax:</p>
+<p>CategoryForm : Category&nbsp; ==&nbsp; Extensions [ with Exports ]</p>
+<p>The brackets [ ] here indicate optionality.</p>
+<p>The first example of a category definition is SetCategory, the most
+basic of the algebraic categories in FriCAS. SetCategory</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>SetCategory(): Category ==
+   Join(Type,CoercibleTo OutputForm) with
+      &quot;=&quot; : ($, $) -&gt; Boolean
+</pre></div>
+</div>
+<p>The definition starts off with the name of the category (SetCategory);
+this is always in column one in the source file. All parts of a category
+definition are then indented with respect to this indentation first
+line.</p>
+<p>In Chapter <a class="reference external" href="section-2.0.html#ugTypes">ugTypes</a> , we talked about
+Ring as denoting the class of all domains that are rings, in short, the
+class of all rings. While this is the usual naming convention in FriCAS,
+it is also common to use the word Category at the end of a category name
+for clarity. The interpretation of the name SetCategory is, then, the
+category of all domains that are (mathematical) sets.</p>
+<p>The name SetCategory is followed in the definition by its formal
+parameters enclosed in parentheses (). Here there are no parameters. As
+required, the type of the result of this category function is the
+distinguished name Category.</p>
+<p>Then comes the ==. As usual, what appears to the right of the == is a
+definition, here, a category definition. A category definition always
+has two parts separated by the reserved word with with. Debugging hint:
+it is very easy to forget the with!</p>
+<p>The first part tells what categories the category extends. Here, the
+category extends two categories: Type, the category of all domains, and
+CoercibleTo(OutputForm). CoercibleTo(OutputForm) can also be written
+(and is written in the definition above) without parentheses. The
+operation Join is a system-defined operation that Join forms a single
+category from two or more other categories.</p>
+<p>Every category other than Type is an extension of some other category.
+If, for example, SetCategory extended only the category Type, the
+definition here would read Type with .... In fact, the Type is optional
+in this line; with ... suffices.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-12.0.html" title="previous chapter">12.0 Categories</a></li>
+      <li>Next: <a href="section-12.2.html" title="next chapter">12.2 Exports</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-12.1.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-12.1.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

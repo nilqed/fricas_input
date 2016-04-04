@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.27 )undo &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="16.28 )what" href="section-16.28.html" />
+    <link rel="prev" title="16.26 )trace" href="section-16.26.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="undo">
+<h1>16.27 )undo<a class="headerlink" href="#undo" title="Permalink to this headline">¶</a></h1>
+<p>ugSysCmdundo</p>
+<p>undo</p>
+<blockquote>
+<div><p>User Level Required: interpreter</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)undo</p>
+<p>)undo integer</p>
+<p>)undo integer [option]</p>
+<p>)undo )redo</p>
+<p>where option is one of</p>
+<p>)after</p>
+<p>)before</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>This command is used to restore the state of the user environment to an
+earlier point in the interactive session. The argument of an )undo is an
+integer which must designate some step number in the interactive
+session.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">undo</span> <span class="n">n</span>
+<span class="p">)</span><span class="n">undo</span> <span class="n">n</span> <span class="p">)</span><span class="n">after</span>
+</pre></div>
+</div>
+<p>These commands return the state of the interactive environment to that
+immediately after step n. If n is a positive number, then n refers to
+step nummber n. If n is a negative number, it refers to the \tt n-th
+previous command (that is, undoes the effects of the last -n commands).</p>
+<p>A )clear all resets the )undo facility. Otherwise, an )undo undoes the
+effect of )clear with options properties, value, and mode, and that of a
+previous undo. If any such system commands are given between steps n and
+n+1 ( n&gt;0), their effect is undone for )undo m for any 0&lt;m≤n..</p>
+<p>The command )undo is equivalent to )undo -1 (it undoes the effect of the
+previous user expression). The command )undo 0 undoes any of the above
+system commands issued since the last user expression.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">undo</span> <span class="n">n</span> <span class="p">)</span><span class="n">before</span>
+</pre></div>
+</div>
+<p>This command returns the state of the interactive environment to that
+immediately before step n. Any )undo or )clear system commands given
+before step n will not be undone.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">undo</span> <span class="p">)</span><span class="n">redo</span>
+</pre></div>
+</div>
+<p>This command reads the file redo.input. created by the last )undo
+command. This file consists of all user input lines, excluding those
+backtracked over due to a previous )undo.</p>
+<blockquote>
+<div>Also See: )history ugSysCmdhistory. The command )history )write will</div></blockquote>
+<p>eliminate the undone command lines of your program.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.26.html" title="previous chapter">16.26 )trace</a></li>
+      <li>Next: <a href="section-16.28.html" title="next chapter">16.28 )what</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.27.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.27.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

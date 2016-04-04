@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.3 Manipulating Symbolic Roots of a Polynomial &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="8.4 Computation of Eigenvalues and Eigenvectors" href="section-8.4.html" />
+    <link rel="prev" title="8.2 Polynomial Factorization" href="section-8.2.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="manipulating-symbolic-roots-of-a-polynomial">
+<h1>8.3 Manipulating Symbolic Roots of a Polynomial<a class="headerlink" href="#manipulating-symbolic-roots-of-a-polynomial" title="Permalink to this headline">¶</a></h1>
+<p>In this section we show you how to work with one root or all roots
+root:symbolic of a polynomial. These roots are represented symbolically
+(as opposed to being numeric approximations). See
+<a class="reference external" href="section-8.5.html#ugxProblemOnePol">ugxProblemOnePol</a> and
+<a class="reference external" href="section-8.5.html#ugxProblemPolSys">ugxProblemPolSys</a> for
+information about solving for the roots of one or more polynomials.</p>
+<div class="section" id="using-a-single-root-of-a-polynomial">
+<h2>8.3.1 Using a Single Root of a Polynomial<a class="headerlink" href="#using-a-single-root-of-a-polynomial" title="Permalink to this headline">¶</a></h2>
+<p>Use rootOf to get a symbolic root of a polynomial: rootOf(p,x) returns a
+root of p(x).</p>
+<p>This creates an algebraic number a. algebraic number number:algebraic</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="n">rootOf</span><span class="p">(</span><span class="n">a</span><span class="o">^</span><span class="mi">4</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>To find the algebraic relation that defines a, use definingPolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">definingPolynomial</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a4+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>You can use a in any further expression, including a nested rootOf.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">rootOf</span><span class="p">(</span><span class="n">b</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>b</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Higher powers of the roots are automatically reduced during
+calculations.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>b+a</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="o">^</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(10a3+11a2+2a-4)b+15a3+10a2+4a-10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>The operation zeroOf is similar to rootOf, except that it may express
+the root using radicals in some cases. radical</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rootOf</span><span class="p">(</span><span class="n">c</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">c</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>c</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">zeroOf</span><span class="p">(</span><span class="n">d</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-3-12</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rootOf</span><span class="p">(</span><span class="n">e</span><span class="o">^</span><span class="mi">5</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="n">e</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>e</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">zeroOf</span><span class="p">(</span><span class="n">f</span><span class="o">^</span><span class="mi">5</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>25</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+</div>
+<div class="section" id="using-all-roots-of-a-polynomial">
+<h2>8.3.2 Using All Roots of a Polynomial<a class="headerlink" href="#using-all-roots-of-a-polynomial" title="Permalink to this headline">¶</a></h2>
+<p>Use rootsOf to get all symbolic roots of a polynomial: rootsOf(p,x)
+returns a list of all the roots of p(x). If p(x) has a multiple root of
+order n, then that root root:multiple appears n times in the list. Make
+sure these variables are x0 etc.</p>
+<p>Compute all the roots of x**4+1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="p">:</span><span class="o">=</span> <span class="n">rootsOf</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">4</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[%x0,%x0%x1,-%x0,-%x0%x1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Expression Integer</sub></p>
+<p>As a side effect, the variables %x0,%x1 and %x2 are bound to the first
+three roots of x**4+1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">x0</span><span class="o">^</span><span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-%x0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Although they all satisfy x**4+1=0,%x0,%x1, and %x2 are different
+algebraic numbers. To find the algebraic relation that defines each of
+them, use definingPolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">definingPolynomial</span> <span class="o">%</span><span class="n">x0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%x04+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">definingPolynomial</span> <span class="o">%</span><span class="n">x1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%x12+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">definingPolynomial</span> <span class="o">%</span><span class="n">x2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-%x2+%%var</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>We can check that the sum and product of the roots of x**4+1 are its
+trace and norm.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x3</span> <span class="p">:</span><span class="o">=</span> <span class="n">last</span> <span class="n">l</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-%x0%x1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">x0</span> <span class="o">+</span> <span class="o">%</span><span class="n">x1</span> <span class="o">+</span> <span class="o">%</span><span class="n">x2</span> <span class="o">+</span> <span class="n">x3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(-%x0+1)%x1+%x0+%x2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">x0</span> <span class="o">*</span> <span class="o">%</span><span class="n">x1</span> <span class="o">*</span> <span class="o">%</span><span class="n">x2</span> <span class="o">*</span> <span class="n">x3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%x2%x02</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Corresponding to the pair of operations rootOf/ zeroOf in
+<a class="reference external" href="section-8.5.html#ugxProblemOnePol">ugxProblemOnePol</a> , there is an
+operation zerosOf that, like rootsOf, computes all the roots of a given
+polynomial, but which expresses some of them in terms of radicals.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">zerosOf</span><span class="p">(</span><span class="n">y</span><span class="o">^</span><span class="mi">4</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-1+12,-1-12,&#8211;1-12,&#8211;1+12]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Expression Integer</sub></p>
+<p>As you see, only one implicit algebraic number was created ( %y1), and
+its defining equation is this. The other three roots are expressed in
+radicals.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">definingPolynomial</span> <span class="o">%</span><span class="n">y1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%%var2+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">8.3 Manipulating Symbolic Roots of a Polynomial</a><ul>
+<li><a class="reference internal" href="#using-a-single-root-of-a-polynomial">8.3.1 Using a Single Root of a Polynomial</a></li>
+<li><a class="reference internal" href="#using-all-roots-of-a-polynomial">8.3.2 Using All Roots of a Polynomial</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-8.2.html" title="previous chapter">8.2 Polynomial Factorization</a></li>
+      <li>Next: <a href="section-8.4.html" title="next chapter">8.4 Computation of Eigenvalues and Eigenvectors</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-8.3.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-8.3.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

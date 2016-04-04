@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.54 MultivariatePolynomial &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.55 None" href="section-9.55.html" />
+    <link rel="prev" title="9.53 MultiSet" href="section-9.53.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="multivariatepolynomial">
+<h1>9.54 MultivariatePolynomial<a class="headerlink" href="#multivariatepolynomial" title="Permalink to this headline">¶</a></h1>
+<p>The domain constructor MultivariatePolynomial is similar to Polynomial
+except that it specifies the variables to be used. Polynomial are
+available for MultivariatePolynomial. The abbreviation for
+MultivariatePolynomial is MPOLY. The type expressions</p>
+<p>MultivariatePolynomial([x,y],Integer)</p>
+<p>and</p>
+<p>MPOLY([x,y],INT)</p>
+<p>refer to the domain of multivariate polynomials in the variables x and y
+where the coefficients are restricted to be integers. The first variable
+specified is the main variable and the display of the polynomial
+reflects this.</p>
+<p>This polynomial appears with terms in descending powers of the variable
+x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span> <span class="n">MPOLY</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">],</span><span class="n">INT</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x4-2y3x3+(y6+6y)x2-6y4x+9y2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: MultivariatePolynomial([x,y],Integer)</sub></p>
+<p>It is easy to see a different variable ordering by doing a conversion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">::</span> <span class="n">MPOLY</span><span class="p">([</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">],</span><span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x2y6-6xy4-2x3y3+9y2+6x2y+x4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: MultivariatePolynomial([y,x],Integer)</sub></p>
+<p>You can use other, unspecified variables, by using Polynomial in the
+coefficient type of MPOLY.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span> <span class="n">MPOLY</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">],</span><span class="n">POLY</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="n">b</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a4x2+(-2a2by2+2a2)x+b2y4-2by2+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: MultivariatePolynomial([x,y],Polynomial Integer)</sub></p>
+<p>Conversions can be used to re-express such polynomials in terms of the
+other variables. For example, you can first push all the variables into
+a polynomial with integer coefficients.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">::</span> <span class="n">POLY</span> <span class="n">INT</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>b2y4+(-2a2bx-2b)y2+a4x2+2a2x+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Now pull out the variables of interest.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="p">::</span> <span class="n">MPOLY</span><span class="p">([</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">],</span><span class="n">POLY</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x2a4+(-2xy2b+2x)a2+y4b2-2y2b+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: MultivariatePolynomial([a,b],Polynomial Integer)</sub></p>
+<blockquote>
+<div>Restriction:</div></blockquote>
+<p>FriCAS does not allow you to create types where MultivariatePolynomial
+is contained in the coefficient type of Polynomial. Therefore,
+MPOLY([x,y],POLY INT) is legal but POLY MPOLY([x,y],INT) is not.</p>
+<p>.</p>
+<p>Multivariate polynomials may be combined with univariate polynomials to
+create types with special structures.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">:</span> <span class="n">UP</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">FRAC</span> <span class="n">MPOLY</span><span class="p">([</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">],</span><span class="n">INT</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Void</p>
+<p>This is a polynomial in x whose coefficients are quotients of
+polynomials in y and z.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">y</span> <span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x4+-2z-2yx3+4y2+z2+2z+1y2x2+-4z-4yx+4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Fraction</sub>
+MultivariatePolynomial([y,z],Integer))</p>
+<p>Use conversions for structural rearrangements. z does not appear in a
+denominator and so it can be made the main variable.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">::</span> <span class="n">UP</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">FRAC</span> <span class="n">MPOLY</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">],</span><span class="n">INT</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x2y2z2+-2yx3+2x2-4yxy2z+y2x4-2yx3+(4y2+1)x2-4yx+4y2y2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(z,Fraction</sub>
+MultivariatePolynomial([x,y],Integer))</p>
+<p>Or you can make a multivariate polynomial in x and z whose coefficients
+are fractions in polynomials in y.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">::</span> <span class="n">MPOLY</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">],</span> <span class="n">FRAC</span> <span class="n">UP</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">INT</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x4+(-2yz-2y)x3+(1y2z2+2y2z+4y2+1y2)x2+(-4yz-4y)x+4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: MultivariatePolynomial([x,z],Fraction</sub>
+UnivariatePolynomial(y,Integer))</p>
+<p>A conversion like q :: MPOLY([x,y], FRAC UP(z,INT)) is not possible in
+this example because y appears in the denominator of a fraction. As you
+can see, FriCAS provides extraordinary flexibility in the manipulation
+and display of expressions via its conversion facility.</p>
+<p>For more information on related topics, see
+<a class="reference external" href="section-9.16.html#DistributedMultivariatePolynomialXmpPage">PolynomialXmpPage</a>
+,
+<a class="reference external" href="section-9.83.html#UnivariatePolynomialXmpPage">UnivariatePolynomialXmpPage</a>
+, and
+<a class="reference external" href="section-9.16.html#DistributedMultivariatePolynomialXmpPage">DistributedMultivariatePolynomialXmpPage</a>
+.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.53.html" title="previous chapter">9.53 MultiSet</a></li>
+      <li>Next: <a href="section-9.55.html" title="next chapter">9.55 None</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.54.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.54.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

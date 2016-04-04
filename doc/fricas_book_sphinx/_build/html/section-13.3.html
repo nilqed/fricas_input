@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13.3 Category Assertions &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="13.4 A Demo" href="section-13.4.html" />
+    <link rel="prev" title="13.2 Definitions" href="section-13.2.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="category-assertions">
+<h1>13.3 Category Assertions<a class="headerlink" href="#category-assertions" title="Permalink to this headline">¶</a></h1>
+<p>The Category Assertions part of your domain constructor definition lists
+those categories of which all domains created by the constructor are
+unconditionally members. The word unconditionally means that membership
+in a category does not depend on the values of the parameters to the
+domain constructor. This part thus defines the link between the domains
+and the category hierarchies given on the inside covers of this book. As
+described in
+<a class="reference external" href="section-12.8.html#ugCategoriesCorrectness">ugCategoriesCorrectness</a>
+it is this link that makes it possible for you to pass objects of the
+domains as arguments to other operations in FriCAS.</p>
+<p>Every QuadraticForm domain is declared to be unconditionally a member of
+category AbelianGroup. An abelian group is a collection of elements
+closed under addition. Every object x of an abelian group has an
+additive inverse y such that x+y=0. The exports of an abelian group
+include 0, +, -, and scalar multiplication by an integer. After
+asserting that QuadraticForm domains are abelian groups, it is possible
+to pass quadratic forms to algorithms that only assume arguments to have
+these abelian group properties.</p>
+<p>In
+<a class="reference external" href="section-12.11.html#ugCategoriesConditionals">ugCategoriesConditionals</a>
+you saw that Fraction(R), a member of QuotientFieldCategory(R), is a
+member of OrderedSet if R is a member of OrderedSet. Likewise, from the
+Exports part of the definition of ModMonic(R, S),</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">UnivariatePolynomialCategory</span><span class="p">(</span><span class="n">R</span><span class="p">)</span> <span class="k">with</span>
+  <span class="k">if</span> <span class="n">R</span> <span class="n">has</span> <span class="n">Finite</span> <span class="n">then</span> <span class="n">Finite</span>
+     <span class="o">...</span>
+</pre></div>
+</div>
+<p>you see that ModMonic(R, S) is a member of Finite if R is.</p>
+<p>The Exports part of a domain definition is the same kind of expression
+that can appear to the right of an == in a category definition. If a
+domain constructor is unconditionally a member of two or more
+categories, a Join form is used. Join The Exports part of the definition
+of FlexibleArray(S) reads, for example:</p>
+<p>Join(ExtensibleLinearAggregate(S),&nbsp;OneDimensionalArrayAggregate(S))&nbsp;with...</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-13.2.html" title="previous chapter">13.2 Definitions</a></li>
+      <li>Next: <a href="section-13.4.html" title="next chapter">13.4 A Demo</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-13.3.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-13.3.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

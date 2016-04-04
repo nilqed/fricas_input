@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10.7 Drawing Complex Vector Fields &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="10.8 Drawing Complex Functions" href="section-10.8.html" />
+    <link rel="prev" title="10.6 Diversion: When Things Go Wrong" href="section-10.6.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="drawing-complex-vector-fields">
+<h1>10.7 Drawing Complex Vector Fields<a class="headerlink" href="#drawing-complex-vector-fields" title="Permalink to this headline">¶</a></h1>
+<p>We now put our arrows to good use drawing complex vector fields. These
+vector fields give a representation of complex-valued functions of
+complex variables. Consider a Cartesian coordinate grid of points (x,y)
+in the plane, and some complex-valued function f defined on this grid.
+At every point on this grid, compute the value of f(x+iy) and call it z.
+Since z has both a real and imaginary value for a given (x,y) grid
+point, there are four dimensions to plot. What do we do? We represent
+the values of z by arrows planted at each grid point. Each arrow
+represents the value of z in polar coordinates (r,θ). The length of the
+arrow is proportional to r. Its direction is given by θ.</p>
+<p>The code for drawing vector fields is in the file vectors.input. We
+discuss its contents from top to bottom.</p>
+<p>Before showing you the code, we have two small matters to take care of.
+First, what if the function has large spikes, say, ones that go off to
+infinity? We define a variable clipValue for this purpose. When r
+exceeds the value of clipValue, then the value of clipValue is used
+instead of that for r. For convenience, we define a function clipFun(x)
+which uses clipValue to clip the value of x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">clipValue</span> <span class="p">:</span> <span class="n">DFLOAT</span> <span class="p">:</span><span class="o">=</span> <span class="mi">6</span>                          <span class="n">Maximum</span> <span class="n">value</span> <span class="n">allowed</span>
+<span class="n">clipFun</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">-</span><span class="n">clipValue</span><span class="p">),</span><span class="n">clipValue</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that we identify clipValue as a small float but do not declare
+the type of the function clipFun. As it turns out, clipFun is called
+with a small float value. This declaration ensures that clipFun never
+does a conversion when it is called.</p>
+<p>The second matter concerns the possible poles of a function, the actual
+points where the spikes have infinite values. FriCAS uses normal
+DoubleFloat arithmetic which does not directly handle infinite values.
+If your function has poles, you must adjust your step size to avoid
+landing directly on them (FriCAS calls error when asked to divide a
+value by 0, for example).</p>
+<p>We set the variables realSteps and imagSteps to hold the number of steps
+taken in the real and imaginary directions, respectively. Most examples
+will have ranges centered around the origin. To avoid a pole at the
+origin, the number of points is taken to be odd.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">realSteps</span><span class="p">:</span> <span class="n">INT</span> <span class="p">:</span><span class="o">=</span> <span class="mi">25</span>      <span class="n">Number</span> <span class="n">of</span> <span class="n">real</span> <span class="n">steps</span>
+<span class="n">imagSteps</span><span class="p">:</span> <span class="n">INT</span> <span class="p">:</span><span class="o">=</span> <span class="mi">25</span>      <span class="n">Number</span> <span class="n">of</span> <span class="n">imaginary</span> <span class="n">steps</span>
+<span class="p">)</span><span class="n">read</span> <span class="n">arrows</span>
+</pre></div>
+</div>
+<p>Now define the function drawComplexVectorField to draw the arrows. It is
+good practice to declare the type of the main function in the file. This
+one declaration is usually sufficient to ensure that other lower-level
+functions are compiled with the correct types.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="p">:</span><span class="o">=</span> <span class="n">Complex</span> <span class="n">DoubleFloat</span>
+<span class="n">S</span> <span class="p">:</span><span class="o">=</span> <span class="n">Segment</span> <span class="n">DoubleFloat</span>
+<span class="n">drawComplexVectorField</span><span class="p">:</span> <span class="p">(</span><span class="n">C</span> <span class="o">-&gt;</span> <span class="n">C</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VIEW3D</span>
+</pre></div>
+</div>
+<p>The first argument is a function mapping complex small floats into
+complex small floats. The second and third arguments give the range of
+real and imaginary values as segments like a..b. The result is a
+three-dimensional viewport. Here is the full function definition:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">drawComplexVectorField</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">realRange</span><span class="p">,</span><span class="n">imagRange</span><span class="p">)</span> <span class="o">==</span>
+  <span class="n">delReal</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">hi</span><span class="p">(</span><span class="n">realRange</span><span class="p">)</span><span class="o">-</span><span class="n">lo</span><span class="p">(</span><span class="n">realRange</span><span class="p">))</span><span class="o">/</span><span class="n">realSteps</span> <span class="n">The</span> <span class="n">real</span> <span class="n">step</span> <span class="n">size</span>
+</pre></div>
+</div>
+<p>&nbsp;&nbsp;delImag&nbsp;:=&nbsp;(hi(imagRange)-lo(imagRange))/imagSteps&nbsp;The&nbsp;imaginary&nbsp;step&nbsp;size</p>
+<p>&nbsp;&nbsp;sp&nbsp;:=&nbsp;createThreeSpace()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create&nbsp;empty&nbsp;space&nbsp;$sp$</p>
+<p>&nbsp;&nbsp;real&nbsp;:=&nbsp;lo(realRange)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;initial&nbsp;real&nbsp;value</p>
+<p>&nbsp;&nbsp;for&nbsp;i&nbsp;in&nbsp;1..realSteps+1&nbsp;repeat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Begin&nbsp;real&nbsp;iteration</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;imag&nbsp;:=&nbsp;lo(imagRange)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;initial&nbsp;imaginary&nbsp;value</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;j&nbsp;in&nbsp;1..imagSteps+1&nbsp;repeat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Begin&nbsp;imaginary&nbsp;iteration</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;z&nbsp;:=&nbsp;f&nbsp;complex(real,imag)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;of&nbsp;$f$&nbsp;at&nbsp;the&nbsp;point</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arg&nbsp;:=&nbsp;argument&nbsp;z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;direction&nbsp;of&nbsp;the&nbsp;arrow</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;len&nbsp;:=&nbsp;clipFun&nbsp;sqrt&nbsp;norm&nbsp;z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;length&nbsp;of&nbsp;the&nbsp;arrow</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p1&nbsp;:=&nbsp;&nbsp;point&nbsp;[real,&nbsp;imag,&nbsp;<a class="reference external" href="mailto:0&#46;0&#37;&#52;&#48;DFLOAT">0<span>&#46;</span>0<span>&#64;</span>DFLOAT</a>,&nbsp;arg]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;base&nbsp;point&nbsp;of&nbsp;the&nbsp;arrow</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scaleLen&nbsp;:=&nbsp;delReal&nbsp;<a href="#id1"><span class="problematic" id="id2">*</span></a>&nbsp;len&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;scaled&nbsp;length&nbsp;of&nbsp;the&nbsp;arrow</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p2&nbsp;:=&nbsp;point&nbsp;[p1.1&nbsp;+&nbsp;scaleLen*cos(arg),&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tip&nbsp;point&nbsp;of&nbsp;the&nbsp;arrow</dt>
+<dd>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p1.2&nbsp;+&nbsp;scaleLen*sin(arg),0.0&#64;DFLOAT,&nbsp;arg]
+arrow&nbsp;:=&nbsp;makeArrow(p1,&nbsp;p2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create&nbsp;the&nbsp;arrow</dd>
+</dl>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;a&nbsp;in&nbsp;arrow&nbsp;repeat&nbsp;curve(sp,&nbsp;a)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Add&nbsp;arrow&nbsp;to&nbsp;space&nbsp;$sp$</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;imag&nbsp;:=&nbsp;imag&nbsp;+&nbsp;delImag&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;next&nbsp;imaginary&nbsp;value</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;&nbsp;&nbsp;real&nbsp;:=&nbsp;real&nbsp;+&nbsp;delReal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;next&nbsp;real&nbsp;value</dt>
+<dd>makeViewport3D(sp,&nbsp;&#8220;Complex&nbsp;Vector&nbsp;Field&#8221;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draw&nbsp;it</dd>
+</dl>
+<p>As a first example, let us draw f(z)==sin(z). There is no need to create
+a user function: just pass the sinsinComplex DoubleFloat from Complex
+DoubleFloat.</p>
+<p>Read the file.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">read</span> <span class="n">vectors</span>
+</pre></div>
+</div>
+<p>Draw the complex vector field of sin(x).</p>
+<p>drawComplexVectorField(sin,-2..2,-2..2)</p>
+<p><img alt="picture" src="_images/vectorSin.png" /></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-10.6.html" title="previous chapter">10.6 Diversion: When Things Go Wrong</a></li>
+      <li>Next: <a href="section-10.8.html" title="next chapter">10.8 Drawing Complex Functions</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-10.7.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-10.7.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

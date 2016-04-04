@@ -1,0 +1,944 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>15.3 The NAG Library Link &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="15.4 Interactive Front-end and Language" href="section-15.4.html" />
+    <link rel="prev" title="15.2 The New FriCAS Library Compiler" href="section-15.2.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-nag-library-link">
+<h1>15.3 The NAG Library Link<a class="headerlink" href="#the-nag-library-link" title="Permalink to this headline">¶</a></h1>
+<p>nagLinkIntro</p>
+<p>The Nag Library link allows you to call NAG Fortran routines from within
+FriCAS, passing FriCAS objects as parameters and getting them back as
+results.</p>
+<p>The Nag Library and, consequently, the link are divided into chapters,
+which cover different areas of numerical analysis. The statistical and
+sorting chapters of the Library, however, are not included in the link
+and various support and utility routines (mainly the F06 and X chapters)
+have been omitted.</p>
+<p>Each chapter has a short (at most three-letter) name; for example, the
+chapter devoted to the solution of ordinary differential equations is
+called D02. When using the link via the HyperDoc interface. you will be
+presented with a complete menu of these chapters. The names of
+individual routines within each chapter are formed by adding three
+letters to the chapter name, so for example the routine for solving ODEs
+by Adams method is called
+d02cjfd02cjfNagOrdinaryDifferentialEquationsPackage.</p>
+<div class="section" id="interpreting-nag-documentation">
+<h2>15.3.1 Interpreting NAG Documentation<a class="headerlink" href="#interpreting-nag-documentation" title="Permalink to this headline">¶</a></h2>
+<p>nagDocumentation</p>
+<p>Information about using the Nag Library in general, and about using
+individual routines in particular, can be accessed via HyperDoc. This
+documentation refers to the Fortran routines directly; the purpose of
+this subsection is to explain how this corresponds to the FriCAS
+routines.</p>
+<p>For general information about the Nag Library users should consult
+Essential Introduction to the NAG Foundation Library manpageXXintro. The
+documentation is in ASCII format, and a description of the conventions
+used to represent mathematical symbols is given in Introduction to NAG
+On-Line Documentation manpageXXonline. Advice about choosing a routine
+from a particular chapter can be found in the Chapter Documents
+FoundationLibraryDocPage.</p>
+</div>
+<div class="section" id="correspondence-between-fortran-and-fricas-types">
+<h2>15.3.1.1 Correspondence Between Fortran and FriCAS types<a class="headerlink" href="#correspondence-between-fortran-and-fricas-types" title="Permalink to this headline">¶</a></h2>
+<p>The NAG documentation refers to the Fortran types of objects; in
+general, the correspondence to FriCAS types is as follows.</p>
+<ul class="simple">
+<li>Fortran INTEGER corresponds to FriCAS Integer.</li>
+<li>Fortran DOUBLE PRECISION corresponds to FriCAS DoubleFloat.</li>
+<li>Fortran COMPLEX corresponds to FriCAS Complex DoubleFloat.</li>
+<li>Fortran LOGICAL corresponds to FriCAS Boolean.</li>
+<li>Fortran CHARACTER*(*) corresponds to FriCAS String.</li>
+</ul>
+<p>(Exceptionally, for NAG EXTERNAL parameters &#8211; ASPs in link parlance &#8211;
+REAL and COMPLEX correspond to MachineFloat and MachineComplex,
+respectively; see <a class="reference external" href="aspSection">aspSection</a> .)</p>
+<p>The correspondence for aggregates is as follows.</p>
+<ul class="simple">
+<li>A one-dimensional Fortran array corresponds to an FriCAS Matrix with
+one column.</li>
+<li>A two-dimensional Fortran ARRAY corresponds to an FriCAS Matrix.</li>
+<li>A three-dimensional Fortran ARRAY corresponds to an FriCAS
+ThreeDimensionalMatrix.</li>
+</ul>
+<p>Higher-dimensional arrays are not currently needed for the Nag Library.</p>
+<p>Arguments which are Fortran FUNCTIONs or SUBROUTINEs correspond to
+special ASP domains in FriCAS. See <a class="reference external" href="aspSection">aspSection</a> .</p>
+</div>
+<div class="section" id="classification-of-nag-parameters">
+<h2>15.3.1.2 Classification of NAG parameters<a class="headerlink" href="#classification-of-nag-parameters" title="Permalink to this headline">¶</a></h2>
+<p>NAG parameters are classified as belonging to one (or more) of the
+following categories: Input, Output, Workspace or External procedure.
+Within External procedures a similar classification is used, and
+parameters may also be Dummies, or User Workspace (data structures not
+used by the NAG routine but provided for the convenience of the user).</p>
+<p>When calling a NAG routine via the link the user only provides values
+for Input and External parameters.</p>
+<p>The order of the parameters is, in general, different from the order
+specified in the Nag Library documentation. The Browser description for
+each routine helps in determining the correspondence. As a rule of
+thumb, Input parameters come first followed by Input/Output parameters.
+The External parameters are always found at the end.</p>
+</div>
+<div class="section" id="ifail">
+<h2>15.3.1.3 IFAIL<a class="headerlink" href="#ifail" title="Permalink to this headline">¶</a></h2>
+<p>NAG routines often return diagnostic information through a parameter
+called ifail. With a few exceptions, the principle is that on input
+ifail takes one of the values -1,0,1. This determines how the routine
+behaves when it encounters an error:</p>
+<ul class="simple">
+<li>a value of 1 causes the NAG routine to return without printing an
+error message;</li>
+<li>a value of 0 causes the NAG routine to print an error message and
+abort;</li>
+<li>a value of -1 causes the NAG routine to return and print an error
+message.</li>
+</ul>
+<p>The user is STRONGLY ADVISED to set ifail to -1 when using the link. If
+ifail has been set to 1 or -1 on input, then its value on output will
+determine the possible cause of any error. A value of 0 indicates
+successful completion, otherwise it provides an index into a table of
+diagnostics provided as part of the routine documentation (accessible
+via Browse).</p>
+</div>
+<div class="section" id="using-the-link">
+<h2>15.3.2 Using the Link<a class="headerlink" href="#using-the-link" title="Permalink to this headline">¶</a></h2>
+<p>nagLinkUsage</p>
+<p>The easiest way to use the link is via the HyperDoc interface htxl1. You
+will be presented with a set of fill-in forms where you can specify the
+parameters for each call. Initially, the forms contain example values,
+demonstrating the use of each routine (these, in fact, correspond to the
+standard NAG example program for the routine in question). For some
+parameters, these values can provide reasonable defaults; others, of
+course, represent data. When you change a parameter which controls the
+size of an array, the data in that array are reset to a neutral value &#8211;
+usually zero.</p>
+<p>When you are satisfied with the values entered, clicking on the Continue
+button will display the FriCAS command needed to run the chosen NAG
+routine with these values. Clicking on the Do It button will then cause
+FriCAS to execute this command and return the result in the parent
+FriCAS session, as described below. Note that, for some routines,
+multiple HyperDoc pages are required, due to the structure of the data.
+For these, returning to an earlier page causes HyperDoc to reset the
+later pages (this is a general feature of HyperDoc); in such a case, the
+simplest way to repeat a call, varying a parameter on an earlier page,
+is probably to modify the call displayed in the parent session.</p>
+<p>An alternative approach is to call NAG routines directly in your normal
+FriCAS session (that is, using the FriCAS interpreter). Such calls
+return an object of type Result. As not all parameters in the underlying
+NAG routine are required in the AXIOM call (and the parameter ordering
+may be different), before calling a NAG routine you should consult the
+description of the FriCAS operation in the Browser. (The quickest route
+to this is to type the routine name, in lower case, into the Browser&#8217;s
+input area, then click on Operations.) The parameter names used coincide
+with NAG&#8217;s, although they will appear here in lower case. Of course, it
+is also possible to become familiar with the FriCAS form of a routine by
+first using it through the HyperDoc interface htxl1.</p>
+<p>As an example of this mode of working, we can find a zero of a function,
+lying between 3 and 4, as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">answer</span><span class="p">:</span><span class="o">=</span><span class="n">c05adf</span><span class="p">(</span><span class="mf">3.0</span><span class="p">,</span><span class="mf">4.0</span><span class="p">,</span><span class="mf">1.0e-5</span><span class="p">,</span><span class="mf">0.0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">sin</span><span class="p">(</span><span class="n">X</span><span class="p">)::</span><span class="n">ASP1</span><span class="p">(</span><span class="n">F</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>By default, Result only displays the type of returned values, since the
+amount of information returned can be quite large. Individual components
+can be examined as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">answer</span> <span class="o">.</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">answer</span> <span class="o">.</span> <span class="n">ifail</span>
+</pre></div>
+</div>
+<p>In order to avoid conflict with names defined in the workspace, you can
+also get the values by using the String type (the interpreter
+automatically coerces them to Symbol)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">answer</span> <span class="s2">&quot;x&quot;</span>
+</pre></div>
+</div>
+<p>It is possible to have FriCAS display the values of scalar or array
+results automatically. For more details, see the commands
+showScalarValuesshowScalarValuesResult and
+showArrayValuesshowArrayValuesResult.</p>
+<p>There is also a .input file for each NAG routine, containing FriCAS
+interpreter commands to set up and run the standard NAG example for that
+routine.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">read</span> <span class="n">c05adf</span><span class="o">.</span><span class="n">input</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="providing-values-for-argument-subprograms">
+<h2>15.3.3 Providing values for Argument Subprograms<a class="headerlink" href="#providing-values-for-argument-subprograms" title="Permalink to this headline">¶</a></h2>
+<p>aspSection</p>
+<p>There are a number of ways in which users can provide values for
+argument subprograms (ASPs). At the top level the user will see that NAG
+routines require an object from the Union of a Filename and an ASP.</p>
+<p>For example c05adf requires an object of type Union(fn: FileName,fp:
+Asp1 F)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">display</span> <span class="n">operation</span> <span class="n">c05adf</span>
+</pre></div>
+</div>
+<p>The user thus has a choice of providing the name of a file containing
+Fortran source code, or of somehow generating the ASP within FriCAS. If
+a filename is specified, it is searched for in the local machine, i.e.,
+the machine that FriCAS is running on.</p>
+</div>
+<div class="section" id="providing-asps-via-fortranexpression">
+<h2>15.3.3.1 Providing ASPs via FortranExpression<a class="headerlink" href="#providing-asps-via-fortranexpression" title="Permalink to this headline">¶</a></h2>
+<p>The FortranExpression domain is used to represent expressions which can
+be translated into Fortran under certain circumstances. It is very
+similar to Expression except that only operators which exist in Fortran
+can be used, and only certain variables can occur. For example the
+instantiation FortranExpression([X],[M],MachineFloat) is the domain of
+expressions containing the scalar X and the array M.</p>
+<p>This allows us to create expressions like:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span> <span class="n">FortranExpression</span><span class="p">([</span><span class="n">X</span><span class="p">],[</span><span class="n">M</span><span class="p">],</span><span class="n">MachineFloat</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="o">+</span><span class="n">M</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>but not</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span> <span class="n">FortranExpression</span><span class="p">([</span><span class="n">X</span><span class="p">],[</span><span class="n">M</span><span class="p">],</span><span class="n">MachineFloat</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">M</span><span class="p">)</span><span class="o">+</span><span class="n">Y</span>
+</pre></div>
+</div>
+<p>Those ASPs which represent expressions usually export a coerce from an
+appropriate instantiation of FortranExpression (or perhaps Vector
+FortranExpression etc.). For convenience there are also retractions from
+appropriate instantiations of Expression, Polynomial and Fraction
+Polynomial.</p>
+</div>
+<div class="section" id="providing-asps-via-fortrancode">
+<h2>15.3.3.2 Providing ASPs via FortranCode<a class="headerlink" href="#providing-asps-via-fortrancode" title="Permalink to this headline">¶</a></h2>
+<p>FortranCode FortranCode allows us to build arbitrarily complex ASPs via
+a kind of pseudo-code. It is described fully in
+<a class="reference external" href="generalFortran">generalFortran</a> .</p>
+<p>Every ASP exports two coerce functions: one from FortranCode and one
+from List FortranCode. There is also a coerce from Record( localSymbols:
+SymbolTable, code: List FortranCode) which is used for passing extra
+symbol information about the ASP.</p>
+<p>So for example, to integrate the function abs(x) we could use the
+built-in abs function. But suppose we want to get back to basics and
+define it directly, then we could do the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d01ajf</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0e-5</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">cond</span><span class="p">(</span><span class="n">LT</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">assign</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="o">-</span><span class="n">X</span><span class="p">),</span>
+</pre></div>
+</div>
+<p>assign(F,X))) result</p>
+<p>The condcondFortranCode operation creates a conditional clause and the
+assignassignFortranCode an assignment statement.</p>
+</div>
+<div class="section" id="providing-asps-via-filename">
+<h2>15.3.3.3 Providing ASPs via FileName<a class="headerlink" href="#providing-asps-via-filename" title="Permalink to this headline">¶</a></h2>
+<p>Suppose we have created the file asp.f as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">DOUBLE</span> <span class="n">PRECISION</span> <span class="n">FUNCTION</span> <span class="n">F</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">DOUBLE</span> <span class="n">PRECISION</span> <span class="n">X</span>
+<span class="n">F</span><span class="o">=</span><span class="mf">4.0</span><span class="n">D0</span><span class="o">/</span><span class="p">(</span><span class="n">X</span><span class="o">*</span><span class="n">X</span><span class="o">+</span><span class="mf">1.0</span><span class="n">D0</span><span class="p">)</span>
+<span class="n">RETURN</span>
+<span class="n">END</span>
+</pre></div>
+</div>
+<p>and wish to pass it to the NAG routine d01ajf which performs
+one-dimensional quadrature. We can do this as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d01ajf</span><span class="p">(</span><span class="mf">0.0</span> <span class="p">,</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0e-5</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;asp.f&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="general-fortran-generation-utilities-in-fricas">
+<h2>15.3.4 General Fortran-generation utilities in FriCAS<a class="headerlink" href="#general-fortran-generation-utilities-in-fricas" title="Permalink to this headline">¶</a></h2>
+<p>generalFortran</p>
+<p>This section describes more advanced facilities which are available to
+users who wish to generate Fortran code from within FriCAS. There are
+facilities to manipulate templates, store type information, and generate
+code fragments or complete programs.</p>
+</div>
+<div class="section" id="template-manipulation">
+<h2>15.3.4.1 Template Manipulation<a class="headerlink" href="#template-manipulation" title="Permalink to this headline">¶</a></h2>
+<p>A template is a skeletal program which is fleshed out with data when it
+is processed. It is a sequence of active and passive parts: active parts
+are sequences of FriCAS commands which are processed as if they had been
+typed into the interpreter; passive parts are simply echoed verbatim on
+the Fortran output stream.</p>
+<p>Suppose, for example, that we have the following template, stored in the
+file test.tem:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span> <span class="n">A</span> <span class="n">simple</span> <span class="n">template</span>
+<span class="n">beginVerbatim</span>
+      <span class="n">DOUBLE</span> <span class="n">PRECISION</span> <span class="n">FUNCTION</span> <span class="n">F</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+      <span class="n">DOUBLE</span> <span class="n">PRECISION</span> <span class="n">X</span>
+<span class="n">endVerbatim</span>
+<span class="n">outputAsFortran</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">,</span><span class="n">f</span><span class="p">)</span>
+<span class="n">beginVerbatim</span>
+      <span class="n">RETURN</span>
+      <span class="n">END</span>
+<span class="n">endVerbatim</span>
+</pre></div>
+</div>
+<p>The passive parts lie between the two tokens beginVerbatim and
+endVerbatim. There are two active statements: one which is simply an
+FriCAS ( \verb+&#8211;+) comment, and one which produces an assignment to
+the current value of f. We could use it as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">-&gt;</span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="mf">4.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">X</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+           <span class="mi">4</span>
+   <span class="p">(</span><span class="mi">4</span><span class="p">)</span>   <span class="o">------</span>
+          <span class="mi">2</span>
+         <span class="n">X</span>  <span class="o">+</span> <span class="mi">1</span>
+
+<span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">-&gt;</span><span class="n">processTemplate</span> <span class="s2">&quot;test.tem&quot;</span>
+      <span class="n">DOUBLE</span> <span class="n">PRECISION</span> <span class="n">FUNCTION</span> <span class="n">F</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+      <span class="n">DOUBLE</span> <span class="n">PRECISION</span> <span class="n">X</span>
+      <span class="n">F</span><span class="o">=</span><span class="mf">4.0</span><span class="n">D0</span><span class="o">/</span><span class="p">(</span><span class="n">X</span><span class="o">*</span><span class="n">X</span><span class="o">+</span><span class="mf">1.0</span><span class="n">D0</span><span class="p">)</span>
+      <span class="n">RETURN</span>
+      <span class="n">END</span>
+   <span class="p">(</span><span class="mi">5</span><span class="p">)</span>  <span class="s2">&quot;CONSOLE&quot;</span>
+</pre></div>
+</div>
+<p>(A more reliable method of specifying the filename will be introduced
+below.) Note that the Fortran assignment F=4.0D0/(X*X+1.0D0)
+automatically converted 4.0 and 1 into DOUBLE PRECISION numbers; in
+general, the FriCAS Fortran generation facility will convert anything
+which should be a floating point object into either a Fortran REAL or
+DOUBLE PRECISION object.</p>
+<p>Which alternative is used is determined by the command</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">fortran</span> <span class="n">precision</span>
+</pre></div>
+</div>
+<p>It is sometimes useful to end a template before the file itself ends
+(e.g. to allow the template to be tested incrementally or so that a
+piece of text describing how the template works can be included). It is
+of course possible to comment-out the remainder of the file.
+Alternatively, the single token endInput as part of an active portion of
+the template will cause processing to be ended prematurely at that
+point.</p>
+<p>The processTemplate command comes in two flavours. In the first case,
+illustrated above, it takes one argument of domain FileName, the name of
+the template to be processed, and writes its output on the current
+Fortran output stream. In general, a filename can be generated from
+directory, name and extension components, using the operation filename,
+as in</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">processTemplate</span> <span class="n">filename</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="s2">&quot;test&quot;</span><span class="p">,</span><span class="s2">&quot;tem&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There is an alternative version of processTemplate, which takes two
+arguments (both of domain FileName). In this case the first argument is
+the name of the template to be processed, and the second is the file in
+which to write the results. Both versions return the location of the
+generated Fortran code as their result (CONSOLE in the above example).</p>
+<p>It is sometimes useful to be able to mix active and passive parts of a
+line or statement. For example you might want to generate a Fortran
+Comment describing your data set. For this kind of application we
+provide three functions as follows:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>fortranLiteral</td>
+<td>writes a string on the Fortran
+output stream</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>fortranCarriageReturn</td>
+<td>writes a carriage return on the
+Fortran output stream</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>fortranLiteralLine</td>
+<td>writes a string followed by a return
+on the Fortran output stream</td>
+</tr>
+</tbody>
+</table>
+<p>So we could create our comment as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fortranLiteralLine</span> <span class="n">concat</span> <span class="p">[</span><span class="s2">&quot;C      The Matrix has &quot;</span><span class="p">,</span> <span class="n">nrows</span><span class="p">(</span><span class="n">m</span><span class="p">)::</span><span class="n">String</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>&#8220;&nbsp;rows&nbsp;and&nbsp;&#8221;, ncols(m)::String, &#8220;&nbsp;columns&#8221;]</p>
+<p>or, alternatively:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fortranLiteral</span> <span class="s2">&quot;C      The Matrix has &quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fortranLiteral</span><span class="p">(</span><span class="n">nrows</span><span class="p">(</span><span class="n">m</span><span class="p">)::</span><span class="n">String</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fortranLiteral</span> <span class="s2">&quot; rows and &quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fortranLiteral</span><span class="p">(</span><span class="n">ncols</span><span class="p">(</span><span class="n">m</span><span class="p">)::</span><span class="n">String</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fortranLiteral</span> <span class="s2">&quot; columns&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fortranCarriageReturn</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We should stress that these functions, together with the outputAsFortran
+function are the only sure ways of getting output to appear on the
+Fortran output stream. Attempts to use FriCAS commands such as output or
+writeline may appear to give the required result when displayed on the
+console, but will give the wrong result when Fortran and algebraic
+output are sent to differing locations. On the other hand, these
+functions can be used to send helpful messages to the user, without
+interfering with the generated Fortran.</p>
+</div>
+<div class="section" id="manipulating-the-fortran-output-stream">
+<h2>15.3.4.2 Manipulating the Fortran Output Stream<a class="headerlink" href="#manipulating-the-fortran-output-stream" title="Permalink to this headline">¶</a></h2>
+<p>FortranOutputStackPackage</p>
+<p>Sometimes it is useful to manipulate the Fortran output stream in a
+program, possibly without being aware of its current value. The main use
+of this is for gathering type declarations (see Fortran Types below) but
+it can be useful in other contexts as well. Thus we provide a set of
+commands to manipulate a stack of (open) output streams. Only one stream
+can be written to at any given time. The stack is never empty&#8212;its
+initial value is the console or the current value of the Fortran output
+stream, and can be determined using</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">topFortranOutputStack</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>(see below). The commands available to manipulate the stack are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>clearFortranOutputStack</td>
+<td>resets the stack to the console</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>pushFortranOutputStack</td>
+<td>pushes a FileName onto the stack</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>popFortranOutputStack</td>
+<td>pops the stack</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>showFortranOutputStack</td>
+<td>returns the current stack</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>topFortranOutputStack</td>
+<td>returns the top element of the stack</td>
+</tr>
+</tbody>
+</table>
+<p>These commands are all part of FortranOutputStackPackage.</p>
+</div>
+<div class="section" id="fortran-types">
+<h2>15.3.4.3 Fortran Types<a class="headerlink" href="#fortran-types" title="Permalink to this headline">¶</a></h2>
+<p>When generating code it is important to keep track of the Fortran types
+of the objects which we are generating. This is useful for a number of
+reasons, not least to ensure that we are actually generating legal
+Fortran code. The current type system is built up in several layers, and
+we shall describe each in turn.</p>
+</div>
+<div class="section" id="fortranscalartype">
+<h2>15.3.4.4 FortranScalarType<a class="headerlink" href="#fortranscalartype" title="Permalink to this headline">¶</a></h2>
+<p>FortranScalarType</p>
+<p>This domain represents the simple Fortran datatypes: REAL, DOUBLE
+PRECISION, COMPLEX, LOGICAL, INTEGER, and CHARACTER. It is possible to
+coerce a String or Symbol into the domain, test whether two objects are
+equal, and also apply the predicate functions
+real?real?FortranScalarType etc.</p>
+</div>
+<div class="section" id="fortrantype">
+<h2>15.3.4.5 FortranType<a class="headerlink" href="#fortrantype" title="Permalink to this headline">¶</a></h2>
+<p>FortranType</p>
+<p>This domain represents full types: i.e., datatype plus array dimensions
+(where appropriate) plus whether or not the parameter is an external
+subprogram. It is possible to coerce an object of FortranScalarType into
+the domain or construct one from an element of FortranScalarType, a list
+of Polynomial Integers (which can of course be simple integers or
+symbols) representing its dimensions, and a Boolean declaring whether it
+is external or not. The list of dimensions must be empty if the Boolean
+is true. The functions scalarTypeOf, dimensionsOf and external? return
+the appropriate parts, and it is possible to get the various basic
+Fortran Types via functions like fortranReal.</p>
+<p>For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>type:=construct(real,[i,10],false)$FortranType
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>type:=[real,[i,10],false]$FortranType
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">scalarTypeOf</span> <span class="nb">type</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dimensionsOf</span> <span class="nb">type</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>external? type
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fortranLogical</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>construct(integer,[],true)$FortranType
+</pre></div>
+</div>
+</div>
+<div class="section" id="symboltable">
+<h2>15.3.4.6 SymbolTable<a class="headerlink" href="#symboltable" title="Permalink to this headline">¶</a></h2>
+<p>SymbolTable</p>
+<p>This domain creates and manipulates a symbol table for generated Fortran
+code. This is used by FortranProgram to represent the types of objects
+in a subprogram. The commands available are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>empty</td>
+<td>creates a new SymbolTable</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>declare</td>
+<td>creates a new entry in a table</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>fortranTypeOf</td>
+<td>returns the type of an object in a
+table</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>parametersOf</td>
+<td>returns a list of all the symbols in
+the table</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>typeList</td>
+<td>returns a list of all objects of a
+given type</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>typeLists</td>
+<td>returns a list of lists of all
+objects sorted by type</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>externalList</td>
+<td>returns a list of all EXTERNAL
+objects</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>printTypes</td>
+<td>produces Fortran type declarations
+from a table</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span>symbols := empty()$SymbolTable
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>declare!(X,fortranReal(),symbols)
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>declare!(M,construct(real,[i,j],false)$FortranType,symbols)
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>declare!([i,j],fortranInteger(),symbols)
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">symbols</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fortranTypeOf</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">symbols</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">typeList</span><span class="p">(</span><span class="n">real</span><span class="p">,</span><span class="n">symbols</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">printTypes</span> <span class="n">symbols</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="thesymboltable">
+<h2>15.3.4.7 TheSymbolTable<a class="headerlink" href="#thesymboltable" title="Permalink to this headline">¶</a></h2>
+<p>TheSymbolTable</p>
+<p>This domain creates and manipulates one global symbol table to be used,
+for example, during template processing. It is also used when linking to
+external Fortran routines. The information stored for each subprogram
+(and the main program segment, where relevant) is:</p>
+<ul class="simple">
+<li>its name;</li>
+<li>its return type;</li>
+<li>its argument list;</li>
+<li>and its argument types.</li>
+</ul>
+<p>Initially, any information provided is deemed to be for the main program
+segment.</p>
+<p>Issuing the following command indicates that from now on all information
+refers to the subprogram F.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">newSubProgram</span> <span class="n">F</span>
+</pre></div>
+</div>
+<p>It is possible to return to processing the main program segment by
+issuing the command:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">endSubProgram</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The following commands exist:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>returnType</td>
+<td>declares the return type of the
+current subprogram</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>returnTypeOf</td>
+<td>returns the return type of a
+subprogram</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>argumentList</td>
+<td>declares the argument list of the
+current subprogram</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>argumentListOf</td>
+<td>returns the argument list of a
+subprogram</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>declare</td>
+<td>provides type declarations for
+parameters of the current subprogram</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>symbolTableOf</td>
+<td>returns the symbol table of a
+subprogram</td>
+</tr>
+<tr class="row-even"><td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>printHeader</td>
+<td>produces the Fortran header for the
+current subprogram</td>
+</tr>
+</tbody>
+</table>
+<p>In addition there are versions of these commands which are parameterised
+by the name of a subprogram, and others parameterised by both the name
+of a subprogram and by an instance of TheSymbolTable.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">newSubProgram</span> <span class="n">F</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>argumentList!(F,[X])
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>returnType!(F,real)
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>declare!(X,fortranReal(),F)
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">printHeader</span> <span class="n">F</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="advanced-fortran-code-generation">
+<h2>15.3.4.8 Advanced Fortran Code Generation<a class="headerlink" href="#advanced-fortran-code-generation" title="Permalink to this headline">¶</a></h2>
+<p>This section describes facilities for representing Fortran statements,
+and building up complete subprograms from them.</p>
+</div>
+<div class="section" id="switch">
+<h2>15.3.4.9 Switch<a class="headerlink" href="#switch" title="Permalink to this headline">¶</a></h2>
+<p>Switch</p>
+<p>This domain is used to represent statements like x &lt; y. Although these
+can be represented directly in FriCAS, it is a little cumbersome, since
+FriCAS evaluates the last statement, for example, to true (since x is
+lexicographically less than y).</p>
+<p>Instead we have a set of operations, such as LT to represent &lt;, to let
+us build such statements. The available constructors are:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="53%" />
+<col width="47%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>LT</td>
+<td>&lt;</td>
+</tr>
+<tr class="row-even"><td>GT</td>
+<td>&gt;</td>
+</tr>
+<tr class="row-odd"><td>LE</td>
+<td>≤</td>
+</tr>
+<tr class="row-even"><td>GE</td>
+<td>≤</td>
+</tr>
+<tr class="row-odd"><td>EQ</td>
+<td>=</td>
+</tr>
+<tr class="row-even"><td>AND</td>
+<td>and</td>
+</tr>
+<tr class="row-odd"><td>OR</td>
+<td>or</td>
+</tr>
+<tr class="row-even"><td>NOT</td>
+<td>not</td>
+</tr>
+</tbody>
+</table>
+<p>So for example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">LT</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="fortrancode">
+<h2>15.3.4.10 FortranCode<a class="headerlink" href="#fortrancode" title="Permalink to this headline">¶</a></h2>
+<p>This domain represents code segments or operations: currently
+assignments, conditionals, blocks, comments, gotos, continues, various
+kinds of loops, and return statements.</p>
+<p>For example we can create quite a complicated conditional statement
+using assignments, and then turn it into Fortran code:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="n">cond</span><span class="p">(</span><span class="n">LT</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">),</span><span class="n">assign</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">X</span><span class="p">),</span><span class="n">cond</span><span class="p">(</span><span class="n">GT</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">),</span><span class="n">assign</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Y</span><span class="p">),</span><span class="n">assign</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">Z</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">printCode</span> <span class="n">c</span>
+</pre></div>
+</div>
+<p>The Fortran code is printed on the current Fortran output stream.</p>
+</div>
+<div class="section" id="fortranprogram">
+<h2>15.3.4.11 FortranProgram<a class="headerlink" href="#fortranprogram" title="Permalink to this headline">¶</a></h2>
+<p>FortranProgram</p>
+<p>This domain is used to construct complete Fortran subprograms out of
+elements of FortranCode. It is parameterised by the name of the target
+subprogram (a Symbol), its return type (from
+Union(FortranScalarType,void)), its arguments (from List Symbol), and
+its symbol table (from SymbolTable). One can coerce elements of either
+FortranCode or Expression into it.</p>
+<p>First of all we create a symbol table:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>symbols := empty()$SymbolTable
+</pre></div>
+</div>
+<p>Now put some type declarations into it:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>declare!([X,Y],fortranReal(),symbols)
+</pre></div>
+</div>
+<p>Then (for convenience) we set up the particular instantiation of
+FortranProgram</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">FP</span> <span class="p">:</span><span class="o">=</span> <span class="n">FortranProgram</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">real</span><span class="p">,[</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">],</span><span class="n">symbols</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Create an object of type Expression(Integer):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">asp</span> <span class="p">:</span><span class="o">=</span> <span class="n">X</span><span class="o">*</span><span class="n">sin</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now coerce it into FP, and print its Fortran form:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputAsFortran</span><span class="p">(</span><span class="n">asp</span><span class="p">::</span><span class="n">FP</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can generate a FortranProgram using FortranCode. For example:</p>
+<p>Augment our symbol table:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>declare!(Z,fortranReal(),symbols)
+</pre></div>
+</div>
+<p>and transform the conditional expression we prepared earlier:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputAsFortran</span><span class="p">([</span><span class="n">c</span><span class="p">,</span><span class="n">returns</span><span class="p">()]::</span><span class="n">FP</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="some-technical-information">
+<h2>15.3.5 Some technical information<a class="headerlink" href="#some-technical-information" title="Permalink to this headline">¶</a></h2>
+<p>nagTechnical</p>
+<p>The model adopted for the link is a server-client configuration &#8211;
+FriCAS acting as a client via a local agent (a process called nagman).
+The server side is implemented by the nagd daemon process which may run
+on a different host. The nagman local agent is started by default
+whenever you start FriCAS. The nagd server must be started separately.
+Instructions for installing and running the server are supplied in
+<a class="reference external" href="nugNagd">nugNagd</a> . Use the )set naglink host system command to
+point your local agent to a server in your network.</p>
+<p>On the FriCAS side, one sees a set of packages (ask Browse for Nag*)
+for each chapter, each exporting operations with the same name as a
+routine in the Nag Library. The arguments and return value of each
+operation belong to standard FriCAS types.</p>
+<p>The man pages for the Nag Library are accessible via the description of
+each operation in Browse (among other places).</p>
+<p>In the implementation of each operation, the set of inputs is passed to
+the local agent nagman, which makes a Remote Procedure Call (RPC) to the
+remote nagd daemon process. The local agent receives the RPC results and
+forwards them to the FriCAS workspace where they are interpreted
+appropriately.</p>
+<p>How are Fortran subroutines turned into RPC calls? For each Fortran
+routine in the Nag Library, a C main() routine is supplied. Its job is
+to assemble the RPC input (numeric) data stream into the appropriate
+Fortran data structures for the routine, call the Fortran routine from C
+and serialize the results into an RPC output data stream.</p>
+<p>Many Nag Library routines accept ASPs (Argument Subprogram Parameters).
+These specify user-supplied Fortran routines (e.g. a routine to supply
+values of a function is required for numerical integration). How are
+they handled? There are new facilities in FriCAS to help. A set of
+FriCAS domains has been provided to turn values in standard FriCAS types
+(such as Expression Integer) into the appropriate piece of Fortran for
+each case (a filename pointing to Fortran source for the ASP can always
+be supplied instead). Ask Browse for Asp* to see these domains. The
+Fortran fragments are included in the outgoing RPC stream, but nagd
+intercepts them, compiles them, and links them with the main() C program
+before executing the resulting program on the numeric part of the RPC
+stream.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">15.3 The NAG Library Link</a><ul>
+<li><a class="reference internal" href="#interpreting-nag-documentation">15.3.1 Interpreting NAG Documentation</a></li>
+<li><a class="reference internal" href="#correspondence-between-fortran-and-fricas-types">15.3.1.1 Correspondence Between Fortran and FriCAS types</a></li>
+<li><a class="reference internal" href="#classification-of-nag-parameters">15.3.1.2 Classification of NAG parameters</a></li>
+<li><a class="reference internal" href="#ifail">15.3.1.3 IFAIL</a></li>
+<li><a class="reference internal" href="#using-the-link">15.3.2 Using the Link</a></li>
+<li><a class="reference internal" href="#providing-values-for-argument-subprograms">15.3.3 Providing values for Argument Subprograms</a></li>
+<li><a class="reference internal" href="#providing-asps-via-fortranexpression">15.3.3.1 Providing ASPs via FortranExpression</a></li>
+<li><a class="reference internal" href="#providing-asps-via-fortrancode">15.3.3.2 Providing ASPs via FortranCode</a></li>
+<li><a class="reference internal" href="#providing-asps-via-filename">15.3.3.3 Providing ASPs via FileName</a></li>
+<li><a class="reference internal" href="#general-fortran-generation-utilities-in-fricas">15.3.4 General Fortran-generation utilities in FriCAS</a></li>
+<li><a class="reference internal" href="#template-manipulation">15.3.4.1 Template Manipulation</a></li>
+<li><a class="reference internal" href="#manipulating-the-fortran-output-stream">15.3.4.2 Manipulating the Fortran Output Stream</a></li>
+<li><a class="reference internal" href="#fortran-types">15.3.4.3 Fortran Types</a></li>
+<li><a class="reference internal" href="#fortranscalartype">15.3.4.4 FortranScalarType</a></li>
+<li><a class="reference internal" href="#fortrantype">15.3.4.5 FortranType</a></li>
+<li><a class="reference internal" href="#symboltable">15.3.4.6 SymbolTable</a></li>
+<li><a class="reference internal" href="#thesymboltable">15.3.4.7 TheSymbolTable</a></li>
+<li><a class="reference internal" href="#advanced-fortran-code-generation">15.3.4.8 Advanced Fortran Code Generation</a></li>
+<li><a class="reference internal" href="#switch">15.3.4.9 Switch</a></li>
+<li><a class="reference internal" href="#fortrancode">15.3.4.10 FortranCode</a></li>
+<li><a class="reference internal" href="#fortranprogram">15.3.4.11 FortranProgram</a></li>
+<li><a class="reference internal" href="#some-technical-information">15.3.5 Some technical information</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-15.2.html" title="previous chapter">15.2 The New FriCAS Library Compiler</a></li>
+      <li>Next: <a href="section-15.4.html" title="next chapter">15.4 Interactive Front-end and Language</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-15.3.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-15.3.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

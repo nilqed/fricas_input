@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6.15 Functions Defined with Blocks &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="6.16 Free and Local Variables" href="section-6.16.html" />
+    <link rel="prev" title="6.14 Making Functions from Objects" href="section-6.14.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="functions-defined-with-blocks">
+<h1>6.15 Functions Defined with Blocks<a class="headerlink" href="#functions-defined-with-blocks" title="Permalink to this headline">¶</a></h1>
+<p>You need not restrict yourself to functions that only fit on one line or
+are written in a piece-wise manner. The body of the function can be a
+block, as discussed in <a class="reference external" href="section-5.2.html#ugLangBlocks">ugLangBlocks</a>
+.</p>
+<p>Here is a short function that swaps two elements of a list, array or
+vector.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="o">==</span>
+  <span class="n">temp</span> <span class="p">:</span><span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">i</span>
+  <span class="n">m</span><span class="o">.</span><span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">j</span>
+  <span class="n">m</span><span class="o">.</span><span class="n">j</span> <span class="p">:</span><span class="o">=</span> <span class="n">temp</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The significance of swap is that it has a destructive effect on its
+first argument.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,4,5]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">swap</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">swap</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">(</span><span class="n">List</span> <span class="n">PositiveInteger</span><span class="p">,</span>
+   <span class="n">PositiveInteger</span><span class="p">,</span><span class="n">PositiveInteger</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PositiveInteger</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>You see that the second and fourth elements are interchanged.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,4,3,2,5]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>Using this, we write a couple of different sort functions. First, a
+simple bubble sort. sort:bubble The operation # returns the number of
+elements in an aggregate.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bubbleSort</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span>
+  <span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="c1">#m</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">repeat</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">n</span><span class="o">..</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="n">by</span> <span class="o">-</span><span class="mi">1</span> <span class="n">repeat</span>
+      <span class="k">if</span> <span class="n">m</span><span class="o">.</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">then</span> <span class="n">swap</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">m</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Let this be the list we want to sort.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[8,4,-3,9]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>This is the result of sorting.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bubbleSort</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>   <span class="n">Compiling</span> <span class="n">function</span> <span class="n">swap</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">(</span><span class="n">List</span> <span class="n">Integer</span><span class="p">,</span><span class="n">Integer</span><span class="p">,</span><span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span>
+      <span class="n">Integer</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">3</span><span class="p">;</span><span class="n">swap</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+   <span class="n">Compiling</span> <span class="n">function</span> <span class="n">bubbleSort</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">List</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-3,4,8,9]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>Moreover, m is destructively changed to be the sorted version.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-3,4,8,9]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>This function implements an insertion sort. sort:insertion The basic
+idea is to traverse the list and insert the i-th element in its correct
+position among the i-1 previous elements. Since we start at the
+beginning of the list, the list elements before the i-th element have
+already been placed in ascending order.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">insertionSort</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">2.</span><span class="o">.</span><span class="c1">#m repeat</span>
+    <span class="n">j</span> <span class="p">:</span><span class="o">=</span> <span class="n">i</span>
+    <span class="k">while</span> <span class="n">j</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">m</span><span class="o">.</span><span class="n">j</span> <span class="o">&lt;</span> <span class="n">m</span><span class="o">.</span><span class="p">(</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">repeat</span>
+      <span class="n">swap</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">j</span> <span class="p">:</span><span class="o">=</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span>
+  <span class="n">m</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>As with our bubble sort, this is a destructive function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[8,4,-3,9]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">insertionSort</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">insertionSort</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">List</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">List</span>
+   <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-3,4,8,9]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-3,4,8,9]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>Neither of the above functions is efficient for sorting large lists
+since they reference elements by asking for the j-th element of the
+structure m.</p>
+<p>Here is a more efficient bubble sort for lists.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bubbleSort2</span><span class="p">(</span><span class="n">m</span><span class="p">:</span> <span class="n">List</span> <span class="n">Integer</span><span class="p">):</span> <span class="n">List</span> <span class="n">Integer</span> <span class="o">==</span>
+  <span class="n">null</span> <span class="n">m</span> <span class="o">=&gt;</span> <span class="n">m</span>
+  <span class="n">l</span> <span class="p">:</span><span class="o">=</span> <span class="n">m</span>
+  <span class="k">while</span> <span class="ow">not</span> <span class="n">null</span> <span class="p">(</span><span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">rest</span><span class="p">)</span> <span class="n">repeat</span>
+     <span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">bubbleSort2</span> <span class="n">r</span>
+     <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">first</span>
+     <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">r</span><span class="o">.</span><span class="n">first</span> <span class="n">then</span>
+       <span class="n">l</span><span class="o">.</span><span class="n">first</span> <span class="p">:</span><span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">first</span>
+       <span class="n">r</span><span class="o">.</span><span class="n">first</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span>
+     <span class="n">l</span><span class="o">.</span><span class="n">rest</span> <span class="p">:</span><span class="o">=</span> <span class="n">r</span>
+     <span class="n">l</span> <span class="p">:</span><span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">rest</span>
+  <span class="n">m</span>
+   <span class="n">Function</span> <span class="n">declaration</span> <span class="n">bubbleSort2</span> <span class="p">:</span> <span class="n">List</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">Integer</span> <span class="n">has</span>
+      <span class="n">been</span> <span class="n">added</span> <span class="n">to</span> <span class="n">workspace</span><span class="o">.</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Try it out.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bubbleSort2</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[7,3,2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>This definition is both recursive and iterative, and is tricky! Unless
+you are really curious about this definition, we suggest you skip
+immediately to the next section.</p>
+<p>Here are the key points in the definition. First notice that if you are
+sorting a list with less than two elements, there is nothing to do: just
+return the list. This definition returns immediately if there are zero
+elements, and skips the entire while loop if there is just one element.</p>
+<p>The second point to realize is that on each outer iteration, the bubble
+sort ensures that the minimum element is propagated leftmost. Each
+iteration of the while loop calls bubbleSort2 recursively to sort all
+but the first element. When finished, the minimum element is either in
+the first or second position. The conditional expression ensures that it
+comes first. If it is in the second, then a swap occurs. In any case,
+the rest of the original list must be updated to hold the result of the
+recursive call.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-6.14.html" title="previous chapter">6.14 Making Functions from Objects</a></li>
+      <li>Next: <a href="section-6.16.html" title="next chapter">6.16 Free and Local Variables</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-6.15.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-6.15.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

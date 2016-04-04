@@ -1,0 +1,2235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>18.1 FriCAS Domains &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="19.1 FriCAS Packages" href="section-19.1.html" />
+    <link rel="prev" title="17.1 FriCAS Categories" href="section-17.1.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fricas-domains">
+<h1>18.1 FriCAS Domains<a class="headerlink" href="#fricas-domains" title="Permalink to this headline">¶</a></h1>
+<p>This is a listing of all domains in the FriCAS library at the time this
+book was produced. Use the Browse facility (described in Chapter
+<a class="reference external" href="section-14.0.html#ugBrowse">ugBrowse</a> ) to get more information
+about these constructors.</p>
+<p>This sample entry will help you read the following table:</p>
+<p>DomainName{DomainAbbreviation}:{ Category1 ... CategoryN}with { op1...
+opM}</p>
+<p>where</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>DomainName</td>
+<td>is the full domain name, e.g., Integer.</td>
+</tr>
+<tr class="row-even"><td>DomainAbbreviation</td>
+<td>is the domain abbreviation, e.g., INT.</td>
+</tr>
+<tr class="row-odd"><td>Categoryi</td>
+<td>is a category to which the domain belongs.</td>
+</tr>
+<tr class="row-even"><td>opj</td>
+<td>is an operation exported by the domain.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="55%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ANON</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>AnonymousFunction</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ANY</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Any</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= any coerce domain domainOf obj objectOf showTypeInOutput</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ASTACK</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ArrayStack</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>StackAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? arrayStack bag coerce copy count depth empty empty? eq? every? extract! insert! inspect less? map map! member? members more? parts pop! push! size? top</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="2%" />
+<col width="98%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ALIST</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>AssociationList</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>AssociationListAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? assoc bag child? children coerce concat concat! construct copy copyInto! count cycleEntry cycleLength cycleSplit! cycleTail cyclic? delete delete! dictionary distance elt empty empty? entries entry? eq? every? explicitlyFinite? extract! fill! find first index? indices insert insert! inspect key? keys last leaf? less? list map map! maxIndex member? members merge merge! minIndex more? new node? nodes parts position possiblyInfinite? qelt qsetelt! reduce remove remove! removeDuplicates removeDuplicates! rest reverse reverse! search second select select! setchildren! setelt setfirst! setlast! setrest! setvalue! size? sort sort! sorted? split! swap! table tail third value</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>BBTREE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>BalancedBinaryTree</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BinaryTreeCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? balancedBinaryTree children coerce copy count cyclic? elt empty empty? eq? every? leaf? leaves left less? map map! mapDown! mapUp! member? members more? node node? nodes parts right setchildren! setelt setleaves! setleft! setright! setvalue! size? value</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>BOP</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>BasicOperator</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = arity assert coerce comparison copy deleteProperty! display equality has? input is? max min name nary? nullary? operator properties property setProperties setProperty unary? weight</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>BSTREE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>BinarySearchTree</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BinaryTreeCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? binarySearchTree children coerce copy count cyclic? elt empty empty? eq? every? insert! insertRoot! leaf? leaves left less? map map! member? members more? node node? nodes parts right setchildren! setelt setleft! setright! setvalue! size? split value</td>
+</tr>
+</tbody>
+</table>
+<p>count cyclic? elt empty empty? eq? every? insert! leaf? leaves left
+less? map map! member? members more? node node? nodes parts right
+setchildren! setelt setleft! setright! setvalue! size? value}</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>BTREE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>BinaryTree</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BinaryTreeCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? binaryTree children coerce copy count cyclic? elt empty empty? eq? every? leaf? leaves left less? map map! member? members more? node node? nodes parts right setchildren! setelt setleft! setright! setvalue! size? value</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>BITS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Bits</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BitAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = \^{} and any? bits coerce concat construct convert copy copyInto! count delete elt empty empty? entries entry? eq? every? fill! find first index? indices insert less? map map! max maxIndex member? members merge min minIndex more? nand new nor not or parts position qelt qsetelt! reduce remove removeDuplicates reverse reverse! select setelt size? sort sort! sorted? swap! xor</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>BOOLEAN</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Boolean</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ConvertibleTo Finite OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = \^{} and coerce convert false implies index lookup max min nand nor not or random size true xor</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>CCLASS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>CharacterClass</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ConvertibleTo FiniteSetAggregate SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = alphabetic alphanumeric any? bag brace cardinality charClass coerce complement construct convert copy count dictionary difference digit empty empty? eq? every? extract! find hexDigit index insert! inspect intersect less? lookup lowerCase map map! max member? members min more? parts random reduce remove remove! removeDuplicates select select! size size? subset? symmetricDifference union universe upperCase</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>CHAR</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Character</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OrderedFinite</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = alphabetic? alphanumeric? char coerce digit? escape hexDigit? index lookup lowerCase lowerCase? max min ord quote random size space upperCase upperCase?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>COMM</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Commutator</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce mkcomm</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DBASE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Database</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td><ul class="first last simple">
+<li><ul class="first">
+<li>= coerce display elt fullDisplay</li>
+</ul>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DLIST</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>DataList</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ListAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = any? children coerce concat concat! construct convert copy copyInto! count cycleEntry cycleLength cycleSplit! cycleTail cyclic? datalist delete delete! elt empty empty? entries entry? eq? every? explicitlyFinite? fill! find first index? indices insert insert! last leaf? leaves less? list map map! max maxIndex member? members merge merge! min minIndex more? new node? nodes parts position possiblyInfinite? qelt qsetelt! reduce remove remove! removeDuplicates removeDuplicates! rest reverse reverse! second select select! setchildren! setelt setfirst! setlast! setrest! setvalue! size? sort sort! sorted? split! swap! tail third value</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DEQUEUE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Dequeue</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>DequeueAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? back bag bottom! coerce copy count depth dequeue dequeue! empty empty? enqueue! eq? every? extract! extractBottom! extractTop! front height insert! insertBottom! insertTop! inspect length less? map map! member? members more? parts pop! push! reverse! rotate! size? top top!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DROPT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>DrawOption</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= adaptive clip coerce colorFunction coordinate coordinates curveColor option option? pointColor range ranges space style title toScale tubePoints tubeRadius unit var1Steps var2Steps</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>EFULS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ElementaryFunctionsUnivariateLaurentSeries</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>PartialTranscendentalFunctions</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>^ acos acosIfCan acosh acoshIfCan acot acotIfCan acoth acothIfCan acsc acscIfCan acsch acschIfCan asec asecIfCan asech asechIfCan asin asinIfCan asinh asinhIfCan atan atanIfCan atanh atanhIfCan cos cosIfCan cosh coshIfCan cot cotIfCan coth cothIfCan csc cscIfCan csch cschIfCan exp expIfCan log logIfCan nthRootIfCan sec secIfCan sech sechIfCan sin sinIfCan sinh sinhIfCan tan tanIfCan tanh tanhIfCan</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>EFUPXS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ElementaryFunctionsUnivariatePuiseuxSeries</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>PartialTranscendentalFunctions</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>^ acos acosIfCan acosh acoshIfCan acot acotIfCan acoth acothIfCan acsc acscIfCan acsch acschIfCan asec asecIfCan asech asechIfCan asin asinIfCan asinh asinhIfCan atan atanIfCan atanh atanhIfCan cos cosIfCan cosh coshIfCan cot cotIfCan coth cothIfCan csc cscIfCan csch cschIfCan exp expIfCan log logIfCan nthRootIfCan sec secIfCan sech sechIfCan sin sinIfCan sinh sinhIfCan tan tanIfCan tanh tanhIfCan</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>EQTBL</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>EqTable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>TableAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? bag coerce construct copy count dictionary elt empty empty? entries entry? eq? every? extract! fill! find first index? indices insert! inspect key? keys less? map map! maxIndex member? members minIndex more? parts qelt qsetelt! reduce remove remove! removeDuplicates search select select! setelt size? swap! table</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="53%" />
+<col width="47%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>EXIT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Exit</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>EAB</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ExtAlgBasis</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = Nul coerce degree exponents max min</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FNAME</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FileName</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>FileNameCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce directory exists? extension filename name new readable? writable?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FILE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>File</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>FileCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= close! coerce iomode name open read! readIfCan! reopen! write!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FARRAY</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FlexibleArray</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ExtensibleLinearAggregate OneDimensionalArrayAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = any? coerce concat concat! construct convert copy copyInto! count delete delete! elt empty empty? entries entry? eq? every? fill! find first flexibleArray index? indices insert insert! less? map map! max maxIndex member? members merge merge! min minIndex more? new parts physicalLength physicalLength! position qelt qsetelt! reduce remove remove! removeDuplicates removeDuplicates! reverse reverse! select select! setelt shrinkable size? sort sort! sorted? swap!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="51%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FUNCTION</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FunctionCalled</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce name</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>GSTBL</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>GeneralSparseTable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>TableAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? bag coerce construct copy count dictionary elt empty empty? entries entry? eq? every? extract! fill! find first index? indices insert! inspect key? keys less? map map! maxIndex member? members minIndex more? parts qelt qsetelt! reduce remove remove! removeDuplicates search select select! setelt size? swap! table</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>GRIMAGE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>GraphImage</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= appendPoint coerce component graphImage key makeGraphImage point pointLists putColorInfo ranges units</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>HASHTBL</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>HashTable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>TableAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? bag coerce construct copy count dictionary elt empty empty? entries entry? eq? every? extract! fill! find first index? indices insert! inspect key? keys less? map map! maxIndex member? members minIndex more? parts qelt qsetelt! reduce remove remove! removeDuplicates search select select! setelt size? swap! table</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>HEAP</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Heap</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>PriorityQueueAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? bag coerce copy count empty empty? eq? every? extract! heap insert! inspect less? map map! max member? members merge merge! more? parts size?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="73%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ICARD</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>IndexCard</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = coerce display elt fullDisplay max min</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>IBITS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>IndexedBits</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BitAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = And Not Or \^{} and any? coerce concat construct convert copy copyInto! count delete elt empty empty? entries entry? eq? every? fill! find first index? indices insert less? map map! max maxIndex member? members merge min minIndex more? nand new nor not or parts position qelt qsetelt! reduce remove removeDuplicates reverse reverse! select setelt size? sort sort! sorted? swap! xor</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>IDPO</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>IndexedDirectProductObject</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>IndexedDirectProductCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce leadingCoefficient leadingSupport map monomial reductum</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>IFARRAY</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>IndexedFlexibleArray</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ExtensibleLinearAggregate OneDimensionalArrayAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = any? coerce concat concat! construct convert copy copyInto! count delete delete! elt empty empty? entries entry? eq? every? fill! find first flexibleArray index? indices insert insert! less? map map! max maxIndex member? members merge merge! min minIndex more? new parts physicalLength physicalLength! position qelt qsetelt! reduce remove remove! removeDuplicates removeDuplicates! reverse reverse! select select! setelt shrinkable size? sort sort! sorted? swap!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ILIST</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>IndexedList</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ListAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = any? child? children coerce concat concat! construct convert copy copyInto! count cycleEntry cycleLength cycleSplit! cycleTail cyclic? delete delete! distance elt empty empty? entries entry? eq? every? explicitlyFinite? fill! find first index? indices insert insert! last leaf? less? list map map! max maxIndex member? members merge merge! min minIndex more? new node? nodes parts position possiblyInfinite? qelt qsetelt! reduce remove remove! removeDuplicates removeDuplicates! rest reverse reverse! second select select! setchildren! setelt setfirst! setlast! setrest! setvalue! size? sort sort! sorted? split! swap! tail third value</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>IARRAY1</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>IndexedOneDimensionalArray</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OneDimensionalArrayAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = any? coerce concat construct convert copy copyInto! count delete elt empty empty? entries entry? eq? every? fill! find first index? indices insert less? map map! max maxIndex member? members merge min minIndex more? new parts position qelt qsetelt! reduce remove removeDuplicates reverse reverse! select setelt size? sort sort! sorted? swap!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ISTRING</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>IndexedString</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>StringAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = any? coerce concat construct copy copyInto! count delete elt empty empty? entries entry? eq? every? fill! find first hash index? indices insert leftTrim less? lowerCase lowerCase! map map! match? max maxIndex member? members merge min minIndex more? new parts position prefix? qelt qsetelt! reduce remove removeDuplicates replace reverse reverse! rightTrim select setelt size? sort sort! sorted? split substring? suffix? swap! trim upperCase upperCase!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>IARRAY2</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>IndexedTwoDimensionalArray</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>TwoDimensionalArrayCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? coerce column copy count elt empty empty? eq? every? fill! less? map map! maxColIndex maxRowIndex member? members minColIndex minRowIndex more? ncols new nrows parts qelt qsetelt! row setColumn! setRow! setelt size?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ITUPLE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>InfiniteTuple</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CoercibleTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce construct filterUntil filterWhile generate map select</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>IIARRAY2</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>InnerIndexedTwoDimensionalArray</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>TwoDimensionalArrayCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? coerce column copy count elt empty empty? eq? every? fill! less? map map! maxColIndex maxRowIndex member? members minColIndex minRowIndex more? ncols new nrows parts qelt qsetelt! row setColumn! setRow! setelt size?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>KERNEL</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Kernel</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CachableSet ConvertibleTo Patternable</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = argument coerce convert height is? kernel max min name operator position setPosition symbolIfCan</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>KAFILE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>KeyedAccessFile</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>FileCategory TableAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? bag close! coerce construct copy count dictionary elt empty empty? entries entry? eq? every? extract! fill! find first index? indices insert! inspect iomode key? keys less? map map! maxIndex member? members minIndex more? name open pack! parts qelt qsetelt! read! reduce remove remove! removeDuplicates reopen! search select select! setelt size? swap! table write!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>LIB</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Library</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>TableAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? bag coerce construct copy count dictionary elt empty empty? entries entry? eq? every? extract! fill! find first index? indices insert! inspect key? keys less? library map map! maxIndex member? members minIndex more? pack! parts qelt qsetelt! reduce remove remove! removeDuplicates search select select! setelt size? swap! table</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>LMOPS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ListMonoidOps</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>RetractableTo SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce leftMult listOfMonoms makeMulti makeTerm makeUnit mapExpon mapGen nthExpon nthFactor outputForm plus retract retractIfCan reverse reverse! rightMult size</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>LMDICT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ListMultiDictionary</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>MultiDictionary</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? bag coerce construct convert copy count dictionary duplicates duplicates? empty empty? eq? every? extract! find insert! inspect less? map map! member? members more? parts reduce remove remove! removeDuplicates removeDuplicates! select select! size? substitute</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="2%" />
+<col width="98%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>LIST</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>List</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ListAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = any? append child? children coerce concat concat! cons construct convert copy copyInto! count cycleEntry cycleLength cycleSplit! cycleTail cyclic? delete delete! distance elt empty empty? entries entry? eq? every? explicitlyFinite? fill! find first index? indices insert insert! last leaf? less? list map map! max maxIndex member? members merge merge! min minIndex more? new nil node? nodes null parts position possiblyInfinite? qelt qsetelt! reduce remove remove! removeDuplicates removeDuplicates! rest reverse reverse! second select select! setDifference setIntersection setUnion setchildren! setelt setfirst! setlast! setrest! setvalue! size? sort sort! sorted? split! swap! tail third value</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>MKCHSET</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>MakeCachableSet</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CachableSet CoercibleTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = coerce max min position setPosition</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>MSET</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Multiset</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>MultiSetAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = any? bag brace coerce construct convert copy count dictionary difference duplicates empty empty? eq? every? extract! find insert! inspect intersect less? map map! member? members more? multiset parts reduce remove remove! removeDuplicates removeDuplicates! select select! size? subset? symmetricDifference union</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="53%" />
+<col width="47%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>NONE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>None</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ARRAY1</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OneDimensionalArray</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OneDimensionalArrayAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = any? coerce concat construct convert copy copyInto! count delete elt empty empty? entries entry? eq? every? fill! find first index? indices insert less? map map! max maxIndex member? members merge min minIndex more? new oneDimensionalArray parts position qelt qsetelt! reduce remove removeDuplicates reverse reverse! select setelt size? sort sort! sorted? swap!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>OVAR</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrderedVariableList</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ConvertibleTo OrderedFinite</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = coerce convert index lookup max min random size variable</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ODVAR</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrderlyDifferentialVariable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>DifferentialVariableCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = D coerce differentiate makeVariable max min order retract retractIfCan variable weight</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>OSI</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrdSetInts</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = coerce max min value</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PALETTE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Palette</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= bright coerce dark dim hue light pastel shade</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PARPCURV</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ParametricPlaneCurve</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coordinate curve</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PARSCURV</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ParametricSpaceCurve</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coordinate curve</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PARSURF</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ParametricSurface</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coordinate surface</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PATLRES</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PatternMatchListResult</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= atoms coerce failed failed? lists makeResult new</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PATRES</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PatternMatchResult</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= addMatch addMatchRestricted coerce construct destruct failed failed? getMatch insertMatch new satisfy? union</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PENDTREE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PendantTree</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BinaryRecursiveAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? children coerce copy count cyclic? elt empty empty? eq? every? leaf? leaves left less? map map! member? members more? node? nodes parts ptree right setchildren! setelt setleft! setright! setvalue! size? value</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PERMGRP</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PermutationGroup</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; &lt;= = base coerce degree elt generators initializeGroupForWordProblem member? movedPoints orbit orbits order permutationGroup random strongGenerators wordInGenerators wordInStrongGenerators wordsForStrongGenerators</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="76%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ACPLOT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PlaneAlgebraicCurvePlot</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>PlottablePlaneCurveCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce listBranches makeSketch refine xRange yRange</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PLOT3D</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Plot3D</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>PlottableSpaceCurveCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>adaptive3D? coerce debug3D listBranches maxPoints3D minPoints3D numFunEvals3D plot pointPlot refine screenResolution3D setAdaptive3D setMaxPoints3D setMinPoints3D setScreenResolution3D tRange tValues xRange yRange zRange zoom</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PLOT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Plot</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>PlottablePlaneCurveCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>adaptive? coerce debug listBranches maxPoints minPoints numFunEvals parametric? plot plotPolar pointPlot refine screenResolution setAdaptive setMaxPoints setMinPoints setScreenResolution tRange xRange yRange zoom</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PRIMARR</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PrimitiveArray</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OneDimensionalArrayAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = any? coerce concat construct convert copy copyInto! count delete elt empty empty? entries entry? eq? every? fill! find first index? indices insert less? map map! max maxIndex member? members merge min minIndex more? new parts position qelt qsetelt! reduce remove removeDuplicates reverse reverse! select setelt size? sort sort! sorted? swap!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>QALGSET</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>QuasiAlgebraicSet</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CoercibleTo SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce definingEquations definingInequation empty? idealSimplify quasiAlgebraicSet setStatus simplify</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>QEQUAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>QueryEquation</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>equation value variable</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="92%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>QUEUE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Queue</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>QueueAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? back bag coerce copy count dequeue! empty empty? enqueue! eq? every? extract! front insert! inspect length less? map map! member? members more? parts queue rotate! size?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>REF</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Reference</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Object SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce deref elt ref setelt setref</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>RULE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>RewriteRule</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Eltable RetractableTo SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce elt lhs pattern quotedOperators retract retractIfCan rhs rule suchThat</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>RULECOLD</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>RuleCalled</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce name</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>RULESET</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Ruleset</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Eltable SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce elt rules ruleset</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FORMULA1</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ScriptFormulaFormat1</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Object</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FORMULA</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ScriptFormulaFormat</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce convert display epilogue formula new prologue setEpilogue! setFormula! setPrologue!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SEGBIND</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SegmentBinding</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce equation segment variable</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SEG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Segment</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SegmentCategory SegmentExpansionCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= BY SEGMENT coerce convert expand hi high incr lo low map segment</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SDVAR</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SequentialDifferentialVariable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>DifferentialVariableCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = D coerce differentiate makeVariable max min order retract retractIfCan variable weight</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SET</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Set</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>FiniteSetAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = any? bag brace cardinality coerce complement construct convert copy count dictionary difference empty empty? eq? every? extract! find index insert! inspect intersect less? lookup map map! max member? members min more? parts random reduce remove remove! removeDuplicates select select! size size? subset? symmetricDifference union universe</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SEXOF</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SExpressionOf</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SExpressionCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = atom? car cdr coerce convert destruct elt eq expr float float? integer integer? list? null? pair? string string? symbol symbol? uequal</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SEX</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SExpression</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SExpressionCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = atom? car cdr coerce convert destruct elt eq expr float float? integer integer? list? null? pair? string string? symbol symbol? uequal</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="63%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SAOS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SingletonAsOrderedSet</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = coerce create max min</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>STBL</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SparseTable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>TableAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? bag coerce construct copy count dictionary elt empty empty? entries entry? eq? every? extract! fill! find first index? indices insert! inspect key? keys less? map map! maxIndex member? members minIndex more? parts qelt qsetelt! reduce remove remove! removeDuplicates search select select! setelt size? swap! table</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>STACK</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Stack</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>StackAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? bag coerce copy count depth empty empty? eq? every? extract! insert! inspect less? map map! member? members more? parts pop! push! size? stack top</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="2%" />
+<col width="98%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>STREAM</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Stream</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>LazyStreamAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? child? children coerce complete concat concat! cons construct convert copy count cycleEntry cycleLength cycleSplit! cycleTail cyclic? delay delete distance elt empty empty? entries entry? eq? every? explicitEntries? explicitlyEmpty? explicitlyFinite? extend fill! filterUntil filterWhile find findCycle first frst generate index? indices insert last lazy? lazyEvaluate leaf? less? map map! maxIndex member? members minIndex more? new node? nodes numberOfComputedEntries output parts possiblyInfinite? qelt qsetelt! reduce remove removeDuplicates repeating repeating? rest rst second select setchildren! setelt setfirst! setlast! setrest! setvalue! showAll? showAllElements size? split! swap! tail third value</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>STRTBL</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>StringTable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>TableAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? bag coerce construct copy count dictionary elt empty empty? entries entry? eq? every? extract! fill! find first index? indices insert! inspect key? keys less? map map! maxIndex member? members minIndex more? parts qelt qsetelt! reduce remove remove! removeDuplicates search select select! setelt size? swap! table</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>STRING</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>String</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>StringCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># &lt; = any? coerce concat construct copy copyInto! count delete elt empty empty? entries entry? eq? every? fill! find first index? indices insert leftTrim less? lowerCase lowerCase! map map! match? max maxIndex member? members merge min minIndex more? new parts position prefix? qelt qsetelt! reduce remove removeDuplicates replace reverse reverse! rightTrim select setelt size? sort sort! sorted? split string substring? suffix? swap! trim upperCase upperCase!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>COMPPROP</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SubSpaceComponentProperty</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= close closed? coerce copy new solid solid?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SUBSPACE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SubSpace</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= addPoint addPoint2 addPointLast birth child children closeComponent coerce deepCopy defineProperty extractClosed extractIndex extractPoint extractProperty internal? leaf? level merge modifyPoint new numberOfChildren parent pointData root? separate shallowCopy subspace traverse</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SUCH</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SuchThat</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce construct lhs rhs</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SYMBOL</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Symbol</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ConvertibleTo OrderedSet PatternMatchable</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; = argscript coerce convert elt list max min name new patternMatch resetNew script scripted? scripts string subscript superscript</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>TABLEAU</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Tableau</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Object</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce listOfLists tableau</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>TABLE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Table</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>TableAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? bag coerce construct copy count dictionary elt empty empty? entries entry? eq? every? extract! fill! find first index? indices insert! inspect key? keys less? map map! maxIndex member? members minIndex more? parts qelt qsetelt! reduce remove remove! removeDuplicates search select select! setelt size? swap! table</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="55%" />
+<col width="45%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>TEX1</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>TexFormat1</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Object</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>TEX</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>TexFormat</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce convert display epilogue new prologue setEpilogue! setPrologue! setTex! tex</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>TEXTFILE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>TextFile</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>FileCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= close! coerce endOfFile? iomode name open read! readIfCan! readLine! readLineIfCan! reopen! write! writeLine!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="96%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>VIEW3D</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ThreeDimensionalViewport</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= axes clipSurface close coerce colorDef controlPanel diagonals dimensions drawStyle eyeDistance hitherPlane intensity key lighting makeViewport3D modifyPointData move options outlineRender perspective reset resize rotate showClipRegion showRegion subspace title translate viewDeltaXDefault viewDeltaYDefault viewPhiDefault viewThetaDefault viewZoomDefault viewpoint viewport3D write zoom</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SPACE3</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ThreeSpace</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ThreeSpaceCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= check closedCurve closedCurve? coerce components composite composites copy create3Space curve curve? enterPointData lllip lllp llprop lp lprop merge mesh mesh? modifyPointData numberOfComponents numberOfComposites objects point point? polygon polygon? subspace</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>TREE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Tree</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>RecursiveAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? children coerce copy count cyclic? elt empty empty? eq? every? leaf? leaves less? map map! member? members more? node? nodes parts setchildren! setelt setvalue! size? tree value</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>TUBE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>TubePlot</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>closed? getCurve listLoops open?
+setClosed tube</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="39%" />
+<col width="61%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>TUPLE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Tuple</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CoercibleTo SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce length select</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ARRAY2</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>TwoDimensionalArray</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>TwoDimensionalArrayCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># = any? coerce column copy count elt empty empty? eq? every? fill! less? map map! maxColIndex maxRowIndex member? members minColIndex minRowIndex more? ncols new nrows parts qelt qsetelt! row setColumn! setRow! setelt size?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>VIEW2D</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>TwoDimensionalViewport</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= axes close coerce connect controlPanel dimensions getGraph graphState graphStates graphs key makeViewport2D move options points putGraph region reset resize scale show title translate units viewport2D write</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>UNISEG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>UniversalSegment</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SegmentCategory SegmentExpansionCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= BY SEGMENT coerce convert expand hasHi hi high incr lo low map segment</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="39%" />
+<col width="61%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>VARIABLE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Variable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CoercibleTo SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>= coerce variable</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>VOID</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Void</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce void</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-17.1.html" title="previous chapter">17.1 FriCAS Categories</a></li>
+      <li>Next: <a href="section-19.1.html" title="next chapter">19.1 FriCAS Packages</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-18.1.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-18.1.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

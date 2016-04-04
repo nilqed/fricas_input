@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.8 )display &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="16.9 )edit" href="section-16.9.html" />
+    <link rel="prev" title="16.7 )compile" href="section-16.7.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="display">
+<h1>16.8 )display<a class="headerlink" href="#display" title="Permalink to this headline">¶</a></h1>
+<p>ugSysCmddisplay</p>
+<p>display</p>
+<blockquote>
+<div><p>User Level Required: interpreter</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)display all</p>
+<p>)display properties</p>
+<p>)display properties all</p>
+<p>)display properties [obj1 [obj2 ...]]</p>
+<p>)display value all</p>
+<p>)display value [obj1 [obj2 ...]]</p>
+<p>)display mode all</p>
+<p>)display mode [obj1 [obj2 ...]]</p>
+<p>)display names</p>
+<p>)display operations opName</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>This command is used to display the contents of the workspace and
+signatures of functions with a given name.A signature gives the argument
+and return types of a function.</p>
+<p>The command</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">display</span> <span class="n">names</span>
+</pre></div>
+</div>
+<p>lists the names of all user-defined objects in the workspace. This is
+useful if you do not wish to see everything about the objects and need
+only be reminded of their names.</p>
+<p>The commands</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">display</span> <span class="nb">all</span>
+<span class="p">)</span><span class="n">display</span> <span class="n">properties</span>
+<span class="p">)</span><span class="n">display</span> <span class="n">properties</span> <span class="nb">all</span>
+</pre></div>
+</div>
+<p>all do the same thing: show the values and types and declared modes of
+all variables in the workspace. If you have defined functions, their
+signatures and definitions will also be displayed.</p>
+<p>To show all information about a particular variable or user functions,
+for example, something named d, issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">display</span> <span class="n">properties</span> <span class="n">d</span>
+</pre></div>
+</div>
+<p>To just show the value (and the type) of d, issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">display</span> <span class="n">value</span> <span class="n">d</span>
+</pre></div>
+</div>
+<p>To just show the declared mode of d, issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">display</span> <span class="n">mode</span> <span class="n">d</span>
+</pre></div>
+</div>
+<p>All modemaps for a given operation may be displayed by using )display
+operations. A modemap is a collection of information about a particular
+reference to an operation. This includes the types of the arguments and
+the return value, the location of the implementation and any conditions
+on the types. The modemap may contain patterns. The following displays
+the modemaps for the operation complexcomplexComplexCategory:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">d</span> <span class="n">op</span> <span class="nb">complex</span>
+
+
+
+<span class="n">Also</span> <span class="n">See</span><span class="p">:</span> <span class="p">)</span><span class="n">clear</span> <span class="n">ugSysCmdclear</span><span class="p">,</span> <span class="p">)</span><span class="n">history</span> <span class="n">ugSysCmdhistory</span><span class="p">,</span> <span class="p">)</span><span class="nb">set</span>
+</pre></div>
+</div>
+<p>ugSysCmdset, )show ugSysCmdshow, and )what ugSysCmdwhat.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.7.html" title="previous chapter">16.7 )compile</a></li>
+      <li>Next: <a href="section-16.9.html" title="next chapter">16.9 )edit</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.8.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.8.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,732 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.60 OrderlyDifferentialPolynomial &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.61 PartialFraction" href="section-9.61.html" />
+    <link rel="prev" title="9.59 OrderedVariableList" href="section-9.59.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="orderlydifferentialpolynomial">
+<h1>9.60 OrderlyDifferentialPolynomial<a class="headerlink" href="#orderlydifferentialpolynomial" title="Permalink to this headline">¶</a></h1>
+<p>Many systems of differential equations may be transformed to equivalent
+systems of ordinary differential equations where the equations are
+expressed polynomially in terms of the unknown functions. In FriCAS, the
+domain constructors OrderlyDifferentialPolynomial (abbreviated ODPOL)
+and SequentialDifferentialPolynomial (abbreviation SDPOL) implement two
+domains of ordinary differential polynomials over any differential ring.
+In the simplest case, this differential ring is usually either the ring
+of integers, or the field of rational numbers. However, FriCAS can
+handle ordinary differential polynomials over a field of rational
+functions in a single indeterminate.</p>
+<p>The two domains ODPOL and SDPOL are almost identical, the only
+difference being the choice of a different ranking, which is an ordering
+of the derivatives of the indeterminates. The first domain uses an
+orderly ranking, that is, derivatives of higher order are ranked higher,
+and derivatives of the same order are ranked alphabetically. The second
+domain uses a sequential ranking, where derivatives are ordered first
+alphabetically by the differential indeterminates, and then by order. A
+more general domain constructor,
+DifferentialSparseMultivariatePolynomial (abbreviation DSMP) allows both
+a user-provided list of differential indeterminates as well as a
+user-defined ranking. We shall illustrate ODPOL(FRAC INT), which
+constructs a domain of ordinary differential polynomials in an arbitrary
+number of differential indeterminates with rational numbers as
+coefficients.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dpol</span><span class="p">:</span><span class="o">=</span> <span class="n">ODPOL</span><span class="p">(</span><span class="n">FRAC</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>OrderlyDifferentialPolynomialFractionInteger</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>A differential indeterminate w may be viewed as an infinite sequence of
+algebraic indeterminates, which are the derivatives of w. To facilitate
+referencing these, FriCAS provides the operation
+makeVariablemakeVariableOrderlyDifferentialPolynomial to convert an
+element of type Symbol to a map from the natural numbers to the
+differential polynomial ring.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="p">:</span><span class="o">=</span> <span class="n">makeVariable</span><span class="p">(</span><span class="s1">&#39;w)$dpol</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>theMap(...)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: (NonNegativeInteger -&gt; OrderlyDifferentialPolynomial Fraction</sub>
+Integer)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="p">:</span><span class="o">=</span> <span class="n">makeVariable</span><span class="p">(</span><span class="s1">&#39;z)$dpol</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>theMap(...)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: (NonNegativeInteger -&gt; OrderlyDifferentialPolynomial Fraction</sub>
+Integer)</p>
+<p>The fifth derivative of w can be obtained by applying the map w to the
+number 5. Note that the order of differentiation is given as a subscript
+(except when the order is 0).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span><span class="o">.</span><span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>w5</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>w</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>The first five derivatives of z can be generated by a list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">z</span><span class="o">.</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[z1,z2,z3,z4,z5]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>The usual arithmetic can be used to form a differential polynomial from
+the derivatives.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">:</span><span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="mi">4</span> <span class="o">-</span> <span class="n">w</span><span class="o">.</span><span class="mi">1</span> <span class="o">*</span> <span class="n">w</span><span class="o">.</span><span class="mi">1</span> <span class="o">*</span> <span class="n">z</span><span class="o">.</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>w4-w12z3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span><span class="p">:</span><span class="o">=</span><span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">z</span><span class="o">.</span><span class="mi">2</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">w</span><span class="o">.</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z13z22-w2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>The operation DDOrderlyDifferentialPolynomial computes the derivative of
+any differential polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>w5-w12z4-2w1w2z3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>The same operation can compute higher derivatives, like the fourth
+derivative.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>w8-w12z7-8w1w2z6+(-12w1w3-12w22)z5-2w1z3w5+(-8w1w4-24w2w3)z4-8w2z3w4-6w32z3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>The operation makeVariablemakeVariableOrderlyDifferentialPolynomial
+creates a map to facilitate referencing the derivatives of f, similar to
+the map w.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>df:=makeVariable(f)$dpol
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>theMap(...)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: (NonNegativeInteger -&gt; OrderlyDifferentialPolynomial Fraction</sub>
+Integer)</p>
+<p>The fourth derivative of f may be referenced easily.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="mi">4</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>w8-w12z7-8w1w2z6+(-12w1w3-12w22)z5-2w1z3w5+(-8w1w4-24w2w3)z4-8w2z3w4-6w32z3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>The operation orderorderOrderlyDifferentialPolynomial returns the order
+of a differential polynomial, or the order in a specified differential
+indeterminate.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">order</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">order</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s1">&#39;w)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The operation
+differentialVariablesdifferentialVariablesOrderlyDifferentialPolynomial
+returns a list of differential indeterminates occurring in a
+differential polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">differentialVariables</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[z,w]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Symbol</sub></p>
+<p>The operation degreedegreeOrderlyDifferentialPolynomial returns the
+degree, or the degree in the differential indeterminate specified.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">degree</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z22z13</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: IndexedExponents OrderlyDifferentialVariable Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">degree</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="s1">&#39;w)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The operation weightsweightsOrderlyDifferentialPolynomial returns a list
+of weights of differential monomials appearing in differential
+polynomial, or a list of weights in a specified differential
+indeterminate.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">weights</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[7,2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List NonNegativeInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">weights</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="s1">&#39;w)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List NonNegativeInteger</sub></p>
+<p>The operation weightweightOrderlyDifferentialPolynomial returns the
+maximum weight of all differential monomials appearing in the
+differential polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">weight</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>A differential polynomial is isobaric if the weights of all differential
+monomials appearing in it are equal.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>isobaric?(g)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>To substitute differentially, use evalevalOrderlyDifferentialPolynomial.
+Note that we must coerce &#8216;w to Symbol, since in ODPOL, differential
+indeterminates belong to the domain Symbol. Compare this result to the
+next, which substitutes algebraically (no substitution is done since w.0
+does not appear in g).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">g</span><span class="p">,[</span><span class="s1">&#39;w::Symbol],[f])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-w6+w12z5+4w1w2z4+(2w1w3+2w22)z3+z13z22</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">variables</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="mi">0</span><span class="p">),[</span><span class="n">f</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z13z22-w2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>Since OrderlyDifferentialPolynomial belongs to PolynomialCategory, all
+the operations defined in the latter category, or in packages for the
+latter category, are available.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">monomials</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[z13z22,-w2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">variables</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[z2,w2,z1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List OrderlyDifferentialVariable Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gcd</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">groebner</span><span class="p">([</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[w4-w12z3,z13z22-w2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>The next three operations are essential for elimination procedures in
+differential polynomial rings. The operation
+leaderleaderOrderlyDifferentialPolynomial returns the leader of a
+differential polynomial, which is the highest ranked derivative of the
+differential indeterminates that occurs.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lg</span><span class="p">:</span><span class="o">=</span><span class="n">leader</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialVariable Symbol</sub></p>
+<p>The operation separantseparantOrderlyDifferentialPolynomial returns the
+separant of a differential polynomial, which is the partial derivative
+with respect to the leader.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sg</span><span class="p">:</span><span class="o">=</span><span class="n">separant</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2z13z2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>The operation initialinitialOrderlyDifferentialPolynomial returns the
+initial, which is the leading coefficient when the given differential
+polynomial is expressed as a polynomial in the leader.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ig</span><span class="p">:</span><span class="o">=</span><span class="n">initial</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z13</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>Using these three operations, it is possible to reduce f modulo the
+differential ideal generated by g. The general scheme is to first reduce
+the order, then reduce the degree in the leader. First, eliminate z.3
+using the derivative of g.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g1</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span> <span class="n">g</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2z13z2z3-w3+3z12z23</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>Find its leader.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lg1</span><span class="p">:</span><span class="o">=</span> <span class="n">leader</span> <span class="n">g1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialVariable Symbol</sub></p>
+<p>Differentiate f partially with respect to this leader.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pdf</span><span class="p">:</span><span class="o">=</span><span class="n">D</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">lg1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-w12</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>Compute the partial remainder of f with respect to g.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">prf</span><span class="p">:</span><span class="o">=</span><span class="n">sg</span> <span class="o">*</span> <span class="n">f</span><span class="o">-</span> <span class="n">pdf</span> <span class="o">*</span> <span class="n">g1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2z13z2w4-w12w3+3w12z12z23</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>Note that high powers of lg still appear in prf. Compute the leading
+coefficient of prf as a polynomial in the leader of g.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lcf</span><span class="p">:</span><span class="o">=</span><span class="n">leadingCoefficient</span> <span class="n">univariate</span><span class="p">(</span><span class="n">prf</span><span class="p">,</span> <span class="n">lg</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3w12z12</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+<p>Finally, continue eliminating the high powers of lg appearing in prf to
+obtain the (pseudo) remainder of f modulo g and its derivatives.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ig</span> <span class="o">*</span> <span class="n">prf</span> <span class="o">-</span> <span class="n">lcf</span> <span class="o">*</span> <span class="n">g</span> <span class="o">*</span> <span class="n">lg</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2z16z2w4-w12z13w3+3w12z12w2z2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderlyDifferentialPolynomial Fraction Integer</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.59.html" title="previous chapter">9.59 OrderedVariableList</a></li>
+      <li>Next: <a href="section-9.61.html" title="next chapter">9.61 PartialFraction</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.60.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.60.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

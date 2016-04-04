@@ -1,0 +1,457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.82 TwoDimensionalArray &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.83 UnivariatePolynomial" href="section-9.83.html" />
+    <link rel="prev" title="9.81 TextFile" href="section-9.81.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="twodimensionalarray">
+<h1>9.82 TwoDimensionalArray<a class="headerlink" href="#twodimensionalarray" title="Permalink to this headline">¶</a></h1>
+<p>The TwoDimensionalArray domain is used for storing data in a two
+dimensional data structure indexed by row and by column. Such an array
+is a homogeneous data structure in that all the entries of the array
+must belong to the same FriCAS domain (although see
+<a class="reference external" href="ugTypesAnyNonePage">ugTypesAnyNonePage</a> in Section
+<a class="reference external" href="ugTypesAnyNoneNumber">ugTypesAnyNoneNumber</a> ). Each array has a
+fixed number of rows and columns specified by the user and arrays are
+not extensible. In FriCAS, the indexing of two-dimensional arrays is
+one-based. This means that both the first row of an array and the first
+column of an array are given the index 1. Thus, the entry in the upper
+left corner of an array is in position (1,1).</p>
+<p>The operation newnewTwoDimensionalArray creates an array with a
+specified number of rows and columns and fills the components of that
+array with a specified entry. The arguments of this operation specify
+the number of rows, the number of columns, and the entry.</p>
+<p>This creates a five-by-four array of integers, all of whose entries are
+zero.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">arr</span> <span class="p">:</span> <span class="n">ARRAY2</span> <span class="n">INT</span> <span class="p">:</span><span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[00000000000000000000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: TwoDimensionalArray Integer</sub></p>
+<p>The entries of this array can be set to other integers using the
+operation seteltseteltTwoDimensionalArray.</p>
+<p>Issue this to set the element in the upper left corner of this array to
+17.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">setelt</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">17</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>17</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Now the first element of the array is 17.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">arr</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[170000000000000000000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: TwoDimensionalArray Integer</sub></p>
+<p>Likewise, elements of an array are extracted using the operation
+elteltTwoDimensionalArray.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">elt</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>17</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Another way to use these two operations is as follows. This sets the
+element in position (3,2) of the array to 15.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">arr</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="mi">15</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>15</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This extracts the element in position (3,2) of the array.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">arr</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>15</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The operations elteltTwoDimensionalArray and
+seteltseteltTwoDimensionalArray come equipped with an error check which
+verifies that the indices are in the proper ranges. For example, the
+above array has five rows and four columns, so if you ask for the entry
+in position (6,2) with arr(6,2) FriCAS displays an error message. If
+there is no need for an error check, you can call the operations
+qeltqeltTwoDimensionalArray and qseteltqseteltTwoDimensionalArray which
+provide the same functionality but without the error check. Typically,
+these operations are called in well-tested programs.</p>
+<p>The operations rowrowTwoDimensionalArray and
+columncolumnTwoDimensionalArray extract rows and columns, respectively,
+and return objects of OneDimensionalArray with the same underlying
+element type.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">row</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[17,0,0,0]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OneDimensionalArray Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">column</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[17,0,0,0,0]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OneDimensionalArray Integer</sub></p>
+<p>You can determine the dimensions of an array by calling the operations
+nrowsnrowsTwoDimensionalArray and ncolsncolsTwoDimensionalArray, which
+return the number of rows and columns, respectively.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nrows</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>5</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ncols</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>To apply an operation to every element of an array, use
+mapmapTwoDimensionalArray. This creates a new array. This expression
+negates every element.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">map</span><span class="p">(</span><span class="o">-</span><span class="p">,</span><span class="n">arr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-1700000000-150000000000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: TwoDimensionalArray Integer</sub></p>
+<p>This creates an array where all the elements are doubled.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">map</span><span class="p">((</span><span class="n">x</span> <span class="o">+-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="p">),</span><span class="n">arr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[3400000000300000000000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: TwoDimensionalArray Integer</sub></p>
+<p>To change the array destructively, use mapmapTwoDimensionalArray instead
+of mapmapTwoDimensionalArray. If you need to make a copy of any array,
+use copycopyTwoDimensionalArray.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">arrc</span> <span class="p">:</span><span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1700000000150000000000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: TwoDimensionalArray Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>map!(-,arrc)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-1700000000-150000000000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: TwoDimensionalArray Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">arrc</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-1700000000-150000000000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: TwoDimensionalArray Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">arr</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1700000000150000000000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: TwoDimensionalArray Integer</sub></p>
+<p>Use member?member?TwoDimensionalArray to see if a given element is in an
+array.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>member?(17,arr)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>member?(10317,arr)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>To see how many times an element appears in an array, use
+countcountTwoDimensionalArray.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">count</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="n">arr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">count</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">arr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>18</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>For more information about the operations available for
+TwoDimensionalArray, issue )show TwoDimensionalArray. For information on
+related topics, see <a class="reference external" href="section-9.52.html#MatrixXmpPage">MatrixXmpPage</a>
+and
+<a class="reference external" href="section-9.57.html#OneDimensionalArrayXmpPage">OneDimensionalArrayXmpPage</a>
+.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.81.html" title="previous chapter">9.81 TextFile</a></li>
+      <li>Next: <a href="section-9.83.html" title="next chapter">9.83 UnivariatePolynomial</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.82.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.82.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

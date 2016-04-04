@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.8 Subdomains Again &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="2.9 Package Calling and Target Types" href="section-2.9.html" />
+    <link rel="prev" title="2.7 Conversion" href="section-2.7.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="subdomains-again">
+<h1>2.8 Subdomains Again<a class="headerlink" href="#subdomains-again" title="Permalink to this headline">¶</a></h1>
+<p>A subdomain S of a domain D is a domain consisting of</p>
+<ol class="arabic simple">
+<li>those elements of D that satisfy some predicate (that is, a test that
+returns true or false) and</li>
+<li>a subset of the operations of D.</li>
+</ol>
+<p>Every domain is a subdomain of itself, trivially satisfying the
+membership test: true.</p>
+<p>Currently, there are only two system-defined subdomains in FriCAS that
+receive substantial use. PositiveInteger and NonNegativeInteger are
+subdomains of Integer. An element x of NonNegativeInteger is an integer
+that is greater than or equal to zero, that is, satisfies x&gt;=0. An
+element x of PositiveInteger is a nonnegative integer that is, in fact,
+greater than zero, that is, satisfies x&gt;0. Not all operations from
+Integer are available for these subdomains. For example, negation and
+subtraction are not provided since the subdomains are not closed under
+those operations. When you use an integer in an expression, FriCAS
+assigns to it the type that is the most specific subdomain whose
+predicate is satisfied.</p>
+<p>This is a positive integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[5\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This is a nonnegative integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>This is neither of the above.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-</span><span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[-5\]</div>
+<p><sub>Type: Integer</sub></p>
+<p>Furthermore, unless you are assigning an integer to a declared variable
+or using a conversion, any integer result has as type the most specific
+subdomain.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">0</span> <span class="p">::</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span> <span class="n">NonNegativeInteger</span> <span class="p">:</span><span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[5\]</div>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>When necessary, FriCAS converts an integer object into one belonging to
+a less specific subdomain. For example, in <code class="docutils literal"><span class="pre">3-2</span></code>, the arguments to &#8220;-&#8221; are
+both elements of PositiveInteger, but this type does not provide a
+subtraction operation. Neither does NonNegativeInteger, so 3 and 2 are
+viewed as elements of Integer, where their difference can be calculated.
+The result is 1, which FriCAS then automatically assigns the type
+PositiveInteger.</p>
+<p>Certain operations are very sensitive to the subdomains to which their
+arguments belong. This is an element of PositiveInteger.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2</span> <span class="o">^</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[4\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This is an element of Fraction Integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2</span> <span class="o">^</span> <span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\frac{1}{4}\]</div>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>It makes sense then that this is a list of elements of PositiveInteger.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="o">^</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">2.</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[
+{100}, \: {1000}, \: {10000}, \: {100000}
+\right]\]</div>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>What should the type of <code class="docutils literal"><span class="pre">[10^(i-1)</span> <span class="pre">for</span> <span class="pre">i</span> <span class="pre">in</span> <span class="pre">2..5]</span></code> be? On one hand, i-1 is
+always an integer greater than zero as i ranges from 2 to 5 and so
+<code class="docutils literal"><span class="pre">10^i</span></code> is also always a positive integer. On the other, i-1 is a very
+simple function of i. FriCAS does not try to analyze every such function
+over the index&#8217;s range of values to determine whether it is always
+positive or nowhere negative. For an arbitrary FriCAS function, this
+analysis is not possible.</p>
+<p>So, to be consistent no such analysis is done and we get this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="o">^</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">2.</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[
+{10}, \: {100}, \: {1000}, \: {10000}
+\right]\]</div>
+<p><sub>Type: List Fraction Integer</sub></p>
+<p>To get a list of elements of PositiveInteger instead, you have two
+choices. You can use a conversion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="o">^</span><span class="p">((</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">::</span> <span class="n">PI</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">2.</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">G82696</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">Boolean</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">G82708</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">NonNegativeInteger</span> <span class="o">-&gt;</span> <span class="n">Boolean</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[
+{10}, \: {100}, \: {1000}, \: {10000}
+\right]\]</div>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>Or you can use <strong>pretend</strong>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">10</span><span class="o">^</span><span class="p">((</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="n">pretend</span> <span class="n">PI</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">2.</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[
+{10}, \: {100}, \: {1000}, \: {10000}
+\right]\]</div>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>The operation <em>pretend</em> is used to <strong>defeat</strong> the FriCAS type system. The
+expression object pretend D means make a new object (without copying) of
+type D from object. If object were an integer and you told FriCAS to
+pretend it was a list, you would probably see a message about a fatal
+error being caught and memory possibly being damaged. Lists do not have
+the same internal representation as integers!</p>
+<p>You use pretend at your peril.</p>
+<p>Use pretend <strong>with great care!</strong> FriCAS trusts you that the value is of the
+specified type.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span> <span class="n">pretend</span> <span class="n">Complex</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[2+{3 \  i}\]</div>
+<p><sub>Type: Complex Integer</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-2.7.html" title="previous chapter">2.7 Conversion</a></li>
+      <li>Next: <a href="section-2.9.html" title="next chapter">2.9 Package Calling and Target Types</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-2.8.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-2.8.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6.9 How FriCAS Determines What Function to Use &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="6.10 Compiling vs. Interpreting" href="section-6.10.html" />
+    <link rel="prev" title="6.8 Delayed Assignments vs. Functions with No Arguments" href="section-6.8.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="how-fricas-determines-what-function-to-use">
+<h1>6.9 How FriCAS Determines What Function to Use<a class="headerlink" href="#how-fricas-determines-what-function-to-use" title="Permalink to this headline">¶</a></h1>
+<p>What happens if you define a function that has the same name as a
+library function? Well, if your function has the same name and number of
+arguments (we sometimes say arity) as another function in the library,
+then your function covers up the library function. If you want then to
+call the library function, you will have to package-call it. FriCAS can
+use both the functions you write and those that come from the library.
+Let&#8217;s do a simple example to illustrate this.</p>
+<p>Suppose you (wrongly!) define sin in this way.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span> <span class="n">x</span> <span class="o">==</span> <span class="mf">1.0</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The value 1.0 is returned for any argument.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span> <span class="mf">4.3</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">sin</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Float</span> <span class="o">-&gt;</span> <span class="n">Float</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1.0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>If you want the library operation, we have to package-call it (see
+<a class="reference external" href="section-2.9.html#ugTypesPkgCall">ugTypesPkgCall</a> for more
+information).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>sin(4.3) $Float
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-0.91616593674945498404</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>sin(34.6) $Float
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-0.042468034716950101543</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>Even worse, say we accidentally used the same name as a library function
+in the function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span> <span class="n">x</span> <span class="o">==</span> <span class="n">sin</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">sin</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="mi">1</span> <span class="n">old</span> <span class="n">definition</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">deleted</span> <span class="k">for</span> <span class="n">function</span> <span class="ow">or</span> <span class="n">rule</span> <span class="n">sin</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Then FriCAS definitely does not understand us.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span> <span class="mf">4.3</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">AXIOM</span> <span class="n">cannot</span> <span class="n">determine</span> <span class="n">the</span> <span class="nb">type</span> <span class="n">of</span> <span class="n">sin</span> <span class="n">because</span> <span class="n">it</span> <span class="n">cannot</span> <span class="n">analyze</span>
+   <span class="n">the</span> <span class="n">non</span><span class="o">-</span><span class="n">recursive</span> <span class="n">part</span><span class="p">,</span> <span class="k">if</span> <span class="n">that</span> <span class="n">exists</span><span class="o">.</span> <span class="n">This</span> <span class="n">may</span> <span class="n">be</span> <span class="n">remedied</span>
+   <span class="n">by</span> <span class="n">declaring</span> <span class="n">the</span> <span class="n">function</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Again, we could package-call the inside function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>sin x == sin(x) $Float
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span> <span class="n">old</span> <span class="n">definition</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">deleted</span> <span class="k">for</span> <span class="n">function</span> <span class="ow">or</span> <span class="n">rule</span> <span class="n">sin</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span> <span class="mf">4.3</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>   <span class="n">Compiling</span> <span class="n">function</span> <span class="n">sin</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Float</span> <span class="o">-&gt;</span> <span class="n">Float</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">1</span><span class="p">;</span><span class="n">sin</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-0.91616593674945498404</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>Of course, you are unlikely to make such obvious errors. It is more
+probable that you would write a function and in the body use a function
+that you think is a library function. If you had also written a function
+by that same name, the library function would be invisible.</p>
+<p>How does FriCAS determine what library function to call? It very much
+depends on the particular example, but the simple case of creating the
+polynomial x+2/3 will give you an idea.</p>
+<ol class="arabic simple">
+<li>The x is analyzed and its default type is Variable(x).</li>
+<li>The 2 is analyzed and its default type is PositiveInteger.</li>
+<li>The 3 is analyzed and its default type is PositiveInteger.</li>
+<li>Because the arguments to / are integers, FriCAS gives the expression
+2/3 a default target type of Fraction(Integer).</li>
+<li>FriCAS looks in PositiveInteger for /. It is not found.</li>
+<li>FriCAS looks in Fraction(Integer) for /. It is found for arguments of
+type Integer.</li>
+<li>The 2 and 3 are converted to objects of type Integer (this is
+trivial) and / is applied, creating an object of type
+Fraction(Integer).</li>
+<li>No <code class="docutils literal"><span class="pre">+</span></code> for arguments of types Variable(x) and Fraction(Integer)
+are found in either domain.</li>
+<li>FriCAS resolves resolve (see
+<a class="reference external" href="section-2.10.html#ugTypesResolve">ugTypesResolve</a> ) the types
+and gets Polynomial (Fraction (Integer)).</li>
+<li>The x and the 2/3 are converted to objects of this type and + is
+applied, yielding the answer, an object of type Polynomial (Fraction
+(Integer)).</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-6.8.html" title="previous chapter">6.8 Delayed Assignments vs. Functions with No Arguments</a></li>
+      <li>Next: <a href="section-6.10.html" title="next chapter">6.10 Compiling vs. Interpreting</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-6.9.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-6.9.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

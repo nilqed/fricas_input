@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.7 Conversion &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="2.8 Subdomains Again" href="section-2.8.html" />
+    <link rel="prev" title="2.6 The Any Domain" href="section-2.6.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="conversion">
+<h1>2.7 Conversion<a class="headerlink" href="#conversion" title="Permalink to this headline">¶</a></h1>
+<p>Conversion is the process of changing an object of one type into an
+object of another type. The syntax for conversion is: object::newType</p>
+<p>By default, 3 has the type PositiveInteger.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[3\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>We can change this into an object of type Fraction Integer by using
+<code class="docutils literal"><span class="pre">::</span></code>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">3</span> <span class="p">::</span> <span class="n">Fraction</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[3\]</div>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>A <em>coercion</em> is a special kind of conversion that FriCAS is allowed to do
+automatically when you enter an expression. Coercions are usually
+somewhat safer than more general conversions. The FriCAS library
+contains operations called coerce and convert. Only the coerce
+operations can be used by the interpreter to change an object into an
+object of another type unless you explicitly use a <code class="docutils literal"><span class="pre">::</span></code>.</p>
+<p>By now you will be quite familiar with what types and modes look like.
+It is useful to think of a type or mode as a pattern for what you want
+the result to be.</p>
+<p>Let&#8217;s start with a square matrix of polynomials with complex rational
+number coefficients. SquareMatrix</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span> <span class="n">SquareMatrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">POLY</span> <span class="n">COMPLEX</span> <span class="n">FRAC</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span><span class="o">*%</span><span class="n">i</span><span class="p">,</span><span class="n">z</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="o">/</span><span class="mi">7</span><span class="o">*%</span><span class="n">i</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">4</span> <span class="o">-</span> <span class="n">x</span><span class="p">,</span><span class="mi">12</span><span class="o">-%</span><span class="n">i</span><span class="o">*</span><span class="mi">9</span><span class="o">/</span><span class="mi">5</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\left[
+\begin{array}{cc}
+{x -{{3 \over 4} \  i}} &amp; {{{{y} ^ {2}} \  z}+{1 \over 2}} \\
+{{{3 \over 7} \  i \  {{y} ^ {4}}} -x} &amp; {{12} -{{9 \over 5} \  i}}
+\end{array}
+\right]\end{split}\]</div>
+<p><sub>Type: SquareMatrix(2,Polynomial Complex Fraction Integer)</sub></p>
+<p>We first want to interchange the Complex and Fraction layers. We do the
+conversion by doing the interchange in the type expression.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m1</span> <span class="p">:</span><span class="o">=</span> <span class="n">m</span> <span class="p">::</span> <span class="n">SquareMatrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">POLY</span> <span class="n">FRAC</span> <span class="n">COMPLEX</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\left[
+\begin{array}{cc}
+{x -{{3 \  i} \over 4}} &amp; {{{{y} ^ {2}} \  z}+{1 \over 2}} \\
+{{{{3 \  i} \over 7} \  {{y} ^ {4}}} -x} &amp; {{{60} -{9 \  i}} \over 5}
+\end{array}
+\right]\end{split}\]</div>
+<p><sub>Type: SquareMatrix(2,Polynomial Fraction Complex Integer)</sub></p>
+<p>Interchange the Polynomial and the Fraction levels.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m2</span> <span class="p">:</span><span class="o">=</span> <span class="n">m1</span> <span class="p">::</span> <span class="n">SquareMatrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">FRAC</span> <span class="n">POLY</span> <span class="n">COMPLEX</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\left[
+\begin{array}{cc}
+{{{4 \  x} -{3 \  i}} \over 4} &amp; {{{2 \  {{y} ^ {2}} \  z}+1} \over 2} \\
+{{{3 \  i \  {{y} ^ {4}}} -{7 \  x}} \over 7} &amp; {{{60} -{9 \  i}} \over 5}
+\end{array}
+\right]\end{split}\]</div>
+<p><sub>Type: SquareMatrix(2,Fraction Polynomial Complex Integer)</sub></p>
+<p>Interchange the Polynomial and the Complex levels.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m3</span> <span class="p">:</span><span class="o">=</span> <span class="n">m2</span> <span class="p">::</span> <span class="n">SquareMatrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">FRAC</span> <span class="n">COMPLEX</span> <span class="n">POLY</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\left[
+\begin{array}{cc}
+{{{4 \  x} -{3 \  i}} \over 4} &amp; {{{2 \  {{y} ^ {2}} \  z}+1} \over 2} \\
+{{-{7 \  x}+{3 \  {{y} ^ {4}} \  i}} \over 7} &amp; {{{60} -{9 \  i}} \over 5}
+\end{array}
+\right]\end{split}\]</div>
+<p><sub>Type: SquareMatrix(2,Fraction Complex Polynomial Integer)</sub></p>
+<p>All the entries have changed types, although in comparing the last two
+results only the entry in the lower left corner looks different. We did
+all the intermediate steps to show you what FriCAS can do.</p>
+<p>In fact, we could have combined all these into one conversion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">::</span> <span class="n">SquareMatrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">FRAC</span> <span class="n">COMPLEX</span> <span class="n">POLY</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\left[
+\begin{array}{cc}
+{{{4 \  x} -{3 \  i}} \over 4} &amp; {{{2 \  {{y} ^ {2}} \  z}+1} \over 2} \\
+{{-{7 \  x}+{3 \  {{y} ^ {4}} \  i}} \over 7} &amp; {{{60} -{9 \  i}} \over 5}
+\end{array}
+\right]\end{split}\]</div>
+<p><sub>Type: SquareMatrix(2,Fraction Complex Polynomial Integer)</sub></p>
+<p>There are times when FriCAS is not be able to do the conversion in one
+step. You may need to break up the transformation into several
+conversions in order to get an object of the desired type.</p>
+<p>We cannot move either Fraction or Complex above (or to the left of,
+depending on how you look at it) SquareMatrix because each of these
+levels requires that its argument type have commutative multiplication,
+whereas SquareMatrix does not. That is because Fraction requires that
+its argument belong to the category IntegralDomain and category Complex
+requires that its argument belong to CommutativeRing. See
+<a class="reference external" href="section-2.1.html#ugTypesBasic">ugTypesBasic</a> for a brief discussion
+of categories. The Integer level did not move anywhere because it does
+not allow any arguments. We also did not move the SquareMatrix part
+anywhere, but we could have.</p>
+<p>Recall that m looks like this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\left[
+\begin{array}{cc}
+{x -{{3 \over 4} \  i}} &amp; {{{{y} ^ {2}} \  z}+{1 \over 2}} \\
+{{{3 \over 7} \  i \  {{y} ^ {4}}} -x} &amp; {{12} -{{9 \over 5} \  i}}
+\end{array}
+\right]\end{split}\]</div>
+<p><sub>Type: SquareMatrix(2,Polynomial Complex Fraction Integer)</sub></p>
+<p>If we want a polynomial with matrix coefficients rather than a matrix
+with polynomial entries, we can just do the conversion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">::</span> <span class="n">POLY</span> <span class="n">SquareMatrix</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">COMPLEX</span> <span class="n">FRAC</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{\left[
+\begin{array}{cc}
+0 &amp; 1 \\
+0 &amp; 0
+\end{array}
+\right]}
+\  {{y} ^ {2}} \  z}+{{\left[
+\begin{array}{cc}
+0 &amp; 0 \\
+{{3 \over 7} \  i} &amp; 0
+\end{array}
+\right]}
+\  {{y} ^ {4}}}+{{\left[
+\begin{array}{cc}
+1 &amp; 0 \\
+-1 &amp; 0
+\end{array}
+\right]}
+\  x}+{\left[
+\begin{array}{cc}
+-{{3 \over 4} \  i} &amp; {1 \over 2} \\
+0 &amp; {{12} -{{9 \over 5} \  i}}
+\end{array}
+\right]}\end{split}\]</div>
+<p><sub>Type: Polynomial SquareMatrix(2,Complex Fraction Integer)</sub></p>
+<p>We have not yet used modes for any conversions. Modes are a great
+shorthand for indicating the type of the object you want. Instead of
+using the long type expression in the last example, we could have simply
+said this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>m :: POLY ?
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{\left[
+\begin{array}{cc}
+0 &amp; 1 \\
+0 &amp; 0
+\end{array}
+\right]}
+\  {{y} ^ {2}} \  z}+{{\left[
+\begin{array}{cc}
+0 &amp; 0 \\
+{{3 \over 7} \  i} &amp; 0
+\end{array}
+\right]}
+\  {{y} ^ {4}}}+{{\left[
+\begin{array}{cc}
+1 &amp; 0 \\
+-1 &amp; 0
+\end{array}
+\right]}
+\  x}+{\left[
+\begin{array}{cc}
+-{{3 \over 4} \  i} &amp; {1 \over 2} \\
+0 &amp; {{12} -{{9 \over 5} \  i}}
+\end{array}
+\right]}\end{split}\]</div>
+<p><sub>Type: Polynomial SquareMatrix(2,Complex Fraction Integer)</sub></p>
+<p>We can also indicate more structure if we want the entries of the
+matrices to be fractions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>m :: POLY SquareMatrix(2,FRAC ?)
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{\left[
+\begin{array}{cc}
+0 &amp; 1 \\
+0 &amp; 0
+\end{array}
+\right]}
+\  {{y} ^ {2}} \  z}+{{\left[
+\begin{array}{cc}
+0 &amp; 0 \\
+{{3 \  i} \over 7} &amp; 0
+\end{array}
+\right]}
+\  {{y} ^ {4}}}+{{\left[
+\begin{array}{cc}
+1 &amp; 0 \\
+-1 &amp; 0
+\end{array}
+\right]}
+\  x}+{\left[
+\begin{array}{cc}
+-{{3 \  i} \over 4} &amp; {1 \over 2} \\
+0 &amp; {{{60} -{9 \  i}} \over 5}
+\end{array}
+\right]}\end{split}\]</div>
+<p><sub>Type: Polynomial SquareMatrix(2,Fraction Complex Integer)</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-2.6.html" title="previous chapter">2.6 The Any Domain</a></li>
+      <li>Next: <a href="section-2.8.html" title="next chapter">2.8 Subdomains Again</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-2.7.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-2.7.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

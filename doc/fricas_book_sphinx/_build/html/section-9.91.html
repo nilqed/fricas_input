@@ -1,0 +1,668 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.91 ZeroDimensionalSolvePackage &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="10.0 Interactive Programming" href="section-10.0.html" />
+    <link rel="prev" title="9.90 XPolynomialRing" href="section-9.90.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="zerodimensionalsolvepackage">
+<h1>9.91 ZeroDimensionalSolvePackage<a class="headerlink" href="#zerodimensionalsolvepackage" title="Permalink to this headline">¶</a></h1>
+<p>The ZeroDimensionalSolvePackage package constructor provides operations
+for computing symbolically the complex or real roots of zero-dimensional
+algebraic systems.</p>
+<p>The package provides no multiplicity information (i.e. some returned
+roots may be double or higher) but only distinct roots are returned.</p>
+<p>Complex roots are given by means of univariate representations of
+irreducible regular chains. These representations are computed by the
+univariateSolveunivariateSolveZeroDimensionalSolvePackage operation (by
+calling the InternalRationalUnivariateRepresentationPackage package
+constructor which does the job).</p>
+<p>Real roots are given by means of tuples of coordinates lying in the
+RealClosure of the coefficient ring. They are computed by the
+realSolverealSolveZeroDimensionalSolvePackage and
+positiveSolvepositiveSolveZeroDimensionalSolvePackage operations. The
+former computes all the solutions of the input system with real
+coordinates whereas the later concentrate on the solutions with
+(strictly) positive coordinates. In both cases, the computations are
+performed by the RealClosure constructor.</p>
+<p>Both computations of complex roots and real roots rely on triangular
+decompositions. These decompositions can be computed in two different
+ways. First, by a applying the
+zeroSetSplitzeroSetSplitRegularTriangularSet operation from the REGSET
+domain constructor. In that case, no Groebner bases are computed. This
+strategy is used by default. Secondly, by applying the
+zeroSetSplitzeroSetSplitLexTriangularPackage from LEXTRIPK. To use this
+later strategy with the operations
+univariateSolveunivariateSolveZeroDimensionalSolvePackage,
+realSolverealSolveZeroDimensionalSolvePackage and
+positiveSolvepositiveSolveZeroDimensionalSolvePackage one just needs to
+use an extra boolean argument.</p>
+<p>Note that the way of understanding triangular decompositions is detailed
+in the example of the RegularTriangularSet constructor.</p>
+<p>The ZeroDimensionalSolvePackage constructor takes three arguments. The
+first one R is the coefficient ring; it must belong to the categories
+OrderedRing, EuclideanDomain, CharacteristicZero and RealConstant. This
+means essentially that R is Integer or Fraction(Integer). The second
+argument ls is the list of variables involved in the systems to solve.
+The third one MUST BE concat(ls,s) where s is an additional symbol used
+for the univariate representations. The abbreviation for
+ZeroDimensionalSolvePackage is ZDSOLVE.</p>
+<p>We illustrate now how to use the constructor ZDSOLVE by two examples:
+the Arnborg and Lazard system and the L-3 system (Aubry and Moreno
+Maza). Note that the use of this package is also demonstrated in the
+example of the LexTriangularPackage constructor.</p>
+<p>Define the coefficient ring.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="p">:</span><span class="o">=</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Integer</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Define the lists of variables:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="p">:</span> <span class="n">List</span> <span class="n">Symbol</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x,y,z,t]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Symbol</sub></p>
+<p>and:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>ls2 : List Symbol := [x,y,z,t,new()$Symbol]
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x,y,z,t,%A]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Symbol</sub></p>
+<p>Call the package:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pack</span> <span class="p">:</span><span class="o">=</span> <span class="n">ZDSOLVE</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">ls</span><span class="p">,</span><span class="n">ls2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>failed to identify token in skiptok ZeroDimensionalSolvePackage(Integer,[x,y,z,t],[x,y,z,t</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Define a polynomial system (Arnborg-Lazard)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">z</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">y</span><span class="o">*</span><span class="n">z</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>xyz2+(xy2+(x2+x+1)y+x)z+xy</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p2</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">z</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">y</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">x</span> <span class="o">+</span> <span class="n">z</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>xy2z2+(x2y2+(x2+x+1)y+1)z+x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p3</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">z</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">z</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x2y2z2+((x2+x)y2+xy+x+1)z+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[xyz2+(xy2+(x2+x+1)y+x)z+xy,xy2z2+(x2y2+(x2+x+1)y+1)z+x,x2y2z2+((x2+x)y2+xy+x+1)z+1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Polynomial Integer</sub></p>
+<p>Note that these polynomials do not involve the variable t; we will use
+it in the second example.</p>
+<p>First compute a decomposition into regular chains (i.e. regular
+triangular sets).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>triangSolve(lp)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[{z20-6z19-41z18+71z17+106z16+92z15+197z14+145z13+257z12+278z11+201z10+278z9+257z8+145z7+197z6+92z5+106z4+71z3-41z2-6z+1,(14745844z19+50357474z18-130948857z17-185261586z16-180077775z15-338007307z14-275379623z13-453190404z12-474597456z11-366147695z10-481433567z9-430613166z8-261878358z7-326073537z6-163008796z5-177213227z4-104356755z3+65241699z2+9237732z-1567348)y+1917314z19+6508991z18-16973165z17-24000259z16-23349192z15-43786426z14-35696474z13-58724172z12-61480792z11-47452440z10-62378085z9-55776527z8-33940618z7-42233406z6-21122875z5-22958177z4-13504569z3+8448317z2+1195888z-202934,((z3-2z)y2+(-z3-z2-2z-1)y-z2-z+1)x+z2-1}]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List RegularChain(Integer,[x,y,z,t])</sub></p>
+<p>We can see easily from this decomposition (consisting of a single
+regular chain) that the input system has 20 complex roots.</p>
+<p>Then we compute a univariate representation of this regular chain.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>univariateSolve(lp)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[complexRoots=?12-12?11+24?10+4?9-9?8+27?7-21?6+27?5-9?4+4?3+24?2-12?+1,coordinates=[63x+62%A11-721%A10+1220%A9+705%A8-285%A7+1512%A6-735%A5+1401%A4-21%A3+215%A2+1577%A-142,63y-75%A11+890%A10-1682%A9-516%A8+588%A7-1953%A6+1323%A5-1815%A4+426%A3-243%A2-1801%A+679,z-%A]],[complexRoots=?6+?5+?4+?3+?2+?+1,coordinates=[x-%A5,y-%A3,z-%A]],[complexRoots=?2+5?+1,coordinates=[x-1,y-1,z-%A]]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Record( complexRoots: SparseUnivariatePolynomial Integer,</sub>
+coordinates: List Polynomial Integer)</p>
+<p>We see that the zeros of our regular chain are split into three
+components. This is due to the use of univariate polynomial
+factorization.</p>
+<p>Each of these components consist of two parts. The first one is an
+irreducible univariate polynomial p(?) which defines a simple algebraic
+extension of the field of fractions of R. The second one consists of
+multivariate polynomials pol1(x,%A), pol2(y,%A) and pol3(z,%A). Each of
+these polynomials involve two variables: one is an indeterminate x, y or
+z of the input system lp and the other is %A which represents any root
+of p(?). Recall that this %A is the last element of the third parameter
+of ZDSOLVE. Thus any complex root ? of p(?) leads to a solution of the
+input system lp by replacing %A by this ? in pol1(x,%A), pol2(y,%A) and
+pol3(z,%A). Note that the polynomials pol1(x,%A), pol2(y,%A) and
+pol3(z,%A) have degree one w.r.t. x, y or z respectively. This is always
+the case for all univariate representations. Hence the operation
+univariateSolve replaces a system of multivariate polynomials by a list
+of univariate polynomials, what justifies its name. Another example of
+univariate representations illustrates the LexTriangularPackage package
+constructor.</p>
+<p>We now compute the solutions with real coordinates:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>lr := realSolve(lp)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[%B1,11844591645371%B119-2335702548457%B118-5460230182819%B117+799003781645371%B116+43953929548457%B115+13420192182819%B114+5539863731%B113+1933813781645371%B112+35978916182819%B111+3586607811645371%B110+2716676661645371%B19+118784873548457%B18+3375050201645371%B17+138937011193%B16+6882914459%B15+337800242189%B14+1406718761645371%B13+32325724548457%B12-8270343%B1-97415321645371,-91729705159%B119+487915705159%B118+4114333705159%B117-1276987235053%B116-13243117705159%B115-16292173705159%B114-26536060705159%B113-72271418081%B112-5382578100737%B111-15449995235053%B110-14279770235053%B19-6603890100737%B18-4099306027%B17-37340389705159%B16-34893715705159%B15-26686318705159%B14-80151126117%B13-17206178705159%B12-4406102705159%B1+377534705159],</td>
+</tr>
+</tbody>
+</table>
+<p>[%B2,11844591645371%B219-2335702548457%B218-5460230182819%B217+799003781645371%B216+43953929548457%B215+13420192182819%B214+5539863731%B213+1933813781645371%B212+35978916182819%B211+3586607811645371%B210+2716676661645371%B29+118784873548457%B28+3375050201645371%B27+138937011193%B26+6882914459%B25+337800242189%B24+1406718761645371%B23+32325724548457%B22-8270343%B2-97415321645371,-91729705159%B219+487915705159%B218+4114333705159%B217-1276987235053%B216-13243117705159%B215-16292173705159%B214-26536060705159%B213-72271418081%B212-5382578100737%B211-15449995235053%B210-14279770235053%B29-6603890100737%B28-4099306027%B27-37340389705159%B26-34893715705159%B25-26686318705159%B24-80151126117%B23-17206178705159%B22-4406102705159%B2+377534705159],
+[%B3,11844591645371%B319-2335702548457%B318-5460230182819%B317+799003781645371%B316+43953929548457%B315+13420192182819%B314+5539863731%B313+1933813781645371%B312+35978916182819%B311+3586607811645371%B310+2716676661645371%B39+118784873548457%B38+3375050201645371%B37+138937011193%B36+6882914459%B35+337800242189%B34+1406718761645371%B33+32325724548457%B32-8270343%B3-97415321645371,-91729705159%B319+487915705159%B318+4114333705159%B317-1276987235053%B316-13243117705159%B315-16292173705159%B314-26536060705159%B313-72271418081%B312-5382578100737%B311-15449995235053%B310-14279770235053%B39-6603890100737%B38-4099306027%B37-37340389705159%B36-34893715705159%B35-26686318705159%B34-80151126117%B33-17206178705159%B32-4406102705159%B3+377534705159],
+[%B4,11844591645371%B419-2335702548457%B418-5460230182819%B417+799003781645371%B416+43953929548457%B415+13420192182819%B414+5539863731%B413+1933813781645371%B412+35978916182819%B411+3586607811645371%B410+2716676661645371%B49+118784873548457%B48+3375050201645371%B47+138937011193%B46+6882914459%B45+337800242189%B44+1406718761645371%B43+32325724548457%B42-8270343%B4-97415321645371,-91729705159%B419+487915705159%B418+4114333705159%B417-1276987235053%B416-13243117705159%B415-16292173705159%B414-26536060705159%B413-72271418081%B412-5382578100737%B411-15449995235053%B410-14279770235053%B49-6603890100737%B48-4099306027%B47-37340389705159%B46-34893715705159%B45-26686318705159%B44-80151126117%B43-17206178705159%B42-4406102705159%B4+377534705159],
+[%B5,11844591645371%B519-2335702548457%B518-5460230182819%B517+799003781645371%B516+43953929548457%B515+13420192182819%B514+5539863731%B513+1933813781645371%B512+35978916182819%B511+3586607811645371%B510+2716676661645371%B59+118784873548457%B58+3375050201645371%B57+138937011193%B56+6882914459%B55+337800242189%B54+1406718761645371%B53+32325724548457%B52-8270343%B5-97415321645371,-91729705159%B519+487915705159%B518+4114333705159%B517-1276987235053%B516-13243117705159%B515-16292173705159%B514-26536060705159%B513-72271418081%B512-5382578100737%B511-15449995235053%B510-14279770235053%B59-6603890100737%B58-4099306027%B57-37340389705159%B56-34893715705159%B55-26686318705159%B54-80151126117%B53-17206178705159%B52-4406102705159%B5+377534705159],
+[%B6,11844591645371%B619-2335702548457%B618-5460230182819%B617+799003781645371%B616+43953929548457%B615+13420192182819%B614+5539863731%B613+1933813781645371%B612+35978916182819%B611+3586607811645371%B610+2716676661645371%B69+118784873548457%B68+3375050201645371%B67+138937011193%B66+6882914459%B65+337800242189%B64+1406718761645371%B63+32325724548457%B62-8270343%B6-97415321645371,-91729705159%B619+487915705159%B618+4114333705159%B617-1276987235053%B616-13243117705159%B615-16292173705159%B614-26536060705159%B613-72271418081%B612-5382578100737%B611-15449995235053%B610-14279770235053%B69-6603890100737%B68-4099306027%B67-37340389705159%B66-34893715705159%B65-26686318705159%B64-80151126117%B63-17206178705159%B62-4406102705159%B6+377534705159],
+[%B7,11844591645371%B719-2335702548457%B718-5460230182819%B717+799003781645371%B716+43953929548457%B715+13420192182819%B714+5539863731%B713+1933813781645371%B712+35978916182819%B711+3586607811645371%B710+2716676661645371%B79+118784873548457%B78+3375050201645371%B77+138937011193%B76+6882914459%B75+337800242189%B74+1406718761645371%B73+32325724548457%B72-8270343%B7-97415321645371,-91729705159%B719+487915705159%B718+4114333705159%B717-1276987235053%B716-13243117705159%B715-16292173705159%B714-26536060705159%B713-72271418081%B712-5382578100737%B711-15449995235053%B710-14279770235053%B79-6603890100737%B78-4099306027%B77-37340389705159%B76-34893715705159%B75-26686318705159%B74-80151126117%B73-17206178705159%B72-4406102705159%B7+377534705159],
+[%B8,11844591645371%B819-2335702548457%B818-5460230182819%B817+799003781645371%B816+43953929548457%B815+13420192182819%B814+5539863731%B813+1933813781645371%B812+35978916182819%B811+3586607811645371%B810+2716676661645371%B89+118784873548457%B88+3375050201645371%B87+138937011193%B86+6882914459%B85+337800242189%B84+1406718761645371%B83+32325724548457%B82-8270343%B8-97415321645371,-91729705159%B819+487915705159%B818+4114333705159%B817-1276987235053%B816-13243117705159%B815-16292173705159%B814-26536060705159%B813-72271418081%B812-5382578100737%B811-15449995235053%B810-14279770235053%B89-6603890100737%B88-4099306027%B87-37340389705159%B86-34893715705159%B85-26686318705159%B84-80151126117%B83-17206178705159%B82-4406102705159%B8+377534705159]]</p>
+<p><sub>Type: List List RealClosure Fraction Integer</sub></p>
+<p>The number of real solutions for the input system is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># lr</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Each of these real solutions is given by a list of elements in
+RealClosure(R). In these 8 lists, the first element is a value of z, the
+second of y and the last of x. This is logical since by setting the list
+of variables of the package to [x,y,z,t] we mean that the elimination
+ordering on the variables is t &lt; z &lt; y &lt; x . Note that each system
+treated by the ZDSOLVE package constructor needs only to be
+zero-dimensional w.r.t. the variables involved in the system it-self and
+not necessarily w.r.t. all the variables used to define the package.</p>
+<p>We can approximate these real numbers as follows. This computation takes
+between 30 sec. and 5 min, depending on your machine.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="p">[</span><span class="n">approximate</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">1000000</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">point</span><span class="p">]</span> <span class="k">for</span> <span class="n">point</span> <span class="ow">in</span> <span class="n">lr</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[-100480592097152,(4503057316985387943524397913838966414596731976211768219335881208385516314058924567176091423629695777403099833360761048898228916578137094309838597331137202584846939132376157019506760357601165917454986815382098789094851523420392811293126141329856546977145464661495487825919941188447041722440491921567263542158028061437758844364634410045253024786561923163288214175)(4503057283025245488516511806985826635083100693757320465280554706865644949577509916867201889438090408354817931718593862797624551518983570793048774424291488708829840324189200301436123314860200821443733790755311243632919864895421704228949571290016119498807957023663865443069392027148979688266712323356043491523434068924275280417338574817381189277066143312396681216,)</td>
+</tr>
+</tbody>
+</table>
+<p>(21062607688234750738947986804860165962496071486906855387636837150206396808586496507900558895056468933094470970999378021873290953258987852472490207175049836604820751566187387245146853330600112029646351663813515432559822002503052839810868371106148423070260912112979298768962856818304790547600563807626649056184620553060478161917820115887037891389881895)(21062606094984641924721138048164741753419629532964341024139031423687579676852738885855909759652117788621898728819539436402462973570619598123261036597990251268632586765672023421068770317101842474841814232889218376812370627084702957062184859288674007719378284992009237605933141689010006663738963475981182285567310370720264744967762283837629939232800768)],
+[-25630132097152,(-2611346176791927789698617693237757719238259963063541781922752330440189899668072928338490768623593207442125925986733815932243504809294837523030237337236806668167446173001727271353311571242897)(1165225400505222530583981916004589143757226610276858990008790134819914940922413753983971394019523433320408139928153188829495755455163963417619308395977544797140231469234269034921938055593984,)
+(35725945502759172210965887296157882729985170546756032395781981410060340917352828265906219023044669639419710389233045262733293163737574500619789892286110976997087250466235373)(10395482693455989368770712448340260558008145511201705922005223665917594096594864423391410294529502651799899601048118758225302053465051315812439017247289173865014702966308864)],
+[-17159672097152,(-421309353378430352108483951797708239037726150396958622482899843660603065607635937456481377349837660312126782256580143620693951995146518222580524697287410022543952491)(944181414418537445864969203434922405243659747096625366393064196079580588258549319984019169991765944326482464113518738358388814786734019307857605820364195856822304768,)
+(76358333471126442225156254244108312253474756690085893388341621725019049943763467308768090428452089199199253021057209714539189827313890725914035)(262418876408609719978429761047806663393423046789585160227858097850378454920578849901964060226696602689158010354356762503901862988714128491675648)],
+[-4377012097152,(168310690863834958832217233265422591356298631318195103145275016144149747345532815072136486835557964678160350777719907507783521336648453365491383623741304759)(168310686809521338900170998270591363896307766873122611116778518800490742522629868032588781096261414029859736698426488799890837706879999845423381649008099328,)
+(496155010983501018642268101342210873595871480100376063970796809664691282670847283444311723917219104249213450966312411133)(496154987275773831550919207821020902985289711861109712623638404082937659261914313170254867464792718363492160482442215424)],
+[2228012097152,(-8994884880402428265107595121970691427136045692541978275573001865213759921588137716696126349101655220195142994932299137183241705867672383477)(1167889998665026372177765100691888582708969960229934769690835752457077779416435209473767866507769405888942764587718542434255625992456372224,)
+(-2389704888133156878320801544373808395612771509208491019847452991885509546519525467839016613593999693886640036283570552321155037871291458703265)(5355487273645096326090403286689931905988225444685411433221593833681192957562833671468654290340746993656285925599117602120446183443145479421952)],
+[7656932097152,(8558969219816716267873244761178198088724698958616670140213765754322002303251685786118678330840203328837654339523418704917749518340772512899000391009630373148561)(29414424455330107909764284113763934998155802159458569179064525354957230138568189417023302287798901412962367211381542319972389173221567119652444639331719460159488,)
+(-20576182305825721012476503248602425611113025815435888088439236627675493822416593627122907776128001929214205744089480851937436885827622246433251878894899015)(2671598203325735538097952353501450220576313759890835097091722520642710198771902667183948906289863714759678360292483949204616471537777775324180661095366656)],
+[57438792097152,(107628881696890684795554639477357020817145672494261861402366312357476896085043426397139807254659277266215883344979769861745539788756290007298476800060834355318980169340872720504761255988923275756383052868895353542180948277105891754260289006094194962087408300785836666945350176624841488732463225)(31317689570803179466484619400235520441903766134585849862285496319161966016162197817656155325322947465296482764305838108940793745664607578231468885811955560292085152188388832003186584074693994260632605898286123092315966691297079864813198515719429272303406229340239234867030420681530440845099008,)
+(-2113286699185750918364120475565458437870172489865485994389828135335264444665284557526492734931691731407872701432935503473348172076098720545849008780077564160534317894688366119529739980502944162668550098127961950496210221942878089359674925850594427768502251789758706752831632503615)(16276155849379875802429066243471045808891444661684597180431538394083725255333098080703636995855022160112110871032636095510260277694140873911481262211681397816825874380753225914661319399754572005223498385689642856344480185620382723787873544601061061415180109356172051706396253618176)],
+[197398772097152,(-29972499368327033037990158048615209492150403875007071777012857667201925305794224789535660243598601431015478016380827716111603722128748477780358098728431492254842383658580136293417053217025823333509180096017899370239859353049004604933898738370308534103470899088808148539811320184645824588006153947707416994872958759602107502158919488144768548710315309312954673321901337026710982009022823005107518607185928457030277807397796525813862762239286996106809728023675)(230843327485227859072891008119181102390650414132143264612393679487393331927060896070213819341764789836062022951917663293763178685145501476602720625902225250555174182368889688380663660257443176047224029209319672947516024726883412114189331884872866184443492728728511289708076755286489505658586403317856591038706500611280151640352274103736099055605447694952705922707080959304949125751955470887925959552929920110858560812556635485429471554031675979542656381353984,)
+(-512818926354822848909627639786894008060093841066308045940796633584500926410949052045982531625008472301004703502449743652303892581895928931293158470135392762143543439867426304729390912285013385199069649023156609437199433379507078262401172758774998929661127731837229462420711653791043655457414608288470130554391262041935488541073594015777589660282236457586461183151294397397471516692046506185060376287516256195847052412587282839139194642913955)(228828193977843933053120879318129047118363109245536899038639082424350946364423624977308064743898773914492160779468265385174118909171174186814511497833728419182249767586835872948664473085662255268720920372441180048140570283719831064229127567619577461444381599671350262939174978359004147086012775237299648862774267248762248006326880888932489185084249493434733760307593998026820848290485967817775144465749979827872616963053217673201717237252096)]]</p>
+<p><sub>Type: List List Fraction Integer</sub></p>
+<p>We can also concentrate on the solutions with real (strictly) positive
+coordinates:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>lpr := positiveSolve(lp)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List RealClosure Fraction Integer</sub></p>
+<p>Thus we have checked that the input system has no solution with strictly
+positive coordinates.</p>
+<p>Let us define another polynomial system (L-3).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f0</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span> <span class="o">+</span> <span class="n">t</span><span class="o">-</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z+y+x3+t-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f1</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">z</span> <span class="o">+</span> <span class="n">t</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z+y3+x+t-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f2</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">t</span><span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z3+y+x+t-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f3</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span> <span class="o">+</span> <span class="n">t</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z+y+x+t3-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lf</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">f0</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[z+y+x3+t-1,z+y3+x+t-1,z3+y+x+t-1,z+y+x+t3-1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Polynomial Integer</sub></p>
+<p>First compute a decomposition into regular chains (i.e. regular
+triangular sets).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>lts := triangSolve(lf)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[{t2+t+1,z3-z-t3+t,(3z+3t3-3)y2+(3z2+(6t3-6)z+3t6-6t3+3)y+(3t3-3)z2+(3t6-6t3+3)z+t9-3t6+5t3-3t,x+y+z},{t16-6t13+9t10+4t7+15t4-54t2+27,</td>
+</tr>
+</tbody>
+</table>
+<p>(4907232t15+40893984t14-115013088t13+22805712t12+36330336t11+162959040t10-159859440t9-156802608t8+117168768t7+126282384t6-129351600t5+306646992t4+475302816t3-1006837776t2-237269088t+480716208)z+
+(3z+3t3-3)y2+(3z2+(6t3-6)z+3t6-6t3+3)y+(3t3-3)z2+(3t6-6t3+3)z+t9-3t6+5t3-3t,x+y+z+t3-1},{t,z-1,y2-1,x+y},{t-1,z,y2-1,x+y},{t-1,z2-1,zy+1,x},{t16-6t13+9t10+4t7+15t4-54t2+27,
+(4907232t29+40893984t28-115013088t27-1730448t26-168139584t25+738024480t24-195372288t23+315849456t22-2567279232t21+937147968t20+1026357696t19+4780488240t18-2893767696t17-5617160352t16-3427651728t15+5001100848t14+8720098416t13+2331732960t12-499046544t11-16243306272t10-9748123200t9+3927244320t8+25257280896t7+10348032096t6-17128672128t5-14755488768t4+544086720t3+10848188736t2+1423614528t-2884297248)z-
+48t68+1152t65-13560t62+360t60+103656t59-7560t57-572820t56+71316t54+2414556t53+2736t52-402876t51-7985131t50-49248t49+1431133t48+20977409t47+521487t46-2697635t45-43763654t44-3756573t43-2093410t42+71546495t41+19699032t40+35025028t39-89623786t38-77798760t37-138654191t36+87596128t35+235642497t34+349607642t33-93299834t32-551563167t31-630995176t30+186818962t29+995427468t28+828416204t27-393919231t26-1076617485t25-1609479791t24+595738126t23+1198787136t22+4342832069t21-2075938757t20-4390835799t19-4822843033t18+6932747678t17+6172196808t16+1141517740t15-4981677585t14-9819815280t13-7404299976t12-157295760t11+29124027630t10+14856038208t9-16184101410t8-26935440354t7-3574164258t6+10271338974t5+11191425264t4+6869861262t3-9780477840t2-3586674168t+2884297248,
+(2395770t7+3934440t6-3902067t5-10084164t4-1010448t3+32386932t2+22413225t-10432368)z-463519t7+3586833t6+9494955t5-8539305t4-33283098t3+35479377t2+46263256t-17419896,
+(3z4+(9t3-9)z3+(12t6-24t3+9)z2+(-152t3+219t-67)z-41t6+57t4+25t3-57t+16)y+(3t3-3)z4+(9t6-18t3+9)z3+(-181t3+270t-89)z2+(-92t6+135t4+49t3-135t+43)z+27t7-27t6-54t4+396t3-486t+144,x+y+z+t3-1},{t,z-t3+1,y-1,x-1},{t-1,z,y,x},{t,z-1,y,x},{t,z,y-1,x},{t,z,y,x-1}]</p>
+<p><sub>Type: List RegularChain(Integer,[x,y,z,t])</sub></p>
+<p>Then we compute a univariate representation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>univariateSolve(lf)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[complexRoots=?,coordinates=[x-1,y-1,z+1,t-%A]],[complexRoots=?,coordinates=[x,y-1,z,t-%A]],[complexRoots=?-1,coordinates=[x,y,z,t-%A]],[complexRoots=?,coordinates=[x-1,y,z,t-%A]],[complexRoots=?,coordinates=[x,y,z-1,t-%A]],[complexRoots=?-2,coordinates=[x-1,y+1,z,t-1]],[complexRoots=?,coordinates=[x+1,y-1,z,t-1]],[complexRoots=?-1,coordinates=[x-1,y+1,z-1,t]],[complexRoots=?+1,coordinates=[x+1,y-1,z-1,t]],[complexroots=?6-2?3+3?2-3,coordinates=[2x+%A3+%A-1,2y+%A3+%A-1,z-%A,t-%A]],[complexRoots=?5+3?3-2?2+3?-3,coordinates=[x-%A,y-%A,z+%A3+2%A-1,t-%A]],[complexRoots=?4-?3-2?2+3,coordinates=[x+%A3-%A-1,y+%A3-%A-1,z-%A3+2%A+1,t-%A]],[complexRoots=?+1,coordinates=[x-1,y-1,z,t-%A]],[complexRoots=?6+2?3+3?2-3,coordinates=[2x-%A3-%A-1,y+%A,2z-%A3-%A-1,t+%A]],[complexRoots=?6+12?4+20?3-45?2-42?-953,coordinates=[12609x+23%A5+49%A4-46%A3+362%A2-5015%A-8239,25218y+23%A5+49%A4-46%A3+362%A2+7594%A-8239,25218z+23%A5+49%A4-46%A3+362%A2+7594%A-8239,12609t+23%A5+49%A4-46%A3+362%A2-5015%A-8239]],[complexRoots=?5+12?3-16?2+48?-96,coordinates=[8x+%A3+8%A-8,2y-%A,2z-%A,2t-%A]],[complexRoots=?5+?4-5?3-3?2+9?+3,coordinates=[2x-%A3+2%A-1,2y+%A3-4%A+1,2z-%A3+2%A-1,2t-%A3+2%A-1]],[complexRoots=?4-3?3+4?2-6?+13,coordinates=[9x-2%A3+4%A2-%A+2,9y+%A3-2%A2+5%A-1,9z+%A3-2%A2+5%A-1,9t+%A3-2%A2-4%A-1]],[complexRoots=?4-11?2+37,coordinates=[3x-%A2+7,6y+%A2+3%A-7,3z-%A2+7,6t+%A2-3%A-7]],[complexRoots=?+1,coordinates=[x-1,y,z-1,t+1]],[complexRoots=?+2,coordinates=[x,y-1,z-1,t+1]],[complexRoots=?-2,coordinates=[x,y-1,z+1,t-1]],[complexRoots=?,coordinates=[x,y+1,z-1,t-1]],[complexRoots=?-2,coordinates=[x-1,y,z+1,t-1]],[complexRoots=?,coordinates=[x+1,y,z-1,t-1]],[complexRoots=?4+5?3+16?2+30?+57,coordinates=[151x+15%A3+54%A2+104%A+93,151y-10%A3-36%A2-19%A-62,151z-5%A3-18%A2-85%A-31,151t-5%A3-18%A2-85%A-31]],[complexRoots=?4-?3-2?2+3,coordinates=[x-%A3+2%A+1,y+%A3-%A-1,z-%A,t+%A3-%A-1]],[complexRoots=?4+2?3-8?2+48,coordinates=[8x-%A3+4%A-8,2y+%A,8z+%A3-8%A+8,8t-%A3+4%A-8]],[complexRoots=?5+?4-2?3-4?2+5?+8,coordinates=[3x+%A3-1,3y+%A3-1,3z+%A3-1,t-%A]],[complexRoots=?3+3?-1,coordinates=[x-%A,y-%A,z-%A,t-%A]]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Record( complexRoots: SparseUnivariatePolynomial Integer,</sub>
+coordinates: List Polynomial Integer)</p>
+<p>Note that this computation is made from the input system lf.</p>
+<p>However it is possible to reuse a pre-computed regular chain as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="p">:</span><span class="o">=</span> <span class="n">lts</span><span class="o">.</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{t2+t+1,z3-z-t3+t,(3z+3t3-3)y2+(3z2+(6t3-6)z+3t6-6t3+3)y+(3t3-3)z2+(3t6-6t3+3)z+t9-3t6+5t3-3t,x+y+z}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RegularChain(Integer,[x,y,z,t])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>univariateSolve(ts)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[complexRoots=?4+5?3+16?2+30?+57,pcoordinates=[151x+15%A3+54%A2+104%A+93,151y-10%A3-36%A2-19%A-62,151z-5%A3-18%A2-85%A-31,151t-5%A3-18%A2-85%A-31]],[complexRoots=?4-?3-2?2+3,coordinates=[x-%A3+2%A+1,y+%A3-%A-1,z-%A,t+%A3-%A-1]],[complexRoots=?4+2?3-8?2+48,coordinates=[8x-%A3+4%A-8,2y+%A,8z+%A3-8%A+8,8t-%A3+4%A-8]]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Record( complexRoots: SparseUnivariatePolynomial Integer,</sub>
+coordinates: List Polynomial Integer)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>realSolve(ts)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List RealClosure Fraction Integer</sub></p>
+<p>We compute now the full set of points with real coordinates:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>lr2 := realSolve(lf)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>[%B32,127%B3215+227%B3214+127%B3213-427%B3212-1127%B3211-427%B3210+127%B329+1427%B328+127%B327+29%B326+13%B325+29%B324+%B323+43%B322-%B32-2,
+[%B33,127%B3315+227%B3314+127%B3313-427%B3312-1127%B3311-427%B3310+127%B339+1427%B338+127%B337+29%B336+13%B335+29%B334+%B333+43%B332-%B33-2,
+[%B34,127%B3415+227%B3414+127%B3413-427%B3412-1127%B3411-427%B3410+127%B349+1427%B348+127%B347+29%B346+13%B345+29%B344+%B343+43%B342-%B34-2,
+[-1,1,0,1],[-1,1,1,0],[%B23,-154%B2315-127%B2314-154%B2313+227%B2312+1154%B2311+227%B2310-154%B239-727%B238-154%B237-19%B236-16%B235-19%B234-%B233-23%B232+12%B23+32,
+[%B23,-154%B2315-127%B2314-154%B2313+227%B2312+1154%B2311+227%B2310-154%B239-727%B238-154%B237-19%B236-16%B235-19%B234-%B233-23%B232+12%B23+32,
+%B31,-%B31+154%B2315+127%B2314+154%B2313-227%B2312-1154%B2311-227%B2310+154%B239+727%B238+154%B237+19%B236+16%B235+19%B234+23%B232-12%B23-12],
+[%B24,-154%B2415-127%B2414-154%B2413+227%B2412+1154%B2411+227%B2410-154%B249-727%B248-154%B247-19%B246-16%B245-19%B244-%B243-23%B242+12%B24+32,
+%B28,-%B28+154%B2415+127%B2414+154%B2413-227%B2412-1154%B2411-227%B2410+154%B249+727%B248+154%B247+19%B246+16%B245+19%B244+23%B242-12%B24-12],
+[%B24,-154%B2415-127%B2414-154%B2413+227%B2412+1154%B2411+227%B2410-154%B249-727%B248-154%B247-19%B246-16%B245-19%B244-%B243-23%B242+12%B24+32,
+%B29,-%B29+154%B2415+127%B2414+154%B2413-227%B2412-1154%B2411-227%B2410+154%B249+727%B248+154%B247+19%B246+16%B245+19%B244+23%B242-12%B24-12],
+[%B25,-154%B2515-127%B2514-154%B2513+227%B2512+1154%B2511+227%B2510-154%B259-727%B258-154%B257-19%B256-16%B255-19%B254-%B253-23%B252+12%B25+32,
+%B26,-%B26+154%B2515+127%B2514+154%B2513-227%B2512-1154%B2511-227%B2510+154%B259+727%B258+154%B257+19%B256+16%B255+19%B254+23%B252-12%B25-12],
+[%B25,-154%B2515-127%B2514-154%B2513+227%B2512+1154%B2511+227%B2510-154%B259-727%B258-154%B257-19%B256-16%B255-19%B254-%B253-23%B252+12%B25+32,
+%B27,-%B27+154%B2515+127%B2514+154%B2513-227%B2512-1154%B2511-227%B2510+154%B259+727%B258+154%B257+19%B256+16%B255+19%B254+23%B252-12%B25-12],
+[1,%B21,-%B21,0],[1,%B22,-%B22,0],[1,%B19,0,-%B19],[1,%B20,0,-%B20],[%B17,-13%B173+13,-13%B173+13,-13%B173+13],[%B18,-13%B183+13,-13%B183+13,-13%B183+13]]</p>
+<p><sub>Type: List List RealClosure Fraction Integer</sub></p>
+<p>The number of real solutions for the input system is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#lr2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>27</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Another example of computation of real solutions illustrates the
+LexTriangularPackage package constructor.</p>
+<p>We concentrate now on the solutions with real (strictly) positive
+coordinates:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>lpr2 := positiveSolve(lf)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[%B40,-13%B403+13,-13%B403+13,-13%B403+13]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List RealClosure Fraction Integer</sub></p>
+<p>Finally, we approximate the coordinates of this point with 20 exact
+digits:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">approximate</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="o">^</span><span class="mi">21</span><span class="p">)::</span><span class="n">Float</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">lpr2</span><span class="o">.</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0.32218535462608559291,0.32218535462608559291,0.32218535462608559291,0.32218535462608559291]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Float</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.90.html" title="previous chapter">9.90 XPolynomialRing</a></li>
+      <li>Next: <a href="section-10.0.html" title="next chapter">10.0 Interactive Programming</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.91.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.91.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

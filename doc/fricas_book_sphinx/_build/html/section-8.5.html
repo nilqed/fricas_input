@@ -1,0 +1,533 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.5 Solution of Linear and Polynomial Equations &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="8.6 Limits" href="section-8.6.html" />
+    <link rel="prev" title="8.4 Computation of Eigenvalues and Eigenvectors" href="section-8.4.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="solution-of-linear-and-polynomial-equations">
+<h1>8.5 Solution of Linear and Polynomial Equations<a class="headerlink" href="#solution-of-linear-and-polynomial-equations" title="Permalink to this headline">¶</a></h1>
+<p>In this section we discuss the FriCAS facilities for solving systems of
+linear equations, finding the roots of polynomials and linear equation
+solving systems of polynomial equations. For a discussion of the
+solution of differential equations, see
+<a class="reference external" href="section-8.10.html#ugProblemDEQ">ugProblemDEQ</a> .</p>
+<div class="section" id="solution-of-systems-of-linear-equations">
+<h2>8.5.1 Solution of Systems of Linear Equations<a class="headerlink" href="#solution-of-systems-of-linear-equations" title="Permalink to this headline">¶</a></h2>
+<p>You can use the operation solve to solve systems of linear equations.
+equation:linear:solving</p>
+<p>The operation solve takes two arguments, the list of equations and the
+list of the unknowns to be solved for. A system of linear equations need
+not have a unique solution.</p>
+<p>To solve the linear system: x+y+z=83x-2y+z=0x+2y+2z=17 evaluate this
+expression.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">+</span><span class="n">z</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">z</span><span class="o">=</span><span class="mi">17</span><span class="p">],[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[x=-1,y=2,z=7]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Equation Fraction Polynomial Integer</sub></p>
+<p>Parameters are given as new variables starting with a percent sign and %
+and the variables are expressed in terms of the parameters. If the
+system has no solutions then the empty list is returned.</p>
+<p>When you solve the linear system x+2y+3z=22x+3y+4z=23x+4y+5z=2 with this
+expression you get a solution involving a parameter.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">([</span><span class="n">x</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">z</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">z</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mi">5</span><span class="o">*</span><span class="n">z</span><span class="o">=</span><span class="mi">2</span><span class="p">],[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[x=%Q-2,y=-2%Q+2,z=%Q]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Equation Fraction Polynomial Integer</sub></p>
+<p>The system can also be presented as a matrix and a vector. The matrix
+contains the coefficients of the linear equations and the vector
+contains the numbers appearing on the right-hand sides of the equations.
+You may input the matrix as a list of rows and the vector as a list of
+its elements.</p>
+<p>To solve the system: x+y+z=83x-2y+z=0x+2y+2z=17 in matrix form you would
+evaluate this expression.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">([</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span> <span class="p">],[</span><span class="mi">8</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">17</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[particular=[-1,2,7],basis=[[0,0,0]]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(particular: Union(Vector Fraction Integer,&#8221;failed&#8221;), basis:</sub>
+List Vector Fraction Integer)</p>
+<p>The solutions are presented as a Record with two components: the
+component particular contains a particular solution of the given system
+or the item &#8220;failed&#8221; if there are no solutions, the component basis
+contains a list of vectors that are a basis for the space of solutions
+of the corresponding homogeneous system. If the system of linear
+equations does not have a unique solution, then the basis component
+contains non-trivial vectors.</p>
+<p>This happens when you solve the linear system
+x+2y+3z=22x+3y+4z=23x+4y+5z=2 with this command.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">([</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span> <span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[particular=[-2,2,0],basis=[[1,-2,1]]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(particular: Union(Vector Fraction Integer,&#8221;failed&#8221;), basis:</sub>
+List Vector Fraction Integer)</p>
+<p>All solutions of this system are obtained by adding the particular
+solution with a linear combination of the basis vectors.</p>
+<p>When no solution exists then &#8220;failed&#8221; is returned as the particular
+component, as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">([</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span> <span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[particular=&#8221;failed&#8221;,basis=[[1,-2,1]]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(particular: Union(Vector Fraction Integer,&#8221;failed&#8221;), basis:</sub>
+List Vector Fraction Integer)</p>
+<p>When you want to solve a system of homogeneous equations (that is, a
+system where the numbers on the right-hand sides of the nullspace
+equations are all zero) in the matrix form you can omit the second
+argument and use the nullSpace operation.</p>
+<p>This computes the solutions of the following system of equations:
+x+2y+3z=02x+3y+4z=03x+4y+5z=0 The result is given as a list of vectors
+and these vectors form a basis for the solution space.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nullSpace</span><span class="p">([</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span> <span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[1,-2,1]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Vector Integer</sub></p>
+</div>
+<div class="section" id="solution-of-a-single-polynomial-equation">
+<h2>8.5.2 Solution of a Single Polynomial Equation<a class="headerlink" href="#solution-of-a-single-polynomial-equation" title="Permalink to this headline">¶</a></h2>
+<p>FriCAS can solve polynomial equations producing either approximate
+polynomial:root finding or exact solutions. equation:polynomial:solving
+Exact solutions are either members of the ground field or can be
+presented symbolically as roots of irreducible polynomials.</p>
+<p>This returns the one rational root along with an irreducible polynomial
+describing the other solutions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x=2,x2+2x+4=0]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Equation Fraction Polynomial Integer</sub></p>
+<p>If you want solutions expressed in terms of radicals you would use this
+instead. radical</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">radicalSolve</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x=&#8211;3-1,x=-3-1,x=2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Equation Expression Integer</sub></p>
+<p>The solve command always returns a value but radicalSolve returns only
+the solutions that it is able to express in terms of radicals. radical</p>
+<p>If the polynomial equation has rational coefficients you can ask for
+approximations to its real roots by calling solve with a second argument
+that specifies the precision precision . This means that each
+approximation will be within of the actual result.</p>
+<p>Notice that the type of second argument controls the type of the result.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">4</span> <span class="o">-</span> <span class="mi">10</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">35</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">50</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">25</span><span class="p">,</span><span class="o">.</span><span class="mi">0001</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x=3.618011474609375,x=1.381988525390625]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Equation Polynomial Float</sub></p>
+<p>If you give a floating-point precision you get a floating-point result;
+if you give the precision as a rational number you get a rational
+result.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x=25812048]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Equation Polynomial Fraction Integer</sub></p>
+<p>If you want approximate complex results you should use the approximation
+command complexSolve that takes the same precision argument .</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complexSolve</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="o">.</span><span class="mi">0001</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x=1.259918212890625,x=-0.62989432795395613131-1.091094970703125i,x=-0.62989432795395613131+1.091094970703125i]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Equation Polynomial Complex Float</sub></p>
+<p>Each approximation will be within of the actual result in each of the
+real and imaginary parts.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complexSolve</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="o">*%</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x=-1302892516777216-325256i,x=1302892516777216+325256i]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Equation Polynomial Complex Fraction Integer</sub></p>
+<p>Note that if you omit the = from the first argument FriCAS generates an
+equation by equating the first argument to zero. Also, when only one
+variable is present in the equation, you do not need to specify the
+variable to be solved for, that is, you can omit the second argument.</p>
+<p>FriCAS can also solve equations involving rational functions. Solutions
+where the denominator vanishes are discarded.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">radicalSolve</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x=&#8211;3-12,x=-3-12]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Equation Expression Integer</sub></p>
+</div>
+<div class="section" id="solution-of-systems-of-polynomial-equations">
+<h2>8.5.3 Solution of Systems of Polynomial Equations<a class="headerlink" href="#solution-of-systems-of-polynomial-equations" title="Permalink to this headline">¶</a></h2>
+<p>Given a system of equations of rational functions with exact
+coefficients: equation:polynomial:solving</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>p1(x1,…,xn)⋮pm(x1,…,xn)</td>
+</tr>
+</tbody>
+</table>
+<p>FriCAS can find numeric or symbolic solutions. The system is first split
+into irreducible components, then for each component, a triangular
+system of equations is found that reduces the problem to sequential
+solution of univariate polynomials resulting from substitution of
+partial solutions from the previous stage. q1(x1,…,xn)⋮qm(xn)</p>
+<p>Symbolic solutions can be presented using implicit algebraic numbers
+defined as roots of irreducible polynomials or in terms of radicals.
+FriCAS can also find approximations to the real or complex roots of a
+system of polynomial equations to any user-specified accuracy.</p>
+<p>The operation solve for systems is used in a way similar to solve for
+single equations. Instead of a polynomial equation, one has to give a
+list of equations and instead of a single variable to solve for, a list
+of variables. For solutions of single equations see
+<a class="reference external" href="section-8.5.html#ugxProblemOnePol">ugxProblemOnePol</a> .</p>
+<p>Use the operation solve if you want implicitly presented solutions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">([</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span><span class="mi">4</span><span class="p">],[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[x=-1,y=2],[x2-x+1=0,y=2],[3x3-1=0,y=-2]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Equation Fraction Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">([</span><span class="n">x</span> <span class="o">=</span> <span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="mi">19</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="n">z</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span><span class="n">z</span> <span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">],[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[x=z3,y=3z2+z+93,9z4+6z3+55z2+15z-90=0]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Equation Fraction Polynomial Integer</sub></p>
+<p>Use radicalSolve if you want your solutions expressed in terms of
+radicals.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">radicalSolve</span><span class="p">([</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span><span class="mi">4</span><span class="p">],[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[x=-3+12,y=2],[x=&#8211;3+12,y=2],[x=&#8211;13-1233,y=-2],[x=-13-1233,y=-2],[x=133,y=-2],[x=-1,y=2]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Equation Expression Integer</sub></p>
+<p>To get numeric solutions you only need to give the list of equations and
+the precision desired. The list of variables would be redundant
+information since there can be no parameters for the numerical solver.</p>
+<p>If the precision is expressed as a floating-point number you get results
+expressed as floats.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">([</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">],</span><span class="o">.</span><span class="mi">01</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[y=1.5859375,x=0.79296875]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Equation Polynomial Float</sub></p>
+<p>To get complex numeric solutions, use the operation complexSolve, which
+takes the same arguments as in the real case.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complexSolve</span><span class="p">([</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="p">],</span><span class="mi">1</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[y=16251024,x=16252048],[y=-435445573689549755813888-14071024i,x=-4354455736891099511627776-14072048i],[y=-435445573689549755813888+14071024i,x=-4354455736891099511627776+14072048i]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Equation Polynomial Complex Fraction Integer</sub></p>
+<p>It is also possible to solve systems of equations in rational functions
+over the rational numbers. Note that [x=0.0,a=0.0] is not returned as a
+solution since the denominator vanishes there.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">([</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">/</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="p">,</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">],</span><span class="o">.</span><span class="mi">001</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[x=1.0,a=-1.0],[x=1.0,a=1.0]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Equation Polynomial Float</sub></p>
+<p>When solving equations with denominators, all solutions where the
+denominator vanishes are discarded.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">radicalSolve</span><span class="p">([</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">/</span><span class="n">a</span> <span class="o">+</span> <span class="n">a</span> <span class="o">+</span> <span class="n">y</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span><span class="n">a</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">],[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[x=&#8211;a4+2a3+3a2+3a+1a2,y=-a-1a],[x=-a4+2a3+3a2+3a+1a2,y=-a-1a]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Equation Expression Integer</sub></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">8.5 Solution of Linear and Polynomial Equations</a><ul>
+<li><a class="reference internal" href="#solution-of-systems-of-linear-equations">8.5.1 Solution of Systems of Linear Equations</a></li>
+<li><a class="reference internal" href="#solution-of-a-single-polynomial-equation">8.5.2 Solution of a Single Polynomial Equation</a></li>
+<li><a class="reference internal" href="#solution-of-systems-of-polynomial-equations">8.5.3 Solution of Systems of Polynomial Equations</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-8.4.html" title="previous chapter">8.4 Computation of Eigenvalues and Eigenvectors</a></li>
+      <li>Next: <a href="section-8.6.html" title="next chapter">8.6 Limits</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-8.5.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-8.5.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

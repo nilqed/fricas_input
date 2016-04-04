@@ -1,0 +1,756 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.40 LazardSetSolvingPackage &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.41 Library" href="section-9.41.html" />
+    <link rel="prev" title="9.39 LexTriangularPackage" href="section-9.39.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="lazardsetsolvingpackage">
+<h1>9.40 LazardSetSolvingPackage<a class="headerlink" href="#lazardsetsolvingpackage" title="Permalink to this headline">¶</a></h1>
+<p>The LazardSetSolvingPackage package constructor solves polynomial
+systems by means of Lazard triangular sets. However one condition is
+relaxed: Regular triangular sets whose saturated ideals have positive
+dimension are not necessarily normalized.</p>
+<p>The decompositions are computed in two steps. First the algorithm of
+Moreno Maza (implemented in the RegularTriangularSet domain constructor)
+is called. Then the resulting decompositions are converted into lists of
+square-free regular triangular sets and the redundant components are
+removed. Moreover, zero-dimensional regular triangular sets are
+normalized.</p>
+<p>Note that the way of understanding triangular decompositions is detailed
+in the example of the RegularTriangularSet constructor.</p>
+<p>The LazardSetSolvingPackage constructor takes six arguments. The first
+one, R, is the coefficient ring of the polynomials; it must belong to
+the category GcdDomain. The second one, E, is the exponent monoid of the
+polynomials; it must belong to the category OrderedAbelianMonoidSup. the
+third one, V, is the ordered set of variables; it must belong to the
+category OrderedSet. The fourth one is the polynomial ring; it must
+belong to the category RecursivePolynomialCategory(R,E,V). The fifth one
+is a domain of the category RegularTriangularSetCategory(R,E,V,P) and
+the last one is a domain of the category
+SquareFreeRegularTriangularSetCategory(R,E,V,P). The abbreviation for
+LazardSetSolvingPackage is LAZM3PK.</p>
+<blockquote>
+<div>N.B. For the purpose of solving zero-dimensional algebraic systems, see</div></blockquote>
+<p>also LexTriangularPackage and ZeroDimensionalSolvePackage. These
+packages are easier to call than LAZM3PK. Moreover, the
+ZeroDimensionalSolvePackage package provides operations to compute
+either the complex roots or the real roots.</p>
+<p>We illustrate now the use of the LazardSetSolvingPackage package
+constructor with two examples (Butcher and Vermeer).</p>
+<p>Define the coefficient ring.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="p">:</span><span class="o">=</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Integer</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Define the list of variables,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="p">:</span> <span class="n">List</span> <span class="n">Symbol</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">b1</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">w</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[b1,x,y,z,t,v,u,w]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Symbol</sub></p>
+<p>and make it an ordered set:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">V</span> <span class="p">:</span><span class="o">=</span> <span class="n">OVAR</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>OrderedVariableList[b1,x,y,z,t,v,u,w]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>then define the exponent monoid.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="p">:</span><span class="o">=</span> <span class="n">IndexedExponents</span> <span class="n">V</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>IndexedExponentsOrderedVariableList[b1,x,y,z,t,v,u,w]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Define the polynomial ring.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="n">NSMP</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>NewSparseMultivariatePolynomial(Integer,&nbsp;&nbsp;OrderedVariableList[b1,x,y,z,t,v,u,w])</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Let the variables be polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b1</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;b1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>b1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">z</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;z</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>t</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;u</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>u</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">v</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;v</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>v</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;w</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>w</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<p>Now call the RegularTriangularSet domain constructor.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="p">:</span><span class="o">=</span> <span class="n">REGSET</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">V</span><span class="p">,</span><span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>RegularTriangularSet(Integer,&nbsp;&nbsp;IndexedExponentsOrderedVariableList[b1,x,y,z,t,v,u,w],&nbsp;&nbsp;OrderedVariableList[b1,x,y,z,t,v,u,w],&nbsp;&nbsp;NewSparseMultivariatePolynomial(Integer,&nbsp;&nbsp;OrderedVariableList[b1,x,y,z,t,v,u,w]))</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Define a polynomial system (the Butcher example).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p0</span> <span class="p">:</span><span class="o">=</span> <span class="n">b1</span> <span class="o">+</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span> <span class="o">-</span> <span class="n">t</span> <span class="o">-</span> <span class="n">w</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>b1+y+z-t-w</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">z</span><span class="o">*</span><span class="n">u</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">v</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">w</span> <span class="o">-</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2vy+2uz+2wt-2w2-w-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p2</span> <span class="p">:</span><span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">z</span><span class="o">*</span><span class="n">u</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">v</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">t</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">w</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3v2y+3u2z+(-3w2-1)t+3w3+3w2+4w</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p3</span> <span class="p">:</span><span class="o">=</span> <span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="o">*</span><span class="n">v</span> <span class="o">-</span> <span class="mi">6</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span> <span class="o">+</span> <span class="mi">6</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">t</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">w</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>6vzx+(-6w2-3w-1)t+6w3+6w2+4w</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p4</span> <span class="p">:</span><span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">z</span><span class="o">*</span><span class="n">u</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">v</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">3</span><span class="o">-</span> <span class="mi">4</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">4</span> <span class="o">-</span> <span class="mi">6</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span><span class="o">-</span>
+</pre></div>
+</div>
+<p>10*w^2- w- 1</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4v3y+4u3z+(4w3+4w)t-4w4-6w3-10w2-w-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p5</span> <span class="p">:</span><span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="o">*</span><span class="n">u</span><span class="o">*</span><span class="n">v</span> <span class="o">+</span><span class="mi">8</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span><span class="mi">8</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">4</span> <span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span><span class="mi">12</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span>
+</pre></div>
+</div>
+<p>-14*w^2 -3*w -1</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>8uvzx+(8w3+4w2+4w)t-8w4-12w3-14w2-3w-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p6</span> <span class="p">:</span><span class="o">=</span> <span class="mi">12</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">z</span><span class="o">*</span><span class="n">v</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="mi">12</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span><span class="mi">12</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">4</span> <span class="o">+</span><span class="mi">12</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span><span class="mi">18</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span><span class="mi">8</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span>
+</pre></div>
+</div>
+<p>-14*w^2 -w -1</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>12v2zx+(12w3+12w2+8w)t-12w4-18w3-14w2-w-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p7</span> <span class="p">:</span><span class="o">=</span> <span class="o">-</span><span class="mi">24</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">24</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">4</span> <span class="o">-</span> <span class="mi">24</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">36</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">8</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">w</span> <span class="o">+</span> <span class="mi">26</span><span class="o">*</span><span class="n">w</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span>
+</pre></div>
+</div>
+<p>7*w + 1</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(-24w3-24w2-8w)t+24w4+36w3+26w2+7w+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">p0</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">,</span> <span class="n">p5</span><span class="p">,</span> <span class="n">p6</span><span class="p">,</span> <span class="n">p7</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[b1+y+z-t-w,2vy+2uz+2wt-2w2-w-1,3v2y+3u2z+(-3w2-1)t+3w3+3w2+4w,6vzx+(-6w2-3w-1)t+6w3+6w2+4w,4v3y+4u3z+(4w3+4w)t-4w4-6w3-10w2-w-1,8uvzx+(8w3+4w2+4w)t-8w4-12w3-14w2-3w-1,12v2zx+(12w3+12w2+8w)t-12w4-18w3-14w2-w-1,(-24w3-24w2-8w)t+24w4+36w3+26w2+7w+1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<p>First of all, let us solve this system in the sense of Lazard by means
+of the REGSET constructor:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>lts := zeroSetSplit(lp,false)$T
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[{w+1,u,v,t+1,b1+y+z+2},{w+1,v,t+1,z,b1+y+2},{w+1,t+1,z,y,b1+2},{w+1,v-u,t+1,y+z,x,b1+2},{w+1,u,t+1,y,x,b1+z+2},{144w5+216w4+96w3+6w2-11w-1,(12w2+9w+1)u-72w5-108w4-42w3-9w2-3w,(12w2+9w+1)v+36w4+54w3+18w2,(24w3+24w2+8w)t-24w4-36w3-26w2-7w-1,(12uv-12u2)z+(12wv+12w2+4)t+(3w-5)v+36w4+42w3+6w2-16w,2vy+2uz+2wt-2w2-w-1,6vzx+(-6w2-3w-1)t+6w3+6w2+4w,b1+y+z-t-w}]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List RegularTriangularSet(Integer, IndexedExponents</sub>
+OrderedVariableList [b1,x,y,z,t,v,u,w], OrderedVariableList
+[b1,x,y,z,t,v,u,w], NewSparseMultivariatePolynomial(
+Integer,OrderedVariableList [b1,x,y,z,t,v,u,w]))</p>
+<p>We can get the dimensions of each component of a decomposition as
+follows.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">coHeight</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span> <span class="k">for</span> <span class="n">ts</span> <span class="ow">in</span> <span class="n">lts</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[3,3,3,2,2,0]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List NonNegativeInteger</sub></p>
+<p>The first five sets have a simple shape. However, the last one, which
+has dimension zero, can be simplified by using Lazard triangular sets.</p>
+<p>Thus we call the SquareFreeRegularTriangularSet domain constructor,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ST</span> <span class="p">:</span><span class="o">=</span> <span class="n">SREGSET</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">V</span><span class="p">,</span><span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>SquareFreeRegularTriangularSet(Integer,&nbsp;&nbsp;IndexedExponentsOrderedVariableList[b1,x,y,z,t,v,u,w],&nbsp;&nbsp;OrderedVariableList[b1,x,y,z,t,v,u,w],&nbsp;&nbsp;NewSparseMultivariatePolynomial(Integer,&nbsp;&nbsp;OrderedVariableList[b1,x,y,z,t,v,u,w]))</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>and set the LAZM3PK package constructor to our situation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pack</span> <span class="p">:</span><span class="o">=</span> <span class="n">LAZM3PK</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">V</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">ST</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>LazardSetSolvingPackage(Integer,&nbsp;&nbsp;IndexedExponentsOrderedVariableList[b1,x,y,z,t,v,u,w],&nbsp;&nbsp;OrderedVariableList[b1,x,y,z,t,v,u,w],&nbsp;&nbsp;NewSparseMultivariatePolynomial(Integer,&nbsp;&nbsp;OrderedVariableList[b1,x,y,z,t,v,u,w]),&nbsp;&nbsp;RegularTriangularSet(Integer,&nbsp;&nbsp;IndexedExponentsOrderedVariableList[b1,x,y,z,t,v,u,w],&nbsp;&nbsp;OrderedVariableList[b1,x,y,z,t,v,u,w],&nbsp;&nbsp;NewSparseMultivariatePolynomial(Integer,&nbsp;&nbsp;OrderedVariableList[b1,x,y,z,t,v,u,w])),&nbsp;&nbsp;SquareFreeRegularTriangularSet(Integer,&nbsp;&nbsp;IndexedExponentsOrderedVariableList[b1,x,y,z,t,v,u,w],&nbsp;&nbsp;OrderedVariableList[b1,x,y,z,t,v,u,w],&nbsp;&nbsp;NewSparseMultivariatePolynomial(Integer,&nbsp;&nbsp;OrderedVariableList[b1,x,y,z,t,v,u,w])))</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>We are ready to solve the system by means of Lazard triangular sets:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>zeroSetSplit(lp,false)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[{w+1,t+1,z,y,b1+2},{w+1,v,t+1,z,b1+y+2},{w+1,u,v,t+1,b1+y+z+2},{w+1,v-u,t+1,y+z,x,b1+2},{w+1,u,t+1,y,x,b1+z+2},{144w5+216w4+96w3+6w2-11w-1,u-24w4-36w3-14w2+w+1,3v-48w4-60w3-10w2+8w+2,t-24w4-36w3-14w2-w+1,486z-2772w4-4662w3-2055w2+30w+127,2916y-22752w4-30312w3-8220w2+2064w+1561,356x-3696w4-4536w3-968w2+822w+371,2916b1-30600w4-46692w3-20274w2-8076w+593}]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List SquareFreeRegularTriangularSet(Integer, IndexedExponents</sub>
+OrderedVariableList [b1,x,y,z,t,v,u,w], OrderedVariableList
+[b1,x,y,z,t,v,u,w], NewSparseMultivariatePolynomial(Integer,
+OrderedVariableList [b1,x,y,z,t,v,u,w]))</p>
+<p>We see the sixth triangular set is nicer now: each one of its
+polynomials has a constant initial.</p>
+<p>We follow with the Vermeer example. The ordering is the usual one for
+this system.</p>
+<p>Define the polynomial system.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f0</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>t2-2ut+v2-2wv+u2+w2-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f1</span> <span class="p">:</span><span class="o">=</span> <span class="n">t</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">-</span> <span class="n">v</span> <span class="o">^</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>t2-v3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f2</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span> <span class="o">*</span> <span class="p">(</span><span class="n">w</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">v</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">u</span> <span class="o">-</span> <span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(-3v2-2v+2w)t+3uv2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f3</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">3</span> <span class="o">*</span> <span class="n">z</span> <span class="o">*</span> <span class="n">v</span> <span class="o">^</span> <span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">z</span> <span class="o">*</span> <span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>6v2tz2+(-2t-3v2)z+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lf</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">f0</span><span class="p">,</span> <span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">f3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[t2-2ut+v2-2wv+u2+w2-1,t2-v3,(-3v2-2v+2w)t+3uv2,6v2tz2+(-2t-3v2)z+1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[b1,x,y,z,t,v,u,w])</p>
+<p>First of all, let us solve this system in the sense of Kalkbrener by
+means of the REGSET constructor:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>zeroSetSplit(lf,true)$T
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[{729u6+(-1458w3+729w2-4158w-1685)u4+(729w6-1458w5-2619w4-4892w3-297w2+5814w+427)u2+729w8+216w7-2900w6-2376w5+3870w4+4072w3-1188w2-1656w+529,(2187u4+(-4374w3-972w2-12474w-2868)u2+2187w6-1944w5-10125w4-4800w3+2501w2+4968w-1587)v+(1944w3-108w2)u2+972w6+3024w5-1080w4+496w3+1116w2,(3v2+2v-2w)t-3uv2,((4v-4w)t-6uv2)z2+(2t+3v2)z-1}]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List RegularTriangularSet(Integer, IndexedExponents</sub>
+OrderedVariableList [b1,x,y,z,t,v,u,w], OrderedVariableList
+[b1,x,y,z,t,v,u,w], NewSparseMultivariatePolynomial(Integer,
+OrderedVariableList [b1,x,y,z,t,v,u,w]))</p>
+<p>We have obtained one regular chain (i.e. regular triangular set) with
+dimension 1. This set is in fact a characterist set of the (radical of)
+of the ideal generated by the input system lf. Thus we have only the
+generic points of the variety associated with lf (for the elimination
+ordering given by ls).</p>
+<p>So let us get now a full description of this variety.</p>
+<p>Hence, we solve this system in the sense of Lazard by means of the
+REGSET constructor:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>zeroSetSplit(lf,false)$T
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[{729u6+(-1458w3+729w2-4158w-1685)u4+(729w6-1458w5-2619w4-4892w3-297w2+5814w+427)u2+729w8+216w7-2900w6-2376w5+3870w4+4072w3-1188w2-1656w+529,(2187u4+(-4374w3-972w2-12474w-2868)u2+2187w6-1944w5-10125w4-4800w3+2501w2+4968w-1587)v+(1944w3-108w2)u2+972w6+3024w5-1080w4+496w3+1116w2,(3v2+2v-2w)t-3uv2,((4v-4w)t-6uv2)z2+(2t+3v2)z-1},{27w4+4w3-54w2-36w+23,u,(12w+2)v-9w2-2w+9,6t2-2v-3w2+2w+3,2tz-1},{59049w6+91854w5-45198w4+145152w3+63549w2+60922w+21420,(31484448266904w5-18316865522574w4+23676995746098w3+6657857188965w2+8904703998546w+3890631403260)u2+94262810316408w5-82887296576616w4+89801831438784w3+28141734167208w2+38070359425432w+16003865949120,(243w2+36w+85)v2+(-81u2-162w3+36w2+154w+72)v-72w3+4w2,(3v2+2v-2w)t-3uv2,((4v-4w)t-6uv2)z2+(2t+3v2)z-1},{27w4+4w3-54w2-36w+23,u,(12w+2)v-9w2-2w+9,6t2-2v-3w2+2w+3,3v2z-1}]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List RegularTriangularSet(Integer, IndexedExponents</sub>
+OrderedVariableList [b1,x,y,z,t,v,u,w], OrderedVariableList
+[b1,x,y,z,t,v,u,w], NewSparseMultivariatePolynomial(Integer,
+OrderedVariableList [b1,x,y,z,t,v,u,w]))</p>
+<p>We retrieve our regular chain of dimension 1 and we get three regular
+chains of dimension 0 corresponding to the degenerated cases. We want
+now to simplify these zero-dimensional regular chains by using Lazard
+triangular sets. Moreover, this will allow us to prove that the above
+decomposition has no redundant component. N.B. Generally, decompositions
+computed by the REGSET constructor do not have redundant components.
+However, to be sure that no redundant component occurs one needs to use
+the SREGSET or LAZM3PK constructors.</p>
+<p>So let us solve the input system in the sense of Lazard by means of the
+LAZM3PK constructor:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>zeroSetSplit(lf,false)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[{729u6+(-1458w3+729w2-4158w-1685)u4+(729w6-1458w5-2619w4-4892w3-297w2+5814w+427)u2+729w8+216w7-2900w6-2376w5+3870w4+4072w3-1188w2-1656w+529,(2187u4+(-4374w3-972w2-12474w-2868)u2+2187w6-1944w5-10125w4-4800w3+2501w2+4968w-1587)v+(1944w3-108w2)u2+972w6+3024w5-1080w4+496w3+1116w2,(3v2+2v-2w)t-3uv2,((4v-4w)t-6uv2)z2+(2t+3v2)z-1},{81w2+18w+28,729u2-1890w-533,81v2+(-162w+27)v-72w-112,11881t+(972w+2997)uv+(-11448w-11536)u,641237934604288z2+(((78614584763904w+26785578742272)u+236143618655616w+70221988585728)v+(358520253138432w+101922133759488)u+142598803536000w+54166419595008)z+(32655103844499w-44224572465882)uv+(43213900115457w-32432039102070)u},{27w4+4w3-54w2-36w+23,u,218v-162w3+3w2+160w+153,109t2-27w3-54w2+63w+80,1744z+(-1458w3+27w2+1440w+505)t},{27w4+4w3-54w2-36w+23,u,218v-162w3+3w2+160w+153,109t2-27w3-54w2+63w+80,1308z+162w3-3w2-814w-153},{729w4+972w3-1026w2+1684w+765,81u2+72w2+16w-72,702v-162w3-225w2+40w-99,11336t+(324w3-603w2-1718w-1557)u,595003968z2+((-963325386w3-898607682w2+1516286466w-3239166186)u-1579048992w3-1796454288w2+2428328160w-4368495024)z+(9713133306w3+9678670317w2-16726834476w+28144233593)u}]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List SquareFreeRegularTriangularSet(Integer, IndexedExponents</sub>
+OrderedVariableList [b1,x,y,z,t,v,u,w], OrderedVariableList
+[b1,x,y,z,t,v,u,w], NewSparseMultivariatePolynomial(Integer,
+OrderedVariableList [b1,x,y,z,t,v,u,w]))</p>
+<p>Due to square-free factorization, we obtained now four zero-dimensional
+regular chains. Moreover, each of them is normalized (the initials are
+constant). Note that these zero-dimensional components may be
+investigated further with the ZeroDimensionalSolvePackage package
+constructor.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.39.html" title="previous chapter">9.39 LexTriangularPackage</a></li>
+      <li>Next: <a href="section-9.41.html" title="next chapter">9.41 Library</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.40.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.40.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

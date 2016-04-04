@@ -1,0 +1,402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6.14 Making Functions from Objects &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="6.15 Functions Defined with Blocks" href="section-6.15.html" />
+    <link rel="prev" title="6.13 Recurrence Relations" href="section-6.13.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="making-functions-from-objects">
+<h1>6.14 Making Functions from Objects<a class="headerlink" href="#making-functions-from-objects" title="Permalink to this headline">¶</a></h1>
+<p>There are many times when you compute a complicated expression and then
+wish to use that expression as the body of a function. FriCAS provides
+an operation called function to do function:from an object this.
+function:made by function &#64;{made by function} It creates a function
+object and places it into the workspace. There are several versions,
+depending on how many arguments the function has. The first argument to
+function is always the expression to be converted into the function
+body, and the second is always the name to be used for the function. For
+more information, see section
+<a class="reference external" href="section-9.50.html#MakeFunctionXmpPage">MakeFunctionXmpPage</a> .</p>
+<p>Start with a simple example of a polynomial in three variables.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="o">-</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">z</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-z3+y2-x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>To make this into a function of no arguments that simply returns the
+polynomial, use the two argument form of function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">function</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="s1">&#39;f0)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>f0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>To avoid possible conflicts (see below), it is a good idea to quote
+always this second argument.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>f0()==-z3+y2-x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FunctionCalled f0</sub></p>
+<p>This is what you get when you evaluate the function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f0</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-z3+y2-x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>To make a function in x, use a version of function that takes three
+arguments. The last argument is the name of the variable to use as the
+parameter. Typically, this variable occurs in the expression and, like
+the function name, you should quote it to avoid possible confusion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">function</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="s1">&#39;f1,&#39;</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>f1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>This is what the new function looks like.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>f1x==-z3+y2-x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FunctionCalled f1</sub></p>
+<p>This is the value of f1 at x=3. Notice that the return type of the
+function is Polynomial (Integer), the same as p.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f1</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">f1</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">PositiveInteger</span> <span class="o">-&gt;</span> <span class="n">Polynomial</span>
+   <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-z3+y2-3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>To use x and y as parameters, use the four argument form of function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">function</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="s1">&#39;f2,&#39;</span><span class="n">x</span><span class="p">,</span><span class="s1">&#39;y)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>f2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>f2(x,y)==-z3+y2-x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FunctionCalled f2</sub></p>
+<p>Evaluate f2 at x=3 and y=0. The return type of f2 is still
+Polynomial(Integer) because the variable z is still present and not one
+of the parameters.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f2</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-z3-3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Finally, use all three variables as parameters. There is no five
+argument form of function, so use the one with three arguments, the
+third argument being a list of the parameters.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">function</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="s1">&#39;f3,[&#39;</span><span class="n">x</span><span class="p">,</span><span class="s1">&#39;y,&#39;</span><span class="n">z</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>f3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>Evaluate this using the same values for x and y as above, but let z be
+-6. The result type of f3 is Integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>f3(x,y,z)==-z3+y2-x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FunctionCalled f3</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f3</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">f3</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">(</span><span class="n">PositiveInteger</span><span class="p">,</span><span class="n">NonNegativeInteger</span><span class="p">,</span>
+   <span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>213</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The four functions we have defined via p have been undeclared. To
+declare a function whose body is to be generated by function:declaring
+function, issue the declaration before the function is created.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span><span class="p">:</span> <span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">/</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">),</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-sin(y-x)sin(y+x)+cos(y-x)cos(y+x)cos(y+x)2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">function</span><span class="p">(</span><span class="o">%</span><span class="p">,</span><span class="s1">&#39;g,&#39;</span><span class="n">x</span><span class="p">,</span><span class="s1">&#39;y)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>g</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>g(x,y)==-sin(y-x)sin(y+x)+cos(y-x)cos(y+x)cos(y+x)2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FunctionCalled g</sub></p>
+<p>It is an error to use g without the quote in the penultimate expression
+since g had been declared but did not have a value. Similarly, since it
+is common to overuse variable names like x, y, and so on, you avoid
+problems if you always quote the variable names for function. In
+general, if x has a value and you use x without a quote in a call to
+function, then FriCAS does not know what you are trying to do.</p>
+<p>What kind of object is allowable as the first argument to function?
+Let&#8217;s use the Browse facility of HyperDoc to find out. <a class="reference external" href="mailto:Browse&#37;&#52;&#48;Browse">Browse<span>&#64;</span>Browse</a> At
+the main Browse menu, enter the string function and then click on
+Operations. The exposed operations called function all take an object
+whose type belongs to category ConvertibleTo InputForm. What domains are
+those? Go back to the main Browse menu, erase function, enter
+ConvertibleTo in the input area, and click on categories on the
+Constructors line. At the bottom of the page, enter InputForm in the
+input area following S =. Click on Cross Reference and then on Domains.
+The list you see contains over forty domains that belong to the category
+ConvertibleTo InputForm. Thus you can use function for Integer, Float,
+String, Complex, Expression, and so on.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-6.13.html" title="previous chapter">6.13 Recurrence Relations</a></li>
+      <li>Next: <a href="section-6.15.html" title="next chapter">6.15 Functions Defined with Blocks</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-6.14.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-6.14.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

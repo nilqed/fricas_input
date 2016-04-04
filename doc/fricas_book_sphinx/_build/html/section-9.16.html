@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.16 DistributedMultivariatePolynomial &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.17 DoubleFloat" href="section-9.17.html" />
+    <link rel="prev" title="9.15 DecimalExpansion" href="section-9.15.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="distributedmultivariatepolynomial">
+<h1>9.16 DistributedMultivariatePolynomial<a class="headerlink" href="#distributedmultivariatepolynomial" title="Permalink to this headline">¶</a></h1>
+<p>DistributedMultivariatePolynomial which is abbreviated as DMP and
+HomogeneousDistributedMultivariatePolynomial, which is abbreviated as
+HDMP, are very similar to MultivariatePolynomial except that they are
+represented and displayed in a non-recursive manner.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">d1</span><span class="p">,</span><span class="n">d2</span><span class="p">,</span><span class="n">d3</span><span class="p">)</span> <span class="p">:</span> <span class="n">DMP</span><span class="p">([</span><span class="n">z</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">],</span><span class="n">FRAC</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The constructor DMP orders its monomials lexicographically while HDMP
+orders them by total order refined by reverse lexicographic order.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d1</span> <span class="p">:</span><span class="o">=</span> <span class="o">-</span><span class="mi">4</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">16</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-4z+4y2x+16x2+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DistributedMultivariatePolynomial([z,y,x],Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d2</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">z</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2zy2+4x+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DistributedMultivariatePolynomial([z,y,x],Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d3</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">z</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2zx2-2y2-x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DistributedMultivariatePolynomial([z,y,x],Fraction Integer)</sub></p>
+<p>These constructors are mostly used in Gröbner basis calculations.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">groebner</span> <span class="p">[</span><span class="n">d1</span><span class="p">,</span><span class="n">d2</span><span class="p">,</span><span class="n">d3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[z-15682745x6-1264305x5+6305x4+182549x3-2047610x2-1032745x-285710980,y2+1122745x6-84305x5-1264305x4-13549x3+84305x2+17722745x+22745,x7+294x6-1716x4-118x3+132x2+1516x+14]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List DistributedMultivariatePolynomial([z,y,x],Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,</span><span class="n">n3</span><span class="p">)</span> <span class="p">:</span> <span class="n">HDMP</span><span class="p">([</span><span class="n">z</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">],</span><span class="n">FRAC</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n1</span> <span class="p">:</span><span class="o">=</span> <span class="n">d1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4y2x+16x2-4z+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: HomogeneousDistributedMultivariatePolynomial([z,y,x],Fraction</sub>
+Integer)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n2</span> <span class="p">:</span><span class="o">=</span> <span class="n">d2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2zy2+4x+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: HomogeneousDistributedMultivariatePolynomial([z,y,x],Fraction</sub>
+Integer)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n3</span> <span class="p">:</span><span class="o">=</span> <span class="n">d3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2zx2-2y2-x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: HomogeneousDistributedMultivariatePolynomial([z,y,x],Fraction</sub>
+Integer)</p>
+<p>Note that we get a different Gröbner basis when we use the HDMP
+polynomials, as expected.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">groebner</span> <span class="p">[</span><span class="n">n1</span><span class="p">,</span><span class="n">n2</span><span class="p">,</span><span class="n">n3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[y4+2x3-32x2+12z-18,x4+294x3-18y2-74zx-916x-14,zy2+2x+12,y2x+4x2-z+14,zx2-y2-12x,z2-4y2+2x2-14z-32x]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List HomogeneousDistributedMultivariatePolynomial([z,y,x],Fraction</sub>
+Integer)</p>
+<p>GeneralDistributedMultivariatePolynomial is somewhat more flexible in
+the sense that as well as accepting a list of variables to specify the
+variable ordering, it also takes a predicate on exponent vectors to
+specify the term ordering. With this polynomial type the user can
+experiment with the effect of using completely arbitrary term orderings.
+This flexibility is mostly important for algorithms such as Gr\&#8221;{o}bner
+basis calculations which can be very sensitive to term ordering.</p>
+<p>For more information on related topics, see
+<a class="reference external" href="ugIntroVariablesPage">ugIntroVariablesPage</a> in Section
+<a class="reference external" href="ugIntroVariablesNumber">ugIntroVariablesNumber</a> ,
+<a class="reference external" href="ugTypesConvertPage">ugTypesConvertPage</a> in Section
+<a class="reference external" href="ugTypesConvertNumber">ugTypesConvertNumber</a> ,
+<a class="reference external" href="section-9.16.html#DistributedMultivariatePolynomialXmpPage">PolynomialXmpPage</a>
+,
+<a class="reference external" href="section-9.83.html#UnivariatePolynomialXmpPage">UnivariatePolynomialXmpPage</a>
+, and
+<a class="reference external" href="section-9.16.html#DistributedMultivariatePolynomialXmpPage">MultivariatePolynomialXmpPage</a>
+.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.15.html" title="previous chapter">9.15 DecimalExpansion</a></li>
+      <li>Next: <a href="section-9.17.html" title="next chapter">9.17 DoubleFloat</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.16.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.16.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

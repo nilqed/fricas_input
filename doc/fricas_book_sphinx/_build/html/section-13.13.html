@@ -1,0 +1,473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13.13 Example 2: Building A Query Facility &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="14.0 Browse" href="section-14.0.html" />
+    <link rel="prev" title="13.12 Example 1: Clifford Algebra" href="section-13.12.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="example-2-building-a-query-facility">
+<h1>13.13 Example 2: Building A Query Facility<a class="headerlink" href="#example-2-building-a-query-facility" title="Permalink to this headline">¶</a></h1>
+<p>We now turn to an entirely different kind of application, building a
+query language for a database.</p>
+<p>Here is the practical problem to solve. The Browse facility of FriCAS
+has a database for all operations and constructors which is stored on
+disk and accessed by HyperDoc. For our purposes here, we regard each
+line of this file as having eight fields: class, name, type, nargs,
+exposed, kind, origin, and condition. Here is an example entry:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>o\`determinant\`$-&gt;R\`1\`x\`d\`Matrix(R)\`has(R,commutative(&quot;*&quot;))
+</pre></div>
+</div>
+<p>In English, the entry means:</p>
+<p>The operation determinant: $-&gt;R with 1 argument, is exposed and is
+exported by domain Matrix(R) if R has commutative(&#8220;*&#8221;).</p>
+<p>Our task is to create a little query language that allows us to get
+useful information from this database.</p>
+<div class="section" id="a-little-query-language">
+<h2>13.13.1 A Little Query Language<a class="headerlink" href="#a-little-query-language" title="Permalink to this headline">¶</a></h2>
+<p>First we design a simple language for accessing information from the
+database. We have the following simple model in mind for its design.
+Think of the database as a box of index cards. There is only one search
+operation&#8212;it takes the name of a field and a predicate predicate (a
+boolean-valued function) defined on the fields of the index cards. When
+applied, the search operation goes through the entire box selecting only
+those index cards for which the predicate is true. The result of a
+search is a new box of index cards. This process can be repeated again
+and again.</p>
+<p>The predicates all have a particularly simple form: symbol = pattern,
+where symbol designates one of the fields, and pattern is a search
+string&#8212;a string that may contain a * as a wildcard. Wildcards match
+any substring, including the empty string. Thus the pattern &#8220;<a href="#id1"><span class="problematic" id="id2">*</span></a>ma*t
+matches &#8220;mat&#8221;, doormat&#8217;&#8217; and smart.</p>
+<p>To illustrate how queries are given, we give you a sneak preview of the
+facility we are about to create.</p>
+<p>Extract the database of all FriCAS operations.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>How many exposed three-argument map operations involving streams?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>As usual, the arguments of elt ( .) associate to the left. The first elt
+produces the set of all operations with name map. The second elt
+produces the set of all map operations with three arguments. The third
+elt produces the set of all three-argument map operations having a type
+mentioning Stream.</p>
+<p>Another thing we&#8217;d like to do is to extract one field from each of the
+index cards in the box and look at the result. Here is an example of
+that kind of request.</p>
+<p>What constructors explicitly export a determinant operation?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>The first elt produces the set of all index cards with name determinant.
+The second elt extracts the origin component from each index card. Each
+origin component is the name of a constructor which directly exports the
+operation represented by the index card. Extracting a component from
+each index card produces what we call a datalist. The third elt, sort,
+causes the datalist of origins to be sorted in alphabetic order. The
+fourth, unique, causes duplicates to be removed.</p>
+<p>Before giving you a more extensive demo of this facility, we now build
+the necessary domains and packages to implement it. We will introduce a
+few of our minor conveniences.</p>
+</div>
+<div class="section" id="the-database-constructor">
+<h2>13.13.2 The Database Constructor<a class="headerlink" href="#the-database-constructor" title="Permalink to this headline">¶</a></h2>
+<p>We work from the top down. First, we define a database, our box of index
+cards, as an abstract datatype. For sake of illustration and generality,
+we assume that an index card is some type S, and that a database is a
+box of objects of type S. Here is the FriCAS program defining the
+Database domain.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>PI ==&gt; PositiveInteger
+Database(S): Exports == Implementation where
+  S: Object with
+    elt: ( $, Symbol) -&gt; String
+    display:  $ -&gt; Void
+    fullDisplay:  $ -&gt; Void
+  Exports == with
+</pre></div>
+</div>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;elt:&nbsp;(&nbsp;$,QueryEquation)&nbsp;-&gt;&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select&nbsp;by&nbsp;an&nbsp;equation</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;elt:&nbsp;(&nbsp;$,&nbsp;Symbol)&nbsp;-&gt;&nbsp;DataList&nbsp;String&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select&nbsp;by&nbsp;a&nbsp;field&nbsp;name</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&#8221;+&#8221;:&nbsp;(&nbsp;$,&nbsp;$)&nbsp;-&gt;&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Combine&nbsp;two&nbsp;databases</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&#8221;-&#8221;:&nbsp;(&nbsp;$,&nbsp;$)&nbsp;-&gt;&nbsp;&nbsp;$&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Subtract&nbsp;one&nbsp;from&nbsp;another</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;display:&nbsp;&nbsp;$&nbsp;-&gt;&nbsp;Void&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;brief&nbsp;database&nbsp;display</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;&nbsp;&nbsp;fullDisplay:&nbsp;&nbsp;$&nbsp;-&gt;&nbsp;Void&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;full&nbsp;database&nbsp;display</dt>
+<dd>&nbsp;&nbsp;fullDisplay:&nbsp;(&nbsp;$,PI,PI)&nbsp;-&gt;&nbsp;Void&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;selective&nbsp;display
+&nbsp;&nbsp;coerce:&nbsp;&nbsp;$&nbsp;-&gt;&nbsp;OutputForm&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Display&nbsp;a&nbsp;database
+Implementation&nbsp;==&nbsp;add
+&nbsp;&nbsp;&nbsp;&nbsp;...</dd>
+</dl>
+<p>The domain constructor takes a parameter S, which stands for the class
+of index cards. We describe an index card later. Here think of an index
+card as a string which has the eight fields mentioned above.</p>
+<p>First we tell FriCAS what operations we are going to require from index
+cards. We need an elt to extract the contents of a field (such as name
+and type) as a string. For example, c.name returns a string that is the
+content of the name field on the index card c. We need to display an
+index card in two ways: display shows only the name and type of an
+operation; fullDisplay displays all fields. The display operations
+return no useful information and thus have return type Void.</p>
+<p>Next we tell FriCAS what operations the user can apply to the database.
+This part defines our little query language. The most important
+operation is db . field = pattern which returns a new database,
+consisting of all index cards of db such that the field part of the
+index card is matched by the string pattern called pattern. The
+expression field = pattern is an object of type QueryEquation (defined
+in the next section).</p>
+<p>Another elt is needed to produce a DataList object. Operation + is to
+merge two databases together; - is used to subtract away common entries
+in a second database from an initial database. There are three display
+functions. The fullDisplay function has two versions: one that prints
+all the records, the other that prints only a fixed number of records. A
+coerce to OutputForm creates a display object.</p>
+<p>The Implementation part of Database is straightforward.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Implementation == add
+  s: Symbol
+  Rep := List S
+  elt(db,equation) == ...
+  elt(db,key) == [x.key for x in db]::DataList(String)
+  display(db) ==  for x in db repeat display x
+  fullDisplay(db) == for x in db repeat fullDisplay x
+  fullDisplay(db, n, m) == for x in db for i in 1..m
+    repeat
+      if i &gt;= n then fullDisplay x
+  x+y == removeDuplicates! merge(x,y)
+  x-y == mergeDifference(copy(x::Rep),
+                         y::Rep)$MergeThing(S)
+  coerce(db): OutputForm == (#db):: OutputForm
+</pre></div>
+</div>
+<p>The database is represented by a list of elements of S (index cards). We
+leave the definition of the first elt operation (on line 4) until the
+next section. The second elt collects all the strings with field name
+key into a list. The display function and first fullDisplay function
+simply call the corresponding functions from S. The second fullDisplay
+function provides an efficient way of printing out a portion of a large
+list. The + is defined by using the existing mergemergeList operation
+defined on lists, then removing duplicates from the result. The -
+operation requires writing a corresponding subtraction operation. A
+package MergeThing (not shown) provides this.</p>
+<p>The coerce function converts the database to an OutputForm by computing
+the number of index cards. This is a good example of the independence of
+the representation of an FriCAS object from how it presents itself to
+the user. We usually do not want to look at a database&#8212;but do care how
+many hits we get for a given query. So we define the output
+representation of a database to be simply the number of index cards our
+query finds.</p>
+</div>
+<div class="section" id="query-equations">
+<h2>13.13.3 Query Equations<a class="headerlink" href="#query-equations" title="Permalink to this headline">¶</a></h2>
+<p>The predicate for our search is given by an object of type
+QueryEquation. FriCAS does not have such an object yet so we have to
+invent it.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>QueryEquation(): Exports == Implementation where
+  Exports == with
+    equation: (Symbol, String) -&gt;  $
+    variable:  $ -&gt; Symbol
+    value:     $ -&gt; String
+  Implementation == add
+    Rep := Record(var:Symbol, val:String)
+    equation(x, s) == [x, s]
+    variable q == q.var
+    value    q == q.val
+</pre></div>
+</div>
+<p>FriCAS converts an input expression of the form a=b to equation(a,b).
+Our equations always have a symbol on the left and a string on the
+right. The Exports part thus specifies an operation equation to create a
+query equation, and variable and value to select the left- and
+right-hand sides. The Implementation part uses Record for a
+space-efficient representation of an equation.</p>
+<p>Here is the missing definition for the elt function of Database in the
+last section:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>elt(db,eq) ==
+  field  := variable eq
+  value := value eq
+  [x for x in db | matches?(value,x.field)]
+</pre></div>
+</div>
+<p>Recall that a database is represented by a list. Line 4 simply runs over
+that list collecting all elements such that the pattern (that is, value)
+matches the selected field of the element.</p>
+</div>
+<div class="section" id="datalists">
+<h2>13.13.4 DataLists<a class="headerlink" href="#datalists" title="Permalink to this headline">¶</a></h2>
+<p>Type DataList is a new type invented to hold the result of selecting one
+field from each of the index cards in the box. It is useful to make
+datalists extensions of lists&#8212;lists that have special elt operations
+defined on them for sorting and removing duplicates.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>DataList(S:OrderedSet) : Exports == Implementation where
+  Exports == ListAggregate(S) with
+    elt: ($,&quot;unique&quot;) -&gt; $
+    elt: ($,&quot;sort&quot;) -&gt; $
+    elt: ($,&quot;count&quot;) -&gt; NonNegativeInteger
+    coerce: List S -&gt; $
+  Implementation ==  List(S) add
+    Rep := List S
+    elt(x,&quot;unique&quot;) == removeDuplicates(x)
+    elt(x,&quot;sort&quot;) == sort(x)
+    elt(x,&quot;count&quot;) == #x
+    coerce(x:List S) == x :: $
+</pre></div>
+</div>
+<p>The Exports part asserts that datalists belong to the category
+ListAggregate. Therefore, you can use all the usual list operations on
+datalists, such as firstfirstList, restrestList, and concatconcatList.
+In addition, datalists have four explicit operations. Besides the three
+elt operations, there is a coerce operation that creates datalists from
+lists.</p>
+<p>The Implementation part needs only to define four functions. All the
+rest are obtained from List(S).</p>
+</div>
+<div class="section" id="index-cards">
+<h2>13.13.5 Index Cards<a class="headerlink" href="#index-cards" title="Permalink to this headline">¶</a></h2>
+<p>An index card comes from a file as one long string. We define functions
+that extract substrings from the long string. Each field has a name that
+is passed as a second argument to elt.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>IndexCard() == Implementation where
+  Exports == with
+    elt: ($, Symbol) -&gt; String
+    display: $ -&gt; Void
+    fullDisplay: $ -&gt; Void
+    coerce: String -&gt; $
+  Implementation == String add ...
+</pre></div>
+</div>
+<p>We leave the Implementation part to the reader. All operations involve
+straightforward string manipulations.</p>
+</div>
+<div class="section" id="creating-a-database">
+<h2>13.13.6 Creating a Database<a class="headerlink" href="#creating-a-database" title="Permalink to this headline">¶</a></h2>
+<p>We must not forget one important operation: one that builds the database
+in the first place! We&#8217;ll name it getDatabase and put it in a package.
+This function is implemented by calling the Common Lisp function
+getBrowseDatabase(s) to get appropriate information from Browse. This
+operation takes a string indicating which lines you want from the
+database: o gives you all operation lines, and k, all constructor lines.
+Similarly, c, d, and p give you all category, domain and package lines
+respectively.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>OperationsQuery(): Exports == Implementation where
+  Exports == with
+    getDatabase: String -&gt; Database(IndexCard)
+  Implementation == add
+    getDatabase(s) == getBrowseDatabase(s)$Lisp
+</pre></div>
+</div>
+<p>We do not bother creating a special name for databases of index cards.
+Database (IndexCard) will do. Notice that we used the package
+OperationsQuery to create, in effect, a new kind of domain:
+Database(IndexCard).</p>
+</div>
+<div class="section" id="putting-it-all-together">
+<h2>13.13.7 Putting It All Together<a class="headerlink" href="#putting-it-all-together" title="Permalink to this headline">¶</a></h2>
+<p>To create the database facility, you put all these constructors into one
+file.You could use separate files, but we are putting them all together
+because, organizationally, that is the logical thing to do. At the top
+of the file put )abbrev commands, giving the constructor abbreviations
+you created.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">abbrev</span> <span class="n">domain</span>  <span class="n">ICARD</span>   <span class="n">IndexCard</span>
+<span class="p">)</span><span class="n">abbrev</span> <span class="n">domain</span>  <span class="n">QEQUAT</span>  <span class="n">QueryEquation</span>
+<span class="p">)</span><span class="n">abbrev</span> <span class="n">domain</span>  <span class="n">MTHING</span>  <span class="n">MergeThing</span>
+<span class="p">)</span><span class="n">abbrev</span> <span class="n">domain</span>  <span class="n">DLIST</span>   <span class="n">DataList</span>
+<span class="p">)</span><span class="n">abbrev</span> <span class="n">domain</span>  <span class="n">DBASE</span>   <span class="n">Database</span>
+<span class="p">)</span><span class="n">abbrev</span> <span class="n">package</span> <span class="n">OPQUERY</span> <span class="n">OperationsQuery</span>
+</pre></div>
+</div>
+<p>With all this in alql.spad, for example, compile it using compile</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">compile</span> <span class="n">alql</span>
+</pre></div>
+</div>
+<p>and then load each of the constructors:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">load</span> <span class="n">ICARD</span> <span class="n">QEQUAT</span> <span class="n">MTHING</span> <span class="n">DLIST</span> <span class="n">DBASE</span> <span class="n">OPQUERY</span>
+</pre></div>
+</div>
+<p>load You are ready to try some sample queries.</p>
+</div>
+<div class="section" id="example-queries">
+<h2>13.13.8 Example Queries<a class="headerlink" href="#example-queries" title="Permalink to this headline">¶</a></h2>
+<p>Our first set of queries give some statistics on constructors in the
+current FriCAS system.</p>
+<p>How many constructors does FriCAS have?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>Break this down into the number of categories, domains, and packages.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>What are all the domain constructors that take no parameters?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>How many constructors have Matrix in their name?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>What are the names of those that are domains?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>How many operations are there in the library?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>Break this down into categories, domains, and packages.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>The query language is helpful in getting information about a particular
+operation you might like to apply. While this information can be
+obtained with Browse, the use of the query database gives you data that
+you can manipulate in the workspace.</p>
+<p>How many operations have eigen in the name?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>What are their names?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>Where do they come from?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>The operations + and - are useful for constructing small databases and
+combining them. However, remember that the only matching you can do is
+string matching. Thus a pattern such as &#8220;<em>Matrix</em>&#8221; on the type field
+matches any type containing Matrix, MatrixCategory, SquareMatrix, and so
+on.</p>
+<p>How many operations mention Matrix in their type?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>How many operations come from constructors with Matrix in their name?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>How many operations are in fm but not in tm?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>Display the operations that both mention Matrix in their type and come
+from a constructor having Matrix in their name.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>How many operations involve matrices?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>Display 4 of them.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+<p>How many distinct names of operations involving matrices are there?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">spadMathAnswer</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">13.13 Example 2: Building A Query Facility</a><ul>
+<li><a class="reference internal" href="#a-little-query-language">13.13.1 A Little Query Language</a></li>
+<li><a class="reference internal" href="#the-database-constructor">13.13.2 The Database Constructor</a></li>
+<li><a class="reference internal" href="#query-equations">13.13.3 Query Equations</a></li>
+<li><a class="reference internal" href="#datalists">13.13.4 DataLists</a></li>
+<li><a class="reference internal" href="#index-cards">13.13.5 Index Cards</a></li>
+<li><a class="reference internal" href="#creating-a-database">13.13.6 Creating a Database</a></li>
+<li><a class="reference internal" href="#putting-it-all-together">13.13.7 Putting It All Together</a></li>
+<li><a class="reference internal" href="#example-queries">13.13.8 Example Queries</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-13.12.html" title="previous chapter">13.12 Example 1: Clifford Algebra</a></li>
+      <li>Next: <a href="section-14.0.html" title="next chapter">14.0 Browse</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-13.13.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-13.13.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

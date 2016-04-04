@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>21.10 ntube.input &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="21.11 dhtri.input" href="section-21.11.html" />
+    <link rel="prev" title="21.9 tknot.input" href="section-21.9.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="ntube-input">
+<h1>21.10 ntube.input<a class="headerlink" href="#ntube-input" title="Permalink to this headline">¶</a></h1>
+<p>The functions in this file create generalized tubes (also known as
+generalized cylinders). These functions draw a 2-d curve in the normal
+planes around a 3-d curve.</p>
+<p>R3&nbsp;:=&nbsp;Point&nbsp;DFLOAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Points&nbsp;in&nbsp;3-Space</p>
+<dl class="docutils">
+<dt>R2&nbsp;:=&nbsp;Point&nbsp;DFLOAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Points&nbsp;in&nbsp;2-Space</dt>
+<dd>S&nbsp;:=&nbsp;Segment&nbsp;Float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draw&nbsp;ranges</dd>
+</dl>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Introduce&nbsp;types&nbsp;for&nbsp;functions&nbsp;for:</p>
+<p>ThreeCurve&nbsp;:=&nbsp;DFLOAT&nbsp;-&gt;&nbsp;R3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8211;the&nbsp;space&nbsp;curve&nbsp;function</p>
+<p>TwoCurve&nbsp;:=&nbsp;(DFLOAT,&nbsp;DFLOAT)&nbsp;-&gt;&nbsp;R2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8211;the&nbsp;plane&nbsp;curve&nbsp;function</p>
+<p>Surface&nbsp;:=&nbsp;(DFLOAT,&nbsp;DFLOAT)&nbsp;-&gt;&nbsp;R3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8211;the&nbsp;surface&nbsp;function</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Frenet&nbsp;frames&nbsp;define&nbsp;a</p>
+<dl class="docutils">
+<dt>FrenetFrame&nbsp;:=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;coordinate&nbsp;system&nbsp;around&nbsp;a</dt>
+<dd>Record(value:R3,tangent:R3,normal:R3,binormal:R3)</dd>
+</dl>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;point&nbsp;on&nbsp;a&nbsp;space&nbsp;curve</p>
+<p>frame:&nbsp;FrenetFrame&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;current&nbsp;Frenet&nbsp;frame</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;a&nbsp;point&nbsp;on&nbsp;a&nbsp;curve</p>
+<blockquote>
+<div>ntubeDraw(spaceCurve, planeCurve, u0..u1, t0..t1) draws planeCurve in</div></blockquote>
+<p>the normal planes of spaceCurve. The parameter u0..u1 specifies the
+parameter range for planeCurve and t0..t1 specifies the parameter range
+for spaceCurve. Additionally, the plane curve function takes a second
+parameter: the current parameter of spaceCurve. This allows the plane
+curve to change shape as it goes around the space curve. See
+<a class="reference external" href="section-21.4.html#ugFimagesFive">ugFimagesFive</a> for an example of
+this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>ntubeDraw: (ThreeCurve,TwoCurve,S,S) -&gt; VIEW3D
+ntubeDraw(spaceCurve,planeCurve,uRange,tRange) ==
+  ntubeDrawOpt(spaceCurve, planeCurve, uRange, _
+               tRange, []$List DROPT)
+ntubeDrawOpt: (ThreeCurve,TwoCurve,S,S,List DROPT)
+    -&gt; VIEW3D
+ntubeDrawOpt(spaceCurve,planeCurve,uRange,tRange,l) ==
+</pre></div>
+</div>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;function&nbsp;is&nbsp;similar</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to&nbsp;ntubeDraw,&nbsp;but&nbsp;takes</p>
+<p>&nbsp;&nbsp;delT:DFLOAT&nbsp;:=&nbsp;(hi(tRange)&nbsp;-&nbsp;lo(tRange))/10000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;optional&nbsp;parameters&nbsp;that&nbsp;it</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;oldT:DFLOAT&nbsp;:=&nbsp;lo(tRange)&nbsp;-&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;passes&nbsp;to&nbsp;the&nbsp;draw&nbsp;command</dt>
+<dd><p class="first">&nbsp;&nbsp;fun&nbsp;:=&nbsp;ngeneralTube(spaceCurve,planeCurve,delT,oldT)
+&nbsp;&nbsp;draw(fun,&nbsp;uRange,&nbsp;tRange,&nbsp;l)</p>
+<p class="last">nfrenetFrame(c, t, delT) numerically computes the Frenet frame about</p>
+</dd>
+</dl>
+<p>the curve c at t. Parameter delT is a small number used to compute
+derivatives.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nfrenetFrame</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">delT</span><span class="p">)</span> <span class="o">==</span>
+  <span class="n">f0</span> <span class="p">:</span><span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+  <span class="n">f1</span> <span class="p">:</span><span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="n">delT</span><span class="p">)</span>
+  <span class="n">t0</span> <span class="p">:</span><span class="o">=</span> <span class="n">f1</span> <span class="o">-</span> <span class="n">f0</span>                              <span class="n">The</span> <span class="n">tangent</span>
+  <span class="n">n0</span> <span class="p">:</span><span class="o">=</span> <span class="n">f1</span> <span class="o">+</span> <span class="n">f0</span>
+  <span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">cross</span><span class="p">(</span><span class="n">t0</span><span class="p">,</span> <span class="n">n0</span><span class="p">)</span>                         <span class="n">The</span> <span class="n">binormal</span>
+  <span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="n">cross</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">t0</span><span class="p">)</span>                           <span class="n">The</span> <span class="n">normal</span>
+  <span class="n">ln</span> <span class="p">:</span><span class="o">=</span> <span class="n">length</span> <span class="n">n</span>
+  <span class="n">lb</span> <span class="p">:</span><span class="o">=</span> <span class="n">length</span> <span class="n">b</span>
+  <span class="n">ln</span> <span class="o">=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">lb</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">=&gt;</span>
+      <span class="n">error</span> <span class="s2">&quot;Frenet Frame not well defined&quot;</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;n&nbsp;:=&nbsp;(1/ln)*n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Make&nbsp;into&nbsp;unit&nbsp;length&nbsp;vectors</dt>
+<dd><p class="first">&nbsp;&nbsp;b&nbsp;:=&nbsp;(1/lb)*b
+&nbsp;&nbsp;[f0,&nbsp;t0,&nbsp;n,&nbsp;b]$FrenetFrame</p>
+<p class="last">ngeneralTube(spaceCurve, planeCurve, delT, oltT) creates a function</p>
+</dd>
+</dl>
+<p>that can be passed to the system axiomFun{draw} command. The function is
+a parameterized surface for the general tube around spaceCurve. delT is
+a small number used to compute derivatives. oldT is used to hold the
+current value of the t parameter for spaceCurve. This is an efficiency
+measure to ensure that frames are only computed once for each value of
+t.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ngeneralTube</span><span class="p">:</span> <span class="p">(</span><span class="n">ThreeCurve</span><span class="p">,</span> <span class="n">TwoCurve</span><span class="p">,</span> <span class="n">DFLOAT</span><span class="p">,</span> <span class="n">DFLOAT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Surface</span>
+<span class="n">ngeneralTube</span><span class="p">(</span><span class="n">spaceCurve</span><span class="p">,</span> <span class="n">planeCurve</span><span class="p">,</span> <span class="n">delT</span><span class="p">,</span> <span class="n">oldT</span><span class="p">)</span> <span class="o">==</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;free&nbsp;frame&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Indicate&nbsp;that&nbsp;frame&nbsp;is&nbsp;global</dt>
+<dd>(v:DFLOAT,&nbsp;t:&nbsp;DFLOAT):&nbsp;R3&nbsp;+-&gt;</dd>
+</dl>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(t&nbsp;$\sim$=&nbsp;oldT)&nbsp;then&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;not&nbsp;already&nbsp;computed</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;frame&nbsp;:=&nbsp;nfrenetFrame(spaceCurve,&nbsp;t,&nbsp;delT)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compute&nbsp;new&nbsp;frame</dt>
+<dd>&nbsp;&nbsp;oldT&nbsp;:=&nbsp;t
+p&nbsp;:=&nbsp;planeCurve(v,&nbsp;t)
+frame.value&nbsp;+&nbsp;p.1*frame.normal&nbsp;+&nbsp;p.2*frame.binormal</dd>
+</dl>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Project&nbsp;p&nbsp;into&nbsp;the&nbsp;normal&nbsp;plane</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-21.9.html" title="previous chapter">21.9 tknot.input</a></li>
+      <li>Next: <a href="section-21.11.html" title="next chapter">21.11 dhtri.input</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-21.10.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-21.10.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

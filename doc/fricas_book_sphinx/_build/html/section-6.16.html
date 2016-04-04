@@ -1,0 +1,526 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6.16 Free and Local Variables &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="6.17 Anonymous Functions" href="section-6.17.html" />
+    <link rel="prev" title="6.15 Functions Defined with Blocks" href="section-6.15.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="free-and-local-variables">
+<h1>6.16 Free and Local Variables<a class="headerlink" href="#free-and-local-variables" title="Permalink to this headline">¶</a></h1>
+<p>When you want to refer to a variable that is not local to your function,
+use a free declaration. free Variables declared to be free free variable
+are assumed to be defined globally variable:free in the variable:global
+workspace. global variable</p>
+<p>This is a global workspace variable.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">counter</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>This function refers to the global counter.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">()</span> <span class="o">==</span>
+  <span class="n">free</span> <span class="n">counter</span>
+  <span class="n">counter</span> <span class="p">:</span><span class="o">=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The global counter is incremented by 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>   <span class="n">Compiling</span> <span class="n">function</span> <span class="n">f</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">NonNegativeInteger</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">f</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">counter</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>Usually FriCAS can tell that you mean to refer to a global variable and
+so free isn&#8217;t always necessary. However, for clarity and the sake of
+self-documentation, we encourage you to use it.</p>
+<p>Declare a variable to be local when you do not want to refer to
+variable:local a global variable by the same name. local variable</p>
+<p>This function uses counter as a local variable.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span><span class="p">()</span> <span class="o">==</span>
+  <span class="n">local</span> <span class="n">counter</span>
+  <span class="n">counter</span> <span class="p">:</span><span class="o">=</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Apply the function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Check that the global value of counter is unchanged.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">counter</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>Parameters to a function are local variables in the function. Even if
+you issue a free declaration for a parameter, it is still local.</p>
+<p>What happens if you do not declare that a variable x in the body of your
+function is local or free? Well, FriCAS decides on this basis:</p>
+<ol class="arabic simple">
+<li>FriCAS scans your function line-by-line, from top-to-bottom. The
+right-hand side of an assignment is looked at before the left-hand
+side.</li>
+<li>If x is referenced before it is assigned a value, it is a free
+(global) variable.</li>
+<li>If x is assigned a value before it is referenced, it is a local
+variable.</li>
+</ol>
+<p>Set two global variables to 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Refer to a before it is assigned a value, but assign a value to b before
+it is referenced.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span><span class="p">()</span> <span class="o">==</span>
+  <span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="n">b</span> <span class="o">+</span> <span class="n">a</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Can you predict this result?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>   <span class="n">Compiling</span> <span class="n">function</span> <span class="n">h</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PositiveInteger</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">h</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>How about this one?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[3,1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>What happened? In the first line of the function body for h, a is
+referenced on the right-hand side of the assignment. Thus a is a free
+variable. The variable b is not referenced in that line, but it is
+assigned a value. Thus b is a local variable and is given the value
+a+1=2. In the second line, the free variable a is assigned the value b+a
+which equals 2+1=3. This is the value returned by the function. Since a
+was free in h, the global variable a has value 3. Since b was local in
+h, the global variable b is unchanged&#8212;it still has the value 1.</p>
+<p>It is good programming practice always to declare global variables.
+However, by far the most common situation is to have local variables in
+your functions. No declaration is needed for this situation, but be sure
+to initialize their values.</p>
+<p>Be careful if you use free variables and you cache the value of your
+function (see <a class="reference external" href="section-6.12.html#ugUserCache">ugUserCache</a> ).
+Caching only checks if the values of the function arguments are the same
+as in a function call previously seen. It does not check if any of the
+free variables on which the function depends have changed between
+function calls.</p>
+<p>Turn on caching for p.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">fun</span> <span class="n">cache</span> <span class="nb">all</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">p</span> <span class="n">will</span> <span class="n">cache</span> <span class="nb">all</span> <span class="n">values</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Define p to depend on the free variable N.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span> <span class="n">free</span> <span class="n">N</span><span class="p">;</span> <span class="n">reduce</span><span class="p">(</span> <span class="o">+</span> <span class="p">,</span> <span class="p">[</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">i</span><span class="p">)</span><span class="o">^</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="n">N</span> <span class="p">]</span> <span class="p">)</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Set the value of N.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Evaluate p the first time.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Change the value of N.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">N</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Evaluate p the second time.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>If caching had been turned off, the second evaluation would have
+reflected the changed value of N.</p>
+<p>Turn off caching for p.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">fun</span> <span class="n">cache</span> <span class="mi">0</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Caching</span> <span class="k">for</span> <span class="n">function</span> <span class="n">p</span> <span class="ow">is</span> <span class="n">turned</span> <span class="n">off</span>
+</pre></div>
+</div>
+<p>FriCAS does not allow fluid variables, that is, variables variable:fluid
+bound by a function f that can be referenced by functions called by f.
+fluid variable</p>
+<p>Values are passed to functions by reference: a pointer to the value is
+passed rather than a copy of the value or a pointer to a copy.</p>
+<p>This is a global variable that is bound to a record object.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span> <span class="n">Record</span><span class="p">(</span><span class="n">i</span> <span class="p">:</span> <span class="n">Integer</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[i=1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(i: Integer)</sub></p>
+<p>This function first modifies the one component of its record argument
+and then rebinds the parameter to another record.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">resetRecord</span> <span class="n">rr</span> <span class="o">==</span>
+  <span class="n">rr</span><span class="o">.</span><span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span>
+  <span class="n">rr</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Pass r as an argument to resetRecord.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">resetRecord</span> <span class="n">r</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[i=10]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(i: Integer)</sub></p>
+<p>The value of r was changed by the expression rr.i:=2 but not by
+rr:=[10].</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[i=2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(i: Integer)</sub></p>
+<p>To conclude this section, we give an iterative definition of Fibonacci
+numbers a function that computes Fibonacci numbers. This definition
+approximates the definition into which FriCAS transforms the recurrence
+relation definition of fib in
+<a class="reference external" href="section-6.13.html#ugUserRecur">ugUserRecur</a> .</p>
+<p>Global variables past and present are used to hold the last computed
+Fibonacci numbers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">past</span> <span class="p">:</span><span class="o">=</span> <span class="n">present</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Global variable index gives the current index of present.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">index</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Here is a recurrence relation defined in terms of these three global
+variables.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span>
+  <span class="n">free</span> <span class="n">past</span><span class="p">,</span> <span class="n">present</span><span class="p">,</span> <span class="n">index</span>
+  <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">3</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="n">index</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">=&gt;</span> <span class="n">past</span>
+  <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">index</span><span class="o">-</span><span class="mi">1</span> <span class="n">then</span>
+    <span class="p">(</span><span class="n">past</span><span class="p">,</span><span class="n">present</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">index</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span>
+  <span class="k">while</span> <span class="p">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">)</span> <span class="n">repeat</span>
+    <span class="p">(</span><span class="n">past</span><span class="p">,</span><span class="n">present</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">present</span><span class="p">,</span> <span class="n">past</span><span class="o">+</span><span class="n">present</span><span class="p">)</span>
+    <span class="n">index</span> <span class="p">:</span><span class="o">=</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">present</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Compute the infinite stream of Fibonacci numbers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fibs</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,1,2,3,5,8,13,21,34,55,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream PositiveInteger</sub></p>
+<p>What is the 1000th Fibonacci number?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fibs</span> <span class="mi">1000</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">434665576869374564356885276750406258025646605173717804024</span><span class="n">_</span>
+  <span class="mi">8172908953655541794905189040387984007925516929592259308</span><span class="n">_</span>
+  <span class="mi">0322634775209689623239873322471161642996440906533187938</span><span class="n">_</span>
+  <span class="mi">298969649928516003704476137795166849228875</span>
+</pre></div>
+</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>As an exercise, we suggest you write a function in an iterative style
+that computes the value of the recurrence relation having the initial
+values . How would you write the function using an element
+OneDimensionalArray or Vector to hold the previously computed values?</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-6.15.html" title="previous chapter">6.15 Functions Defined with Blocks</a></li>
+      <li>Next: <a href="section-6.17.html" title="next chapter">6.17 Anonymous Functions</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-6.16.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-6.16.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

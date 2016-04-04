@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10.2 A Ribbon Program &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="10.3 Coloring and Positioning Ribbons" href="section-10.3.html" />
+    <link rel="prev" title="10.1 Drawing Ribbons Interactively" href="section-10.1.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="a-ribbon-program">
+<h1>10.2 A Ribbon Program<a class="headerlink" href="#a-ribbon-program" title="Permalink to this headline">¶</a></h1>
+<p>The above approach creates a new viewport for each additional ribbon. A
+better approach is to build one object composed of all ribbons before
+creating a viewport. To do this, use makeObject rather than draw. The
+operations have similar formats, but draw returns a viewport and
+makeObject returns a space object.</p>
+<p>We now create a function drawRibbons of two arguments: flist, a list of
+formulas for the ribbons you want to draw, and xrange, the range over
+which you want them drawn. Using this function, you can just say</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">drawRibbons</span><span class="p">([</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="p">],</span> <span class="n">x</span><span class="o">=-</span><span class="mf">1.</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>to do all of the work required in the last section. Here is the
+drawRibbons program. Invoke your favorite editor and create a file
+called ribbon.input containing the following program.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>drawRibbons(flist, xrange) ==}{}
+  sp := createThreeSpace()                     Create empty space $sp$.
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;y0&nbsp;:=&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;initial&nbsp;ribbon&nbsp;position.</dt>
+<dd>for&nbsp;f&nbsp;in&nbsp;flist&nbsp;repeat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For&nbsp;each&nbsp;function&nbsp;$f$,
+&nbsp;&nbsp;makeObject(f,&nbsp;xrange,&nbsp;y=y0..y0+1,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;create&nbsp;and&nbsp;add&nbsp;a&nbsp;ribbon</dd>
+</dl>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;space==sp,&nbsp;var2Steps&nbsp;==&nbsp;1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;$f$&nbsp;to&nbsp;the&nbsp;space&nbsp;$sp$.</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;&nbsp;&nbsp;y0&nbsp;:=&nbsp;y0&nbsp;+&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;next&nbsp;ribbon&nbsp;position.</dt>
+<dd>vp&nbsp;:=&nbsp;makeViewport3D(sp,&nbsp;&#8220;Ribbons&#8221;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create&nbsp;viewport.
+drawStyle(vp,&nbsp;&#8220;shade&#8221;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select&nbsp;shading&nbsp;style.
+outlineRender(vp,&nbsp;&#8220;on&#8221;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show&nbsp;polygon&nbsp;outlines.
+showRegion(vp,&#8221;on&#8221;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enclose&nbsp;in&nbsp;a&nbsp;box.
+n&nbsp;:=&nbsp; #&nbsp;flist&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;number&nbsp;of&nbsp;ribbons</dd>
+</dl>
+<p>&nbsp;&nbsp;zoom(vp,n,1,n)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zoom&nbsp;in&nbsp;x-&nbsp;and&nbsp;z-directions.</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;rotate(vp,0,75)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Change&nbsp;the&nbsp;angle&nbsp;of&nbsp;view.</dt>
+<dd>vp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return&nbsp;the&nbsp;viewport.</dd>
+</dl>
+<p>The first drawRibbons function.</p>
+<p>Here are some remarks on the syntax used in the drawRibbons function
+(consult Chapter <a class="reference external" href="section-6.0.html#ugUser">ugUser</a> for more
+details). Unlike most other programming languages which use semicolons,
+parentheses, or begin&#8211;end brackets to delineate the structure of
+programs, the structure of an FriCAS program is determined by
+indentation. The first line of the function definition always begins in
+column 1. All other lines of the function are indented with respect to
+the first line and form a pile (see
+<a class="reference external" href="section-5.2.html#ugLangBlocks">ugLangBlocks</a> ).</p>
+<p>The definition of drawRibbons consists of a pile of expressions to be
+executed one after another. Each expression of the pile is indented at
+the same level. Lines 4-7 designate one single expression: since lines
+5-7 are indented with respect to the others, these lines are treated as
+a continuation of line 4. Also since lines 5 and 7 have the same
+indentation level, these lines designate a pile within the outer pile.</p>
+<p>The last line of a pile usually gives the value returned by the pile.
+Here it is also the value returned by the function. FriCAS knows this is
+the last line of the function because it is the last line of the file.
+In other cases, a new expression beginning in column one signals the end
+of a function.</p>
+<p>The line drawStyle(vp,&#8221;shade&#8221;) is given after the viewport has been
+created to select the draw style. We have also used the
+zoomzoomThreeDimensionalViewport option. Without the zoom, the viewport
+region would be scaled equally in all three coordinate directions.</p>
+<p>Let&#8217;s try the function drawRibbons. First you must read the file to give
+FriCAS the function definition.</p>
+<p>Read the input file.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">read</span> <span class="n">ribbon</span>
+</pre></div>
+</div>
+<p>Draw ribbons for for -1≤x≤1</p>
+<p>drawRibbons([x^i for i in 1..5],x=-1..1)</p>
+<p><img alt="picture" src="_images/ribbons5.png" /></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-10.1.html" title="previous chapter">10.1 Drawing Ribbons Interactively</a></li>
+      <li>Next: <a href="section-10.3.html" title="next chapter">10.3 Coloring and Positioning Ribbons</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-10.2.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-10.2.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

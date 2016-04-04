@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.5 Unions &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="2.6 The Any Domain" href="section-2.6.html" />
+    <link rel="prev" title="2.4 Records" href="section-2.4.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="unions">
+<h1>2.5 Unions<a class="headerlink" href="#unions" title="Permalink to this headline">¶</a></h1>
+<p>Type <code class="docutils literal"><span class="pre">Union</span></code> is used for objects that can be of any of a specific finite
+set of types. Union Two versions of unions are available, one with
+selectors (like records) and one without. union</p>
+<div class="section" id="unions-without-selectors">
+<h2>2.5.1 Unions Without Selectors<a class="headerlink" href="#unions-without-selectors" title="Permalink to this headline">¶</a></h2>
+<p>The declaration x:Union(Integer,String,Float) states that x can have
+values that are integers, strings or big floats. If, for example, the
+Union object is an integer, the object is said to belong to the Integer
+branch of the Union. Note that we are being a bit careless with the
+language here. Technically, the type of x is always Union(Integer,
+String, Float). If it belongs to the Integer branch, x may be converted
+to an object of type Integer.</p>
+<p>The syntax for writing a Union type without selectors is</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Union</span><span class="p">(</span><span class="n">type1</span><span class="p">,</span> <span class="n">type2</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">typeN</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The types in a union without selectors must be distinct.</p>
+<p>It is possible to create unions like <code class="docutils literal"><span class="pre">Union(Integer,</span> <span class="pre">PositiveInteger)</span></code> but
+they are difficult to work with because of the overlap in the branch
+types. See below for the rules FriCAS uses for converting something into
+a union object.</p>
+<p>The case infix operator returns a Boolean and can be used to
+determine the branch in which an object lies.</p>
+<p>This function displays a message stating in which branch of the Union
+the object (defined as x above) lies.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sayBranch</span><span class="p">(</span><span class="n">x</span> <span class="p">:</span> <span class="n">Union</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="p">,</span><span class="n">Float</span><span class="p">))</span> <span class="p">:</span> <span class="n">Void</span>  <span class="o">==</span>
+  <span class="n">output</span>
+    <span class="n">x</span> <span class="n">case</span> <span class="n">Integer</span> <span class="o">=&gt;</span> <span class="s2">&quot;Integer branch&quot;</span>
+    <span class="n">x</span> <span class="n">case</span> <span class="n">String</span>  <span class="o">=&gt;</span> <span class="s2">&quot;String branch&quot;</span>
+    <span class="s2">&quot;Float branch&quot;</span>
+</pre></div>
+</div>
+<p>This tries sayBranch with an integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sayBranch</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">sayBranch</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Union</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="p">,</span><span class="n">Float</span><span class="p">)</span>
+    <span class="o">-&gt;</span> <span class="n">Void</span>
+ <span class="n">Integer</span> <span class="n">branch</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>This tries sayBranch with a string.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sayBranch</span> <span class="s2">&quot;hello&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">String</span> <span class="n">branch</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>This tries sayBranch with a floating-point number.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sayBranch</span> <span class="mf">2.718281828</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Float</span> <span class="n">branch</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>There are two things of interest about this particular example to which
+we would like to draw your attention.</p>
+<ol class="arabic simple">
+<li>FriCAS normally converts a result to the target value before passing
+it to the function. If we left the declaration information out of
+this function definition then the sayBranch call would have been
+attempted with an Integer rather than a Union, and an error would
+have resulted.</li>
+<li>The types in a Union are searched in the order given. So if the type
+were given as sayBranch(x: Union(String,Integer,Float,Any)): Void
+then the result would have been String branch because there is a
+conversion from Integer to String.</li>
+</ol>
+<p>Sometimes Union types can have extremely long names. FriCAS therefore
+abbreviates the names of unions by printing the type of the branch first
+within the Union and then eliding the remaining types with an ellipsis
+<code class="docutils literal"><span class="pre">(...)</span></code>.</p>
+<p>Here the Integer branch is displayed first. Use <code class="docutils literal"><span class="pre">::</span></code> to create a
+Union object from an object.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">78</span> <span class="p">::</span> <span class="n">Union</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[78\]</div>
+<p><sub>Type: Union(Integer,...)</sub></p>
+<p>Here the String branch is displayed first.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;string&quot;</span> <span class="p">::</span> <span class="n">Union</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span><span class="n">String</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{&quot;string&quot;}\]</div>
+<p><sub>Type: Union(String,...)</sub></p>
+<p>Use typeOf to see the full and actual Union type. typeOf</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">typeOf</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{Union(Integer,String)}\]</div>
+<p><sub>Type: Domain</sub></p>
+<p>A common operation that returns a union is exquoexquoInteger which
+returns the exact quotient if the quotient is exact,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">three</span> <span class="p">:</span><span class="o">=</span> <span class="n">exquo</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[3\]</div>
+<p><sub>Type: Union(Integer,...)</sub></p>
+<p>and &#8220;failed&#8221; if the quotient is not exact.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">exquo</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{&quot;failed&quot;}\]</div>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+<p>A union with a &#8220;failed&#8221; is frequently used to indicate the failure or
+lack of applicability of an object. As another example, assign an
+integer a variable r declared to be a rational number.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span><span class="p">:</span> <span class="n">FRAC</span> <span class="n">INT</span> <span class="p">:</span><span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[3\]</div>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>The operation <code class="docutils literal"><span class="pre">retractIfCan</span></code> tries to retract the
+fraction to the underlying domain Integer. It produces a union object.
+Here it succeeds.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">retractIfCan</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[3\]</div>
+<p><sub>Type: Union(Integer,...)</sub></p>
+<p>Assign it a rational number.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[32\]</div>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>Here the retraction fails.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">retractIfCan</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{&quot;failed&quot;}\]</div>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+</div>
+<div class="section" id="unions-with-selectors">
+<h2>2.5.2 Unions With Selectors<a class="headerlink" href="#unions-with-selectors" title="Permalink to this headline">¶</a></h2>
+<p>Like records (<a class="reference external" href="section-2.4.html#ugTypesRecords">ugTypesRecords</a> ),
+you can write Union types selector:union with selectors. union:selector</p>
+<p>The syntax for writing a Union type with selectors is</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Union</span><span class="p">(</span><span class="n">selector1</span><span class="p">:</span><span class="n">type1</span><span class="p">,</span> <span class="n">selector2</span><span class="p">:</span><span class="n">type2</span><span class="p">,</span> <span class="o">...</span><span class="p">,</span> <span class="n">selectorN</span><span class="p">:</span><span class="n">typeN</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You must be careful if a selector has the same name as a variable in
+the workspace. If this occurs, precede the selector name by a single
+quote quote. selector:quoting It is an error to use a selector that does
+not correspond to the branch of the Union in which the element actually
+lies.</p>
+<p>Be sure to understand the difference between records and unions with
+selectors. union:difference from record Records can have more than one
+component and the selectors are used to refer to the components.
+record:difference from union Unions always have one component but the
+type of that one component can vary. An object of type Record(a:
+Integer, b: Float, c: String) contains an integer and a float and a
+string. An object of type Union(a: Integer, b: Float, c: String)
+contains an integer or a float or a string.</p>
+<p>Here is a version of the sayBranch function (cf.
+<a class="reference external" href="section-2.5.html#ugTypesUnionsWOSel">ugTypesUnionsWOSel</a> ) that
+works with a union with selectors. It displays a message stating in
+which branch of the Union the object lies.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sayBranch</span><span class="p">(</span><span class="n">x</span><span class="p">:</span><span class="n">Union</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">Integer</span><span class="p">,</span><span class="n">s</span><span class="p">:</span><span class="n">String</span><span class="p">,</span><span class="n">f</span><span class="p">:</span><span class="n">Float</span><span class="p">)):</span><span class="n">Void</span><span class="o">==</span>
+  <span class="n">output</span>
+    <span class="n">x</span> <span class="n">case</span> <span class="n">i</span> <span class="o">=&gt;</span> <span class="s2">&quot;Integer branch&quot;</span>
+    <span class="n">x</span> <span class="n">case</span> <span class="n">s</span>  <span class="o">=&gt;</span> <span class="s2">&quot;String branch&quot;</span>
+    <span class="s2">&quot;Float branch&quot;</span>
+</pre></div>
+</div>
+<p>Note that case uses the selector name as its right-hand argument. case
+If you accidentally use the branch type on the right-hand side of case,
+false will be returned.</p>
+<p>Declare variable u to have a union type with selectors.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="p">:</span> <span class="n">Union</span><span class="p">(</span><span class="n">i</span> <span class="p">:</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">s</span> <span class="p">:</span> <span class="n">String</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Give an initial value to u.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;good morning&quot;</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{&quot;goodmorning&quot;}\]</div>
+<p><sub>Type: Union(s: String,...)</sub></p>
+<p>Use case to determine in which branch of a Union an object lies.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="n">case</span> <span class="n">i</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{false}\]</div>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="n">case</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{true}\]</div>
+<p><sub>Type: Boolean</sub></p>
+<p>To access the element in a particular branch, use the selector.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span><span class="o">.</span><span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{&quot;goodmorning&quot;}\]</div>
+<p><sub>Type: String</sub></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2.5 Unions</a><ul>
+<li><a class="reference internal" href="#unions-without-selectors">2.5.1 Unions Without Selectors</a></li>
+<li><a class="reference internal" href="#unions-with-selectors">2.5.2 Unions With Selectors</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-2.4.html" title="previous chapter">2.4 Records</a></li>
+      <li>Next: <a href="section-2.6.html" title="next chapter">2.6 The Any Domain</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-2.5.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-2.5.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

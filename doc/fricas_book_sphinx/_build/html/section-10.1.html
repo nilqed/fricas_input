@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10.1 Drawing Ribbons Interactively &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="10.2 A Ribbon Program" href="section-10.2.html" />
+    <link rel="prev" title="10.0 Interactive Programming" href="section-10.0.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="drawing-ribbons-interactively">
+<h1>10.1 Drawing Ribbons Interactively<a class="headerlink" href="#drawing-ribbons-interactively" title="Permalink to this headline">¶</a></h1>
+<p>We begin our discussion of interactive graphics with the creation of a
+useful facility: plotting ribbons of two-graphs in three-space. Suppose
+you want to draw the two-dimensional graphs of n functions fi(x),1≤i≤n,
+all over some fixed range of x. One approach is to create a
+two-dimensional graph for each one, then superpose one on top of the
+other. What you will more than likely get is a jumbled mess. Even if you
+make each function a different color, the result is likely to be
+confusing.</p>
+<p>A better approach is to display each of the fi(x) in three ribbon
+dimensions as a ribbon of some appropriate width along the y-direction,
+laying down each ribbon next to the previous one. A ribbon is simply a
+function of x and y depending only on x.</p>
+<p>We illustrate this for fi(x) defined as simple powers of x for x ranging
+between -1 and 1.</p>
+<p>Draw the ribbon for z=x2.</p>
+<p>draw(x^2,x=-1..1,y=0..1)</p>
+<p><img alt="picture" src="_images/ribbons2b.png" /></p>
+<p>Now that was easy! What you get is a wire-mesh rendition of the ribbon.
+That&#8217;s fine for now. Notice that the mesh-size is small in both the x
+and the y directions. FriCAS normally computes points in both these
+directions. This is unnecessary. One step is all we need in the
+y-direction. To have FriCAS economize on y-points, we re-draw the ribbon
+with option var2Steps==1.</p>
+<p>Re-draw the ribbon, but with option var2Steps==1 so that only 1 step is
+computed in the y direction.</p>
+<p>vp := draw(x^2,x=-1..1,y=0..1,var2Steps==1)</p>
+<p><img alt="picture" src="_images/ribbons2b.png" /></p>
+<p>The operation has created a viewport, that is, a graphics window on your
+screen. We assigned the viewport to vp and now we manipulate its
+contents.</p>
+<p>Graphs are objects, like numbers and algebraic expressions. You may want
+to do some experimenting with graphs. For example, say</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">showRegion</span><span class="p">(</span><span class="n">vp</span><span class="p">,</span> <span class="s2">&quot;on&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>to put a bounding box around the ribbon. Try it! Issue rotate(vp,-45,90)
+to rotate the figure -45 longitudinal degrees and 90 latitudinal
+degrees.</p>
+<p>Here is a different rotation. This turns the graph so you can view it
+along the y-axis.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rotate</span><span class="p">(</span><span class="n">vp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">90</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="picture" src="_images/ribbons2b.png" /></p>
+<p>There are many other things you can do. In fact, most everything you can
+do interactively using the three-dimensional control panel (such as
+translating, zooming, resizing, coloring, perspective and lighting
+selections) can also be done directly by operations (see Chapter
+<a class="reference external" href="section-7.0.html#ugGraph">ugGraph</a> for more details).</p>
+<p>When you are done experimenting, say reset(vp) to restore the picture to
+its original position and settings.</p>
+<p>Let&#8217;s add another ribbon to our picture&#8212;one for x3. Since y ranges
+from 0 to 1 for the first ribbon, now let y range from 1 to 2. This puts
+the second ribbon next to the first one.</p>
+<p>How do you add a second ribbon to the viewport? One method is to extract
+the space component from the viewport using the operation
+subspacesubspaceThreeDimensionalViewport. You can think of the space
+component as the object inside the window (here, the ribbon). Let&#8217;s call
+it sp. To add the second ribbon, you draw the second ribbon using the
+option space==sp.</p>
+<p>Extract the space component of vp.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sp</span> <span class="p">:</span><span class="o">=</span> <span class="n">subspace</span><span class="p">(</span><span class="n">vp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Add the ribbon for x3 alongside that for x2.</p>
+<p>vp := draw(x^3,x=-1..1,y=1..2,var2Steps==1, space==sp)</p>
+<p><img alt="picture" src="_images/ribbons2b.png" /></p>
+<p>Unless you moved the original viewport, the new viewport covers the old
+one. You might want to check that the old object is still there by
+moving the top window.</p>
+<p>Let&#8217;s show quadrilateral polygon outlines on the ribbons and then
+enclose the ribbons in a box.</p>
+<p>Show quadrilateral polygon outlines.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">drawStyle</span><span class="p">(</span><span class="n">vp</span><span class="p">,</span><span class="s2">&quot;shade&quot;</span><span class="p">);</span><span class="n">outlineRender</span><span class="p">(</span><span class="n">vp</span><span class="p">,</span><span class="s2">&quot;on&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="picture" src="_images/ribbons2b.png" /></p>
+<p>Enclose the ribbons in a box.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rotate</span><span class="p">(</span><span class="n">vp</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="o">-</span><span class="mi">60</span><span class="p">);</span> <span class="n">showRegion</span><span class="p">(</span><span class="n">vp</span><span class="p">,</span><span class="s2">&quot;on&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="picture" src="_images/ribbons2b.png" /></p>
+<p>This process has become tedious! If we had to add two or three more
+ribbons, we would have to repeat the above steps several more times. It
+is time to write an interpreter program to help us take care of the
+details.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-10.0.html" title="previous chapter">10.0 Interactive Programming</a></li>
+      <li>Next: <a href="section-10.2.html" title="next chapter">10.2 A Ribbon Program</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-10.1.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-10.1.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

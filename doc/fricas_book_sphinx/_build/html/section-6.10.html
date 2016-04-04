@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6.10 Compiling vs. Interpreting &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="6.11 Piece-Wise Function Definitions" href="section-6.11.html" />
+    <link rel="prev" title="6.9 How FriCAS Determines What Function to Use" href="section-6.9.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="compiling-vs-interpreting">
+<h1>6.10 Compiling vs. Interpreting<a class="headerlink" href="#compiling-vs-interpreting" title="Permalink to this headline">¶</a></h1>
+<p>When possible, FriCAS completely determines the type of every object in
+a function, then translates the function definition to Common Lisp or to
+machine code (see the next section). This translation, function:compiler
+called compilation, happens the first time you call the function and
+results in a computational delay. Subsequent function calls with the
+same argument types use the compiled version of the code without delay.</p>
+<p>If FriCAS cannot determine the type of everything, the function may
+still be executed function:interpretation but interpret-code mode in
+interpret-code mode: each statement in the function is analyzed and
+executed as the control flow indicates. This process is slower than
+executing a compiled function, but it allows the execution of code that
+may involve objects whose types change.</p>
+<p>If FriCAS decides that it cannot compile the code, it issues a message
+stating the problem and then the following message:</p>
+<blockquote>
+<div>We will attempt to step through and interpret the code.</div></blockquote>
+<div class="line-block">
+<div class="line">This is not a time to panic. panic:avoiding Rather, it just means that</div>
+</div>
+<p>what you gave to FriCAS is somehow ambiguous: either it is not specific
+enough to be analyzed completely, or it is beyond FriCAS&#8217;s present
+interactive compilation abilities.</p>
+<p>This function runs in interpret-code mode, but it does not compile.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">varPolys</span><span class="p">(</span><span class="nb">vars</span><span class="p">)</span> <span class="o">==</span>
+  <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="nb">vars</span> <span class="n">repeat</span>
+    <span class="n">output</span><span class="p">(</span><span class="mi">1</span> <span class="p">::</span> <span class="n">UnivariatePolynomial</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="n">Integer</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>For vars equal to [&#8216;x,&#8217;y,&#8217;z], this function displays 1 three times.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">varPolys</span> <span class="p">[</span><span class="s1">&#39;x,&#39;</span><span class="n">y</span><span class="p">,</span><span class="s1">&#39;z]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Cannot</span> <span class="nb">compile</span> <span class="n">conversion</span> <span class="k">for</span> <span class="n">types</span> <span class="n">involving</span> <span class="n">local</span> <span class="n">variables</span><span class="o">.</span>
+   <span class="n">In</span> <span class="n">particular</span><span class="p">,</span> <span class="n">could</span> <span class="ow">not</span> <span class="nb">compile</span> <span class="n">the</span> <span class="n">expression</span> <span class="n">involving</span> <span class="p">::</span>
+   <span class="n">UnivariatePolynomial</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="n">Integer</span><span class="p">)</span>
+ <span class="n">AXIOM</span> <span class="n">will</span> <span class="n">attempt</span> <span class="n">to</span> <span class="n">step</span> <span class="n">through</span> <span class="ow">and</span> <span class="n">interpret</span> <span class="n">the</span> <span class="n">code</span><span class="o">.</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The type of the argument to output changes in each iteration, so FriCAS
+cannot compile the function. In this case, even the inner loop by itself
+would have a problem:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;x,&#39;</span><span class="n">y</span><span class="p">,</span><span class="s1">&#39;z] repeat</span>
+  <span class="n">output</span><span class="p">(</span><span class="mi">1</span> <span class="p">::</span> <span class="n">UnivariatePolynomial</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="n">Integer</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Cannot</span> <span class="nb">compile</span> <span class="n">conversion</span> <span class="k">for</span> <span class="n">types</span> <span class="n">involving</span> <span class="n">local</span> <span class="n">variables</span><span class="o">.</span>
+   <span class="n">In</span> <span class="n">particular</span><span class="p">,</span> <span class="n">could</span> <span class="ow">not</span> <span class="nb">compile</span> <span class="n">the</span> <span class="n">expression</span> <span class="n">involving</span> <span class="p">::</span>
+   <span class="n">UnivariatePolynomial</span><span class="p">(</span><span class="n">var</span><span class="p">,</span><span class="n">Integer</span><span class="p">)</span>
+ <span class="n">AXIOM</span> <span class="n">will</span> <span class="n">attempt</span> <span class="n">to</span> <span class="n">step</span> <span class="n">through</span> <span class="ow">and</span> <span class="n">interpret</span> <span class="n">the</span> <span class="n">code</span><span class="o">.</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+ <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Sometimes you can help a function to compile by using an extra
+conversion or by using pretend. pretend See
+<a class="reference external" href="section-2.8.html#ugTypesSubdomains">ugTypesSubdomains</a> for details.</p>
+<p>When a function is compilable, you have the choice of whether it is
+compiled to Common Lisp and then interpreted by the Common Lisp
+interpreter or then further compiled from Common Lisp to machine code.
+machine code The option is controlled via )set functions compile. set
+function compile Issue )set functions compile on to compile all the way
+to machine code. With the default setting )set functions compile off,
+FriCAS has its Common Lisp code interpreted because the overhead of
+further compilation is larger than the run-time of most of the functions
+our users have defined. You may find that selectively turning this
+option on and off will performance give you the best performance in your
+particular application. For example, if you are writing functions for
+graphics applications where hundreds of points are being computed, it is
+almost certainly true that you will get the best performance by issuing
+)set functions compile on.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-6.9.html" title="previous chapter">6.9 How FriCAS Determines What Function to Use</a></li>
+      <li>Next: <a href="section-6.11.html" title="next chapter">6.11 Piece-Wise Function Definitions</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-6.10.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-6.10.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

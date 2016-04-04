@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.31 GroebnerFactorizationPackage &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.32 Heap" href="section-9.32.html" />
+    <link rel="prev" title="9.30 GeneralSparseTable" href="section-9.30.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="groebnerfactorizationpackage">
+<h1>9.31 GroebnerFactorizationPackage<a class="headerlink" href="#groebnerfactorizationpackage" title="Permalink to this headline">¶</a></h1>
+<p>Solving systems of polynomial equations with the Gröbner basis algorithm
+can often be very time consuming because, in general, the algorithm has
+exponential run-time. These systems, which often come from concrete
+applications, frequently have symmetries which are not taken advantage
+of by the algorithm. However, it often happens in this case that the
+polynomials which occur during the Gröbner calculations are reducible.
+Since FriCAS has an excellent polynomial factorization algorithm, it is
+very natural to combine the Gröbner and factorization algorithms.</p>
+<p>GroebnerFactorizationPackage exports the
+groebnerFactorizegroebnerFactorizeGroebnerFactorizationPackage operation
+which implements a modified Gröbner basis algorithm. In this algorithm,
+each polynomial that is to be put into the partial list of the basis is
+first factored. The remaining calculation is split into as many parts as
+there are irreducible factors. Call these factors p1,…,pn. In the
+branches corresponding to p2,…,pn, the factor p1 can be divided out, and
+so on. This package also contains operations that allow you to specify
+the polynomials that are not zero on the common roots of the final
+Gröbner basis.</p>
+<p>Here is an example from chemistry. In a theoretical model of
+cyclohexane, C6H12, the six carbon atoms each sit in the center of
+gravity of a tetrahedron that has two hydrogen atoms and two carbon
+atoms at its corners. We first normalize and set the length of each edge
+to 1. Hence, the distances of one fixed carbon atom to each of its
+immediate neighbours is 1. We will denote the distances to the other
+three carbon atoms by x, y and z.</p>
+<p>A. Dress developed a theory to decide whether a set of points and
+distances between them can be realized in an n-dimensional space. Here,
+of course, we have n=3.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mfzn</span> <span class="p">:</span> <span class="n">SQMATRIX</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="n">DMP</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">],</span><span class="n">Fraction</span> <span class="n">INT</span><span class="p">))</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+</pre></div>
+</div>
+<p>[1,0,1,8/3,x,8/3], [1,1,0,1,8/3,y], [1,8/3,1,0,1,8/3], [1,x,8/3,1,0,1],
+[1,8/3,y,8/3,1,0] ]</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[01111110183x83110183y183101831x83101183y8310]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(6,DistributedMultivariatePolynomial([x,y,z],Fraction</sub>
+Integer))</p>
+<p>For cyclohexane the distances have to satisfy this equation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eq</span> <span class="p">:</span><span class="o">=</span> <span class="n">determinant</span> <span class="n">mfzn</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-x2y2+223x2y-259x2+223xy2-3889xy-25027x-259y2-25027y+1457581</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DistributedMultivariatePolynomial([x,y,z],Fraction Integer)</sub></p>
+<p>They also must satisfy the equations given by cyclic shifts of the
+indeterminates.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">groebnerFactorize</span> <span class="p">[</span><span class="n">eq</span><span class="p">,</span> <span class="nb">eval</span><span class="p">(</span><span class="n">eq</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">],</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">x</span><span class="p">]),</span> <span class="nb">eval</span><span class="p">(</span><span class="n">eq</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">],</span>
+</pre></div>
+</div>
+<p>[z,x,y])]</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[xy+xz-223x+yz-223y-223z+1213,xz2-223xz+259x+yz2-223yz+259y-223z2+3889z+25027,y2z2-223y2z+259y2-223yz2+3889yz+25027y+259z2+25027z-1457581],[x+y-219945625,y2-219945625y+4427675,z-46387],[x2-12xz-112x-56z+26518,y-z,z2-383z+2659],[x-259,y-113,z-113],[x-113,y-113,z-113],[x+53,y+53,z+53],[x-193,y+53,z+53]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List DistributedMultivariatePolynomial([x,y,z],Fraction</sub>
+Integer)</p>
+<p>The union of the solutions of this list is the solution of our original
+problem. If we impose positivity conditions, we get two relevant ideals.
+One ideal is zero-dimensional, namely x=y=z=11/3, and this determines
+the boat form of cyclohexane. The other ideal is one-dimensional, which
+means that we have a solution space given by one parameter. This gives
+the chair form of cyclohexane. The parameter describes the angle of the
+back of the chair.</p>
+<p>groebnerFactorizegroebnerFactorizeGroebnerFactorizationPackage has an
+optional Boolean-valued second argument. When it is true partial results
+are displayed, since it may happen that the calculation does not
+terminate in a reasonable time. See the source code for
+GroebnerFactorizationPackage in groebf.input for more details about the
+algorithms used.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.30.html" title="previous chapter">9.30 GeneralSparseTable</a></li>
+      <li>Next: <a href="section-9.32.html" title="next chapter">9.32 Heap</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.31.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.31.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

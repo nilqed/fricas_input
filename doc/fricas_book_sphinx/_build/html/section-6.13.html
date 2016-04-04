@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6.13 Recurrence Relations &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="6.14 Making Functions from Objects" href="section-6.14.html" />
+    <link rel="prev" title="6.12 Caching Previously Computed Results" href="section-6.12.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="recurrence-relations">
+<h1>6.13 Recurrence Relations<a class="headerlink" href="#recurrence-relations" title="Permalink to this headline">¶</a></h1>
+<p>One of the most useful classes of function are those defined via a
+recurrence relation. A recurrence relation makes each successive
+recurrence relation value depend on some or all of the previous values.
+A simple example is the ordinary factorial function:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fact</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+<span class="n">fact</span><span class="p">(</span><span class="n">n</span> <span class="o">|</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fact</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The value of fact(10) depends on the value of fact(9), fact(9) on
+fact(8), and so on. Because it depends on only one previous value, it is
+usually called a first order recurrence relation. You can easily imagine
+a function based on two, three or more previous values. The Fibonacci
+numbers are probably the most famous function defined by a Fibonacci
+numbers second order recurrence relation.</p>
+<p>The library function fibonacci computes Fibonacci numbers. It is
+obviously optimized for speed.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">fibonacci</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,1,1,2,3,5,8,13,21,34,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Integer</sub></p>
+<p>Define the Fibonacci numbers ourselves using a piece-wise definition.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fib</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fib</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>As defined, this recurrence relation is obviously doubly-recursive. To
+compute fib(10), we need to compute fib(9) and fib(8). And to fib(9), we
+need to compute fib(8) and fib(7). And so on. It seems that to compute
+fib(10) we need to compute fib(9) once, fib(8) twice, fib(7) three
+times. Look familiar? The number of function calls needed to compute any
+second order recurrence relation in the obvious way is exactly fib(n).
+These numbers grow! For example, if FriCAS actually did this, then
+fib(500) requires more than 10104 function calls. And, given all this,
+our definition of fib obviously could not be used to calculate the
+five-hundredth Fibonacci number.</p>
+<p>Let&#8217;s try it anyway.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fib</span><span class="p">(</span><span class="mi">500</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>   <span class="n">Compiling</span> <span class="n">function</span> <span class="n">fib</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">PositiveInteger</span>
+   <span class="n">Compiling</span> <span class="n">function</span> <span class="n">fib</span> <span class="k">as</span> <span class="n">a</span> <span class="n">recurrence</span> <span class="n">relation</span><span class="o">.</span>
+<span class="mi">13942322456169788013972438287040728395007025658769730726410</span><span class="n">_</span>
+<span class="mi">8962948325571622863290691557658876222521294125</span>
+</pre></div>
+</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Since this takes a short time to compute, it obviously didn&#8217;t do as many
+as 10104 operations! By default, FriCAS transforms any recurrence
+relation it recognizes into an iteration. Iterations are efficient. To
+compute the value of the n-th term of a recurrence relation using an
+iteration requires only n function calls. Note that if you compare the
+speed of our fib function to the library function, our version is still
+slower. This is because the library
+fibonaccifibonacciIntegerNumberTheoryFunctions uses a powering algorithm
+with a computing time proportional to log3(n) to compute fibonacci(n).</p>
+<p>To turn off this special recurrence relation compilation, issue set
+function recurrence</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">functions</span> <span class="n">recurrence</span> <span class="n">off</span>
+</pre></div>
+</div>
+<p>To turn it back on, substitute on for off.</p>
+<p>The transformations that FriCAS uses for fib caches the last two values.
+For a more general k-th order recurrence relation, FriCAS caches the
+last k values. If, after computing a value for fib, you ask for some
+larger value, FriCAS picks up the cached values and continues computing
+from there. See <a class="reference external" href="section-6.16.html#ugUserFreeLocal">ugUserFreeLocal</a>
+for an example of a function definition that has this same behavior.
+Also see <a class="reference external" href="section-6.12.html#ugUserCache">ugUserCache</a> for a more
+general discussion of how you can cache function values.</p>
+<p>Recurrence relations can be used for defining recurrence relations
+involving polynomials, rational functions, or anything you like. Here we
+compute the infinite stream of Legendre polynomials.</p>
+<p>The Legendre polynomial of degree 0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The Legendre polynomial of degree 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The Legendre polynomial of degree n.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">p</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">p</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span><span class="o">/</span><span class="n">n</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Compute the Legendre polynomial of degree 6.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">p</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">Polynomial</span> <span class="n">Fraction</span>
+   <span class="n">Integer</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">p</span> <span class="k">as</span> <span class="n">a</span> <span class="n">recurrence</span> <span class="n">relation</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>23116x6-31516x4+10516x2-516</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-6.12.html" title="previous chapter">6.12 Caching Previously Computed Results</a></li>
+      <li>Next: <a href="section-6.14.html" title="next chapter">6.14 Making Functions from Objects</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-6.13.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-6.13.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

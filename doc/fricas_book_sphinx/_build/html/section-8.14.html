@@ -1,0 +1,459 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.14 Non-Associative Algebras and Modelling Genetic Laws &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.1 AssociationList" href="section-9.1.html" />
+    <link rel="prev" title="8.13 Computation of Galois Groups" href="section-8.13.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="non-associative-algebras-and-modelling-genetic-laws">
+<h1>8.14 Non-Associative Algebras and Modelling Genetic Laws<a class="headerlink" href="#non-associative-algebras-and-modelling-genetic-laws" title="Permalink to this headline">¶</a></h1>
+<p>Many algebraic structures of mathematics and FriCAS have a
+multiplication operation * that satisfies the associativity law
+associativity law a*(b*c)=(a*b)*c for all a, b and c. The octonions
+are a well known exception. There are many other interesting
+non-associative structures, such as the class of Lie algebra Lie
+algebras.Two FriCAS implementations of Lie algebras are LieSquareMatrix
+and FreeNilpotentLie. Lie algebras can be used, for example, to analyse
+Lie symmetry algebras of symmetry partial differential differential
+equation:partial equations. partial differential equation In this
+section we show a different application of non-associative algebras,
+non-associative algebra the modelling of genetic laws.
+algebra:non-associative</p>
+<p>The FriCAS library contains several constructors for creating
+non-associative structures, ranging from the categories Monad,
+NonAssociativeRng, and FramedNonAssociativeAlgebra, to the domains
+AlgebraGivenByStructuralConstants and GenericNonAssociativeAlgebra.
+Furthermore, the package AlgebraPackage provides operations for
+analysing the structure of such algebras. The interested reader can
+learn more about these aspects of the FriCAS library from the paper
+Computations in Algebras of Finite Rank, by Johannes Grabmeier and
+Robert Wisbauer, Technical Report, IBM Heidelberg Scientific Center,
+1992.</p>
+<p>Mendel&#8217;s genetic laws are often written in a form like</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>AaxAa=14AA+12Aa+14aa</td>
+</tr>
+</tbody>
+</table>
+<p>The implementation of general algebras in FriCAS allows us to Mendel&#8217;s
+genetic laws use this as the definition for multiplication in an
+algebra. genetics Hence, it is possible to study questions of genetic
+inheritance using FriCAS. To demonstrate this more precisely, we discuss
+one example from a monograph of A. Wörz-Busekros, where you can also
+find a general setting of this theory. Wörz-Busekros, A., Algebras in
+Genetics, Springer Lectures Notes in Biomathematics 36, Berlin e.a.
+(1980). In particular, see example 1.3.</p>
+<p>We assume that there is an infinitely large random mating population.
+Random mating of two gametes ai and aj gives zygotes zygote , which
+produce new gametes. gamete In classical Mendelian segregation we have
+aiaj=12ai+12aj. In general, we have</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>aiaj=∑k=1nγi,jkak</td>
+</tr>
+</tbody>
+</table>
+<p>The segregation rates γi,j are the structural constants of an
+n-dimensional algebra. This is provided in FriCAS by the constructor
+AlgebraGivenByStructuralConstants (abbreviation ALGSC).</p>
+<p>Consider two coupled autosomal loci with alleles A, a, B, and b,
+building four different gametes a1=AB,a2=Ab,a3=aB, and a4=ab {
+a1:=AB,a2:=Ab,a3:=aB, and a4:=ab}. The zygotes produce gametes ai and aj
+with classical Mendelian segregation. Zygote a1a4 undergoes transition
+to a2a3 and vice versa with probability 0≤θ≤12.</p>
+<p>Define a list of four four-by-four matrices giving the segregation
+rates. We use the value 1/10 for θ.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">segregationRates</span> <span class="p">:</span> <span class="n">List</span> <span class="n">SquareMatrix</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="n">FRAC</span> <span class="n">INT</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>1/2, 9/20], [1/2, 0, 1/20, 0], [1/2, 1/20, 0, 0], [9/20, 0, 0, 0] ],
+matrix [ [0, 1/2, 0, 1/20], [1/2, 1, 9/20, 1/2], [0, 9/20, 0, 0], [1/20,
+1/2, 0, 0] ], matrix [ [0, 0, 1/2, 1/20], [0, 0, 9/20, 0], [1/2, 9/20,
+1, 1/2], [1/20, 0, 1/2, 0] ], matrix [ [0, 0, 0, 9/20], [0, 0, 1/20,
+1/2], [0, 1/20, 0, 1/2], [9/20, 1/2, 1/2, 1] ] ]</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[1121292012012001212000920000],[0120120121920120920001201200],[0012120009200129201121200120],[0009200012012012001292012121]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List SquareMatrix(4,Fraction Integer)</sub></p>
+<p>Choose the appropriate symbols for the basis of gametes,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gametes</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AB,&#39;</span><span class="n">Ab</span><span class="p">,</span><span class="s1">&#39;aB,&#39;</span><span class="n">ab</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[AB,Ab,aB,ab]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List OrderedVariableList [AB,Ab,aB,ab]</sub></p>
+<p>Define the algebra.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="p">:</span><span class="o">=</span> <span class="n">ALGSC</span><span class="p">(</span><span class="n">FRAC</span> <span class="n">INT</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">gametes</span><span class="p">,</span> <span class="n">segregationRates</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>AlgebraGivenByStructuralConstants(FractionInteger,4,[AB,Ab,aB,ab],[MATRIX,MATRIX,MATRIX,MATRIX])</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>What are the probabilities for zygote a1a4 to produce the different
+gametes?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>a := basis()$A
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[AB,Ab,aB,ab]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector AlgebraGivenByStructuralConstants(Fraction</sub>
+Integer,4,[AB,Ab,aB,ab], [MATRIX,MATRIX,MATRIX,MATRIX])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="mi">1</span><span class="o">*</span><span class="n">a</span><span class="o">.</span><span class="mi">4</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>920ab+120aB+120Ab+920AB</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: AlgebraGivenByStructuralConstants(Fraction</sub>
+Integer,4,[AB,Ab,aB,ab], [MATRIX,MATRIX,MATRIX,MATRIX])</p>
+<p>Elements in this algebra whose coefficients sum to one play a
+distinguished role. They represent a population with the distribution of
+gametes reflected by the coefficients with respect to the basis of
+gametes.</p>
+<p>Random mating of different populations x and y is described by their
+product x*y.</p>
+<p>This product is commutative only if the gametes are not sex-dependent,
+as in our example.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>commutative?()$A
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>In general, it is not associative.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>associative?()$A
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>Random mating within a population x is described by x*x. The next
+generation is (x*x)*(x*x).</p>
+<p>Use decimal numbers to compare the distributions more easily.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span> <span class="n">ALGSC</span><span class="p">(</span><span class="n">DECIMAL</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">gametes</span><span class="p">,</span> <span class="n">segregationRates</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">convert</span> <span class="p">[</span><span class="mi">3</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>1/10, 2/5]</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.4ab+0.1aB+0.2Ab+0.3AB</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type:</sub>
+AlgebraGivenByStructuralConstants(DecimalExpansion,4,[AB,Ab,aB,ab],
+[MATRIX,MATRIX,MATRIX,MATRIX])</p>
+<p>To compute directly the gametic distribution in the fifth generation, we
+use plenaryPower.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">plenaryPower</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.36561ab+0.13439aB+0.23439Ab+0.26561AB</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type:</sub>
+AlgebraGivenByStructuralConstants(DecimalExpansion,4,[AB,Ab,aB,ab],
+[MATRIX,MATRIX,MATRIX,MATRIX])</p>
+<p>We now ask two questions: Does this distribution converge to an
+equilibrium state? What are the distributions that are stable?</p>
+<p>This is an invariant of the algebra and it is used to answer the first
+question. The new indeterminates describe a symbolic distribution.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>q := leftRankPolynomial()$GCNAALG(FRAC INT, 4, gametes,
+</pre></div>
+</div>
+<p>segregationRates) :: UP(Y, POLY FRAC INT)</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Y3+(-2920%x4-2920%x3-2920%x2-2920%x1)Y2+((920%x42+(910%x3+910%x2+910%x1)%x4+.920%x32+(910%x2+910%x1)%x3+920%x22+.910%x1%x2+920%x12))Y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(Y,Polynomial Fraction Integer)</sub></p>
+<p>Because the coefficient 920 has absolute value less than 1, all
+distributions do converge, by a theorem of this theory.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="n">q</span> <span class="p">::</span> <span class="n">POLY</span> <span class="n">FRAC</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<p><sub>Type: Factored Polynomial Fraction Integer</sub></p>
+<p>The second question is answered by searching for idempotents in the
+algebra.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>cI := conditionsForIdempotents()$GCNAALG(FRAC INT, 4, gametes,
+</pre></div>
+</div>
+<p>segregationRates)</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[910%x1%x4+(110%x2+%x1)%x3+%x1%x2+%x12-%x1,(%x2+110%x1)%x4+910%x2%x3+%x22+(%x1-1)%x2,(%x3+110%x1)%x4+%x32+(910%x2+%x1-1)%x3,%x42+(%x3+%x2+910%x1-1)%x4+110%x2%x3]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Polynomial Fraction Integer</sub></p>
+<p>Solve these equations and look at the first solution.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gbs</span><span class="p">:</span><span class="o">=</span> <span class="n">groebnerFactorize</span> <span class="n">cI</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Polynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gbs</span><span class="o">.</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[%x4+%x3+%x2+%x1-1,(%x2+%x1)%x3+%x1%x2+%x12-%x1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Polynomial Fraction Integer</sub></p>
+<p>Further analysis using the package PolynomialIdeals shows that there is
+a two-dimensional variety of equilibrium states and all other solutions
+are contained in it.</p>
+<p>Choose one equilibrium state by setting two indeterminates to concrete
+values.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sol</span> <span class="p">:</span><span class="o">=</span> <span class="n">solve</span> <span class="n">concat</span><span class="p">(</span><span class="n">gbs</span><span class="o">.</span><span class="mi">1</span><span class="p">,[</span><span class="o">%</span><span class="n">x1</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">,</span><span class="o">%</span><span class="n">x2</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[%x4=25,%x3=25,%x2=110,%x1=110]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Equation Fraction Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">e</span> <span class="p">:</span> <span class="n">A</span> <span class="p">:</span><span class="o">=</span> <span class="n">represents</span> <span class="n">reverse</span> <span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">sol</span><span class="o">.</span><span class="mi">1</span><span class="p">)</span> <span class="p">::</span> <span class="n">List</span> <span class="n">FRAC</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>25ab+25aB+110Ab+110AB</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: AlgebraGivenByStructuralConstants(Fraction</sub>
+Integer,4,[AB,Ab,aB,ab], [MATRIX,MATRIX,MATRIX,MATRIX])</p>
+<p>Verify the result.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">e</span><span class="o">*</span><span class="n">e</span><span class="o">-</span><span class="n">e</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: AlgebraGivenByStructuralConstants(Fraction</sub>
+Integer,4,[AB,Ab,aB,ab], [MATRIX,MATRIX,MATRIX,MATRIX])</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-8.13.html" title="previous chapter">8.13 Computation of Galois Groups</a></li>
+      <li>Next: <a href="section-9.1.html" title="next chapter">9.1 AssociationList</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-8.14.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-8.14.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

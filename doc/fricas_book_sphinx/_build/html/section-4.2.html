@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4.2 The .axiom.input File &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="4.3 Common Features of Using Output Formats" href="section-4.3.html" />
+    <link rel="prev" title="4.1 Input Files" href="section-4.1.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-axiom-input-file">
+<h1>4.2 The .axiom.input File<a class="headerlink" href="#the-axiom-input-file" title="Permalink to this headline">¶</a></h1>
+<p>When FriCAS starts up, it tries to read the input file .axiom.input
+(.axiom.input used to be called axiom.input in the NAG version) from
+your home start-up profile file directory. <a class="reference external" href="file:start-up">file:start-up</a> profile It
+there is no .axiom.input in your home directory, it reads the copy
+located in its own src/input directory. <a class="reference external" href="file:.axiom.input">file:.axiom.input</a> &#64;.axiom.input
+The file usually contains system commands to personalize your FriCAS
+environment. In the remainder of this section we mention a few things
+that users frequently place in their .axiom.input files.</p>
+<p>In order to have FORTRAN output always produced from your computations,
+place the system command )set output fortran on in .axiom.input. quit If
+you do not want to be prompted for confirmation when you issue the )quit
+system command, place )set quit unprotected in .axiom.input. set quit
+unprotected If you then decide that you do want to be prompted, issue
+)set quit protected. set quit protected This is the default setting so
+that new users do not leave FriCAS inadvertently.The system command
+)pquit always prompts you for confirmation.</p>
+<p>To see the other system variables you can set, issue )set or use the
+HyperDoc Settings facility to view and change FriCAS system variables.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-4.1.html" title="previous chapter">4.1 Input Files</a></li>
+      <li>Next: <a href="section-4.3.html" title="next chapter">4.3 Common Features of Using Output Formats</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-4.2.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-4.2.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

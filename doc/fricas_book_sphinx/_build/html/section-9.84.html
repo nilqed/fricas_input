@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.84 UniversalSegment &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.85 Vector" href="section-9.85.html" />
+    <link rel="prev" title="9.83 UnivariatePolynomial" href="section-9.83.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="universalsegment">
+<h1>9.84 UniversalSegment<a class="headerlink" href="#universalsegment" title="Permalink to this headline">¶</a></h1>
+<p>The UniversalSegment domain generalizes Segment by allowing segments
+without a hi end point.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pints</span> <span class="p">:</span><span class="o">=</span> <span class="mf">1.</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1..</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UniversalSegment PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nevens</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mf">0.</span><span class="o">.</span><span class="p">)</span> <span class="n">by</span> <span class="o">-</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0..by&nbsp;-2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UniversalSegment NonNegativeInteger</sub></p>
+<p>Values of type Segment are automatically converted to type
+UniversalSegment when appropriate.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">useg</span><span class="p">:</span> <span class="n">UniversalSegment</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="mf">3.</span><span class="o">.</span><span class="mi">10</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3..10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UniversalSegment Integer</sub></p>
+<p>The operation hasHihasHiUniversalSegment is used to test whether a
+segment has a hi end point.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hasHi</span> <span class="n">pints</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hasHi</span> <span class="n">nevens</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hasHi</span> <span class="n">useg</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>All operations available on type Segment apply to UniversalSegment, with
+the proviso that expansions produce streams rather than lists. This is
+to accommodate infinite expansions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expand</span> <span class="n">pints</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,4,5,6,7,8,9,10,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expand</span> <span class="n">nevens</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,-2,-4,-6,-8,-10,-12,-14,-16,-18,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expand</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">10.</span><span class="o">.</span><span class="mi">15</span><span class="p">,</span> <span class="mf">100.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,3,10,11,12,13,14,15,100,101,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Integer</sub></p>
+<p>For more information on related topics, see
+<a class="reference external" href="section-9.69.html#SegmentXmpPage">SegmentXmpPage</a> ,
+<a class="reference external" href="section-9.70.html#SegmentBindingXmpPage">SegmentBindingXmpPage</a> ,
+<a class="reference external" href="section-9.1.html#AssociationListXmpPage">ListXmpPage</a> , and
+<a class="reference external" href="section-9.76.html#StreamXmpPage">StreamXmpPage</a> .</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.83.html" title="previous chapter">9.83 UnivariatePolynomial</a></li>
+      <li>Next: <a href="section-9.85.html" title="next chapter">9.85 Vector</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.84.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.84.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

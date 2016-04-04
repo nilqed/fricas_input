@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>12.10 Parameters &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="12.11 Conditionals" href="section-12.11.html" />
+    <link rel="prev" title="12.9 Attributes" href="section-12.9.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="parameters">
+<h1>12.10 Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h1>
+<p>Like domain constructors, category constructors can also have
+parameters. For example, category MatrixCategory is a parameterized
+category for defining matrices over a ring R so that the matrix domains
+can have different representations and indexing schemes. Its definition
+has the form:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">MatrixCategory</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">Row</span><span class="p">,</span><span class="n">Col</span><span class="p">):</span> <span class="n">Category</span> <span class="o">==</span>
+    <span class="n">TwoDimensionalArrayCategory</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">Row</span><span class="p">,</span><span class="n">Col</span><span class="p">)</span> <span class="k">with</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>The category extends TwoDimensionalArrayCategory with the same
+arguments. You cannot find TwoDimensionalArrayCategory in the algebraic
+hierarchy listing. Rather, it is a member of the data structure
+hierarchy, given inside the back cover of this book. In particular,
+TwoDimensionalArrayCategory is an extension of HomogeneousAggregate
+since its elements are all one type.</p>
+<p>The domain Matrix(R), the class of matrices with coefficients from
+domain R, asserts that it is a member of category MatrixCategory(R,
+Vector(R), Vector(R)). The parameters of a category must also have
+types. The first parameter to MatrixCategory R is required to be a ring.
+The second and third are required to be domains of category
+FiniteLinearAggregate(R). This is another extension of
+HomogeneousAggregate that you can see in the data structure hierarchy.
+In practice, examples of categories having parameters other than domains
+are rare.</p>
+<p>Adding the declarations for parameters to the definition for
+MatrixCategory, we have:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R</span><span class="p">:</span> <span class="n">Ring</span>
+<span class="p">(</span><span class="n">Row</span><span class="p">,</span> <span class="n">Col</span><span class="p">):</span> <span class="n">FiniteLinearAggregate</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+<span class="n">MatrixCategory</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Row</span><span class="p">,</span> <span class="n">Col</span><span class="p">):</span> <span class="n">Category</span> <span class="o">==</span>
+    <span class="n">TwoDimensionalArrayCategory</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">Row</span><span class="p">,</span> <span class="n">Col</span><span class="p">)</span> <span class="k">with</span> <span class="o">...</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-12.9.html" title="previous chapter">12.9 Attributes</a></li>
+      <li>Next: <a href="section-12.11.html" title="next chapter">12.11 Conditionals</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-12.10.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-12.10.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

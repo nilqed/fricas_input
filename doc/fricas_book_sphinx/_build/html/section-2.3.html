@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.3 Declarations &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="2.4 Records" href="section-2.4.html" />
+    <link rel="prev" title="2.2 Writing Types and Modes" href="section-2.2.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="declarations">
+<h1>2.3 Declarations<a class="headerlink" href="#declarations" title="Permalink to this headline">¶</a></h1>
+<p>A declaration is an expression used to restrict the type of values that
+can be assigned to variables. A colon <code class="docutils literal"><span class="pre">:</span></code> is always used after a
+variable or list of variables to be declared.</p>
+<p>For a single variable, the syntax for declaration is</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">variableName</span> <span class="p">:</span> <span class="n">typeOrMode</span>
+</pre></div>
+</div>
+<p>For multiple variables, the syntax is</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(,</span> <span class="p">,</span> <span class="o">...</span> <span class="p">):</span> <span class="n">typeOrMode</span>
+</pre></div>
+</div>
+<p>You can always combine a declaration with an assignment. When you do, it
+is equivalent to first giving a declaration statement, then giving an
+assignment. For more information on assignment, see Section
+<a class="reference external" href="section-1.3.html#ugIntroAssign">ugIntroAssign</a> and Section
+<a class="reference external" href="section-5.1.html#ugLangAssign">ugLangAssign</a> . To see how to
+declare your own functions, see
+<a class="reference external" href="section-6.4.html#ugUserDeclare">ugUserDeclare</a> .</p>
+<p>This declares one variable to have a type.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>This declares several variables to have a type.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="p">:</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>a , b and c can only hold integer values.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="mi">45</span>
+</pre></div>
+</div>
+<div class="math">
+\[45\]</div>
+<p><sub>Type: Integer</sub></p>
+<p>If a value cannot be converted to a declared type, an error message is
+displayed.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="mi">4</span><span class="o">/</span><span class="mi">5</span>
+</pre></div>
+</div>
+<p>This declares a variable with a mode.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>n : Complex ?
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>This declares several variables with a mode.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(p,q,r) : Matrix Polynomial ?
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>This complex object has integer real and imaginary parts.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="o">-</span><span class="mi">36</span> <span class="o">+</span> <span class="mi">9</span> <span class="o">*</span> <span class="o">%</span><span class="n">i</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{36}+{9 \  i}\]</div>
+<p><sub>Type: Complex Integer</sub></p>
+<p>This complex object has fractional symbolic real and imaginary parts.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">),</span><span class="n">y</span><span class="o">/</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{4 \over {y+x}}+{{y \over x} \  i}\]</div>
+<p><sub>Type: Complex Fraction Polynomial Integer</sub></p>
+<p>This matrix has entries that are polynomials with integer coefficients.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[{\left[ 1, \: 2 \right]}, \: {\left[ 3, \: 4
+\right]},\: {\left[ 5, \: 6 \right]} \right]\]</div>
+<p><sub>Type: Matrix Polynomial Integer</sub></p>
+<p>This matrix has a single entry that is a polynomial with rational number
+coefficients.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[ {\left[ {x -{2 \over 3}} \right]} \right]\]</div>
+<p><sub>Type: Matrix Polynomial Fraction Integer</sub></p>
+<p>This matrix has entries that are polynomials with complex integer
+coefficients.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="o">-%</span><span class="n">i</span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="mi">7</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mi">4</span><span class="o">*%</span><span class="n">i</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[ {\left[ {-{i \  x}+1}, \: {{7 \  y}+{4 \  i}} \right]} \right]\]</div>
+<p><sub>Type: Matrix Polynomial Complex Integer</sub></p>
+<p>Note the difference between this and the next example. This is a complex
+object with polynomial real and imaginary parts.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>f : COMPLEX POLY ? := (x + y*%i)^2
+</pre></div>
+</div>
+<div class="math">
+\[-{{y} ^ {2}}+{{x} ^ {2}}+{2 \  x \  y \  i}\]</div>
+<p><sub>Type: Complex Polynomial Integer</sub></p>
+<p>This is a polynomial with complex integer coefficients. The objects are
+convertible from one to the other. See
+<a class="reference external" href="section-2.7.html#ugTypesConvert">ugTypesConvert</a> for more
+information.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>g : POLY COMPLEX ? := (x + y*%i)^2
+</pre></div>
+</div>
+<div class="math">
+\[-{{y} ^ {2}}+{2 \  i \  x \  y}+{{x} ^ {2}}\]</div>
+<p><sub>Type: Polynomial Complex Integer</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-2.2.html" title="previous chapter">2.2 Writing Types and Modes</a></li>
+      <li>Next: <a href="section-2.4.html" title="next chapter">2.4 Records</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-2.3.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-2.3.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

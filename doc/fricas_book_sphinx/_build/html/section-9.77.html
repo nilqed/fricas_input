@@ -1,0 +1,656 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.77 String &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.78 StringTable" href="section-9.78.html" />
+    <link rel="prev" title="9.76 Stream" href="section-9.76.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="string">
+<h1>9.77 String<a class="headerlink" href="#string" title="Permalink to this headline">¶</a></h1>
+<p>The type String provides character strings. Character strings provide
+all the operations for a one-dimensional array of characters, plus
+additional operations for manipulating text. For more information on
+related topics, see
+<a class="reference external" href="section-9.8.html#CharacterXmpPage">CharacterXmpPage</a> and
+<a class="reference external" href="section-9.9.html#CharacterClassXmpPage">CharacterClassXmpPage</a> .
+You can also issue the system command )show String to display the full
+list of operations defined by String.</p>
+<p>String values can be created using double quotes.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hello</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;Hello AXIOM!&quot;</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;HelloAXIOM!&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>Note, however, that double quotes and underscores must be preceded by an
+extra underscore.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>said := &quot;Jane said, _&quot;Look!_&quot;&quot;
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Janesaid,&#8221;Look!&#8221;&#8220;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">saw</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;She saw exactly one underscore: __.&quot;</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<p><sub>Type: String</sub></p>
+<p>It is also possible to use newnewString to create a string of any size
+filled with a given character. Since there are many new functions it is
+necessary to indicate the desired type.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gasp</span><span class="p">:</span> <span class="n">String</span> <span class="p">:</span><span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="n">char</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>The length of a string is given by #.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#gasp</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>32</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Indexing operations allow characters to be extracted or replaced in
+strings. For any string s, indices lie in the range 1.. #s.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hello</span><span class="o">.</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>e</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Character</sub></p>
+<p>Indexing is really just the application of a string to a subscript, so
+any application syntax works.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hello</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>e</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Character</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hello</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>e</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Character</sub></p>
+<p>If it is important not to modify a given string, it should be copied
+before any updating operations are used.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hullo</span> <span class="p">:</span><span class="o">=</span> <span class="n">copy</span> <span class="n">hello</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Hello,I&#8217;mAXIOM!&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hullo</span><span class="o">.</span><span class="mi">2</span> <span class="p">:</span><span class="o">=</span> <span class="n">char</span> <span class="s2">&quot;u&quot;</span><span class="p">;</span> <span class="p">[</span><span class="n">hello</span><span class="p">,</span> <span class="n">hullo</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[&#8220;Hello,I&#8217;mAXIOM!&#8221;,&#8221;Hullo,I&#8217;mAXIOM!&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List String</sub></p>
+<p>Operations are provided to split and join strings. The
+concatconcatString operation allows several strings to be joined
+together.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">saidsaw</span> <span class="p">:</span><span class="o">=</span> <span class="n">concat</span> <span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span><span class="s2">&quot;---&quot;</span><span class="p">,</span><span class="s2">&quot;omega&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;alpha&#8212;omega&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>There is a version of concatconcatString that works with two strings.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">concat</span><span class="p">(</span><span class="s2">&quot;hello &quot;</span><span class="p">,</span><span class="s2">&quot;goodbye&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;hellogoodbye&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>Juxtaposition can also be used to concatenate strings.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="s2">&quot;This &quot;</span> <span class="s2">&quot;is &quot;</span> <span class="s2">&quot;several &quot;</span> <span class="s2">&quot;strings &quot;</span> <span class="s2">&quot;concatenated.&quot;</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Thisisseveralstringsconcatenated.&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>Substrings are obtained by giving an index range.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hello</span><span class="p">(</span><span class="mf">1.</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Hello&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hello</span><span class="p">(</span><span class="mf">8.</span><span class="o">.</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;I&#8217;mAXIOM!&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>A string can be split into several substrings by giving a separation
+character or character class.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">split</span><span class="p">(</span><span class="n">hello</span><span class="p">,</span> <span class="n">char</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[&#8220;Hello,&#8221;,&#8221;I&#8217;m&#8221;,&#8221;AXIOM!&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">other</span> <span class="p">:</span><span class="o">=</span> <span class="n">complement</span> <span class="n">alphanumeric</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><sub>Type: CharacterClass</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">split</span><span class="p">(</span><span class="n">saidsaw</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[&#8220;alpha&#8221;,&#8221;omega&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List String</sub></p>
+<p>Unwanted characters can be trimmed from the beginning or end of a string
+using the operations trimtrimString, leftTrimleftTrimString and
+rightTrimrightTrimString.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">trim</span><span class="p">(</span><span class="s2">&quot; # # ++ relax ++ # #&quot;</span><span class="p">,</span> <span class="n">char</span> <span class="s2">&quot; #&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;++relax++&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>Each of these functions takes a string and a second argument to specify
+the characters to be discarded.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">trim</span><span class="p">(</span><span class="s2">&quot; # # ++ relax ++ # #&quot;</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;relax&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>The second argument can be given either as a single character or as a
+character class.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leftTrim</span> <span class="p">(</span><span class="s2">&quot; # # ++ relax ++ # #&quot;</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;relax++ # #&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rightTrim</span><span class="p">(</span><span class="s2">&quot; # # ++ relax ++ # #&quot;</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8221; # #++relax&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>Strings can be changed to upper case or lower case using the operations
+upperCaseupperCaseString, upperCase!upperCase!String,
+lowerCaselowerCaseString and lowerCase!lowerCase!String.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">upperCase</span> <span class="n">hello</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;HELLO,I&#8217;MAXIOM!&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>The versions with the exclamation mark change the original string, while
+the others produce a copy.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lowerCase</span> <span class="n">hello</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;hello,i&#8217;maxiom!&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>Some basic string matching is provided. The function
+prefix?prefix?String tests whether one string is an initial prefix of
+another.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>prefix?(&quot;He&quot;, &quot;Hello&quot;)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>prefix?(&quot;Her&quot;, &quot;Hello&quot;)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>A similar function, suffix?suffix?String, tests for suffixes.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>suffix?(&quot;&quot;, &quot;Hello&quot;)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>suffix?(&quot;LO&quot;, &quot;Hello&quot;)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>The function substring?substring?String tests for a substring given a
+starting position.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>substring?(&quot;ll&quot;, &quot;Hello&quot;, 3)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>substring?(&quot;ll&quot;, &quot;Hello&quot;, 4)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>A number of positionpositionString functions locate things in strings.
+If the first argument to position is a string, then position(s,t,i)
+finds the location of s as a substring of t starting the search at
+position i.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="n">position</span><span class="p">(</span><span class="s2">&quot;nd&quot;</span><span class="p">,</span> <span class="s2">&quot;underground&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="n">position</span><span class="p">(</span><span class="s2">&quot;nd&quot;</span><span class="p">,</span> <span class="s2">&quot;underground&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>If s is not found, then 0 is returned (minIndex(s)-1 in IndexedString).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="n">position</span><span class="p">(</span><span class="s2">&quot;nd&quot;</span><span class="p">,</span> <span class="s2">&quot;underground&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>To search for a specific character or a member of a character class, a
+different first argument is used.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">position</span><span class="p">(</span><span class="n">char</span> <span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="s2">&quot;underground&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">position</span><span class="p">(</span><span class="n">hexDigit</span><span class="p">(),</span> <span class="s2">&quot;underground&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.76.html" title="previous chapter">9.76 Stream</a></li>
+      <li>Next: <a href="section-9.78.html" title="next chapter">9.78 StringTable</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.77.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.77.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

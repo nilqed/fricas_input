@@ -1,0 +1,1 @@
+for a in orig/section*.rst ; do rmraw.awk $a >  $(basename $a) ; done

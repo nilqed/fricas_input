@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.14 Solution of Equations &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="1.15 System Commands" href="section-1.15.html" />
+    <link rel="prev" title="1.13 Differential Equations" href="section-1.13.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="solution-of-equations">
+<h1>1.14 Solution of Equations<a class="headerlink" href="#solution-of-equations" title="Permalink to this headline">¶</a></h1>
+<p>FriCAS also has state-of-the-art algorithms for the solution of systems
+of polynomial equations. When the number of equations and unknowns is
+the same, and you have no symbolic coefficients, you can use <code class="docutils literal"><span class="pre">solve</span></code> for
+real roots and <code class="docutils literal"><span class="pre">complexSolve</span></code> for complex roots. In each case, you tell
+FriCAS how accurate you want your result to be. All operations in the
+solve family return answers in the form of a list of solution sets,
+where each solution set is a list of equations.</p>
+<p>A system of two equations involving a symbolic parameter t.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">S</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">t</span><span class="p">,</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">-</span><span class="n">y</span><span class="o">-</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Find the real roots of S(19) with rational arithmetic, correct to within
+1/1020.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="mi">19</span><span class="p">),</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="o">^</span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\scriptstyle{
+\left[
+{\left[ {y=5}, \: {x=-{{80336736493669365924 189585} \over
+{96714065569170333976 49408}}}
+\right]},
+\: {\left[ {y=5}, \: {x={{80336736493669365924 189585} \over
+{96714065569170333976 49408}}}
+\right]}
+\right]}\]</div>
+<p><sub>Type: List List Equation Polynomial Fraction Integer</sub></p>
+<p>Find the complex roots of S(19) with floating point coefficients to 20
+digits accuracy in the mantissa.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complexSolve</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="mi">19</span><span class="p">),</span><span class="mf">10.e-20</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\scriptsize{
+\left[
+{\left[ {y={5.0}}, \:
+{x={8.3066238629\_1807485258\_4262744905\_6951556981\_516914818}}
+\right]}, \\\\
+\: {\left[ {y={5.0}}, \: {x=-{8.3066238629\_180748526}}
+\right]}, \\\\
+\: {\left[ {y=-{{3.0} \  i}}, \: {x={1.0}}
+\right]}, \\\\
+\: {\left[ {y={{3.0} \  i}}, \: {x={1.0}}
+\right]}
+\right]}\end{split}\]</div>
+<p><sub>Type: List List Equation Polynomial Complex Float</sub></p>
+<p>If a system of equations has symbolic coefficients and you want a
+solution in radicals, try radicalSolve.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">radicalSolve</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">a</span><span class="p">),[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\scriptsize{
+\left[
+{\left[ {x=-{\sqrt {{a+{50}}}}}, \: {y=5}
+\right]},
+\: {\left[ {x={\sqrt {{a+{50}}}}}, \: {y=5}
+\right]},
+\: {\left[ {x=1}, \: {y={{\sqrt {{-a+1}}} \over {\sqrt {2}}}}
+\right]},
+\: {\left[ {x=1}, \: {y=-{{\sqrt {{-a+1}}} \over {\sqrt {2}}}}
+\right]}
+\right]}\]</div>
+<p><sub>Type: List List Equation Expression Integer</sub></p>
+<p>For systems of equations with symbolic coefficients, you can apply
+solve, listing the variables that you want FriCAS to solve for. For
+polynomial equations, a solution cannot usually be expressed solely in
+terms of the other variables. Instead, the solution is presented as a
+triangular system of equations, where each polynomial has coefficients
+involving only the succeeding variables. This is analogous to converting
+a linear system of equations to triangular form.</p>
+<p>A system of three equations in five variables.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eqns</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">y</span> <span class="o">+</span> <span class="n">z</span><span class="p">,</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">z</span> <span class="o">+</span> <span class="n">x</span><span class="o">^</span><span class="mi">4</span> <span class="o">-</span> <span class="n">b</span><span class="o">*</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span><span class="n">z</span> <span class="o">-</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="o">*</span><span class="n">x</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[
+{z -y+{{x} ^ {2}}}, \: {{{{x} ^ {2}} \  z} -{b \  y}+{{x} ^ {4}}}, \:
+{{{{y} ^ {2}} \  z} -{b \  x} -a}
+\right]\]</div>
+<p><sub>Type: List Polynomial Integer</sub></p>
+<p>Solve the system for unknowns [x,y,z], reducing the solution to
+triangular form.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">(</span><span class="n">eqns</span><span class="p">,[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\scriptstyle{
+\left[
+{\left[ {x=-{a \over b}}, \: {y=0}, \: {z=-{{{a} ^ {2}} \over {{b} ^
+{2}}}}
+\right]}, \\\\
+\: {\left[ {x={{{{z} ^ {3}}+{2 \  b \  {{z} ^ {2}}}+{{{b} ^ {2}} \  z}
+-a} \over b}}, \: {y={z+b}}, \: {{{{z} ^ {6}}+{4 \  b \  {{z} ^ {5}}}+{6
+\  {{b} ^ {2}} \  {{z} ^ {4}}}+{{\left( {4 \  {{b} ^ {3}}} -{2 \  a}
+\right)}
+\  {{z} ^ {3}}}+{{\left( {{b} ^ {4}} -{4 \  a \  b}
+\right)}
+\  {{z} ^ {2}}} -{2 \  a \  {{b} ^ {2}} \  z} -{{b} ^ {3}}+{{a} ^
+{2}}}=0}
+\right]}
+\right]}\end{split}\]</div>
+<p><sub>Type: List List Equation Fraction Polynomial Integer</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-1.13.html" title="previous chapter">1.13 Differential Equations</a></li>
+      <li>Next: <a href="section-1.15.html" title="next chapter">1.15 System Commands</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.14.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-1.14.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

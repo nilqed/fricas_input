@@ -1,0 +1,840 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.10 Solution of Differential Equations &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="8.11 Finite Fields" href="section-8.11.html" />
+    <link rel="prev" title="8.9 Working with Power Series" href="section-8.9.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="solution-of-differential-equations">
+<h1>8.10 Solution of Differential Equations<a class="headerlink" href="#solution-of-differential-equations" title="Permalink to this headline">¶</a></h1>
+<p>In this section we discuss FriCAS&#8217;s facilities for
+equation:differential:solving solving differential equation differential
+equations in closed-form and in series.</p>
+<p>FriCAS provides facilities for closed-form solution of
+equation:differential:solving in closed-form single differential
+equations of the following kinds:</p>
+<ul class="simple">
+<li>linear ordinary differential equations, and</li>
+<li>non-linear first order ordinary differential equations when
+integrating factors can be found just by integration.</li>
+</ul>
+<p>For a discussion of the solution of systems of linear and polynomial
+equations, see
+<a class="reference external" href="section-8.5.html#ugProblemLinPolEqn">ugProblemLinPolEqn</a> .</p>
+<div class="section" id="closed-form-solutions-of-linear-differential-equations">
+<h2>8.10.1 Closed-Form Solutions of Linear Differential Equations<a class="headerlink" href="#closed-form-solutions-of-linear-differential-equations" title="Permalink to this headline">¶</a></h2>
+<p>A differential equation is an equation involving an unknown function and
+one or more of its derivatives. differential equation The equation is
+called ordinary if derivatives with respect to equation:differential
+only one dependent variable appear in the equation (it is called partial
+otherwise). The package ElementaryFunctionODESolver provides the
+top-level operation solve for finding closed-form solutions of ordinary
+differential equations. ElementaryFunctionODESolver</p>
+<p>To solve a differential equation, you must first create an operator for
+operator the unknown function.</p>
+<p>We let y be the unknown function in terms of x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span> <span class="s1">&#39;y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BasicOperator</sub></p>
+<p>You then type the equation using D to create the derivatives of the
+unknown function y(x) where x is any symbol you choose (the so-called
+dependent variable).</p>
+<p>This is how you enter the equation y′′+y′+y=0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">deq</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y′′(x)+y′(x)+y(x)=0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation Expression Integer</sub></p>
+<p>The simplest way to invoke the solve command is with three arguments.</p>
+<ul class="simple">
+<li>the differential equation,</li>
+<li>the operator representing the unknown function,</li>
+<li>the dependent variable.</li>
+</ul>
+<p>So, to solve the above equation, we enter this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">(</span><span class="n">deq</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[particular=0,basis=[cos(x32)e(-x2),e(-x2)sin(x32)]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Record(particular: Expression Integer,basis: List Expression</sub>
+Integer),...)</p>
+<p>Since linear ordinary differential equations have infinitely many
+solutions, solve returns a particular solution fp and a basis for the
+solutions of the corresponding homogenuous equation. Any expression of
+the form where the ci do not involve the dependent variable is also a
+solution. This is similar to what you get when you solve systems of
+linear algebraic equations.</p>
+<p>A way to select a unique solution is to specify initial conditions:
+choose a value a for the dependent variable and specify the values of
+the unknown function and its derivatives at a. If the number of initial
+conditions is equal to the order of the equation, then the solution is
+unique (if it exists in closed form!) and solve tries to find it. To
+specify initial conditions to solve, use an Equation of the form x=a for
+the third parameter instead of the dependent variable, and add a fourth
+parameter consisting of the list of values y(a),y′(a),....</p>
+<p>To find the solution of y′′+y=0 satisfying y(0)=y′(0)=1, do this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">deq</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y′′(x)+y(x)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>You can omit the =0 when you enter the equation to be solved.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">(</span><span class="n">deq</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>sin(x)+cos(x)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Expression Integer,...)</sub></p>
+<p>FriCAS is not limited to linear differential equations with constant
+coefficients. It can also find solutions when the coefficients are
+rational or algebraic functions of the dependent variable. Furthermore,
+FriCAS is not limited by the order of the equation.</p>
+<p>FriCAS can solve the following third order equations with polynomial
+coefficients.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">deq</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">*</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span>
+</pre></div>
+</div>
+<p>2 * y x = 2 * x^4</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x3y′′′(x)+x2y′′(x)-2xy′(x)+2y(x)=2x4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">(</span><span class="n">deq</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[particular=x5-10x3+20x2+415x,basis=[2x3-3x2+1x,x3-1x,x3-3x2-1x]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Record(particular: Expression Integer,basis: List Expression</sub>
+Integer),...)</p>
+<p>Here we are solving a homogeneous equation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">deq</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">9</span><span class="o">+</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">+</span> <span class="mi">18</span> <span class="o">*</span> <span class="n">x</span><span class="o">^</span><span class="mi">8</span> <span class="o">*</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">90</span> <span class="o">*</span> <span class="n">x</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>D(y x, x) - 30 * (11 * x^6 - 3) * y x</li>
+</ul>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x9+x3)y′′′(x)+18x8y′′(x)-90xy′(x)+(-330x6+90)y(x)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">(</span><span class="n">deq</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[particular=0,basis=[xx6+1,xe(-91log(x))x6+1,xe(91log(x))x6+1]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Record(particular: Expression Integer,basis: List Expression</sub>
+Integer),...)</p>
+<p>On the other hand, and in contrast with the operation integrate, it can
+happen that FriCAS finds no solution and that some closed-form solution
+still exists. While it is mathematically complicated to describe exactly
+when the solutions are guaranteed to be found, the following statements
+are correct and form good guidelines for linear ordinary differential
+equations:</p>
+<ul class="simple">
+<li>If the coefficients are constants, FriCAS finds a complete basis of
+solutions (i,e, all solutions).</li>
+<li>If the coefficients are rational functions in the dependent variable,
+FriCAS at least finds all solutions that do not involve algebraic
+functions.</li>
+</ul>
+<p>Note that this last statement does not mean that FriCAS does not find
+the solutions that are algebraic functions. It means that it is not
+guaranteed that the algebraic function solutions will be found.</p>
+<p>This is an example where all the algebraic solutions are found.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">deq</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">y</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x2+1)y′′(x)+3xy′(x)+y(x)=0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">(</span><span class="n">deq</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[particular=0,basis=[1x2+1,log(x2+1-x)x2+1]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Record(particular: Expression Integer,basis: List Expression</sub>
+Integer),...)</p>
+</div>
+<div class="section" id="closed-form-solutions-of-non-linear-differential-equations">
+<h2>8.10.2 Closed-Form Solutions of Non-Linear Differential Equations<a class="headerlink" href="#closed-form-solutions-of-non-linear-differential-equations" title="Permalink to this headline">¶</a></h2>
+<p>This is an example that shows how to solve a non-linear first order
+ordinary differential equation manually when an integrating factor can
+be found just by integration. At the end, we show you how to solve it
+directly.</p>
+<p>Let&#8217;s solve the differential equation y′=y/(x+ylogy).</p>
+<p>Using the notation m(x,y)+n(x,y)y′=0, we have m=-y and n=x+ylogy.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="o">-</span><span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="n">log</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ylog(y)+x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>We first check for exactness, that is, does dm/dy=dn/dx?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">D</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>This is not zero, so the equation is not exact. Therefore we must look
+for an integrating factor: a function mu(x,y) such that
+d(mum)/dy=d(mun)/dx. Normally, we first search for mu(x,y) depending
+only on x or only on y.</p>
+<p>Let&#8217;s search for such a mu(x) first.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mu</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span> <span class="s1">&#39;mu</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>mu</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BasicOperator</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">mu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">m</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">D</span><span class="p">(</span><span class="n">mu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(-ylog(y)-x)mu′(x)-2mu(x)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>If the above is zero for a function mu that does not depend on y, then
+mu(x) is an integrating factor.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">(</span><span class="n">a</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[particular=0,basis=[1y2log(y)2+2xylog(y)+x2]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Record(particular: Expression Integer,basis: List Expression</sub>
+Integer),...)</p>
+<p>The solution depends on y, so there is no integrating factor that
+depends on x only.</p>
+<p>Let&#8217;s look for one that depends on y only.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">mu</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">m</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">D</span><span class="p">(</span><span class="n">mu</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-ymu′(y)-2mu(y)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sb</span> <span class="p">:</span><span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[particular=0,basis=[1y2]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Record(particular: Expression Integer,basis: List Expression</sub>
+Integer),...)</p>
+<p>We&#8217;ve found one!</p>
+<p>The above mu(y) is an integrating factor. We must multiply our initial
+equation (that is, m and n) by the integrating factor.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">intFactor</span> <span class="p">:</span><span class="o">=</span> <span class="n">sb</span><span class="o">.</span><span class="n">basis</span><span class="o">.</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1y2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="n">intFactor</span> <span class="o">*</span> <span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="p">:</span><span class="o">=</span> <span class="n">intFactor</span> <span class="o">*</span> <span class="n">n</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ylog(y)+xy2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Let&#8217;s check for exactness.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">D</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>We must solve the exact equation, that is, find a function s(x,y) such
+that ds/dx=m and ds/dy=n.</p>
+<p>We start by writing s(x,y)=h(y)+integrate(m,x) where h(y) is an unknown
+function of y. This guarantees that ds/dx=m.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span> <span class="s1">&#39;h</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>h</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BasicOperator</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sol</span> <span class="p">:</span><span class="o">=</span> <span class="n">h</span> <span class="n">y</span> <span class="o">+</span> <span class="n">integrate</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>yh(y)-xy</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>All we want is to find h(y) such that ds/dy=n.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dsol</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y2h′(y)+xy2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nsol</span> <span class="p">:</span><span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">dsol</span> <span class="o">=</span> <span class="n">n</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[particular=log(y)22,basis=[1]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Record(particular: Expression Integer,basis: List Expression</sub>
+Integer),...)</p>
+<p>The above particular solution is the h(y) we want, so we just replace
+h(y) by it in the implicit solution.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">h</span> <span class="n">y</span> <span class="o">=</span> <span class="n">nsol</span><span class="o">.</span><span class="n">particular</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ylog(y)2-2x2y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>A first integral of the initial equation is obtained by setting this
+result equal to an arbitrary constant.</p>
+<p>Now that we&#8217;ve seen how to solve the equation by hand, we show you how
+to do it with the solve operation.</p>
+<p>First define y to be an operator.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span> <span class="s1">&#39;y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BasicOperator</sub></p>
+<p>Next we create the differential equation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">deq</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">log</span> <span class="n">y</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y′(x)=y(x)y(x)log(y(x))+x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation Expression Integer</sub></p>
+<p>Finally, we solve it.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">solve</span><span class="p">(</span><span class="n">deq</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y(x)log(y(x))2-2x2y(x)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Expression Integer,...)</sub></p>
+</div>
+<div class="section" id="power-series-solutions-of-differential-equations">
+<h2>8.10.3 Power Series Solutions of Differential Equations<a class="headerlink" href="#power-series-solutions-of-differential-equations" title="Permalink to this headline">¶</a></h2>
+<p>The command to solve differential equations in power
+equation:differential:solving in power series series power series around
+series:power a particular initial point with specific initial conditions
+is called seriesSolve. It can take a variety of parameters, so we
+illustrate its use with some examples.</p>
+<p>Since the coefficients of some solutions are quite large, we reset the
+default to compute only seven terms.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">streams</span> <span class="n">calculate</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<p>You can solve a single nonlinear equation of any order. For example, we
+solve y′′′=sin(y′′)*exp(y)+cos(x) subject to y(0)=1,y′(0)=0,y′′(0)=0</p>
+<p>We first tell FriCAS that the symbol &#8216;y denotes a new operator.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span> <span class="s1">&#39;y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BasicOperator</sub></p>
+<p>Enter the differential equation using y like any system function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eq</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="n">sin</span><span class="p">(</span><span class="n">D</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">*</span><span class="n">exp</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y′′′(x)-ey(x)sin(y′′(x))=cos(x)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation Expression Integer</sub></p>
+<p>Solve it around x=0 with the initial conditions y(0)=1,y′(0)=y′′(0)=0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">seriesSolve</span><span class="p">(</span><span class="n">eq</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+16x3+e24x4+e2-1120x5+e3-2e720x6+e4-8e2+4e+15040x7+O(x8)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,x,0)</sub></p>
+<p>You can also solve a system of nonlinear first order equations. For
+example, we solve a system that has tan(t) and sec(t) as solutions.</p>
+<p>We tell FriCAS that x is also an operator.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span> <span class="s1">&#39;x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BasicOperator</sub></p>
+<p>Enter the two equations forming our system.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eq1</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">x</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">x</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x′(t)=x(t)2+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eq2</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">y</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">y</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y′(t)=x(t)y(t)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation Expression Integer</sub></p>
+<p>Solve the system around t=0 with the initial conditions x(0)=0 and
+y(0)=1. Notice that since we give the unknowns in the order [x,y], the
+answer is a list of two series in the order
+[series&nbsp;for&nbsp;x(t),&nbsp;series&nbsp;for&nbsp;y(t)]</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">seriesSolve</span><span class="p">([</span><span class="n">eq2</span><span class="p">,</span> <span class="n">eq1</span><span class="p">],</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">],</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="n">y</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="o">%</span><span class="n">BZ</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">List</span> <span class="n">UnivariateTaylorSeries</span><span class="p">(</span>
+   <span class="n">Expression</span> <span class="n">Integer</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnivariateTaylorSeries</span><span class="p">(</span><span class="n">Expression</span>
+   <span class="n">Integer</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="o">%</span><span class="n">CA</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">List</span> <span class="n">UnivariateTaylorSeries</span><span class="p">(</span>
+   <span class="n">Expression</span> <span class="n">Integer</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UnivariateTaylorSeries</span><span class="p">(</span><span class="n">Expression</span>
+   <span class="n">Integer</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[t+13t3+215t5+17315t7+O(t8),1+12t2+524t4+61720t6+O(t8)]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List UnivariateTaylorSeries(Expression Integer,t,0)</sub></p>
+<p>The order in which we give the equations and the initial conditions has
+no effect on the order of the solution.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">8.10 Solution of Differential Equations</a><ul>
+<li><a class="reference internal" href="#closed-form-solutions-of-linear-differential-equations">8.10.1 Closed-Form Solutions of Linear Differential Equations</a></li>
+<li><a class="reference internal" href="#closed-form-solutions-of-non-linear-differential-equations">8.10.2 Closed-Form Solutions of Non-Linear Differential Equations</a></li>
+<li><a class="reference internal" href="#power-series-solutions-of-differential-equations">8.10.3 Power Series Solutions of Differential Equations</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-8.9.html" title="previous chapter">8.9 Working with Power Series</a></li>
+      <li>Next: <a href="section-8.11.html" title="next chapter">8.11 Finite Fields</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-8.10.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-8.10.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

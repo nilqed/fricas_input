@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.9 Package Calling and Target Types &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="2.10 Resolving Types" href="section-2.10.html" />
+    <link rel="prev" title="2.8 Subdomains Again" href="section-2.8.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="package-calling-and-target-types">
+<h1>2.9 Package Calling and Target Types<a class="headerlink" href="#package-calling-and-target-types" title="Permalink to this headline">¶</a></h1>
+<p>FriCAS works hard to figure out what you mean by an expression without
+your having to qualify it with type information. Nevertheless, there are
+times when you need to help it along by providing hints (or even
+orders!) to get FriCAS to do what you want.</p>
+<p>We saw in <a class="reference external" href="section-2.3.html#ugTypesDeclare">ugTypesDeclare</a> that
+declarations using types and modes control the type of the results
+produced. For example, we can either produce a complex object with
+polynomial real and imaginary parts or a polynomial with complex integer
+coefficients, depending on the declaration.</p>
+<p>Package calling is how you tell FriCAS to use a particular function from
+a particular part of the library.</p>
+<p>Use the <code class="docutils literal"><span class="pre">/</span></code> from Fraction Integer to create a fraction of two integers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[2 \over 3\]</div>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>If we wanted a floating point number, we can say use the / in Float.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(2/3) $Float
+</pre></div>
+</div>
+<div class="math">
+\[0.66666666666666666667\]</div>
+<p><sub>Type: Float</sub></p>
+<p>Perhaps we actually wanted a fraction of complex integers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(2/3) $Fraction(Complex Integer)
+</pre></div>
+</div>
+<div class="math">
+\[2 \over 3\]</div>
+<p><sub>Type: Float</sub></p>
+<p>In each case, FriCAS used the indicated operations, sometimes first
+needing to convert the two integers into objects of the appropriate
+type. In these examples, <code class="docutils literal"><span class="pre">/</span></code> is written as an infix operator.</p>
+<p>To use package calling with an infix operator, use the following syntax:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(arg1 op arg2) $type
+</pre></div>
+</div>
+<p>We used, for example, <code class="docutils literal"><span class="pre">(2/3)</span> <span class="pre">$Float</span></code>. The expression 2+3+4 is equivalent
+to (2+3)+4. Therefore in the expression <code class="docutils literal"><span class="pre">(2+3+4)</span> <span class="pre">$Float</span></code> the second
+<code class="docutils literal"><span class="pre">+</span></code> comes from the Float domain. The first <code class="docutils literal"><span class="pre">+</span></code> comes from Float
+because the package call causes FriCAS to convert (2+3) and 4 to type
+Float. Before the sum is converted, it is given a target type of Float
+by FriCAS and then evaluated. The target type causes the <code class="docutils literal"><span class="pre">+</span></code> from
+Float to be used.</p>
+<p>For an operator written before its arguments, you must use parentheses
+around the arguments (even if there is only one), and follow the closing
+parenthesis by a `` $`` and then the type.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>fun(arg1,arg2,…,argN) $type
+</pre></div>
+</div>
+<p>For example, to call the minimum function from SmallFloat on two
+integers, you could write <code class="docutils literal"><span class="pre">min(4,89)</span> <span class="pre">$SmallFloat</span></code>. Another use of package
+calling is to tell FriCAS to use a library function rather than a
+function you defined. We discuss this in Section
+<a class="reference external" href="section-6.9.html#ugUserUse">ugUserUse</a> .</p>
+<p>Sometimes rather than specifying where an operation comes from, you just
+want to say what type the result should be. We say that you provide a
+target type for the expression. Instead of using a `` $``, use a
+<code class="docutils literal"><span class="pre">&#64;</span></code> to specify the requested target type. Otherwise, the syntax is
+the same. Note that giving a target type is not the same as explicitly
+doing a conversion. The first says try to pick operations so that the
+result has such-and-such a type. The second says compute the result and
+then convert to an object of such-and-such a type.</p>
+<p>Sometimes it makes sense, as in this expression, to say: choose the
+operations in this expression so that the final result is Float.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="nd">@Float</span>
+</pre></div>
+</div>
+<div class="math">
+\[0.66666666666666666667\]</div>
+<p><sub>Type: Float</sub></p>
+<p>Here we used <code class="docutils literal"><span class="pre">&#64;</span></code> to say that the target type of the left-hand side
+was Float. In this simple case, there was no real difference between
+using `` $`` and <code class="docutils literal"><span class="pre">&#64;</span></code>. You can see the difference if you try the
+following.</p>
+<p>This says to try to choose <code class="docutils literal"><span class="pre">+</span></code> so that the result is a string.
+FriCAS cannot do this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span><span class="nd">@String</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">An</span> <span class="n">expression</span> <span class="n">involving</span> <span class="o">@</span> <span class="n">String</span> <span class="n">actually</span> <span class="n">evaluated</span> <span class="n">to</span> <span class="n">one</span> <span class="n">of</span>
+   <span class="nb">type</span> <span class="n">PositiveInteger</span> <span class="o">.</span> <span class="n">Perhaps</span> <span class="n">you</span> <span class="n">should</span> <span class="n">use</span> <span class="p">::</span> <span class="n">String</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>This says to get the + from String and apply it to the two integers.
+FriCAS also cannot do this because there is no + exported by String.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(2 + 3) $String
+</pre></div>
+</div>
+<div class="admonition error">
+<p class="first admonition-title">Error</p>
+<p class="last">The&nbsp;function&nbsp;+&nbsp;is&nbsp;not&nbsp;implemented&nbsp;in&nbsp;String&nbsp;.</p>
+</div>
+<p>(By the way, the operation concatString or juxtaposition is used
+to concatenate two strings.)</p>
+<p>When we have more than one operation in an expression, the difference is
+even more evident. The following two expressions show that FriCAS uses
+the target type to create different objects. The <code class="docutils literal"><span class="pre">+</span></code>, <code class="docutils literal"><span class="pre">*</span></code> and <code class="docutils literal"><span class="pre">^</span></code>
+operations are all chosen so that an object of the correct final type is
+created.</p>
+<p>This says that the operations should be chosen so that the result is a
+Complex object.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">@</span><span class="p">(</span><span class="n">Complex</span> <span class="n">Polynomial</span> <span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{{y} ^ {2}}+{{x} ^ {2}}+{2 \  x \  y \  i}\]</div>
+<p><sub>Type: Complex Polynomial Integer</sub></p>
+<p>This says that the operations should be chosen so that the result is a
+Polynomial object.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">@</span><span class="p">(</span><span class="n">Polynomial</span> <span class="n">Complex</span> <span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{{y} ^ {2}}+{2 \  i \  x \  y}+{{x} ^ {2}}\]</div>
+<p><sub>Type: Polynomial Complex Integer</sub></p>
+<p>What do you think might happen if we left off all target type and
+package call information in this last example?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">*</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{{y} ^ {2}}+{2 \  i \  x \  y}+{{x} ^ {2}}\]</div>
+<p><sub>Type: Polynomial Complex Integer</sub></p>
+<p>We can convert it to Complex as an afterthought. But this is more work
+than just saying making what we want in the first place.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>% :: Complex ?
+</pre></div>
+</div>
+<div class="math">
+\[-{{y} \sp {2}}+{{x} \sp {2}}+{2 \  x \  y \  i}\]</div>
+<p><sub>Type: Complex Polynomial Integer</sub></p>
+<p>Finally, another use of package calling is to qualify fully an operation
+that is passed as an argument to a function.</p>
+<p>Start with a small matrix of integers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">],[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\left[
+\begin{array}{cc}
+ 8 &amp; 6 \\
+-4 &amp; 9
+\end{array}
+\right]\end{split}\]</div>
+<p><sub>Type: Matrix Integer</sub></p>
+<p>We want to produce a new matrix that has for entries the multiplicative
+inverses of the entries of h. One way to do this is by calling
+mapmapMatrixCategoryFunctions2 with the invinvFraction function from
+Fraction (Integer).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>map(inv $Fraction(Integer),h)
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\left[
+\begin{array}{cc}
+{1 \over 8} &amp; {1 \over 6} \\
+-{1 \over 4} &amp; {1 \over 9}
+\end{array}
+\right]\end{split}\]</div>
+<p><sub>Type: Matrix Fraction Integer</sub></p>
+<p>We could have been a bit less verbose and used abbreviations.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>map(inv $FRAC(INT),h)
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\left[
+\begin{array}{cc}
+{1 \over 8} &amp; {1 \over 6} \\
+-{1 \over 4} &amp; {1 \over 9}
+\end{array}
+\right]\end{split}\]</div>
+<p><sub>Type: Matrix Fraction Integer</sub></p>
+<p>As it turns out, FriCAS is smart enough to know what we mean anyway. We
+can just say this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">map</span><span class="p">(</span><span class="n">inv</span><span class="p">,</span><span class="n">h</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\left[
+\begin{array}{cc}
+{1 \over 8} &amp; {1 \over 6} \\
+-{1 \over 4} &amp; {1 \over 9}
+\end{array}
+\right]\end{split}\]</div>
+<p><sub>Type: Matrix Fraction Integer</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-2.8.html" title="previous chapter">2.8 Subdomains Again</a></li>
+      <li>Next: <a href="section-2.10.html" title="next chapter">2.10 Resolving Types</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-2.9.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-2.9.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

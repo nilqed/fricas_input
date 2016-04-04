@@ -1,0 +1,1181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.66 RealClosure &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.67 RegularTriangularSet" href="section-9.67.html" />
+    <link rel="prev" title="9.65 RadixExpansion" href="section-9.65.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="realclosure">
+<h1>9.66 RealClosure<a class="headerlink" href="#realclosure" title="Permalink to this headline">¶</a></h1>
+<p>The Real Closure 1.0 package provided by Renaud Rioboo
+(<a class="reference external" href="mailto:Renaud&#46;Rioboo&#37;&#52;&#48;lip6&#46;fr">Renaud<span>&#46;</span>Rioboo<span>&#64;</span>lip6<span>&#46;</span>fr</a>) consists of different packages, categories and
+domains :</p>
+<p>The package RealPolynomialUtilitiesPackage which needs a Field F and a
+UnivariatePolynomialCategory domain with coefficients in F. It computes
+some simple functions such as Sturm and Sylvester sequences
+(sturmSequencesturmSequenceRealPolynomialUtilitiesPackage,
+sylvesterSequencesylvesterSequenceRealPolynomialUtilitiesPackage).</p>
+<p>The category RealRootCharacterizationCategory provides abstract
+functions to work with real roots of univariate polynomials. These
+resemble variables with some functionality needed to compute important
+operations.</p>
+<p>The category RealClosedField provides common operations available over
+real closed fiels. These include finding all the roots of a univariate
+polynomial, taking square (and higher) roots, ...</p>
+<p>The domain RightOpenIntervalRootCharacterization is the main code that
+provides the functionality of RealRootCharacterizationCategory for the
+case of archimedean fields. Abstract roots are encoded with a left
+closed right open interval containing the root together with a defining
+polynomial for the root.</p>
+<p>The RealClosure domain is the end-user code. It provides usual
+arithmetic with real algebraic numbers, along with the functionality of
+a real closed field. It also provides functions to approximate a real
+algebraic number by an element of the base field. This approximation may
+either be absolute (approximateapproximateRealClosure) or relative
+(relativeApproxrelativeApproxRealClosure).</p>
+<p>CAVEATS</p>
+<p>Since real algebraic expressions are stored as depending on real roots
+which are managed like variables, there is an ordering on these. This
+ordering is dynamical in the sense that any new algebraic takes
+precedence over older ones. In particular every creation function raises
+a new real root. This has the effect that when you type something like
+sqrt(2) + sqrt(2) you have two new variables which happen to be equal.
+To avoid this name the expression such as in s2 := sqrt(2) ; s2 + s2</p>
+<p>Also note that computing times depend strongly on the ordering you
+implicitly provide. Please provide algebraics in the order which seems
+most natural to you.</p>
+<p>LIMITATIONS</p>
+<p>These packages use algorithms which are published in [1] and [2] which
+are based on field arithmetics, in particular for polynomial gcd related
+algorithms. This can be quite slow for high degree polynomials and
+subresultants methods usually work best. Beta versions of the package
+try to use these techniques in a better way and work significantly
+faster. These are mostly based on unpublished algorithms and cannot be
+distributed. Please contact the author if you have a particular problem
+to solve or want to use these versions.</p>
+<p>Be aware that approximations behave as post-processing and that all
+computations are done exactly. They can thus be quite time consuming
+when depending on several real roots.</p>
+<p>REFERENCES</p>
+<p>[1] R. Rioboo : Real Algebraic Closure of an ordered Field :
+Implementation in FriCAS. In proceedings of the ISSAC&#8216;92 Conference,
+Berkeley 1992 pp. 206-215.</p>
+<p>[2] Z. Ligatsikas, R. Rioboo, M. F. Roy : Generic computation of the
+real closure of an ordered field. In Mathematics and Computers in
+Simulation Volume 42, Issue 4-6, November 1996.</p>
+<p>EXAMPLES</p>
+<p>We shall work with the real closure of the ordered field of rational
+numbers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Ran</span> <span class="p">:</span><span class="o">=</span> <span class="n">RECLOS</span><span class="p">(</span><span class="n">FRAC</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>RealClosureFractionInteger</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Some simple signs for square roots, these correspond to an extension of
+degree 16 of the rational numbers. Examples provided by J. Abbot.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fourSquares</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="n">Ran</span><span class="p">,</span><span class="n">b</span><span class="p">:</span><span class="n">Ran</span><span class="p">,</span><span class="n">c</span><span class="p">:</span><span class="n">Ran</span><span class="p">,</span><span class="n">d</span><span class="p">:</span><span class="n">Ran</span><span class="p">):</span><span class="n">Ran</span> <span class="o">==</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">)</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span>
+</pre></div>
+</div>
+<p>sqrt(c)-sqrt(d)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Function</span> <span class="n">declaration</span> <span class="n">fourSquares</span> <span class="p">:</span> <span class="p">(</span><span class="n">RealClosure</span> <span class="n">Fraction</span> <span class="n">Integer</span><span class="p">,</span>
+   <span class="n">RealClosure</span> <span class="n">Fraction</span> <span class="n">Integer</span><span class="p">,</span><span class="n">RealClosure</span> <span class="n">Fraction</span> <span class="n">Integer</span><span class="p">,</span>
+   <span class="n">RealClosure</span> <span class="n">Fraction</span> <span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RealClosure</span> <span class="n">Fraction</span> <span class="n">Integer</span> <span class="n">has</span>
+   <span class="n">been</span> <span class="n">added</span> <span class="n">to</span> <span class="n">workspace</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Void</p>
+<p>These produce values very close to zero.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">squareDiff1</span> <span class="p">:</span><span class="o">=</span> <span class="n">fourSquares</span><span class="p">(</span><span class="mi">73</span><span class="p">,</span><span class="mi">548</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">586</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-586-60+548+73</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">recip</span><span class="p">(</span><span class="n">squareDiff1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>((54602548+14960273)60+4950273548+9900895)586+(15470273548+30941947)60+10238421548+2805187173</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(RealClosure Fraction Integer,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sign</span><span class="p">(</span><span class="n">squareDiff1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">squareDiff2</span> <span class="p">:</span><span class="o">=</span> <span class="n">fourSquares</span><span class="p">(</span><span class="mi">165</span><span class="p">,</span><span class="mi">778</span><span class="p">,</span><span class="mi">86</span><span class="p">,</span><span class="mi">990</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-990-86+778+165</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">recip</span><span class="p">(</span><span class="n">squareDiff2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>((556778778+1209010165)86+401966165778+144019431)990+(1363822165778+488640503)86+162460913778+352774119165</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(RealClosure Fraction Integer,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sign</span><span class="p">(</span><span class="n">squareDiff2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">squareDiff3</span> <span class="p">:</span><span class="o">=</span> <span class="n">fourSquares</span><span class="p">(</span><span class="mi">217</span><span class="p">,</span><span class="mi">708</span><span class="p">,</span><span class="mi">226</span><span class="p">,</span><span class="mi">692</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-692-226+708+217</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">recip</span><span class="p">(</span><span class="n">squareDiff3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>((-34102708-61598217)226-34802217708-13641141)692+(-60898217708-23869841)226-13486123708-24359809217</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(RealClosure Fraction Integer,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sign</span><span class="p">(</span><span class="n">squareDiff3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">squareDiff4</span> <span class="p">:</span><span class="o">=</span> <span class="n">fourSquares</span><span class="p">(</span><span class="mi">155</span><span class="p">,</span><span class="mi">836</span><span class="p">,</span><span class="mi">162</span><span class="p">,</span><span class="mi">820</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-820-162+836+155</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">recip</span><span class="p">(</span><span class="n">squareDiff4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>((-37078836-86110155)162-37906155836-13645107)820+(-85282155836-30699151)162-13513901836-31384703155</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(RealClosure Fraction Integer,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sign</span><span class="p">(</span><span class="n">squareDiff4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">squareDiff5</span> <span class="p">:</span><span class="o">=</span> <span class="n">fourSquares</span><span class="p">(</span><span class="mi">591</span><span class="p">,</span><span class="mi">772</span><span class="p">,</span><span class="mi">552</span><span class="p">,</span><span class="mi">818</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-818-552+772+591</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">recip</span><span class="p">(</span><span class="n">squareDiff5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>((70922772+81058591)552+68542591772+46297673)818+(83438591772+56359389)552+47657051772+54468081591</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(RealClosure Fraction Integer,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sign</span><span class="p">(</span><span class="n">squareDiff5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">squareDiff6</span> <span class="p">:</span><span class="o">=</span> <span class="n">fourSquares</span><span class="p">(</span><span class="mi">434</span><span class="p">,</span><span class="mi">1053</span><span class="p">,</span><span class="mi">412</span><span class="p">,</span><span class="mi">1088</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1088-412+1053+434</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">recip</span><span class="p">(</span><span class="n">squareDiff6</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>((1154421053+179818434)412+1124784341053+76037291)1088+(1827824341053+123564147)412+772906391053+120391609434</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(RealClosure Fraction Integer,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sign</span><span class="p">(</span><span class="n">squareDiff6</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">squareDiff7</span> <span class="p">:</span><span class="o">=</span> <span class="n">fourSquares</span><span class="p">(</span><span class="mi">514</span><span class="p">,</span><span class="mi">1049</span><span class="p">,</span><span class="mi">446</span><span class="p">,</span><span class="mi">1152</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1152-446+1049+514</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">recip</span><span class="p">(</span><span class="n">squareDiff7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>((3495221049+499322514)446+3255825141049+239072537)1152+(5232625141049+384227549)446+2505348731049+357910443514</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(RealClosure Fraction Integer,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sign</span><span class="p">(</span><span class="n">squareDiff7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">squareDiff8</span> <span class="p">:</span><span class="o">=</span> <span class="n">fourSquares</span><span class="p">(</span><span class="mi">190</span><span class="p">,</span><span class="mi">1751</span><span class="p">,</span><span class="mi">208</span><span class="p">,</span><span class="mi">1698</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1698-208+1751+190</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">recip</span><span class="p">(</span><span class="n">squareDiff8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>((-2147021751-651782190)208-2246421901751-129571901)1698+(-6418421901751-370209881)208-1275958651751-387349387190</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(RealClosure Fraction Integer,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sign</span><span class="p">(</span><span class="n">squareDiff8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Integer</sub></p>
+<p>This should give three digits of precision</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">relativeApprox</span><span class="p">(</span><span class="n">squareDiff8</span><span class="p">,</span><span class="mi">10</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">))::</span><span class="n">Float</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-0.23405277715937700123E-10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>The sum of these 4 roots is 0</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>l := allRootsOf((x^2-2)^2-2)$Ran
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[%A33,%A34,%A35,%A36]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List RealClosure Fraction Integer</sub></p>
+<p>Check that they are all roots of the same polynomial</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">removeDuplicates</span> <span class="nb">map</span><span class="p">(</span><span class="n">mainDefiningPolynomial</span><span class="p">,</span><span class="n">l</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[?4-4?2+2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Union(SparseUnivariatePolynomial RealClosure Fraction</sub>
+Integer,&#8221;failed&#8221;)</p>
+<p>We can see at a glance that they are separate roots</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">map</span><span class="p">(</span><span class="n">mainCharacterization</span><span class="p">,</span><span class="n">l</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[-2,-1[,[-1,0[,[0,1[,[1,2[]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Union( RightOpenIntervalRootCharacterization( RealClosure</sub>
+Fraction Integer, SparseUnivariatePolynomial RealClosure Fraction
+Integer), &#8220;failed&#8221;)</p>
+<p>Check the sum and product</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">reduce</span><span class="p">(</span><span class="o">+</span><span class="p">,</span><span class="n">l</span><span class="p">),</span><span class="n">reduce</span><span class="p">(</span><span class="o">*</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,0]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List RealClosure Fraction Integer</sub></p>
+<p>A more complicated test that involve an extension of degree 256. This is
+a way of checking nested radical identities.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(s2, s5, s10) := (sqrt(2)$Ran, sqrt(5)$Ran, sqrt(10)$Ran)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eq1</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s10</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s5</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">s10</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s5</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">10</span><span class="o">*</span><span class="n">s2</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-10-35-2+10+35+2=102+10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eq1</span><span class="p">::</span><span class="n">Boolean</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eq2</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s5</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s2</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">s5</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="n">s2</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">s10</span><span class="o">+</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-5-22-1+5+22+1=210+2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eq2</span><span class="p">::</span><span class="n">Boolean</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>Some more examples from J. M. Arnaudies</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>s3 := sqrt(3)$Ran
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>s7:= sqrt(7)$Ran
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">e1</span> <span class="p">:</span><span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">s7</span><span class="o">-</span><span class="mi">3</span><span class="o">*</span><span class="n">s3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>27-333</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">e2</span> <span class="p">:</span><span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">s7</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">s3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>27+333</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<p>This should be null</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">e2</span><span class="o">-</span><span class="n">e1</span><span class="o">-</span><span class="n">s3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<p>A quartic polynomial</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pol</span> <span class="p">:</span> <span class="n">UP</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">Ran</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">4</span><span class="o">+</span><span class="p">(</span><span class="mi">7</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="mi">30</span><span class="o">*</span><span class="n">x</span><span class="o">-</span><span class="p">(</span><span class="mi">100</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x4+73x2+30x-1003</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,RealClosure Fraction Integer)</sub></p>
+<p>Add some cubic roots</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>r1 := sqrt(7633)$Ran
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7633</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">alpha</span> <span class="p">:</span><span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">r1</span><span class="o">-</span><span class="mi">436</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1357633-4363</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">beta</span> <span class="p">:</span><span class="o">=</span> <span class="o">-</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">r1</span><span class="o">+</span><span class="mi">436</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1357633+4363</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<p>this should be null</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pol</span><span class="o">.</span><span class="p">(</span><span class="n">alpha</span><span class="o">+</span><span class="n">beta</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<p>A quintic polynomial</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">qol</span> <span class="p">:</span> <span class="n">UP</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">Ran</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">5</span><span class="o">+</span><span class="mi">10</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span><span class="mi">20</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">22</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x5+10x3+20x+22</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,RealClosure Fraction Integer)</sub></p>
+<p>Add some cubic roots</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>r2 := sqrt(153)$Ran
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>153</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">alpha2</span> <span class="p">:</span><span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r2</span><span class="o">-</span><span class="mi">11</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>153-115</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">beta2</span> <span class="p">:</span><span class="o">=</span> <span class="o">-</span><span class="n">sqrt</span><span class="p">(</span><span class="n">r2</span><span class="o">+</span><span class="mi">11</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-153+115</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<p>this should be null</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">qol</span><span class="p">(</span><span class="n">alpha2</span><span class="o">+</span><span class="n">beta2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<p>Finally, some examples from the book Computer Algebra by Davenport,
+Siret and Tournier (page 77). The last one is due to Ramanujan.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dst1</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">9</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">s2</span><span class="p">)</span><span class="o">=</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">s2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>42+9=22+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dst1</span><span class="p">::</span><span class="n">Boolean</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s6</span><span class="p">:</span><span class="n">Ran</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span> <span class="mi">6</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>6</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dst2</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">s6</span><span class="p">)</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">5</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">s6</span><span class="p">)</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">s3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-26+5+26+5=23</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dst2</span><span class="p">::</span><span class="n">Boolean</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s29</span><span class="p">:</span><span class="n">Ran</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span> <span class="mi">29</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>29</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dst4</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">16</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">s29</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">55</span><span class="o">-</span><span class="mi">10</span><span class="o">*</span><span class="n">s29</span><span class="p">))</span> <span class="o">=</span>
+</pre></div>
+</div>
+<p>sqrt(22+2*s5)-sqrt(11+2*s29)+s5</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2-1029+55-229+16=-229+11+25+22+5</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dst4</span><span class="p">::</span><span class="n">Boolean</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dst6</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span><span class="p">((</span><span class="mi">112</span><span class="o">+</span><span class="mi">70</span><span class="o">*</span><span class="n">s2</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="mi">46</span><span class="o">+</span><span class="mi">34</span><span class="o">*</span><span class="n">s2</span><span class="p">)</span><span class="o">*</span><span class="n">s5</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="o">+</span><span class="mi">4</span><span class="o">*</span><span class="n">s2</span><span class="p">)</span><span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">+</span><span class="n">s2</span><span class="p">)</span><span class="o">*</span><span class="n">s5</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(342+46)5+702+112=(2+3)5+42+5</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dst6</span><span class="p">::</span><span class="n">Boolean</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f3</span><span class="p">:</span><span class="n">Ran</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>35</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f25</span><span class="p">:</span><span class="n">Ran</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">25</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1255</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f32</span><span class="p">:</span><span class="n">Ran</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">32</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3255</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f27</span><span class="p">:</span><span class="n">Ran</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">27</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2755</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dst5</span><span class="p">:</span><span class="o">=</span><span class="n">sqrt</span><span class="p">((</span><span class="n">f32</span><span class="o">-</span><span class="n">f27</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> <span class="o">=</span> <span class="n">f25</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">f3</span><span class="o">-</span><span class="n">f3</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-2755+32553=(-352+35+1)1255</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Equation RealClosure Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dst5</span><span class="p">::</span><span class="n">Boolean</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.65.html" title="previous chapter">9.65 RadixExpansion</a></li>
+      <li>Next: <a href="section-9.67.html" title="next chapter">9.67 RegularTriangularSet</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.66.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.66.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

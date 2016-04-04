@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>0.4 Using FriCAS as a Symbolic Calculator &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="0.5 General Points about FriCAS" href="section-0.5.html" />
+    <link rel="prev" title="0.3 Using FriCAS as a Pocket Calculator" href="section-0.3.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="using-fricas-as-a-symbolic-calculator">
+<h1>0.4 Using FriCAS as a Symbolic Calculator<a class="headerlink" href="#using-fricas-as-a-symbolic-calculator" title="Permalink to this headline">¶</a></h1>
+<p>In the previous section all the examples involved numbers and simple
+functions. Also none of the expressions entered were assigned to
+anything. In this section we will move on to simple algebra (i.e.
+expressions involving symbols and other features available on more
+sophisticated calculators).</p>
+<div class="section" id="expressions-involving-symbols">
+<h2>0.4.1 Expressions Involving Symbols<a class="headerlink" href="#expressions-involving-symbols" title="Permalink to this headline">¶</a></h2>
+<p>Expressions involving symbols are entered just as they are written down,
+for example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">xSquared</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[x^2\]</div>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>where the assignment operator <code class="docutils literal"><span class="pre">:=</span></code> represents immediate assignment.
+Later it will be seen that this form of assignment is not always
+desirable and the use of the delayed assignment operator == will be
+introduced. The type of the result is Polynomial Integer which is used
+to represent polynomials with integer coefficients. Some other examples
+along similar lines are:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">xDummy</span> <span class="p">:</span><span class="o">=</span> <span class="mf">3.21</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[3.21 x^2\]</div>
+<p><sub>Type: Polynomial Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">xDummy</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mf">2.5</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{x} ^ {2}} \  {\sqrt {x}}\]</div>
+<p><sub>Type: Expression Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">xDummy</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mf">3.3</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{x} ^ {3}} \  {{{\root {{10}} \of {x}}} ^ {3}}\]</div>
+<p><sub>Type: Expression Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">xyDummy</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">y</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[x^2-y^2\]</div>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Given that we can define expressions involving symbols, how do we
+actually compute the result when the symbols are assigned values? The
+answer is to use the eval function which takes an expression as its
+first argument followed by a list of assignments. For example, to
+evaluate the expressions XDummy and {xyDummy} resulting from their
+respective assignments above we type:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">xDummy</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[37.540507598529552193\]</div>
+<p><sub>Type: Expression Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">xyDummy</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">2.1</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[4.59\]</div>
+<p><sub>Type: Polynomial Float</sub></p>
+</div>
+<div class="section" id="complex-numbers">
+<h2>0.4.2 Complex Numbers<a class="headerlink" href="#complex-numbers" title="Permalink to this headline">¶</a></h2>
+<p>For many scientific calculations real numbers aren&#8217;t sufficient and
+support for complex numbers is also required. Complex numbers are
+handled in an intuitive manner and FriCAS, which uses the %i macro to
+represent the square root of -1. Thus expressions involving complex
+numbers are entered just like other expressions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span> <span class="o">+</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[-4627+13\,i\]</div>
+<p><sub>Type: Complex Fraction Integer</sub></p>
+<p>The real and imaginary parts of a complex number can be extracted using
+the real and imag functions and the complex conjugate of a number can be
+obtained using conjugate:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">real</span><span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[3\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">imag</span><span class="p">(</span><span class="mi">3</span><span class="o">+</span> <span class="mi">2</span><span class="o">*%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[2\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conjugate</span><span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[3-2\,i\]</div>
+<p><sub>Type: Complex Integer</sub></p>
+<p>The function factor can also be applied to complex numbers but the
+results aren&#8217;t quite so obvious as for factoring integer:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">144</span> <span class="o">+</span> <span class="mi">24</span><span class="o">*%</span><span class="n">i</span>
+</pre></div>
+</div>
+<div class="math">
+\[144+24\,i\]</div>
+<p><sub>Type: Complex Integer</sub></p>
+</div>
+<div class="section" id="number-representations">
+<h2>0.4.3 Number Representations<a class="headerlink" href="#number-representations" title="Permalink to this headline">¶</a></h2>
+<p>By default all numerical results are displayed in decimal with real
+numbers shown to 20 significant figures. If the integer part of a number
+is longer than 20 digits then nothing after the decimal point is shown
+and the integer part is given in full. To alter the number of digits
+shown the function digits can be called. The result returned by this
+function is the previous setting. For example, to find the value of π to
+40 digits we type:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">digits</span><span class="p">(</span><span class="mi">40</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[20\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">pi</span><span class="p">::</span><span class="n">Float</span>
+</pre></div>
+</div>
+<div class="math">
+\[3.141592653589793238462643383279502884197\]</div>
+<p><sub>Type: Float</sub></p>
+<p>As can be seen in the example above, there is a gap after every ten
+digits. This can be changed using the outputSpacing function where the
+argument is the number of digits to be displayed before a space is
+inserted. If no spaces are desired then use the value 0. Two other
+functions controlling the appearance of real numbers are outputFloating
+and outputFixed. The former causes FriCAS to display floating-point
+values in exponent notation and the latter causes it to use fixed-point
+notation. For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputFloating</span><span class="p">();</span> <span class="o">%</span>
+</pre></div>
+</div>
+<div class="math">
+\[0.3141592653589793238462643383279502884197E1\]</div>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputFloating</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span> <span class="mf">0.00345</span>
+</pre></div>
+</div>
+<div class="math">
+\[0.345E-2\]</div>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputFixed</span><span class="p">();</span> <span class="o">%</span>
+</pre></div>
+</div>
+<div class="math">
+\[0.00345\]</div>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputFixed</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span> <span class="o">%</span>
+</pre></div>
+</div>
+<div class="math">
+\[0.003\]</div>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">outputGeneral</span><span class="p">();</span> <span class="o">%</span>
+</pre></div>
+</div>
+<div class="math">
+\[0.00345\]</div>
+<p><sub>Type: Float</sub></p>
+<p>Note that the semicolon ; in the examples above allows several
+expressions to be entered on one line. The result of the last expression
+is displayed. remember also that the percent symbol <code class="docutils literal"><span class="pre">%</span></code> is used to
+represent the result of a previous calculation.</p>
+<p>To display rational numbers in a base other than 10 the function radix
+is used. The first argument of this function is the expression to be
+displayed and the second is the base to be used.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">radix</span><span class="p">(</span><span class="mi">10</span><span class="o">^</span><span class="mi">10</span><span class="p">,</span><span class="mi">32</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[9A0NP00\]</div>
+<p><sub>Type: RadixExpansion 32</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">radix</span><span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">21</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[0.\overline{032412}\]</div>
+<p><sub>Type: RadixExpansion 5</sub></p>
+<p>Rational numbers can be represented as a repeated decimal expansion
+using the decimal function or as a continued fraction using
+continuedFraction. Any attempt to call these functions with irrational
+values will fail.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">decimal</span><span class="p">(</span><span class="mi">22</span><span class="o">/</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[3.{\overline {142857}}\]</div>
+<p><sub>Type: DecimalExpansion</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">continuedFraction</span><span class="p">(</span><span class="mi">6543</span><span class="o">/</span><span class="mi">210</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[31 + \frac{1}{+ \frac{1}{+ \frac{1}{+ \frac{1}{3}}}}\]</div>
+<p><sub>Type: ContinuedFraction Integer</sub></p>
+<p>Finally, partial fractions in compact and expanded form are available
+via the functions partialFraction and padicFraction respectively. The
+former takes two arguments, the first being the numerator of the
+fraction and the second being the denominator. The latter function takes
+a fraction and expands it further while the function compactFraction
+does the reverse:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">partialFraction</span><span class="p">(</span><span class="mi">234</span><span class="p">,</span><span class="mi">40</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[6 -{3 \over {{2} ^ {2}}}+{3 \over 5}\]</div>
+<p><sub>Type: PartialFraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">padicFraction</span><span class="p">(</span><span class="o">%</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[6 -{1 \over 2} -{1 \over {{2} ^ {2}}}+{3 \over 5}\]</div>
+<p><sub>Type: PartialFraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">compactFraction</span><span class="p">(</span><span class="o">%</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[6 -{3 \over {{2} ^ {2}}}+{3 \over 5}\]</div>
+<p><sub>Type: PartialFraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">padicFraction</span><span class="p">(</span><span class="mi">234</span><span class="o">/</span><span class="mi">40</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{117} \over {20}\]</div>
+<p><sub>Type: PartialFraction Fraction Integer</sub></p>
+<p>To extract parts of a partial fraction the function nthFractionalTerm is
+available and returns a partial fraction of one term. To decompose this
+further the numerator can be obtained using firstNumer and the
+denominator with firstDenom. The whole part of a partial fraction can be
+retrieved using wholePart and the number of fractional parts can be
+found using the function numberOf FractionalTerms:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="p">:</span><span class="o">=</span> <span class="n">partialFraction</span><span class="p">(</span><span class="mi">234</span><span class="p">,</span><span class="mi">40</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[6 -{3 \over {{2} ^ {2}}}+{3 \over 5}\]</div>
+<p><sub>Type: PartialFraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">wholePart</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[6\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">numberOfFractionalTerms</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[2\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="n">nthFractionalTerm</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[-322\]</div>
+<p><sub>Type: PartialFraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">firstNumer</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[-3\]</div>
+<p><sub>Type: Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">firstDenom</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[22\]</div>
+<p><sub>Type: Factored Integer</sub></p>
+</div>
+<div class="section" id="modular-arithmetic">
+<h2>0.4.4 Modular Arithmetic<a class="headerlink" href="#modular-arithmetic" title="Permalink to this headline">¶</a></h2>
+<p>By using the type constructor PrimeField it is possible to do arithmetic
+modulo some prime number. For example, arithmetic module 7 can be
+performed as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span> <span class="n">PrimeField</span> <span class="mi">7</span> <span class="p">:</span><span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[5\]</div>
+<p><sub>Type: PrimeField 7</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">^</span><span class="mi">5</span> <span class="o">+</span> <span class="mi">6</span>
+</pre></div>
+</div>
+<div class="math">
+\[2\]</div>
+<p><sub>Type: PrimeField 7</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="o">/</span><span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[3\]</div>
+<p><sub>Type: PrimeField 7</sub></p>
+<p>The first example should be read as:</p>
+<blockquote>
+<div>Let x be of type PrimeField(7) and assign to it the value 5</div></blockquote>
+<p>Note that it is only possible to invert non-zero values if the
+arithmetic is performed modulo a prime number. Thus arithmetic modulo a
+non-prime integer is possible but the reciprocal operation is undefined
+and will generate an error. Attempting to use the PrimeField type
+constructor with a non-prime argument will generate an error. An example
+of non-prime modulo arithmetic is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span> <span class="n">IntegerMod</span> <span class="mi">8</span> <span class="p">:</span><span class="o">=</span> <span class="mi">11</span>
+</pre></div>
+</div>
+<div class="math">
+\[3\]</div>
+<p><sub>Type: IntegerMod 8</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">*</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">27</span>
+</pre></div>
+</div>
+<div class="math">
+\[7\]</div>
+<p><sub>Type: IntegerMod 8</sub></p>
+<p>Note that polynomials can be constructed in a similar way:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">a</span><span class="o">^</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">27</span><span class="o">*</span><span class="n">a</span> <span class="o">-</span> <span class="mi">36</span><span class="p">)::</span><span class="n">Polynomial</span> <span class="n">PrimeField</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<div class="math">
+\[{3 \  {{a} ^ {4}}}+{6 \  a}+6\]</div>
+<p><sub>Type: Polynomial PrimeField 7</sub></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">0.4 Using FriCAS as a Symbolic Calculator</a><ul>
+<li><a class="reference internal" href="#expressions-involving-symbols">0.4.1 Expressions Involving Symbols</a></li>
+<li><a class="reference internal" href="#complex-numbers">0.4.2 Complex Numbers</a></li>
+<li><a class="reference internal" href="#number-representations">0.4.3 Number Representations</a></li>
+<li><a class="reference internal" href="#modular-arithmetic">0.4.4 Modular Arithmetic</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-0.3.html" title="previous chapter">0.3 Using FriCAS as a Pocket Calculator</a></li>
+      <li>Next: <a href="section-0.5.html" title="next chapter">0.5 General Points about FriCAS</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-0.4.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-0.4.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,832 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>0.7 Functions, Choices, and Loops &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="1.0 An Overview of FriCAS" href="section-1.0.html" />
+    <link rel="prev" title="0.6 Data Structures in FriCAS" href="section-0.6.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="functions-choices-and-loops">
+<h1>0.7 Functions, Choices, and Loops<a class="headerlink" href="#functions-choices-and-loops" title="Permalink to this headline">¶</a></h1>
+<p>By now the reader should be able to construct simple one-line
+expressions involving variables and different data structures. This
+section builds on this knowledge and shows how to use iteration, make
+choices, and build functions in FriCAS. At the moment it is assumed that
+the reader has a rough idea of how types are specified and constructed
+so that they can follow the examples given.</p>
+<p>From this point on most examples will be taken from input files.</p>
+<div class="section" id="reading-code-from-a-file">
+<h2>0.7.1 Reading Code from a File<a class="headerlink" href="#reading-code-from-a-file" title="Permalink to this headline">¶</a></h2>
+<p>Input files contain code that will be fed to the command prompt. The
+primary different between the command line and an input file is that
+indentation matters. In an input file you can specify piles of code by
+using indentation.</p>
+<p>The names of all input files in FriCAS should end in .input otherwise
+FriCAS will refuse to read them.</p>
+<p>If an input file is named foo.input you can feed the contents of the
+file to the command prompt (as though you typed them) by writing: )read
+foo.input.</p>
+<p>It is good practice to start each input file with the )clear all command
+so that all functions and variables in the current environment are
+erased.</p>
+</div>
+<div class="section" id="blocks">
+<h2>0.7.2 Blocks<a class="headerlink" href="#blocks" title="Permalink to this headline">¶</a></h2>
+<p>The FriCAS constructs that provide looping, choices, and user-defined
+functions all rely on the notion of blocks. A block is a sequence of
+expressions which are evaluated in the order that they appear except
+when it is modified by control expressions such as loops. To leave a
+block prematurely use an expression of the form: BoolExpr=&gt;Expr where
+BoolExpr is any FriCAS expression that has type Boolean. The value and
+type of Expr determines the value and type returned by the block.</p>
+<p>If blocks are entered at the keyboard (as opposed to reading them from a
+text file) then there is only one way of creating them. The syntax is:
+(expression1;expression2;…;expressionN)</p>
+<p>In an input file a block can be constructed as above or by placing all
+the statements at the same indentation level. When indentation is used
+to indicate program structure the block is called a pile. As an example
+of a simple block a list of three integers can be constructed using
+parentheses:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span> <span class="n">a</span><span class="p">:</span><span class="o">=</span><span class="mi">4</span><span class="p">;</span> <span class="n">b</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">c</span><span class="p">:</span><span class="o">=</span><span class="mi">9</span><span class="p">;</span> <span class="n">L</span><span class="p">:</span><span class="o">=</span><span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[[4,1,9]\]</div>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>Doing the same thing using piles in an input file you could type:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="p">:</span><span class="o">=</span>
+  <span class="n">a</span><span class="p">:</span><span class="o">=</span><span class="mi">4</span>
+  <span class="n">b</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+  <span class="n">c</span><span class="p">:</span><span class="o">=</span><span class="mi">9</span>
+  <span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[[4,1,9]\]</div>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>Since blocks have a type and a value they can be used as arguments to
+functions or as part of other expressions. It should be pointed out that
+the following example is not recommended practice but helps to
+illustrate the idea of blocks and their ability to return values:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">+</span>
+         <span class="n">a</span><span class="p">:</span><span class="o">=</span><span class="mf">3.0</span>
+         <span class="n">b</span><span class="p">:</span><span class="o">=</span><span class="mf">1.0</span>
+         <span class="n">c</span><span class="p">:</span><span class="o">=</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+         <span class="n">c</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[2.8284271247461900976\]</div>
+<p><sub>Type: Float</sub></p>
+<p>Note that indentation is extremely important. If the example above had
+the pile starting at <code class="docutils literal"><span class="pre">a:=</span></code> moved left by two spaces so that the a
+was under the ( of the first line then the interpreter would signal an
+error. Furthermore if the closing parenthesis ) is moved up to give</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">+</span>
+         <span class="n">a</span><span class="p">:</span><span class="o">=</span><span class="mf">3.0</span>
+         <span class="n">b</span><span class="p">:</span><span class="o">=</span><span class="mf">1.0</span>
+         <span class="n">c</span><span class="p">:</span><span class="o">=</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+         <span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition error">
+<p class="first admonition-title">Error</p>
+<p class="last">Line&nbsp;&nbsp;&nbsp;1:&nbsp;sqrt(4.0&nbsp;+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;....A
+Error&nbsp;&nbsp;A:&nbsp;Missing&nbsp;mate.
+Line&nbsp;&nbsp;&nbsp;2:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a:=3.0
+Line&nbsp;&nbsp;&nbsp;3:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b:=1.0
+Line&nbsp;&nbsp;&nbsp;4:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c:=a&nbsp;+&nbsp;b
+Line&nbsp;&nbsp;&nbsp;5:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.........AB
+Error&nbsp;&nbsp;A:&nbsp;(from&nbsp;A&nbsp;up&nbsp;to&nbsp;B)&nbsp;Ignored.
+Error&nbsp;&nbsp;B:&nbsp;Improper&nbsp;syntax.
+Error&nbsp;&nbsp;B:&nbsp;syntax&nbsp;error&nbsp;at&nbsp;top&nbsp;level
+Error&nbsp;&nbsp;B:&nbsp;Possibly&nbsp;missing&nbsp;a&nbsp;)
+&nbsp;5&nbsp;error(s)&nbsp;parsing</p>
+</div>
+<p>then the parser will generate errors. If the parenthesis is shifted
+right by several spaces so that it is in line with the c thus:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">+</span>
+         <span class="n">a</span><span class="p">:</span><span class="o">=</span><span class="mf">3.0</span>
+         <span class="n">b</span><span class="p">:</span><span class="o">=</span><span class="mf">1.0</span>
+         <span class="n">c</span><span class="p">:</span><span class="o">=</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+         <span class="n">c</span>
+         <span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition error">
+<p class="first admonition-title">Error</p>
+<p class="last">Line&nbsp;&nbsp;&nbsp;1:&nbsp;sqrt(4.0&nbsp;+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;....A
+Error&nbsp;&nbsp;A:&nbsp;Missing&nbsp;mate.
+Line&nbsp;&nbsp;&nbsp;2:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a:=3.0
+Line&nbsp;&nbsp;&nbsp;3:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b:=1.0
+Line&nbsp;&nbsp;&nbsp;4:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c:=a&nbsp;+&nbsp;b
+Line&nbsp;&nbsp;&nbsp;5:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c
+Line&nbsp;&nbsp;&nbsp;6:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.........A
+Error&nbsp;&nbsp;A:&nbsp;(from&nbsp;A&nbsp;up&nbsp;to&nbsp;A)&nbsp;Ignored.
+Error&nbsp;&nbsp;A:&nbsp;Improper&nbsp;syntax.
+Error&nbsp;&nbsp;A:&nbsp;syntax&nbsp;error&nbsp;at&nbsp;top&nbsp;level
+Error&nbsp;&nbsp;A:&nbsp;Possibly&nbsp;missing&nbsp;a&nbsp;)
+&nbsp;5&nbsp;error(s)&nbsp;parsing</p>
+</div>
+<p>a similar error will be raised. Finally, the ) must be indented by at
+least one space relative to the sqrt thus:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">+</span>
+         <span class="n">a</span><span class="p">:</span><span class="o">=</span><span class="mf">3.0</span>
+         <span class="n">b</span><span class="p">:</span><span class="o">=</span><span class="mf">1.0</span>
+         <span class="n">c</span><span class="p">:</span><span class="o">=</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+         <span class="n">c</span>
+ <span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[2.8284271247461900976\]</div>
+<p><sub>Type: Float</sub></p>
+<p>or an error will be generated.</p>
+<p>It can be seen that great care needs to be taken when constructing input
+files consisting of piles of expressions. It would seem prudent to add
+one pile at a time and check if it is acceptable before adding more,
+particularly if piles are nested. However, it should be pointed out that
+the use of piles as values for functions is not very readable and so
+perhaps the delicate nature of their interpretation should deter
+programmers from using them in these situations. Using piles should
+really be restricted to constructing functions, etc. and a small amount
+of rewriting can remove the need to use them as arguments. For example,
+the previous block could easily be implemented as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">:</span><span class="o">=</span><span class="mf">3.0</span>
+<span class="n">b</span><span class="p">:</span><span class="o">=</span><span class="mf">1.0</span>
+<span class="n">c</span><span class="p">:</span><span class="o">=</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="n">sqrt</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">:</span><span class="o">=</span><span class="mf">3.0</span>
+</pre></div>
+</div>
+<div class="math">
+\[3.0\]</div>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span><span class="p">:</span><span class="o">=</span><span class="mf">1.0</span>
+</pre></div>
+</div>
+<div class="math">
+\[1.0\]</div>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">:</span><span class="o">=</span><span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[4.0\]</div>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sqrt</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">+</span> <span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[2.8284271247461900976\]</div>
+<p><sub>Type: Float</sub></p>
+<p>which achieves the same result and is easier to understand. Note that
+this is still a pile but it is not as fragile as the previous version.</p>
+</div>
+<div class="section" id="functions">
+<h2>0.7.3 Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h2>
+<p>Definitions of functions in FriCAS are quite simple providing two things
+are observed. First, the type of the function must either be completely
+specified or completely unspecified. Second, the body of the function is
+assigned to the function identifier using the delayed assignment
+operator ==.</p>
+<p>To specify the type of something the <code class="docutils literal"><span class="pre">:</span></code> operator is used. Thus to
+define a variable x to be of type Fraction Integer we enter:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span> <span class="n">Fraction</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>For functions the method is the same except that the arguments are
+placed in parentheses and the return type is placed after the symbol -&gt;.
+Some examples of function definitions taking zero, one, two, or three
+arguments and returning a list of integers are:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="p">:</span> <span class="p">(</span><span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="p">:</span> <span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span> <span class="p">:</span> <span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Now the actual function definitions might be:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">()</span> <span class="o">==</span> <span class="p">[</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>with some invocations of these functions:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">f</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[[]\]</div>
+<p><sub>Type: List Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">g</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[[4]\]</div>
+<p><sub>Type: List Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">h</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">(</span><span class="n">Integer</span><span class="p">,</span><span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[[2,9]\]</div>
+<p><sub>Type: List Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">k</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">(</span><span class="n">Integer</span><span class="p">,</span><span class="n">Integer</span><span class="p">,</span><span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span>
+   <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[[-3,42,100]\]</div>
+<p><sub>Type: List Integer</sub></p>
+<p>The value returned by a function is either the value of the last
+expression evaluated or the result of a return statement. For example,
+the following are effectively the same:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="n">x</span> <span class="o">==</span> <span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">b</span><span class="p">:</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span> <span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">+</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="n">x</span> <span class="o">==</span> <span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">b</span><span class="p">:</span><span class="o">=</span><span class="mi">2</span><span class="p">;</span> <span class="k">return</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">+</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Note that a block (pile) is assigned to the function identifier p and
+thus all the rules about blocks apply to function definitions. Also
+there was only one argument so the parenthese are not needed.</p>
+<p>This is basically all that one needs to know about defining functions in
+FriCAS &#8211; first specify the complete type and then assign a block to the
+function name. The rest of this section is concerned with defining more
+complex blocks than those in this section and as a result function
+definitions will crop up continually particularly since they are a good
+way of testing examples. Since the block structure is more complex we
+will use the pile notation and thus have to use input files to read the
+piles.</p>
+</div>
+<div class="section" id="choices">
+<h2>0.7.4 Choices<a class="headerlink" href="#choices" title="Permalink to this headline">¶</a></h2>
+<p>Apart from the =&gt; operator that allows a block to exit before the end
+FriCAS provides the standard if-then-else construct. The general syntax
+is:</p>
+<p>if BooleanExpr then Expr1 else Expr2</p>
+<p>where else Expr2 can be omitted. If the expression BooleanExpr evaluates
+to true then Expr1 is executed otherwise Expr2 (if present) will be
+executed. An example of piles and if-then-else is: (read from an input
+file)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="p">:</span><span class="o">=</span> <span class="mf">2.0</span>
+<span class="k">if</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="mf">3.1</span> <span class="n">then</span>
+      <span class="mf">1.0</span>
+   <span class="k">else</span>
+      <span class="n">z</span><span class="p">:</span><span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+      <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="p">:</span><span class="o">=</span> <span class="mf">2.0</span>
+</pre></div>
+</div>
+<div class="math">
+\[2.0\]</div>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="mf">3.1</span> <span class="n">then</span>
+      <span class="mf">1.0</span>
+   <span class="k">else</span>
+      <span class="n">z</span><span class="p">:</span><span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+      <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[x\]</div>
+<p><sub>Type: Polynomial Float</sub></p>
+<p>Note the indentation &#8211; the else must be indented relative to the if
+otherwise it will generate an error (FriCAS will think there are two
+piles, the second one beginning with else).</p>
+<p>Any expression that has type Boolean can be used as BooleanExpr and the
+most common will be those involving the relational operators &gt;, &lt;, and
+=. Usually the type of an expression involving the equality operator =
+will be Boolean but in those situations when it isn&#8217;t you may need to
+use the <code class="docutils literal"><span class="pre">&#64;</span></code> operator to ensure that it is.</p>
+</div>
+<div class="section" id="loops">
+<h2>0.7.5 Loops<a class="headerlink" href="#loops" title="Permalink to this headline">¶</a></h2>
+<p>Loops in FriCAS are regarded as expressions containing another
+expression called the loop body. The loop body is executed zero or more
+times depending on the kind of loop. Loops can be nested to any depth.</p>
+</div>
+<div class="section" id="the-repeat-loop">
+<h2>0.7.5.1 The repeat loop<a class="headerlink" href="#the-repeat-loop" title="Permalink to this headline">¶</a></h2>
+<p>The simplest kind of loop provided by FriCAS is the repeat loop. The
+general syntax of this is:</p>
+<p>repeat loopBody</p>
+<p>This will cause FriCAS to execute loopBody repeatedly until either a
+break or return statement is encountered. If loopBody contains neither
+of these statements then it will loop forever. The following piece of
+code will display the numbers from 1 to 4:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">repeat</span>
+  <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="n">then</span> <span class="k">break</span>
+  <span class="n">output</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+  <span class="n">i</span><span class="p">:</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">repeat</span>
+  <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">4</span> <span class="n">then</span> <span class="k">break</span>
+  <span class="n">output</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+  <span class="n">i</span><span class="p">:</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span>
+
+   <span class="mi">1</span>
+   <span class="mi">2</span>
+   <span class="mi">3</span>
+   <span class="mi">4</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>It was mentioned that loops will only be left when either a break or
+return statement is encountered so why can&#8217;t one use the =&gt; operator?
+The reason is that the =&gt; operator tells FriCAS to leave the current
+block whereas break leaves the current loop. The return statement leave
+the current function.</p>
+<p>To skip the rest of a loop body and continue the next iteration of the
+loop use the iterate statement (the &#8211; starts a comment in FriCAS)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>i := 0
+repeat
+  i := i + 1
+  if i &gt; 6 then break
+  -- Return to start if i is odd
+  if odd?(i) then iterate
+  output(i)
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>repeat
+  i := i + 1
+  if i &gt; 6 then break
+  -- Return to start if i is odd
+  if odd?(i) then iterate
+  output(i)
+
+   2
+   4
+   6
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+</div>
+<div class="section" id="the-while-loop">
+<h2>0.7.5.2 The while loop<a class="headerlink" href="#the-while-loop" title="Permalink to this headline">¶</a></h2>
+<p>The while statement extends the basic repeat loop to place the control
+of leaving the loop at the start rather than have it buried in the
+middle. Since the body of the loop is still part of a repeat loop, break
+and =&gt; work in the same way as in the previous section. The general
+syntax of a while loop is:</p>
+<p>while BoolExpr repeat loopBody</p>
+<p>As before, BoolExpr must be an expression of type Boolean. Before the
+body of the loop is executed BoolExpr is tested. If it evaluates to true
+then the loop body is entered otherwise the loop is terminated. Multiple
+conditions can be applied using the logical operators such as and or by
+using several while statements before the repeat.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">y</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+<span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="n">repeat</span>
+  <span class="n">output</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span>
+  <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="n">repeat</span>
+  <span class="n">output</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span>
+  <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span>
+
+   <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">y</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+<span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="k">while</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="n">repeat</span>
+  <span class="n">output</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span>
+  <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="k">while</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="n">repeat</span>
+  <span class="n">output</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span>
+  <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span>
+
+   <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Note that the last example using two while statements is not a nested
+loop but the following one is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">y</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+<span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="n">repeat</span>
+  <span class="k">while</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="n">repeat</span>
+    <span class="n">output</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span>
+    <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">:</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="n">repeat</span>
+  <span class="k">while</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="n">repeat</span>
+    <span class="n">output</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span>
+    <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span>
+
+   <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Suppose we that, given a matrix of arbitrary size, find the position and
+value of the first negative element by examining the matrix in row-major
+order:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">14</span> <span class="p">],</span><span class="n">_</span>
+              <span class="p">[</span>  <span class="mi">8</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span><span class="o">-</span><span class="mi">24</span><span class="p">,</span> <span class="mi">16</span> <span class="p">],</span><span class="n">_</span>
+              <span class="p">[</span>  <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">14</span> <span class="p">],</span><span class="n">_</span>
+              <span class="p">[</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span><span class="o">-</span><span class="mi">13</span> <span class="p">]</span> <span class="p">]</span>
+<span class="n">lastrow</span> <span class="p">:</span><span class="o">=</span> <span class="n">nrows</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="n">lastcol</span> <span class="p">:</span><span class="o">=</span> <span class="n">ncols</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+<span class="k">while</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="n">lastrow</span> <span class="n">repeat</span>
+  <span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span> <span class="o">--</span> <span class="n">Index</span> <span class="n">of</span> <span class="n">first</span> <span class="n">column</span>
+  <span class="k">while</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="n">lastcol</span> <span class="n">repeat</span>
+    <span class="k">if</span> <span class="n">elt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="n">then</span>
+      <span class="n">output</span> <span class="p">[</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">elt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">)]</span>
+      <span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">lastrow</span>
+      <span class="k">break</span> <span class="o">--</span> <span class="n">Don</span><span class="s1">&#39;t look any further</span>
+    <span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">14</span> <span class="p">],</span><span class="n">_</span>
+              <span class="p">[</span>  <span class="mi">8</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span><span class="o">-</span><span class="mi">24</span><span class="p">,</span> <span class="mi">16</span> <span class="p">],</span><span class="n">_</span>
+              <span class="p">[</span>  <span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">14</span> <span class="p">],</span><span class="n">_</span>
+              <span class="p">[</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span><span class="o">-</span><span class="mi">13</span> <span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>[21375314822-24162101514263355-13]</p>
+<p><sub>Type: Matrix Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lastrow</span> <span class="p">:</span><span class="o">=</span> <span class="n">nrows</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[4\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lastcol</span> <span class="p">:</span><span class="o">=</span> <span class="n">ncols</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[4\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="n">lastrow</span> <span class="n">repeat</span>
+  <span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span> <span class="o">--</span> <span class="n">Index</span> <span class="n">of</span> <span class="n">first</span> <span class="n">column</span>
+  <span class="k">while</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="n">lastcol</span> <span class="n">repeat</span>
+    <span class="k">if</span> <span class="n">elt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="n">then</span>
+      <span class="n">output</span> <span class="p">[</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">elt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">)]</span>
+      <span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">lastrow</span>
+      <span class="k">break</span> <span class="o">--</span> <span class="n">Don</span><span class="s1">&#39;t look any further</span>
+    <span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="mi">1</span>
+
+   <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span> <span class="mi">24</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+</div>
+<div class="section" id="the-for-loop">
+<h2>0.7.5.3 The for loop<a class="headerlink" href="#the-for-loop" title="Permalink to this headline">¶</a></h2>
+<p>The last loop statement of interest is the for loop. There are two ways
+of creating a for loop. The first way uses either a list or a segment:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>for var in seg repeat loopBody</dt>
+<dd>for var in list repeat loopBody</dd>
+</dl>
+</div></blockquote>
+<p>where var is an index variable which is iterated over the values in seg
+or list. The value seg is a segment such as 1…10 or 1… and list is a
+list of some type. For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for i in 1..10 repeat
+  ~prime?(i) =&gt; iterate
+  output(i)
+
+   2
+   3
+   5
+   7
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;This&quot;</span><span class="p">,</span> <span class="s2">&quot;is&quot;</span><span class="p">,</span> <span class="s2">&quot;your&quot;</span><span class="p">,</span> <span class="s2">&quot;life!&quot;</span><span class="p">]</span> <span class="n">repeat</span>
+  <span class="n">output</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for w in [&quot;This&quot;, &quot;is&quot;, &quot;your&quot;, &quot;life!&quot;] repeat
+  output(w)
+
+   This
+   is
+   your
+   life!
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The second form of the for loop syntax includes a `` such that``
+clause which must be of type Boolean:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>for var in seg | BoolExpr repeat loopBody</dt>
+<dd>for var in list | BoolExpr repeat loopBody</dd>
+</dl>
+</div></blockquote>
+<p>Some examples are:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for i in 1..10 | prime?(i) repeat
+  output(i)
+
+   2
+   3
+   5
+   7
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for i in [1,2,3,4,5,6,7,8,9,10] | prime?(i) repeat
+  output(i)
+
+   2
+   3
+   5
+   7
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>You can also use a while clause:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for i in 1.. while i &lt; 7 repeat
+  if even?(i) then output(i)
+
+   2
+   4
+   6
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Using the `` such that`` clause makes this appear simpler:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for i in 1.. | even?(i) while i &lt; 7 repeat
+  output(i)
+
+   2
+   4
+   6
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>You can use multiple for clauses to iterate over several sequences in
+parallel:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">4</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="mf">5.</span><span class="o">.</span><span class="mi">8</span> <span class="n">repeat</span>
+  <span class="n">output</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">]</span>
+
+   <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>As a general point it should be noted that any symbols referred to in
+the `` such that`` and while clauses must be pre-defined. This either
+means that the symbols must have been defined in an outer level (e.g. in
+an enclosing loop) or in a for clause appearing before the `` such
+that`` or while. For example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for a in 1..4 repeat
+  for b in 7..9 | prime?(a+b) repeat
+    output [a,b,a+b]
+
+   [2,9,11]
+   [3,8,11]
+   [4,7,11]
+   [4,9,13]
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Finally, the for statement has a by clause to specify the step size.
+This makes it possible to iterate over the segment in reverse order:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">4</span> <span class="k">for</span> <span class="n">b</span> <span class="ow">in</span> <span class="mf">8.</span><span class="o">.</span><span class="mi">5</span> <span class="n">by</span> <span class="o">-</span><span class="mi">1</span> <span class="n">repeat</span>
+  <span class="n">output</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">]</span>
+
+   <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Note that without the by -1 the segment 8..5 is empty so there is
+nothing to iterate over and the loop exits immediately.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">0.7 Functions, Choices, and Loops</a><ul>
+<li><a class="reference internal" href="#reading-code-from-a-file">0.7.1 Reading Code from a File</a></li>
+<li><a class="reference internal" href="#blocks">0.7.2 Blocks</a></li>
+<li><a class="reference internal" href="#functions">0.7.3 Functions</a></li>
+<li><a class="reference internal" href="#choices">0.7.4 Choices</a></li>
+<li><a class="reference internal" href="#loops">0.7.5 Loops</a></li>
+<li><a class="reference internal" href="#the-repeat-loop">0.7.5.1 The repeat loop</a></li>
+<li><a class="reference internal" href="#the-while-loop">0.7.5.2 The while loop</a></li>
+<li><a class="reference internal" href="#the-for-loop">0.7.5.3 The for loop</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-0.6.html" title="previous chapter">0.6 Data Structures in FriCAS</a></li>
+      <li>Next: <a href="section-1.0.html" title="next chapter">1.0 An Overview of FriCAS</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-0.7.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-0.7.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

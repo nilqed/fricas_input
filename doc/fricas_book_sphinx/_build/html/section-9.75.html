@@ -1,0 +1,528 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.75 SquareFreeRegularTriangularSet &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.76 Stream" href="section-9.76.html" />
+    <link rel="prev" title="9.74 SquareMatrix" href="section-9.74.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="squarefreeregulartriangularset">
+<h1>9.75 SquareFreeRegularTriangularSet<a class="headerlink" href="#squarefreeregulartriangularset" title="Permalink to this headline">¶</a></h1>
+<p>The SquareFreeRegularTriangularSet domain constructor implements
+square-free regular triangular sets. See the RegularTriangularSet domain
+constructor for general regular triangular sets. Let T be a regular
+triangular set consisting of polynomials t1, ..., tm ordered by
+increasing main variables. The regular triangular set T is square-free
+if T is empty or if t1, ..., tm-1 is square-free and if the polynomial
+tm is square-free as a univariate polynomial with coefficients in the
+tower of simple extensions associated with t1, ..., tm-1.</p>
+<p>The main interest of square-free regular triangular sets is that their
+associated towers of simple extensions are product of fields.
+Consequently, the saturated ideal of a square-free regular triangular
+set is radical. This property simplifies some of the operations related
+to regular triangular sets. However, building square-free regular
+triangular sets is generally more expensive than building general
+regular triangular sets.</p>
+<p>As the RegularTriangularSet domain constructor, the
+SquareFreeRegularTriangularSet domain constructor also implements a
+method for solving polynomial systems by means of regular triangular
+sets. This is in fact the same method with some adaptations to take into
+account the fact that the computed regular chains are square-free. Note
+that it is also possible to pass from a decomposition into general
+regular triangular sets to a decomposition into square-free regular
+triangular sets. This conversion is used internally by the
+LazardSetSolvingPackage package constructor.</p>
+<blockquote>
+<div>N.B. When solving polynomial systems with the</div></blockquote>
+<p>SquareFreeRegularTriangularSet domain constructor or the
+LazardSetSolvingPackage package constructor, decompositions have no
+redundant components. See also LexTriangularPackage and
+ZeroDimensionalSolvePackage for the case of algebraic systems with a
+finite number of (complex) solutions.</p>
+<p>We shall explain now how to use the constructor
+SquareFreeRegularTriangularSet.</p>
+<p>This constructor takes four arguments. The first one, R, is the
+coefficient ring of the polynomials; it must belong to the category
+GcdDomain. The second one, E, is the exponent monoid of the polynomials;
+it must belong to the category OrderedAbelianMonoidSup. the third one,
+V, is the ordered set of variables; it must belong to the category
+OrderedSet. The last one is the polynomial ring; it must belong to the
+category RecursivePolynomialCategory(R,E,V). The abbreviation for
+SquareFreeRegularTriangularSet is SREGSET.</p>
+<p>Note that the way of understanding triangular decompositions is detailed
+in the example of the RegularTriangularSet constructor.</p>
+<p>Let us illustrate the use of this constructor with one example
+(Donati-Traverso). Define the coefficient ring.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="p">:</span><span class="o">=</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Integer</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Define the list of variables,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="p">:</span> <span class="n">List</span> <span class="n">Symbol</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x,y,z,t]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Symbol</sub></p>
+<p>and make it an ordered set;</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">V</span> <span class="p">:</span><span class="o">=</span> <span class="n">OVAR</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>OrderedVariableList[x,y,z,t]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>then define the exponent monoid.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="p">:</span><span class="o">=</span> <span class="n">IndexedExponents</span> <span class="n">V</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>IndexedExponentsOrderedVariableList[x,y,z,t]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Define the polynomial ring.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="n">NSMP</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>NewSparseMultivariatePolynomial(Integer,OrderedVariableList[x,y,z,t])</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Let the variables be polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">z</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;z</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>t</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<p>Now call the SquareFreeRegularTriangularSet domain constructor.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ST</span> <span class="p">:</span><span class="o">=</span> <span class="n">SREGSET</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">V</span><span class="p">,</span><span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>SquareFreeRegularTriangularSet(Integer,&nbsp;&nbsp;IndexedExponentsOrderedVariableList[x,y,z,t],&nbsp;&nbsp;OrderedVariableList[x,y,z,t],&nbsp;&nbsp;NewSparseMultivariatePolynomial(Integer,&nbsp;&nbsp;OrderedVariableList[x,y,z,t]))</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Define a polynomial system.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="mi">31</span> <span class="o">-</span> <span class="n">x</span> <span class="o">^</span> <span class="mi">6</span> <span class="o">-</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x31-x6-x-y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p2</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="mi">8</span> <span class="o">-</span> <span class="n">z</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x8-z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p3</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="mi">10</span> <span class="o">-</span> <span class="n">t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x10-t</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x31-x6-x-y,x8-z,x10-t]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<p>First of all, let us solve this system in the sense of Kalkbrener.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>zeroSetSplit(lp)$ST
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[{z5-t4,tzy2+2z3y-t8+2t5+t3-t2,(t4-t)x-ty-z2}]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List SquareFreeRegularTriangularSet(Integer, IndexedExponents</sub>
+OrderedVariableList [x,y,z,t], OrderedVariableList [x,y,z,t],
+NewSparseMultivariatePolynomial(Integer, OrderedVariableList [x,y,z,t]))</p>
+<p>And now in the sense of Lazard (or Wu and other authors).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>zeroSetSplit(lp,false)$ST
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[{z5-t4,tzy2+2z3y-t8+2t5+t3-t2,(t4-t)x-ty-z2},{t3-1,z5-t,ty+z2,zx2-t},{t,z,y,x}]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List SquareFreeRegularTriangularSet(Integer, IndexedExponents</sub>
+OrderedVariableList [x,y,z,t], OrderedVariableList [x,y,z,t],
+NewSparseMultivariatePolynomial(Integer, OrderedVariableList [x,y,z,t]))</p>
+<p>Now to see the difference with the RegularTriangularSet domain
+constructor, we define:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="p">:</span><span class="o">=</span> <span class="n">REGSET</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">V</span><span class="p">,</span><span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>RegularTriangularSet(Integer,IndexedExponentsOrderedVariableList[x,y,z,t],OrderedVariableList[x,y,z,t],NewSparseMultivariatePolynomial(Integer,OrderedVariableList[x,y,z,t]))</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>and compute:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>lts := zeroSetSplit(lp,false)$T
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[{z5-t4,tzy2+2z3y-t8+2t5+t3-t2,(t4-t)x-ty-z2},{t3-1,z5-t,tzy2+2z3y+1,zx2-t},{t,z,y,x}]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List RegularTriangularSet(Integer, IndexedExponents</sub>
+OrderedVariableList [x,y,z,t], OrderedVariableList [x,y,z,t],
+NewSparseMultivariatePolynomial(Integer, OrderedVariableList [x,y,z,t]))</p>
+<p>If you look at the second set in both decompositions in the sense of
+Lazard, you will see that the polynomial with main variable y is not the
+same.</p>
+<p>Let us understand what has happened.</p>
+<p>We define:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ts</span> <span class="p">:</span><span class="o">=</span> <span class="n">lts</span><span class="o">.</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{t3-1,z5-t,tzy2+2z3y+1,zx2-t}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RegularTriangularSet(Integer, IndexedExponents OrderedVariableList</sub>
+[x,y,z,t], OrderedVariableList [x,y,z,t],
+NewSparseMultivariatePolynomial(Integer, OrderedVariableList [x,y,z,t]))</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pol</span> <span class="p">:</span><span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;y)$T</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>tzy2+2z3y+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union( NewSparseMultivariatePolynomial(Integer,</sub>
+OrderedVariableList [x,y,z,t]),...)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tower</span> <span class="p">:</span><span class="o">=</span> <span class="n">collectUnder</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span><span class="s1">&#39;y)$T</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{t3-1,z5-t}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RegularTriangularSet(Integer, IndexedExponents OrderedVariableList</sub>
+[x,y,z,t], OrderedVariableList [x,y,z,t],
+NewSparseMultivariatePolynomial(Integer, OrderedVariableList [x,y,z,t]))</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pack</span> <span class="p">:</span><span class="o">=</span> <span class="n">RegularTriangularSetGcdPackage</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">V</span><span class="p">,</span><span class="n">P</span><span class="p">,</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>RegularTriangularSetGcdPackage(Integer,&nbsp;&nbsp;IndexedExponentsOrderedVariableList[x,y,z,t],&nbsp;&nbsp;OrderedVariableList[x,y,z,t],&nbsp;&nbsp;NewSparseMultivariatePolynomial(Integer,&nbsp;&nbsp;OrderedVariableList[x,y,z,t]),&nbsp;&nbsp;RegularTriangularSet(Integer,&nbsp;&nbsp;IndexedExponentsOrderedVariableList[x,y,z,t],&nbsp;&nbsp;OrderedVariableList[x,y,z,t],&nbsp;&nbsp;NewSparseMultivariatePolynomial(Integer,&nbsp;&nbsp;OrderedVariableList[x,y,z,t])))</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Then we compute:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>toseSquareFreePart(pol,tower)$pack
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[val=ty+z2,tower={t3-1,z5-t}]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Record(val: NewSparseMultivariatePolynomial(Integer,</sub>
+OrderedVariableList [x,y,z,t]), tower: RegularTriangularSet(Integer,
+IndexedExponents OrderedVariableList [x,y,z,t], OrderedVariableList
+[x,y,z,t], NewSparseMultivariatePolynomial(Integer, OrderedVariableList
+[x,y,z,t])))</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.74.html" title="previous chapter">9.74 SquareMatrix</a></li>
+      <li>Next: <a href="section-9.76.html" title="next chapter">9.76 Stream</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.75.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.75.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

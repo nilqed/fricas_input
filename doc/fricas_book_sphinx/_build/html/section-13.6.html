@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13.6 Representation &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="13.7 Multiple Representations" href="section-13.7.html" />
+    <link rel="prev" title="13.5 Browse" href="section-13.5.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="representation">
+<h1>13.6 Representation<a class="headerlink" href="#representation" title="Permalink to this headline">¶</a></h1>
+<p>The Implementation part of an FriCAS capsule for a domain constructor
+uses the special variable Rep to Rep &#64; Rep identify the lower level data
+type used to represent the objects representation:of a domain of the
+domain. domain:representation The Rep for quadratic forms is
+SquareMatrix(n, K). This means that all objects of the domain are
+required to be n by n matrices with elements from K.</p>
+<p>The code for quadraticForm in Figure
+<a class="reference external" href="section-13.2.html#figquadform">figquadform</a> checks that the matrix
+is symmetric and then converts it to $, which means, as usual, this
+domain. Such explicit conversions conversion are generally required by
+the compiler. Aside from checking that the matrix is symmetric, the code
+for this function essentially does nothing. The m :: $ on line 28
+coerces m to a quadratic form. In fact, the quadratic form you created
+in step (3) of <a class="reference external" href="section-13.4.html#ugDomainsDemo">ugDomainsDemo</a> is
+just the matrix you passed it in disguise! Without seeing this
+definition, you would not know that. Nor can you take advantage of this
+fact now that you do know! When we try in the next step of
+<a class="reference external" href="section-13.4.html#ugDomainsDemo">ugDomainsDemo</a> to regard q as a
+matrix by asking for nrows, the number of its rows, FriCAS gives you an
+error message saying, in effect, ``Good try, but this won&#8217;t work!&#8217;&#8216;</p>
+<p>The definition for the matrixmatrixQuadraticForm function could hardly
+be simpler: it just returns its argument after explicitly coercing its
+argument to a matrix. Since the argument is already a matrix, this
+coercion does no computation.</p>
+<p>Within the context of a capsule, an object of $ is regarded both as a
+quadratic form and as a matrix.In case each of $ and Rep have the same
+named operation available, the one from $ takes precedence. Thus, if you
+want the one from Rep, you must package call it using a $Rep suffix.
+This makes the definition of q.v easy&#8212;it just calls the
+dotdotDirectProduct product from DirectProduct to perform the indicated
+operation.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-13.5.html" title="previous chapter">13.5 Browse</a></li>
+      <li>Next: <a href="section-13.7.html" title="next chapter">13.7 Multiple Representations</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-13.6.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-13.6.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

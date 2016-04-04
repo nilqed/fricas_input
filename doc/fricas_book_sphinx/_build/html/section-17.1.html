@@ -1,0 +1,3281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>17.1 FriCAS Categories &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="18.1 FriCAS Domains" href="section-18.1.html" />
+    <link rel="prev" title="16.28 )what" href="section-16.28.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fricas-categories">
+<h1>17.1 FriCAS Categories<a class="headerlink" href="#fricas-categories" title="Permalink to this headline">¶</a></h1>
+<p>This is a listing of all categories in the FriCAS library at the time
+this book was produced. Use the Browse facility (described in Chapter
+<a class="reference external" href="section-14.0.html#ugBrowse">ugBrowse</a> ) to get more information
+about these constructors.</p>
+<p>This sample entry will help you read the following table:</p>
+<p>CategoryName{CategoryAbbreviation}:{ Category1 ... CategoryN}with {
+op1... opM}</p>
+<p>where</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>CategoryName</td>
+<td>is the full category name, e.g., CommutativeRing.</td>
+</tr>
+<tr class="row-even"><td>CategoryAbbreviation</td>
+<td>is the category abbreviation, e.g., COMRING.</td>
+</tr>
+<tr class="row-odd"><td>Categoryi</td>
+<td>is a category to which the category belongs.</td>
+</tr>
+<tr class="row-even"><td>opj</td>
+<td>is an operation exported by the category.</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>AMR</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>AbelianMonoidRing</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Algebra BiModule CharacteristicNonZero CharacteristicZero CommutativeRing IntegralDomain Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>/ coefficient degree leadingCoefficient leadingMonomial map monomial monomial? reductum</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="73%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>AGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Aggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Object</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># copy empty empty? eq? less? more? size?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ACF</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>AlgebraicallyClosedField</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Field RadicalCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>rootOf rootsOf zeroOf zerosOf</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ACFS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>AlgebraicallyClosedFunctionSpace</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>AlgebraicallyClosedField FunctionSpace</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>rootOf rootsOf zeroOf zerosOf</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="53%" />
+<col width="47%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ALGEBRA</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Algebra</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Module Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>AHYP</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ArcHyperbolicFunctionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>acosh acoth acsch asech asinh atanh</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ATRIG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ArcTrigonometricFunctionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>acos acot acsc asec asin atan</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ALAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>AssociationListAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ListAggregate TableAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>assoc</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ATTREG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>AttributeRegistry</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>BGAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>BagAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>HomogeneousAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>bag extract! insert! inspect</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>BMODULE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>BiModule</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>LeftModule RightModule</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>BRAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>BinaryRecursiveAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>RecursiveAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>elt left right setelt setleft! setright!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>BTCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>BinaryTreeCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BinaryRecursiveAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>node</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>BTAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>BitAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OneDimensionalArrayAggregate OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>\^{} and nand nor not or xor</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>CACHSET</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>CachableSet</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>position setPosition</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="63%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>CABMON</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>CancellationAbelianMonoid</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>AbelianMonoid</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td><ul class="first last simple">
+<li></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>CHARNZ</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>CharacteristicNonZero</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>charthRoot</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>CHARZ</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>CharacteristicZero</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>KOERCE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>CoercibleTo</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>CLAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Collection</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ConvertibleTo HomogeneousAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>construct find reduce remove removeDuplicates select</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>CFCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>CombinatorialFunctionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>binomial factorial permutation</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>COMBOPC</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>CombinatorialOpsCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CombinatorialFunctionCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>factorials product summation</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>COMRING</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>CommutativeRing</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BiModule Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="5%" />
+<col width="95%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>COMPCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ComplexCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CharacteristicNonZero CharacteristicZero CommutativeRing ConvertibleTo DifferentialExtension EuclideanDomain Field FullyEvalableOver FullyLinearlyExplicitRingOver FullyRetractableTo IntegralDomain MonogenicAlgebra OrderedSet PolynomialFactorizationExplicit RadicalCategory TranscendentalFunctionCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>abs argument complex conjugate exquo imag imaginary norm polarCoordinates rational rational? rationalIfCan real</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>KONVERT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ConvertibleTo</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>convert</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DQAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>DequeueAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>QueueAggregate StackAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>bottom! dequeue extractBottom! extractTop! height insertBottom! insertTop! reverse! top!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DIOPS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>DictionaryOperations</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BagAggregate Collection</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>dictionary remove! select!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DIAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Dictionary</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>DictionaryOperations</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DIFEXT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>DifferentialExtension</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>DifferentialRing PartialDifferentialRing Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>D differentiate</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DPOLCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>DifferentialPolynomialCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>DifferentialExtension Evalable InnerEvalable PolynomialCategory RetractableTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>degree differentialVariables initial isobaric? leader makeVariable order separant weight weights</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DIFRING</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>DifferentialRing</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>D differentiate</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DVARCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>DifferentialVariableCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OrderedSet RetractableTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>D coerce differentiate makeVariable order variable weight</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DIVRING</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>DivisionRing</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Algebra EntireRing</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>^ inv</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>DLAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>DoublyLinkedAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>RecursiveAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>concat! head last next previous setnext! setprevious! tail</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ELEMFUN</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ElementaryFunctionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>^ exp log</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ELTAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>EltableAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Eltable</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>elt qelt qsetelt! setelt</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ELTAB</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Eltable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>elt</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ENTIRER</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>EntireRing</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BiModule Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>EUCDOM</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>EuclideanDomain</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>PrincipalIdealDomain</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>divide euclideanSize extendedEuclidean multiEuclidean quo rem sizeLess?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>EVALAB</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Evalable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>eval</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ES</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ExpressionSpace</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Evalable InnerEvalable OrderedSet RetractableTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>belong? box definingPolynomial distribute elt eval freeOf? height is? kernel kernels mainKernel map minPoly operator operators paren subst tower</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ELAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ExtensibleLinearAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>LinearAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>concat! delete! insert! merge! remove! removeDuplicates! select!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>XF</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ExtensionField</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CharacteristicZero Field FieldOfPrimeCharacteristic RetractableTo VectorSpace</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>Frobenius algebraic? degree extensionDegree inGroundField? transcendenceDegree transcendent?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FPC</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FieldOfPrimeCharacteristic</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CharacteristicNonZero Field</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>discreteLog order primeFrobenius</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FIELD</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Field</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>DivisionRing EuclideanDomain UniqueFactorizationDomain</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>/</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="26%" />
+<col width="74%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FILECAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FileCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>close! iomode name open read! reopen! write!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FNCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FileNameCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce directory exists? extension filename name new readable? writable?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FAMR</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FiniteAbelianMonoidRing</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>AbelianMonoidRing FullyRetractableTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coefficients content exquo ground ground? mapExponents minimumDegree numberOfMonomials primitivePart</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FAXF</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FiniteAlgebraicExtensionField</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ExtensionField FiniteFieldCategory RetractableTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>basis coordinates createNormalElement definingPolynomial degree extensionDegree generator minimalPolynomial norm normal? normalElement represents trace</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="91%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FFIELDC</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FiniteFieldCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>FieldOfPrimeCharacteristic Finite StepThrough</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>charthRoot conditionP createPrimitiveElement discreteLog factorsOfCyclicGroupSize order primitive? primitiveElement representationType tableForDiscreteLogarithm</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FLAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FiniteLinearAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>LinearAggregate OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>copyInto! merge position reverse reverse! sort sort! sorted?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FINRALG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FiniteRankAlgebra</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Algebra CharacteristicNonZero CharacteristicZero</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>characteristicPolynomial coordinates discriminant minimalPolynomial norm rank regularRepresentation represents trace traceMatrix</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="2%" />
+<col width="98%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FINAALG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FiniteRankNonAssociativeAlgebra</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>NonAssociativeAlgebra</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>JacobiIdentity? JordanAlgebra? alternative? antiAssociative? antiCommutative? associative? associatorDependence commutative? conditionsForIdempotents coordinates flexible? jordanAdmissible? leftAlternative? leftCharacteristicPolynomial leftDiscriminant leftMinimalPolynomial leftNorm leftRecip leftRegularRepresentation leftTrace leftTraceMatrix leftUnit leftUnits lieAdmissible? lieAlgebra? noncommutativeJordanAlgebra? powerAssociative? rank recip represents rightAlternative? rightCharacteristicPolynomial rightDiscriminant rightMinimalPolynomial rightNorm rightRecip rightRegularRepresentation rightTrace rightTraceMatrix rightUnit rightUnits someBasis structuralConstants unit</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FSAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FiniteSetAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Dictionary Finite SetAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>cardinality complement max min universe</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FINITE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Finite</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>index lookup random size</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FPS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FloatingPointSystem</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>RealNumberSystem</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>base bits decreasePrecision digits exponent float increasePrecision mantissa max order precision</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="16%" />
+<col width="84%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FRAMALG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FramedAlgebra</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>FiniteRankAlgebra</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>basis convert coordinates discriminant regularRepresentation represents traceMatrix</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FRNAALG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FramedNonAssociativeAlgebra</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>FiniteRankNonAssociativeAlgebra</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>apply basis conditionsForIdempotents convert coordinates elt leftDiscriminant leftRankPolynomial leftRegularRepresentation leftTraceMatrix represents rightDiscriminant rightRankPolynomial rightRegularRepresentation rightTraceMatrix structuralConstants</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FEVALAB</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FullyEvalableOver</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Eltable Evalable InnerEvalable</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>map</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FLINEXP</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FullyLinearlyExplicitRingOver</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>LinearlyExplicitRingOver</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FPATMAB</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FullyPatternMatchable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Object PatternMatchable</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FRETRCT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FullyRetractableTo</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>RetractableTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="97%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FFCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FunctionFieldCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>MonogenicAlgebra</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>D absolutelyIrreducible? branchPoint? branchPointAtInfinity? complementaryBasis differentiate elt genus integral? integralAtInfinity? integralBasis integralBasisAtInfinity integralCoordinates integralDerivationMatrix integralMatrix integralMatrixAtInfinity integralRepresents inverseIntegralMatrix inverseIntegralMatrixAtInfinity nonSingularModel normalizeAtInfinity numberOfComponents primitivePart ramified? ramifiedAtInfinity? rationalPoint? rationalPoints reduceBasisAtInfinity represents singular? singularAtInfinity? yCoordinates</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>FS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>FunctionSpace</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>AbelianGroup AbelianMonoid Algebra CharacteristicNonZero CharacteristicZero ConvertibleTo ExpressionSpace Field FullyLinearlyExplicitRingOver FullyPatternMatchable FullyRetractableTo Group Monoid PartialDifferentialRing Patternable RetractableTo Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>^ / applyQuote coerce convert denom denominator eval ground ground? isExpt isMult isPlus isPower isTimes numer numerator univariate variables</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="49%" />
+<col width="51%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>GCDDOM</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>GcdDomain</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>IntegralDomain</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>gcd lcm</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>GRALG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>GradedAlgebra</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>GradedModule</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>One product</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>GROUP</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Group</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Monoid</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>^ / commutator conjugate inv</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>HOAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>HomogeneousAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Aggregate SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>any? count every? map map! member? members parts</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>HYPCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>HyperbolicFunctionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>cosh coth csch sech sinh tanh</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>IXAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>IndexedAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>EltableAggregate HomogeneousAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>entries entry? fill! first index? indices maxIndex minIndex swap!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>IDPC</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>IndexedDirectProductCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>leadingCoefficient leadingSupport map monomial reductum</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>IEVALAB</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>InnerEvalable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>eval</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>INS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>IntegerNumberSystem</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CharacteristicZero CombinatorialFunctionCategory ConvertibleTo DifferentialRing EuclideanDomain LinearlyExplicitRingOver OrderedRing PatternMatchable RealConstant RetractableTo StepThrough UniqueFactorizationDomain</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>addmod base bit? copy dec even? hash inc invmod length mask mulmod odd? positiveRemainder powmod random rational rational? rationalIfCan shift submod symmetricRemainder</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>INTDOM</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>IntegralDomain</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Algebra CommutativeRing EntireRing</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>associates? exquo unit? unitCanonical unitNormal</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>KDAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>KeyedDictionary</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Dictionary</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>key? keys remove! search</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>LZSTAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>LazyStreamAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>StreamAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>complete explicitEntries? explicitlyEmpty? extend frst lazy? lazyEvaluate numberOfComputedEntries remove rst select</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>LALG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>LeftAlgebra</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>LeftModule Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>LNAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>LinearAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Collection IndexedAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>concat delete elt insert map new setelt</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>LINEXP</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>LinearlyExplicitRingOver</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>reducedSystem</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>LFCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>LiouvillianFunctionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>PrimitiveFunctionCategory TranscendentalFunctionCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>Ci Ei Si dilog erf li</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>LSAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ListAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ExtensibleLinearAggregate FiniteLinearAggregate StreamAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>list</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>MODULE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Module</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BiModule</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>MONADWU</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>MonadWithUnit</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Monad</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>^ One leftPower leftRecip one? recip rightPower rightRecip</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>MONOGEN</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>MonogenicAlgebra</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CommutativeRing ConvertibleTo DifferentialExtension Field Finite FiniteFieldCategory FramedAlgebra FullyLinearlyExplicitRingOver FullyRetractableTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>convert definingPolynomial derivationCoordinates generator lift reduce</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>MLO</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>MonogenicLinearOperator</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Algebra BiModule Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coefficient degree leadingCoefficient minimumDegree monomial reductum</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>MONOID</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Monoid</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SemiGroup</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>^ One one? recip</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>MDAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>MultiDictionary</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>DictionaryOperations</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>duplicates insert! removeDuplicates!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>MSAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>MultiSetAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>MultiDictionary SetAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>MTSCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>MultivariateTaylorSeriesCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Evalable InnerEvalable PartialDifferentialRing PowerSeriesCategory RadicalCategory TranscendentalFunctionCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coefficient extend integrate monomial order polynomial</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>NAALG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>NonAssociativeAlgebra</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Module NonAssociativeRng</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>plenaryPower</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>NASRING</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>NonAssociativeRing</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>MonadWithUnit NonAssociativeRng</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>characteristic coerce</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>NARNG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>NonAssociativeRng</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>AbelianGroup Monad</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>antiCommutator associator commutator</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>OBJECT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Object</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="88%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>OC</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OctonionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Algebra CharacteristicNonZero CharacteristicZero ConvertibleTo Finite FullyEvalableOver FullyRetractableTo OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>abs conjugate imagE imagI imagJ imagK imagi imagj imagk inv norm octon rational rational? rationalIfCan real</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>A1AGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OneDimensionalArrayAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>FiniteLinearAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>OAGROUP</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrderedAbelianGroup</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>AbelianGroup
+OrderedCancellationAbelianMonoid</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>OAMONS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrderedAbelianMonoidSup</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OrderedCancellationAbelianMonoid</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>sup</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>OAMON</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrderedAbelianMonoid</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>AbelianMonoid
+OrderedAbelianSemiGroup</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>OASGP</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrderedAbelianSemiGroup</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>AbelianMonoid OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>OCAMON</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrderedCancellationAbelianMonoid</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CancellationAbelianMonoid
+OrderedAbelianMonoid</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ORDFIN</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrderedFinite</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Finite OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ORDMON</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrderedMonoid</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Monoid OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>OMAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrderedMultiSetAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>MultiSetAggregate PriorityQueueAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>min</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="71%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ORDRING</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrderedRing</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OrderedAbelianGroup OrderedMonoid Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>abs negative? positive? sign</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="53%" />
+<col width="47%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ORDSET</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>OrderedSet</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; max min</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PADICCT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PAdicIntegerCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CharacteristicZero EuclideanDomain</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>approximate complete digits extend moduloP modulus order quotientByP sqrt</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="39%" />
+<col width="61%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PDRING</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PartialDifferentialRing</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Ring</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>D differentiate</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PTRANFN</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PartialTranscendentalFunctions</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>acosIfCan acoshIfCan acotIfCan
+acothIfCan acscIfCan acschIfCan
+asecIfCan asechIfCan asinIfCan
+asinhIfCan atanIfCan atanhIfCan
+cosIfCan coshIfCan cotIfCan
+cothIfCan cscIfCan cschIfCan
+expIfCan logIfCan nthRootIfCan
+secIfCan sechIfCan sinIfCan
+sinhIfCan tanIfCan tanhIfCan</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PATAB</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Patternable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ConvertibleTo Object</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="46%" />
+<col width="54%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PATMAB</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PatternMatchable</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>patternMatch</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PERMCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PermutationCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Group OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; cycle cycles elt eval orbit</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="35%" />
+<col width="65%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PPCURVE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PlottablePlaneCurveCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CoercibleTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>listBranches xRange yRange</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PSCURVE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PlottableSpaceCurveCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CoercibleTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>listBranches xRange yRange zRange</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="73%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PTCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PointCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>VectorCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>convert cross dimension extend length point</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>POLYCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PolynomialCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ConvertibleTo Evalable FiniteAbelianMonoidRing FullyLinearlyExplicitRingOver GcdDomain InnerEvalable OrderedSet PartialDifferentialRing PatternMatchable PolynomialFactorizationExplicit RetractableTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coefficient content degree discriminant isExpt isPlus isTimes mainVariable minimumDegree monicDivide monomial monomials multivariate primitiveMonomials primitivePart resultant squareFree squareFreePart totalDegree univariate variables</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PFECAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PolynomialFactorizationExplicit</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>UniqueFactorizationDomain</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>charthRoot conditionP factorPolynomial factorSquareFreePolynomial gcdPolynomial solveLinearPolynomialEquation squareFreePolynomial</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PSCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PowerSeriesCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>AbelianMonoidRing</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>complete monomial pole? variables</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PRIMCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PrimitiveFunctionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>integral</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PID</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PrincipalIdealDomain</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>GcdDomain</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>expressIdealMember principalIdeal</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>PRQAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>PriorityQueueAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BagAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>max merge merge!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>QUATCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>QuaternionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Algebra CharacteristicNonZero CharacteristicZero ConvertibleTo DifferentialExtension DivisionRing EntireRing FullyEvalableOver FullyLinearlyExplicitRingOver FullyRetractableTo OrderedSet</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>abs conjugate imagI imagJ imagK norm quatern rational rational? rationalIfCan real</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="73%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>QUAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>QueueAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BagAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>back dequeue! enqueue! front length rotate!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>QFCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>QuotientFieldCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Algebra CharacteristicNonZero CharacteristicZero ConvertibleTo DifferentialExtension Field FullyEvalableOver FullyLinearlyExplicitRingOver FullyPatternMatchable OrderedRing OrderedSet Patternable PolynomialFactorizationExplicit RealConstant RetractableTo StepThrough</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>/ ceiling denom denominator floor fractionPart numer numerator random wholePart</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>RADCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>RadicalCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>^ nthRoot sqrt</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>REAL</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>RealConstant</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ConvertibleTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="87%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>RNS</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>RealNumberSystem</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CharacteristicZero ConvertibleTo Field OrderedRing PatternMatchable RadicalCategory RealConstant RetractableTo</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>abs ceiling floor fractionPart norm round truncate wholePart</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="92%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>RMATCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>RectangularMatrixCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BiModule HomogeneousAggregate Module</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>/ antisymmetric? column diagonal? elt exquo listOfLists map matrix maxColIndex maxRowIndex minColIndex minRowIndex ncols nrows nullSpace nullity qelt rank row rowEchelon square? symmetric?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>RCAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>RecursiveAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>HomogeneousAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>children cyclic? elt leaf? leaves node? nodes setchildren! setelt setvalue! value</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>RETRACT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>RetractableTo</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce retract retractIfCan</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>RING</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Ring</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>LeftModule Monoid Rng</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>characteristic coerce</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>RNG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>Rng</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>AbelianGroup SemiGroup</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SEGCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SegmentCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>BY SEGMENT convert hi high incr lo low segment</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="62%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SEGXCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SegmentExpansionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SegmentCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>expand map</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SETAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SetAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Collection SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>&lt; brace difference intersect subset? symmetricDifference union</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SETCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>CoercibleTo Object</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>=</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SEXCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SExpressionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td># atom? car cdr convert destruct elt eq expr float float? integer integer? list? null? pair? string string? symbol symbol? uequal</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SPFCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>SpecialFunctionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>Beta Gamma abs airyAi airyBi besselI
+besselJ besselK besselY digamma
+polygamma</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="41%" />
+<col width="59%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SKAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>StackAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>BagAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>depth pop! push! top</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>STEP</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>StepThrough</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>init nextItem</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>STAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>StreamAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>LinearAggregate UnaryRecursiveAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>explicitlyFinite? possiblyInfinite?</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SRAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>StringAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>OneDimensionalArrayAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce elt leftTrim lowerCase lowerCase! match match? position prefix? replace rightTrim split substring? suffix? trim upperCase upperCase!</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="47%" />
+<col width="53%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>STRICAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>StringCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>StringAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>string</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>TBAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>TableAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>IndexedAggregate KeyedDictionary</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>map setelt table</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="94%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>SPACEC</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>ThreeSpaceCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>SetCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>check closedCurve closedCurve? coerce components composite composites copy create3Space curve curve? enterPointData lllip lllp llprop lp lprop merge mesh mesh? modifyPointData numberOfComponents numberOfComposites objects point point? polygon polygon? subspace</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>TRANFUN</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>TranscendentalFunctionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>ArcHyperbolicFunctionCategory ArcTrigonometricFunctionCategory ElementaryFunctionCategory HyperbolicFunctionCategory TrigonometricFunctionCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>pi</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>TRIGCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>TrigonometricFunctionCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>cos cot csc sec sin tan</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ARR2CAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>TwoDimensionalArrayCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>HomogeneousAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>column elt fill! map map! maxColIndex maxRowIndex minColIndex minRowIndex ncols new nrows parts qelt qsetelt! row setColumn! setRow! setelt</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>URAGG</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>UnaryRecursiveAggregate</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>RecursiveAggregate</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>concat concat! cycleEntry cycleLength cycleSplit! cycleTail elt first last rest second setelt setfirst! setlast! setrest! split! tail third</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="72%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>UFD</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>UniqueFactorizationDomain</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>GcdDomain</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>factor prime? squareFree squareFreePart</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ULSCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>UnivariateLaurentSeriesCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Field RadicalCategory TranscendentalFunctionCategory UnivariatePowerSeriesCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>integrate multiplyCoefficients rationalFunction</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>ULSCCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>UnivariateLaurentSeriesConstructorCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>QuotientFieldCategory RetractableTo UnivariateLaurentSeriesCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce degree laurent removeZeroes taylor taylorIfCan taylorRep</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="93%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>UPOLYC</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>UnivariatePolynomialCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>DifferentialExtension DifferentialRing Eltable EuclideanDomain PolynomialCategory StepThrough</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>D composite differentiate discriminant divideExponents elt integrate makeSUP monicDivide multiplyExponents order pseudoDivide pseudoQuotient pseudoRemainder resultant separate subResultantGcd unmakeSUP vectorise</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="15%" />
+<col width="85%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>UPSCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>UnivariatePowerSeriesCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>DifferentialRing Eltable PowerSeriesCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>approximate center elt eval extend multiplyExponents order series terms truncate variable</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>UPXSCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>UnivariatePuiseuxSeriesCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Field RadicalCategory TranscendentalFunctionCategory UnivariatePowerSeriesCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>integrate multiplyExponents</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="19%" />
+<col width="81%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>UPXSCCA</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>UnivariatePuiseuxSeriesConstructorCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>RetractableTo UnivariatePuiseuxSeriesCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>coerce degree laurent laurentIfCan laurentRep puiseux rationalPower</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>UTSCAT</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>UnivariateTaylorSeriesCategory</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>RadicalCategory TranscendentalFunctionCategory UnivariatePowerSeriesCategory</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>^ coefficients integrate multiplyCoefficients polynomial quoByVar series</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="docutils">
+<colgroup>
+<col width="53%" />
+<col width="47%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Abbreviation:</td>
+<td>VSPACE</td>
+</tr>
+<tr class="row-even"><td>Full name:</td>
+<td>VectorSpace</td>
+</tr>
+<tr class="row-odd"><td>Belongs to:</td>
+<td>Module</td>
+</tr>
+<tr class="row-even"><td>Operations:</td>
+<td>/ dimension</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.28.html" title="previous chapter">16.28 )what</a></li>
+      <li>Next: <a href="section-18.1.html" title="next chapter">18.1 FriCAS Domains</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-17.1.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-17.1.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

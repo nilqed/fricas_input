@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4.7 FORTRAN Format &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="5.0 Interactive Language" href="section-5.0.html" />
+    <link rel="prev" title="4.6 IBM Script Formula Format" href="section-4.6.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="fortran-format">
+<h1>4.7 FORTRAN Format<a class="headerlink" href="#fortran-format" title="Permalink to this headline">¶</a></h1>
+<p>In addition to turning FORTRAN output on and off and stating where the
+output formats:FORTRAN output should be placed, there are many options
+that control the FORTRAN output format appearance of the generated code.
+In this section we describe some of the basic options. Issue )set
+fortran to see a full list with their current settings.</p>
+<p>The output FORTRAN expression usually begins in column 7. If the
+expression needs more than one line, the ampersand character &amp; is used
+in column 6. Since some versions of FORTRAN have restrictions on the
+number of lines per statement, FriCAS breaks long expressions into
+segments with a maximum of 1320 characters (20 lines of 66 characters)
+per segment. set fortran If you want to change this, say, to 660
+characters, issue the system command set fortran explength )set fortran
+explength 660. FORTRAN output format:breaking into multiple statements
+You can turn off the line breaking by issuing )set fortran segment off.
+set fortran segment Various code optimization levels are available.</p>
+<p>FORTRAN output is produced after you issue this. set output fortran</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">output</span> <span class="n">fortran</span> <span class="n">on</span>
+</pre></div>
+</div>
+<p>For the initial examples, we set the optimization level to 0, which is
+the lowest level. set fortran optlevel</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">fortran</span> <span class="n">optlevel</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>The output is usually in columns 7 through 72, although fewer columns
+are used in the following examples so that the output FORTRAN output
+format:line length fits nicely on the page.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">fortran</span> <span class="n">fortlength</span> <span class="mi">60</span>
+</pre></div>
+</div>
+<p>By default, the output goes to the screen and is displayed before the
+standard FriCAS two-dimensional output. In this example, an assignment
+to the variable R1 was generated because this is the result of step 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R1</span><span class="o">=</span><span class="n">y</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y3+3xy2+3x2y+x3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Here is an example that illustrates the line breaking.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">+</span><span class="n">z</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span> <span class="n">R2</span><span class="o">=</span><span class="n">z</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">z</span><span class="o">*</span><span class="n">z</span><span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">z</span><span class="o">+</span><span class="n">y</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span>
+<span class="o">&amp;*</span><span class="n">y</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z3+(3y+3x)z2+(3y2+6xy+3x2)z+y3+3xy2+3x2y+x3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Note in the above examples that integers are generally converted to
+FORTRAN output format:integers vs. floats floating point numbers, except
+in exponents. This is the default behavior but can be turned off by
+issuing )set fortran ints2floats off. set fortran ints2floats The rules
+governing when the conversion is done are:</p>
+<ol class="arabic simple">
+<li>If an integer is an exponent, convert it to a floating point number
+if it is greater than 32767 in absolute value, otherwise leave it as
+an integer.</li>
+<li>Convert all other integers in an expression to floating point
+numbers.</li>
+</ol>
+<p>These rules only govern integers in expressions. Numbers generated by
+FriCAS for DIMENSION statements are also integers.</p>
+<p>To set the type of generated FORTRAN data, FORTRAN output format:data
+types use one of the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">fortran</span> <span class="n">defaulttype</span> <span class="n">REAL</span>
+<span class="p">)</span><span class="nb">set</span> <span class="n">fortran</span> <span class="n">defaulttype</span> <span class="n">INTEGER</span>
+<span class="p">)</span><span class="nb">set</span> <span class="n">fortran</span> <span class="n">defaulttype</span> <span class="n">COMPLEX</span>
+<span class="p">)</span><span class="nb">set</span> <span class="n">fortran</span> <span class="n">defaulttype</span> <span class="n">LOGICAL</span>
+<span class="p">)</span><span class="nb">set</span> <span class="n">fortran</span> <span class="n">defaulttype</span> <span class="n">CHARACTER</span>
+</pre></div>
+</div>
+<p>When temporaries are created, they are given a default type of REAL.
+Also, the REAL versions of functions are used by default.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R3</span><span class="o">=</span><span class="n">DSIN</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>sin(x)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>At optimization level 1, FriCAS removes common subexpressions. FORTRAN
+output format:optimization level set fortran optlevel</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">fortran</span> <span class="n">optlevel</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="o">+</span><span class="n">z</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span> <span class="n">T2</span><span class="o">=</span><span class="n">y</span><span class="o">*</span><span class="n">y</span>
+ <span class="n">T3</span><span class="o">=</span><span class="n">x</span><span class="o">*</span><span class="n">x</span>
+ <span class="n">R4</span><span class="o">=</span><span class="n">z</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">z</span><span class="o">*</span><span class="n">z</span><span class="o">+</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">T2</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">T3</span><span class="p">)</span><span class="o">*</span><span class="n">z</span><span class="o">+</span><span class="n">y</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">T2</span><span class="o">+</span>
+<span class="o">&amp;</span><span class="mi">3</span><span class="o">*</span><span class="n">T3</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z3+(3y+3x)z2+(3y2+6xy+3x2)z+y3+3xy2+3x2y+x3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>This changes the precision to DOUBLE. set fortran precision double
+Substitute single for double FORTRAN output format:precision to return
+to single precision. set fortran precision single</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">fortran</span> <span class="n">precision</span> <span class="n">double</span>
+</pre></div>
+</div>
+<p>Complex constants display the precision.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">2.3</span> <span class="o">+</span> <span class="mf">5.6</span><span class="o">*%</span><span class="n">i</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R5</span><span class="o">=</span><span class="p">(</span><span class="mf">2.3</span><span class="n">D0</span><span class="p">,</span><span class="mf">5.6</span><span class="n">D0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2.3+5.6i</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Complex Float</sub></p>
+<p>The function names that FriCAS generates depend on the chosen precision.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span> <span class="o">%</span><span class="n">e</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R6</span><span class="o">=</span><span class="n">DSIN</span><span class="p">(</span><span class="n">DEXP</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>sin(e)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Reset the precision to single and look at these two examples again.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">fortran</span> <span class="n">precision</span> <span class="n">single</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">2.3</span> <span class="o">+</span> <span class="mf">5.6</span><span class="o">*%</span><span class="n">i</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R7</span><span class="o">=</span><span class="p">(</span><span class="mf">2.3</span><span class="p">,</span><span class="mf">5.6</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2.3+5.6i</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Complex Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span> <span class="o">%</span><span class="n">e</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R8</span><span class="o">=</span><span class="n">SIN</span><span class="p">(</span><span class="n">EXP</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>sin(e)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Expressions that look like lists, streams, sets or matrices cause array
+code to be generated.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">y</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">T1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">T1</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="n">y</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">T1</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">=</span><span class="n">z</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">R9</span><span class="o">=</span><span class="n">T1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x+1,y+1,z+1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Polynomial Integer</sub></p>
+<p>A temporary variable is generated to be the name of the array. FORTRAN
+output format:arrays This may have to be changed in your particular
+application.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">T1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="mi">2</span>
+<span class="n">T1</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="mi">3</span>
+<span class="n">T1</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">=</span><span class="mi">4</span>
+<span class="n">T1</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">=</span><span class="mi">5</span>
+<span class="n">R10</span><span class="o">=</span><span class="n">T1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{2,3,4,5}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Set PositiveInteger</sub></p>
+<p>By default, the starting index for generated FORTRAN arrays is 0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mf">2.3</span><span class="p">,</span><span class="mf">9.7</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">18.778</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">T1</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">=</span><span class="mf">2.3</span>
+<span class="n">T1</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="mf">9.7</span>
+<span class="n">T1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span>
+<span class="n">T1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="mf">18.778</span>
+<span class="n">T1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[2.39.70.018.778]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Float</sub></p>
+<p>To change the starting index for generated FORTRAN arrays to be 1, set
+fortran startindex issue this. This value can only be 0 or 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">fortran</span> <span class="n">startindex</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Look at the code generated for the matrix again.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mf">2.3</span><span class="p">,</span><span class="mf">9.7</span><span class="p">],[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">18.778</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">T1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="mf">2.3</span>
+<span class="n">T1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="mf">9.7</span>
+<span class="n">T1</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span>
+<span class="n">T1</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="mf">18.778</span>
+<span class="n">T1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[2.39.70.018.778]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Float</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-4.6.html" title="previous chapter">4.6 IBM Script Formula Format</a></li>
+      <li>Next: <a href="section-5.0.html" title="next chapter">5.0 Interactive Language</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-4.7.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-4.7.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

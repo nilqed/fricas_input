@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.38 KeyedAccessFile &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.39 LexTriangularPackage" href="section-9.39.html" />
+    <link rel="prev" title="9.37 Kernel" href="section-9.37.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="keyedaccessfile">
+<h1>9.38 KeyedAccessFile<a class="headerlink" href="#keyedaccessfile" title="Permalink to this headline">¶</a></h1>
+<p>The domain KeyedAccessFile(S) provides files which can be used as
+associative tables. Data values are stored in these files and can be
+retrieved according to their keys. The keys must be strings so this type
+behaves very much like the StringTable(S) domain. The difference is that
+keyed access files reside in secondary storage while string tables are
+kept in memory. For more information on table-oriented operations, see
+the description of Table.</p>
+<p>Before a keyed access file can be used, it must first be opened. A new
+file can be created by opening it for output.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ey</span><span class="p">:</span> <span class="n">KeyedAccessFile</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/tmp/editor.year&quot;</span><span class="p">,</span> <span class="s2">&quot;output&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;/tmp/editor.year&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: KeyedAccessFile Integer</sub></p>
+<p>Just as for vectors, tables or lists, values are saved in a keyed access
+file by setting elements.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ey</span><span class="o">.</span><span class="s2">&quot;Char&quot;</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1986</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1986</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ey</span><span class="o">.</span><span class="s2">&quot;Caviness&quot;</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1985</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1985</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ey</span><span class="o">.</span><span class="s2">&quot;Fitch&quot;</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1984</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1984</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Values are retrieved using application, in any of its syntactic forms.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ey</span><span class="o">.</span><span class="s2">&quot;Char&quot;</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1986</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ey</span><span class="p">(</span><span class="s2">&quot;Char&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1986</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ey</span> <span class="s2">&quot;Char&quot;</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1986</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Attempting to retrieve a non-existent element in this way causes an
+error. If it is not known whether a key exists, you should use the
+searchsearchKeyedAccessFile operation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;Char&quot;</span><span class="p">,</span> <span class="n">ey</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1986</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Integer,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;Smith&quot;</span><span class="p">,</span> <span class="n">ey</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;failed&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+<p>When an entry is no longer needed, it can be removed from the file.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>remove!(&quot;Char&quot;, ey)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1986</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Integer,...)</sub></p>
+<p>The keyskeysKeyedAccessFile operation returns a list of all the keys for
+a given file.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">keys</span> <span class="n">ey</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[&#8220;Fitch&#8221;,&#8221;Caviness&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List String</sub></p>
+<p>The # #KeyedAccessFile operation gives the number of entries.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#ey</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The table view of keyed access files provides safe operations. That is,
+if the FriCAS program is terminated between file operations, the file is
+left in a consistent, current state. This means, however, that the
+operations are somewhat costly. For example, after each update the file
+is closed.</p>
+<p>Here we add several more items to the file, then check its contents.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">KE</span> <span class="p">:</span><span class="o">=</span> <span class="n">Record</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="n">String</span><span class="p">,</span> <span class="n">entry</span><span class="p">:</span> <span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Record(key:String,entry:Integer)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>reopen!(ey, &quot;output&quot;)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;/tmp/editor.year&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: KeyedAccessFile Integer</sub></p>
+<p>If many items are to be added to a file at the same time, then it is
+more efficient to use the writewriteKeyedAccessFile operation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>write!(ey, [&quot;van Hulzen&quot;, 1983]$KE)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[key=&#8221;vanHulzen&#8221;,entry=1983]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(key: String,entry: Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>write!(ey, [&quot;Calmet&quot;, 1982]$KE)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[key=&#8221;Calmet&#8221;,entry=1982]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(key: String,entry: Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>write!(ey, [&quot;Wang&quot;, 1981]$KE)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[key=&#8221;Wang&#8221;,entry=1981]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(key: String,entry: Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>close! ey
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;/tmp/editor.year&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: KeyedAccessFile Integer</sub></p>
+<p>The readreadKeyedAccessFile operation is also available from the file
+view, but it returns elements in a random order. It is generally clearer
+and more efficient to use the keyskeysKeyedAccessFile operation and to
+extract elements by key.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">keys</span> <span class="n">ey</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[&#8220;Wang&#8221;,&#8221;Calmet&#8221;,&#8221;vanHulzen&#8221;,&#8221;Fitch&#8221;,&#8221;Caviness&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">members</span> <span class="n">ey</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1981,1982,1983,1984,1985]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">system</span> <span class="n">rm</span> <span class="o">-</span><span class="n">r</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">editor</span><span class="o">.</span><span class="n">year</span>
+</pre></div>
+</div>
+<p>For more information on related topics, see
+<a class="reference external" href="section-9.24.html#FileXmpPage">FileXmpPage</a> ,
+<a class="reference external" href="section-9.81.html#TextFileXmpPage">TextFileXmpPage</a> , and
+<a class="reference external" href="section-9.41.html#LibraryXmpPage">LibraryXmpPage</a> .</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.37.html" title="previous chapter">9.37 Kernel</a></li>
+      <li>Next: <a href="section-9.39.html" title="next chapter">9.39 LexTriangularPackage</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.38.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.38.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

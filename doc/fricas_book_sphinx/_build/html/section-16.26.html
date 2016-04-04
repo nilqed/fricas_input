@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.26 )trace &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="16.27 )undo" href="section-16.27.html" />
+    <link rel="prev" title="16.25 )system" href="section-16.25.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="trace">
+<h1>16.26 )trace<a class="headerlink" href="#trace" title="Permalink to this headline">¶</a></h1>
+<p>ugSysCmdtrace</p>
+<p>trace</p>
+<blockquote>
+<div><p>User Level Required: interpreter</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)trace</p>
+<p>)trace )off</p>
+<p>)trace function [options]</p>
+<p>)trace constructor [options]</p>
+<p>)trace domainOrPackage [options]</p>
+<p>where options can be one or more of</p>
+<p>)after S-expression</p>
+<p>)before S-expression</p>
+<p>)break after</p>
+<p>)break before</p>
+<p>)cond S-expression</p>
+<p>)count</p>
+<p>)count n</p>
+<p>)depth n</p>
+<p>)local op1 [... opN]</p>
+<p>)nonquietly</p>
+<p>)nt</p>
+<p>)off</p>
+<p>)only listOfDataToDisplay</p>
+<p>)ops</p>
+<p>)ops op1 [... opN ]</p>
+<p>)restore</p>
+<p>)stats</p>
+<p>)stats reset</p>
+<p>)timer</p>
+<p>)varbreak</p>
+<p>)varbreak var1 [... varN ]</p>
+<p>)vars</p>
+<p>)vars var1 [... varN ]</p>
+<p>)within executingFunction</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>This command is used to trace the execution of functions that make up
+the FriCAS system, functions defined by users, and functions from the
+system library. Almost all options are available for each type of
+function but exceptions will be noted below.</p>
+<p>To list all functions, constructors, domains and packages that are
+traced, simply issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">trace</span>
+</pre></div>
+</div>
+<p>To untrace everything that is traced, issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">trace</span> <span class="p">)</span><span class="n">off</span>
+</pre></div>
+</div>
+<p>When a function is traced, the default system action is to display the
+arguments to the function and the return value when the function is
+exited. Note that if a function is left via an action such as a THROW,
+no return value will be displayed. Also, optimization of tail recursion
+may decrease the number of times a function is actually invoked and so
+may cause less trace information to be displayed. Other information can
+be displayed or collected when a function is traced and this is
+controlled by the various options. Most options will be of interest only
+to FriCAS system developers. If a domain or package is traced, the
+default action is to trace all functions exported.</p>
+<p>Individual interpreter, lisp or boot functions can be traced by listing
+their names after )trace. Any options that are present must follow the
+functions to be traced.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">trace</span> <span class="n">f</span>
+</pre></div>
+</div>
+<p>traces the function f. To untrace f, issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">trace</span> <span class="n">f</span> <span class="p">)</span><span class="n">off</span>
+</pre></div>
+</div>
+<p>Note that if a function name contains a special character, it will be
+necessary to escape the character with an underscore</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">trace</span> <span class="n">_</span><span class="o">/</span><span class="n">D_</span><span class="p">,</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>To trace all domains or packages that are or will be created from a
+particular constructor, give the constructor name or abbreviation after
+)trace.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">trace</span> <span class="n">MATRIX</span>
+<span class="p">)</span><span class="n">trace</span> <span class="n">List</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p>The first command traces all domains currently instantiated with Matrix.
+If additional domains are instantiated with this constructor (for
+example, if you have used Matrix(Integer) and Matrix(Float)), they will
+be automatically traced. The second command traces List(Integer). It is
+possible to trace individual functions in a domain or package. See the
+)ops option below.</p>
+<p>The following are the general options for the )trace command.</p>
+<dl class="docutils">
+<dt>)break after</dt>
+<dd>causes a Common Lisp break loop to be entered after exiting the
+traced function.</dd>
+<dt>)break before</dt>
+<dd>causes a Common Lisp break loop to be entered before entering the
+traced function.</dd>
+<dt>)break</dt>
+<dd>is the same as )break before.</dd>
+<dt>)count</dt>
+<dd>causes the system to keep a count of the number of times the traced
+function is entered. The total can be displayed with )trace )stats
+and cleared with )trace )stats reset.</dd>
+<dt>)count n</dt>
+<dd>causes information about the traced function to be displayed for the
+first n executions. After the n-th execution, the function is
+untraced.</dd>
+<dt>)depth n</dt>
+<dd>causes trace information to be shown for only n levels of recursion
+of the traced function. The command</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span> <span class="p">)</span><span class="n">trace</span> <span class="n">fib</span> <span class="p">)</span><span class="n">depth</span> <span class="mi">10</span>
+
+
+
+<span class="n">will</span> <span class="n">cause</span> <span class="n">the</span> <span class="n">display</span> <span class="n">of</span> <span class="n">only</span> <span class="mi">10</span> <span class="n">levels</span> <span class="n">of</span> <span class="n">trace</span> <span class="n">information</span> <span class="k">for</span>
+<span class="n">the</span> <span class="n">recursive</span> <span class="n">execution</span> <span class="n">of</span> <span class="n">a</span> <span class="n">user</span> <span class="n">function</span> <span class="n">fib</span><span class="o">.</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>)math</dt>
+<dd>causes the function arguments and return value to be displayed in
+the FriCAS monospace two-dimensional math format.</dd>
+<dt>)nonquietly</dt>
+<dd>causes the display of additional messages when a function is traced.</dd>
+<dt>)nt</dt>
+<dd>This suppresses all normal trace information. This option is useful
+if the )count or )timer options are used and you are interested in
+the statistics but not the function calling information.</dd>
+<dt>)off</dt>
+<dd>causes untracing of all or specific functions. Without an argument,
+all functions, constructors, domains and packages are untraced.
+Otherwise, the given functions and other objects are untraced. To
+immediately retrace the untraced functions, issue )trace )restore.</dd>
+<dt>)only listOfDataToDisplay</dt>
+<dd><p class="first">causes only specific trace information to be shown. The items are
+listed by using the following abbreviations:</p>
+<dl class="last docutils">
+<dt>a</dt>
+<dd>display all arguments</dd>
+<dt>v</dt>
+<dd>display return value</dd>
+<dt>1</dt>
+<dd>display first argument</dd>
+<dt>2</dt>
+<dd>display second argument</dd>
+<dt>15</dt>
+<dd>display the 15th argument, and so on</dd>
+</dl>
+</dd>
+<dt>)restore</dt>
+<dd>causes the last untraced functions to be retraced. If additional
+options are present, they are added to those previously in effect.</dd>
+<dt>)stats</dt>
+<dd>causes the display of statistics collected by the use of the )count
+and )timer options.</dd>
+<dt>)stats reset</dt>
+<dd>resets to 0 the statistics collected by the use of the )count and
+)timer options.</dd>
+<dt>)timer</dt>
+<dd>causes the system to keep a count of execution times for the traced
+function. The total can be displayed with )trace )stats and cleared
+with )trace )stats reset.</dd>
+<dt>)varbreak var1 [... varN]</dt>
+<dd>causes a Common Lisp break loop to be entered after the assignment
+to any of the listed variables in the traced function.</dd>
+<dt>)vars</dt>
+<dd>causes the display of the value of any variable after it is assigned
+in the traced function. Note that library code must have been
+compiled (see <a class="reference external" href="ugSysCmdcompile">ugSysCmdcompile</a> ) using the
+)vartrace option in order to support this option.</dd>
+<dt>)vars var1 [... varN]</dt>
+<dd>causes the display of the value of any of the specified variables
+after they are assigned in the traced function. Note that library
+code must have been compiled (see
+<a class="reference external" href="ugSysCmdcompile">ugSysCmdcompile</a> ) using the )vartrace option
+in order to support this option.</dd>
+<dt>)within executingFunction</dt>
+<dd>causes the display of trace information only if the traced function
+is called when the given executingFunction is running.</dd>
+</dl>
+<p>The following are the options for tracing constructors, domains and
+packages.</p>
+<dl class="docutils">
+<dt>)local [op1 [... opN]]</dt>
+<dd>causes local functions of the constructor to be traced. Note that to
+untrace an individual local function, you must use the fully
+qualified internal name, using the escape character _ before the
+semicolon.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">trace</span> <span class="n">FRAC</span> <span class="p">)</span><span class="n">local</span>
+<span class="p">)</span><span class="n">trace</span> <span class="n">FRAC_</span><span class="p">;</span><span class="n">cancelGcd</span> <span class="p">)</span><span class="n">off</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>)ops op1 [... opN]</dt>
+<dd>By default, all operations from a domain or package are traced when
+the domain or package is traced. This option allows you to specify
+that only particular operations should be traced. The command</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span>    <span class="p">)</span><span class="n">trace</span> <span class="n">Integer</span> <span class="p">)</span><span class="n">ops</span> <span class="nb">min</span> <span class="nb">max</span> <span class="n">_</span><span class="o">+</span> <span class="n">_</span><span class="o">-</span>
+
+
+
+   <span class="n">traces</span> <span class="n">four</span> <span class="n">operations</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">domain</span> <span class="n">Integer</span><span class="o">.</span> <span class="n">Since</span> <span class="o">+</span> <span class="ow">and</span> <span class="o">-</span> <span class="n">are</span>
+   <span class="n">special</span> <span class="n">characters</span><span class="p">,</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">necessary</span> <span class="n">to</span> <span class="n">escape</span> <span class="n">them</span> <span class="k">with</span> <span class="n">an</span>
+   <span class="n">underscore</span><span class="o">.</span>
+
+<span class="n">Also</span> <span class="n">See</span><span class="p">:</span> <span class="p">)</span><span class="n">boot</span> <span class="n">ugSysCmdboot</span><span class="p">,</span> <span class="p">)</span><span class="n">lisp</span> <span class="n">ugSysCmdlisp</span><span class="p">,</span> <span class="ow">and</span> <span class="p">)</span><span class="n">ltrace</span>
+</pre></div>
+</div>
+<p>ugSysCmdltrace.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.25.html" title="previous chapter">16.25 )system</a></li>
+      <li>Next: <a href="section-16.27.html" title="next chapter">16.27 )undo</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.26.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.26.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

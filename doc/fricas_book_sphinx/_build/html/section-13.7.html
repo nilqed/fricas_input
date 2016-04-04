@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13.7 Multiple Representations &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="13.8 Add Domain" href="section-13.8.html" />
+    <link rel="prev" title="13.6 Representation" href="section-13.6.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="multiple-representations">
+<h1>13.7 Multiple Representations<a class="headerlink" href="#multiple-representations" title="Permalink to this headline">¶</a></h1>
+<p>To write functions that implement the operations of a domain, you want
+to choose the most computationally efficient data structure to represent
+the elements of your domain.</p>
+<p>A classic problem in computer algebra is the optimal choice for an
+internal representation of polynomials. If you create a polynomial, say
+3x2+5, how does FriCAS hold this value internally? There are many ways.
+FriCAS has nearly a dozen different representations of polynomials, one
+to suit almost any purpose. Algorithms for solving polynomial equations
+work most efficiently with polynomials represented one way, whereas
+those for factoring polynomials are most efficient using another. One
+often-used representation is a list of terms, each term consisting of
+exponent-coefficient records written in the order of decreasing
+exponents. For example, the polynomial 3x2+5 is represented by the list
+[[e:2,c:3],[e:0,c:5]].</p>
+<p>What is the optimal data structure for a matrix? It depends on the
+application. For large sparse matrices, a linked-list structure of
+records holding only the non-zero elements may be optimal. If the
+elements can be defined by a simple formula f(i,j), then a compiled
+function for f may be optimal. Some programmers prefer to represent
+ordinary matrices as vectors of vectors. Others prefer to represent
+matrices by one big linear array where elements are accessed with
+linearly computable indexes.</p>
+<p>While all these simultaneous structures tend to be confusing, FriCAS
+provides a helpful organizational tool for such a purpose: categories.
+PolynomialCategory, for example, provides a uniform user interface
+across all polynomial types. Each kind of polynomial implements
+functions for all these operations, each in its own way. If you use only
+the top-level operations in PolynomialCategory you usually do not care
+what kind of polynomial implementation is used.</p>
+<p>Within a given domain, however, you define (at most) one
+representation.You can make that representation a Union type, however.
+See <a class="reference external" href="section-2.5.html#ugTypesUnions">ugTypesUnions</a> for examples of
+unions. If you want to have multiple representations (that is, several
+domains, each with its own representation), use a category to describe
+the Exports, then define separate domains for each representation.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-13.6.html" title="previous chapter">13.6 Representation</a></li>
+      <li>Next: <a href="section-13.8.html" title="next chapter">13.8 Add Domain</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-13.7.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-13.7.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

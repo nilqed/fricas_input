@@ -1,0 +1,753 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.22 Factored &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.23 FactoredFunctions2" href="section-9.23.html" />
+    <link rel="prev" title="9.21 Expression" href="section-9.21.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="factored">
+<h1>9.22 Factored<a class="headerlink" href="#factored" title="Permalink to this headline">¶</a></h1>
+<p>Factored creates a domain whose objects are kept in factored form as
+long as possible. Thus certain operations like * (multiplication) and
+gcdgcdFactored are relatively easy to do. Others, such as addition,
+require somewhat more work, and the result may not be completely
+factored unless the argument domain R provides a factorfactorFactored
+operation. Each object consists of a unit and a list of factors, where
+each factor consists of a member of R (the base), an exponent, and a
+flag indicating what is known about the base. A flag may be one of nil,
+sqfr, irred or prime, which mean that nothing is known about the base,
+it is square-free, it is irreducible, or it is prime, respectively. The
+current restriction to factored objects of integral domains allows
+simplification to be performed without worrying about multiplication
+order.</p>
+<div class="section" id="decomposing-factored-objects">
+<h2>9.22.1 Decomposing Factored Objects<a class="headerlink" href="#decomposing-factored-objects" title="Permalink to this headline">¶</a></h2>
+<p>In this section we will work with a factored integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="p">:</span><span class="o">=</span> <span class="n">factor</span><span class="p">(</span><span class="mi">4312</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>237211</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>Let&#8217;s begin by decomposing g into pieces. The only possible units for
+integers are 1 and -1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">unit</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>There are three factors.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">numberOfFactors</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>We can make a list of the bases, ...</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">nthFactor</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="n">numberOfFactors</span><span class="p">(</span><span class="n">g</span><span class="p">)]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[2,7,11]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>and the exponents, ...</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">nthExponent</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="n">numberOfFactors</span><span class="p">(</span><span class="n">g</span><span class="p">)]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[3,2,1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>and the flags. You can see that all the bases (factors) are prime.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">nthFlag</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="n">numberOfFactors</span><span class="p">(</span><span class="n">g</span><span class="p">)]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[&#8220;prime&#8221;,&#8221;prime&#8221;,&#8221;prime&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Union(&#8220;nil&#8221;,&#8221;sqfr&#8221;,&#8221;irred&#8221;,&#8221;prime&#8221;)</sub></p>
+<p>A useful operation for pulling apart a factored object into a list of
+records of the components is factorListfactorListFactored.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factorList</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[flg=&#8221;prime&#8221;,fctr=2,xpnt=3],[flg=&#8221;prime&#8221;,fctr=7,xpnt=2],[flg=&#8221;prime&#8221;,fctr=11,xpnt=1]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Record(flg: Union(&#8220;nil&#8221;,&#8221;sqfr&#8221;,&#8221;irred&#8221;,&#8221;prime&#8221;), fctr:</sub>
+Integer,xpnt: Integer)</p>
+<p>If you don&#8217;t care about the flags, use factorsfactorsFactored.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factors</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[factor=2,exponent=3],[factor=7,exponent=2],[factor=11,exponent=1]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Record(factor: Integer,exponent: Integer)</sub></p>
+<p>Neither of these operations returns the unit.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">first</span><span class="p">(</span><span class="o">%</span><span class="p">)</span><span class="o">.</span><span class="n">factor</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+<div class="section" id="expanding-factored-objects">
+<h2>9.22.2 Expanding Factored Objects<a class="headerlink" href="#expanding-factored-objects" title="Permalink to this headline">¶</a></h2>
+<p>Recall that we are working with this factored integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="p">:</span><span class="o">=</span> <span class="n">factor</span><span class="p">(</span><span class="mi">4312</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>237211</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>To multiply out the factors with their multiplicities, use
+expandexpandFactored.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expand</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4312</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>If you would like, say, the distinct factors multiplied together but
+with multiplicity one, you could do it this way.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reduce</span><span class="p">(</span><span class="o">*</span><span class="p">,[</span><span class="n">t</span><span class="o">.</span><span class="n">factor</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">(</span><span class="n">g</span><span class="p">)])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>154</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+<div class="section" id="arithmetic-with-factored-objects">
+<h2>9.22.3 Arithmetic with Factored Objects<a class="headerlink" href="#arithmetic-with-factored-objects" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;re still working with this factored integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="p">:</span><span class="o">=</span> <span class="n">factor</span><span class="p">(</span><span class="mi">4312</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>237211</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>We&#8217;ll also define this factored integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">factor</span><span class="p">(</span><span class="mi">246960</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2432573</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>Operations involving multiplication and division are particularly easy
+with factored objects.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">*</span> <span class="n">g</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>273257511</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span><span class="o">^</span><span class="mi">500</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2200031000550071500</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gcd</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2372</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lcm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>243257311</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>If we use addition and subtraction things can slow down because we may
+need to compute greatest common divisors.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">+</span> <span class="n">g</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2372641</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">-</span> <span class="n">g</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2372619</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>Test for equality with 0 and 1 by using zero?zero?Factored and
+one?one?Factored, respectively.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>zero?(factor(0))
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>zero?(g)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>one?(factor(1))
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>one?(f)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>Another way to get the zero and one factored objects is to use package
+calling (see <a class="reference external" href="ugTypesPkgCallPage">ugTypesPkgCallPage</a> in Section
+<a class="reference external" href="ugTypesPkgCallNumber">ugTypesPkgCallNumber</a> ).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>0$Factored(Integer)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>1$Factored(Integer)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+</div>
+<div class="section" id="creating-new-factored-objects">
+<h2>9.22.4 Creating New Factored Objects<a class="headerlink" href="#creating-new-factored-objects" title="Permalink to this headline">¶</a></h2>
+<p>The mapmapFactored operation is used to iterate across the unit and
+bases of a factored object. See
+<a class="reference external" href="FactoredFunctionsTwoXmpPage">FactoredFunctionsTwoXmpPage</a> for a
+discussion of mapmapFactored.</p>
+<p>The following four operations take a base and an exponent and create a
+factored object. They differ in handling the flag component.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nilFactor</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>242</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>This factor has no associated information.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">nthFlag</span><span class="p">(</span><span class="o">%</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;nil&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(&#8220;nil&#8221;,...)</sub></p>
+<p>This factor is asserted to be square-free.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sqfrFactor</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>302</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>This factor is asserted to be irreducible.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">irreducibleFactor</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1310</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>This factor is asserted to be prime.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">primeFactor</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>115</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>A partial inverse to factorListfactorListFactored is
+makeFRmakeFRFactored.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="p">:</span><span class="o">=</span> <span class="n">factor</span><span class="p">(</span><span class="o">-</span><span class="mi">720</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-24325</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>The first argument is the unit and the second is a list of records as
+returned by factorListfactorListFactored.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="o">-</span> <span class="n">makeFR</span><span class="p">(</span><span class="n">unit</span><span class="p">(</span><span class="n">h</span><span class="p">),</span><span class="n">factorList</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+</div>
+<div class="section" id="factored-objects-with-variables">
+<h2>9.22.5 Factored Objects with Variables<a class="headerlink" href="#factored-objects-with-variables" title="Permalink to this headline">¶</a></h2>
+<p>Some of the operations available for polynomials are also available for
+factored polynomials.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">-</span><span class="mi">12</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">9</span><span class="p">)</span><span class="o">*</span><span class="n">y</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span><span class="o">-</span><span class="mi">12</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">9</span><span class="p">)</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="mi">28</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="n">x</span> <span class="o">-</span> <span class="mi">84</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span>
+</pre></div>
+</div>
+<p>63</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(4x2-12x+9)y2+(4x2-12x+9)y+28x2-84x+63</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fp</span> <span class="p">:</span><span class="o">=</span> <span class="n">factor</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(2x-3)2(y2+y+7)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial Integer</sub></p>
+<p>You can differentiate with respect to a variable.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(8x-12)y2+(8x-12)y+56x-84</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4(2x-3)(y2+y+7)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">numberOfFactors</span><span class="p">(</span><span class="o">%</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">9.22 Factored</a><ul>
+<li><a class="reference internal" href="#decomposing-factored-objects">9.22.1 Decomposing Factored Objects</a></li>
+<li><a class="reference internal" href="#expanding-factored-objects">9.22.2 Expanding Factored Objects</a></li>
+<li><a class="reference internal" href="#arithmetic-with-factored-objects">9.22.3 Arithmetic with Factored Objects</a></li>
+<li><a class="reference internal" href="#creating-new-factored-objects">9.22.4 Creating New Factored Objects</a></li>
+<li><a class="reference internal" href="#factored-objects-with-variables">9.22.5 Factored Objects with Variables</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.21.html" title="previous chapter">9.21 Expression</a></li>
+      <li>Next: <a href="section-9.23.html" title="next chapter">9.23 FactoredFunctions2</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.22.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.22.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

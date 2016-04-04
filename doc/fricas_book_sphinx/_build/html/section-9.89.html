@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.89 XPolynomial &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.90 XPolynomialRing" href="section-9.90.html" />
+    <link rel="prev" title="9.88 XPBWPolynomial" href="section-9.88.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="xpolynomial">
+<h1>9.89 XPolynomial<a class="headerlink" href="#xpolynomial" title="Permalink to this headline">¶</a></h1>
+<p>The XPolynomial domain constructor implements multivariate polynomials
+whose set of variables is Symbol. These variables do not commute. The
+only parameter of this construtor is the coefficient ring which may be
+non-commutative. However, coefficients and variables commute. The
+representation of the polynomials is recursive. The abbreviation for
+XPolynomial is XPOLY.</p>
+<p>Other constructors like XPolynomialRing, XRecursivePolynomial as well as
+XDistributedPolynomial, LiePolynomial and XPBWPolynomial implement
+multivariate polynomials in non-commutative variables.</p>
+<p>We illustrate now some of the facilities of the XPOLY domain
+constructor.</p>
+<p>Define a polynomial ring over the integers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">poly</span> <span class="p">:</span><span class="o">=</span> <span class="n">XPolynomial</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>XPolynomialInteger</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Define a first polynomial,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pr</span><span class="p">:</span> <span class="n">poly</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="o">-</span><span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-5+x2+y3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPolynomial Integer</sub></p>
+<p>and a second one.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pr2</span><span class="p">:</span> <span class="n">poly</span> <span class="p">:</span><span class="o">=</span> <span class="n">pr</span><span class="o">*</span><span class="n">pr</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>25+x(-20+x4+y6)+y(-30+x6+y9)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPolynomial Integer</sub></p>
+<p>Rewrite pr in a distributive way,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pd</span> <span class="p">:</span><span class="o">=</span> <span class="n">expand</span> <span class="n">pr</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-5+2x+3y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XDistributedPolynomial(Symbol,Integer)</sub></p>
+<p>compute its square,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pd2</span> <span class="p">:</span><span class="o">=</span> <span class="n">pd</span><span class="o">*</span><span class="n">pd</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>25-20x-30y+4x2+6xy+6yx+9y2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XDistributedPolynomial(Symbol,Integer)</sub></p>
+<p>and checks that:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expand</span><span class="p">(</span><span class="n">pr2</span><span class="p">)</span> <span class="o">-</span> <span class="n">pd2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XDistributedPolynomial(Symbol,Integer)</sub></p>
+<p>We define:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">qr</span> <span class="p">:</span><span class="o">=</span> <span class="n">pr</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-125+x(150+x(-60+x8+y12)+y(-90+x12+y18))+y(225+x(-90+x12+y18)+y(-135+x18+y27))</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPolynomial Integer</sub></p>
+<p>and:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">qd</span> <span class="p">:</span><span class="o">=</span> <span class="n">pd</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-125+150x+225y-60x2-90xy-90yx-135y2+8x3+12x2y+12xyx+18xy2+12yx2+18yxy+18y2x+27y3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XDistributedPolynomial(Symbol,Integer)</sub></p>
+<p>We truncate qd at degree 3:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">trunc</span><span class="p">(</span><span class="n">qd</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-125+150x+225y-60x2-90xy-90yx-135y2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XDistributedPolynomial(Symbol,Integer)</sub></p>
+<p>The same for qr:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">trunc</span><span class="p">(</span><span class="n">qr</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-125+x(150+x(-60)+y(-90))+y(225+x(-90)+y(-135))</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPolynomial Integer</sub></p>
+<p>We define:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Word</span> <span class="p">:</span><span class="o">=</span> <span class="n">OrderedFreeMonoid</span> <span class="n">Symbol</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>OrderedFreeMonoidSymbol</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>and:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span><span class="p">:</span> <span class="n">Word</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>xy2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: OrderedFreeMonoid Symbol</sub></p>
+<p>The we can compute the right-quotient of qr by r:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rquo</span><span class="p">(</span><span class="n">qr</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>18</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPolynomial Integer</sub></p>
+<p>and the shuffle-product of pr by r:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sh</span><span class="p">(</span><span class="n">pr</span><span class="p">,</span><span class="n">w</span><span class="p">::</span><span class="n">poly</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x(xyy4+y(xy2+y(-5+x2+y9)))+yxyy3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPolynomial Integer</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.88.html" title="previous chapter">9.88 XPBWPolynomial</a></li>
+      <li>Next: <a href="section-9.90.html" title="next chapter">9.90 XPolynomialRing</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.89.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.89.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

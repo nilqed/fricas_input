@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.69 Segment &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.70 SegmentBinding" href="section-9.70.html" />
+    <link rel="prev" title="9.68 RomanNumeral" href="section-9.68.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="segment">
+<h1>9.69 Segment<a class="headerlink" href="#segment" title="Permalink to this headline">¶</a></h1>
+<p>The Segment domain provides a generalized interval type.</p>
+<p>Segments are created using the .. construct by indicating the (included)
+end points.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="p">:</span><span class="o">=</span> <span class="mf">3.</span><span class="o">.</span><span class="mi">10</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3..10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Segment PositiveInteger</sub></p>
+<p>The first end point is called the loloSegment and the second is called
+hihiSegment.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lo</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>These names are used even though the end points might belong to an
+unordered set.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hi</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>In addition to the end points, each segment has an integer increment. An
+increment can be specified using the by construct.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="p">:</span><span class="o">=</span> <span class="mf">10.</span><span class="o">.</span><span class="mi">3</span> <span class="n">by</span> <span class="o">-</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>10..3by&nbsp;-2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Segment PositiveInteger</sub></p>
+<p>This part can be obtained using the incrincrSegment function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">incr</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Unless otherwise specified, the increment is 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">incr</span> <span class="n">t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Integer</sub></p>
+<p>A single value can be converted to a segment with equal end points. This
+happens if segments and single values are mixed in a list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mf">15.</span><span class="o">.</span><span class="mi">11</span> <span class="n">by</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1..3,5..5,9..9,15..11by-1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Segment PositiveInteger</sub></p>
+<p>If the underlying type is an ordered ring, it is possible to perform
+additional operations. The expandexpandSegment operation creates a list
+of points in a segment.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expand</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[3,4,5,6,7,8,9,10]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>If k &gt; 0, then expand(l..h by k) creates the list [l, l+k, ..., lN]
+where lN &lt;= h &lt; lN+k. If k &lt; 0, then lN &gt;= h &gt; lN+k.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expand</span> <span class="n">t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[10,8,6,4]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>It is also possible to expand a list of segments. This is equivalent to
+appending lists obtained by expanding each segment individually.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expand</span> <span class="n">l</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,5,9,15,14,13,12,11]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>For more information on related topics, see
+<a class="reference external" href="section-9.70.html#SegmentBindingXmpPage">SegmentBindingXmpPage</a> and
+<a class="reference external" href="section-9.84.html#UniversalSegmentXmpPage">UniversalSegmentXmpPage</a>
+.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.68.html" title="previous chapter">9.68 RomanNumeral</a></li>
+      <li>Next: <a href="section-9.70.html" title="next chapter">9.70 SegmentBinding</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.69.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.69.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

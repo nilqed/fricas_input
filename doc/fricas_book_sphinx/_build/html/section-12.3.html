@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>12.3 Documentation &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="12.4 Hierarchies" href="section-12.4.html" />
+    <link rel="prev" title="12.2 Exports" href="section-12.2.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="documentation">
+<h1>12.3 Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h1>
+<p>The definition of SetCategory above is missing an important component:
+its library documentation. documentation Here is its definition,
+complete with documentation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>++ Description:
+++ \\bs{}axiomType\\{SetCategory\\} is the basic category
+++ for describing a collection of elements with
+++ \\bs{}axiomOp\\{=\\} (equality) and a \\bs{}axiomFun\\{coerce\\}
+++ to \\bs{}axiomType\\{OutputForm\\}.
+SetCategory(): Category ==
+  Join(Type, CoercibleTo OutputForm) with
+    &quot;=&quot;: ($, $) -&gt; Boolean
+      ++ \\bs{}axiom\\{x = y\\} tests if \\bs{}axiom\\{x\\} and
+      ++ \\bs{}axiom\\{y\\} are equal.
+</pre></div>
+</div>
+<p>Documentary comments are an important part of constructor definitions.
+Documentation is given both for the category itself and for each export.
+A description for the category precedes the code. Each line of the
+description begins in column one with ++. The description starts with
+the word Description:.Other information such as the author&#8217;s name, date
+of creation, and so on, can go in this area as well but are currently
+ignored by FriCAS. All lines of the description following the initial
+line are indented by the same amount.</p>
+<p>Surround the name of any constructor (with or without parameters) with
+an {\bf }. Similarly, surround an operator name with {\tt }, an FriCAS
+operation with {\bf }, and a variable or FriCAS expression with $$.
+Library documentation is given in a TeX-like language so that it can be
+used both for hard-copy and for Browse. These different wrappings cause
+operations and types to have mouse-active buttons in Browse. For
+hard-copy output, wrapped expressions appear in a different font. The
+above documentation appears in hard-copy as:</p>
+<p>SetCategory is the basic category for describing a collection of
+elements with = (equality) and a coerce to OutputForm.</p>
+<p>and</p>
+<p>x=y tests if x and y are equal.</p>
+<p>For our purposes in this chapter, we omit the documentation from further
+category descriptions.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-12.2.html" title="previous chapter">12.2 Exports</a></li>
+      <li>Next: <a href="section-12.4.html" title="next chapter">12.4 Hierarchies</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-12.3.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-12.3.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

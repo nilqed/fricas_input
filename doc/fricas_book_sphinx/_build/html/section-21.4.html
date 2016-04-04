@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>21.4 images5.input &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="21.5 images6.input" href="section-21.5.html" />
+    <link rel="prev" title="21.3 images3.input" href="section-21.3.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="images5-input">
+<h1>21.4 images5.input<a class="headerlink" href="#images5-input" title="Permalink to this headline">¶</a></h1>
+<p>The parameterization of the Etruscan Venus is due to George Frances.
+Etruscan Venus</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">venus</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">steps</span><span class="p">)</span> <span class="o">==</span>
+  <span class="n">surf</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">:</span><span class="n">DFLOAT</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span><span class="n">DFLOAT</span><span class="p">):</span> <span class="n">Point</span> <span class="n">DFLOAT</span> <span class="o">+-&gt;</span>
+    <span class="n">cv</span> <span class="p">:</span><span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">sv</span> <span class="p">:</span><span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">cu</span> <span class="p">:</span><span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">su</span> <span class="p">:</span><span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+    <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">cv</span> <span class="o">+</span> <span class="n">sv</span> <span class="o">*</span> <span class="n">cu</span>
+    <span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">)</span> <span class="o">*</span> <span class="n">cv</span> <span class="o">-</span> <span class="n">sv</span> <span class="o">*</span> <span class="n">su</span>
+    <span class="n">z</span> <span class="p">:</span><span class="o">=</span> <span class="n">a</span> <span class="o">*</span> <span class="n">cv</span>
+    <span class="n">point</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span>
+  <span class="n">draw</span><span class="p">(</span><span class="n">surf</span><span class="p">,</span> <span class="mf">0.</span><span class="o">.%</span><span class="n">pi</span><span class="p">,</span> <span class="o">-%</span><span class="n">pi</span><span class="o">..%</span><span class="n">pi</span><span class="p">,</span> <span class="n">var1Steps</span><span class="o">==</span><span class="n">steps</span><span class="p">,</span>
+       <span class="n">var2Steps</span><span class="o">==</span><span class="n">steps</span><span class="p">,</span> <span class="n">title</span> <span class="o">==</span> <span class="s2">&quot;Etruscan Venus&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>venus(5/2,&nbsp;13/10,&nbsp;50)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;Etruscan&nbsp;Venus</p>
+<p>The Figure-8 Klein Bottle Klein bottle parameterization is from
+Differential Geometry and Computer Graphics by Thomas Banchoff, in
+Perspectives in Mathematics, Anniversary of Oberwolfasch 1984,
+Birkh\&#8221;{a}user-Verlag, Basel, pp. 43-60.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">klein</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span>
+  <span class="n">cx</span> <span class="p">:</span><span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">cy</span> <span class="p">:</span><span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+  <span class="n">sx</span> <span class="p">:</span><span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">sy</span> <span class="p">:</span><span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+  <span class="n">sx2</span> <span class="p">:</span><span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">cx2</span> <span class="p">:</span><span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">sq2</span> <span class="p">:</span><span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span><span class="nd">@DFLOAT</span><span class="p">)</span>
+  <span class="n">point</span> <span class="p">[</span><span class="n">cx</span> <span class="o">*</span> <span class="p">(</span><span class="n">cx2</span> <span class="o">*</span> <span class="p">(</span><span class="n">sq2</span> <span class="o">+</span> <span class="n">cy</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">sx2</span> <span class="o">*</span> <span class="n">sy</span> <span class="o">*</span> <span class="n">cy</span><span class="p">)),</span> <span class="n">_</span>
+         <span class="n">sx</span> <span class="o">*</span> <span class="p">(</span><span class="n">cx2</span> <span class="o">*</span> <span class="p">(</span><span class="n">sq2</span> <span class="o">+</span> <span class="n">cy</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">sx2</span> <span class="o">*</span> <span class="n">sy</span> <span class="o">*</span> <span class="n">cy</span><span class="p">)),</span> <span class="n">_</span>
+         <span class="o">-</span><span class="n">sx2</span> <span class="o">*</span> <span class="p">(</span><span class="n">sq2</span> <span class="o">+</span> <span class="n">cy</span><span class="p">)</span> <span class="o">+</span> <span class="n">cx2</span> <span class="o">*</span> <span class="n">sy</span> <span class="o">*</span> <span class="n">cy</span><span class="p">]</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>draw(klein,&nbsp;0..4*%pi,&nbsp;0..2*%pi,&nbsp;var1Steps==50,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Figure-8&nbsp;Klein&nbsp;bottle</dt>
+<dd>var2Steps==50,title==&#8221;Figure&nbsp;Eight&nbsp;Klein&nbsp;Bottle&#8221;)</dd>
+</dl>
+<p>The next two images are examples of generalized tubes.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">read</span> <span class="n">ntube</span>
+</pre></div>
+</div>
+<p>rotateBy(p,&nbsp;theta)&nbsp;==&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rotate&nbsp;a&nbsp;point&nbsp;p&nbsp;by</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;c&nbsp;:=&nbsp;cos(theta)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;θ&nbsp;around&nbsp;the&nbsp;origin</dt>
+<dd>s&nbsp;:=&nbsp;sin(theta)
+point&nbsp;[p.1*c&nbsp;-&nbsp;p.2*s,&nbsp;p.1*s&nbsp;+&nbsp;p.2*c]</dd>
+<dt>bcircle&nbsp;t&nbsp;==&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A&nbsp;circle&nbsp;in&nbsp;three-space</dt>
+<dd>point&nbsp;[3*cos&nbsp;t,&nbsp;3*sin&nbsp;t,&nbsp;0]</dd>
+</dl>
+<p>twist(u,&nbsp;t)&nbsp;==&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;An&nbsp;ellipse&nbsp;that&nbsp;twists</p>
+<p>&nbsp;&nbsp;theta&nbsp;:=&nbsp;4*t&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;around&nbsp;four&nbsp;times&nbsp;as</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;p&nbsp;:=&nbsp;point&nbsp;[sin&nbsp;u,&nbsp;cos(u)/2]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t&nbsp;revolves&nbsp;once</dt>
+<dd>rotateBy(p,&nbsp;theta)</dd>
+<dt>ntubeDrawOpt(bcircle,&nbsp;twist,&nbsp;0..2*%pi,&nbsp;0..2*%pi,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Twisted&nbsp;Torus</dt>
+<dd>var1Steps&nbsp;==&nbsp;70,&nbsp;var2Steps&nbsp;==&nbsp;250)</dd>
+<dt>twist2(u,&nbsp;t)&nbsp;==&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create&nbsp;a&nbsp;twisting&nbsp;circle</dt>
+<dd>theta&nbsp;:=&nbsp;t
+p&nbsp;:=&nbsp;point&nbsp;[sin&nbsp;u,&nbsp;cos(u)]
+rotateBy(p,&nbsp;theta)</dd>
+</dl>
+<p>cf(u,v)&nbsp;==&nbsp;sin(21*u)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Color&nbsp;function&nbsp;with&nbsp;21&nbsp;stripes</p>
+<dl class="docutils">
+<dt>ntubeDrawOpt(bcircle,&nbsp;twist2,&nbsp;0..2*%pi,&nbsp;0..2*%pi,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Striped&nbsp;Torus</dt>
+<dd>colorFunction&nbsp;==&nbsp;cf,&nbsp;var1Steps&nbsp;==&nbsp;168,
+var2Steps&nbsp;==&nbsp;126)</dd>
+</dl>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-21.3.html" title="previous chapter">21.3 images3.input</a></li>
+      <li>Next: <a href="section-21.5.html" title="next chapter">21.5 images6.input</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-21.4.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-21.4.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

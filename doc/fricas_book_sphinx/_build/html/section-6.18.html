@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6.18 Example: A Database &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="6.19 Example: A Famous Triangle" href="section-6.19.html" />
+    <link rel="prev" title="6.17 Anonymous Functions" href="section-6.17.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="example-a-database">
+<h1>6.18 Example: A Database<a class="headerlink" href="#example-a-database" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how you can use FriCAS to organize a database of
+lineage data and then query the database for relationships.</p>
+<p>The database is entered as assertions that are really pieces of a
+function definition.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">children</span><span class="p">(</span><span class="s2">&quot;albert&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;albertJr&quot;</span><span class="p">,</span><span class="s2">&quot;richard&quot;</span><span class="p">,</span><span class="s2">&quot;diane&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Each piece children(x)==y means the children of x are y.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">children</span><span class="p">(</span><span class="s2">&quot;richard&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;douglas&quot;</span><span class="p">,</span><span class="s2">&quot;daniel&quot;</span><span class="p">,</span><span class="s2">&quot;susan&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>This family tree thus spans four generations.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">children</span><span class="p">(</span><span class="s2">&quot;douglas&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;dougie&quot;</span><span class="p">,</span><span class="s2">&quot;valerie&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Say no one else has children.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">children</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>We need some functions for computing lineage. Start with childOf.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>childOf(x,y) == member?(x,children(y))
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>To find the parentOf someone, you have to scan the database of people
+applying children.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">parentOf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span>
+  <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">people</span> <span class="n">repeat</span>
+    <span class="p">(</span><span class="k">if</span> <span class="n">childOf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="n">then</span> <span class="k">return</span> <span class="n">y</span><span class="p">)</span>
+  <span class="s2">&quot;unknown&quot;</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>And a grandparent of x is just a parent of a parent of x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">grandParentOf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">parentOf</span> <span class="n">parentOf</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The grandchildren of x are the people y such that x is a grandparent of
+y.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">grandchildren</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">people</span> <span class="o">|</span> <span class="n">grandParentOf</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Suppose you want to make a list of all great-grandparents. Well, a
+great-grandparent is a grandparent of a person who has children.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>greatGrandParents == [x for x in people |
+  reduce(_or,
+    [not empty? children(y) for y in grandchildren(x)],false)]
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Define descendants to include the parent as well.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">descendants</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span>
+  <span class="n">kids</span> <span class="p">:</span><span class="o">=</span> <span class="n">children</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="n">null</span> <span class="n">kids</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+  <span class="n">concat</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">reduce</span><span class="p">(</span><span class="n">concat</span><span class="p">,[</span><span class="n">descendants</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">kids</span><span class="p">],[]))</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Finally, we need a list of people. Since all people are descendants of
+albert, let&#8217;s say so.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">people</span> <span class="o">==</span> <span class="n">descendants</span> <span class="s2">&quot;albert&quot;</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>We have used == to define the database and some functions to query the
+database. But no computation is done until we ask for some information.
+Then, once and for all, the functions are analyzed and compiled to
+machine code for run-time efficiency. Notice that no types are given
+anywhere in this example. They are not needed.</p>
+<p>Who are the grandchildren of richard?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">grandchildren</span> <span class="s2">&quot;richard&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">children</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">String</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">String</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">descendants</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">String</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">String</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">people</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">List</span> <span class="n">String</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">childOf</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">(</span><span class="n">String</span><span class="p">,</span><span class="n">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Boolean</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">parentOf</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">String</span> <span class="o">-&gt;</span> <span class="n">String</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">grandParentOf</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">String</span> <span class="o">-&gt;</span> <span class="n">String</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">grandchildren</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">String</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">String</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[&#8220;dougie&#8221;,&#8221;valerie&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List String</sub></p>
+<p>Who are the great-grandparents?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">greatGrandParents</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">greatGrandParents</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span>
+   <span class="nb">type</span> <span class="n">List</span> <span class="n">String</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[&#8220;albert&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List String</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-6.17.html" title="previous chapter">6.17 Anonymous Functions</a></li>
+      <li>Next: <a href="section-6.19.html" title="next chapter">6.19 Example: A Famous Triangle</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-6.18.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-6.18.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

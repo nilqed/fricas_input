@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.2 BalancedBinaryTree &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.3 BasicOperator" href="section-9.3.html" />
+    <link rel="prev" title="9.1 AssociationList" href="section-9.1.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="balancedbinarytree">
+<h1>9.2 BalancedBinaryTree<a class="headerlink" href="#balancedbinarytree" title="Permalink to this headline">¶</a></h1>
+<p>BalancedBinaryTrees(S) is the domain of balanced binary trees with
+elements of type S at the nodes. A binary tree is either empty or else
+consists of a node having a value and two branches, each branch a binary
+tree. A balanced binary tree is one that is balanced with respect its
+leaves. One with 2k leaves is perfectly balanced: the tree has minimum
+depth, and the left and right branch of every interior node is identical
+in shape.</p>
+<p>Balanced binary trees are useful in algebraic computation for so-called
+divide-and-conquer algorithms. Conceptually, the data for a problem is
+initially placed at the root of the tree. The original data is then
+split into two subproblems, one for each subtree. And so on. Eventually,
+the problem is solved at the leaves of the tree. A solution to the
+original problem is obtained by some mechanism that can reassemble the
+pieces. In fact, an implementation of the Chinese Remainder Algorithm
+using balanced binary trees was first proposed by David Y. Y. Yun at the
+IBM T. J. Watson Research Center in Yorktown Heights, New York, in 1978.
+It served as the prototype for polymorphic algorithms in FriCAS.</p>
+<p>In what follows, rather than perform a series of computations with a
+single expression, the expression is reduced modulo a number of integer
+primes, a computation is done with modular arithmetic for each prime,
+and the Chinese Remainder Algorithm is used to obtain the answer to the
+original problem. We illustrate this principle with the computation of
+122=144.</p>
+<p>A list of moduli.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lm</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[3,5,7,11]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>The expression modTree(n, lm) creates a balanced binary tree with leaf
+values n mod m for each modulus m in lm.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">modTree</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="n">lm</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,2,5,1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>Operation modTree does this using operations on balanced binary trees.
+We trace its steps. Create a balanced binary tree t of zeros with four
+leaves.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="p">:</span><span class="o">=</span> <span class="n">balancedBinaryTree</span><span class="p">(</span> <span class="c1">#lm, 0)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[0,0,0],0,[0,0,0]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BalancedBinaryTree NonNegativeInteger</sub></p>
+<p>The leaves of the tree are set to the individual moduli.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>setleaves!(t,lm)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[3,0,5],0,[7,0,11]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BalancedBinaryTree NonNegativeInteger</sub></p>
+<p>Use mapUp! to do a bottom-up traversal of t, setting each interior node
+to the product of the values at the nodes of its children.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>mapUp!(t,_*)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1155</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The value at the node of every subtree is the product of the moduli of
+the leaves of the subtree.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[3,15,5],1155,[7,77,11]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BalancedBinaryTree NonNegativeInteger</sub></p>
+<p>Operation mapDown!(t,a,fn) replaces the value v at each node of t by
+fn(a,v).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>mapDown!(t,12,_rem)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[0,12,2],12,[5,12,1]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BalancedBinaryTree NonNegativeInteger</sub></p>
+<p>The operation leaves returns the leaves of the resulting tree. In this
+case, it returns the list of 12 mod m for each modulus m.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leaves</span> <span class="o">%</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,2,5,1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List NonNegativeInteger</sub></p>
+<p>Compute the square of the images of 12 modulo each m.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">squares</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="n">rem</span> <span class="n">m</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="o">%</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">lm</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,4,4,1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List NonNegativeInteger</sub></p>
+<p>Call the Chinese Remainder Algorithm to get the answer for 122.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">chineseRemainder</span><span class="p">(</span><span class="o">%</span><span class="p">,</span><span class="n">lm</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>144</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.1.html" title="previous chapter">9.1 AssociationList</a></li>
+      <li>Next: <a href="section-9.3.html" title="next chapter">9.3 BasicOperator</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.2.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.2.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

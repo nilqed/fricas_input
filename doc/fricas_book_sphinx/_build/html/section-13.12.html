@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13.12 Example 1: Clifford Algebra &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="13.13 Example 2: Building A Query Facility" href="section-13.13.html" />
+    <link rel="prev" title="13.11 Short Forms" href="section-13.11.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="example-1-clifford-algebra">
+<h1>13.12 Example 1: Clifford Algebra<a class="headerlink" href="#example-1-clifford-algebra" title="Permalink to this headline">¶</a></h1>
+<p>Now that we have QuadraticForm available, let&#8217;s put it to use. Given
+some quadratic form Q described by an n by n matrix over a field K, the
+domain CliffordAlgebra(n, K, Q) defines a vector space of dimension 2n
+over K. This is an interesting domain since complex numbers,
+quaternions, exterior algebras and spin algebras are all examples of
+Clifford algebras.</p>
+<p>The basic idea is this: the quadratic form Q defines a basis e1,e2…,en
+for the vector space Kn, the direct product of K with itself n times.
+From this, the Clifford algebra generates a basis of 2n elements given
+by all the possible products of the ei in order without duplicates, that
+is,</p>
+<p>1, e1, e2, e1e2, e3, e1e3, e2e3, e1e2e3, and so on.</p>
+<p>The algebra is defined by the relations</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>eiei=Q(ei)eiej=-ejeifori≠j</td>
+</tr>
+</tbody>
+</table>
+<p>Now look at the snapshot of its definition given below. Lines 9-10 show
+part of the definitions of the Exports. A Clifford algebra over a field
+K is asserted to be a ring, an algebra over K, and a vector space over
+K. Its explicit exports include e(n), which returns the n-th unit
+element.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>NNI ==&gt; NonNegativeInteger
+PI  ==&gt; PositiveInteger
+CliffordAlgebra(n,K,q): Exports == Implementation where
+    n: PI
+    K: Field
+    q: QuadraticForm(n, K)
+    Exports == Join(Ring,Algebra(K),VectorSpace(K)) with
+      e: PI -&gt; $
+          ...
+    Implementation == add
+      Qeelist :=
+        [q.unitVector(i::PI) for i in 1..n]
+      dim     :=  2^n
+      Rep     := PrimitiveArray K
+      New ==&gt; new(dim, 0$K)$Rep
+      x + y ==
+        z := New
+        for i in 0..dim-1 repeat z.i := x.i + y.i
+        z
+      addMonomProd: (K, NNI, K, NNI, $) -&gt; $
+      addMonomProd(c1, b1, c2, b2, z) ==  ...
+      x * y ==
+        z := New
+        for ix in 0..dim-1 repeat
+          if x.ix \\notequal{} 0 then for iy in 0..dim-1 repeat
+            if y.iy \\notequal{} 0
+            then addMonomProd(x.ix,ix,y.iy,iy,z)
+          z
+           ...
+</pre></div>
+</div>
+<p>Part of the CliffordAlgebra domain.</p>
+<p>The Implementation part begins by defining a local variable Qeelist to
+hold the list of all q.v where v runs over the unit vectors from 1 to
+the dimension n. Another local variable dim is set to 2n, computed once
+and for all. The representation for the domain is PrimitiveArray(K),
+which is a basic array of elements from domain K. Line 18 defines New as
+shorthand for the more lengthy expression new(dim,0$K)$Rep, which
+computes a primitive array of length 2n filled with 0&#8217;s from domain K.</p>
+<p>Lines 19-22 define the sum of two elements x and y straightforwardly.
+First, a new array of all 0&#8217;s is created, then filled with the sum of
+the corresponding elements. Indexing for primitive arrays starts at 0.
+The definition of the product of x and y first requires the definition
+of a local function addMonomProd. FriCAS knows it is local since it is
+not an exported function. The types of all local functions must be
+declared.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-13.11.html" title="previous chapter">13.11 Short Forms</a></li>
+      <li>Next: <a href="section-13.13.html" title="next chapter">13.13 Example 2: Building A Query Facility</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-13.12.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-13.12.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

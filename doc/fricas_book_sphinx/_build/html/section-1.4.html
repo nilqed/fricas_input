@@ -1,0 +1,456 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.4 Numbers &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="1.5 Data Structures" href="section-1.5.html" />
+    <link rel="prev" title="1.3 The FriCAS Language" href="section-1.3.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="numbers">
+<h1>1.4 Numbers<a class="headerlink" href="#numbers" title="Permalink to this headline">¶</a></h1>
+<p>FriCAS distinguishes very carefully between different kinds of numbers,
+how they are represented and what their properties are. Here are a
+sampling of some of these kinds of numbers and some things you can do
+with them.</p>
+<p>Integer arithmetic is always exact.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">11</span><span class="o">^</span><span class="mi">13</span> <span class="o">*</span> <span class="mi">13</span><span class="o">^</span><span class="mi">11</span> <span class="o">*</span> <span class="mi">17</span><span class="o">^</span><span class="mi">7</span> <span class="o">-</span> <span class="mi">19</span><span class="o">^</span><span class="mi">5</span> <span class="o">*</span> <span class="mi">23</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[25387751112538918594666224484237298\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Integers can be represented in factored form.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span> <span class="mi">643238070748569023720594412551704344145570763243</span>
+</pre></div>
+</div>
+<div class="math">
+\[11131311177195233292\]</div>
+<p><sub>Type: Factored Integer</sub></p>
+<p>Results stay factored when you do arithmetic. Note that the 12 is
+automatically factored for you.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="o">*</span> <span class="mi">12</span>
+</pre></div>
+</div>
+<p><sub>Type: Factored Integer</sub></p>
+<p>Integers can also be displayed to bases other than 10. This is an
+integer in base 11.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">radix</span><span class="p">(</span><span class="mi">25937424601</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[10000000000\]</div>
+<p><sub>Type: RadixExpansion 11</sub></p>
+<p>Roman numerals are also available for those special occasions. Roman
+numerals</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">roman</span><span class="p">(</span><span class="mi">1992</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[MCMXCII\]</div>
+<p><sub>Type: RomanNumeral</sub></p>
+<p>Rational number arithmetic is also exact.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">9</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">8</span><span class="o">/</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">7</span><span class="o">/</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">6</span><span class="o">/</span><span class="mi">5</span> <span class="o">+</span> <span class="mi">5</span><span class="o">/</span><span class="mi">6</span> <span class="o">+</span> <span class="mi">4</span><span class="o">/</span><span class="mi">7</span> <span class="o">+</span> <span class="mi">3</span><span class="o">/</span><span class="mi">8</span> <span class="o">+</span> <span class="mi">2</span><span class="o">/</span><span class="mi">9</span>
+</pre></div>
+</div>
+<div class="math">
+\[557392520\]</div>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>To factor fractions, you have to pmap factor onto the numerator and
+denominator.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">map</span><span class="p">(</span><span class="n">factor</span><span class="p">,</span><span class="n">r</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[139401233257\]</div>
+<p><sub>Type: Fraction Factored Integer</sub></p>
+<p>SingleInteger refers to machine word-length integers.</p>
+<p>In English, this expression means 11 as a small integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">11</span><span class="nd">@SingleInteger</span>
+</pre></div>
+</div>
+<div class="math">
+\[11\]</div>
+<p><sub>Type: SingleInteger</sub></p>
+<p>Machine double-precision floating-point numbers are also available for
+numeric and graphical applications.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">123.21</span><span class="nd">@DoubleFloat</span>
+</pre></div>
+</div>
+<div class="math">
+\[123.21000000000001\]</div>
+<p><sub>Type: DoubleFloat</sub></p>
+<p>The normal floating-point type in FriCAS, Float, is a software
+implementation of floating-point numbers in which the exponent and the
+mantissa may have any number of digits. The types Complex(Float) and
+Complex(DoubleFloat) are the corresponding software implementations of
+complex floating-point numbers.</p>
+<p>This is a floating-point approximation to about twenty digits. floating
+point The <code class="docutils literal"><span class="pre">::</span></code> is used here to change from one kind of object (here,
+a rational number) to another (a floating-point number).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">::</span> <span class="n">Float</span>
+</pre></div>
+</div>
+<div class="math">
+\[22.118650793650793651\]</div>
+<p><sub>Type: Float</sub></p>
+<p>Use <em>digits</em> to change the number of digits in the
+representation. This operation returns the previous value so you can
+reset it later.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">digits</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[20\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>To 22 digits of precision, the number eπ163.0 appears to be an integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="p">(</span><span class="o">%</span><span class="n">pi</span> <span class="o">*</span> <span class="n">sqrt</span> <span class="mf">163.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[262537412640768744.0\]</div>
+<p><sub>Type: Float</sub></p>
+<p>Increase the precision to forty digits and try again.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">digits</span><span class="p">(</span><span class="mi">40</span><span class="p">);</span> <span class="n">exp</span><span class="p">(</span><span class="o">%</span><span class="n">pi</span> <span class="o">*</span> <span class="n">sqrt</span> <span class="mf">163.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[262537412640768743.9999999999992500725976\]</div>
+<p><sub>Type: Float</sub></p>
+<p>Here are complex numbers with rational numbers as real and complex
+numbers imaginary parts.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span> <span class="o">+</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{{46} \over {27}}+{{1 \over 3} \  i}\]</div>
+<p><sub>Type: Complex Fraction Integer</sub></p>
+<p>The standard operations on complex numbers are available.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conjugate</span> <span class="o">%</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{{46} \over {27}} -{{1 \over 3} \  i}\]</div>
+<p><sub>Type: Complex Fraction Integer</sub></p>
+<p>You can factor complex integers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="mi">89</span> <span class="o">-</span> <span class="mi">23</span> <span class="o">*</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{{\left( 1+i
+\right)}
+\  {{{\left( 2+i
+\right)}}
+^ {2}} \  {{{\left( 3+{2 \  i}
+\right)}}
+^ {2}}}\]</div>
+<p><sub>Type: Factored Complex Integer</sub></p>
+<p>Complex numbers with floating point parts are also available.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="p">(</span><span class="o">%</span><span class="n">pi</span><span class="o">/</span><span class="mf">4.0</span> <span class="o">*</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{0.7071067811865475244}+{{0.7071067811865475244} \  i}\]</div>
+<p><sub>Type: Complex Float</sub></p>
+<p>The real and imaginary parts can be symbolic.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">complex</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[u+{v \  i}\]</div>
+<p><sub>Type: Complex Polynomial Integer</sub></p>
+<p>Of course, you can do complex arithmetic with these also.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="o">^</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{{v} ^ {2}}+{{u} ^ {2}}+{2 \  u \  v \  i}\]</div>
+<p><sub>Type: Complex Polynomial Integer</sub></p>
+<p>Every rational number has an exact representation as a repeating decimal
+expansion</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">decimal</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">352</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[0.{00284}{\overline {09}}\]</div>
+<p><sub>Type: DecimalExpansion</sub></p>
+<p>A rational number can also be expressed as a continued fraction.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">continuedFraction</span><span class="p">(</span><span class="mi">6543</span><span class="o">/</span><span class="mi">210</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[ \begin{align}\begin{aligned}\def\zag#1#2{{{\left.{#1}\right|}\over{\left|{#2}\right.}}}\\{31}+ \zag{1}{6}+ \zag{1}{2}+ \zag{1}{1}+ \zag{1}{3}\end{aligned}\end{align} \]</div>
+<p><sub>Type: ContinuedFraction Integer</sub></p>
+<p>Also, partial fractions can be used and can be displayed in a partial
+fraction compact format fraction:partial</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">partialFraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">factorial</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{159} \over {{2} ^ {8}}} -{{23} \over {{3} ^ {4}}} -{{12} \over {{5} ^
+ {2}}}+{1 \over 7}\]</div>
+<p><sub>Type: PartialFraction Integer</sub></p>
+<p>or expanded format.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">padicFraction</span><span class="p">(</span><span class="o">%</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{1 \over 2}+{1 \over {{2} ^ {4}}}+{1 \over {{2} ^ {5}}}+{1 \over {{2} ^
+{6}}}+{1 \over {{2} ^ {7}}}+{1 \over {{2} ^ {8}}} -{2 \over {{3} ^
+{2}}} -{1 \over {{3} ^ {3}}} -{2 \over {{3} ^ {4}}} -{2 \over 5} -{2
+\over {{5} ^ {2}}}+{1 \over 7}\]</div>
+<p><sub>Type: PartialFraction Integer</sub></p>
+<p>Like integers, bases (radices) other than ten can be used for rational
+numbers. Here we use base eight.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">radix</span><span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[0.{\overline 4}\]</div>
+<p><sub>Type: RadixExpansion 8</sub></p>
+<p>Of course, there are complex versions of these as well. FriCAS decides
+to make the result a complex rational number.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="o">+</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="o">*%</span><span class="n">i</span>
+</pre></div>
+</div>
+<div class="math">
+\[{4 \over 7}+{{2 \over 3} \  i}\]</div>
+<p><sub>Type: Complex Fraction Integer</sub></p>
+<p>You can also use FriCAS to manipulate fractional powers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">5</span> <span class="o">+</span> <span class="n">sqrt</span> <span class="mi">63</span> <span class="o">+</span> <span class="n">sqrt</span> <span class="mi">847</span><span class="p">)</span><span class="o">^</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\root {3} \of {{{{14} \  {\sqrt {7}}}+5}}\]</div>
+<p><sub>Type: AlgebraicNumber</sub></p>
+<p>You can also compute with integers modulo a prime.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span> <span class="n">PrimeField</span> <span class="mi">7</span> <span class="p">:</span><span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[5\]</div>
+<p><sub>Type: PrimeField 7</sub></p>
+<p>Arithmetic is then done modulo 7.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[6\]</div>
+<p><sub>Type: PrimeField 7</sub></p>
+<p>Since 7 is prime, you can invert nonzero values.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="o">/</span><span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[3\]</div>
+<p><sub>Type: PrimeField 7</sub></p>
+<p>You can also compute modulo an integer that is not a prime.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span> <span class="n">IntegerMod</span> <span class="mi">6</span> <span class="p">:</span><span class="o">=</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[5\]</div>
+<p><sub>Type: IntegerMod 6</sub></p>
+<p>All of the usual arithmetic operations are available.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[5\]</div>
+<p><sub>Type: IntegerMod 6</sub></p>
+<p>Inversion is not available if the modulus is not a prime number. Modular
+arithmetic and prime fields are discussed in Section
+<a class="reference external" href="section-8.11.html#ugxProblemFinitePrime">ugxProblemFinitePrime</a> .</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="o">/</span><span class="n">y</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">There</span> <span class="n">are</span> <span class="mi">12</span> <span class="n">exposed</span> <span class="ow">and</span> <span class="mi">13</span> <span class="n">unexposed</span> <span class="n">library</span> <span class="n">operations</span> <span class="n">named</span> <span class="o">/</span>
+   <span class="n">having</span> <span class="mi">2</span> <span class="n">argument</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">but</span> <span class="n">none</span> <span class="n">was</span> <span class="n">determined</span> <span class="n">to</span> <span class="n">be</span> <span class="n">applicable</span><span class="o">.</span>
+   <span class="n">Use</span> <span class="n">HyperDoc</span> <span class="n">Browse</span><span class="p">,</span> <span class="ow">or</span> <span class="n">issue</span>
+                             <span class="p">)</span><span class="n">display</span> <span class="n">op</span> <span class="o">/</span>
+   <span class="n">to</span> <span class="n">learn</span> <span class="n">more</span> <span class="n">about</span> <span class="n">the</span> <span class="n">available</span> <span class="n">operations</span><span class="o">.</span> <span class="n">Perhaps</span>
+   <span class="n">package</span><span class="o">-</span><span class="n">calling</span> <span class="n">the</span> <span class="n">operation</span> <span class="ow">or</span> <span class="n">using</span> <span class="n">coercions</span> <span class="n">on</span> <span class="n">the</span> <span class="n">arguments</span>
+   <span class="n">will</span> <span class="n">allow</span> <span class="n">you</span> <span class="n">to</span> <span class="n">apply</span> <span class="n">the</span> <span class="n">operation</span><span class="o">.</span>
+
+<span class="n">Cannot</span> <span class="n">find</span> <span class="n">a</span> <span class="n">definition</span> <span class="ow">or</span> <span class="n">applicable</span> <span class="n">library</span> <span class="n">operation</span> <span class="n">named</span> <span class="o">/</span>
+   <span class="k">with</span> <span class="n">argument</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                            <span class="n">PositiveInteger</span>
+                             <span class="n">IntegerMod</span> <span class="mi">6</span>
+
+   <span class="n">Perhaps</span> <span class="n">you</span> <span class="n">should</span> <span class="n">use</span> <span class="s2">&quot;@&quot;</span> <span class="n">to</span> <span class="n">indicate</span> <span class="n">the</span> <span class="n">required</span> <span class="k">return</span> <span class="nb">type</span><span class="p">,</span>
+   <span class="ow">or</span> <span class="s2">&quot;$&quot;</span> <span class="n">to</span> <span class="n">specify</span> <span class="n">which</span> <span class="n">version</span> <span class="n">of</span> <span class="n">the</span> <span class="n">function</span> <span class="n">you</span> <span class="n">need</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>This defines a to be an algebraic number, that is, a root of a
+polynomial equation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="n">rootOf</span><span class="p">(</span><span class="n">a</span><span class="o">^</span><span class="mi">5</span> <span class="o">+</span> <span class="n">a</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">a</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[a\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Computations with a are reduced according to the polynomial equation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">10</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{{85} \  {{a} ^ {4}}} -{{264} \  {{a} ^ {3}}} -{{378} \  {{a} ^ {2}}}
+-{{458} \  a} -{287}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Define b to be an algebraic number involving a.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">rootOf</span><span class="p">(</span><span class="n">b</span><span class="o">^</span><span class="mi">4</span> <span class="o">+</span> <span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[b\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Do some arithmetic.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="n">b</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[2 \over {b -1}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>To expand and simplify this, call ratDenom to rationalize the
+denominator.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ratDenom</span><span class="p">(</span><span class="o">%</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\scriptstyle{
+{{\left( {{a} ^ {4}} -{{a} ^ {3}}+{2 \  {{a} ^ {2}}} -a+1
+ \right)}
+ \  {{b} ^ {3}}}+{{\left( {{a} ^ {4}} -{{a} ^ {3}}+{2 \  {{a} ^ {2}}}
+ -a+1
+ \right)}
+ \  {{b} ^ {2}}}+{{\left( {{a} ^ {4}} -{{a} ^ {3}}+{2 \  {{a} ^ {2}}}
+ -a+1
+ \right)}
+ \  b}+{{a} ^ {4}} -{{a} ^ {3}}+{2 \  {{a} ^ {2}}} -a+1}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>If we do this, we should get b.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2</span><span class="o">/%+</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\scriptstyle{
+{{{\left( {{a} ^ {4}} -{{a} ^ {3}}+{2 \  {{a} ^ {2}}} -a+1
+\right)}
+\  {{b} ^ {3}}}+{{\left( {{a} ^ {4}} -{{a} ^ {3}}+{2 \  {{a} ^ {2}}}
+-a+1
+\right)}
+\  {{b} ^ {2}}}+{{\left( {{a} ^ {4}} -{{a} ^ {3}}+{2 \  {{a} ^ {2}}}
+-a+1
+\right)}
+\  b}+{{a} ^ {4}} -{{a} ^ {3}}+{2 \  {{a} ^ {2}}} -a+3} \over {{{\left(
+{{a} ^ {4}} -{{a} ^ {3}}+{2 \  {{a} ^ {2}}} -a+1
+\right)}
+\  {{b} ^ {3}}}+{{\left( {{a} ^ {4}} -{{a} ^ {3}}+{2 \  {{a} ^ {2}}}
+-a+1
+\right)}
+\  {{b} ^ {2}}}+{{\left( {{a} ^ {4}} -{{a} ^ {3}}+{2 \  {{a} ^ {2}}}
+-a+1
+\right)}
+\  b}+{{a} ^ {4}} -{{a} ^ {3}}+{2 \  {{a} ^ {2}}} -a+1}}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>But we need to rationalize the denominator again.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ratDenom</span><span class="p">(</span><span class="o">%</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[b\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Types Quaternion and Octonion are also available. Multiplication of
+quaternions is non-commutative, as expected.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">:</span><span class="o">=</span><span class="n">quatern</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">quatern</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span> <span class="o">-</span> <span class="n">quatern</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span><span class="o">*</span><span class="n">quatern</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{8 \  i}+{{16} \  j} -{8 \  k}\]</div>
+<p><sub>Type: Quaternion Integer</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-1.3.html" title="previous chapter">1.3 The FriCAS Language</a></li>
+      <li>Next: <a href="section-1.5.html" title="next chapter">1.5 Data Structures</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.4.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-1.4.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

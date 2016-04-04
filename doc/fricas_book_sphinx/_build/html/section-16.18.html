@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.18 )pquit &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="16.19 )quit" href="section-16.19.html" />
+    <link rel="prev" title="16.17 )trace" href="section-16.17.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="pquit">
+<h1>16.18 )pquit<a class="headerlink" href="#pquit" title="Permalink to this headline">¶</a></h1>
+<p>ugSysCmdpquit</p>
+<p>pquit</p>
+<blockquote>
+<div><p>User Level Required: interpreter</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)pquit</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>This command is used to terminate FriCAS and return to the operating
+system. Other than by redoing all your computations or by using the
+)history )restore command to try to restore your working environment,
+you cannot return to FriCAS in the same state.</p>
+<p>)pquit differs from the )quit in that it always asks for confirmation
+that you want to terminate FriCAS (the p is for protected). quit When
+you enter the )pquit command, FriCAS responds</p>
+<div class="line-block">
+<div class="line">Please enter y or yes if you really want to leave the interactive</div>
+<div class="line-block">
+<div class="line">environment and return to the operating system:</div>
+</div>
+</div>
+<p>If you respond with y or yes, you will see the message</p>
+<div class="line-block">
+<div class="line">You are now leaving the FriCAS interactive environment.</div>
+<div class="line-block">
+<div class="line">Issue the command axiom to the operating system to start a new</div>
+</div>
+</div>
+<p>session.</p>
+<p>and FriCAS will terminate and return you to the operating system (or the
+environment from which you invoked the system). If you responded with
+something other than y or yes, then the message</p>
+<p>You have chosen to remain in the FriCAS interactive environment.</p>
+<p>will be displayed and, indeed, FriCAS would still be running.</p>
+<blockquote>
+<div>Also See: )fin ugSysCmdfin, )history ugSysCmdhistory, )close</div></blockquote>
+<p>ugSysCmdclose, )quit ugSysCmdquit, and )system ugSysCmdsystem.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.17.html" title="previous chapter">16.17 )trace</a></li>
+      <li>Next: <a href="section-16.19.html" title="next chapter">16.19 )quit</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.18.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.18.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

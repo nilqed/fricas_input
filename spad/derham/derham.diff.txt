@@ -1,0 +1,526 @@
+)abbrev category LALG LeftAlgebra                                               | )abbrev category LALG LeftAlgebra
+++ Author: Larry A. Lambe                                                       | ++ Author: Larry A. Lambe
+++ Date  : 03/01/89; revised 03/17/89; revised 12/02/90 ; DEC-2015              | ++ Date  : 03/01/89; revised 03/17/89; revised 12/02/90.
+++ Description: The category of all left algebras over an arbitrary             | ++ Description: The category of all left algebras over an arbitrary
+++ ring.                                                                        | ++ ring.
+++                                                                              | 
+LeftAlgebra(R : Ring) : Category == Join(Ring, LeftModule R) with               | LeftAlgebra(R : Ring) : Category == Join(Ring, LeftModule R) with
+                                                                                |     --operations
+      coerce : R -> %                                                           |       coerce : R -> %
+        ++ coerce(r) returns r * 1 where 1 is the identity of the               |         ++ coerce(r) returns r * 1 where 1 is the identity of the
+        ++ left algebra.                                                        |         ++ left algebra.
+                                                                                | 
+    add                                                                         |     add
+                                                                                | 
+      coerce(x : R) : % == x * 1$%                                              |       coerce(x : R) : % == x * 1$%
+                                                                                | 
+                                                                                | 
+)abbrev domain EAB ExtAlgBasis                                                  | )abbrev domain EAB ExtAlgBasis
+                                                                                | --% ExtAlgBasis
+++  Author: Larry Lambe                                                         | ++  Author: Larry Lambe
+++  Date created: 03/14/89                                                      | ++  Date created: 03/14/89
+++  Description:                                                                | ++  Description:
+++  A domain used in the construction of the exterior algebra on a set          | ++  A domain used in the construction of the exterior algebra on a set
+++  X over a ring R.  This domain represents the set of all ordered             | ++  X over a ring R.  This domain represents the set of all ordered
+++  subsets of the set X, assumed to be in correspondance with                  | ++  subsets of the set X, assumed to be in correspondance with
+++  {1, 2, 3, ...}.  The ordered subsets are themselves ordered                 | ++  {1, 2, 3, ...}.  The ordered subsets are themselves ordered
+++  lexicographically and are in bijective correspondance with an ordered       | ++  lexicographically and are in bijective correspondance with an ordered
+++  basis of the exterior algebra.  In this domain we are dealing strictly      | ++  basis of the exterior algebra.  In this domain we are dealing strictly
+++  with the exponents of basis elements which can only be 0 or 1.              | ++  with the exponents of basis elements which can only be 0 or 1.
+--  Thus we really have L({0, 1}).                                              | --  Thus we really have L({0, 1}).
+++                                                                              | ++
+++  The multiplicative identity element of the exterior algebra corresponds     | ++  The multiplicative identity element of the exterior algebra corresponds
+++  to the empty subset of X.  A coerce from List Integer to an                 | ++  to the empty subset of X.  A coerce from List Integer to an
+++  ordered basis element is provided to allow the convenient input of          | ++  ordered basis element is provided to allow the convenient input of
+++  expressions. Another exported function forgets the ordered structure        | ++  expressions. Another exported function forgets the ordered structure
+++  and simply returns the list corresponding to an ordered subset.             | ++  and simply returns the list corresponding to an ordered subset.
+++                                                                              | 
+ExtAlgBasis() : Exports == Implementation where                                 | 
+                                                                                | 
+                                                                                | ExtAlgBasis() : Export == Implement where
+   I   ==> Integer                                                              |    I   ==> Integer
+   L   ==> List                                                                 |    L   ==> List
+   NNI ==> NonNegativeInteger                                                   |    NNI ==> NonNegativeInteger
+                                                                                | 
+   Exports == OrderedSet with                                                   |    Export == OrderedSet with
+                                                                                |      coerce     : L I -> %
+     coerce : List(I) -> %                                                      | 
+        ++ coerce(l) converts a list of 0's and 1's into a basis                |         ++ coerce(l) converts a list of 0's and 1's into a basis
+        ++ element, where 1 (respectively 0) designates that the                |         ++ element, where 1 (respectively 0) designates that the
+        ++ variable of the corresponding index of l is (respectively, is not)   |         ++ variable of the corresponding index of l is (respectively, is not)
+        ++ present.                                                             |         ++ present.
+        ++ Error: if an element of l is not 0 or 1.                             |         ++ Error: if an element of l is not 0 or 1.
+                                                                                | 
+                                                                                | 
+     convert : % -> List(I)                                                     | 
+        ++ convert to a list of integers                                        | 
+                                                                                | 
+     degree : %   -> NNI                                                        |      degree     : %   -> NNI
+        ++ degree(x) gives the numbers of 1's in x, i.e., the number            |         ++ degree(x) gives the numbers of 1's in x, i.e., the number
+        ++ of non-zero exponents in the basis element that x represents.        |         ++ of non-zero exponents in the basis element that x represents.
+                                                                                | 
+     exponents : %   -> L I                                                     |      exponents  : %   -> L I
+        ++ exponents(x) converts a domain element into a list of zeros          |         ++ exponents(x) converts a domain element into a list of zeros
+        ++ and ones corresponding to the exponents in the basis element         |         ++ and ones corresponding to the exponents in the basis element
+        ++ that x represents.                                                   |         ++ that x represents.
+                                                                                | --   subscripts : %   -> L I
+                                                                                |         -- subscripts(x) looks at the exponents in x and converts
+                                                                                |         -- them to the proper subscripts
+     Nul : NNI -> %                                                             |      Nul        : NNI -> %
+        ++ Nul() gives the basis element 1 for the algebra generated            |         ++ Nul() gives the basis element 1 for the algebra generated
+        ++ by n generators.                                                     |         ++ by n generators.
+                                                                                | 
+                                                                                | 
+   Implementation == add                                                        |    Implement == add
+                                                                                | 
+     Rep := L I                                                                 |      Rep := L I
+                                                                                | 
+     x, y :  %                                                                  |      x, y :  %
+                                                                                | 
+     x = y == x =$Rep y                                                         |      x = y == x =$Rep y
+                                                                                | 
+     x < y ==                                                                   |      x < y ==
+       null x            => not null y                                          |        null x            => not null y
+       null y            => false                                               |        null y            => false
+       first x = first y => rest x < rest y                                     |        first x = first y => rest x < rest y
+       first x > first y                                                        |        first x > first y
+                                                                                | 
+     coerce(li : (L I)) ==                                                      |      coerce(li : (L I)) ==
+       for x in li repeat                                                       |        for x in li repeat
+         if x ~= 1 and x ~= 0 then                                              |          if x ~= 1 and x ~= 0 then error "coerce: values can only be 0 and 1"
+           error "coerce: values can only be 0 and 1"                           | 
+       li                                                                       |        li
+                                                                                | 
+     degree x == (_+/x)::NNI                                                    |      degree x         == (_+/x)::NNI
+                                                                                | 
+     exponents x == copy(x @ Rep)                                               |      exponents x      == copy(x @ Rep)
+                                                                                | 
+                                                                                | --   subscripts x     ==
+                                                                                | --      cntr: I := 1
+                                                                                | --      result: L I := []
+                                                                                | --      for j in x repeat
+                                                                                | --        if j = 1 then result := cons(cntr, result)
+                                                                                | --        cntr := cntr+1
+                                                                                | --      reverse! result
+                                                                                | 
+     Nul n == [0 for i in 1..n]                                                 |      Nul n            == [0 for i in 1..n]
+                                                                                | 
+     coerce x == coerce(x @ Rep)$(L I)                                          |      coerce x         == coerce(x @ Rep)$(L I)
+     convert(x:%):List(I) == x@Rep                                              | 
+                                                                                | 
+                                                                                | 
+)abbrev domain ANTISYM AntiSymm                                                 | )abbrev domain ANTISYM AntiSymm
+++ Author: Larry A. Lambe                                                       | ++   Author: Larry A. Lambe
+++ Date     : 01/26/91.                                                         | ++   Date     : 01/26/91.
+++ Revised  : 30 Nov 94                                                         | ++   Revised  : 30 Nov 94
+++                                                                              | ++
+++ based on AntiSymmetric '89                                                   | ++   based on AntiSymmetric '89
+                                                                                | ++
+++ Needs: ExtAlgBasis, FreeModule(Ring, OrderedSet), LALG, LALG-                | ++   Needs: ExtAlgBasis, FreeModule(Ring, OrderedSet), LALG, LALG-
+++ Description: The domain of antisymmetric polynomials.                        | 
+++                                                                              | ++
+AntiSymm(R : Ring, lVar : List Symbol) : Exports == Implementation where        | ++   Description: The domain of antisymmetric polynomials.
+                                                                                | 
+                                                                                | 
+                                                                                | AntiSymm(R : Ring, lVar : List Symbol) : Export == Implement where
+  LALG ==> LeftAlgebra                                                          |   LALG ==> LeftAlgebra
+  FMR  ==> FM(R, EAB)                                                           |   FMR  ==> FM(R, EAB)
+  FM   ==> FreeModule                                                           |   FM   ==> FreeModule
+  I    ==> Integer                                                              |   I    ==> Integer
+  L    ==> List                                                                 |   L    ==> List
+  EAB  ==> ExtAlgBasis     -- these are exponents of basis elements in order    |   EAB  ==> ExtAlgBasis     -- these are exponents of basis elements in order
+  NNI  ==> NonNegativeInteger                                                   |   NNI  ==> NonNegativeInteger
+  O    ==> OutputForm                                                           |   O    ==> OutputForm
+  base ==> k                                                                    |   base ==> k
+  coef ==> c                                                                    |   coef ==> c
+  Term ==> Record(k : EAB, c : R)                                               |   Term ==> Record(k : EAB, c : R)
+                                                                                | 
+  Exports == Join(LALG(R), RetractableTo(R)) with                               | 
+                                                                                | 
+                                                                                |   Export == Join(LALG(R), RetractableTo(R)) with
+      leadingCoefficient : % -> R                                               |       leadingCoefficient : %           -> R
+        ++ leadingCoefficient(p) returns the leading                            |         ++ leadingCoefficient(p) returns the leading
+        ++ coefficient of antisymmetric polynomial p.                           |         ++ coefficient of antisymmetric polynomial p.
+                                                                                | --    leadingSupport       : %           -> EAB
+      leadingBasisTerm : % -> %                                                 |       leadingBasisTerm     : %           -> %
+        ++ leadingBasisTerm(p) returns the leading                              |         ++ leadingBasisTerm(p) returns the leading
+        ++ basis term of antisymmetric polynomial p.                            |         ++ basis term of antisymmetric polynomial p.
+                                                                                | 
+      reductum : % -> %                                                         |       reductum           : %           -> %
+        ++ reductum(p), where p is an antisymmetric polynomial,                 |         ++ reductum(p), where p is an antisymmetric polynomial,
+        ++ returns p minus the leading                                          |         ++ returns p minus the leading
+        ++ term of p if p has at least two terms, and 0 otherwise.              |         ++ term of p if p has at least two terms, and 0 otherwise.
+                                                                                | 
+      coefficient : (%, %) -> R                                                 |       coefficient        : (%, %)     -> R
+        ++ coefficient(p, u) returns the coefficient of                         |         ++ coefficient(p, u) returns the coefficient of
+        ++ the term in p containing the basis term u if such                    |         ++ the term in p containing the basis term u if such
+        ++ a term exists, and 0 otherwise.                                      |         ++ a term exists, and 0 otherwise.
+        ++ Error: if the second argument u is not a basis element.              |         ++ Error: if the second argument u is not a basis element.
+                                                                                | 
+      generator : NNI -> %                                                      |       generator          : NNI         -> %
+        ++ generator(n) returns the nth multiplicative generator,               |         ++ generator(n) returns the nth multiplicative generator,
+        ++ a basis term.                                                        |         ++ a basis term.
+                                                                                | 
+      exp : L I -> %                                                            |       exp                : L I         -> %
+        ++  exp([i1, ...in]) returns \spad{u_1\^{i_1} ... u_n\^{i_n}}           |         ++  exp([i1, ...in]) returns \spad{u_1\^{i_1} ... u_n\^{i_n}}
+                                                                                | 
+      homogeneous? : % -> Boolean                                               |       homogeneous?       : %           -> Boolean
+        ++  homogeneous?(p) tests if all of the terms of                        |         ++  homogeneous?(p) tests if all of the terms of
+        ++  p have the same degree.                                             |         ++  p have the same degree.
+                                                                                | 
+      retractable? : % -> Boolean                                               |       retractable?       : %           -> Boolean
+        ++  retractable?(p) tests if p is a 0-form,                             |         ++  retractable?(p) tests if p is a 0-form,
+        ++  i.e., if degree(p) = 0.                                             |         ++  i.e., if degree(p) = 0.
+                                                                                | 
+      degree : % -> NNI                                                         |       degree             : %           -> NNI
+        ++  degree(p) returns the homogeneous degree of p.                      |         ++  degree(p) returns the homogeneous degree of p.
+                                                                                | 
+      map : (R -> R, %) -> %                                                    |       map                : (R -> R, %) -> %
+        ++  map(f, p) changes each coefficient of p by the                      |         ++  map(f, p) changes each coefficient of p by the
+        ++  application of f.                                                   |         ++  application of f.
+                                                                                | 
+      convert : % -> List(Term)                                                 | 
+        ++  convert(p) converts p to a list of terms                            | 
+                                                                                | 
+      convert : List(Term) -> %                                                 | 
+        ++  convert a list of terms back to p                                   | 
+                                                                                | 
+                                                                                | 
+  Implementation == FMR add                                                     | --    1 corresponds to the empty monomial Nul = [0, ..., 0]
+                                                                                | --    from EAB.  In terms of the exterior algebra on X,
+                                                                                | --    it corresponds to the identity element which lives
+                                                                                | --    in homogeneous degree 0.
+                                                                                | 
+                                                                                |   Implement == FMR add
+      Rep := L Term                                                             |       Rep := L Term
+                                                                                | 
+      x, y : EAB                                                                |       x, y :  EAB
+      a, b : %                                                                  |       a, b :  %
+      r   :  R                                                                  |       r   :  R
+      m   :  I                                                                  |       m   :  I
+                                                                                | 
+      dim := #lVar                                                              |       dim := #lVar
+                                                                                | 
+      1 == [[ Nul(dim)$EAB, 1$R ]]                                              |       1 == [[ Nul(dim)$EAB, 1$R ]]
+      -- 1 corresponds to the empty monomial Nul = [0, ..., 0]                  | 
+      -- from EAB. In terms of the exterior algebra on X,                       | 
+      -- it corresponds to the identity element which lives                     | 
+      -- in homogeneous degree 0.                                               | 
+                                                                                | 
+      coefficient(a, u) ==                                                      |       coefficient(a, u) ==
+        not null u.rest => error "2nd argument must be a basis element"         |         not null u.rest => error "2nd argument must be a basis element"
+        x := u.first.base                                                       |         x := u.first.base
+        for t in a repeat                                                       |         for t in a repeat
+          if t.base = x then return t.coef                                      |           if t.base = x then return t.coef
+          if t.base < x then return 0                                           |           if t.base < x then return 0
+        0                                                                       |         0
+                                                                                | 
+      retractable?(a) ==                                                        |       retractable?(a) ==
+        null a or (a.first.k  =  Nul(dim))                                      |         null a or (a.first.k  =  Nul(dim))
+                                                                                | 
+      retractIfCan(a):Union(R,"failed") ==                                      |       retractIfCan(a):Union(R,"failed") ==
+        null a => 0$R                                                           |         null a               => 0$R
+        a.first.k = Nul(dim) => leadingCoefficient a                            |         a.first.k = Nul(dim) => leadingCoefficient a
+        "failed"                                                                |         "failed"
+                                                                                | 
+      retract(a) : R ==                                                         |       retract(a) : R ==
+        null a => 0$R                                                           |         null a => 0$R
+        leadingCoefficient a                                                    |         leadingCoefficient a
+                                                                                | 
+      homogeneous? a ==                                                         |       homogeneous? a ==
+        null a => true                                                          |         null a => true
+        siz := _+/exponents(a.first.base)                                       |         siz := _+/exponents(a.first.base)
+        for ta in reductum a repeat                                             |         for ta in reductum a repeat
+          _+/exponents(ta.base) ~= siz => return false                          |           _+/exponents(ta.base) ~= siz => return false
+        true                                                                    |         true
+                                                                                | 
+      degree a ==                                                               |       degree a ==
+        null a => 0$NNI                                                         |         null a => 0$NNI
+        homogeneous? a => (_+/exponents(a.first.base)) :: NNI                   |         homogeneous? a => (_+/exponents(a.first.base)) :: NNI
+        error "not a homogeneous element"                                       |         error "not a homogeneous element"
+                                                                                | 
+      zo : (I, I) -> L I                                                        |       zo : (I, I) -> L I
+      zo(p, q) ==                                                               |       zo(p, q) ==
+        p = 0 => [1, q]                                                         |         p = 0 => [1, q]
+        q = 0 => [1, 1]                                                         |         q = 0 => [1, 1]
+        [0, 0]                                                                  |         [0, 0]
+                                                                                | 
+      getsgn : (EAB, EAB) -> I                                                  |       getsgn : (EAB, EAB) -> I
+      getsgn(x, y) ==                                                           |       getsgn(x, y) ==
+        sgn : I  := 0                                                           |         sgn : I  := 0
+        xx : L I := exponents x                                                 |         xx : L I := exponents x
+        yy : L I := exponents y                                                 |         yy : L I := exponents y
+        for i in 1 .. (dim-1) repeat                                            |         for i in 1 .. (dim-1) repeat
+          xx  := rest xx                                                        |           xx  := rest xx
+          sgn := sgn + (_+/xx)*yy.i                                             |           sgn := sgn + (_+/xx)*yy.i
+        sgn rem 2 = 0 => 1                                                      |         sgn rem 2 = 0 => 1
+        -1                                                                      |         -1
+                                                                                | 
+      Nalpha : (EAB, EAB) -> L I                                                |       Nalpha : (EAB, EAB) -> L I
+      Nalpha(x, y) ==                                                           |       Nalpha(x, y) ==
+        i : I := 1                                                              |         i : I := 1
+        dum2 : L I := [0 for i in 1..dim]                                       |         dum2 : L I := [0 for i in 1..dim]
+        for j in 1..dim repeat                                                  |         for j in 1..dim repeat
+          dum := zo((exponents x).j, (exponents y).j)                           |           dum := zo((exponents x).j, (exponents y).j)
+          (i := i*dum.1) = 0 => break                                           |           (i := i*dum.1) = 0 => break
+          dum2.j := dum.2                                                       |           dum2.j := dum.2
+        i = 0 => cons(i, dum2)                                                  |         i = 0 => cons(i, dum2)
+        cons(getsgn(x, y), dum2)                                                |         cons(getsgn(x, y), dum2)
+                                                                                | 
+      a * b ==                                                                  |       a * b ==
+        null a => 0                                                             |         null a => 0
+        null b => 0                                                             |         null b => 0
+        ((null a.rest) and (a.first.k = Nul(dim))) => a.first.c * b             |         ((null a.rest) and (a.first.k = Nul(dim))) => a.first.c * b
+        ((null b.rest) and (b.first.k = Nul(dim))) => b.first.c * a             |         ((null b.rest) and (b.first.k = Nul(dim))) => b.first.c * a
+        z : % := 0                                                              |         z : % := 0
+        for tb in b repeat                                                      |         for tb in b repeat
+          for ta in a repeat                                                    |           for ta in a repeat
+            stuff := Nalpha(ta.base, tb.base)                                   |             stuff := Nalpha(ta.base, tb.base)
+            r := first(stuff)*ta.coef*tb.coef                                   |             r := first(stuff)*ta.coef*tb.coef
+            if r ~= 0 then z := z + [[rest(stuff)::EAB, r]]                     |             if r ~= 0 then z := z + [[rest(stuff)::EAB, r]]
+        z                                                                       |         z
+                                                                                | 
+      coerce(r) : % ==                                                          |       coerce(r) : % ==
+        r = 0 => 0                                                              |         r = 0 => 0
+        [ [Nul(dim), r] ]                                                       |         [ [Nul(dim), r] ]
+                                                                                | 
+      coerce(m) : % ==                                                          |       coerce(m) : % ==
+        m = 0 => 0                                                              |         m = 0 => 0
+        [ [Nul(dim), m::R] ]                                                    |         [ [Nul(dim), m::R] ]
+                                                                                | 
+      characteristic() == characteristic()$R                                    |       characteristic() == characteristic()$R
+                                                                                | 
+      generator(j) ==                                                           |       generator(j) ==
+                                                                                |         -- j < 1 or j > dim => error "your subscript is out of range"
+                                                                                |         -- error will be generated by dum.j if out of range
+        dum : L I := [0 for i in 1..dim]                                        |         dum : L I := [0 for i in 1..dim]
+        dum.j := 1                                                              |         dum.j := 1
+        [[dum::EAB, 1::R]]                                                      |         [[dum::EAB, 1::R]]
+                                                                                | 
+      exp(li : (L I)) ==  [[li::EAB, 1]]                                        |       exp(li : (L I)) ==  [[li::EAB, 1]]
+                                                                                | 
+      leadingBasisTerm a ==                                                     |       leadingBasisTerm a ==
+        [[a.first.k, 1]]                                                        |         [[a.first.k, 1]]
+                                                                                | 
+      displayList : EAB -> O                                                    |       displayList : EAB -> O
+      displayList(x) : O ==                                                     |       displayList(x) : O ==
+        le : L I := exponents(x)$EAB                                            |         le : L I := exponents(x)$EAB
+                                                                                | --      reduce(_*, [(lVar.i)::O for i in 1..dim | le.i = 1])$L(O)
+                                                                                | --        reduce(_*, [(lVar.i)::O for i in 1..dim | one?(le.i)])$L(O)
+        reduce(_*, [(lVar.i)::O for i in 1..dim | ((le.i) = 1)])$L(O)           |         reduce(_*, [(lVar.i)::O for i in 1..dim | ((le.i) = 1)])$L(O)
+                                                                                | 
+      makeTerm : (R, EAB) -> O                                                  |       makeTerm : (R, EAB) -> O
+      makeTerm(r, x) ==                                                         |       makeTerm(r, x) ==
+      -- we know that r ~= 0                                                    |       -- we know that r ~= 0
+        x = Nul(dim)$EAB  => r::O                                               |         x = Nul(dim)$EAB  => r::O
+                                                                                | --        one? r => displayList(x)
+        (r = 1) => displayList(x)                                               |         (r = 1) => displayList(x)
+                                                                                | --      r = 1 => displayList(x)
+                                                                                | --      r = 0 => 0$I::O
+                                                                                | --      x = Nul(dim)$EAB  => r::O
+        r::O * displayList(x)                                                   |         r::O * displayList(x)
+                                                                                | 
+      coerce(a) : O ==                                                          |       coerce(a) : O ==
+        zero? a     => 0$I::O                                                   |         zero? a     => 0$I::O
+        null rest(a @ Rep) =>                                                   |         null rest(a @ Rep) =>
+                 t := first(a @ Rep)                                            |                  t := first(a @ Rep)
+                 makeTerm(t.coef, t.base)                                       |                  makeTerm(t.coef, t.base)
+        reduce(_+, [makeTerm(t.coef, t.base) for t in (a @ Rep)])$L(O)          |         reduce(_+, [makeTerm(t.coef, t.base) for t in (a @ Rep)])$L(O)
+                                                                                | 
+      convert(a:%):List(Term) == a@Rep                                          | 
+      convert(t:List Term):% == t                                               | 
+                                                                                | 
+                                                                                | 
+                                                                                | 
+)abbrev domain DERHAM DeRhamComplex                                             | )abbrev domain DERHAM DeRhamComplex
+++ Author: Larry A. Lambe                                                       | ++ Author: Larry A. Lambe
+++ Date    : 01/26/91.                                                          | ++ Date    : 01/26/91.
+++ Revised : 12/01/91.                                                          | ++ Revised : 12/01/91.
+++                                                                              | ++
+++ based on code from '89 (AntiSymmetric)                                       | ++ based on code from '89 (AntiSymmetric)
+++                                                                              | ++
+++ Needs: LeftAlgebra, ExtAlgBasis, FreeMod(Ring, OrderedSet)                   | ++ Needs: LeftAlgebra, ExtAlgBasis, FreeMod(Ring, OrderedSet)
+++                                                                              | ++
+++ Description: The deRham complex of Euclidean space, that is, the             | ++ Description: The deRham complex of Euclidean space, that is, the
+++ class of differential forms of arbitary degree over a coefficient ring.      | ++ class of differential forms of arbitary degree over a coefficient ring.
+++ See Flanders, Harley, Differential Forms, With Applications to the Physical  | ++ See Flanders, Harley, Differential Forms, With Applications to the Physical
+++ Sciences, New York, Academic Press, 1963.                                    | ++ Sciences, New York, Academic Press, 1963.
+++                                                                              | 
+DeRhamComplex(CoefRing, listIndVar) : Exports == Implementation where           | 
+                                                                                | 
+                                                                                | DeRhamComplex(CoefRing, listIndVar : List Symbol) : Export == Implement where
+  CoefRing : Join(Ring, Comparable)                                             |   CoefRing :  Join(Ring, Comparable)
+  listIndVar : List Symbol                                                      | 
+                                                                                | 
+  ASY     ==> AntiSymm(R, listIndVar)                                           |   ASY     ==> AntiSymm(R, listIndVar)
+  DIFRING ==> DifferentialRing                                                  |   DIFRING ==> DifferentialRing
+  LALG    ==> LeftAlgebra                                                       |   LALG    ==> LeftAlgebra
+  FMR     ==> FreeMod(R, EAB)                                                   |   FMR     ==> FreeMod(R, EAB)
+  I       ==> Integer                                                           |   I       ==> Integer
+  L       ==> List                                                              |   L       ==> List
+  EAB     ==> ExtAlgBasis  -- these are exponents of basis elements in order    |   EAB     ==> ExtAlgBasis  -- these are exponents of basis elements in order
+  NNI     ==> NonNegativeInteger                                                |   NNI     ==> NonNegativeInteger
+  O       ==> OutputForm                                                        |   O       ==> OutputForm
+  R       ==> Expression(CoefRing)                                              |   R       ==> Expression(CoefRing)
+  IF      ==> InputForm                                                         | 
+  Term    ==> Record(k : EAB, c : R)                                            | 
+                                                                                | 
+                                                                                | 
+  Exports == Join(LALG(R), RetractableTo(R)) with                               |   Export == Join(LALG(R), RetractableTo(R)) with
+                                                                                | 
+      leadingCoefficient : % -> R                                               |       leadingCoefficient : %           -> R
+        ++ leadingCoefficient(df) returns the leading                           |         ++ leadingCoefficient(df) returns the leading
+        ++ coefficient of differential form df.                                 |         ++ coefficient of differential form df.
+                                                                                | 
+      leadingBasisTerm : % -> %                                                 |       leadingBasisTerm   : %           -> %
+        ++ leadingBasisTerm(df) returns the leading                             |         ++ leadingBasisTerm(df) returns the leading
+        ++ basis term of differential form df.                                  |         ++ basis term of differential form df.
+                                                                                | 
+      reductum : % -> %                                                         |       reductum           : %           -> %
+        ++ reductum(df), where df is a differential form,                       |         ++ reductum(df), where df is a differential form,
+        ++ returns df minus the leading                                         |         ++ returns df minus the leading
+        ++ term of df if df has two or more terms, and                          |         ++ term of df if df has two or more terms, and
+        ++ 0 otherwise.                                                         |         ++ 0 otherwise.
+                                                                                | 
+      coefficient : (%, %) -> R                                                 |       coefficient        : (%, %)     -> R
+        ++ coefficient(df, u), where df is a differential form,                 |         ++ coefficient(df, u), where df is a differential form,
+        ++ returns the coefficient of df containing the basis term u            |         ++ returns the coefficient of df containing the basis term u
+        ++ if such a term exists, and 0 otherwise.                              |         ++ if such a term exists, and 0 otherwise.
+                                                                                | 
+      generator : NNI -> %                                                      |       generator          : NNI         -> %
+        ++ generator(n) returns the nth basis term for a differential form.     |         ++ generator(n) returns the nth basis term for a differential form.
+                                                                                | 
+      homogeneous? : % -> Boolean                                               |       homogeneous?       : %           -> Boolean
+        ++  homogeneous?(df) tests if all of the terms of                       |         ++  homogeneous?(df) tests if all of the terms of
+        ++  differential form df have the same degree.                          |         ++  differential form df have the same degree.
+                                                                                | 
+      retractable? : % -> Boolean                                               |       retractable?       : %           -> Boolean
+        ++  retractable?(df) tests if differential form df is a 0-form,         |         ++  retractable?(df) tests if differential form df is a 0-form,
+        ++  i.e., if degree(df) = 0.                                            |         ++  i.e., if degree(df) = 0.
+                                                                                | 
+      degree : % -> NNI                                                         |       degree             : %           -> NNI
+        ++  degree(df) returns the homogeneous degree of differential form df.  |         ++  degree(df) returns the homogeneous degree of differential form df.
+                                                                                | 
+      map : (R -> R, %) -> %                                                    |       map                : (R -> R, %) -> %
+        ++  map(f, df) replaces each coefficient x of differential              |         ++  map(f, df) replaces each coefficient x of differential
+        ++  form df by \spad{f(x)}.                                             |         ++  form df by \spad{f(x)}.
+                                                                                | 
+      totalDifferential : R -> %                                                |       totalDifferential    : R -> %
+        ++  totalDifferential(x) returns the total differential                 |         ++  totalDifferential(x) returns the total differential
+        ++  (gradient) form for element x.                                      |         ++  (gradient) form for element x.
+                                                                                | 
+      exteriorDifferential : % -> %                                             |       exteriorDifferential : % -> %
+        ++  exteriorDifferential(df) returns the exterior                       |         ++  exteriorDifferential(df) returns the exterior
+        ++  derivative (gradient, curl, divergence, ...) of                     |         ++  derivative (gradient, curl, divergence, ...) of
+        ++  the differential form df.                                           |         ++  the differential form df.
+                                                                                | 
+      dim : % -> NNI                                                            | 
+        ++  dim(f) returns the dimension of the base space (#listIndVar)        | 
+                                                                                | 
+      getCoeffRing : % -> Type                                                  | 
+        ++  getCoeffRing(f) returns the coeffcient ring.                        | 
+                                                                                | 
+      getIndVars : % -> List Symbol                                             | 
+        ++  getIndVars(f) returns the list of index variables.                  | 
+                                                                                | 
+      coerce : % -> List Term                                                   | 
+        ++  coerce to a list of low level terms = Record(ExtAlgBasis,R)         | 
+                                                                                | 
+      convert : List Term -> %                                                  | 
+        ++  convert a list of terms back: convert(coerce %)=%                   | 
+                                                                                | 
+                                                                                | 
+  Implementation == ASY add                                                     |   Implement == ASY add
+                                                                                | 
+      Rep := ASY                                                                |       Rep := ASY
+                                                                                | 
+      dim := #listIndVar                                                        |       dim := #listIndVar
+                                                                                | 
+      dim(f) == #listIndVar                                                     | 
+                                                                                | 
+      totalDifferential(f) ==                                                   |       totalDifferential(f) ==
+        dv := [differentiate(f, listIndVar.i)*generator(i)$ASY for i in 1..dim] |         divs := [differentiate(f, listIndVar.i)*generator(i)$ASY for i in 1..dim]
+        reduce("+",dv)                                                          |         reduce("+",divs)
+                                                                                | 
+      termDiff : (R, %) -> %                                                    |       termDiff : (R, %) -> %
+      termDiff(r, e) ==                                                         |       termDiff(r, e) ==
+        totalDifferential(r) * e                                                |         totalDifferential(r) * e
+                                                                                | 
+      exteriorDifferential(x) ==                                                |       exteriorDifferential(x) ==
+        x = 0 => 0                                                              |         x = 0 => 0
+        termDiff(leadingCoefficient(x)$Rep, leadingBasisTerm x) + _             |         termDiff(leadingCoefficient(x)$Rep, leadingBasisTerm x) + exteriorDifferential(reductum x)
+        exteriorDifferential(reductum x)                                        | 
+                                                                                | 
+                                                                                | 
+      d(s:Symbol):Symbol ==                                                     | 
+        ds:=concat["d",string name(s)]::Symbol                                  | 
+        script(ds,scripts(s))                                                   | 
+                                                                                | 
+      lv := [d(liv) for liv in listIndVar]                                      |       lv := [concat("d",string(liv))$String::Symbol for liv in listIndVar]
+                                                                                | 
+      displayList : EAB -> O                                                    |       displayList : EAB -> O
+      displayList(x) : O ==                                                     |       displayList(x) : O ==
+        le : L I := exponents(x)$EAB                                            |         le : L I := exponents(x)$EAB
+                                                                                | --      reduce(_*, [(lv.i)::O for i in 1..dim | le.i = 1])$L(O)
+                                                                                | --        reduce(_*, [(lv.i)::O for i in 1..dim | one?(le.i)])$L(O)
+        reduce(_*, [(lv.i)::O for i in 1..dim | ((le.i) = 1)])$L(O)             |         reduce(_*, [(lv.i)::O for i in 1..dim | ((le.i) = 1)])$L(O)
+                                                                                | 
+      makeTerm : (R, EAB) -> O                                                  |       makeTerm : (R, EAB) -> O
+      makeTerm(r, x) ==                                                         |       makeTerm(r, x) ==
+      -- we know that r ~= 0                                                    |       -- we know that r ~= 0
+        x = Nul(dim)$EAB  => r::O                                               |         x = Nul(dim)$EAB  => r::O
+                                                                                | --        one? r => displayList(x)
+        (r = 1) => displayList(x)                                               |         (r = 1) => displayList(x)
+                                                                                | --      r = 1 => displayList(x)
+        r::O * displayList(x)                                                   |         r::O * displayList(x)
+                                                                                | 
+      terms : % -> List Term                                                    | 
+      terms(a) == convert(a)@List Term                                          | 
+                                                                                | 
+      getCoeffRing(a) == CoefRing                                               | 
+      getIndVars(a) == listIndVar                                               | 
+                                                                                | 
+      coerce(a:%):List(Term) == convert(a)@List Term                            |       terms : % -> List Record(k : EAB, c : R)
+                                                                                |       terms(a) ==
+      convert(t:List Term):% == convert(t)$ASY                                  |         -- it is the case that there are at least two terms in a
+                                                                                |         a pretend List Record(k : EAB, c : R)
+                                                                                | 
+      coerce(a) : O ==                                                          |       coerce(a) : O ==
+        a = 0$Rep => 0$I::O                                                     |         a           = 0$Rep => 0$I::O
+        ta := terms a                                                           |         ta := terms a
+                                                                                | --      reductum(a) = 0$Rep => makeTerm(leadingCoefficient a, a.first.k)
+        null ta.rest => makeTerm(ta.first.c, ta.first.k)                        |         null ta.rest => makeTerm(ta.first.c, ta.first.k)
+        reduce(_+, [makeTerm(t.c, t.k) for t in ta])$L(O)                       |         reduce(_+, [makeTerm(t.c, t.k) for t in ta])$L(O)
+                                                                                | 
+--Copyright (c) 1991-2002, The Numerical ALgorithms Group Ltd.                  | --Copyright (c) 1991-2002, The Numerical ALgorithms Group Ltd.
+--All rights reserved.                                                          | --All rights reserved.
+--                                                                              | --
+--Redistribution and use in source and binary forms, with or without            | --Redistribution and use in source and binary forms, with or without
+--modification, are permitted provided that the following conditions are        | --modification, are permitted provided that the following conditions are
+--met:                                                                          | --met:
+--                                                                              | --
+--    - Redistributions of source code must retain the above copyright          | --    - Redistributions of source code must retain the above copyright
+--      notice, this list of conditions and the following disclaimer.           | --      notice, this list of conditions and the following disclaimer.
+--                                                                              | --
+--    - Redistributions in binary form must reproduce the above copyright       | --    - Redistributions in binary form must reproduce the above copyright
+--      notice, this list of conditions and the following disclaimer in         | --      notice, this list of conditions and the following disclaimer in
+--      the documentation and/or other materials provided with the              | --      the documentation and/or other materials provided with the
+--      distribution.                                                           | --      distribution.
+--                                                                              | --
+--    - Neither the name of The Numerical ALgorithms Group Ltd. nor the         | --    - Neither the name of The Numerical ALgorithms Group Ltd. nor the
+--      names of its contributors may be used to endorse or promote products    | --      names of its contributors may be used to endorse or promote products
+--      derived from this software without specific prior written permission.   | --      derived from this software without specific prior written permission.
+--                                                                              | --
+--THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS       | --THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+--IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED         | --IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+--TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A               | --TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+--PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER      | --PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+--OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,      | --OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+--EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,           | --EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+--PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR            | --PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+--PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF        | --PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+--LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING          | --LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+--NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS            | --NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+--SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.                  | --SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+                                                                                | 
+                                                                                | 

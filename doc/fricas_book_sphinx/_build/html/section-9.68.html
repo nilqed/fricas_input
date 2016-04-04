@@ -1,0 +1,258 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.68 RomanNumeral &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.69 Segment" href="section-9.69.html" />
+    <link rel="prev" title="9.67 RegularTriangularSet" href="section-9.67.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="romannumeral">
+<h1>9.68 RomanNumeral<a class="headerlink" href="#romannumeral" title="Permalink to this headline">¶</a></h1>
+<p>The Roman numeral package was added to FriCAS in MCMLXXXVI for use in
+denoting higher order derivatives.</p>
+<p>For example, let f be a symbolic operator.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span> <span class="s1">&#39;f</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>f</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BasicOperator</sub></p>
+<p>This is the seventh derivative of f with respect to x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">f</span> <span class="n">x</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>f(vii)(x)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>You can have integers printed as Roman numerals by declaring variables
+to be of type RomanNumeral (abbreviation ROMAN).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="n">roman</span><span class="p">(</span><span class="mi">1978</span> <span class="o">-</span> <span class="mi">1965</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>XIII</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RomanNumeral</sub></p>
+<p>This package now has a small but devoted group of followers that claim
+this domain has shown its efficacy in many other contexts. They claim
+that Roman numerals are every bit as useful as ordinary integers.</p>
+<p>In a sense, they are correct, because Roman numerals form a ring and you
+can therefore construct polynomials with Roman numeral coefficients,
+matrices over Roman numerals, etc..</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span> <span class="n">UTS</span><span class="p">(</span><span class="n">ROMAN</span><span class="p">,</span><span class="s1">&#39;x,0) := x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(RomanNumeral,x,0)</sub></p>
+<p>Was Fibonacci Italian or ROMAN?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">recip</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>I+x+IIx2+IIIx3+Vx4+VIIIx5+XIIIx6+XXIx7+XXXIVx8+LVx9+LXXXIXx10+O(x11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(UnivariateTaylorSeries(RomanNumeral,x,0),...)</sub></p>
+<p>You can also construct fractions with Roman numeral numerators and
+denominators, as this matrix Hilberticus illustrates.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span> <span class="n">MATRIX</span> <span class="n">FRAC</span> <span class="n">ROMAN</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[IIIIIIIIIVIIIIIIVIVIIVIVIVI]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Fraction RomanNumeral</sub></p>
+<p>Note that the inverse of the matrix has integral ROMAN entries.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">inverse</span> <span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[LXXII-CCXLCLXXX-CCXLCM-DCCXXCLXXX-DCCXXDC]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(Matrix Fraction RomanNumeral,...)</sub></p>
+<p>Unfortunately, the spoil-sports say that the fun stops when the numbers
+get big&#8212;mostly because the Romans didn&#8217;t establish conventions about
+representing very large numbers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">factorial</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3628800</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>You work it out!</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">roman</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>((((I))))((((I))))((((I))))(((I)))(((I)))(((I)))(((I)))(((I)))(((I)))((I))((I))MMMMMMMMDCCC</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: RomanNumeral</sub></p>
+<p>Issue the system command )show RomanNumeral to display the full list of
+operations defined by RomanNumeral.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.67.html" title="previous chapter">9.67 RegularTriangularSet</a></li>
+      <li>Next: <a href="section-9.69.html" title="next chapter">9.69 Segment</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.68.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.68.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

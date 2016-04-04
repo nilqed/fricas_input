@@ -1,0 +1,1415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.9 Working with Power Series &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="8.10 Solution of Differential Equations" href="section-8.10.html" />
+    <link rel="prev" title="8.8 Integration" href="section-8.8.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="working-with-power-series">
+<h1>8.9 Working with Power Series<a class="headerlink" href="#working-with-power-series" title="Permalink to this headline">¶</a></h1>
+<p>FriCAS has very sophisticated facilities for working with power series
+series. power series</p>
+<p>Infinite series are represented by a list of the coefficients that have
+already been determined, together with a function for computing the
+additional coefficients if needed.</p>
+<p>The system command that determines how many terms of a series is
+displayed is )set streams calculate. For the purposes of this book, we
+have used this system command to display fewer than ten terms. set
+streams calculate Series can be created from expressions, from functions
+for the series coefficients, and from applications of operations on
+existing series. The most general function for creating a series is
+called series, although you can also use taylor, laurent and puiseux in
+situations where you know what kind of exponents are involved.</p>
+<p>For information about solving differential equations in terms of power
+series, see
+<a class="reference external" href="section-8.10.html#ugxProblemDEQSeries">ugxProblemDEQSeries</a> .</p>
+<div class="section" id="creation-of-power-series">
+<h2>8.9.1 Creation of Power Series<a class="headerlink" href="#creation-of-power-series" title="Permalink to this headline">¶</a></h2>
+<p>This is the easiest way to create a power series. This tells FriCAS that
+x is to be treated as a power series, series:creating so functions of x
+are again power series.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">series</span> <span class="s1">&#39;x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>We didn&#8217;t say anything about the coefficients of the power series, so
+the coefficients are general expressions over the integers. This allows
+us to introduce denominators, symbolic constants, and other variables as
+needed.</p>
+<p>Here the coefficients are integers (note that the coefficients are the
+Fibonacci Fibonacci numbers numbers).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span> <span class="o">-</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x+2x2+3x3+5x4+8x5+13x6+21x7+34x8+55x9+89x10+O(x11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>This series has coefficients that are rational numbers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x-16x3+1120x5-15040x7+1362880x9-139916800x11+O(x12)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>When you enter this expression you introduce the symbolic constants
+sin(1) and cos(1).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>sin(1)+cos(1)x-sin(1)2x2-cos(1)6x3+sin(1)24x4+cos(1)120x5-sin(1)720x6-cos(1)5040x7+sin(1)40320x8+cos(1)362880x9-sin(1)3628800x10+O(x11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>When you enter the expression the variable a appears in the resulting
+series expansion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span><span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ax-a36x3+a5120x5-a75040x7+a9362880x9-a1139916800x11+O(x12)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>You can also convert an expression into a series expansion. This
+expression creates the series expansion of 1/log(y) about y=1. For
+details and more examples, see
+<a class="reference external" href="section-8.9.html#ugxProblemSeriesConversions">ugxProblemSeriesConversions</a>
+.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">log</span><span class="p">(</span><span class="n">y</span><span class="p">),</span><span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(y-1)(-1)+12-112(y-1)+124(y-1)2-19720(y-1)3+3160(y-1)4-86360480(y-1)5+27524192(y-1)6-339533628800(y-1)7+81831036800(y-1)8-3250433479001600(y-1)9+O((y-1)10)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,y,1)</sub></p>
+<p>You can create power series with more general coefficients. You normally
+accomplish this via a type declaration (see
+<a class="reference external" href="section-2.3.html#ugTypesDeclare">ugTypesDeclare</a> ). See
+<a class="reference external" href="section-8.9.html#ugxProblemSeriesFunctions">ugxProblemSeriesFunctions</a>
+for some warnings about working with declared series.</p>
+<p>We declare that y is a one-variable Taylor series series:Taylor (UTS is
+the abbreviation for UnivariateTaylorSeries) in the variable z with
+FLOAT (that is, floating-point) coefficients, centered about 0. Then, by
+assignment, we obtain the Taylor expansion of exp(z) with floating-point
+coefficients. UnivariateTaylorSeries</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span> <span class="n">UTS</span><span class="p">(</span><span class="n">FLOAT</span><span class="p">,</span><span class="s1">&#39;z,0) := exp(z)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1.0+z+0.5z2+0.16666666666666666667z3+0.041666666666666666667z4+0.0083333333333333333334z5+0.0013888888888888888889z6+0.0001984126984126984127z7+0.000024801587301587301587z8+0.0000027557319223985890653z9+0.27557319223985890653E-6z10+O(z11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Float,z,0.0)</sub></p>
+<p>You can also create a power series by giving an explicit formula for its
+n-th coefficient. For details and more examples, see
+<a class="reference external" href="section-8.9.html#ugxProblemSeriesFormula">ugxProblemSeriesFormula</a>
+.</p>
+<p>To create a series about w=0 whose n-th Taylor coefficient is 1/n!, you
+can evaluate this expression. This is the Taylor expansion of exp(w) at
+w=0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">n</span><span class="p">,</span><span class="n">w</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+w+12w2+16w3+124w4+1120w5+1720w6+15040w7+140320w8+1362880w9+13628800w10+O(w11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,w,0)</sub></p>
+</div>
+<div class="section" id="coefficients-of-power-series">
+<h2>8.9.2 Coefficients of Power Series<a class="headerlink" href="#coefficients-of-power-series" title="Permalink to this headline">¶</a></h2>
+<p>You can extract any coefficient from a power series&#8212;even one that
+hasn&#8217;t been computed yet. This is possible because in FriCAS, infinite
+series are represented by a list of the coefficients that have already
+been determined, together with a function for computing the additional
+coefficients. (This is known as lazy evaluation.) When you ask for a
+series:lazy evaluation coefficient that hasn&#8217;t yet been computed, FriCAS
+computes lazy evaluation whatever additional coefficients it needs and
+then stores them in the representation of the power series.</p>
+<p>Here&#8217;s an example of how to extract the coefficients of a power series.
+series:extracting coefficients</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">series</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x+x2+13x3-130x5-190x6-1630x7+122680x9+1113400x10+11247400x11+O(x12)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>This coefficient is readily available.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">coefficient</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-190</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>But let&#8217;s get the fifteenth coefficient of y.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">coefficient</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-110216206000</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>If you look at y then you see that the coefficients up to order 15 have
+all been computed.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x+x2+13x3-130x5-190x6-1630x7+122680x9+1113400x10+11247400x11-197297200x13-1681080400x14-110216206000x15+O(x16)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+</div>
+<div class="section" id="power-series-arithmetic">
+<h2>8.9.3 Power Series Arithmetic<a class="headerlink" href="#power-series-arithmetic" title="Permalink to this headline">¶</a></h2>
+<p>You can manipulate power series using the usual arithmetic operations
+series:arithmetic +, -, <a href="#id1"><span class="problematic" id="id2">*</span></a>, and / (from UnivariatePuiseuxSeries)</p>
+<p>The results of these operations are also power series.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">series</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">7</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3-20x+140x2-980x3+6860x4-48020x5+336140x6-2352980x7+16470860x8-115296020x9+807072140x10+O(x11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>You can also compute f(x)**g(x), where f(x) and g(x) are two power
+series.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">base</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x+x2+x3+x4+x5+x6+x7+x8+x9+x10+O(x11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expon</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">base</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x+x2+x3+x4+x5+x6+x7+x8+x9+x10+x11+O(x12)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">base</span> <span class="o">^</span> <span class="n">expon</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x2+32x3+73x4+4312x5+649120x6+24130x7+3706315x8+857635040x9+24533910080x10+O(x11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+</div>
+<div class="section" id="functions-on-power-series">
+<h2>8.9.4 Functions on Power Series<a class="headerlink" href="#functions-on-power-series" title="Permalink to this headline">¶</a></h2>
+<p>Once you have created a power series, you can apply transcendental
+functions (for example, exp, log, sin, tan, cosh, etc.) to it.</p>
+<p>To demonstrate this, we first create the power series expansion of the
+rational function</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x21-6x+x2</td>
+</tr>
+</tbody>
+</table>
+<p>about x=0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">series</span> <span class="s1">&#39;x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rat</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">6</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x2+6x3+35x4+204x5+1189x6+6930x7+40391x8+235416x9+1372105x10+7997214x11+46611179x12+O(x13)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>If you want to compute the series expansion of</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>sin(x21-6x+x2)</td>
+</tr>
+</tbody>
+</table>
+<p>you simply compute the sine of rat.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span><span class="p">(</span><span class="n">rat</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x2+6x3+35x4+204x5+71336x6+6927x7+807112x8+235068x9+164285281120x10+318885134x11+3713247778x12+O(x13)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<div class="line-block">
+<div class="line">Warning: the type of the coefficients of a power series may affect</div>
+</div>
+<p>the kind of computations that you can do with that series. This can only
+happen when you have made a declaration to specify a series domain with
+a certain type of coefficient.</p>
+<p>If you evaluate then you have declared that y is a one variable Taylor
+series series:Taylor (UTS is the abbreviation for
+UnivariateTaylorSeries) in the variable y with FRAC INT (that is,
+fractions of integer) coefficients, centered about 0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span> <span class="n">UTS</span><span class="p">(</span><span class="n">FRAC</span> <span class="n">INT</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Fraction Integer,y,0)</sub></p>
+<p>You can now compute certain power series in y, provided that these
+series have rational coefficients.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+y+12y2+16y3+124y4+1120y5+1720y6+15040y7+140320y8+1362880y9+13628800y10+O(y11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Fraction Integer,y,0)</sub></p>
+<p>You can get examples of such series by applying transcendental functions
+to series in y that have no constant terms.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tan</span><span class="p">(</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y2+13y6+215y10+O(y11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Fraction Integer,y,0)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cos</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">y</span><span class="o">^</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1-12y2+124y4-721720y6+672140320y8-18446413628800y10+O(y11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Fraction Integer,y,0)</sub></p>
+<p>Similarly, you can compute the logarithm of a power series with rational
+coefficients if the constant coefficient is 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sin</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y-12y2+16y3-112y4+124y5-145y6+615040y7-172520y8+27772576y9-3114175y10+O(y11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Fraction Integer,y,0)</sub></p>
+<p>If you wanted to apply, say, the operation exp to a power series with a
+nonzero constant coefficient a0, then the constant coefficient of the
+result would be ea0, which is not a rational number. Therefore,
+evaluating exp(2+tan(y)) would generate an error message.</p>
+<p>If you want to compute the Taylor expansion of exp(2+tan(y)), you must
+ensure that the coefficient domain has an operation exp defined for it.
+An example of such a domain is Expression Integer, the type of formal
+functional expressions over the integers.</p>
+<p>When working with coefficients of this type,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="p">:</span> <span class="n">UTS</span><span class="p">(</span><span class="n">EXPR</span> <span class="n">INT</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">z</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,z,0)</sub></p>
+<p>this presents no problems.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="n">tan</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>e2+e2z+e22z2+e22z3+3e28z4+37e2120z5+59e2240z6+137e2720z7+871e25760z8+41641e2362880z9+325249e23628800z10+O(z11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,z,0)</sub></p>
+<p>Another way to create Taylor series whose coefficients are expressions
+over the integers is to use taylor which works similarly to
+series:Taylor series.</p>
+<p>This is equivalent to the previous computation, except that now we are
+using the variable w instead of z.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="p">:</span><span class="o">=</span> <span class="n">taylor</span> <span class="s1">&#39;w</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>w</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,w,0)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="n">tan</span><span class="p">(</span><span class="n">w</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>e2+e2w+e22w2+e22w3+3e28w4+37e2120w5+59e2240w6+137e2720w7+871e25760w8+41641e2362880w9+325249e23628800w10+O(w11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,w,0)</sub></p>
+</div>
+<div class="section" id="converting-to-power-series">
+<h2>8.9.5 Converting to Power Series<a class="headerlink" href="#converting-to-power-series" title="Permalink to this headline">¶</a></h2>
+<p>The ExpressionToUnivariatePowerSeries package provides operations for
+computing series expansions of functions.
+ExpressionToUnivariatePowerSeries</p>
+<p>Evaluate this to compute the Taylor expansion of sinx about
+series:Taylor x=0. The first argument, sin(x), specifies the function
+whose series expansion is to be computed and the second argument, x=0,
+specifies that the series is to be expanded in power of (x-0), that is,
+in power of x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">taylor</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x-16x3+1120x5-15040x7+1362880x9+O(x11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,x,0)</sub></p>
+<p>Here is the Taylor expansion of sinx about x=π6:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">taylor</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="o">%</span><span class="n">pi</span><span class="o">/</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>12+32(x-π6)-14(x-π6)2-312(x-π6)3+148(x-π6)4+3240(x-π6)5-11440(x-π6)6-310080(x-π6)7+180640(x-π6)8+3725760(x-π6)9-17257600(x-π6)10+O((x-π6)11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,x,pi/6)</sub></p>
+<p>The function to be expanded into a series may have variables other than
+series:multiple variables the series variable.</p>
+<p>For example, we may expand tan(x*y) as a Taylor series in x</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">taylor</span><span class="p">(</span><span class="n">tan</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>yx+y33x3+2y515x5+17y7315x7+62y92835x9+O(x11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,x,0)</sub></p>
+<p>or as a Taylor series in y.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">taylor</span><span class="p">(</span><span class="n">tan</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">),</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>xy+x33y3+2x515y5+17x7315y7+62x92835y9+O(y11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,y,0)</sub></p>
+<p>A more interesting function is textet-1 When we expand this function as
+a Taylor series in t the n-th order coefficient is the n-th Bernoulli
+Bernoulli:polynomial polynomial polynomial:Bernoulli divided by n!.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bern</span> <span class="p">:</span><span class="o">=</span> <span class="n">taylor</span><span class="p">(</span><span class="n">t</span><span class="o">*</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">t</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+2x-12t+6x2-6x+112t2+2x3-3x2+x12t3+30x4-60x3+30x2-1720t4+6x5-15x4+10x3-x720t5+42x6-126x5+105x4-21x2+130240t6+6x7-21x6+21x5-7x3+x30240t7+30x8-120x7+140x6-70x4+20x2-11209600t8+10x9-45x8+60x7-42x5+20x3-3x3628800t9+66x10-330x9+495x8-462x6+330x4-99x2+5239500800t10+O(t11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,t,0)</sub></p>
+<p>Therefore, this and the next expression produce the same result.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factorial</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">coefficient</span><span class="p">(</span><span class="n">bern</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>42x6-126x5+105x4-21x2+142</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bernoulliB</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x6-3x5+52x4-12x2+142</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+<p>Technically, a series with terms of negative degree is not considered to
+be a Taylor series, but, rather, a series:Laurent Laurent series.
+Laurent series If you try to compute a Taylor series expansion of xlogx
+at x=1 via taylor(x/log(x),x=1) you get an error message. The reason is
+that the function has a pole at x=1, meaning that its series expansion
+about this point has terms of negative degree. A series with finitely
+many terms of negative degree is called a Laurent series.</p>
+<p>You get the desired series expansion by issuing this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">laurent</span><span class="p">(</span><span class="n">x</span><span class="o">/</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x-1)(-1)+32+512(x-1)-124(x-1)2+11720(x-1)3-111440(x-1)4+27160480(x-1)5-134480(x-1)6+72973628800(x-1)7-425290304(x-1)8+530113479001600(x-1)9+O((x-1)10)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Expression Integer,x,1)</sub></p>
+<p>Similarly, a series with terms of fractional degree is neither a Taylor
+series nor a Laurent series. Such a series is called a series:Puiseux
+Puiseux series. Puiseux series The expression
+laurent(sqrt(sec(x)),x=3*%pi/2) results in an error message because the
+series expansion about this point has terms of fractional degree.</p>
+<p>However, this command produces what you want.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">puiseux</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sec</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="o">%</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x-3π2)(-12)+112(x-3π2)32+1160(x-3π2)72+O((x-3π2)5)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,(3*pi)/2)</sub></p>
+<p>Finally, consider the case of functions that do not have Puiseux
+expansions about certain points. An example of this is xx about x=0.
+puiseux(x**x,x=0) produces an error message because of the type of
+singularity of the function at x=0.</p>
+<p>The general function series can be used in this case. Notice that the
+series returned is not, strictly speaking, a power series because of the
+log(x) in the expansion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">series</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="n">x</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+log(x)x+log(x)22x2+log(x)36x3+log(x)424x4+log(x)5120x5+log(x)6720x6+log(x)75040x7+log(x)840320x8+log(x)9362880x9+log(x)103628800x10+O(x11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: GeneralUnivariatePowerSeries(Expression Integer,x,0)</sub></p>
+<div class="line-block">
+<div class="line">The operation series returns the most general type of infinite series.</div>
+</div>
+<p>The user who is not interested in distinguishing between various types
+of infinite series may wish to use this operation exclusively.</p>
+</div>
+<div class="section" id="power-series-from-formulas">
+<h2>8.9.6 Power Series from Formulas<a class="headerlink" href="#power-series-from-formulas" title="Permalink to this headline">¶</a></h2>
+<p>The GenerateUnivariatePowerSeries package enables you to series:giving
+formula for coefficients create power series from explicit formulas for
+their n-th coefficients. In what follows, we construct series expansions
+for certain transcendental functions by giving formulas for their
+coefficients. You can also compute such series expansions directly
+simply by specifying the function and the point about which the series
+is to be expanded. GenerateUnivariatePowerSeries See
+<a class="reference external" href="section-8.9.html#ugxProblemSeriesConversions">ugxProblemSeriesConversions</a>
+for more information.</p>
+<p>Consider the Taylor expansion of ex series:Taylor about x=0:</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ex=1+x+x22+x36+···=∑n=0∞xnn!</td>
+</tr>
+</tbody>
+</table>
+<p>The n-th Taylor coefficient is 1/n!.</p>
+<p>This is how you create this series in FriCAS.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">series</span><span class="p">(</span><span class="n">n</span> <span class="o">+-&gt;</span> <span class="mi">1</span><span class="o">/</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x+12x2+16x3+124x4+1120x5+1720x6+15040x7+140320x8+1362880x9+13628800x10+O(x11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>The first argument specifies a formula for the n-th coefficient by
+giving a function that maps n to 1/n!. The second argument specifies
+that the series is to be expanded in powers of (x-0), that is, in powers
+of x. Since we did not specify an initial degree, the first term in the
+series was the term of degree 0 (the constant term). Note that the
+formula was given as an anonymous function. These are discussed in
+<a class="reference external" href="section-6.17.html#ugUserAnon">ugUserAnon</a> .</p>
+<p>Consider the Taylor expansion of logx about x=1:</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>log(x)=(x-1)-(x-1)22+(x-1)33-···=∑n=1∞(-1)n-1(x-1)nn</td>
+</tr>
+</tbody>
+</table>
+<p>If you were to evaluate the expression series(n+-&gt;(-1)**(n-1)/n,x=1)
+you would get an error message because FriCAS would try to calculate a
+term of degree 0 and therefore divide by 0.</p>
+<p>Instead, evaluate this. The third argument, 1.., indicates that only
+terms of degree n=1,... are to be computed.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">series</span><span class="p">(</span><span class="n">n</span> <span class="o">+-&gt;</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">n</span><span class="p">,</span><span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span><span class="mf">1.</span><span class="o">.</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x-1)-12(x-1)2+13(x-1)3-14(x-1)4+15(x-1)5-16(x-1)6+17(x-1)7-18(x-1)8+19(x-1)9-110(x-1)10+111(x-1)11+O((x-1)12)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,1)</sub></p>
+<p>Next consider the Taylor expansion of an odd function, say, sin(x):</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>sin(x)=x-x33!+x55!-···</td>
+</tr>
+</tbody>
+</table>
+<p>Here every other coefficient is zero and we would like to give an
+explicit formula only for the odd Taylor coefficients.</p>
+<p>This is one way to do it. The third argument, 1.., specifies that the
+first term to be computed is the term of degree 1. The fourth argument,
+2, specifies that we increment by 2 to find the degrees of subsequent
+terms, that is, the next term is of degree 1+2, the next of degree
+1+2+2, etc.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">series</span><span class="p">(</span><span class="n">n</span> <span class="o">+-&gt;</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mf">1.</span><span class="o">.</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x-16x3+1120x5-15040x7+1362880x9-139916800x11+O(x12)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>The initial degree and the increment do not have to be integers. For
+example, this expression produces a series expansion of sin(x13).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">series</span><span class="p">(</span><span class="n">n</span> <span class="o">+-&gt;</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="p">((</span><span class="mi">3</span><span class="o">*</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">factorial</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">n</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="mf">3.</span><span class="o">.</span><span class="p">,</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x13-16x+1120x53-15040x73+1362880x3-139916800x113+O(x4)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>While the increment must be positive, the initial degree may be
+negative. This yields the Laurent expansion of csc(x) at x=0.
+(bernoulli(numer(n+1)) is necessary because bernoulli takes integer
+arguments.)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cscx</span> <span class="p">:</span><span class="o">=</span> <span class="n">series</span><span class="p">(</span><span class="n">n</span> <span class="o">+-&gt;</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="p">((</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">^</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span>
+</pre></div>
+</div>
+<p>bernoulli(numer(n+1)) / factorial(n+1), x=0, -1..,2)</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x(-1)+16x+7360x3+3115120x5+127604800x7+733421440x9+O(x10)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>Of course, the reciprocal of this power series is the Taylor expansion
+of sin(x).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="o">/</span><span class="n">cscx</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x-16x3+1120x5-15040x7+1362880x9-139916800x11+O(x12)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>As a final example,here is the Taylor expansion of asin(x) about x=0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">asinx</span> <span class="p">:</span><span class="o">=</span> <span class="n">series</span><span class="p">(</span><span class="n">n</span> <span class="o">+-&gt;</span> <span class="n">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="mi">2</span><span class="o">^</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.</span><span class="o">.</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x+16x3+340x5+5112x7+351152x9+632816x11+O(x12)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>When we compute the sin of this series, we get x (in the sense that all
+higher terms computed so far are zero).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sin</span><span class="p">(</span><span class="n">asinx</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x+O(x12)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>FriCAS isn&#8217;t sufficiently symbolic in the sense we might wish. It is an
+open problem to decide that x is the only surviving term. Two attacks on
+the problem might be:</p>
+<p>(1) Notice that all of the higher terms are identically zero but FriCAS
+can&#8217;t decide that from the information it knows. Presumably we could
+attack this problem by looking at the sin function as a taylor series
+around x=0 and seeing the term cancellation occur. This uses a
+term-difference mechanism.</p>
+<p>(2) Notice that there is no way to decide that the stream for asinx is
+actually the definition of asin(x). But we could recognize that the
+stream for asin(x) has a generator term and so will a taylor series
+expansion of sin(x). From these two generators it may be possible in
+certain cases to decide that the application of one generator to the
+other will yield only x. This trick involves finding the correct inverse
+for the stream functions. If we can find an inverse for the remaining
+tail of the stream we could conclude cancellation and thus turn an
+infinite stream into a finite object.</p>
+<div class="line-block">
+<div class="line">In general this is the zero-equivalence problem and is undecidable.</div>
+</div>
+<p>As we discussed in
+<a class="reference external" href="section-8.9.html#ugxProblemSeriesConversions">ugxProblemSeriesConversions</a>
+, you can also use the operations taylor, laurent and puiseux instead of
+series if you know ahead of time what kind of exponents a series has.
+You can&#8217;t go wrong using series, though.</p>
+</div>
+<div class="section" id="substituting-numerical-values-in-power-series">
+<h2>8.9.7 Substituting Numerical Values in Power Series<a class="headerlink" href="#substituting-numerical-values-in-power-series" title="Permalink to this headline">¶</a></h2>
+<p>Use evalevalUnivariatePowerSeriesCategory approximation to substitute a
+numerical value for a variable in series:numerical approximation a power
+series. For example, here&#8217;s a way to obtain numerical approximations of
+%e from the Taylor series expansion of exp(x).</p>
+<p>First you create the desired Taylor expansion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">taylor</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x+12x2+16x3+124x4+1120x5+1720x6+15040x7+140320x8+1362880x9+13628800x10+O(x11)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,x,0)</sub></p>
+<p>Then you evaluate the series at the value 1.0. The result is a sequence
+of the partial sums.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1.0,2.0,2.5,2.6666666666666666667,2.7083333333333333333,.2.7166666666666666667,2.7180555555555555556,2.718253968253968254,.2.7182787698412698413,2.7182815255731922399,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Expression Float</sub></p>
+</div>
+<div class="section" id="example-bernoulli-polynomials-and-sums-of-powers">
+<h2>8.9.8 Example: Bernoulli Polynomials and Sums of Powers<a class="headerlink" href="#example-bernoulli-polynomials-and-sums-of-powers" title="Permalink to this headline">¶</a></h2>
+<p>FriCAS provides operations for computing definite and summation:definite
+indefinite sums. summation:indefinite</p>
+<p>You can compute the sum of the first ten fourth powers by evaluating
+this. This creates a list whose entries are m4 as m ranges from 1 to 10,
+and then computes the sum of the entries of that list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reduce</span><span class="p">(</span><span class="o">+</span><span class="p">,[</span><span class="n">m</span><span class="o">^</span><span class="mi">4</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">10</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>25333</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>You can also compute a formula for the sum of the first k fourth powers,
+where k is an unspecified positive integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sum4</span> <span class="p">:</span><span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">m</span><span class="o">^</span><span class="mi">4</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">.</span><span class="n">k</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>6k5+15k4+10k3-k30</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Polynomial Integer</sub></p>
+<p>This formula is valid for any positive integer k. For instance, if we
+replace k by 10, summation:definite we obtain the number we computed
+earlier.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">sum4</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>25333</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Polynomial Integer</sub></p>
+<p>You can compute a formula for the sum of the first k n-th powers in a
+similar fashion. Just replace the 4 in the definition of sum4 by any
+expression not involving k. FriCAS computes these formulas using
+Bernoulli polynomials; Bernoulli:polynomial we polynomial:Bernoulli use
+the rest of this section to describe this method.</p>
+<p>First consider this function of t and x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">t</span><span class="o">*</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>te(tx)et-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Since the expressions involved get quite large, we tell FriCAS to show
+us only terms of degree up to 5.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">streams</span> <span class="n">calculate</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>set streams calculate</p>
+<p>If we look at the Taylor expansion of f(x,t) about t=0, we see that the
+coefficients of the powers of t are polynomials in x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ff</span> <span class="p">:</span><span class="o">=</span> <span class="n">taylor</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+2x-12t+6x2-6x+112t2+2x3-3x2+x12t3+30x4-60x3+30x2-1720t4+6x5-15x4+10x3-x720t5+O(t6)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,t,0)</sub></p>
+<p>In fact, the n-th coefficient in this series is essentially the n-th
+Bernoulli polynomial: the n-th coefficient of the series is 1n!Bn(x),
+where Bn(x) is the n-th Bernoulli polynomial. Thus, to obtain the n-th
+Bernoulli polynomial, we multiply the n-th coefficient of the series ff
+by n!.</p>
+<p>For example, the sixth Bernoulli polynomial is this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factorial</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">*</span> <span class="n">coefficient</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>42x6-126x5+105x4-21x2+142</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>We derive some properties of the function f(x,t). First we compute
+f(x+1,t)-f(x,t).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="p">:</span><span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">f</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>te(tx+t)-te(tx)et-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>If we normalize g, we see that it has a particularly simple form.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">normalize</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>te(tx)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>From this it follows that the n-th coefficient in the Taylor expansion
+of g(x,t) at t=0 is 1(n-1)!xn-1.</p>
+<p>If you want to check this, evaluate the next expression.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">taylor</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">t</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>t+xt2+x22t3+x36t4+x424t5+O(t6)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,t,0)</sub></p>
+<p>However, since g(x,t)=f(x+1,t)-f(x,t) it follows that the n-th
+coefficient is 1n!(Bn(x+1)-Bn(x)) Equating coefficients, we see that
+1(n-1)!xn-1=1n!(Bn(x+1)-Bn(x)) and, therefore, xn-1=1n(Bn(x+1)-Bn(x))</p>
+<p>Let&#8217;s apply this formula repeatedly, letting x vary between two integers
+a and b, with a&lt;b:</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>an-1=1n(Bn(a+1)-Bn(a))(a+1)n-1=1n(Bn(a+2)-Bn(a+1))(a+2)n-1=1n(Bn(a+3)-Bn(a+2))⋮(b-1)n-1=1n(Bn(b)-Bn(b-1))bn-1=1n(Bn(b+1)-Bn(b))</td>
+</tr>
+</tbody>
+</table>
+<p>When we add these equations we find that the sum of the left-hand sides
+is the sum of the (n-1)st powers from a to b. The sum of the right-hand
+sides is a telescoping series. After cancellation, the sum is simply
+1n(Bn(b+1)-Bn(a))</p>
+<p>Replacing n by n+1, we have shown that ∑m=abmn=1n+1(Bn+1(b+1)-Bn+1(a))</p>
+<p>Let&#8217;s use this to obtain the formula for the sum of fourth powers.</p>
+<p>First we obtain the Bernoulli polynomial B5.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">B5</span> <span class="p">:</span><span class="o">=</span> <span class="n">factorial</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">*</span> <span class="n">coefficient</span><span class="p">(</span><span class="n">ff</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>6x5-15x4+10x3-x6</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>To find the sum of the first k 4th powers, we multiply 1/5 by
+B5(k+1)-B5(1).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span> <span class="o">*</span> <span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">B5</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="nb">eval</span><span class="p">(</span><span class="n">B5</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>6k5+15k4+10k3-k30</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>This is the same formula that we obtained via sum(m**4,m=1..k).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sum4</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>6k5+15k4+10k3-k30</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Polynomial Integer</sub></p>
+<p>At this point you may want to do the same computation, but with an
+exponent other than 4. For example, you might try to find a formula for
+the sum of the first k 20th powers.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">8.9 Working with Power Series</a><ul>
+<li><a class="reference internal" href="#creation-of-power-series">8.9.1 Creation of Power Series</a></li>
+<li><a class="reference internal" href="#coefficients-of-power-series">8.9.2 Coefficients of Power Series</a></li>
+<li><a class="reference internal" href="#power-series-arithmetic">8.9.3 Power Series Arithmetic</a></li>
+<li><a class="reference internal" href="#functions-on-power-series">8.9.4 Functions on Power Series</a></li>
+<li><a class="reference internal" href="#converting-to-power-series">8.9.5 Converting to Power Series</a></li>
+<li><a class="reference internal" href="#power-series-from-formulas">8.9.6 Power Series from Formulas</a></li>
+<li><a class="reference internal" href="#substituting-numerical-values-in-power-series">8.9.7 Substituting Numerical Values in Power Series</a></li>
+<li><a class="reference internal" href="#example-bernoulli-polynomials-and-sums-of-powers">8.9.8 Example: Bernoulli Polynomials and Sums of Powers</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-8.8.html" title="previous chapter">8.8 Integration</a></li>
+      <li>Next: <a href="section-8.10.html" title="next chapter">8.10 Solution of Differential Equations</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-8.9.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-8.9.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

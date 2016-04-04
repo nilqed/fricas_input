@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>21.12 tetra.input &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="21.13 antoine.input" href="section-21.13.html" />
+    <link rel="prev" title="21.11 dhtri.input" href="section-21.11.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tetra-input">
+<h1>21.12 tetra.input<a class="headerlink" href="#tetra-input" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">expose</span> <span class="n">add</span> <span class="n">con</span> <span class="n">DenavitHartenbergMatrix</span>                <span class="n">Bring</span> <span class="n">DH</span> <span class="n">matrices</span> <span class="n">into</span> <span class="n">the</span>
+</pre></div>
+</div>
+<blockquote>
+<div>environment</div></blockquote>
+<p>x1:DFLOAT&nbsp;:=&nbsp;sqrt(2.0&#64;DFLOAT/3.0&#64;DFLOAT)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Set&nbsp;up&nbsp;the&nbsp;coordinates&nbsp;of&nbsp;the</p>
+<p>x2:DFLOAT&nbsp;:=&nbsp;sqrt(3.0&#64;DFLOAT)/6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;corners&nbsp;of&nbsp;the&nbsp;tetrahedron.</p>
+<dl class="docutils">
+<dt>p1&nbsp;:=&nbsp;point&nbsp;[<a class="reference external" href="mailto:-0&#46;5&#37;&#52;&#48;DFLOAT">-0<span>&#46;</span>5<span>&#64;</span>DFLOAT</a>,&nbsp;-x2,&nbsp;<a class="reference external" href="mailto:0&#46;0&#37;&#52;&#48;DFLOAT">0<span>&#46;</span>0<span>&#64;</span>DFLOAT</a>]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Some&nbsp;needed&nbsp;points</dt>
+<dd>p2&nbsp;:=&nbsp;point&nbsp;[<a class="reference external" href="mailto:0&#46;5&#37;&#52;&#48;DFLOAT">0<span>&#46;</span>5<span>&#64;</span>DFLOAT</a>,&nbsp;-x2,&nbsp;<a class="reference external" href="mailto:0&#46;0&#37;&#52;&#48;DFLOAT">0<span>&#46;</span>0<span>&#64;</span>DFLOAT</a>]
+p3&nbsp;:=&nbsp;point&nbsp;[<a class="reference external" href="mailto:0&#46;0&#37;&#52;&#48;DFLOAT">0<span>&#46;</span>0<span>&#64;</span>DFLOAT</a>,&nbsp;2*x2,&nbsp;<a class="reference external" href="mailto:0&#46;0&#37;&#52;&#48;DFLOAT">0<span>&#46;</span>0<span>&#64;</span>DFLOAT</a>]
+p4&nbsp;:=&nbsp;point&nbsp;[<a class="reference external" href="mailto:0&#46;0&#37;&#52;&#48;DFLOAT">0<span>&#46;</span>0<span>&#64;</span>DFLOAT</a>,&nbsp;<a class="reference external" href="mailto:0&#46;0&#37;&#52;&#48;DFLOAT">0<span>&#46;</span>0<span>&#64;</span>DFLOAT</a>,&nbsp;x1]</dd>
+<dt>baseTriangle&nbsp;&nbsp;:=&nbsp;[p2,&nbsp;p1,&nbsp;p3]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;base&nbsp;of&nbsp;the&nbsp;tetrahedron</dt>
+<dd>mt&nbsp;&nbsp;:=&nbsp;[0.5&#64;DFLOAT*(p2+p1),&nbsp;0.5&#64;DFLOAT*(p1+p3),&nbsp;0.5&#64;DFLOAT*(p3+p2)]</dd>
+</dl>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;middle&nbsp;triangle&nbsp;inscribed</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;in&nbsp;the&nbsp;base&nbsp;of&nbsp;the&nbsp;tetrahedron</p>
+<p>bt1&nbsp;:=&nbsp;[mt.1,&nbsp;p1,&nbsp;mt.2]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;bases&nbsp;of&nbsp;the&nbsp;triangles&nbsp;of</p>
+<dl class="docutils">
+<dt>bt2&nbsp;:=&nbsp;[p2,&nbsp;mt.1,&nbsp;mt.3]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;subdivided&nbsp;tetrahedron</dt>
+<dd>bt3&nbsp;:=&nbsp;[mt.2,&nbsp;p3,&nbsp;mt.3]
+bt4&nbsp;:=&nbsp;[0.5&#64;DFLOAT*(p2+p4),&nbsp;0.5&#64;DFLOAT*(p1+p4),&nbsp;0.5&#64;DFLOAT*(p3+p4)]</dd>
+</dl>
+<p>tt1&nbsp;:=&nbsp;tri2tri(baseTriangle,&nbsp;bt1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create&nbsp;the&nbsp;transformations</p>
+<p>tt2&nbsp;:=&nbsp;tri2tri(baseTriangle,&nbsp;bt2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;that&nbsp;bring&nbsp;the&nbsp;base&nbsp;of&nbsp;the</p>
+<p>tt3&nbsp;:=&nbsp;tri2tri(baseTriangle,&nbsp;bt3)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tetrahedron&nbsp;to&nbsp;the&nbsp;bases&nbsp;of</p>
+<p>tt4&nbsp;:=&nbsp;tri2tri(baseTriangle,&nbsp;bt4)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;subdivided&nbsp;tetrahedron</p>
+<p>drawPyramid(n)&nbsp;==&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draw&nbsp;a&nbsp;Sierpinsky&nbsp;tetrahedron</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;s&nbsp;:=&nbsp;createThreeSpace()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;n&nbsp;levels&nbsp;of&nbsp;recursive</dt>
+<dd>dh&nbsp;:=&nbsp;rotatex(<a class="reference external" href="mailto:0&#46;0&#37;&#52;&#48;DFLOAT">0<span>&#46;</span>0<span>&#64;</span>DFLOAT</a>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;subdivision
+drawPyramidInner(s,&nbsp;n,&nbsp;dh)
+makeViewport3D(s,&nbsp;&#8220;Sierpinsky&nbsp;Tetrahedron&#8221;)</dd>
+<dt>drawPyramidInner(s,&nbsp;n,&nbsp;dh)&nbsp;==&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Recursively&nbsp;draw&nbsp;a&nbsp;Sierpinsky</dt>
+<dd>n&nbsp;=&nbsp;0&nbsp;=&gt;&nbsp;makeTetrahedron(s,&nbsp;dh,&nbsp;n)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tetrahedron</dd>
+<dt>&nbsp;&nbsp;drawPyramidInner(s,&nbsp;n-1,&nbsp;dh&nbsp;<a href="#id1"><span class="problematic" id="id2">*</span></a>&nbsp;tt1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draw&nbsp;the&nbsp;4&nbsp;recursive&nbsp;pyramids</dt>
+<dd>drawPyramidInner(s,&nbsp;n-1,&nbsp;dh&nbsp;<em>&nbsp;tt2)
+drawPyramidInner(s,&nbsp;n-1,&nbsp;dh&nbsp;</em>&nbsp;tt3)
+drawPyramidInner(s,&nbsp;n-1,&nbsp;dh&nbsp;<a href="#id3"><span class="problematic" id="id4">*</span></a>&nbsp;tt4)</dd>
+</dl>
+<p>makeTetrahedron(sp,&nbsp;dh,&nbsp;color)&nbsp;==&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Draw&nbsp;a&nbsp;tetrahedron&nbsp;into&nbsp;the</p>
+<p>&nbsp;&nbsp;w1&nbsp;:=&nbsp;dh*p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;given&nbsp;space&nbsp;with&nbsp;the&nbsp;given</p>
+<p>&nbsp;&nbsp;w2&nbsp;:=&nbsp;dh*p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color,&nbsp;transforming&nbsp;it&nbsp;by</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;w3&nbsp;:=&nbsp;dh*p3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;given&nbsp;DH&nbsp;matrix</dt>
+<dd>w4&nbsp;:=&nbsp;dh*p4
+polygon(sp,&nbsp;[w1,&nbsp;w2,&nbsp;w4])
+polygon(sp,&nbsp;[w1,&nbsp;w3,&nbsp;w4])
+polygon(sp,&nbsp;[w2,&nbsp;w3,&nbsp;w4])
+void()</dd>
+</dl>
+<p>Sierpinsky&#8217;s Tetrahedron</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-21.11.html" title="previous chapter">21.11 dhtri.input</a></li>
+      <li>Next: <a href="section-21.13.html" title="next chapter">21.13 antoine.input</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-21.12.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-21.12.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

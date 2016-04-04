@@ -1,0 +1,425 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.5 Data Structures &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="1.6 Expanding to Higher Dimensions" href="section-1.6.html" />
+    <link rel="prev" title="1.4 Numbers" href="section-1.4.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="data-structures">
+<h1>1.5 Data Structures<a class="headerlink" href="#data-structures" title="Permalink to this headline">¶</a></h1>
+<p>FriCAS has a large variety of data structures available. Many data
+structures are particularly useful for interactive computation and
+others are useful for building applications. The data structures of
+FriCAS are organized into category hierarchies.</p>
+<p>A <em>list</em>, Lists are discussed in Section
+<a class="reference external" href="section-9.1.html#AssociationListXmpPage">ListXmpPage</a>, is the most
+commonly used data structure in FriCAS for holding objects all of the
+same type. The name list is short for <em>linked-list</em> of nodes. Each node
+consists of a value (<strong>first</strong>) and a link (<strong>rest</strong>) that points to the
+next node, or to a distinguished value denoting the empty list. To get to,
+say, the third element, FriCAS starts at the front of the list, then
+traverses across two links to the third node.</p>
+<p>Write a list of elements using square brackets with commas separating
+the elements.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[ 1, \: -7, \: {11} \right]\]</div>
+<p><sub>Type: List Integer</sub></p>
+<p>This is the value at the third node. Alternatively, you can say u.3.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">first</span> <span class="n">rest</span> <span class="n">rest</span> <span class="n">u</span>
+</pre></div>
+</div>
+<div class="math">
+\[11\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Many operations are defined on lists, such as: <code class="docutils literal"><span class="pre">empty?</span></code>, to test that a
+list has no elements; <code class="docutils literal"><span class="pre">cons(x,l)</span></code>, to create a new list with first element
+x and <code class="docutils literal"><span class="pre">rest</span> <span class="pre">l</span></code>; <code class="docutils literal"><span class="pre">reverse</span></code>, to create a new list with elements in reverse
+order; and <code class="docutils literal"><span class="pre">sort</span></code>, to arrange elements in order.</p>
+<p>An important point about lists is that they are mutable: their
+constituent elements and links can be changed in place. To do this, use
+any of the operations whose names end with the character <code class="docutils literal"><span class="pre">!</span></code>.</p>
+<p>The operation <code class="docutils literal"><span class="pre">concat!(u,v)</span></code> replaces the last link of the list
+u to point to some other list v. Since u refers to the original list,
+this change is seen by u.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>concat!(u,[9,1,3,-4]); u
+</pre></div>
+</div>
+<div class="math">
+\[\left[ 1, \: -7, \: {11}, \: 9, \: 1, \: 3, \: -4 \right]\]</div>
+<p><sub>Type: List Integer</sub></p>
+<p>A <em>cyclic</em> list is a list with a cycle: a link pointing back to an earlier
+node of the list. To create a cycle, first get a node somewhere down the list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lastnode</span> <span class="p">:</span><span class="o">=</span> <span class="n">rest</span><span class="p">(</span><span class="n">u</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[ 9, \: 1, \: 3, \: -4 \right]\]</div>
+<p><sub>Type: List Integer</sub></p>
+<p>Use <code class="docutils literal"><span class="pre">setrest!</span></code> to change the link emanating from that node to
+point back to an earlier part of the list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>setrest!(lastnode,rest(u,2)); u
+</pre></div>
+</div>
+<div class="math">
+\[\left[ 1, \: -7, \: {\overline {{11}, \: 9}} \right]\]</div>
+<p><sub>Type: List Integer</sub></p>
+<p>A <em>stream</em> is a structure that (potentially) has an infinite number of
+distinct elements. Think of a stream as an infinite list where elements
+are computed successively. Streams are discussed in
+Section{StreamXmpPage}.</p>
+<p>Create an infinite stream of factored integers. Only a certain number of
+initial elements are computed and displayed.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">factor</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">2.</span><span class="o">.</span> <span class="n">by</span> <span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[
+2, \: {{2} ^ {2}}, \: {2 \  3}, \: {{2} ^ {3}}, \: {2 \  5}, \: {{{2} ^
+{2}} \  3}, \: {2 \  7}, \: {{2} ^ {4}}, \: {2 \  {{3} ^ {2}}}, \: {{{2}
+^ {2}} \  5}, \: ...
+\right]\]</div>
+<p><sub>Type: Stream Factored Integer</sub></p>
+<p>FriCAS represents streams by a collection of already-computed elements
+together with a function to compute the next element on demand. Asking
+for the n-th element causes elements 1 through n to be evaluated.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%.</span><span class="mi">36</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{2} ^ {3}} \  {{3} ^ {2}}\]</div>
+<p><sub>Type: Factored Integer</sub></p>
+<p>Streams can also be finite or cyclic. They are implemented by a linked
+list structure similar to lists and have many of the same operations.
+For example, first and rest are used to access elements and successive
+nodes of a stream.</p>
+<p>A <em>one-dimensional array</em> is another data structure used to hold objects
+of the same type OnedimensionalArray is discussed in Section
+<a class="reference external" href="section-9.57.html#OneDimensionalArrayXmpPage">OneDimensionalArrayXmpPage</a>.
+Unlike lists, one-dimensional arrays are inflexible - they are
+implemented using a fixed block of storage. Their advantage is that they
+give quick and equal access time to any element.</p>
+<p>A simple way to create a one-dimensional array is to apply the operation
+oneDimensionalArray to a list of elements.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="n">oneDimensionalArray</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[ 1, \: -7, \: 3, \: {3 \over 2} \right]\]</div>
+<p><sub>Type: OneDimensionalArray Fraction Integer</sub></p>
+<p>One-dimensional arrays are also mutable: you can change their
+constituent elements in place.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span><span class="o">.</span><span class="mi">3</span> <span class="p">:</span><span class="o">=</span> <span class="mi">11</span><span class="p">;</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[ 1, \: -7, \: {11}, \: {3 \over 2} \right]\]</div>
+<p><sub>Type: OneDimensionalArray Fraction Integer</sub></p>
+<p>However, one-dimensional arrays are not flexible structures. You cannot
+destructively <code class="docutils literal"><span class="pre">concat!</span></code> them together.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>concat!(a,oneDimensionalArray [1,-2])
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>There&nbsp;are&nbsp;5&nbsp;exposed&nbsp;and&nbsp;0&nbsp;unexposed&nbsp;library&nbsp;operations&nbsp;named&nbsp;concat!
+&nbsp;&nbsp;&nbsp;having&nbsp;2&nbsp;argument(s)&nbsp;but&nbsp;none&nbsp;was&nbsp;determined&nbsp;to&nbsp;be&nbsp;applicable.
+&nbsp;&nbsp;&nbsp;Use&nbsp;HyperDoc&nbsp;Browse,&nbsp;or&nbsp;issue
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)display&nbsp;op&nbsp;concat!
+&nbsp;&nbsp;&nbsp;to&nbsp;learn&nbsp;more&nbsp;about&nbsp;the&nbsp;available&nbsp;operations.&nbsp;Perhaps
+&nbsp;&nbsp;&nbsp;package-calling&nbsp;the&nbsp;operation&nbsp;or&nbsp;using&nbsp;coercions&nbsp;on&nbsp;the&nbsp;arguments
+&nbsp;&nbsp;&nbsp;will&nbsp;allow&nbsp;you&nbsp;to&nbsp;apply&nbsp;the&nbsp;operation.</p>
+<p>Cannot&nbsp;find&nbsp;a&nbsp;definition&nbsp;or&nbsp;applicable&nbsp;library&nbsp;operation&nbsp;named
+&nbsp;&nbsp;&nbsp;concat!&nbsp;with&nbsp;argument&nbsp;type(s)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OneDimensionalArray&nbsp;Fraction&nbsp;Integer
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OneDimensionalArray&nbsp;Integer</p>
+<p class="last">&nbsp;&nbsp;&nbsp;Perhaps&nbsp;you&nbsp;should&nbsp;use&nbsp;&#8221;&#64;&#8221;&nbsp;to&nbsp;indicate&nbsp;the&nbsp;required&nbsp;return&nbsp;type,
+&nbsp;&nbsp;&nbsp;or&nbsp;&#8221;$&#8221;&nbsp;to&nbsp;specify&nbsp;which&nbsp;version&nbsp;of&nbsp;the&nbsp;function&nbsp;you&nbsp;need.</p>
+</div>
+<p>Examples of datatypes similar to <code class="docutils literal"><span class="pre">OneDimensionalArray</span></code> are: Vector
+(vectors are mathematical structures implemented by one-dimensional
+arrays), String (arrays of characters, represented by byte vectors), and
+Bits (represented by bit vectors).</p>
+<p>A vector of 32 bits, each representing the Boolean value true.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bits</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="n">true</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\verb#&quot;11111111111111111111111111111111&quot;#\]</div>
+<p><sub>Type: Bits</sub></p>
+<p>A <em>flexible array</em> (FlexibleArray is discussed in Section
+<a class="reference external" href="section-9.26.html#FlexibleArrayXmpPage">FlexibleArrayXmpPage</a> ) is
+a cross between a list and a one-dimensional array. Like
+a one-dimensional array, a flexible array occupies a fixed block of
+storage. Its block of storage, however, has room to expand. When it gets
+full, it grows (a new, larger block of storage is allocated); when it
+has too much room, it contracts.</p>
+<p>Create a flexible array of three elements.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">flexibleArray</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[ 2, \: 7, \: -5 \right]\]</div>
+<p><sub>Type: FlexibleArray Integer</sub></p>
+<p>Insert some elements between the second and third elements.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>insert!(flexibleArray [11, -3],f,2)
+</pre></div>
+</div>
+<div class="math">
+\[\left[ 2, \: {11}, \: -3, \: 7, \: -5 \right]\]</div>
+<p><sub>Type: FlexibleArray Integer</sub></p>
+<p>Flexible arrays are used to implement heaps. A heap is an example of a
+data structure called a priority queue, where elements are ordered with
+respect to one another. A heap (Heap is discussed in Section
+<a class="reference external" href="section-9.32.html#HeapXmpPage">HeapXmpPage</a> ) is organized so as to
+optimize insertion and extraction of maximum elements. The <code class="docutils literal"><span class="pre">extract!</span></code>
+operation returns the maximum element of the heap, after destructively
+removing that element and reorganizing the heap so that the next maximum
+element is ready to be delivered.</p>
+<p>An easy way to create a heap is to apply the operation heap to a list of
+values.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="p">:</span><span class="o">=</span> <span class="n">heap</span> <span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="o">-</span><span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[{11}, \: 7, \: -4, \: 3, \: 4, \: -7 \right]\]</div>
+<p><sub>Type: Heap Integer</sub></p>
+<p>This loop extracts elements one-at-a-time from h until the heap is
+exhausted, returning the elements as a list in the order they were
+extracted.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[extract!(h) while not empty?(h)]
+</pre></div>
+</div>
+<div class="math">
+\[\left[ {11}, \: 7, \: 4, \: 3, \: -4, \: -7 \right]\]</div>
+<p><sub>Type: List Integer</sub></p>
+<p>A <em>binary tree</em> is a tree with at most two branches tree per node: it is
+either empty, or else is a node consisting of a value, and a left and
+right subtree (again, binary trees). (BinarySearchTrees are discussed in
+Section
+<a class="reference external" href="section-9.5.html#BinarySearchTreeXmpPage">BinarySearchTreeXmpPage</a>
+) Examples of binary tree types are BinarySearchTree, PendantTree,
+TournamentTree, and BalancedBinaryTree.</p>
+<p>A <em>binary search tree</em> is a binary tree such that, tree:binary search for
+each node, the value of the node is binary search tree greater than all
+values (if any) in the left subtree, and less than or equal all values
+(if any) in the right subtree.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">binarySearchTree</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[ {\left[ 2, \: 3, \: 4 \right]},
+  \: 5, \: {\left[ 7, \: 9, \: {11} \right]}
+\right]\]</div>
+<p><sub>Type: BinarySearchTree PositiveInteger</sub></p>
+<p>A <em>balanced binary tree</em> is useful for doing modular computations.
+balanced binary tree Given a list lm of moduli, tree:balanced binary
+modTree(a,lm) produces a balanced binary tree with the values at its
+leaves.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">modTree</span><span class="p">(</span><span class="mi">8</span><span class="p">,[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[ 0, \: 2, \: 3, \: 1 \right]\]</div>
+<p><sub>Type: List Integer</sub></p>
+<p>A <em>set</em> is a collection of elements where duplication and order is
+irrelevant. Sets are discussed in Section
+<a class="reference external" href="section-9.53.html#MultiSetXmpPage">SetXmpPage</a> Sets are always
+finite and have no corresponding structure like streams for infinite
+collections.</p>
+<p>Create sets using braces <code class="docutils literal"><span class="pre">{</span></code> and <code class="docutils literal"><span class="pre">}</span></code> rather than brackets.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fs</span> <span class="p">:</span><span class="o">=</span> <span class="nb">set</span><span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">/</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left\{-{1 \over 3}, \: {1 \over 3}, \: {4 \over 5} \right\}\]</div>
+<p><sub>Type: Set Fraction Integer</sub></p>
+<p>A <em>multiset</em> is a set that keeps track of the number of duplicate values.
+Multisets are discussed in Section
+<a class="reference external" href="section-9.53.html#MultiSetXmpPage">MultiSetXmpPage</a></p>
+<p>For all the primes p between 2 and 1000, find the distribution of pmod5.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">multiset</span> <span class="p">[</span><span class="n">x</span> <span class="n">rem</span> <span class="mi">5</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">primes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1000</span><span class="p">)]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left\{
+{{38} \mbox{ : } 4}, \: {{40} \mbox{ : } 1}, \: 0, \: {{42}
+  \mbox{ : } 3}, \: {{47} \mbox{ : } 2}
+\right\}\]</div>
+<p><sub>Type: Multiset Integer</sub></p>
+<p>A <em>table</em> is conceptually a set of key-value pairs and is a
+generalization of a multiset. For examples of tables, see
+AssociationList, HashTable, KeyedAccessFile, Library, SparseTable,
+StringTable, and Table. The domain Table(Key, Entry) provides a
+general-purpose type for tables with values of type Entry indexed by
+keys of type Key.</p>
+<p>Compute the above distribution of primes using tables. First, let t
+denote an empty table of keys and values, each of type Integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="p">:</span> <span class="n">Table</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span><span class="n">Integer</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">empty</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{table()}\]</div>
+<p><sub>Type: Table(Integer,Integer)</sub></p>
+<p>We define a function <code class="docutils literal"><span class="pre">howMany</span></code> to return the number of values of a given
+modulus k seen so far. It calls search(k,t) which returns the number of
+values stored under the key k in table t, or failed if no such value is
+yet stored in t under k.</p>
+<p>In English, this says</p>
+<blockquote>
+<div>Define howMany(k) as follows. First, let n be
+the value of search(k,t). Then, if n has the value &#8220;failed&#8221;, return the
+value 1; otherwise return n+1.</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">howMany</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">n</span><span class="p">:</span><span class="o">=</span><span class="n">search</span><span class="p">(</span><span class="n">k</span><span class="p">,</span><span class="n">t</span><span class="p">);</span> <span class="n">n</span> <span class="n">case</span> <span class="s2">&quot;failed&quot;</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">;</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Run through the primes to create the table, then print the table. The
+expression t.m := howMany(m) updates the value in table t stored under
+key m.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">primes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span> <span class="n">repeat</span> <span class="p">(</span><span class="n">m</span><span class="p">:</span><span class="o">=</span> <span class="n">p</span> <span class="n">rem</span> <span class="mi">5</span><span class="p">;</span> <span class="n">t</span><span class="o">.</span><span class="n">m</span><span class="p">:</span><span class="o">=</span> <span class="n">howMany</span><span class="p">(</span><span class="n">m</span><span class="p">));</span> <span class="n">t</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">howMany</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[table
+\left(
+  {{2={47}}, \: {3={42}}, \: {0=1}, \: {1={40}}, \: {4={38}}}
+\right)\]</div>
+<p><sub>Type: Table(Integer,Integer)</sub></p>
+<p>A <em>record</em> is an example of an inhomogeneous collection of objects. See
+<a class="reference external" href="section-2.4.html#ugTypesRecords">ugTypesRecords</a> for details. A
+record consists of a set of named selectors that can be used to access
+its components.</p>
+<p>Declare that daniel can only be assigned a record with two prescribed
+fields.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">daniel</span> <span class="p">:</span> <span class="n">Record</span><span class="p">(</span><span class="n">age</span> <span class="p">:</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">salary</span> <span class="p">:</span> <span class="n">Float</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Give daniel a value, using square brackets to enclose the values of the
+fields.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">daniel</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">28</span><span class="p">,</span> <span class="mf">32005.12</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[{age={28}}, \: {salary={32005.12}} \right]\]</div>
+<p><sub>Type: Record(age: Integer,salary: Float)</sub></p>
+<p>Give daniel a raise.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">daniel</span><span class="o">.</span><span class="n">salary</span> <span class="p">:</span><span class="o">=</span> <span class="mi">35000</span><span class="p">;</span> <span class="n">daniel</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[{age={28}}, \: {salary={35000.0}} \right]\]</div>
+<p><sub>Type: Record(age: Integer,salary: Float)</sub></p>
+<p>A <em>union</em> is a data structure used when objects have multiple types.See
+<a class="reference external" href="section-2.5.html#ugTypesUnions">ugTypesUnions</a> for details.</p>
+<p>Let dog be either an integer or a string value.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dog</span><span class="p">:</span> <span class="n">Union</span><span class="p">(</span><span class="n">licenseNumber</span><span class="p">:</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="n">String</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Give dog a name.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dog</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;Whisper&quot;</span>
+</pre></div>
+</div>
+<div class="math">
+\[\verb#&quot;Whisper&quot;#\]</div>
+<p><sub>Type: Union(name: String,...)</sub></p>
+<p>All told, there are over forty different data structures in FriCAS.
+Using the domain constructors described in Chapter
+<a class="reference external" href="section-13.0.html#ugDomains">ugDomains</a> you can add your own data
+structure or extend an existing one. Choosing the right data structure
+for your application may be the key to obtaining good performance.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-1.4.html" title="previous chapter">1.4 Numbers</a></li>
+      <li>Next: <a href="section-1.6.html" title="next chapter">1.6 Expanding to Higher Dimensions</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.5.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-1.5.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

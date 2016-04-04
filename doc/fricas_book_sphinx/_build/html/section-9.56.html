@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.56 Octonion &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.57 OneDimensionalArray" href="section-9.57.html" />
+    <link rel="prev" title="9.55 None" href="section-9.55.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="octonion">
+<h1>9.56 Octonion<a class="headerlink" href="#octonion" title="Permalink to this headline">¶</a></h1>
+<p>The Octonions, also called the Cayley-Dixon algebra, defined over a
+commutative ring are an eight-dimensional non-associative algebra. Their
+construction from quaternions is similar to the construction of
+quaternions from complex numbers (see
+<a class="reference external" href="section-9.64.html#QuaternionXmpPage">QuaternionXmpPage</a> ).</p>
+<p>As Octonion creates an eight-dimensional algebra, you have to give eight
+components to construct an octonion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">oci1</span> <span class="p">:</span><span class="o">=</span> <span class="n">octon</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+2i+3j+4k+5E+6I+7J+8K</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Octonion Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">oci2</span> <span class="p">:</span><span class="o">=</span> <span class="n">octon</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7+2i+3j-4k+5E+6I-7J</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Octonion Integer</sub></p>
+<p>Or you can use two quaternions to create an octonion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">oci3</span> <span class="p">:</span><span class="o">=</span> <span class="n">octon</span><span class="p">(</span><span class="n">quatern</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">,</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="o">-</span><span class="mi">10</span><span class="p">),</span> <span class="n">quatern</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-7-12i+3j-10k+5E+6I+9J</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Octonion Integer</sub></p>
+<p>You can easily demonstrate the non-associativity of multiplication.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">oci1</span> <span class="o">*</span> <span class="n">oci2</span><span class="p">)</span> <span class="o">*</span> <span class="n">oci3</span> <span class="o">-</span> <span class="n">oci1</span> <span class="o">*</span> <span class="p">(</span><span class="n">oci2</span> <span class="o">*</span> <span class="n">oci3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2696i-2928j-4072k+16E-1192I+832J+2616K</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Octonion Integer</sub></p>
+<p>As with the quaternions, we have a real part, the imaginary parts i, j,
+k, and four additional imaginary parts E, I, J and K. These parts
+correspond to the canonical basis (1,i,j,k,E,I,J,K).</p>
+<p>For each basis element there is a component operation to extract the
+coefficient of the basis element for a given octonion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">real</span> <span class="n">oci1</span><span class="p">,</span> <span class="n">imagi</span> <span class="n">oci1</span><span class="p">,</span> <span class="n">imagj</span> <span class="n">oci1</span><span class="p">,</span> <span class="n">imagk</span> <span class="n">oci1</span><span class="p">,</span> <span class="n">imagE</span> <span class="n">oci1</span><span class="p">,</span> <span class="n">imagI</span> <span class="n">oci1</span><span class="p">,</span>
+</pre></div>
+</div>
+<p>imagJ oci1, imagK oci1]</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,4,5,6,7,8]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>A basis with respect to the quaternions is given by (1,E). However, you
+might ask, what then are the commuting rules? To answer this, we create
+some generic elements.</p>
+<p>We do this in FriCAS by simply changing the ground ring from Integer to
+Polynomial Integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">:</span> <span class="n">Quaternion</span> <span class="n">Polynomial</span> <span class="n">Integer</span> <span class="p">:</span><span class="o">=</span> <span class="n">quatern</span><span class="p">(</span><span class="n">q1</span><span class="p">,</span> <span class="n">qi</span><span class="p">,</span> <span class="n">qj</span><span class="p">,</span> <span class="n">qk</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>q1+qii+qjj+qkk</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Quaternion Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="p">:</span> <span class="n">Octonion</span> <span class="n">Polynomial</span> <span class="n">Integer</span><span class="p">:</span><span class="o">=</span> <span class="n">octon</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>E</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Octonion Polynomial Integer</sub></p>
+<p>Note that quaternions are automatically converted to octonions in the
+obvious way.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="o">*</span> <span class="n">E</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>q1E+qiI+qjJ+qkK</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Octonion Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="o">*</span> <span class="n">q</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>q1E-qiI-qjJ-qkK</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Octonion Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>q * 1$(Octonion Polynomial Integer)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>q1+qii+qjj+qkk</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Octonion Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>1$(Octonion Polynomial Integer) * q
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>q1+qii+qjj+qkk</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Octonion Polynomial Integer</sub></p>
+<p>Finally, we check that the normnormOctonion, defined as the sum of the
+squares of the coefficients, is a multiplicative map.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">o</span> <span class="p">:</span> <span class="n">Octonion</span> <span class="n">Polynomial</span> <span class="n">Integer</span> <span class="p">:</span><span class="o">=</span> <span class="n">octon</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">oi</span><span class="p">,</span> <span class="n">oj</span><span class="p">,</span> <span class="n">ok</span><span class="p">,</span> <span class="n">oE</span><span class="p">,</span> <span class="n">oI</span><span class="p">,</span> <span class="n">oJ</span><span class="p">,</span> <span class="n">oK</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>o1+oii+ojj+okk+oEE+oII+oJJ+oKK</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Octonion Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">norm</span> <span class="n">o</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ok2+oj2+oi2+oK2+oJ2+oI2+oE2+o12</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span> <span class="n">Octonion</span> <span class="n">Polynomial</span> <span class="n">Integer</span> <span class="p">:</span><span class="o">=</span> <span class="n">octon</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">pj</span><span class="p">,</span> <span class="n">pk</span><span class="p">,</span> <span class="n">pE</span><span class="p">,</span> <span class="n">pI</span><span class="p">,</span> <span class="n">pJ</span><span class="p">,</span> <span class="n">pK</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>p1+pii+pjj+pkk+pEE+pII+pJJ+pKK</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Octonion Polynomial Integer</sub></p>
+<p>Since the result is 0, the norm is multiplicative.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">norm</span><span class="p">(</span><span class="n">o</span><span class="o">*</span><span class="n">p</span><span class="p">)</span><span class="o">-</span><span class="n">norm</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.55.html" title="previous chapter">9.55 None</a></li>
+      <li>Next: <a href="section-9.57.html" title="next chapter">9.57 OneDimensionalArray</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.56.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.56.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

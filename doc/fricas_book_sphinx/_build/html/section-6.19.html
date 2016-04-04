@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6.19 Example: A Famous Triangle &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="6.20 Example: Testing for Palindromes" href="section-6.20.html" />
+    <link rel="prev" title="6.18 Example: A Database" href="section-6.18.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="example-a-famous-triangle">
+<h1>6.19 Example: A Famous Triangle<a class="headerlink" href="#example-a-famous-triangle" title="Permalink to this headline">¶</a></h1>
+<p>In this example we write some functions that display Pascal&#8217;s triangle.
+Pascal&#8217;s triangle It demonstrates the use of piece-wise definitions and
+some output operations you probably haven&#8217;t seen before.</p>
+<p>To make these output operations available, we have to expose the domain
+OutputForm. OutputForm See
+<a class="reference external" href="section-2.11.html#ugTypesExpose">ugTypesExpose</a> for more
+information about exposing domains and packages.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">expose</span> <span class="n">add</span> <span class="n">constructor</span> <span class="n">OutputForm</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">OutputForm</span> <span class="ow">is</span> <span class="n">now</span> <span class="n">explicitly</span> <span class="n">exposed</span> <span class="ow">in</span> <span class="n">frame</span> <span class="n">G82322</span>
+</pre></div>
+</div>
+<p>Define the values along the first row and any column i.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pascal</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Define the values for when the row and column index i are equal.
+Repeating the argument name indicates that the two index values are
+equal.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pascal</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pascal</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="o">|</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">)</span> <span class="o">==</span>
+   <span class="n">pascal</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">pascal</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Now that we have defined the coefficients in Pascal&#8217;s triangle, let&#8217;s
+write a couple of one-liners to display it.</p>
+<p>First, define a function that gives the n-th row.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pascalRow</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">pascal</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="n">n</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Next, we write the function displayRow to display the row, separating
+entries by blanks and centering.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">displayRow</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">output</span> <span class="n">center</span> <span class="n">blankSeparate</span> <span class="n">pascalRow</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Here we have used three output operations. Operation
+outputoutputOutputForm displays the printable form of objects on the
+screen, centercenterOutputForm centers a printable form in the width of
+the screen, and blankSeparateblankSeparateOutputForm takes a list of
+nprintable forms and inserts a blank between successive elements.</p>
+<p>Look at the result.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">7</span> <span class="n">repeat</span> <span class="n">displayRow</span> <span class="n">i</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">pascal</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">(</span><span class="n">Integer</span><span class="p">,</span><span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span>
+   <span class="n">PositiveInteger</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">pascalRow</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">PositiveInteger</span> <span class="o">-&gt;</span> <span class="n">List</span>
+   <span class="n">PositiveInteger</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">displayRow</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">PositiveInteger</span> <span class="o">-&gt;</span> <span class="n">Void</span>
+                                <span class="mi">1</span>
+                               <span class="mi">1</span> <span class="mi">1</span>
+                              <span class="mi">1</span> <span class="mi">2</span> <span class="mi">1</span>
+                             <span class="mi">1</span> <span class="mi">3</span> <span class="mi">3</span> <span class="mi">1</span>
+                            <span class="mi">1</span> <span class="mi">4</span> <span class="mi">6</span> <span class="mi">4</span> <span class="mi">1</span>
+                          <span class="mi">1</span> <span class="mi">5</span> <span class="mi">10</span> <span class="mi">10</span> <span class="mi">5</span> <span class="mi">1</span>
+                         <span class="mi">1</span> <span class="mi">6</span> <span class="mi">15</span> <span class="mi">20</span> <span class="mi">15</span> <span class="mi">6</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Being purists, we find this less than satisfactory. Traditionally,
+elements of Pascal&#8217;s triangle are centered between the left and right
+elements on the line above.</p>
+<p>To fix this misalignment, we go back and redefine pascalRow to right
+adjust the entries within the triangle within a width of four
+characters.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pascalRow</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">right</span><span class="p">(</span><span class="n">pascal</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">n</span><span class="p">),</span><span class="mi">4</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="n">n</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">pascalRow</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">displayRow</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="mi">1</span> <span class="n">old</span> <span class="n">definition</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">deleted</span> <span class="k">for</span> <span class="n">function</span> <span class="ow">or</span> <span class="n">rule</span> <span class="n">pascalRow</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Finally let&#8217;s look at our purely reformatted triangle.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">7</span> <span class="n">repeat</span> <span class="n">displayRow</span> <span class="n">i</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>   <span class="n">Compiling</span> <span class="n">function</span> <span class="n">pascalRow</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">PositiveInteger</span> <span class="o">-&gt;</span> <span class="n">List</span>
+      <span class="n">OutputForm</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">1</span><span class="p">;</span><span class="n">pascalRow</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+   <span class="n">Compiling</span> <span class="n">function</span> <span class="n">displayRow</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">PositiveInteger</span> <span class="o">-&gt;</span> <span class="n">Void</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">1</span><span class="p">;</span><span class="n">displayRow</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+                                     <span class="mi">1</span>
+                                  <span class="mi">1</span>    <span class="mi">1</span>
+                                <span class="mi">1</span>    <span class="mi">2</span>    <span class="mi">1</span>
+                             <span class="mi">1</span>    <span class="mi">3</span>    <span class="mi">3</span>    <span class="mi">1</span>
+                           <span class="mi">1</span>    <span class="mi">4</span>    <span class="mi">6</span>    <span class="mi">4</span>    <span class="mi">1</span>
+                        <span class="mi">1</span>    <span class="mi">5</span>   <span class="mi">10</span>   <span class="mi">10</span>    <span class="mi">5</span>    <span class="mi">1</span>
+                      <span class="mi">1</span>    <span class="mi">6</span>   <span class="mi">15</span>   <span class="mi">20</span>   <span class="mi">15</span>    <span class="mi">6</span>    <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Unexpose OutputForm so we don&#8217;t get unexpected results later.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">expose</span> <span class="n">drop</span> <span class="n">constructor</span> <span class="n">OutputForm</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">OutputForm</span> <span class="ow">is</span> <span class="n">now</span> <span class="n">explicitly</span> <span class="n">hidden</span> <span class="ow">in</span> <span class="n">frame</span> <span class="n">G82322</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-6.18.html" title="previous chapter">6.18 Example: A Database</a></li>
+      <li>Next: <a href="section-6.20.html" title="next chapter">6.20 Example: Testing for Palindromes</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-6.19.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-6.19.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

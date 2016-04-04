@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.4 BinaryExpansion &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.5 BinarySearchTree" href="section-9.5.html" />
+    <link rel="prev" title="9.3 BasicOperator" href="section-9.3.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="binaryexpansion">
+<h1>9.4 BinaryExpansion<a class="headerlink" href="#binaryexpansion" title="Permalink to this headline">¶</a></h1>
+<p>All rational numbers have repeating binary expansions. Operations to
+access the individual bits of a binary expansion can be obtained by
+converting the value to RadixExpansion(2). More examples of expansions
+are available in
+<a class="reference external" href="section-9.15.html#DecimalExpansionXmpPage">DecimalExpansionXmpPage</a>
+,
+<a class="reference external" href="section-9.33.html#HexadecimalExpansionXmpPage">HexadecimalExpansionXmpPage</a>
+, and
+<a class="reference external" href="section-9.65.html#RadixExpansionXmpPage">RadixExpansionXmpPage</a> .</p>
+<p>The expansion (of type BinaryExpansion) of a rational number is returned
+by the binarybinaryBinaryExpansion operation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">binary</span><span class="p">(</span><span class="mi">22</span><span class="o">/</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>11.001‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BinaryExpansion</sub></p>
+<p>Arithmetic is exact.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">+</span> <span class="n">binary</span><span class="p">(</span><span class="mi">6</span><span class="o">/</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>100</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BinaryExpansion</sub></p>
+<p>The period of the expansion can be short or long ...</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">binary</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">102.</span><span class="o">.</span><span class="mi">106</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0.000000101‾,0.000000100111110001000101100101111001110010010101001‾,0.000000100111011‾,0.000000100111‾,0.00000010011010100100001110011111011001010110111100011‾]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List BinaryExpansion</sub></p>
+<p>or very long.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">binary</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">1007</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.000000000100000100010100100101111000001111110000101111110010110001111101‾000100111001001100110001100100101010111101101001100000000110000110011110‾111000110100010111101001000111101100001010111011100111010101110011001010‾010111000000011100011110010000001001001001101110010101001110100011011101‾101011100010010000011001011011000000101100101111100010100000101010101101‾011000001101101110100101011111110101110101001100100001010011011000100110‾001000100001000011000111010011110001‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: BinaryExpansion</sub></p>
+<p>These numbers are bona fide algebraic objects.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="n">binary</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">binary</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">binary</span><span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="mi">9</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.01x2+0.10‾x+0.011100‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial BinaryExpansion</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.1x+0.10‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial BinaryExpansion</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="p">:</span><span class="o">=</span> <span class="n">gcd</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x+1.01‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial BinaryExpansion</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.3.html" title="previous chapter">9.3 BasicOperator</a></li>
+      <li>Next: <a href="section-9.5.html" title="next chapter">9.5 BinarySearchTree</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.4.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.4.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

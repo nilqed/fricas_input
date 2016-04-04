@@ -1,0 +1,714 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.1 Numeric Functions &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="8.2 Polynomial Factorization" href="section-8.2.html" />
+    <link rel="prev" title="8.0 Advanced Problem Solving" href="section-8.0.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="numeric-functions">
+<h1>8.1 Numeric Functions<a class="headerlink" href="#numeric-functions" title="Permalink to this headline">¶</a></h1>
+<p>FriCAS provides two basic floating-point types: Float and DoubleFloat.
+This section describes how to use numerical function:numeric operations
+defined on these types and the related complex types. numeric operations</p>
+<p>As we mentioned in Chapter <a class="reference external" href="section-1.0.html#ugIntro">ugIntro</a> , the
+Float type is a software implementation of floating-point numbers in
+which the exponent and the floating-point number significand may have
+any number of digits. number:floating-point See
+<a class="reference external" href="section-9.17.html#DoubleFloatXmpPage">FloatXmpPage</a> for detailed
+information about this domain. The DoubleFloat (see
+<a class="reference external" href="section-9.17.html#DoubleFloatXmpPage">DoubleFloatXmpPage</a> ) is
+usually a hardware implementation of floating point numbers,
+corresponding to machine double precision. The types Complex Float and
+Complex DoubleFloat are floating-point number:complex the corresponding
+software implementations of complex floating-point numbers.
+complex:floating-point number In this section the term floating-point
+type means any of these number:complex floating-point four types.</p>
+<p>The floating-point types implement the basic elementary functions. These
+include (where $ means DoubleFloat, Float, Complex DoubleFloat, or
+Complex Float):</p>
+<div class="line-block">
+<div class="line">exp, log: $ -&gt; $</div>
+<div class="line">sin, cos, tan, cot, sec, csc: $ -&gt; $</div>
+<div class="line">asin, acos, atan, acot, asec, acsc: $ -&gt; $</div>
+<div class="line">sinh, cosh, tanh, coth, sech, csch: $ -&gt; $</div>
+<div class="line">asinh, acosh, atanh, acoth, asech, acsch: $ -&gt; $</div>
+<div class="line">pi: () -&gt; $</div>
+<div class="line">sqrt: $ -&gt; $</div>
+<div class="line">nthRoot: ($, Integer) -&gt; $</div>
+<div class="line">^^Float: ($, Fraction Integer) -&gt; $</div>
+<div class="line">^^Float: ($,$) -&gt; $</div>
+</div>
+<p>The handling of roots depends on whether the floating-point type
+root:numeric approximation is real or complex: for the real
+floating-point types, DoubleFloat and Float, if a real root exists the
+one with the same sign as the radicand is returned; for the complex
+floating-point types, the principal value is returned. principal value
+Also, for real floating-point types the inverse functions produce errors
+if the results are not real. This includes cases such as asin(1.2),
+log(-3.2), sqrt(-1.1).</p>
+<p>The default floating-point type is Float so to evaluate functions using
+Float or Complex Float, just use normal decimal notation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="p">(</span><span class="mf">3.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>22.197951281441633405</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="p">(</span><span class="mf">3.1</span> <span class="o">+</span> <span class="mf">4.5</span> <span class="o">*</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-4.6792348860969899118-21.699165928071731864i</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Complex Float</sub></p>
+<p>To evaluate functions using DoubleFloat or Complex DoubleFloat, a
+declaration or conversion is required.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span><span class="p">:</span> <span class="n">DFLOAT</span> <span class="p">:</span><span class="o">=</span> <span class="mf">3.1</span><span class="p">;</span> <span class="n">t</span><span class="p">:</span> <span class="n">DFLOAT</span> <span class="p">:</span><span class="o">=</span> <span class="mf">4.5</span><span class="p">;</span> <span class="n">exp</span><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="n">t</span><span class="o">*%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-4.6792348860969906-21.699165928071732i</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Complex DoubleFloat</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="p">(</span><span class="mf">3.1</span><span class="p">::</span><span class="n">DFLOAT</span> <span class="o">+</span> <span class="mf">4.5</span><span class="p">::</span><span class="n">DFLOAT</span> <span class="o">*</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-4.6792348860969906-21.699165928071732i</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Complex DoubleFloat</sub></p>
+<p>A number of special functions are provided by the package
+DoubleFloatSpecialFunctions for the machine-precision special functions
+floating-point types. DoubleFloatSpecialFunctions The special functions
+provided are listed below, where F stands for the types DoubleFloat and
+Complex DoubleFloat. The real versions of the functions yield an error
+if the result is not real. function:special</p>
+<div class="line-block">
+<div class="line">Gamma: F-&gt;F</div>
+<div class="line">Γ(z) is the Euler gamma function, function:Gamma Γ(z), defined by</div>
+</div>
+<p>Euler:gamma function Γ(z)=∫0∞tz-1e-tdt.</p>
+<div class="line-block">
+<div class="line">Beta: F-&gt;F</div>
+<div class="line">Beta(u,v) is the Euler Beta function, function:Euler Beta B(u,v),</div>
+</div>
+<p>defined by Euler:Beta function B(u,v)=∫01tu-1(1-t)v-1dt. This is related
+to Γ(z) by B(u,v)=Γ(u)Γ(v)Γ(u+v).</p>
+<div class="line-block">
+<div class="line">logGamma: F-&gt;F</div>
+<div class="line">logGamma(z) is the natural logarithm of Γ(z). This can often be</div>
+</div>
+<p>computed even if Γ(z) cannot.</p>
+<div class="line-block">
+<div class="line">digamma: F-&gt;F</div>
+<div class="line">digamma(z), also called psi(z), psi &#64; is the function</div>
+</div>
+<p>function:digamma defined by ψ(z)=Γ′(z)Γ(z)</p>
+<div class="line-block">
+<div class="line">polygamma: (NonNegativeInteger,F)-&gt;F</div>
+<div class="line">polygamma(n,z) is the n-th derivative of function:polygamma ψ(z),</div>
+</div>
+<p>written ψ(n)(z).</p>
+<div class="line-block">
+<div class="line">besselJ: (F,F)-&gt;F</div>
+<div class="line">besselJ(v,z) is the Bessel function of the first kind,</div>
+</div>
+<p>function:Bessel Jμ(z). This function satisfies the differential equation
+z2w′′(z)+zw′(z)+(z2-μ2)w(z)=0.</p>
+<div class="line-block">
+<div class="line">besselY: (F,F)-&gt;F</div>
+<div class="line">besselY(v,z) is the Bessel function of the second kind,</div>
+</div>
+<p>function:Bessel Yμ(z). This function satisfies the same differential
+equation as besselJ. The implementation simply uses the relation
+Yμ(z)=Jμ(z)cos(μπ)-J-μ(z)sin(μπ)Jμ(z)cos(μπ)-J-μ(z)sin(μπ).</p>
+<div class="line-block">
+<div class="line">besselI: (F,F)-&gt;F</div>
+<div class="line">besselI(v,z) is the modified Bessel function of the first kind,</div>
+</div>
+<p>function:Bessel Iμ(z). This function satisfies the differential equation
+z2w′′(z)+zw′(z)-(z2+μ2)w(z)=0.</p>
+<div class="line-block">
+<div class="line">besselK: (F,F)-&gt;F</div>
+<div class="line">besselK(v,z) is the modified Bessel function of the second kind,</div>
+</div>
+<p>function:Bessel Kμ(z). This function satisfies the same differential
+equation as besselI. Bessel function The implementation simply uses the
+relation Kμ(z)=πI-μ(z)-Iμ(z)2sin(μπ)I-μ(z)-Iμ(z)2sin(μπ).</p>
+<div class="line-block">
+<div class="line">airyAi: F-&gt;F</div>
+<div class="line">airyAi(z) is the Airy function Ai(z). function:Airy Ai This function</div>
+</div>
+<p>satisfies the differential equation w′′(z)-zw(z)=0. The implementation
+simply uses the relation Ai(-z)=1313z(J-1/3(2323z3/2)+J1/3(2323z3/2)).</p>
+<div class="line-block">
+<div class="line">airyBi: F-&gt;F</div>
+<div class="line">airyBi(z) is the Airy function Bi(z). function:Airy Bi This function</div>
+</div>
+<p>satisfies the same differential equation as airyAi. Airy function The
+implementation simply uses the relation
+Bi(-z)=13133z(J-1/3(2323z3/2)-J1/3(2323z3/2)).</p>
+<div class="line-block">
+<div class="line">hypergeometric0F1: (F,F)-&gt;F</div>
+<div class="line">hypergeometric0F1(c,z) is the hypergeometric function</div>
+</div>
+<p>function:hypergeometric F10(;c;z).</p>
+<p>The above special functions are defined only for small floating-point
+types. If you give Float arguments, they are converted to DoubleFloat by
+FriCAS.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Gamma</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3.14159265358979</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DoubleFloat</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="mf">2.1</span><span class="p">;</span> <span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="mf">1.1</span><span class="p">;</span> <span class="n">besselI</span><span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="o">%</span><span class="n">i</span><span class="o">*</span><span class="n">b</span><span class="p">,</span> <span class="n">b</span><span class="o">*</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2.489481690673867-2.365846713181643i</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Complex DoubleFloat</sub></p>
+<p>A number of additional operations may be used to compute numerical
+values. These are special polynomial functions that can be evaluated for
+values in any commutative ring R, and in particular for values in any
+floating-point type. The following operations are provided by the
+package OrthogonalPolynomialFunctions: OrthogonalPolynomialFunctions</p>
+<div class="line-block">
+<div class="line">chebyshevT: (NonNegativeInteger,R)-&gt;R</div>
+<div class="line">chebyshevT(n,z) is the n-th Chebyshev polynomial of the first kind,</div>
+</div>
+<p>Tn(z). These are defined by 1-tz1-2tz+t2=∑n=0∞Tn(z)tn.</p>
+<div class="line-block">
+<div class="line">chebyshevU: (NonNegativeInteger,R)-&gt;R</div>
+<div class="line">chebyshevU(n,z) is the n-th Chebyshev polynomial of the second kind,</div>
+</div>
+<p>Un(z). These are defined by 11-2tz+t2=∑n=0∞Un(z)tn.</p>
+<div class="line-block">
+<div class="line">hermiteH: (NonNegativeInteger,R)-&gt;R</div>
+<div class="line">hermiteH(n,z) is the n-th Hermite polynomial, Hn(z). These are</div>
+</div>
+<p>defined by e2tz-t2=∑n=0∞Hn(z)tnn!.</p>
+<div class="line-block">
+<div class="line">laguerreL: (NonNegativeInteger,R)-&gt;R</div>
+<div class="line">laguerreL(n,z) is the n-th Laguerre polynomial, Ln(z). These are</div>
+</div>
+<p>defined by e-tz1-t1-t=∑n=0∞Ln(z)tnn!.</p>
+<div class="line-block">
+<div class="line">laguerreL: (NonNegativeInteger,NonNegativeInteger,R)-&gt;R</div>
+<div class="line">laguerreL(m,n,z) is the associated Laguerre polynomial Lnm(z). This</div>
+</div>
+<p>is the m-th derivative of Ln(z).</p>
+<div class="line-block">
+<div class="line">legendreP: (NonNegativeInteger,R)-&gt;R</div>
+<div class="line">legendreP(n,z) is the n-th Legendre polynomial, Pn(z). These are</div>
+</div>
+<p>defined by 11-2tz+t2=∑n=0∞Pn(z)tn.</p>
+<p>These operations require non-negative integers for the indices, but
+otherwise the argument can be given as desired.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">chebyshevT</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,z,2z2-1,4z3-3z,8z4-8z2+1,16z5-20z3+5z]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Polynomial Integer</sub></p>
+<p>The expression chebyshevT(n,z) evaluates to the n-th Chebyshev
+polynomial:Chebyshev:of the first kind polynomial of the first kind.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">chebyshevT</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">5.0</span> <span class="o">+</span> <span class="mf">6.0</span><span class="o">*%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1675.0+918.0i</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Complex Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">chebyshevT</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">::</span><span class="n">DoubleFloat</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>485.0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DoubleFloat</sub></p>
+<p>The expression chebyshevU(n,z) evaluates to the n-th Chebyshev
+polynomial:Chebyshev:of the second kind polynomial of the second kind.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">chebyshevU</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2z,4z2-1,8z3-4z,16z4-12z2+1,32z5-32z3+6z]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">chebyshevU</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-0.736</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>The expression hermiteH(n,z) evaluates to the n-th Hermite
+polynomial:Hermite polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">hermiteH</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2z,4z2-2,8z3-12z,16z4-48z2+12,32z5-160z3+120z]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hermiteH</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-0.1448706729337934088E93</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>The expression laguerreL(n,z) evaluates to the n-th Laguerre
+polynomial:Laguerre polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">laguerreL</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,-z+1,z2-4z+2,-z3+9z2-18z+6,z4-16z3+72z2-96z+24]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">laguerreL</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-13.0944</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">laguerreL</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-z3+9z2-18z+6,-3z2+18z-18,-6z+18,-6,0]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">laguerreL</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>6.57</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>The expression polynomial:Legendre legendreP(n,z) evaluates to the n-th
+Legendre polynomial,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">legendreP</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">z</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,z,32z2-12,52z3-32z,358z4-154z2+38,638z5-354z3+158z]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Polynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">legendreP</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">3.0</span><span class="o">*%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-72.0i</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Complex Float</sub></p>
+<p>Finally, three number-theoretic polynomial operations may be evaluated.
+number theory The following operations are provided by the package
+NumberTheoreticPolynomialFunctions. NumberTheoreticPolynomialFunctions.</p>
+<div class="line-block">
+<div class="line">bernoulliB: (NonNegativeInteger,R)-&gt;R</div>
+<div class="line">bernoulliB(n,z) is the n-th Bernoulli polynomial,</div>
+</div>
+<p>polynomial:Bernoulli Bn(z). These are defined by
+teztet-1=∑n=0∞Bn(z)tnn!.</p>
+<div class="line-block">
+<div class="line">eulerE: (NonNegativeInteger,R)-&gt;R</div>
+<div class="line">eulerE(n,z) is the n-th Euler polynomial, Euler:polynomial En(z).</div>
+</div>
+<p>These are defined by polynomial:Euler 2eztet+1=∑n=0∞En(z)tnn!.</p>
+<div class="line-block">
+<div class="line">cyclotomic: (NonNegativeInteger,R)-&gt;R</div>
+<div class="line">cyclotomic(n,z) is the n-th cyclotomic polynomial . This is the</div>
+</div>
+<p>polynomial whose roots are precisely the primitive n-th roots of unity.
+Euler:totient function This polynomial has degree given by the Euler
+totient function function:totient .</p>
+<p>The expression bernoulliB(n,z) evaluates to the n-th Bernoulli
+polynomial:Bernouilli polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bernoulliB</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z3-32z2+12z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bernoulliB</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.7</span> <span class="o">+</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-0.138-0.116i</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Complex Float</sub></p>
+<p>The expression polynomial:Euler eulerE(n,z) evaluates to the n-th Euler
+polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eulerE</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z3-32z2+14</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eulerE</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.7</span> <span class="o">+</span> <span class="mf">0.4</span> <span class="o">*</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-0.238-0.316i</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Complex Float</sub></p>
+<p>The expression polynomial:cyclotomic cyclotomic(n,z) evaluates to the
+n-th cyclotomic polynomial. cyclotomic polynomial</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cyclotomic</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z2+z+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cyclotomic</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mf">1.0</span> <span class="o">+</span> <span class="mf">0.0</span> <span class="o">*</span> <span class="o">%</span><span class="n">i</span><span class="p">)</span><span class="o">^</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Complex Float</sub></p>
+<p>Drawing complex functions in FriCAS is presently somewhat awkward
+compared to drawing real functions. It is necessary to use the draw
+operations that operate on functions rather than expressions.</p>
+<p>This is the complex exponential function (rotated interactively).
+function:complex exponential When this is displayed in color, the height
+is the value of the real part of the function and the color is the
+imaginary part. Red indicates large negative imaginary values, green
+indicates imaginary values near zero and blue/violet indicates large
+positive imaginary values.</p>
+<p>draw((x,y)+-&gt; real exp complex(x,y), -2..2, -2*%pi..2*%pi,
+colorFunction == (x, y) +-&gt; imag exp complex(x,y),
+title==&#8221;exp(x+%i*y)&#8221;, style==&#8221;smooth&#8221;)</p>
+<p><img alt="picture" src="_images/modbessc.png" /></p>
+<p>This is the complex arctangent function. function:complex arctangent
+Again, the height is the real part of the function value but here the
+color indicates the function value&#8217;s phase. The position of the branch
+cuts are clearly visible and one can see that the function is real only
+for a real argument.</p>
+<p>vp := draw((x,y) +-&gt; real atan complex(x,y), -%pi..%pi, -%pi..%pi,
+colorFunction==(x,y) +-&gt;argument atan complex(x,y),
+title==&#8221;atan(x+%i*y)&#8221;, style==&#8221;shade&#8221;); rotate(vp,-160,-45); vp</p>
+<p><img alt="picture" src="_images/modbessc.png" /></p>
+<p>This is the complex Gamma function.</p>
+<p>draw((x,y) +-&gt; max(min(real Gamma complex(x,y),4),-4), -%pi..%pi,
+-%pi..%pi, style==&#8221;shade&#8221;, colorFunction == (x,y) +-&gt; argument Gamma
+complex(x,y), title == &#8220;Gamma(x+%i*y)&#8221;, var1Steps == 50, var2Steps==
+50)</p>
+<p><img alt="picture" src="_images/modbessc.png" /></p>
+<p>This shows the real Beta function near the origin.</p>
+<p>draw(Beta(x,y)/100, x=-1.6..1.7, y = -1.6..1.7, style==&#8221;shade&#8221;,
+title==&#8221;Beta(x,y)&#8221;, var1Steps==40, var2Steps==40)</p>
+<p><img alt="picture" src="_images/modbessc.png" /></p>
+<p>This is the Bessel function for index in the range -6..4 and argument x
+in the range 2..14.</p>
+<p>draw((alpha,x) +-&gt; min(max(besselJ(alpha, x+8), -6), 6), -6..4, -6..6,
+title==&#8221;besselJ(alpha,x)&#8221;, style==&#8221;shade&#8221;, var1Steps==40, var2Steps==40)</p>
+<p><img alt="picture" src="_images/modbessc.png" /></p>
+<p>This is the modified Bessel function evaluated for various real values
+of the index and fixed argument x=5.</p>
+<p>draw(besselI(alpha, 5), alpha = -12..12, unit==[5,20])</p>
+<p>This is similar to the last example except the index takes on complex
+values in a 6x6 rectangle centered on the origin.</p>
+<p>draw((x,y) +-&gt; real besselI(complex(x/20, y/20),5), -60..60, -60..60,
+colorFunction == (x,y)+-&gt; argument besselI(complex(x/20,y/20),5),
+title==&#8221;besselI(x+i*y,5)&#8221;, style==&#8221;shade&#8221;)</p>
+<p><img alt="picture" src="_images/modbessc.png" /></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-8.0.html" title="previous chapter">8.0 Advanced Problem Solving</a></li>
+      <li>Next: <a href="section-8.2.html" title="next chapter">8.2 Polynomial Factorization</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-8.1.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-8.1.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

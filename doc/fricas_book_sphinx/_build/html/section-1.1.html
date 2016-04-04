@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.1 Starting Up and Winding Down &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="1.2 Typographic Conventions" href="section-1.2.html" />
+    <link rel="prev" title="1.0 An Overview of FriCAS" href="section-1.0.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="starting-up-and-winding-down">
+<h1>1.1 Starting Up and Winding Down<a class="headerlink" href="#starting-up-and-winding-down" title="Permalink to this headline">¶</a></h1>
+<p>You need to know how to start the FriCAS system and how to stop it. We
+assume that FriCAS has been correctly installed on your machine (as
+described in another FriCAS document).</p>
+<p>To begin using FriCAS, issue the command axiom to the FriCAS operating
+system shell. axiom &#64; axiom There is a brief pause, some start-up
+messages, and then one or more windows appear.</p>
+<p>If you are not running FriCAS under the X Window System, there is only
+one window (the console). At the lower left of the screen there is a
+prompt that prompt looks like</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span>
+</pre></div>
+</div>
+<p>When you want to enter input to FriCAS, you do so on the same line after
+the prompt. The 1 in (1), also called the equation number, is the
+computation step number and is incremented step number after you enter
+FriCAS statements. Note, however, that a system command such as <code class="docutils literal"><span class="pre">)clear</span></code>
+all may change the step number in other ways. We talk about step numbers
+more when we discuss system commands and the workspace history facility.</p>
+<p>If you are running FriCAS under the X Window System, there may be two X
+Window System windows: the console window (as just described) and the
+HyperDoc main menu. <a class="reference external" href="mailto:Hyper&#37;&#52;&#48;{HyperDoc">Hyper<span>&#64;</span>{HyperDoc</a>} HyperDoc is a multiple-window
+hypertext system that lets you window view FriCAS documentation and
+examples on-line, execute FriCAS expressions, and generate graphics. If
+you are in a graphical windowing environment, it is usually started
+automatically when FriCAS begins. If it is not running, issue <code class="docutils literal"><span class="pre">)hd</span></code> to
+start it. We discuss the basics of HyperDoc in Chapter 3.</p>
+<p>To interrupt an FriCAS computation, hold down the interrupt Ctrl
+(control) key and press c. This brings you back to the FriCAS prompt.</p>
+<p>To exit from FriCAS, move to the console window, type <code class="docutils literal"><span class="pre">)quit</span></code> at the
+input prompt and press the Enter key. You will probably be prompted with
+the following message:</p>
+<blockquote>
+<div><p>Please enter y or yes if you really want to leave the
+interactive environment and return to the operating system</p>
+<p>You should respond yes, for example, to exit FriCAS.</p>
+</div></blockquote>
+<p>We are purposely vague in describing exactly what your screen looks like
+or what messages FriCAS displays. FriCAS runs on a number of different
+machines, operating systems and window environments, and these
+differences all affect the physical look of the system. You can also
+change the way that FriCAS behaves via system commands described later
+in this chapter and in Appendix A. System commands are special commands,
+like )set, that begin with a closing parenthesis and are used to change
+your environment. For example, you can set a system variable so that you
+are not prompted for confirmation when you want to leave FriCAS.</p>
+<div class="section" id="clef">
+<h2>1.1.1 Clef<a class="headerlink" href="#clef" title="Permalink to this headline">¶</a></h2>
+<p>If you are using FriCAS under the X Window System, the Clef command line
+editor Clef command line editor is probably available and installed.
+With this editor you can recall previous lines with the up and down
+arrow keys. To move forward and backward on a line, use the right and
+left arrows. You can use the Insert key to toggle insert mode on or off.
+When you are in insert mode, the cursor appears as a large block and if
+you type anything, the characters are inserted into the line without
+deleting the previous ones.</p>
+<p>If you press the <code class="docutils literal"><span class="pre">Home</span></code> key, the cursor moves to the beginning of the line
+and if you press the <code class="docutils literal"><span class="pre">End</span></code> key, the cursor moves to the end of the line.
+Pressing <code class="docutils literal"><span class="pre">Ctrl-End</span></code> deletes all the text from the cursor to the end of the
+line.</p>
+<p>Clef also provides FriCAS operation name completion for operation name
+completion a limited set of operations. If you enter a few letters and
+then press the <code class="docutils literal"><span class="pre">Tab</span></code> key, Clef tries to use those letters as the prefix of
+an FriCAS operation name. If a name appears and it is not what you want,
+press Tab again to see another name.</p>
+<p>You are ready to begin your journey into the world of FriCAS.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1.1 Starting Up and Winding Down</a><ul>
+<li><a class="reference internal" href="#clef">1.1.1 Clef</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-1.0.html" title="previous chapter">1.0 An Overview of FriCAS</a></li>
+      <li>Next: <a href="section-1.2.html" title="next chapter">1.2 Typographic Conventions</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.1.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-1.1.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

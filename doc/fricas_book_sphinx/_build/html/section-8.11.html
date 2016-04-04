@@ -1,0 +1,2068 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.11 Finite Fields &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="8.12 Primary Decomposition of Ideals" href="section-8.12.html" />
+    <link rel="prev" title="8.10 Solution of Differential Equations" href="section-8.10.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="finite-fields">
+<h1>8.11 Finite Fields<a class="headerlink" href="#finite-fields" title="Permalink to this headline">¶</a></h1>
+<p>A finite field (also called a Galois field) is a finite algebraic
+structure where one can add, multiply and divide under the same laws
+(for example, commutativity, associativity or distributivity) as apply
+to the rational, real or complex numbers. Unlike those three fields, for
+any finite field there exists a positive prime integer p, called the
+characteristic, such that px=0 for any element x in the finite field. In
+fact, the number of elements in a finite field is a power of the
+characteristic and for each prime p and positive integer n there exists
+exactly one finite field with pn elements, up to isomorphism. For more
+information about the algebraic structure and properties of finite
+fields, see, for example,</p>
+<blockquote>
+<div><ol class="upperalpha simple" start="19">
+<li>Lang, Algebra, Second Edition, New York: Addison-Wesley Publishing</li>
+</ol>
+</div></blockquote>
+<dl class="docutils">
+<dt>Company, Inc., 1984, ISBN 0 201 05487 6;</dt>
+<dd>or
+R. Lidl, H. Niederreiter, Finite Fields, Encyclopedia of Mathematics</dd>
+</dl>
+<p>and Its Applications, Vol. 20, Cambridge: Cambridge Univ. Press, 1983,
+ISBN 0 521 30240 4.</p>
+<p>When n=1, the field has p elements and is called a prime field,
+discussed in the next section. There are several ways of implementing
+extensions of finite fields, and FriCAS provides quite a bit of freedom
+to allow you to choose the one that is best for your application.
+Moreover, we provide operations for converting among the different
+representations of extensions and different extensions of a single
+field. Finally, note that you usually need to package-call operations
+from finite fields if the operations do not take as an argument an
+object of the field. See
+<a class="reference external" href="section-2.9.html#ugTypesPkgCall">ugTypesPkgCall</a> for more
+information on package-calling.</p>
+<div class="section" id="modular-arithmetic-and-prime-fields">
+<h2>8.11.1 Modular Arithmetic and Prime Fields<a class="headerlink" href="#modular-arithmetic-and-prime-fields" title="Permalink to this headline">¶</a></h2>
+<p>finite field Galois:field field:finite:prime field:prime field:Galois
+prime field modular arithmetic arithmetic:modular</p>
+<p>Let n be a positive integer. It is well known that you can get the same
+result if you perform addition, subtraction or multiplication of
+integers and then take the remainder on dividing by n as if you had
+first done such remaindering on the operands, performed the arithmetic
+and then (if necessary) done remaindering again. This allows us to speak
+of arithmetic modulo n or, more simply mod n.</p>
+<p>In FriCAS, you use IntegerMod to do such arithmetic.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="p">:</span> <span class="n">IntegerMod</span> <span class="mi">12</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: IntegerMod 12</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">a</span> <span class="o">-</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[9,4]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List IntegerMod 12</sub></p>
+<p>If n is not prime, there is only a limited notion of reciprocals and
+division.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">There</span> <span class="n">are</span> <span class="mi">12</span> <span class="n">exposed</span> <span class="ow">and</span> <span class="mi">13</span> <span class="n">unexposed</span> <span class="n">library</span> <span class="n">operations</span> <span class="n">named</span> <span class="o">/</span>
+   <span class="n">having</span> <span class="mi">2</span> <span class="n">argument</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">but</span> <span class="n">none</span> <span class="n">was</span> <span class="n">determined</span> <span class="n">to</span> <span class="n">be</span> <span class="n">applicable</span><span class="o">.</span>
+   <span class="n">Use</span> <span class="n">HyperDoc</span> <span class="n">Browse</span><span class="p">,</span> <span class="ow">or</span> <span class="n">issue</span>
+                             <span class="p">)</span><span class="n">display</span> <span class="n">op</span> <span class="o">/</span>
+   <span class="n">to</span> <span class="n">learn</span> <span class="n">more</span> <span class="n">about</span> <span class="n">the</span> <span class="n">available</span> <span class="n">operations</span><span class="o">.</span> <span class="n">Perhaps</span>
+   <span class="n">package</span><span class="o">-</span><span class="n">calling</span> <span class="n">the</span> <span class="n">operation</span> <span class="ow">or</span> <span class="n">using</span> <span class="n">coercions</span> <span class="n">on</span> <span class="n">the</span> <span class="n">arguments</span>
+   <span class="n">will</span> <span class="n">allow</span> <span class="n">you</span> <span class="n">to</span> <span class="n">apply</span> <span class="n">the</span> <span class="n">operation</span><span class="o">.</span>
+
+<span class="n">Cannot</span> <span class="n">find</span> <span class="n">a</span> <span class="n">definition</span> <span class="ow">or</span> <span class="n">applicable</span> <span class="n">library</span> <span class="n">operation</span> <span class="n">named</span> <span class="o">/</span>
+   <span class="k">with</span> <span class="n">argument</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+                             <span class="n">IntegerMod</span> <span class="mi">12</span>
+                             <span class="n">IntegerMod</span> <span class="mi">12</span>
+
+   <span class="n">Perhaps</span> <span class="n">you</span> <span class="n">should</span> <span class="n">use</span> <span class="s2">&quot;@&quot;</span> <span class="n">to</span> <span class="n">indicate</span> <span class="n">the</span> <span class="n">required</span> <span class="k">return</span> <span class="nb">type</span><span class="p">,</span>
+   <span class="ow">or</span> <span class="s2">&quot;$&quot;</span> <span class="n">to</span> <span class="n">specify</span> <span class="n">which</span> <span class="n">version</span> <span class="n">of</span> <span class="n">the</span> <span class="n">function</span> <span class="n">you</span> <span class="n">need</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">recip</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;failed&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+<p>Here 7 and 12 are relatively prime, so 7 has a multiplicative inverse
+modulo 12.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">recip</span> <span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(IntegerMod 12,...)</sub></p>
+<p>If we take n to be a prime number p, then taking inverses and,
+therefore, division are generally defined.</p>
+<p>Use PrimeField instead of IntegerMod for n prime.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="p">:</span> <span class="n">PrimeField</span> <span class="mi">11</span> <span class="p">:</span><span class="o">=</span> <span class="mi">8</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PrimeField 11</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">inv</span> <span class="n">c</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PrimeField 11</sub></p>
+<p>You can also use 1/c and c**(-1) for the inverse of c.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">9</span><span class="o">/</span><span class="n">c</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PrimeField 11</sub></p>
+<p>PrimeField (abbreviation PF) checks if its argument is prime when you
+try to use an operation from it. If you know the argument is prime
+(particularly if it is large), InnerPrimeField (abbreviation IPF)
+assumes the argument has already been verified to be prime. If you do
+use a number that is not prime, you will eventually get an error
+message, most likely a division by zero message. For computer science
+applications, the most important finite fields are PrimeField 2 and its
+extensions.</p>
+<p>In the following examples, we work with the finite field with p=101
+elements.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF101</span> <span class="p">:</span><span class="o">=</span> <span class="n">PF</span> <span class="mi">101</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>PrimeField101</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Like many domains in FriCAS, finite fields provide an operation for
+returning a random element of the domain.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>x := random()$GF101
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PrimeField 101</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="p">:</span> <span class="n">GF101</span> <span class="p">:</span><span class="o">=</span> <span class="mi">37</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>37</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PrimeField 101</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span><span class="o">/</span><span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>63</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PrimeField 101</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PrimeField 101</sub></p>
+<p>The element 2 is a primitive element of this field, primitive element
+element:primitive</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>pe := primitiveElement()$GF101
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PrimeField 101</sub></p>
+<p>in the sense that its powers enumerate all nonzero elements.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">pe</span><span class="o">^</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="mi">99</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,4,8,16,32,64,27,54,7,14,28,56,11,22,44,88,75,49,98,95,89,77,53,5,10,20,40,80,59,17,34,68,35,70,39,78,55,9,18,36,72,43,86,71,41,82,63,25,50,100,99,97,93,85,69,37,74,47,94,87,73,45,90,79,57,13,26,52,3,6,12,24,48,96,91,81,61,21,42,84,67,33,66,31,62,23,46,92,83,65,29,58,15,30,60,19,38,76,51]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PrimeField 101</sub></p>
+<p>If every nonzero element is a power of a primitive element, how do you
+determine what the exponent is? Use discrete logarithm discreteLog.
+logarithm:discrete</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ex</span> <span class="p">:</span><span class="o">=</span> <span class="n">discreteLog</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>56</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pe</span> <span class="o">^</span> <span class="n">ex</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>37</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PrimeField 101</sub></p>
+<p>The order of a nonzero element x is the smallest positive integer t such
+xt=1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>25</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The order of a primitive element is the defining p-1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">order</span> <span class="n">pe</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>100</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+<div class="section" id="extensions-of-finite-fields">
+<h2>8.11.2 Extensions of Finite Fields<a class="headerlink" href="#extensions-of-finite-fields" title="Permalink to this headline">¶</a></h2>
+<p>finite field field:finite:extension of</p>
+<p>When you want to work with an extension of a finite field in FriCAS, you
+have three choices to make:</p>
+<ol class="arabic simple">
+<li>Do you want to generate an extension of the prime field (for example,
+PrimeField 2) or an extension of a given field?</li>
+<li>Do you want to use a representation that is particularly efficient
+for multiplication, exponentiation and addition but uses a lot of
+computer memory (a representation that models the cyclic group
+structure of the multiplicative group of the field extension and uses
+a Zech logarithm table), one that Zech logarithm uses a normal basis
+for the vector space structure of the field extension, or one that
+performs arithmetic modulo an irreducible polynomial? The cyclic
+group representation is only usable up to medium (relative to your
+machine&#8217;s performance) sized fields. If the field is large and the
+normal basis is relatively simple, the normal basis representation is
+more efficient for exponentiation than the irreducible polynomial
+representation.</li>
+<li>Do you want to provide a polynomial explicitly, a root of which
+generates the extension in one of the three senses in (2), or do you
+wish to have the polynomial generated for you?</li>
+</ol>
+<p>This illustrates one of the most important features of FriCAS: you can
+choose exactly the right data-type and representation to suit your
+application best.</p>
+<p>We first tell you what domain constructors to use for each case above,
+and then give some examples.</p>
+<div class="line-block">
+<div class="line">Constructors that automatically generate extensions of the prime</div>
+</div>
+<p>field:
+|  FiniteField
+|  FiniteFieldCyclicGroup
+|  FiniteFieldNormalBasis</p>
+<div class="line-block">
+<div class="line">Constructors that generate extensions of an arbitrary field:</div>
+<div class="line-block">
+<div class="line">FiniteFieldExtension</div>
+<div class="line">FiniteFieldExtensionByPolynomial</div>
+<div class="line">FiniteFieldCyclicGroupExtension</div>
+<div class="line">FiniteFieldCyclicGroupExtensionByPolynomial</div>
+<div class="line">FiniteFieldNormalBasisExtension</div>
+<div class="line">FiniteFieldNormalBasisExtensionByPolynomial</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">Constructors that use a cyclic group representation:</div>
+<div class="line-block">
+<div class="line">FiniteFieldCyclicGroup</div>
+<div class="line">FiniteFieldCyclicGroupExtension</div>
+<div class="line">FiniteFieldCyclicGroupExtensionByPolynomial</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">Constructors that use a normal basis representation:</div>
+<div class="line-block">
+<div class="line">FiniteFieldNormalBasis</div>
+<div class="line">FiniteFieldNormalBasisExtension</div>
+<div class="line">FiniteFieldNormalBasisExtensionByPolynomial</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">Constructors that use an irreducible modulus polynomial</div>
+</div>
+<p>representation:
+|  FiniteField
+|  FiniteFieldExtension
+|  FiniteFieldExtensionByPolynomial</p>
+<div class="line-block">
+<div class="line">Constructors that generate a polynomial for you:</div>
+<div class="line-block">
+<div class="line">FiniteField</div>
+<div class="line">FiniteFieldExtension</div>
+<div class="line">FiniteFieldCyclicGroup</div>
+<div class="line">FiniteFieldCyclicGroupExtension</div>
+<div class="line">FiniteFieldNormalBasis</div>
+<div class="line">FiniteFieldNormalBasisExtension</div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">Constructors for which you provide a polynomial:</div>
+<div class="line-block">
+<div class="line">FiniteFieldExtensionByPolynomial</div>
+<div class="line">FiniteFieldCyclicGroupExtensionByPolynomial</div>
+<div class="line">FiniteFieldNormalBasisExtensionByPolynomial</div>
+</div>
+</div>
+<p>These constructors are discussed in the following sections where we
+collect together descriptions of extension fields that have the same
+underlying representation.For more information on the implementation
+aspects of finite fields, see J. Grabmeier, A. Scheerhorn, Finite Fields
+in AXIOM, Technical Report, IBM Heidelberg Scientific Center, 1992.</p>
+<p>If you don&#8217;t really care about all this detail, just use FiniteField. As
+your knowledge of your application and its FriCAS implementation grows,
+you can come back and choose an alternative constructor that may improve
+the efficiency of your code. Note that the exported operations are
+almost the same for all constructors of finite field extensions and
+include the operations exported by PrimeField.</p>
+</div>
+<div class="section" id="irreducible-modulus-polynomial-representations">
+<h2>8.11.3 Irreducible Modulus Polynomial Representations<a class="headerlink" href="#irreducible-modulus-polynomial-representations" title="Permalink to this headline">¶</a></h2>
+<p>All finite field extension constructors discussed in this finite field
+section field:finite:extension of use a representation that performs
+arithmetic with univariate (one-variable) polynomials modulo an
+irreducible polynomial. This polynomial may be given explicitly by you
+or automatically generated. The ground field may be the prime field or
+one you specify. See
+<a class="reference external" href="section-8.11.html#ugxProblemFiniteExtensionFinite">ugxProblemFiniteExtensionFinite</a>
+for general information about finite field extensions.</p>
+<p>For FiniteField (abbreviation FF) you provide a prime number p and an
+extension degree n. This degree can be 1.</p>
+<p>FriCAS uses the prime field PrimeField(p), here PrimeField 2, and it
+chooses an irreducible polynomial of degree n, here 12, over the ground
+field.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF4096</span> <span class="p">:</span><span class="o">=</span> <span class="n">FF</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">12</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<p>The objects in the generated field extension are polynomials of degree
+at most n-1 with coefficients in the prime field. The polynomial
+indeterminate is automatically chosen by FriCAS and is typically
+something like %A or %D. These (strange) variables are only for output
+display; there are several ways to construct elements of this field.</p>
+<p>The operation index enumerates the elements of the field extension and
+accepts as argument the integers from 1 to pn.</p>
+<p>The expression index(p) always gives the indeterminate.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>a := index(2)$GF4096
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%A</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteField(2,12)</sub></p>
+<p>You can build polynomials in a and calculate in GF4096.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">a</span><span class="o">^</span><span class="mi">12</span> <span class="o">-</span> <span class="n">a</span><span class="o">^</span><span class="mi">5</span> <span class="o">+</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%A5+%A3+%A+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteField(2,12)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">^</span> <span class="mi">1000</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%A10+%A9+%A7+%A5+%A4+%A3+%A</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteField(2,12)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="n">a</span><span class="o">/</span><span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%A11+%A8+%A7+%A5+%A4+%A3+%A2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteField(2,12)</sub></p>
+<p>Among the available operations are norm and trace.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">norm</span> <span class="n">c</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PrimeField 2</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">trace</span> <span class="n">c</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PrimeField 2</sub></p>
+<p>Since any nonzero element is a power of a primitive element, how do we
+discover what the exponent is?</p>
+<p>The operation discreteLog calculates discrete logarithm the exponent
+and, logarithm:discrete if it is called with only one argument, always
+refers to the primitive element returned by primitiveElement.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dL</span> <span class="p">:</span><span class="o">=</span> <span class="n">discreteLog</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1729</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">^</span> <span class="n">dL</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>g1729</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>FiniteFieldExtension (abbreviation FFX) is similar to FiniteField except
+that the ground-field for FiniteFieldExtension is arbitrary and chosen
+by you.</p>
+<p>In case you select the prime field as ground field, there is essentially
+no difference between the constructed two finite field extensions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF16</span> <span class="p">:</span><span class="o">=</span> <span class="n">FF</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF4096</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFX</span><span class="p">(</span><span class="n">GF16</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>r := (random()$GF4096) ^ 20
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(%B2+1)%C2+(%B3+%B2+1)%C+%B3+%B2+%B+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldExtension(FiniteField(2,4),3)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">norm</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%B2+%B</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteField(2,4)</sub></p>
+<p>FiniteFieldExtensionByPolynomial (abbreviation FFP) is similar to
+FiniteField and FiniteFieldExtension but is more general.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF4</span> <span class="p">:</span><span class="o">=</span> <span class="n">FF</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>f := nextIrreduciblePoly(random(6)$FFPOLY(GF4))$FFPOLY(GF4)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(SparseUnivariatePolynomial FiniteField(2,2),...)</sub></p>
+<p>For FFP you choose both the ground field and the irreducible polynomial
+used in the representation. The degree of the extension is the degree of
+the polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF4096</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFP</span><span class="p">(</span><span class="n">GF4</span><span class="p">,</span><span class="n">f</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>discreteLog random()$GF4096
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>582</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+<div class="section" id="cyclic-group-representations">
+<h2>8.11.4 Cyclic Group Representations<a class="headerlink" href="#cyclic-group-representations" title="Permalink to this headline">¶</a></h2>
+<p>finite field field:finite:extension of</p>
+<p>In every finite field there exist elements whose powers are all the
+nonzero elements of the field. Such an element is called a primitive
+element.</p>
+<p>In FiniteFieldCyclicGroup (abbreviation FFCG) group:cyclic the nonzero
+elements are represented by the powers of a fixed primitive
+element:primitive element primitive element of the field (that is, a
+generator of its cyclic multiplicative group). Multiplication (and hence
+exponentiation) using this representation is easy. To do addition, we
+consider our primitive element as the root of a primitive polynomial (an
+irreducible polynomial whose roots are all primitive). See
+<a class="reference external" href="section-8.11.html#ugxProblemFiniteUtility">ugxProblemFiniteUtility</a>
+for examples of how to compute such a polynomial.</p>
+<p>To use FiniteFieldCyclicGroup you provide a prime number and an
+extension degree.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF81</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFCG</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<p>FriCAS uses the prime field, here PrimeField 3, as the ground field and
+it chooses a primitive polynomial of degree n, here 4, over the prime
+field.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>a := primitiveElement()$GF81
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%F1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldCyclicGroup(3,4)</sub></p>
+<p>You can calculate in GF81.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">a</span><span class="o">^</span><span class="mi">12</span> <span class="o">-</span> <span class="n">a</span><span class="o">^</span><span class="mi">5</span> <span class="o">+</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%F72</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldCyclicGroup(3,4)</sub></p>
+<p>In this representation of finite fields the discrete logarithm of an
+element can be seen directly in its output form.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%F72</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldCyclicGroup(3,4)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">discreteLog</span> <span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>72</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>FiniteFieldCyclicGroupExtension (abbreviation FFCGX) is similar to
+FiniteFieldCyclicGroup except that the ground field for
+FiniteFieldCyclicGroupExtension is arbitrary and chosen by you. In case
+you select the prime field as ground field, there is essentially no
+difference between the constructed two finite field extensions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF9</span> <span class="p">:</span><span class="o">=</span> <span class="n">FF</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF729</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFCGX</span><span class="p">(</span><span class="n">GF9</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>r := (random()$GF729) ^ 20
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%H420</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldCyclicGroupExtension(FiniteField(3,2),3)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">trace</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteField(3,2)</sub></p>
+<p>FiniteFieldCyclicGroupExtensionByPolynomial (abbreviation FFCGP) is
+similar to FiniteFieldCyclicGroup and FiniteFieldCyclicGroupExtension
+but is more general. For FiniteFieldCyclicGroupExtensionByPolynomial you
+choose both the ground field and the irreducible polynomial used in the
+representation. The degree of the extension is the degree of the
+polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF3</span> <span class="p">:</span><span class="o">=</span> <span class="n">PrimeField</span> <span class="mi">3</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<p>We use a utility operation to generate an irreducible primitive
+polynomial (see
+<a class="reference external" href="section-8.11.html#ugxProblemFiniteUtility">ugxProblemFiniteUtility</a>
+). The polynomial has one variable that is anonymous: it displays as a
+question mark.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>f := createPrimitivePoly(4)$FFPOLY(GF3)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial PrimeField 3</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF81</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFCGP</span><span class="p">(</span><span class="n">GF3</span><span class="p">,</span><span class="n">f</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<p>Let&#8217;s look at a random element from this field.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>random()$GF81
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%K13</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldCyclicGroupExtensionByPolynomial(PrimeField 3,?^4+?+2)</sub></p>
+</div>
+<div class="section" id="normal-basis-representations">
+<h2>8.11.5 Normal Basis Representations<a class="headerlink" href="#normal-basis-representations" title="Permalink to this headline">¶</a></h2>
+<p>finite field field:finite:extension of basis:normal normal basis</p>
+<p>Let K be a finite extension of degree n of the finite field F and let F
+have q elements. An element x of K is said to be normal over F if the
+elements</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1,xq,xq2,…,xqn-1</td>
+</tr>
+</tbody>
+</table>
+<p>form a basis of K as a vector space over F. Such a basis is called a
+normal basis.This agrees with the general definition of a normal basis
+because the n distinct powers of the automorphism x↦xq constitute the
+Galois group of K/F.</p>
+<p>If x is normal over F, its minimal polynomial:minimal polynomial is also
+said to be normal over F. minimal polynomial There exist normal bases
+for all finite extensions of arbitrary finite fields.</p>
+<p>In FiniteFieldNormalBasis (abbreviation FFNB), the elements of the
+finite field are represented by coordinate vectors with respect to a
+normal basis.</p>
+<p>You provide a prime p and an extension degree n.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFNB</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>FiniteFieldNormalBasis(3,8)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>FriCAS uses the prime field PrimeField(p), here PrimeField 3, and it
+chooses a normal polynomial of degree n, here 8, over the ground field.
+The remainder class of the indeterminate is used as the normal element.
+The polynomial indeterminate is automatically chosen by FriCAS and is
+typically something like %A or %D. These (strange) variables are only
+for output display; there are several ways to construct elements of this
+field. The output of the basis elements is something like %Aqi.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>a := normalElement()$K
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%I</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldNormalBasis(3,8)</sub></p>
+<p>You can calculate in K using a.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">a</span><span class="o">^</span><span class="mi">12</span> <span class="o">-</span> <span class="n">a</span><span class="o">^</span><span class="mi">5</span> <span class="o">+</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2%Iq7+%Iq5+%Iq</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldNormalBasis(3,8)</sub></p>
+<p>FiniteFieldNormalBasisExtension (abbreviation FFNBX) is similar to
+FiniteFieldNormalBasis except that the groundfield for
+FiniteFieldNormalBasisExtension is arbitrary and chosen by you. In case
+you select the prime field as ground field, there is essentially no
+difference between the constructed two finite field extensions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF9</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFNB</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF729</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFNBX</span><span class="p">(</span><span class="n">GF9</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>r := random()$GF729
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2%K%Lq</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldNormalBasisExtension(FiniteFieldNormalBasis(3,2),3)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">+</span> <span class="n">r</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">r</span><span class="o">^</span><span class="mi">9</span> <span class="o">+</span> <span class="n">r</span><span class="o">^</span><span class="mi">27</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2%K%Lq2+(2%Kq+2%K)%Lq+2%Kq%L</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldNormalBasisExtension(FiniteFieldNormalBasis(3,2),3)</sub></p>
+<p>FiniteFieldNormalBasisExtensionByPolynomial (abbreviation FFNBP) is
+similar to FiniteFieldNormalBasis and FiniteFieldNormalBasisExtension
+but is more general. For FiniteFieldNormalBasisExtensionByPolynomial you
+choose both the ground field and the irreducible polynomial used in the
+representation. The degree of the extension is the degree of the
+polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF3</span> <span class="p">:</span><span class="o">=</span> <span class="n">PrimeField</span> <span class="mi">3</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<p>We use a utility operation to generate an irreducible normal polynomial
+(see
+<a class="reference external" href="section-8.11.html#ugxProblemFiniteUtility">ugxProblemFiniteUtility</a>
+). The polynomial has one variable that is anonymous: it displays as a
+question mark.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>f := createNormalPoly(4)$FFPOLY(GF3)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?4+2?3+2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial PrimeField 3</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF81</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFNBP</span><span class="p">(</span><span class="n">GF3</span><span class="p">,</span><span class="n">f</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<p>Let&#8217;s look at a random element from this field.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>r := random()$GF81
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%Mq2+2%Mq+2%M</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldNormalBasisExtensionByPolynomial(PrimeField</sub>
+3,?^4+2*?^3+2)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">*</span> <span class="n">r</span><span class="o">^</span><span class="mi">3</span> <span class="o">*</span> <span class="n">r</span><span class="o">^</span><span class="mi">9</span> <span class="o">*</span> <span class="n">r</span><span class="o">^</span><span class="mi">27</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2%Mq3+2%Mq2+2%Mq+2%M</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldNormalBasisExtensionByPolynomial(PrimeField</sub>
+3,?^4+2*?^3+2)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">norm</span> <span class="n">r</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PrimeField 3</sub></p>
+</div>
+<div class="section" id="conversion-operations-for-finite-fields">
+<h2>8.11.6 Conversion Operations for Finite Fields<a class="headerlink" href="#conversion-operations-for-finite-fields" title="Permalink to this headline">¶</a></h2>
+<p>field:finite:conversions</p>
+<p>Let K be a finite field.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">K</span> <span class="p">:</span><span class="o">=</span> <span class="n">PrimeField</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>PrimeField3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>An extension field Km of degree m over K is a subfield of an extension
+field Kn of degree n over K if and only if m divides n.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Kn</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>❘</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>Km</td>
+<td>⟺</td>
+<td>m∣n</td>
+</tr>
+<tr class="row-even"><td>❘</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>K</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>FiniteFieldHomomorphisms provides conversion operations between
+different extensions of one fixed finite ground field and between
+different representations of these finite fields.</p>
+<p>Let&#8217;s choose m and n,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">n</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>build the field extensions,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Km</span> <span class="p">:</span><span class="o">=</span> <span class="n">FiniteFieldExtension</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>FiniteFieldExtension(PrimeField3,4)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>and pick two random elements from the smaller field.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Kn</span> <span class="p">:</span><span class="o">=</span> <span class="n">FiniteFieldExtension</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>FiniteFieldExtension(PrimeField3,8)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>a1 := random()$Km
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2%A3+%A2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldExtension(PrimeField 3,4)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>b1 := random()$Km
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%A3+%A2+2%A+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldExtension(PrimeField 3,4)</sub></p>
+<p>Since m divides n, Km is a subfield of Kn.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a2</span> <span class="p">:</span><span class="o">=</span> <span class="n">a1</span> <span class="p">::</span> <span class="n">Kn</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%B4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldExtension(PrimeField 3,8)</sub></p>
+<p>Therefore we can convert the elements of Km into elements of Kn.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b2</span> <span class="p">:</span><span class="o">=</span> <span class="n">b1</span> <span class="p">::</span> <span class="n">Kn</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2%B6+2%B4+%B2+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldExtension(PrimeField 3,8)</sub></p>
+<p>To check this, let&#8217;s do some arithmetic.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a1</span><span class="o">+</span><span class="n">b1</span> <span class="o">-</span> <span class="p">((</span><span class="n">a2</span><span class="o">+</span><span class="n">b2</span><span class="p">)</span> <span class="p">::</span> <span class="n">Km</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldExtension(PrimeField 3,4)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a1</span><span class="o">*</span><span class="n">b1</span> <span class="o">-</span> <span class="p">((</span><span class="n">a2</span><span class="o">*</span><span class="n">b2</span><span class="p">)</span> <span class="p">::</span> <span class="n">Km</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldExtension(PrimeField 3,4)</sub></p>
+<p>There are also conversions available for the situation, when Km and Kn
+are represented in different ways (see
+<a class="reference external" href="section-8.11.html#ugxProblemFiniteExtensionFinite">ugxProblemFiniteExtensionFinite</a>
+). For example let&#8217;s choose Km where the representation is 0 plus the
+cyclic multiplicative group and Kn with a normal basis representation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Km</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFCGX</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>FiniteFieldCyclicGroupExtension(PrimeField3,4)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Kn</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFNBX</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>FiniteFieldNormalBasisExtension(PrimeField3,8)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(a1,b1) := (random()$Km,random()$Km)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%C13</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldCyclicGroupExtension(PrimeField 3,4)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a2</span> <span class="p">:</span><span class="o">=</span> <span class="n">a1</span> <span class="p">::</span> <span class="n">Kn</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2%Dq6+2%Dq5+2%Dq4+2%Dq2+2%Dq+2%D</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldNormalBasisExtension(PrimeField 3,8)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b2</span> <span class="p">:</span><span class="o">=</span> <span class="n">b1</span> <span class="p">::</span> <span class="n">Kn</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2%Dq7+%Dq6+%Dq5+%Dq4+2%Dq3+%Dq2+%Dq+%D</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldNormalBasisExtension(PrimeField 3,8)</sub></p>
+<p>Check the arithmetic again.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a1</span><span class="o">+</span><span class="n">b1</span> <span class="o">-</span> <span class="p">((</span><span class="n">a2</span><span class="o">+</span><span class="n">b2</span><span class="p">)</span> <span class="p">::</span> <span class="n">Km</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldCyclicGroupExtension(PrimeField 3,4)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a1</span><span class="o">*</span><span class="n">b1</span> <span class="o">-</span> <span class="p">((</span><span class="n">a2</span><span class="o">*</span><span class="n">b2</span><span class="p">)</span> <span class="p">::</span> <span class="n">Km</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldCyclicGroupExtension(PrimeField 3,4)</sub></p>
+</div>
+<div class="section" id="utility-operations-for-finite-fields">
+<h2>8.11.7 Utility Operations for Finite Fields<a class="headerlink" href="#utility-operations-for-finite-fields" title="Permalink to this headline">¶</a></h2>
+<p>FiniteFieldPolynomialPackage (abbreviation FFPOLY) provides operations
+for generating, counting and testing polynomials over finite fields.
+Let&#8217;s start with a couple of definitions:</p>
+<ul class="simple">
+<li>A polynomial is primitive if its roots are primitive
+polynomial:primitive elements in an extension of the coefficient
+field of degree equal to the degree of the polynomial.</li>
+<li>A polynomial is normal over its coefficient field polynomial:normal
+if its roots are linearly independent elements in an extension of the
+coefficient field of degree equal to the degree of the polynomial.</li>
+</ul>
+<p>In what follows, many of the generated polynomials have one anonymous
+variable. This indeterminate is displayed as a question mark (?).</p>
+<p>To fix ideas, let&#8217;s use the field with five elements for the first few
+examples.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF5</span> <span class="p">:</span><span class="o">=</span> <span class="n">PF</span> <span class="mi">5</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<p>You can generate irreducible polynomials of any (positive) degree
+polynomial:irreducible (within the storage capabilities of the computer
+and your ability to wait) by using
+createIrreduciblePolycreateIrreduciblePolyFiniteFieldPolynomialPackage.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>f := createIrreduciblePoly(8)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?8+?4+2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial PrimeField 5</sub></p>
+<p>Does this polynomial have other important properties? Use primitive? to
+test whether it is a primitive polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>primitive?(f)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>Use normal? to test whether it is a normal polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>normal?(f)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>Note that this is actually a trivial case, because a normal polynomial
+of degree n must have a nonzero term of degree n-1. We will refer back
+to this later.</p>
+<p>To get a primitive polynomial of degree 8 just issue this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>p := createPrimitivePoly(8)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?8+?3+?2+?+2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial PrimeField 5</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>primitive?(p)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>This polynomial is not normal,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>normal?(p)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>but if you want a normal one simply write this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>n := createNormalPoly(8)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?8+4?7+?3+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial PrimeField 5</sub></p>
+<p>This polynomial is not primitive!</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>primitive?(n)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>false</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>This could have been seen directly, as the constant term is 1 here,
+which is not a primitive element up to the factor ( -1) raised to the
+degree of the polynomial.Cf. Lidl, R. &amp; Niederreiter, H., Finite Fields,
+Encycl. of Math. 20, (Addison-Wesley, 1983), p.90, Th. 3.18.</p>
+<p>What about polynomials that are both primitive and normal? The existence
+of such a polynomial is by no means obvious. The existence of such
+polynomials is proved in Lenstra, H. W. &amp; Schoof, R. J., Primitive
+Normal Bases for Finite Fields, Math. Comp. 48, 1987, pp. 217-231.</p>
+<p>If you really need one use either
+createPrimitiveNormalPolycreatePrimitiveNormalPolyFiniteFieldPolynomialPackage
+or
+createNormalPrimitivePolycreateNormalPrimitivePolyFiniteFieldPolynomialPackage.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>createPrimitiveNormalPoly(8)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?8+4?7+2?5+2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial PrimeField 5</sub></p>
+<p>If you want to obtain additional polynomials of the various types above
+as given by the create... operations above, you can use the next...
+operations. For instance,
+nextIrreduciblePolynextIrreduciblePolyFiniteFieldPolynomialPackage
+yields the next monic irreducible polynomial with the same degree as the
+input polynomial. By next we mean next in a natural order using the
+terms and coefficients. This will become more clear in the following
+examples.</p>
+<p>This is the field with five elements.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF5</span> <span class="p">:</span><span class="o">=</span> <span class="n">PF</span> <span class="mi">5</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<p>Our first example irreducible polynomial, say of degree 3, must be
+greater than this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>h := monomial(1,8)$SUP(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial PrimeField 5</sub></p>
+<p>You can generate it by doing this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>nh := nextIrreduciblePoly(h)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?8+2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(SparseUnivariatePolynomial PrimeField 5,...)</sub></p>
+<p>Notice that this polynomial is not the same as the one
+createIrreduciblePolycreateIrreduciblePolyFiniteFieldPolynomialPackage.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>createIrreduciblePoly(3)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?3+?+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial PrimeField 5</sub></p>
+<p>You can step through all irreducible polynomials of degree 8 over the
+field with 5 elements by repeatedly issuing this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>nh := nextIrreduciblePoly(nh)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?8+3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(SparseUnivariatePolynomial PrimeField 5,...)</sub></p>
+<p>You could also ask for the total number of these.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>numberOfIrreduciblePoly(5)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>624</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>We hope that natural order on polynomials is now clear: first we compare
+the number of monomials of two polynomials (more is greater); then, if
+necessary, the degrees of these monomials (lexicographically), and
+lastly their coefficients (also lexicographically, and using the
+operation lookup if our field is not a prime field). Also note that we
+make both polynomials monic before looking at the coefficients:
+multiplying either polynomial by a nonzero constant produces the same
+result.</p>
+<p>The package FiniteFieldPolynomialPackage also provides similar
+operations for primitive and normal polynomials. With the exception of
+the number of primitive normal polynomials; we&#8217;re not aware of any known
+formula for this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>numberOfPrimitivePoly(3)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>20</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Take these,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>m := monomial(1,1)$SUP(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial PrimeField 5</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">m</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">m</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?3+4?2+?+2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial PrimeField 5</sub></p>
+<p>and then we have:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>f1 := nextPrimitivePoly(f)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?3+4?2+4?+2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(SparseUnivariatePolynomial PrimeField 5,...)</sub></p>
+<p>What happened?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>nextPrimitivePoly(f1)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?3+2?2+3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(SparseUnivariatePolynomial PrimeField 5,...)</sub></p>
+<p>Well, for the ordering used in
+nextPrimitivePolynextPrimitivePolyFiniteFieldPolynomialPackage we use as
+first criterion a comparison of the constant terms of the polynomials.
+Analogously, in nextNormalPolynextNormalPolyFiniteFieldPolynomialPackage
+we first compare the monomials of degree 1 less than the degree of the
+polynomials (which is nonzero, by an earlier remark).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">m</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">m</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?3+?2+4?+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial PrimeField 5</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>f1 := nextNormalPoly(f)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?3+?2+4?+3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(SparseUnivariatePolynomial PrimeField 5,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>nextNormalPoly(f1)$FFPOLY(GF5)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?3+2?2+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(SparseUnivariatePolynomial PrimeField 5,...)</sub></p>
+<p>We don&#8217;t have to restrict ourselves to prime fields.</p>
+<p>Let&#8217;s consider, say, a field with 16 elements.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF16</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFX</span><span class="p">(</span><span class="n">FFX</span><span class="p">(</span><span class="n">PF</span> <span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span><span class="mi">2</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<p>We can apply any of the operations described above.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>createIrreduciblePoly(5)$FFPOLY(GF16)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?5+%G</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial</sub>
+FiniteFieldExtension(FiniteFieldExtension(PrimeField 2,2),2)</p>
+<p>FriCAS also provides operations for producing random polynomials of a
+given degree</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>random(5)$FFPOLY(GF16)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?5+(%F%G+1)?4+%F%G?3+(%G+%F+1)?2+((%F+1)%G+%F)?+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial</sub>
+FiniteFieldExtension(FiniteFieldExtension(PrimeField 2,2),2)</p>
+<p>or with degree between two given bounds.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>random(3,9)$FFPOLY(GF16)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?3+(%F%G+1)?2+(%G+%F+1)?+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial</sub>
+FiniteFieldExtension(FiniteFieldExtension(PrimeField 2,2),2)</p>
+<p>FiniteFieldPolynomialPackage2 (abbreviation FFPOLY2) exports an
+operation rootOfIrreduciblePoly for finding one root of an irreducible
+polynomial f polynomial:root of in an extension field of the coefficient
+field. The degree of the extension has to be a multiple of the degree of
+f. It is not checked whether f actually is irreducible.</p>
+<p>To illustrate this operation, we fix a ground field GF</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">GF2</span> <span class="p">:</span><span class="o">=</span> <span class="n">PrimeField</span> <span class="mi">2</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><sub>Type: Domain</sub></p>
+<p>and then an extension field.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="p">:</span><span class="o">=</span> <span class="n">FFX</span><span class="p">(</span><span class="n">GF2</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>FiniteFieldExtension(PrimeField2,12)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>We construct an irreducible polynomial over GF2.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>f := createIrreduciblePoly(6)$FFPOLY(GF2)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>?6+?+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial PrimeField 2</sub></p>
+<p>We compute a root of f.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>root := rootOfIrreduciblePoly(f)$FFPOLY2(F,GF2)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>%H11+%H8+%H7+%H5+%H+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FiniteFieldExtension(PrimeField 2,12)</sub></p>
+<p>and check the result</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>eval(f, monomial(1,1)$SUP(F) = root)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SparseUnivariatePolynomial FiniteFieldExtension(PrimeField 2,12)</sub></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">8.11 Finite Fields</a><ul>
+<li><a class="reference internal" href="#modular-arithmetic-and-prime-fields">8.11.1 Modular Arithmetic and Prime Fields</a></li>
+<li><a class="reference internal" href="#extensions-of-finite-fields">8.11.2 Extensions of Finite Fields</a></li>
+<li><a class="reference internal" href="#irreducible-modulus-polynomial-representations">8.11.3 Irreducible Modulus Polynomial Representations</a></li>
+<li><a class="reference internal" href="#cyclic-group-representations">8.11.4 Cyclic Group Representations</a></li>
+<li><a class="reference internal" href="#normal-basis-representations">8.11.5 Normal Basis Representations</a></li>
+<li><a class="reference internal" href="#conversion-operations-for-finite-fields">8.11.6 Conversion Operations for Finite Fields</a></li>
+<li><a class="reference internal" href="#utility-operations-for-finite-fields">8.11.7 Utility Operations for Finite Fields</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-8.10.html" title="previous chapter">8.10 Solution of Differential Equations</a></li>
+      <li>Next: <a href="section-8.12.html" title="next chapter">8.12 Primary Decomposition of Ideals</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-8.11.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-8.11.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

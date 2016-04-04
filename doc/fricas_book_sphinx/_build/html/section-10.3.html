@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10.3 Coloring and Positioning Ribbons &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="10.4 Points, Lines, and Curves" href="section-10.4.html" />
+    <link rel="prev" title="10.2 A Ribbon Program" href="section-10.2.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="coloring-and-positioning-ribbons">
+<h1>10.3 Coloring and Positioning Ribbons<a class="headerlink" href="#coloring-and-positioning-ribbons" title="Permalink to this headline">¶</a></h1>
+<p>Before leaving the ribbon example, we make two improvements. Normally,
+the color given to each point in the space is a function of its height
+within a bounding box. The points at the bottom of the box are red,
+those at the top are purple.</p>
+<p>To change the normal coloring, you can give an option
+colorFunction==function. When FriCAS goes about displaying the data, it
+determines the range of colors used for all points within the box.
+FriCAS then distributes these numbers uniformly over the number of hues.
+Here we use the simple color function (x,y)↦i for the i-th ribbon.</p>
+<p>Also, we add an argument yrange so you can give the range of y occupied
+by the ribbons. For example, if the yrange is given as y=0..1 and there
+are 5 ribbons to be displayed, each ribbon would have width 0.2 and
+would appear in the range 0≤y≤1.</p>
+<p>Refer to lines 4-9. Line 4 assigns to yVar the variable part of the
+yrange (after all, it need not be y). Suppose that yrange is given as
+t=a..b where a and b have numerical values. Then line 5 assigns the
+value of a to the variable y0. Line 6 computes the width of the ribbon
+by dividing the difference of a and b by the number, num, of ribbons.
+The result is assigned to the variable width. Note that in the for-loop
+in line 7, we are iterating in parallel; it is not a nested loop.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>drawRibbons(flist, xrange, yrange) ==}{}
+  sp := createThreeSpace()                     Create empty space $sp$.
+  num :=  # flist                              The number of ribbons.
+  yVar := variable yrange                      The ribbon variable.
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;y0:Float&nbsp;&nbsp;&nbsp;&nbsp;:=&nbsp;lo&nbsp;segment&nbsp;yrange&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;first&nbsp;ribbon&nbsp;coordinate.</dt>
+<dd>width:Float&nbsp;:=&nbsp;(hi&nbsp;segment&nbsp;yrange&nbsp;-&nbsp;y0)/num&nbsp;&nbsp;The&nbsp;width&nbsp;of&nbsp;a&nbsp;ribbon.
+for&nbsp;f&nbsp;in&nbsp;flist&nbsp;for&nbsp;color&nbsp;in&nbsp;1..num&nbsp;repeat&nbsp;&nbsp;&nbsp;&nbsp;For&nbsp;each&nbsp;function&nbsp;$f$,
+&nbsp;&nbsp;makeObject(f,&nbsp;xrange,&nbsp;yVar&nbsp;=&nbsp;y0..y0+width,&nbsp;create&nbsp;and&nbsp;add&nbsp;ribbon&nbsp;to
+&nbsp;&nbsp;&nbsp;&nbsp;var2Steps&nbsp;==&nbsp;1,&nbsp;colorFunction&nbsp;==&nbsp;(x,y)&nbsp;+-&gt;&nbsp;color,&nbsp;_</dd>
+</dl>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;space&nbsp;==&nbsp;sp)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$sp$&nbsp;of&nbsp;a&nbsp;different&nbsp;color.</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;&nbsp;&nbsp;y0&nbsp;:=&nbsp;y0&nbsp;+&nbsp;width&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;next&nbsp;ribbon&nbsp;coordinate.</dt>
+<dd>vp&nbsp;:=&nbsp;makeViewport3D(sp,&nbsp;&#8220;Ribbons&#8221;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create&nbsp;viewport.
+drawStyle(vp,&nbsp;&#8220;shade&#8221;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select&nbsp;shading&nbsp;style.
+outlineRender(vp,&nbsp;&#8220;on&#8221;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Show&nbsp;polygon&nbsp;outlines.
+showRegion(vp,&nbsp;&#8220;on&#8221;)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Enclose&nbsp;in&nbsp;a&nbsp;box.
+vp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Return&nbsp;the&nbsp;viewport.</dd>
+</dl>
+<p>The final drawRibbons function.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-10.2.html" title="previous chapter">10.2 A Ribbon Program</a></li>
+      <li>Next: <a href="section-10.4.html" title="next chapter">10.4 Points, Lines, and Curves</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-10.3.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-10.3.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

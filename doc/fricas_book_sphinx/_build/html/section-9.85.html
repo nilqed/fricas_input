@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.85 Vector &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.86 Void" href="section-9.86.html" />
+    <link rel="prev" title="9.84 UniversalSegment" href="section-9.84.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="vector">
+<h1>9.85 Vector<a class="headerlink" href="#vector" title="Permalink to this headline">¶</a></h1>
+<p>The Vector domain is used for storing data in a one-dimensional indexed
+data structure. A vector is a homogeneous data structure in that all the
+components of the vector must belong to the same FriCAS domain. Each
+vector has a fixed length specified by the user; vectors are not
+extensible. This domain is similar to the OneDimensionalArray domain,
+except that when the components of a Vector belong to a Ring, arithmetic
+operations are provided. For more examples of operations that are
+defined for both Vector and OneDimensionalArray, see
+<a class="reference external" href="section-9.57.html#OneDimensionalArrayXmpPage">OneDimensionalArrayXmpPage</a>
+.</p>
+<p>As with the OneDimensionalArray domain, a Vector can be created by
+calling the operation newnewVector, its components can be accessed by
+calling the operations elteltVector and qeltqeltVector, and its
+components can be reset by calling the operations seteltseteltVector and
+qseteltqseteltVector.</p>
+<p>This creates a vector of integers of length 5 all of whose components
+are 12.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="p">:</span> <span class="n">VECTOR</span> <span class="n">INT</span> <span class="p">:</span><span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[12,12,12,12,12]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector Integer</sub></p>
+<p>This is how you create a vector from a list of its components.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="p">:</span> <span class="n">VECTOR</span> <span class="n">INT</span> <span class="p">:</span><span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,4,5]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector Integer</sub></p>
+<p>Indexing for vectors begins at 1. The last element has index equal to
+the length of the vector, which is computed by #.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#(v)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>5</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This is the standard way to use elteltVector to extract an element.
+Functionally, it is the same as if you had typed elt(v,2).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This is the standard way to use seteltseteltVector to change an element.
+It is the same as if you had typed setelt(v,3,99).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">v</span><span class="o">.</span><span class="mi">3</span> <span class="p">:</span><span class="o">=</span> <span class="mi">99</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>99</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Now look at v to see the change. You can use qeltqeltVector and
+qseteltqseteltVector (instead of elteltVector and seteltseteltVector,
+respectively) but only when you know that the index is within the valid
+range.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">v</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,99,4,5]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector Integer</sub></p>
+<p>When the components belong to a Ring, FriCAS provides arithmetic
+operations for Vector. These include left and right scalar
+multiplication.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">5</span> <span class="o">*</span> <span class="n">v</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[5,10,495,20,25]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">*</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[7,14,693,28,35]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="p">:</span> <span class="n">VECTOR</span> <span class="n">INT</span> <span class="p">:</span><span class="o">=</span> <span class="n">vector</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[2,3,4,5,6]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector Integer</sub></p>
+<p>Addition and subtraction are also available.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">+</span> <span class="n">w</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[3,5,103,9,11]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector Integer</sub></p>
+<p>Of course, when adding or subtracting, the two vectors must have the
+same length or an error message is displayed.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="o">-</span> <span class="n">w</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-1,-1,95,-1,-1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector Integer</sub></p>
+<p>For more information about other aggregate domains, see the following:
+<a class="reference external" href="section-9.1.html#AssociationListXmpPage">ListXmpPage</a> ,
+<a class="reference external" href="section-9.52.html#MatrixXmpPage">MatrixXmpPage</a> ,
+<a class="reference external" href="section-9.57.html#OneDimensionalArrayXmpPage">OneDimensionalArrayXmpPage</a>
+, <a class="reference external" href="section-9.53.html#MultiSetXmpPage">SetXmpPage</a> ,
+<a class="reference external" href="section-9.18.html#EqTableXmpPage">TableXmpPage</a> , and
+<a class="reference external" href="section-9.82.html#TwoDimensionalArrayXmpPage">TwoDimensionalArrayXmpPage</a>
+. Issue the system command )show Vector to display the full list of
+operations defined by Vector.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.84.html" title="previous chapter">9.84 UniversalSegment</a></li>
+      <li>Next: <a href="section-9.86.html" title="next chapter">9.86 Void</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.85.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.85.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

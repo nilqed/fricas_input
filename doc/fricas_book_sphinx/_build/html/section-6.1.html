@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6.1 Functions vs. Macros &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="6.2 Macros" href="section-6.2.html" />
+    <link rel="prev" title="6.0 Functions, Macros and Rules" href="section-6.0.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="functions-vs-macros">
+<h1>6.1 Functions vs. Macros<a class="headerlink" href="#functions-vs-macros" title="Permalink to this headline">¶</a></h1>
+<p>A function is a program to perform some function:vs. macro computation.
+macro:vs. function Most functions have names so that it is easy to refer
+to them. A simple example of a function is one named absabsInteger which
+computes the absolute value of an integer.</p>
+<p>This is a use of the absolute value library function for integers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">abs</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This is an unnamed function that does the same thing, using the maps-to
+syntax +-&gt; that we discuss in section
+<a class="reference external" href="section-6.17.html#ugUserAnon">ugUserAnon</a> .</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">x</span> <span class="o">+-&gt;</span> <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="n">then</span> <span class="o">-</span><span class="n">x</span> <span class="k">else</span> <span class="n">x</span><span class="p">)(</span><span class="o">-</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Functions can be used alone or serve as the building blocks for larger
+programs. Usually they return a value that you might want to use in the
+next stage of a computation, but not always (for example, see
+<a class="reference external" href="chapter-9.13-26.html#ExitXmpPage">ExitXmpPage</a> and
+<a class="reference external" href="section-9.86.html#VoidXmpPage">VoidXmpPage</a> ). They may also read
+data from your keyboard, move information from one place to another, or
+format and display results on your screen.</p>
+<p>In FriCAS, as in mathematics, functions function:parameters are usually
+parameterized. Each time you call (some people say apply or invoke) a
+function, you give parameters to a function values to the parameters
+(variables). Such a value is called an argument of function:arguments
+the function. FriCAS uses the arguments for the computation. In this way
+you get different results depending on what you feed the function.</p>
+<p>Functions can have local variables or refer to global variables in the
+workspace. FriCAS can often compile functions so that they execute very
+efficiently. Functions can be passed as arguments to other functions.</p>
+<p>Macros are textual substitutions. They are used to clarify the meaning
+of constants or expressions and to be templates for frequently used
+expressions. Macros can be parameterized but they are not objects that
+can be passed as arguments to functions. In effect, macros are
+extensions to the FriCAS expression parser.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-6.0.html" title="previous chapter">6.0 Functions, Macros and Rules</a></li>
+      <li>Next: <a href="section-6.2.html" title="next chapter">6.2 Macros</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-6.1.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-6.1.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

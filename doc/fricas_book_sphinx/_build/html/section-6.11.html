@@ -1,0 +1,508 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6.11 Piece-Wise Function Definitions &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="6.12 Caching Previously Computed Results" href="section-6.12.html" />
+    <link rel="prev" title="6.10 Compiling vs. Interpreting" href="section-6.10.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="piece-wise-function-definitions">
+<h1>6.11 Piece-Wise Function Definitions<a class="headerlink" href="#piece-wise-function-definitions" title="Permalink to this headline">¶</a></h1>
+<p>To move beyond functions defined in one line, we introduce in this
+section functions that are defined piece-by-piece. That is, we say use
+this definition when the argument is such-and-such and use this other
+definition when the argument is that-and-that.</p>
+<div class="section" id="a-basic-example">
+<h2>6.11.1 A Basic Example<a class="headerlink" href="#a-basic-example" title="Permalink to this headline">¶</a></h2>
+<p>There are many other ways to define a factorial function for nonnegative
+integers. You might function:piece-wise definition say piece-wise
+function definition factorial of 0 is 1, otherwise factorial of n is n
+times factorial of n-1. Here is one way to do this in FriCAS.</p>
+<p>Here is the value for n=0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fact</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Here is the value for n&gt;0. The vertical bar <code class="docutils literal"><span class="pre">|</span></code> means such that.
+such that</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fact</span><span class="p">(</span><span class="n">n</span> <span class="o">|</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fact</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>What is the value for n=3?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fact</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">fact</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">Integer</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">fact</span> <span class="k">as</span> <span class="n">a</span> <span class="n">recurrence</span> <span class="n">relation</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>6</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>What is the value for n=-3?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fact</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">You</span> <span class="n">did</span> <span class="ow">not</span> <span class="n">define</span> <span class="n">fact</span> <span class="k">for</span> <span class="n">argument</span> <span class="o">-</span><span class="mi">3</span> <span class="o">.</span>
+</pre></div>
+</div>
+<p>Now for a second definition. Here is the value for n=0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">facto</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Give an error message if n&lt;0.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">facto</span><span class="p">(</span><span class="n">n</span> <span class="o">|</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="n">error</span> <span class="s2">&quot;arguments to facto must be non-negative&quot;</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Here is the value otherwise.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">facto</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span> <span class="o">*</span> <span class="n">facto</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>What is the value for n=7?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">facto</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">facto</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>6</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>What is the value for n=-7?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">facto</span><span class="p">(</span><span class="o">-</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Error</span> <span class="n">signalled</span> <span class="kn">from</span> <span class="nn">user</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">function</span> <span class="n">facto</span><span class="p">:</span>
+   <span class="n">arguments</span> <span class="n">to</span> <span class="n">facto</span> <span class="n">must</span> <span class="n">be</span> <span class="n">non</span><span class="o">-</span><span class="n">negative</span>
+</pre></div>
+</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>To see the current piece-wise definition of a function, use )display
+value.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">display</span> <span class="n">value</span> <span class="n">facto</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Definition</span><span class="p">:</span>
+  <span class="n">facto</span> <span class="mi">0</span> <span class="o">==</span> <span class="mi">1</span>
+  <span class="n">facto</span> <span class="p">(</span><span class="n">n</span> <span class="o">|</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span>
+    <span class="n">error</span><span class="p">(</span><span class="n">arguments</span> <span class="n">to</span> <span class="n">facto</span> <span class="n">must</span> <span class="n">be</span> <span class="n">non</span><span class="o">-</span><span class="n">negative</span><span class="p">)</span>
+  <span class="n">facto</span> <span class="n">n</span> <span class="o">==</span> <span class="n">n</span> <span class="n">facto</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In general a piece-wise definition of a function consists of two or more
+parts. Each part gives a piece of the entire definition. FriCAS collects
+the pieces of a function as you enter them. When you ask for a value of
+the function, it then glues the pieces together to form a function.</p>
+<p>The two piece-wise definitions for the factorial function are examples
+of recursive functions, that is, functions that are defined in terms of
+themselves. Here is an interesting doubly-recursive function. This
+function returns the value 11 for all positive integer arguments.</p>
+<p>Here is the first of two pieces.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eleven</span><span class="p">(</span><span class="n">n</span> <span class="o">|</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">11</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>And the general case.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eleven</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="n">eleven</span><span class="p">(</span><span class="n">eleven</span><span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">12</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Compute elevens, the infinite stream of values of eleven.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">elevens</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">eleven</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[11,11,11,11,11,11,11,11,11,11,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Integer</sub></p>
+<p>What is the value at n=200?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">elevens</span> <span class="mi">200</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>11</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>What is the FriCAS&#8217;s definition of eleven?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">display</span> <span class="n">value</span> <span class="n">eleven</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Definition</span><span class="p">:</span>
+  <span class="n">eleven</span> <span class="p">(</span><span class="n">m</span> <span class="o">|</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">m</span> <span class="o">+</span> <span class="mi">11</span>
+  <span class="n">eleven</span> <span class="n">m</span> <span class="o">==</span> <span class="n">eleven</span><span class="p">(</span><span class="n">eleven</span><span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">12</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="picking-up-the-pieces">
+<h2>6.11.2 Picking Up the Pieces<a class="headerlink" href="#picking-up-the-pieces" title="Permalink to this headline">¶</a></h2>
+<p>Here are the details about how FriCAS creates a function from its
+pieces. FriCAS converts the i-th piece of a function definition into a
+conditional expression of the form: if predi then expressioni. If any
+new piece has a predi that is identical (after all variables are
+uniformly named) to an earlier predj, the earlier piece is removed.
+Otherwise, the new piece is always added at the end.</p>
+<div class="line-block">
+<div class="line">If there are n pieces to a function definition for f, the function</div>
+</div>
+<p>defined f is:
+|  if pred1 then expression1 else
+|  . . .
+|  if predn then expressionn else
+|  error &#8220;You did not define f for argument &lt;arg&gt;.&#8221;</p>
+<p>You can give definitions of any number of mutually recursive function
+definitions, piece-wise or otherwise. No computation is done until you
+ask for a value. When you do ask for a value, all the relevant
+definitions are gathered, analyzed, and translated into separate
+functions and compiled.</p>
+<p>Let&#8217;s recall the definition of eleven from the previous section.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eleven</span><span class="p">(</span><span class="n">n</span> <span class="o">|</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">11</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eleven</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">==</span> <span class="n">eleven</span><span class="p">(</span><span class="n">eleven</span><span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="mi">12</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>A similar doubly-recursive function below produces -11 for all negative
+positive integers. If you haven&#8217;t worked out why or how eleven works,
+the structure of this definition gives a clue.</p>
+<p>This definition we write as a block.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">minusEleven</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span>
+  <span class="n">n</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">=&gt;</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">11</span>
+  <span class="n">minusEleven</span> <span class="p">(</span><span class="mi">5</span> <span class="o">+</span> <span class="n">minusEleven</span><span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="mi">7</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Define s(n) to be the sum of plus and minus eleven functions divided by
+n. Since 11-11=0, we define s(0) to be 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>And the general term.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">eleven</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">+</span> <span class="n">minusEleven</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="o">/</span><span class="n">n</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>What are the first ten values of s?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">s</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,1,1,1,1,1,1,1,1,1,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Fraction Integer</sub></p>
+<p>FriCAS can create infinite streams in the positive direction (for
+example, for index values 0,1,…) or negative direction (for example, for
+0,-1,-2,…). Here we would like a stream of values of s(n) that is
+infinite in both directions. The function t(n) below returns the n-th
+term of the infinite stream [s(0),s(1),s(-1),s(2),s(-2),…] Its
+definition has three pieces.</p>
+<p>Define the initial term.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">s</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The even numbered terms are the s(i) for positive i. We use quo rather
+than / since we want the result to be an integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>t(n | even?(n)) == s(n quo 2)
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Finally, the odd numbered terms are the s(i) for negative i. In
+piece-wise definitions, you can use different variables to define
+different pieces. FriCAS will not get confused.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">==</span> <span class="n">s</span><span class="p">(</span><span class="o">-</span> <span class="n">p</span> <span class="n">quo</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Look at the definition of t. In the first piece, the variable n was
+used; in the second piece, p. FriCAS always uses your last variable to
+display your definitions back to you.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">display</span> <span class="n">value</span> <span class="n">t</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Definition:
+  t 1 == s(0)
+  t (p | even?(p)) == s(p quo 2)
+  t p == s(- p quo 2)
+</pre></div>
+</div>
+<p>Create a series of values of s applied to alternating positive and
+negative arguments.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">t</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">s</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">Fraction</span> <span class="n">Integer</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">t</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">PositiveInteger</span> <span class="o">-&gt;</span> <span class="n">Fraction</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,1,1,1,1,1,1,1,1,1,…]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Stream Fraction Integer</sub></p>
+<p>Evidently t(n)=1 for all i. Check it at n=100.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+</div>
+<div class="section" id="predicates">
+<h2>6.11.3 Predicates<a class="headerlink" href="#predicates" title="Permalink to this headline">¶</a></h2>
+<p>We have already seen some examples of function:predicate predicates
+predicate:in function definition
+(<a class="reference external" href="section-6.11.html#ugUserPieceBasic">ugUserPieceBasic</a> ).
+Predicates are Boolean-valued expressions and FriCAS uses them for
+filtering collections (see <a class="reference external" href="section-5.5.html#ugLangIts">ugLangIts</a> )
+and for placing constraints on function arguments. In this section we
+discuss their latter usage.</p>
+<p>The simplest use of a predicate is one you don&#8217;t see at all.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">opposite</span> <span class="s1">&#39;right == &#39;</span><span class="n">left</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Here is a longer way to give the opposite definition.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">opposite</span> <span class="p">(</span><span class="n">x</span> <span class="o">|</span> <span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;left) == &#39;</span><span class="n">right</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Try it out.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;right,&#39;</span><span class="n">left</span><span class="p">,</span><span class="s1">&#39;inbetween] repeat output opposite x</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">opposite</span> <span class="k">with</span> <span class="nb">type</span>
+   <span class="n">OrderedVariableList</span> <span class="p">[</span><span class="n">right</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span><span class="n">inbetween</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="n">Symbol</span>
+ <span class="n">left</span>
+ <span class="n">right</span>
+
+<span class="n">The</span> <span class="n">function</span> <span class="n">opposite</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">defined</span> <span class="k">for</span> <span class="n">the</span> <span class="n">given</span> <span class="n">argument</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Explicit predicates tell FriCAS that the given function definition piece
+is to be applied if the predicate evaluates to true for the arguments to
+the function. You can use such constant arguments for integers,
+function:constant argument strings, and quoted symbols. constant
+function argument The Boolean values true and false can also be used if
+qualified with <code class="docutils literal"><span class="pre">&#64;</span></code> or `` $`` and Boolean. The following are all
+valid function definition fragments using constant arguments.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="o">...</span>
+<span class="n">b</span><span class="p">(</span><span class="s2">&quot;unramified&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">...</span>
+<span class="n">c</span><span class="p">(</span><span class="s1">&#39;untested) == ...</span>
+<span class="n">d</span><span class="p">(</span><span class="n">true</span><span class="nd">@Boolean</span><span class="p">)</span> <span class="o">==</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>If a function has more than one argument, each argument can have its own
+predicate. However, if a predicate involves two or more arguments, it
+must be given after all the arguments mentioned in the predicate have
+been given. You are always safe to give a single predicate at the end of
+the argument list.</p>
+<p>A function involving predicates on two arguments.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">inFirstHalfQuadrant</span><span class="p">(</span><span class="n">x</span> <span class="o">|</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span><span class="n">y</span> <span class="o">|</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">true</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>This is incorrect as it gives a predicate on y before the argument y is
+given.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">inFirstHalfQuadrant</span><span class="p">(</span><span class="n">x</span> <span class="o">|</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="n">true</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span> <span class="n">old</span> <span class="n">definition</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">deleted</span> <span class="k">for</span> <span class="n">function</span> <span class="ow">or</span> <span class="n">rule</span> <span class="n">inFirstHalfQuadrant</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>It is always correct to write the predicate at the end.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">inFirstHalfQuadrant</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">|</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">true</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span> <span class="n">old</span> <span class="n">definition</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">deleted</span> <span class="k">for</span> <span class="n">function</span> <span class="ow">or</span> <span class="n">rule</span> <span class="n">inFirstHalfQuadrant</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Here is the rest of the definition.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">inFirstHalfQuadrant</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="n">false</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Try it out.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">inFirstHalfQuadrant</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">inFirstHalfQuadrant</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">(</span><span class="n">PositiveInteger</span><span class="p">,</span>
+   <span class="n">PositiveInteger</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Boolean</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[false,false,false,true,true]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Boolean</sub></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">6.11 Piece-Wise Function Definitions</a><ul>
+<li><a class="reference internal" href="#a-basic-example">6.11.1 A Basic Example</a></li>
+<li><a class="reference internal" href="#picking-up-the-pieces">6.11.2 Picking Up the Pieces</a></li>
+<li><a class="reference internal" href="#predicates">6.11.3 Predicates</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-6.10.html" title="previous chapter">6.10 Compiling vs. Interpreting</a></li>
+      <li>Next: <a href="section-6.12.html" title="next chapter">6.12 Caching Previously Computed Results</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-6.11.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-6.11.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

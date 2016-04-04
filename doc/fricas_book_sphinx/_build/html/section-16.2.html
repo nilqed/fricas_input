@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.2 )abbreviation &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="16.3 )boot" href="section-16.3.html" />
+    <link rel="prev" title="16.1 Introduction" href="section-16.1.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="abbreviation">
+<h1>16.2 )abbreviation<a class="headerlink" href="#abbreviation" title="Permalink to this headline">¶</a></h1>
+<p>abbreviation</p>
+<blockquote>
+<div><p>User Level Required: compiler</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)abbreviation query [nameOrAbbrev]</p>
+<p>)abbreviation category abbrev fullname [)quiet]</p>
+<p>)abbreviation domain abbrev fullname [)quiet]</p>
+<p>)abbreviation package abbrev fullname [)quiet]</p>
+<p>)abbreviation remove nameOrAbbrev</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>This command is used to query, set and remove abbreviations for
+category, domain and package constructors. Every constructor must have a
+unique abbreviation. This abbreviation is part of the name of the
+subdirectory under which the components of the compiled constructor are
+stored.</p>
+<p>Furthermore, by issuing this command you let the system know what file
+to load automatically if you use a new constructor. Abbreviations must
+start with a letter and then be followed by up to seven letters or
+digits. Any letters appearing in the abbreviation must be in uppercase.</p>
+<p>When used with the query argument, abbreviation query this command may
+be used to list the name associated with a particular abbreviation or
+the abbreviation for a constructor. If no abbreviation or name is given,
+the names and corresponding abbreviations for all constructors are
+listed.</p>
+<p>The following shows the abbreviation for the constructor List:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">abbreviation</span> <span class="n">query</span> <span class="n">List</span>
+</pre></div>
+</div>
+<p>The following shows the constructor name corresponding to the
+abbreviation NNI:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">abbreviation</span> <span class="n">query</span> <span class="n">NNI</span>
+</pre></div>
+</div>
+<p>The following lists all constructor names and their abbreviations.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">abbreviation</span> <span class="n">query</span>
+</pre></div>
+</div>
+<p>To add an abbreviation for a constructor, use this command with
+category, domain or package. abbreviation package abbreviation domain
+abbreviation category The following add abbreviations to the system for
+a category, domain and package, respectively:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">abbreviation</span> <span class="n">domain</span>   <span class="n">SET</span> <span class="n">Set</span>
+<span class="p">)</span><span class="n">abbreviation</span> <span class="n">category</span> <span class="n">COMPCAT</span>  <span class="n">ComplexCategory</span>
+<span class="p">)</span><span class="n">abbreviation</span> <span class="n">package</span>  <span class="n">LIST2MAP</span> <span class="n">ListToMap</span>
+</pre></div>
+</div>
+<p>If the )quiet option is used, no output is displayed from this command.
+You would normally only define an abbreviation in a library source file.
+If this command is issued for a constructor that has already been
+loaded, the constructor will be reloaded next time it is referenced. In
+particular, you can use this command to force the automatic reloading of
+constructors.</p>
+<p>To remove an abbreviation, the remove argument is used. abbreviation
+remove This is usually only used to correct a previous command that set
+an abbreviation for a constructor name. If, in fact, the abbreviation
+does exist, you are prompted for confirmation of the removal request.
+Either of the following commands will remove the abbreviation VECTOR2
+and the constructor name VectorFunctions2 from the system:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">abbreviation</span> <span class="n">remove</span> <span class="n">VECTOR2</span>
+<span class="p">)</span><span class="n">abbreviation</span> <span class="n">remove</span> <span class="n">VectorFunctions2</span>
+
+
+
+<span class="n">Also</span> <span class="n">See</span><span class="p">:</span> <span class="p">)</span><span class="nb">compile</span> <span class="n">ugSysCmdcompile</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.1.html" title="previous chapter">16.1 Introduction</a></li>
+      <li>Next: <a href="section-16.3.html" title="next chapter">16.3 )boot</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.2.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.2.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

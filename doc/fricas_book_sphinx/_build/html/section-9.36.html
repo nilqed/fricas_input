@@ -1,0 +1,429 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.36 IntegerNumberTheoryFunctions &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.37 Kernel" href="section-9.37.html" />
+    <link rel="prev" title="9.35 IntegerLinearDependence" href="section-9.35.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="integernumbertheoryfunctions">
+<h1>9.36 IntegerNumberTheoryFunctions<a class="headerlink" href="#integernumbertheoryfunctions" title="Permalink to this headline">¶</a></h1>
+<p>The IntegerNumberTheoryFunctions package contains a variety of
+operations of interest to number theorists. Many of these operations
+deal with divisibility properties of integers. (Recall that an integer a
+divides an integer b if there is an integer c such that b = a * c.)</p>
+<p>The operation divisorsdivisorsIntegerNumberTheoryFunctions returns a
+list of the divisors of an integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">div144</span> <span class="p">:</span><span class="o">=</span> <span class="n">divisors</span><span class="p">(</span><span class="mi">144</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3,4,6,8,9,12,16,18,24,36,48,72,144]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>You can now compute the number of divisors of 144 and the sum of the
+divisors of 144 by counting and summing the elements of the list we just
+created.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#(div144)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>15</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reduce</span><span class="p">(</span><span class="o">+</span><span class="p">,</span><span class="n">div144</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>403</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Of course, you can compute the number of divisors of an integer n,
+usually denoted d(n), and the sum of the divisors of an integer n,
+usually denoted (n), without ever listing the divisors of n.</p>
+<p>In FriCAS, you can simply call the operations
+numberOfDivisorsnumberOfDivisorsIntegerNumberTheoryFunctions and
+sumOfDivisorssumOfDivisorsIntegerNumberTheoryFunctions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">numberOfDivisors</span><span class="p">(</span><span class="mi">144</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>15</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sumOfDivisors</span><span class="p">(</span><span class="mi">144</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>403</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The key is that d(n) and (n) are multiplicative functions. This means
+that when n and m are relatively prime, that is, when n and m have no
+prime factor in common, then d(nm) = d(n) d(m) and (nm) = (n) (m). Note
+that these functions are trivial to compute when n is a prime power and
+are computed for general n from the prime factorization of n. Other
+examples of multiplicative functions are (n), the sum of the k-th powers
+of the divisors of n and , the number of integers between 1 and n which
+are prime to n. The corresponding FriCAS operations are called
+sumOfKthPowerDivisorssumOfKthPowerDivisorsIntegerNumberTheoryFunctions
+and eulerPhieulerPhiIntegerNumberTheoryFunctions.</p>
+<p>An interesting function is λ(n), the Möbius λ function, defined as
+follows: λ(1) = 1, λ(n) = 0, when n is divisible by a square, and
+λ=(-1)k, when n is the product of k distinct primes. The corresponding
+FriCAS operation is moebiusMumoebiusMuIntegerNumberTheoryFunctions. This
+function occurs in the following theorem:</p>
+<div class="line-block">
+<div class="line">Theorem (Möbius Inversion Formula):</div>
+<div class="line">Let f(n) be a function on the positive integers and let F(n) be</div>
+</div>
+<p>defined by F(n)=∑d|nf(n) sum of f(n) over d | n where the sum is taken
+over the positive divisors of n. Then the values of f(n) can be
+recovered from the values of F(n): f(n)=∑d|nλ(n)F(nd) where again the
+sum is taken over the positive divisors of n.</p>
+<p>When f(n) = 1, then F(n) = d(n). Thus, if you sum over the positive
+divisors d of n, you should always get 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f1</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">reduce</span><span class="p">(</span><span class="o">+</span><span class="p">,[</span><span class="n">moebiusMu</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="n">numberOfDivisors</span><span class="p">(</span><span class="n">quo</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">))</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span>
+</pre></div>
+</div>
+<p>divisors(n)])</p>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f1</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f1</span><span class="p">(</span><span class="mi">846</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Similarly, when f(n) = n, then F(n) = (n). Thus, if you sum λ(d) (n/d)
+over the positive divisors d of n, you should always get n.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f2</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">reduce</span><span class="p">(</span><span class="o">+</span><span class="p">,[</span><span class="n">moebiusMu</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="n">sumOfDivisors</span><span class="p">(</span><span class="n">quo</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="n">d</span><span class="p">))</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span>
+</pre></div>
+</div>
+<p>divisors(n)])</p>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f2</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>200</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f2</span><span class="p">(</span><span class="mi">846</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>846</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The Fibonacci numbers are defined by F(1)=F(2)=1 and F(n)=F(n-1)+F(n-2)
+for n=3,4,….</p>
+<p>The operation fibonaccifibonacciIntegerNumberTheoryFunctions computes
+the n-th Fibonacci number.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fibonacci</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>75025</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">15</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,1,2,3,5,8,13,21,34,55,89,144,233,377,610]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>Fibonacci numbers can also be expressed as sums of binomial
+coefficients.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">reduce</span><span class="p">(</span><span class="o">+</span><span class="p">,[</span><span class="n">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">k</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="n">quo</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fib</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>75025</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">15</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,1,2,3,5,8,13,21,34,55,89,144,233,377,610]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>Quadratic symbols can be computed with the operations
+legendrelegendreIntegerNumberTheoryFunctions and
+jacobijacobiIntegerNumberTheoryFunctions. The Legendre symbol (ap) is
+defined for integers a and p with p an odd prime number. By definition,
+(ap) = +1, when a is a square (mod&nbsp;p), (ap) = -1, when a is not a square
+(mod&nbsp;p), and (ap) = 0, when a is divisible by p.</p>
+<p>You compute (ap) via the command legendre(a,p).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">legendre</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">legendre</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="mi">691</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Integer</sub></p>
+<p>The Jacobi symbol (an) is the usual extension of the Legendre symbol,
+where n is an arbitrary integer. The most important property of the
+Jacobi symbol is the following: if K is a quadratic field with
+discriminant d and quadratic character χ, then χ(n)=(d/n). Thus, you can
+use the Jacobi symbol to compute, say, the class numbers of imaginary
+quadratic fields from a standard class number formula.</p>
+<p>This function computes the class number of the imaginary quadratic field
+with discriminant d.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="o">==</span> <span class="n">quo</span><span class="p">(</span><span class="n">reduce</span><span class="p">(</span><span class="o">+</span><span class="p">,</span> <span class="p">[</span><span class="n">jacobi</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="n">quo</span><span class="p">(</span><span class="o">-</span><span class="n">d</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]),</span> <span class="mi">2</span> <span class="o">-</span>
+</pre></div>
+</div>
+<p>jacobi(d,2))</p>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span><span class="p">(</span><span class="o">-</span><span class="mi">163</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>1</p>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span><span class="p">(</span><span class="o">-</span><span class="mi">499</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>3</p>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span><span class="p">(</span><span class="o">-</span><span class="mi">1832</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>26</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.35.html" title="previous chapter">9.35 IntegerLinearDependence</a></li>
+      <li>Next: <a href="section-9.37.html" title="next chapter">9.37 Kernel</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.36.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.36.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

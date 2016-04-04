@@ -1,0 +1,1142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>5.4 Loops &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="5.5 Creating Lists and Streams with Iterators" href="section-5.5.html" />
+    <link rel="prev" title="5.3 if-then-else" href="section-5.3.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="loops">
+<h1>5.4 Loops<a class="headerlink" href="#loops" title="Permalink to this headline">¶</a></h1>
+<p>A loop is an expression that contains another expression, loop called
+the loop body, which is to be evaluated zero or more loop:body times.
+All loops contain the repeat keyword and return the unique value of
+Void. Loops can contain inner loops to any depth.</p>
+<p>The most basic loop is of the form</p>
+<p>repeat&nbsp;loopBody</p>
+<div class="line-block">
+<div class="line">Unless loopBody contains a break or return expression, the loop</div>
+</div>
+<p>repeats forever. The value returned by the loop is the unique value of
+Void.</p>
+<div class="section" id="compiling-vs-interpreting-loops">
+<h2>5.4.1 Compiling vs. Interpreting Loops<a class="headerlink" href="#compiling-vs-interpreting-loops" title="Permalink to this headline">¶</a></h2>
+<p>FriCAS tries to determine completely the type of every object in a loop
+and then to translate the loop body to LISP or even to machine code.
+This translation is called compilation.</p>
+<p>If FriCAS decides that it cannot compile the loop, it issues a
+loop:compilation message stating the problem and then the following
+message:</p>
+<p>We will attempt to step through and interpret the code.</p>
+<p>It is still possible that FriCAS can evaluate the loop but in
+interpret-code mode. See section
+<a class="reference external" href="section-6.10.html#ugUserCompInt">ugUserCompInt</a> where this is
+discussed in terms panic:avoiding of compiling versus interpreting
+functions.</p>
+</div>
+<div class="section" id="return-in-loops">
+<h2>5.4.2 return in Loops<a class="headerlink" href="#return-in-loops" title="Permalink to this headline">¶</a></h2>
+<p>A return expression is used to exit a function with loop:leaving via
+return a particular value. In particular, if a return is in a loop
+within the return function, the loop is terminated whenever the return
+is evaluated.</p>
+<p>Suppose we start with this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">()</span> <span class="o">==</span>
+  <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+  <span class="n">repeat</span>
+    <span class="k">if</span> <span class="n">factorial</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1000</span> <span class="n">then</span> <span class="k">return</span> <span class="n">i</span>
+    <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>When factorial(i) is big enough, control passes from inside the loop all
+the way outside the function, returning the value of i (or so we think).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>What went wrong? Isn&#8217;t it obvious that this function should return an
+integer? Well, FriCAS makes no attempt to analyze the structure of a
+loop to determine if it always returns a value because, in general, this
+is impossible. So FriCAS has this simple rule: the type of the function
+is determined by the type of its body, in this case a block. The normal
+value of a block is the value of its last expression, in this case, a
+loop. And the value of every loop is the unique value of Void.! So the
+return type of f is Void.</p>
+<p>There are two ways to fix this. The best way is for you to tell FriCAS
+what the return type of f is. You do this by giving f a declaration
+f:()-&gt;Integer prior to calling for its value. This tells FriCAS: trust
+me&#8212;an integer is returned. We&#8217;ll explain more about this in the next
+chapter. Another clumsy way is to add a dummy expression as follows.</p>
+<p>Since we want an integer, let&#8217;s stick in a dummy final expression that
+is an integer and will never be evaluated.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">()</span> <span class="o">==</span>
+  <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+  <span class="n">repeat</span>
+    <span class="k">if</span> <span class="n">factorial</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1000</span> <span class="n">then</span> <span class="k">return</span> <span class="n">i</span>
+    <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="mi">0</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>When we try f again we get what we wanted. See
+<a class="reference external" href="section-6.15.html#ugUserBlocks">ugUserBlocks</a> for more information.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">f</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">NonNegativeInteger</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+<div class="section" id="break-in-loops">
+<h2>5.4.3 break in Loops<a class="headerlink" href="#break-in-loops" title="Permalink to this headline">¶</a></h2>
+<p>The break keyword is often more useful break in terminating loop:leaving
+via break a loop. A break causes control to transfer to the expression
+immediately following the loop. As loops always return the unique value
+of Void., you cannot return a value with break. That is, break takes no
+argument.</p>
+<p>This example is a modification of the last example in the previous
+section <a class="reference external" href="section-5.4.html#ugLangLoopsReturn">ugLangLoopsReturn</a> .
+Instead of using return, we&#8217;ll use break.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">()</span> <span class="o">==</span>
+  <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+  <span class="n">repeat</span>
+    <span class="k">if</span> <span class="n">factorial</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1000</span> <span class="n">then</span> <span class="k">break</span>
+    <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">i</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">f</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="mi">1</span> <span class="n">old</span> <span class="n">definition</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">deleted</span> <span class="k">for</span> <span class="n">function</span> <span class="ow">or</span> <span class="n">rule</span> <span class="n">f</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>The loop terminates when factorial(i) gets big enough, the last line of
+the function evaluates to the corresponding good value of i, and the
+function terminates, returning that value.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>   <span class="n">Compiling</span> <span class="n">function</span> <span class="n">f</span> <span class="k">with</span> <span class="nb">type</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="n">PositiveInteger</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">f</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>You can only use break to terminate the evaluation of one loop. Let&#8217;s
+consider a loop within a loop, that is, a loop with a nested loop.
+First, we initialize two counter variables.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Nested loops must have multiple break loop:nested expressions at the
+appropriate nesting level. How would you rewrite this so (i + j) &gt; 10 is
+only evaluated once?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">repeat</span>
+  <span class="n">repeat</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="n">then</span> <span class="k">break</span>
+    <span class="n">j</span> <span class="p">:</span><span class="o">=</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="n">then</span> <span class="k">break</span>
+  <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+</div>
+<div class="section" id="break-vs-in-loop-bodies">
+<h2>5.4.4 break vs. =&gt; in Loop Bodies<a class="headerlink" href="#break-vs-in-loop-bodies" title="Permalink to this headline">¶</a></h2>
+<p>Compare the following two loops:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>                            <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+<span class="n">repeat</span>                            <span class="n">repeat</span>
+  <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>                        <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="o">=&gt;</span> <span class="n">i</span>                        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="n">then</span> <span class="k">break</span>
+  <span class="n">output</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>                         <span class="n">output</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the example on the left, the values 2 and 3 for i are displayed but
+then the =&gt; does not allow control to reach the call to
+outputoutputOutputForm again. The loop will not terminate until you run
+out of space or interrupt the execution. The variable i will continue to
+be incremented because the =&gt; only means to leave the block, not the
+loop.</p>
+<p>In the example on the right, upon reaching 4, the break will be
+executed, and both the block and the loop will terminate. This is one of
+the reasons why both =&gt; and break are provided. Using a while clause
+(see below) with the =&gt; while lets you simulate the action of break.</p>
+</div>
+<div class="section" id="more-examples-of-break">
+<h2>5.4.5 More Examples of break<a class="headerlink" href="#more-examples-of-break" title="Permalink to this headline">¶</a></h2>
+<p>Here we give four examples of repeat loops that terminate when a value
+exceeds a given bound.</p>
+<p>First, initialize i as the loop counter.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>Here is the first loop. When the square of i exceeds 100, the loop
+terminates.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">repeat</span>
+  <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="k">if</span> <span class="n">i</span><span class="o">^</span><span class="mi">2</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="n">then</span> <span class="k">break</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Upon completion, i should have the value 11.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>11</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>Do the same thing except use =&gt; instead an if-then expression.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">repeat</span>
+  <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">i</span><span class="o">^</span><span class="mi">2</span> <span class="o">&gt;</span> <span class="mi">100</span> <span class="o">=&gt;</span> <span class="k">break</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>11</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>As a third example, we use a simple loop to compute n!.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Use i as the iteration variable and f to compute the factorial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">repeat</span>
+  <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">n</span> <span class="n">then</span> <span class="k">break</span>
+  <span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">f</span> <span class="o">*</span> <span class="n">i</span>
+  <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Look at the value of f.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">93326215443944152681699238856266700490715968264381621468</span><span class="n">_</span>
+<span class="mi">59296389521759999322991560894146397615651828625369792082</span><span class="n">_</span>
+<span class="mi">7223758251185210916864000000000000000000000000</span>
+</pre></div>
+</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Finally, we show an example of nested loops. First define a four by four
+matrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">21</span><span class="p">,</span><span class="mi">37</span><span class="p">,</span><span class="mi">53</span><span class="p">,</span><span class="mi">14</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">24</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="o">-</span><span class="mi">16</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">14</span><span class="p">],</span>
+</pre></div>
+</div>
+<p>[26,33,55,-13] ]</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[213753148-2422-162101514263355-13]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<p>Next, set row counter r and column counter c to 1. Note: if we were
+writing a function, these would all be local variables rather than
+global workspace variables.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Also, let lastrow and lastcol be the final row and column index.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">lastrow</span><span class="p">,</span> <span class="n">lastcol</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">nrows</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">ncols</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Scan the rows looking for the first negative element. We remark that you
+can reformulate this example in a better, more concise form by using a
+for clause with repeat. See
+<a class="reference external" href="section-5.4.html#ugLangLoopsForIn">ugLangLoopsForIn</a> for more
+information.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">repeat</span>
+  <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="n">lastrow</span> <span class="n">then</span> <span class="k">break</span>
+  <span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+  <span class="n">repeat</span>
+    <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="n">lastcol</span> <span class="n">then</span> <span class="k">break</span>
+    <span class="k">if</span> <span class="n">elt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="n">then</span>
+      <span class="n">output</span> <span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">elt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">)]</span>
+      <span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">lastrow</span>
+      <span class="k">break</span>     <span class="o">--</span> <span class="n">don</span><span class="s1">&#39;t look any further</span>
+    <span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="mi">1</span>
+
+   <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span> <span class="mi">24</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+</div>
+<div class="section" id="iterate-in-loops">
+<h2>5.4.6 iterate in Loops<a class="headerlink" href="#iterate-in-loops" title="Permalink to this headline">¶</a></h2>
+<p>FriCAS provides an iterate expression that iterate skips over the
+remainder of a loop body and starts the next loop iteration.</p>
+<p>We first initialize a counter.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>Display the even integers from 2 to 5.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>repeat
+  i := i + 1
+  if i &gt; 5 then break
+  if odd?(i) then iterate
+  output(i)
+
+   2
+   4
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+</div>
+<div class="section" id="while-loops">
+<h2>5.4.7 while Loops<a class="headerlink" href="#while-loops" title="Permalink to this headline">¶</a></h2>
+<p>The repeat in a loop can be modified by adding one or more while
+clauses. while Each clause contains a predicate immediately following
+the while keyword. The predicate is tested before the evaluation of the
+body of the loop. The loop body is evaluated whenever the predicates in
+a while clause are all true.</p>
+<p>The syntax for a simple loop using while is</p>
+<p>while predicate repeat loopBody</p>
+<div class="line-block">
+<div class="line">The predicate is evaluated before loopBody is evaluated. A while loop</div>
+</div>
+<p>terminates immediately when predicate evaluates to false or when a break
+or return expression is evaluated in loopBody. The value returned by the
+loop is the unique value of Void.</p>
+<p>Here is a simple example of using while in a loop. We first initialize
+the counter.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="line-block">
+<div class="line">The steps involved in computing this example are</div>
+<div class="line-block">
+<div class="line">(1) set i to 1,</div>
+<div class="line">(2) test the condition i&lt;1 and determine that it is not true, and</div>
+<div class="line">(3) do not evaluate the loop body and therefore do not display</div>
+</div>
+</div>
+<p>&#8220;hello&#8221;.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="n">repeat</span>
+  <span class="n">output</span> <span class="s2">&quot;hello&quot;</span>
+  <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>If you have multiple predicates to be tested use the logical and
+operation to separate them. FriCAS evaluates these predicates from left
+to right.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="n">repeat</span>
+  <span class="n">output</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span>
+  <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span>
+
+   <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>A break expression can be included in a loop body to terminate a loop
+even if the predicate in any while clauses are not false.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This loop has multiple while clauses and the loop terminates before any
+one of their conditions evaluates to false.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">4</span> <span class="k">while</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="n">repeat</span>
+  <span class="k">if</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">&gt;</span> <span class="mi">7</span> <span class="n">then</span> <span class="k">break</span>
+  <span class="n">output</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">]</span>
+  <span class="n">x</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">2</span>
+
+   <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Here&#8217;s a different version of the nested loops that looked for the first
+negative element in a matrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">21</span><span class="p">,</span><span class="mi">37</span><span class="p">,</span><span class="mi">53</span><span class="p">,</span><span class="mi">14</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mi">24</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="o">-</span><span class="mi">16</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">14</span><span class="p">],</span>
+</pre></div>
+</div>
+<p>[26,33,55,-13] ]</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[213753148-2422-162101514263355-13]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<p>Initialized the row index to 1 and get the number of rows and columns.
+If we were writing a function, these would all be local variables.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">lastrow</span><span class="p">,</span> <span class="n">lastcol</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">nrows</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">ncols</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Scan the rows looking for the first negative element.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">while</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="n">lastrow</span> <span class="n">repeat</span>
+  <span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span>  <span class="o">--</span> <span class="n">index</span> <span class="n">of</span> <span class="n">first</span> <span class="n">column</span>
+  <span class="k">while</span> <span class="n">c</span> <span class="o">&lt;=</span> <span class="n">lastcol</span> <span class="n">repeat</span>
+    <span class="k">if</span> <span class="n">elt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="n">then</span>
+      <span class="n">output</span> <span class="p">[</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">elt</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">r</span><span class="p">,</span><span class="n">c</span><span class="p">)]</span>
+      <span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">lastrow</span>
+      <span class="k">break</span>     <span class="o">--</span> <span class="n">don</span><span class="s1">&#39;t look any further</span>
+    <span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="mi">1</span>
+
+   <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span> <span class="mi">24</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+</div>
+<div class="section" id="for-loops">
+<h2>5.4.8 for Loops<a class="headerlink" href="#for-loops" title="Permalink to this headline">¶</a></h2>
+<p>FriCAS provides the for for and in&nbsp; in keywords in repeat loops,
+allowing you to iterate across all iteration elements of a list, or to
+have a variable take on integral values from a lower bound to an upper
+bound. We shall refer to these modifying clauses of repeat loops as for
+clauses. These clauses can be present in addition to while clauses. As
+with all other types of repeat loops, break can break be used to
+prematurely terminate the evaluation of the loop.</p>
+<p>The syntax for a simple loop using for is</p>
+<p>for iterator repeat loopBody</p>
+<p>The iterator has several forms. Each form has an end test which is
+evaluated before loopBody is evaluated. A for loop terminates
+immediately when the end test succeeds (evaluates to true) or when a
+break or return expression is evaluated in loopBody. The value returned
+by the loop is the unique value of Void.\</p>
+</div>
+<div class="section" id="for-i-in-n-m-repeat">
+<h2>5.4.9 for i in n..m repeat<a class="headerlink" href="#for-i-in-n-m-repeat" title="Permalink to this headline">¶</a></h2>
+<p>If for for is followed by a variable name, the in&nbsp; in keyword and then
+an integer segment of the form n..m, segment the end test for this loop
+is the predicate i&gt;m. The body of the loop is evaluated m-n+1 times if
+this number is greater than 0. If this number is less than or equal to
+0, the loop body is not evaluated at all.</p>
+<p>The variable i has the value n,n+1,...,m for successive iterations of
+the loop body.The loop variable is a local variable within the loop
+body: its value is not available outside the loop body and its value and
+type within the loop body completely mask any outer definition of a
+variable with the same name.</p>
+<p>This loop prints the values of 103, 113, and 123:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">10.</span><span class="o">.</span><span class="mi">12</span> <span class="n">repeat</span> <span class="n">output</span><span class="p">(</span><span class="n">i</span><span class="o">^</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1000</span>
+<span class="mi">1331</span>
+<span class="mi">1728</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Here is a sample list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>Iterate across this list, using . to access the elements of a list and
+the <code class="docutils literal"><span class="pre">#</span></code> operation to count its elements.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span> <span class="c1">#a repeat output(a.i)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span>
+<span class="mi">2</span>
+<span class="mi">3</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>This type of iteration is applicable to anything that uses .. You can
+also use it with functions that use indices to extract elements.</p>
+<p>Define m to be a matrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">9</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[124390]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Matrix Integer</sub></p>
+<p>Display the rows of m.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="n">nrows</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="n">repeat</span> <span class="n">output</span> <span class="n">row</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+<span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>You can use iterate with for-loops.iterate</p>
+<p>Display the even integers in a segment.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for i in 1..5 repeat
+  if odd?(i) then iterate
+  output(i)
+
+   2
+   4
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>See section <a class="reference external" href="section-9.69.html#SegmentXmpPage">SegmentXmpPage</a> for
+more information about segments.</p>
+</div>
+<div class="section" id="for-i-in-n-m-by-s-repeat">
+<h2>5.4.10 for i in n..m by s repeat<a class="headerlink" href="#for-i-in-n-m-by-s-repeat" title="Permalink to this headline">¶</a></h2>
+<p>By default, the difference between values taken on by a variable in
+loops such as for i in n..m repeat ... is 1. It is possible to supply
+another, possibly negative, step value by using the by by keyword along
+with for and in&nbsp;. Like the upper and lower bounds, the step value
+following the by keyword must be an integer. Note that the loop for i in
+1..2 by 0 repeat output(i) will not terminate by itself, as the step
+value does not change the index from its initial value of 1.</p>
+<p>This expression displays the odd integers between two bounds.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">5</span> <span class="n">by</span> <span class="mi">2</span> <span class="n">repeat</span> <span class="n">output</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span>
+<span class="mi">3</span>
+<span class="mi">5</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Use this to display the numbers in reverse order.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">5.</span><span class="o">.</span><span class="mi">1</span> <span class="n">by</span> <span class="o">-</span><span class="mi">2</span> <span class="n">repeat</span> <span class="n">output</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">5</span>
+<span class="mi">3</span>
+<span class="mi">1</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+</div>
+<div class="section" id="for-i-in-n-repeat">
+<h2>5.4.11 for i in n.. repeat<a class="headerlink" href="#for-i-in-n-repeat" title="Permalink to this headline">¶</a></h2>
+<p>If the value after the .. is omitted, the loop has no end test. A
+potentially infinite loop is thus created. The variable is given the
+successive values n,n+1,n+2,... and the loop is terminated only if a
+break or return expression is evaluated in the loop body. However you
+may also add some other modifying clause on the repeat (for example, a
+while clause) to stop the loop.</p>
+<p>This loop displays the integers greater than or equal to 15 and less
+than the first prime greater than 15.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for i in 15.. while not prime?(i) repeat output(i)
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">15</span>
+<span class="mi">16</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+</div>
+<div class="section" id="for-x-in-l-repeat">
+<h2>5.4.12 for x in l repeat<a class="headerlink" href="#for-x-in-l-repeat" title="Permalink to this headline">¶</a></h2>
+<p>Another variant of the for loop has the form:</p>
+<p>for x in&nbsp; list repeat loopBody</p>
+<p>This form is used when you want to iterate directly over the elements of
+a list. In this form of the for loop, the variable x takes on the value
+of each successive element in l. The end test is most simply stated in
+English: are there no more x in l?</p>
+<p>If l is this list,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0,-5,3]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>display all elements of l, one per line.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">l</span> <span class="n">repeat</span> <span class="n">output</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">0</span>
+<span class="o">-</span> <span class="mi">5</span>
+<span class="mi">3</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Since the list constructing expression expand[n..m] creates the list
+[n,n+1,...,m]. Note that this list is empty if n&gt;m. You might be tempted
+to think that the loops</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">n</span><span class="o">..</span><span class="n">m</span> <span class="n">repeat</span> <span class="n">output</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">expand</span> <span class="p">[</span><span class="n">n</span><span class="o">..</span><span class="n">m</span><span class="p">]</span> <span class="n">repeat</span> <span class="n">output</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>are equivalent. The second form first creates the list expand[n..m] (no
+matter how large it might be) and then does the iteration. The first
+form potentially runs in much less space, as the index variable i is
+simply incremented once per loop and the list is not actually created.
+Using the first form is much more efficient.</p>
+<p>Of course, sometimes you really want to iterate across a specific list.
+This displays each of the factors of 2400000.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">factors</span><span class="p">(</span><span class="n">factor</span><span class="p">(</span><span class="mi">2400000</span><span class="p">))</span> <span class="n">repeat</span> <span class="n">output</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">factor</span><span class="o">=</span> <span class="mi">2</span><span class="p">,</span><span class="n">exponent</span><span class="o">=</span> <span class="mi">8</span><span class="p">]</span>
+<span class="p">[</span><span class="n">factor</span><span class="o">=</span> <span class="mi">3</span><span class="p">,</span><span class="n">exponent</span><span class="o">=</span> <span class="mi">1</span><span class="p">]</span>
+<span class="p">[</span><span class="n">factor</span><span class="o">=</span> <span class="mi">5</span><span class="p">,</span><span class="n">exponent</span><span class="o">=</span> <span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+</div>
+<div class="section" id="such-that-predicates">
+<h2>5.4.13 Such that Predicates<a class="headerlink" href="#such-that-predicates" title="Permalink to this headline">¶</a></h2>
+<p>A for loop can be followed by a <code class="docutils literal"><span class="pre">|</span></code> and then a predicate. The
+predicate qualifies the use of the values from the iterator following
+the for. Think of the vertical bar <code class="docutils literal"><span class="pre">|</span></code> as the phrase such that.</p>
+<p>This loop expression prints out the integers n in the given segment such
+that n is odd.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for n in 0..4 | odd? n repeat output n
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span>
+<span class="mi">3</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>A for loop can also be written foriterator|predicaterepeatloopBody</p>
+<p>which is equivalent to:
+for&nbsp;iterator&nbsp;repeat&nbsp;if&nbsp;predicate&nbsp;then&nbsp;loopBody&nbsp;else&nbsp;iterate</p>
+<p>The predicate need not refer only to the variable in the for clause: any
+variable in an outer scope can be part of the predicate.</p>
+<p>In this example, the predicate on the inner for loop uses i from the
+outer loop and the j from the for iteration:nested clause that it
+directly modifies.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">50</span> <span class="n">repeat</span>
+  <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">50</span> <span class="o">|</span> <span class="n">factorial</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="n">j</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">25</span> <span class="n">repeat</span>
+    <span class="n">output</span> <span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+
+   <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+   <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+</div>
+<div class="section" id="parallel-iteration">
+<h2>5.4.14 Parallel Iteration<a class="headerlink" href="#parallel-iteration" title="Permalink to this headline">¶</a></h2>
+<p>The last example of the previous section
+<a class="reference external" href="section-5.4.html#ugLangLoopsForInPred">ugLangLoopsForInPred</a> gives
+an example of nested iteration: a loop is contained iteration:nested in
+another loop. iteration:parallel Sometimes you want to iterate across
+two lists in parallel, or perhaps you want to traverse a list while
+incrementing a variable.</p>
+<div class="line-block">
+<div class="line">The general syntax of a repeat loop is</div>
+</div>
+<p>iterator1iterator2…iteratorN&nbsp;repeat&nbsp;loopBody where each iterator is
+either a for or a while clause. The loop terminates immediately when the
+end test of any iterator succeeds or when a break or return expression
+is evaluated in loopBody. The value returned by the loop is the unique
+value of Void.</p>
+<p>Here we write a loop to iterate across two lists, computing the sum of
+the pairwise product of elements. Here is the first list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,3,5,7]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>And the second.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">200</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[100,200]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>The initial value of the sum counter.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">sum</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>The last two elements of l are not used in the calculation because m has
+two fewer elements than l.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">l</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">m</span> <span class="n">repeat</span>
+    <span class="nb">sum</span> <span class="p">:</span><span class="o">=</span> <span class="nb">sum</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Display the dot product.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">sum</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>700</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>Next, we write a loop to compute the sum of the products of the loop
+elements with their positions in the loop.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">29</span><span class="p">,</span><span class="mi">31</span><span class="p">,</span><span class="mi">37</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[2,3,5,7,11,13,17,19,23,29,31,37]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>The initial sum.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">sum</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>Here looping stops when the list l is exhausted, even though the
+foriin0.. specifies no terminating condition.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">l</span> <span class="n">repeat</span> <span class="nb">sum</span> <span class="p">:</span><span class="o">=</span> <span class="n">i</span> <span class="o">*</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Display this weighted sum.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">sum</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>407</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>When <code class="docutils literal"><span class="pre">|</span></code> is used to qualify any of the for clauses in a parallel
+iteration, the variables in the predicates can be from an outer scope or
+from a for clause in or to the left of a modified clause.</p>
+<p>This is correct:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for i in 1..10 repeat
+  for j in 200..300 | odd? (i+j) repeat
+    output [i,j]
+</pre></div>
+</div>
+<p>This is not correct since the variable j has not been defined outside
+the inner loop.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for i in 1..10 | odd? (i+j) repeat  -- wrong, j not defined
+  for j in 200..300 repeat
+    output [i,j]
+</pre></div>
+</div>
+</div>
+<div class="section" id="mixing-loop-modifiers">
+<h2>5.4.15 Mixing Loop Modifiers<a class="headerlink" href="#mixing-loop-modifiers" title="Permalink to this headline">¶</a></h2>
+<p>This example shows that it is possible to mix several of the loop:mixing
+modifiers forms of repeat modifying clauses on a loop.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>for i in 1..10
+    for j in 151..160 | odd? j
+      while i + j &lt; 160 repeat
+        output [i,j]
+
+   [1,151]
+   [3,153]
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Here are useful rules for composing loop expressions:</p>
+<ol class="arabic simple">
+<li>while predicates can only refer to variables that are global (or in
+an outer scope) or that are defined in for clauses to the left of the
+predicate.</li>
+<li>A such that predicate (something following <code class="docutils literal"><span class="pre">|</span></code>) must directly
+follow a for clause and can only refer to variables that are global
+(or in an outer scope) or defined in the modified for clause or any
+for clause to the left.</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">5.4 Loops</a><ul>
+<li><a class="reference internal" href="#compiling-vs-interpreting-loops">5.4.1 Compiling vs. Interpreting Loops</a></li>
+<li><a class="reference internal" href="#return-in-loops">5.4.2 return in Loops</a></li>
+<li><a class="reference internal" href="#break-in-loops">5.4.3 break in Loops</a></li>
+<li><a class="reference internal" href="#break-vs-in-loop-bodies">5.4.4 break vs. =&gt; in Loop Bodies</a></li>
+<li><a class="reference internal" href="#more-examples-of-break">5.4.5 More Examples of break</a></li>
+<li><a class="reference internal" href="#iterate-in-loops">5.4.6 iterate in Loops</a></li>
+<li><a class="reference internal" href="#while-loops">5.4.7 while Loops</a></li>
+<li><a class="reference internal" href="#for-loops">5.4.8 for Loops</a></li>
+<li><a class="reference internal" href="#for-i-in-n-m-repeat">5.4.9 for i in n..m repeat</a></li>
+<li><a class="reference internal" href="#for-i-in-n-m-by-s-repeat">5.4.10 for i in n..m by s repeat</a></li>
+<li><a class="reference internal" href="#for-i-in-n-repeat">5.4.11 for i in n.. repeat</a></li>
+<li><a class="reference internal" href="#for-x-in-l-repeat">5.4.12 for x in l repeat</a></li>
+<li><a class="reference internal" href="#such-that-predicates">5.4.13 Such that Predicates</a></li>
+<li><a class="reference internal" href="#parallel-iteration">5.4.14 Parallel Iteration</a></li>
+<li><a class="reference internal" href="#mixing-loop-modifiers">5.4.15 Mixing Loop Modifiers</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-5.3.html" title="previous chapter">5.3 if-then-else</a></li>
+      <li>Next: <a href="section-5.5.html" title="next chapter">5.5 Creating Lists and Streams with Iterators</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-5.4.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-5.4.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

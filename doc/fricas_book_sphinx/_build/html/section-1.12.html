@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.12 Integration &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="1.13 Differential Equations" href="section-1.13.html" />
+    <link rel="prev" title="1.11 Derivatives" href="section-1.11.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="integration">
+<h1>1.12 Integration<a class="headerlink" href="#integration" title="Permalink to this headline">¶</a></h1>
+<p>FriCAS has extensive library facilities for integration.</p>
+<p>The first example is the integration of a fraction with denominator that
+factors into a quadratic and a quartic irreducible polynomial. The usual
+partial fraction approach used by most other computer algebra systems
+either fails or introduces expensive unneeded algebraic numbers.</p>
+<p>We use a factorization-free algorithm.</p>
+<div class="math">
+\[\int \frac{x^2+2\,x+1}{(x+1)^6+1} \,dx\]</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">integrate</span><span class="p">((</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">((</span><span class="n">x</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">6</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{\arctan\left(
+  {{{{x} ^ {3}}+{3 \  {{x} ^ {2}}}+{3 \  x}+1}}
+\right)} \over 3\]</div>
+<p><sub>Type: Union(Expression Integer,...)</sub></p>
+<p>When real parameters are present, the form of the integral can depend on
+the signs of some expressions.</p>
+<p>Rather than query the user or make sign assumptions, FriCAS returns all
+possible answers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">integrate</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">a</span><span class="p">),</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[{{\log\left({{{{{\left( {{x} ^ {2}} -a\right)}
+\  {\sqrt {-a}}}+{2 \  a \  x}} \over {{{x} ^ {2}}+a}}}
+\right)}\over {2 \  {\sqrt {-a}}}}, \: {{\arctan\left(
+{{{x \  {\sqrt {a}}} \over a}}\right)}\over {\sqrt {a}}}
+\right]\]</div>
+<p><sub>Type: Union(List Expression Integer,...)</sub></p>
+<p>The integrate operation generally assumes that all parameters are real.
+The only exception is when the integrand has complex valued quantities.</p>
+<p>If the parameter is complex instead of real, then the notion of sign is
+undefined and there is a unique answer. You can request this answer by
+prepending the word complex to the command name:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complexIntegrate</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">a</span><span class="p">),</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{{\sqrt {-{1 \over a}}} \  {\log\left({{{a \  {\sqrt {-{1 \over a}}}}+x}}
+ \right)}}-{{\sqrt {-{1 \over a}}} \  {\log\left(
+ {{-{a \  {\sqrt {-{1 \over a}}}}+x}}\right)}}}\over 2\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>The following two examples illustrate the limitations of table-based
+approaches. The two integrands are very similar, but the answer to one
+of them requires the addition of two new algebraic numbers.</p>
+<p>This one is the easy one. The next one looks very similar but the answer
+is much more complicated.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">integrate</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">/</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">^</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{\left( {{120} \  {{b} ^ {3}} \  {{x} ^ {3}}} -{{135} \  a \  {{b} ^
+{2}} \  {{x} ^ {2}}}+{{162} \  {{a} ^ {2}} \  b \  x} -{{243} \  {{a} ^
+{3}}}\right)}
+\  {{{\root {3} \of
+{{{b \  x}+a}}}} ^ {2}}} \over {{440} \  {{b} ^ {4}}}\]</div>
+<p><sub>Type: Union(Expression Integer,...)</sub></p>
+<p>Only an algorithmic approach is guaranteed to find what new constants
+must be added in order to find a solution.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">integrate</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="o">^</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">)),</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\scriptscriptstyle{
+{-{2 \  {{b} ^ {2}} \  {{x} ^ {2}} \  {\sqrt {3}} \  {\log
+\left(
+{{{{\root {3} \of {a}} \  {{{\root {3} \of {{{b \  x}+a}}}} ^
+{2}}}+{{{{\root {3} \of {a}}} ^ {2}} \  {\root {3} \of {{{b \  x}+a}}}}+a}}
+\right)}}+{4
+\  {{b} ^ {2}} \  {{x} ^ {2}} \  {\sqrt {3}} \  {\log
+\left(
+{{{{{{\root {3} \of {a}}} ^ {2}} \  {\root {3} \of {{{b \  x}+a}}}} -a}}
+\right)}}+{{12}
+\  {{b} ^ {2}} \  {{x} ^ {2}} \  {\arctan
+\left(
+{{{{2 \  {\sqrt {3}} \  {{{\root {3} \of {a}}} ^ {2}} \  {\root {3} \of
+{{{b \  x}+a}}}}+{a \  {\sqrt {3}}}} \over {3 \  a}}}
+\right)}}+{{\left(
+{{12} \  b \  x} -{9 \  a}
+\right)}
+\  {\sqrt {3}} \  {\root {3} \of {a}} \  {{{\root {3} \of {{{b \  x}+a}}}}
+^ {2}}}} \over {{18} \  {{a} ^ {2}} \  {{x} ^ {2}} \  {\sqrt {3}} \
+{\root {3} \of {a}}}
+}\]</div>
+<p><sub>Type: Union(Expression Integer,...)</sub></p>
+<p>Some computer algebra systems use heuristics or table-driven approaches
+to integration. When these systems cannot determine the answer to an
+integration problem, they reply <code class="docutils literal"><span class="pre">I</span></code> don&#8217;t know.&#8217;&#8217; FriCAS uses an
+algorithm which is a decision procedure for integration. If FriCAS
+returns the original integral that conclusively proves that an integral
+cannot be expressed in terms of elementary functions.</p>
+<p>When FriCAS returns an integral sign, it has proved that no answer
+exists as an elementary function.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">integrate</span><span class="p">(</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">b</span><span class="p">))</span> <span class="o">/</span> <span class="n">x</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\int ^{\displaystyle x} {{{\log\left(
+{{{\sqrt {{b+{ \%E \  a}}}}+1}}\right)}
+\over \%E} \  {d \%E}}\]</div>
+<p><sub>Type: Union(Expression Integer,...)</sub></p>
+<p>FriCAS can handle complicated mixed functions much beyond what you can
+find in tables.</p>
+<p>Whenever possible, FriCAS tries to express the answer using the
+functions present in the integrand.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span> <span class="n">integrate</span><span class="p">((</span><span class="n">sinh</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">b</span><span class="p">))</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">b</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">_</span>
+<span class="n">cosh</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">b</span><span class="p">)))),</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{2 \  {\log \left({{{-{2 \  {\cosh\left({{{\sqrt {{x+b}}}+1}}
+ \right)}}-{2 \  x}} \over {{\sinh\left({{{\sqrt {{x+b}}}+1}}
+ \right)}-{\cosh\left({{{\sqrt {{x+b}}}+1}}\right)}}}}\right)}}
+ -{2 \  {\sqrt {{x+b}}}}\]</div>
+<p><sub>Type: Union(Expression Integer,...)</sub></p>
+<p>A strong structure-checking algorithm in FriCAS finds hidden algebraic
+relationships between functions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">integrate</span><span class="p">(</span><span class="n">tan</span><span class="p">(</span><span class="n">atan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{8 \  {\log\left({{{3 \  {{{\tan\left({{{\arctan\left({x}\right)}
+\over 3}}\right)}}^ {2}}} -1}}\right)}}-{3 \  {{{\tan\left(
+ {{{\arctan\left({x}\right)}\over 3}}\right)}}
+^ {2}}}+{{18} \  x \  {\tan\left({{{\arctan\left({x}\right)}
+\over 3}}\right)}}}\over {18}\]</div>
+<p><sub>Type: Union(Expression Integer,...)</sub></p>
+<p>The discovery of this algebraic relationship is necessary for correct
+integration of this function. Here are the details:</p>
+<ol class="arabic simple">
+<li>If <span class="math">\(x=\tan(t)\)</span> and <span class="math">\(g=\tan(t/3)\)</span> then the following algebraic
+relation is true:</li>
+</ol>
+<div class="math">
+\[g^3-3x g^2-3g+x=0\]</div>
+<ol class="arabic simple" start="2">
+<li>Integrate g using this algebraic relation; this produces:</li>
+</ol>
+<div class="math">
+\[\frac{(24 g^2-8)\log(3 g^2-1)+(81 x^2+24) g^2+72 x g-27x^2-16}
+   {54 g^2-18}\]</div>
+<ol class="arabic simple" start="3">
+<li>Rationalize the denominator, producing:</li>
+</ol>
+<div class="math">
+\[\frac{8 \log(3 g^2-1)-3 g^2+18 x g+16}{18}\]</div>
+<p>Replace g by the initial definition <span class="math">\(g=\tan(\arctan(x)/3)\)</span> to produce
+the final result.</p>
+<p>This is an example of a mixed function where the algebraic layer is over
+the transcendental one.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">integrate</span><span class="p">((</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">log</span> <span class="n">x</span><span class="p">)</span> <span class="o">^</span> <span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="p">)),</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{{2 \  {\sqrt {{{\log\left({x}\right)}+x}}}}\over {{\log\left({x}
+  \right)}+x}}\]</div>
+<p><sub>Type: Union(Expression Integer,...)</sub></p>
+<p>While incomplete for non-elementary functions, FriCAS can handle some of
+them.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">integrate</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">erf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">erf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span> <span class="n">erf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">erf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\def\erf{\mathrm{erf}}
+{{{\left( {\erf\left({x}\right)}-1\right)}\  {\sqrt {\pi}} \  {\log
+\left({{{{\erf\left({x}\right)}-1} \over {{\erf\left({x}\right)}+1}}}
+\right)}}-{2 \  {\sqrt {\pi}}}} \over {{8 \  {\erf\left({x}\right)}}
+ -8}\]</div>
+<p><sub>Type: Union(Expression Integer,...)</sub></p>
+<p>More examples of FriCAS&#8217;s integration capabilities are discussed in
+Section
+<a class="reference external" href="section-8.8.html#ugProblemIntegration">ugProblemIntegration</a> .</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-1.11.html" title="previous chapter">1.11 Derivatives</a></li>
+      <li>Next: <a href="section-1.13.html" title="next chapter">1.13 Differential Equations</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.12.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-1.12.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

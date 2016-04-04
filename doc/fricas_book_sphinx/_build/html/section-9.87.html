@@ -1,0 +1,392 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.87 WuWenTsunTriangularSet &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.88 XPBWPolynomial" href="section-9.88.html" />
+    <link rel="prev" title="9.86 Void" href="section-9.86.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="wuwentsuntriangularset">
+<h1>9.87 WuWenTsunTriangularSet<a class="headerlink" href="#wuwentsuntriangularset" title="Permalink to this headline">¶</a></h1>
+<p>The WuWenTsunTriangularSet domain constructor implements the
+characteristic set method of Wu Wen Tsun. This algorithm computes a list
+of triangular sets from a list of polynomials such that the algebraic
+variety defined by the given list of polynomials decomposes into the
+union of the regular-zero sets of the computed triangular sets. The
+constructor takes four arguments. The first one, R, is the coefficient
+ring of the polynomials; it must belong to the category IntegralDomain.
+The second one, E, is the exponent monoid of the polynomials; it must
+belong to the category OrderedAbelianMonoidSup. The third one, V, is the
+ordered set of variables; it must belong to the category OrderedSet. The
+last one is the polynomial ring; it must belong to the category
+RecursivePolynomialCategory(R,E,V). The abbreviation for
+WuWenTsunTriangularSet is WUTSET.</p>
+<p>Let us illustrate the facilities by an example.</p>
+<p>Define the coefficient ring.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="p">:</span><span class="o">=</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Integer</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Define the list of variables,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="p">:</span> <span class="n">List</span> <span class="n">Symbol</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x,y,z,t]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Symbol</sub></p>
+<p>and make it an ordered set;</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">V</span> <span class="p">:</span><span class="o">=</span> <span class="n">OVAR</span><span class="p">(</span><span class="n">ls</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>OrderedVariableList[x,y,z,t]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>then define the exponent monoid.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="p">:</span><span class="o">=</span> <span class="n">IndexedExponents</span> <span class="n">V</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>IndexedExponentsOrderedVariableList[x,y,z,t]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Define the polynomial ring.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="n">NSMP</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>NewSparseMultivariatePolynomial(Integer,OrderedVariableList[x,y,z,t])</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Let the variables be polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">y</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">z</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;z</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">:</span> <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>t</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<p>Now call the WuWenTsunTriangularSet domain constructor.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="p">:</span><span class="o">=</span> <span class="n">WUTSET</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">V</span><span class="p">,</span><span class="n">P</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>WuWenTsunTriangularSet(Integer,&nbsp;&nbsp;IndexedExponentsOrderedVariableList[x,y,z,t],&nbsp;&nbsp;OrderedVariableList[x,y,z,t],&nbsp;&nbsp;NewSparseMultivariatePolynomial(Integer,&nbsp;&nbsp;OrderedVariableList[x,y,z,t]))</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Define a polynomial system.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="mi">31</span> <span class="o">-</span> <span class="n">x</span> <span class="o">^</span> <span class="mi">6</span> <span class="o">-</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x31-x6-x-y</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p2</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="mi">8</span> <span class="o">-</span> <span class="n">z</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x8-z</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p3</span> <span class="p">:</span><span class="o">=</span> <span class="n">x</span> <span class="o">^</span> <span class="mi">10</span> <span class="o">-</span> <span class="n">t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x10-t</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x31-x6-x-y,x8-z,x10-t]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List NewSparseMultivariatePolynomial(Integer,OrderedVariableList</sub>
+[x,y,z,t])</p>
+<p>Compute a characteristic set of the system.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>characteristicSet(lp)$T
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>{z5-t4,t4z2y2+2t3z4y+(-t7+2t4-t)z6+t6z,(t3-1)z3x-z3y-t3}</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union( WuWenTsunTriangularSet(Integer, IndexedExponents</sub>
+OrderedVariableList [x,y,z,t], OrderedVariableList [x,y,z,t],
+NewSparseMultivariatePolynomial(Integer, OrderedVariableList
+[x,y,z,t])),...)</p>
+<p>Solve the system.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>zeroSetSplit(lp)$T
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[{t,z,y,x},{t3-1,z5-t4,z3y+t3,zx2-t},{z5-t4,t4z2y2+2t3z4y+(-t7+2t4-t)z6+t6z,(t3-1)z3x-z3y-t3}]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List WuWenTsunTriangularSet(Integer, IndexedExponents</sub>
+OrderedVariableList [x,y,z,t], OrderedVariableList [x,y,z,t],
+NewSparseMultivariatePolynomial(Integer, OrderedVariableList [x,y,z,t]))</p>
+<p>The RegularTriangularSet and SquareFreeRegularTriangularSet domain
+constructors, the LazardSetSolvingPackage package constructors as well
+as, SquareFreeRegularTriangularSet and ZeroDimensionalSolvePackage
+package constructors also provide operations to compute triangular
+decompositions of algebraic varieties. These five constructor use a
+special kind of characteristic sets, called regular triangular sets.
+These special characteristic sets have better properties than the
+general ones. Regular triangular sets and their related concepts are
+presented in the paper On the Theories of Triangular sets By P. Aubry,
+D. Lazard and M. Moreno Maza (to appear in the Journal of Symbolic
+Computation). The decomposition algorithm (due to the third author)
+available in the four above constructors provide generally better
+timings than the characteristic set method. In fact, the WUTSET
+constructor remains interesting for the purpose of manipulating
+characteristic sets whereas the other constructors are more convenient
+for solving polynomial systems.</p>
+<p>Note that the way of understanding triangular decompositions is detailed
+in the example of the RegularTriangularSet constructor.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.86.html" title="previous chapter">9.86 Void</a></li>
+      <li>Next: <a href="section-9.88.html" title="next chapter">9.88 XPBWPolynomial</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.87.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.87.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

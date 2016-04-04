@@ -1,0 +1,424 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.58 Operator &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.59 OrderedVariableList" href="section-9.59.html" />
+    <link rel="prev" title="9.57 OneDimensionalArray" href="section-9.57.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="operator">
+<h1>9.58 Operator<a class="headerlink" href="#operator" title="Permalink to this headline">¶</a></h1>
+<p>Given any ring R, the ring of the Integer-linear operators over R is
+called Operator(R). To create an operator over R, first create a basic
+operator using the operation operator, and then convert it to
+Operator(R) for the R you want.</p>
+<p>We choose R to be the two by two matrices over the integers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="p">:</span><span class="o">=</span> <span class="n">SQMATRIX</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>SquareMatrix(2,Integer)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Create the operator tilde on R.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span><span class="p">(</span><span class="s2">&quot;tilde&quot;</span><span class="p">)</span> <span class="p">::</span> <span class="n">OP</span><span class="p">(</span><span class="n">R</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>tilde</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Operator SquareMatrix(2,Integer)</sub></p>
+<p>Since Operator is unexposed we must either package-call operations from
+it, or expose it explicitly. For convenience we will do the latter.</p>
+<p>Expose Operator.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">expose</span> <span class="n">add</span> <span class="n">constructor</span> <span class="n">Operator</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Operator</span> <span class="ow">is</span> <span class="n">now</span> <span class="n">explicitly</span> <span class="n">exposed</span> <span class="ow">in</span> <span class="n">frame</span> <span class="n">G82322</span>
+</pre></div>
+</div>
+<p>To attach an evaluation function (from R to R) to an operator over R,
+use evaluate(op, f) where op is an operator over R and f is a function R
+-&gt; R. This needs to be done only once when the operator is defined. Note
+that f must be Integer-linear (that is, f(ax+y) = a f(x) + f(y) for any
+integer a, and any x and y in R).</p>
+<p>We now attach the transpose map to the above operator t.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">evaluate</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">m</span> <span class="o">+-&gt;</span> <span class="n">transpose</span> <span class="n">m</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>tilde</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Operator SquareMatrix(2,Integer)</sub></p>
+<p>Operators can be manipulated formally as in any ring: + is the pointwise
+addition and * is composition. Any element x of R can be converted to
+an operator opx over R, and the evaluation function of opx is
+left-multiplication by x.</p>
+<p>Multiplying on the left by this matrix swaps the two rows.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="p">:</span> <span class="n">R</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0110]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<p>Can you guess what is the action of the following operator?</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rho</span> <span class="p">:</span><span class="o">=</span> <span class="n">t</span> <span class="o">*</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>tilde[0110]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Operator SquareMatrix(2,Integer)</sub></p>
+<p>Hint: applying rho four times gives the identity, so rho^4-1 should
+return 0 when applied to any two by two matrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="p">:</span><span class="o">=</span> <span class="n">rho</span><span class="o">^</span><span class="mi">4</span> <span class="o">-</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-1+tilde[0110]tilde[0110]tilde[0110]tilde[0110]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Operator SquareMatrix(2,Integer)</sub></p>
+<p>Now check with this matrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m</span><span class="p">:</span><span class="n">R</span> <span class="p">:</span><span class="o">=</span> <span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1234]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">z</span> <span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0000]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<p>As you have probably guessed by now, rho acts on matrices by rotating
+the elements clockwise.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rho</span> <span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[3142]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rho</span> <span class="n">rho</span> <span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[4321]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">rho</span><span class="o">^</span><span class="mi">3</span><span class="p">)</span> <span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[2413]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<p>Do the swapping of rows and transposition commute? We can check by
+computing their bracket.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">t</span> <span class="o">*</span> <span class="n">s</span> <span class="o">-</span> <span class="n">s</span> <span class="o">*</span> <span class="n">t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-[0110]tilde+tilde[0110]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Operator SquareMatrix(2,Integer)</sub></p>
+<p>Now apply it to m.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="n">m</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1-33-1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<p>Next we demonstrate how to define a differential operator on a
+polynomial ring.</p>
+<p>This is the recursive definition of the n-th Legendre polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="n">n</span> <span class="o">==</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">=&gt;</span> <span class="n">x</span>
+  <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">n</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">L</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">n</span> <span class="o">*</span> <span class="n">L</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Void</p>
+<p>Create the differential operator ddx on polynomials in x over the
+rational numbers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dx</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">)</span> <span class="p">::</span> <span class="n">OP</span><span class="p">(</span><span class="n">POLY</span> <span class="n">FRAC</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>D</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Operator Polynomial Fraction Integer</sub></p>
+<p>Now attach the map to it.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">evaluate</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">p</span> <span class="o">+-&gt;</span> <span class="n">D</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="s1">&#39;x))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>D</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Operator Polynomial Fraction Integer</sub></p>
+<p>This is the differential equation satisfied by the n-th Legendre
+polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="n">n</span> <span class="o">==</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">dx</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">dx</span> <span class="o">+</span> <span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Void</p>
+<p>Now we verify this for n = 15. Here is the polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="mi">15</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>96948452048x15-351020252048x13+507029252048x11-371821452048x9+145495352048x7-29099072048x5+2552552048x3-64352048x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+<p>Here is the operator.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">E</span> <span class="mi">15</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>240-2xD-(x2-1)D2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Operator Polynomial Fraction Integer</sub></p>
+<p>Here is the evaluation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">E</span> <span class="mi">15</span><span class="p">)(</span><span class="n">L</span> <span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.57.html" title="previous chapter">9.57 OneDimensionalArray</a></li>
+      <li>Next: <a href="section-9.59.html" title="next chapter">9.59 OrderedVariableList</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.58.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.58.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

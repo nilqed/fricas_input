@@ -1,0 +1,422 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.80 Table &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.81 TextFile" href="section-9.81.html" />
+    <link rel="prev" title="9.79 Symbol" href="section-9.79.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="table">
+<h1>9.80 Table<a class="headerlink" href="#table" title="Permalink to this headline">¶</a></h1>
+<p>The Table constructor provides a general structure for associative
+storage. This type provides hash tables in which data objects can be
+saved according to keys of any type. For a given table, specific types
+must be chosen for the keys and entries.</p>
+<p>In this example the keys to the table are polynomials with integer
+coefficients. The entries in the table are strings.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">:</span> <span class="n">Table</span><span class="p">(</span><span class="n">Polynomial</span> <span class="n">Integer</span><span class="p">,</span> <span class="n">String</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="n">table</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>table()</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Table(Polynomial Integer,String)</sub></p>
+<p>To save an entry in the table, the seteltseteltTable operation is used.
+This can be called directly, giving the table a key and an entry.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">setelt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Easy to factor&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Easytofactor&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>Alternatively, you can use assignment syntax.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;Harder to factor&quot;</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Hardertofactor&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">:</span><span class="o">=</span> <span class="s2">&quot;The easiest to factor&quot;</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Theeasiesttofactor&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>Entries are retrieved from the table by calling the elteltTable
+operation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">elt</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Theeasiesttofactor&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>This operation is called when a table is applied to a key using this or
+the following syntax.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Theeasiesttofactor&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Theeasiesttofactor&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>Parentheses are used only for grouping. They are needed if the key is an
+infixed expression.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Easytofactor&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>Note that the elteltTable operation is used only when the key is known
+to be in the table&#8212;otherwise an error is generated.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Hardertofactor&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<p>You can get a list of all the keys to a table using the keyskeysTable
+operation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">keys</span> <span class="n">t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[x,x3+1,x2-1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Polynomial Integer</sub></p>
+<p>If you wish to test whether a key is in a table, the searchsearchTable
+operation is used. This operation returns either an entry or &#8220;failed&#8221;.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Theeasiesttofactor&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(String,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;failed&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+<p>The return type is a union so the success of the search can be tested
+using case.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">search</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span> <span class="n">case</span> <span class="s2">&quot;failed&quot;</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>true</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Boolean</sub></p>
+<p>The removeremoveTable operation is used to delete values from a table.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>remove!(x^2-1, t)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;Easytofactor&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(String,...)</sub></p>
+<p>If an entry exists under the key, then it is returned. Otherwise
+removeremoveTable returns &#8220;failed&#8221;.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>remove!(x-1, t)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;failed&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+<p>The number of key-entry pairs can be found using the # #Table operation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1">#t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Just as keyskeysTable returns a list of keys to the table, a list of all
+the entries can be obtained using the membersmembersTable operation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">members</span> <span class="n">t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[&#8220;Theeasiesttofactor&#8221;,&#8221;Hardertofactor&#8221;]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List String</sub></p>
+<p>A number of useful operations take functions and map them on to the
+table to compute the result. Here we count the entries which have Hard
+as a prefix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>count(s: String +-&gt; prefix?(&quot;Hard&quot;, s), t)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Other table types are provided to support various needs. \indent</p>
+<p>AssociationList gives a list with a table view. This allows new entries
+to be appended onto the front of the list to cover up old entries. This
+is useful when table entries need to be stacked or when frequent list
+traversals are required. See
+<a class="reference external" href="section-9.1.html#AssociationListXmpPage">AssociationListXmpPage</a>
+for more information.</p>
+<p>EqTable gives tables in which keys are considered equal only when they
+are in fact the same instance of a structure. See
+<a class="reference external" href="section-9.18.html#EqTableXmpPage">EqTableXmpPage</a> for more
+information.</p>
+<p>StringTable should be used when the keys are known to be strings. See
+<a class="reference external" href="section-9.78.html#StringTableXmpPage">StringTableXmpPage</a> for more
+information.</p>
+<p>SparseTable provides tables with default entries, so lookup never fails.
+The GeneralSparseTable constructor can be used to make any table type
+behave this way. See
+<a class="reference external" href="section-9.30.html#GeneralSparseTableXmpPage">SparseTableXmpPage</a>
+for more information.</p>
+<p>KeyedAccessFile allows values to be saved in a file, accessed as a
+table. See
+<a class="reference external" href="section-9.38.html#KeyedAccessFileXmpPage">KeyedAccessFileXmpPage</a>
+for more information.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.79.html" title="previous chapter">9.79 Symbol</a></li>
+      <li>Next: <a href="section-9.81.html" title="next chapter">9.81 TextFile</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.80.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.80.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

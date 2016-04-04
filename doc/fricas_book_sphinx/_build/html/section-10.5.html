@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10.5 A Bouquet of Arrows &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="10.6 Diversion: When Things Go Wrong" href="section-10.6.html" />
+    <link rel="prev" title="10.4 Points, Lines, and Curves" href="section-10.4.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="a-bouquet-of-arrows">
+<h1>10.5 A Bouquet of Arrows<a class="headerlink" href="#a-bouquet-of-arrows" title="Permalink to this headline">¶</a></h1>
+<p>Let&#8217;s draw a bouquet of arrows. Each arrow is identical. The arrowheads
+are uniformly placed on a circle parallel to the xy-plane. Thus the
+position of each arrow differs only by the angle θ, 0≤θ&lt;2π, between the
+arrow and the x-axis on the xy-plane.</p>
+<p>Our bouquet is rather special: each arrow has a different color (which
+won&#8217;t be evident here, unfortunately). This is arranged by letting the
+color of each successive arrow be denoted by θ. In this way, the color
+of arrows ranges from red to green to violet. Here is a program to draw
+a bouquet of n arrows.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>drawBouquet(n,title) ==}{}
+  angle := 0.0@DFLOAT                          The initial angle
+  sp := createThreeSpace()                     Create empty space $sp$
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;for&nbsp;i&nbsp;in&nbsp;0..n-1&nbsp;repeat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For&nbsp;each&nbsp;index&nbsp;i,&nbsp;create:</dt>
+<dd>start&nbsp;:=&nbsp;point&nbsp;[<a class="reference external" href="mailto:0&#46;0&#37;&#52;&#48;DFLOAT">0<span>&#46;</span>0<span>&#64;</span>DFLOAT</a>,0.0&#64;DFLOAT,0.0&#64;DFLOAT,angle]</dd>
+<dt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;point&nbsp;at&nbsp;base&nbsp;of&nbsp;arrow;</dt>
+<dd>end&nbsp;&nbsp;&nbsp;:=&nbsp;point&nbsp;[cos&nbsp;angle,&nbsp;sin&nbsp;angle,&nbsp;<a class="reference external" href="mailto:1&#46;0&#37;&#52;&#48;DFLOAT">1<span>&#46;</span>0<span>&#64;</span>DFLOAT</a>,&nbsp;angle]</dd>
+<dt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;point&nbsp;at&nbsp;tip&nbsp;of&nbsp;arrow;</dt>
+<dd>arrow&nbsp;:=&nbsp;makeArrow(start,end)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;$i$th&nbsp;arrow</dd>
+</dl>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;a&nbsp;in&nbsp;makeArrow(start,end)&nbsp;repeat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For&nbsp;each&nbsp;arrow&nbsp;component,</p>
+<dl class="docutils">
+<dt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;curve(sp,a)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;add&nbsp;the&nbsp;component&nbsp;to&nbsp;$sp$</dt>
+<dd>angle&nbsp;:=&nbsp;angle&nbsp;+&nbsp;2*%pi/n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;next&nbsp;angle</dd>
+</dl>
+<p>&nbsp;&nbsp;makeViewport3D(sp,title)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Create&nbsp;the&nbsp;viewport&nbsp;from&nbsp;$sp$</p>
+<p>Read the input file.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">read</span> <span class="n">bouquet</span>
+</pre></div>
+</div>
+<p>A bouquet of a dozen arrows.</p>
+<p>drawBouquet(12,&#8221;A Dozen Arrows&#8221;)</p>
+<p><img alt="picture" src="_images/bouquet.png" /></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-10.4.html" title="previous chapter">10.4 Points, Lines, and Curves</a></li>
+      <li>Next: <a href="section-10.6.html" title="next chapter">10.6 Diversion: When Things Go Wrong</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-10.5.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-10.5.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

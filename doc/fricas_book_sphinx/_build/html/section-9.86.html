@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.86 Void &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.87 WuWenTsunTriangularSet" href="section-9.87.html" />
+    <link rel="prev" title="9.85 Vector" href="section-9.85.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="void">
+<h1>9.86 Void<a class="headerlink" href="#void" title="Permalink to this headline">¶</a></h1>
+<p>When an expression is not in a value context, it is given type Void. For
+example, in the expression</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="p">;</span> <span class="n">b</span><span class="p">;</span> <span class="k">if</span> <span class="n">c</span> <span class="n">then</span> <span class="n">d</span> <span class="k">else</span> <span class="n">e</span><span class="p">;</span> <span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>values are used only from the subexpressions c and f: all others are
+thrown away. The subexpressions a, b, d and e are evaluated for
+side-effects only and have type Void. There is a unique value of type
+Void.</p>
+<p>You will most often see results of type Void when you declare a
+variable.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<p>Void</p>
+<p>Usually no output is displayed for Void results. You can force the
+display of a rather ugly object by issuing )set message void on.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">message</span> <span class="n">void</span> <span class="n">on</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span> <span class="n">Fraction</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;()&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">message</span> <span class="n">void</span> <span class="n">off</span>
+</pre></div>
+</div>
+<p>All values can be converted to type Void.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">3</span><span class="p">::</span><span class="n">Void</span>
+</pre></div>
+</div>
+<p>Void</p>
+<p>Once a value has been converted to Void, it cannot be recovered.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="p">::</span> <span class="n">PositiveInteger</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Cannot</span> <span class="n">convert</span> <span class="kn">from</span> <span class="nn">type</span> <span class="n">Void</span> <span class="n">to</span> <span class="n">PositiveInteger</span> <span class="k">for</span> <span class="n">value</span> <span class="s2">&quot;()&quot;</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.85.html" title="previous chapter">9.85 Vector</a></li>
+      <li>Next: <a href="section-9.87.html" title="next chapter">9.87 WuWenTsunTriangularSet</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.86.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.86.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

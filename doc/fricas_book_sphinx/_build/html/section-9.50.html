@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.50 MakeFunction &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.51 MappingPackage1" href="section-9.51.html" />
+    <link rel="prev" title="9.49 Magma" href="section-9.49.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="makefunction">
+<h1>9.50 MakeFunction<a class="headerlink" href="#makefunction" title="Permalink to this headline">¶</a></h1>
+<p>It is sometimes useful to be able to define a function given by the
+result of a calculation.</p>
+<p>Suppose that you have obtained the following expression after several
+computations and that you now want to tabulate the numerical values of f
+for x between -1 and +1 with increment 0.1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">expr</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">exp</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x3ex2+(-2x4-2x3)ex+x5+2x4+x3)sin(x2)3+(3x2ex2+(-6x3-6x2)ex+3x4+6x3+3x2)sin(x2)2+(3xex2+(-6x2-6x)ex+3x3+6x2+3x)sin(x2)+ex2+(-2x-2)ex+x2+2x+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Expression Integer</sub></p>
+<p>You could, of course, use the function evalevalExpression within a loop
+and evaluate expr twenty-one times, but this would be quite slow. A
+better way is to create a numerical function f such that f(x) is defined
+by the expression expr above, but without retyping expr! The package
+MakeFunction provides the operation functionfunctionMakeFunction which
+does exactly this.</p>
+<p>Issue this to create the function f(x) given by expr.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">function</span><span class="p">(</span><span class="n">expr</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>f</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>To tabulate expr, we can now quickly evaluate f 21 times.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">tbl</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="mi">20</span><span class="p">];</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0.00053918440362701574,0.00396575511844206653,0.008854518748339836892,0.01165248830907069695,0.010861822092457513645,0.0076366823212086996506,0.0040584985759782206255,0.0015349542891050083648,0.00034249031549879905716,0.000023330482760988196001,0.0,0.000026818687828625994229,0.00046915713720051642621,0.0026924576596851958608,0.010148688173691351488,0.031383372585438105643,0.087699114451546152979,0.23130197893439968362,0.5843743955958098772,1.4114930171992819197,3.221694827675164252]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Float</sub></p>
+<p>Use the list [x1,...,xn] as the third argument to
+functionfunctionMakeFunction to create a multivariate function
+f(x1,...,xn).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">e</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x4y4+(-2x5-2x4+2x2)y3+(x6+2x5+x4-4x3-4x2+1)y2+(2x4+4x3+2x2-2x-2)y+x2+2x+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">function</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>g</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>In the case of just two variables, they can be given as arguments
+without making them into a list.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">function</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>h</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<p>Note that the functions created by functionfunctionMakeFunction are not
+limited to floating point numbers, but can be applied to any type for
+which they are defined.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m1</span> <span class="p">:</span><span class="o">=</span> <span class="n">squareMatrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1234]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">m2</span> <span class="p">:</span><span class="o">=</span> <span class="n">squareMatrix</span> <span class="p">[</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[10-11]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-78368960-1713219588]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SquareMatrix(2,Integer)</sub></p>
+<p>For more information, see <a class="reference external" href="ugUserMakePage">ugUserMakePage</a> in Section
+<a class="reference external" href="ugUserMakeNumber">ugUserMakeNumber</a> .</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.49.html" title="previous chapter">9.49 Magma</a></li>
+      <li>Next: <a href="section-9.51.html" title="next chapter">9.51 MappingPackage1</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.50.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.50.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

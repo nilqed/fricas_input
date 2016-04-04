@@ -1,0 +1,690 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.88 XPBWPolynomial &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.89 XPolynomial" href="section-9.89.html" />
+    <link rel="prev" title="9.87 WuWenTsunTriangularSet" href="section-9.87.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="xpbwpolynomial">
+<h1>9.88 XPBWPolynomial<a class="headerlink" href="#xpbwpolynomial" title="Permalink to this headline">¶</a></h1>
+<p>Initialisations</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">:</span><span class="n">Symbol</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span><span class="p">:</span><span class="n">Symbol</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>b</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">RN</span> <span class="p">:</span><span class="o">=</span> <span class="n">Fraction</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>FractionInteger</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">word</span> <span class="p">:</span><span class="o">=</span> <span class="n">OrderedFreeMonoid</span> <span class="n">Symbol</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>OrderedFreeMonoidSymbol</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lword</span> <span class="p">:</span><span class="o">=</span> <span class="n">LyndonWord</span><span class="p">(</span><span class="n">Symbol</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>LyndonWordSymbol</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">base</span> <span class="p">:</span><span class="o">=</span> <span class="n">PoincareBirkhoffWittLyndonBasis</span> <span class="n">Symbol</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>PoincareBirkhoffWittLyndonBasisSymbol</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">XDistributedPolynomial</span><span class="p">(</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">RN</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>XDistributedPolynomial(Symbol,FractionInteger)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">XRecursivePolynomial</span><span class="p">(</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">RN</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>XRecursivePolynomial(Symbol,FractionInteger)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">LiePolynomial</span><span class="p">(</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">RN</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>LiePolynomial(Symbol,FractionInteger)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">poly</span> <span class="p">:</span><span class="o">=</span> <span class="n">XPBWPolynomial</span><span class="p">(</span><span class="n">Symbol</span><span class="p">,</span> <span class="n">RN</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>XPBWPolynomial(Symbol,FractionInteger)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">liste</span> <span class="p">:</span> <span class="n">List</span> <span class="n">lword</span> <span class="p">:</span><span class="o">=</span> <span class="n">LyndonWordsList</span><span class="p">([</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">],</span> <span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[a],[b],[ab],[a2b],[ab2],[a3b],[a2b2],[ab3],[a4b],[a3b2],[a2bab],[a2b3],[abab2],[ab4],[a5b],[a4b2],[a3bab],[a3b3],[a2bab2],[a2b2ab],[a2b4],[abab3],[ab5]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List LyndonWord Symbol</sub></p>
+<p>Let&#8217;s make some polynomials</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>0$poly
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPBWPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>1$poly
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPBWPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span> <span class="n">poly</span> <span class="p">:</span><span class="o">=</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[a]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPBWPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">:</span> <span class="n">poly</span> <span class="p">:</span><span class="o">=</span> <span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[b]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPBWPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pq</span><span class="p">:</span> <span class="n">poly</span> <span class="p">:</span><span class="o">=</span> <span class="n">p</span><span class="o">*</span><span class="n">q</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[ab]+[b][a]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPBWPolynomial(Symbol,Fraction Integer)</sub></p>
+<p>Coerce to distributed polynomial</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pq</span> <span class="p">::</span> <span class="n">dpoly</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ab</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XDistributedPolynomial(Symbol,Fraction Integer)</sub></p>
+<p>Check some polynomial operations</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mirror</span> <span class="n">pq</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[b][a]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPBWPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ListOfTerms</span> <span class="n">pq</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[k=[b][a],c=1],[k=[ab],c=1]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Record(k: PoincareBirkhoffWittLyndonBasis Symbol,c: Fraction</sub>
+Integer)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reductum</span> <span class="n">pq</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[ab]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPBWPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leadingMonomial</span> <span class="n">pq</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[b][a]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PoincareBirkhoffWittLyndonBasis Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">coefficients</span> <span class="n">pq</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leadingTerm</span> <span class="n">pq</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[k=[b][a],c=1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record(k: PoincareBirkhoffWittLyndonBasis Symbol,c: Fraction</sub>
+Integer)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">degree</span> <span class="n">pq</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pq4</span><span class="p">:</span><span class="o">=</span><span class="n">exp</span><span class="p">(</span><span class="n">pq</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+[ab]+[b][a]+12[ab][ab]+12[ab2][a]+12[b][a2b]+32[b][ab][a]+12[b][b][a][a]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPBWPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">log</span><span class="p">(</span><span class="n">pq4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> <span class="o">-</span> <span class="n">pq</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPBWPolynomial(Symbol,Fraction Integer)</sub></p>
+<p>Calculations with verification in XDistributedPolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lp1</span> <span class="p">:</span><span class="n">lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">LiePoly</span> <span class="n">liste</span><span class="o">.</span><span class="mi">10</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[a3b2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lp2</span> <span class="p">:</span><span class="n">lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">LiePoly</span> <span class="n">liste</span><span class="o">.</span><span class="mi">11</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[a2bab]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="p">:</span><span class="n">lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">lp1</span><span class="p">,</span> <span class="n">lp2</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[a3b2a2bab]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lpd1</span><span class="p">:</span> <span class="n">dpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">lp1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a3b2-2a2bab-a2b2a+4ababa-ab2a2-2baba2+b2a3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XDistributedPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lpd2</span><span class="p">:</span> <span class="n">dpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">lp2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a2bab-a2b2a-3aba2b+4ababa-ab2a2+2ba3b-3ba2ba+baba2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XDistributedPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lpd</span> <span class="p">:</span> <span class="n">dpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">lpd1</span> <span class="o">*</span> <span class="n">lpd2</span> <span class="o">-</span> <span class="n">lpd2</span> <span class="o">*</span> <span class="n">lpd1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a3b2a2bab-a3b2a2b2a-3a3b2aba2b+4a3b2ababa-a3b2ab2a2+2a3b3a3b-3a3b3a2ba+a3b3aba2-a2baba3b2+3a2baba2b2a+6a2bababa2b-12a2babababa+3a2babab2a2-4a2bab2a3b+6a2bab2a2ba-a2bab3a3+a2b2a4b2-3a2b2a3bab+3a2b2a2ba2b-2a2b2aba3b+3a2b2aba2ba-3a2b2ababa2+a2b2ab2a3+3aba2ba3b2-6aba2ba2bab-3aba2ba2b2a+12aba2bababa-3aba2bab2a2-6aba2b2aba2+3aba2b3a3-4ababa4b2+12ababa3bab-12ababa2ba2b+8abababa3b-12abababa2ba+12ababababa2-4ababab2a3+ab2a5b2-3ab2a4bab+3ab2a3ba2b-2ab2a2ba3b+3ab2a2ba2ba-3ab2a2baba2+ab2a2b2a3-2ba3ba3b2+4ba3ba2bab+2ba3ba2b2a-8ba3bababa+2ba3bab2a2+4ba3b2aba2-2ba3b3a3+3ba2ba4b2-6ba2ba3bab-3ba2ba3b2a+12ba2ba2baba-3ba2ba2b2a2-6ba2bababa2+3ba2bab2a3-baba5b2+3baba4b2a+6baba3ba2b-12baba3baba+3baba3b2a2-4baba2ba3b+6baba2ba2ba-baba2b2a3+b2a5bab-b2a5b2a-3b2a4ba2b+4b2a4baba-b2a4b2a2+2b2a3ba3b-3b2a3ba2ba+b2a3baba2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XDistributedPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lp</span> <span class="p">::</span> <span class="n">dpoly</span> <span class="o">-</span> <span class="n">lpd</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XDistributedPolynomial(Symbol,Fraction Integer)</sub></p>
+<p>Calculations with verification in XRecursivePolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">lp</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3[a3b2a2bab]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPBWPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">:</span><span class="o">=</span> <span class="n">lp1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[a3b2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPBWPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pq</span><span class="p">:</span><span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3[a3b2a2bab][a3b2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XPBWPolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pr</span><span class="p">:</span><span class="n">rpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">p</span> <span class="p">::</span> <span class="n">rpoly</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a(a(abb(a(ab(ab3+ba(-3))+b(a(ab(-9)+ba12)+baa(-3)))+ba(a(ab6+ba(-9))+baa3))+b(ab(a(a(abb(-3)+bba9)+b(a(ab18+ba(-36))+baa9))+b(aa(ab(-12)+ba18)+baaa(-3)))+ba(a(a(abb3+bab(-9))+baab9)+b(a(a(ab(-6)+ba9)+baa(-9))+baaa3))))+b(a(ab(a(a(abb9+b(ab(-18)+ba(-9)))+b(aba36+baa(-9)))+b(abaa(-18)+baaa9))+ba(a(a(abb(-12)+bab36)+baab(-36))+b(a(a(ab24+ba(-36))+baa36)+baaa(-12))))+baa(a(a(abb3+bab(-9))+baab9)+b(a(a(ab(-6)+ba9)+baa(-9))+baaa3))))+b(a(a(ab(a(a(abb(-6)+b(ab12+ba6))+b(aba(-24)+baa6))+b(abaa12+baaa(-6)))+ba(a(a(abb9+b(ab(-18)+ba(-9)))+b(aba36+baa(-9)))+b(abaa(-18)+baaa9)))+baa(a(a(abb(-3)+bba9)+b(a(ab18+ba(-36))+baa9))+b(aa(ab(-12)+ba18)+baaa(-3))))+baaa(a(ab(ab3+ba(-3))+b(a(ab(-9)+ba12)+baa(-3)))+ba(a(ab6+ba(-9))+baa3)))</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XRecursivePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">qr</span><span class="p">:</span><span class="n">rpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">q</span> <span class="p">::</span> <span class="n">rpoly</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a(a(abb1+b(ab(-2)+ba(-1)))+b(aba4+baa(-1)))+b(abaa(-2)+baaa1)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XRecursivePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pq</span> <span class="p">::</span> <span class="n">rpoly</span> <span class="o">-</span> <span class="n">pr</span><span class="o">*</span><span class="n">qr</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: XRecursivePolynomial(Symbol,Fraction Integer)</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.87.html" title="previous chapter">9.87 WuWenTsunTriangularSet</a></li>
+      <li>Next: <a href="section-9.89.html" title="next chapter">9.89 XPolynomial</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.88.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.88.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

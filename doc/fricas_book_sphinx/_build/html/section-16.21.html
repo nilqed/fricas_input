@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.21 )set &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="16.22 )show" href="section-16.22.html" />
+    <link rel="prev" title="16.20 )read" href="section-16.20.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="set">
+<h1>16.21 )set<a class="headerlink" href="#set" title="Permalink to this headline">¶</a></h1>
+<p>ugSysCmdset</p>
+<p>set</p>
+<blockquote>
+<div><p>User Level Required: interpreter</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)set</p>
+<p>)set label1 [... labelN]</p>
+<p>)set label1 [... labelN] newValue</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>The )set command is used to view or set system variables that control
+what messages are displayed, the type of output desired, the status of
+the history facility, the way FriCAS user functions are cached, and so
+on. Since this collection is very large, we will not discuss them here.
+Rather, we will show how the facility is used. We urge you to explore
+the )set options to familiarize yourself with how you can modify your
+FriCAS working environment. There is a HyperDoc version of this same
+facility available from the main HyperDoc menu.</p>
+<p>The )set command is command-driven with a menu display. It is
+tree-structured. To see all top-level nodes, issue )set by itself.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span>
+</pre></div>
+</div>
+<p>Variables with values have them displayed near the right margin.
+Subtrees of selections have ... displayed in the value field. For
+example, there are many kinds of messages, so issue )set message to see
+the choices.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">message</span>
+</pre></div>
+</div>
+<p>The current setting for the variable that displays computation
+timings:displaying whether computation times timings:displaying are
+displayed is visible in the menu displayed by the last command. To see
+more information, issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">message</span> <span class="n">time</span>
+</pre></div>
+</div>
+<p>This shows that time printing is on now. To turn it off, issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">message</span> <span class="n">time</span> <span class="n">off</span>
+</pre></div>
+</div>
+<p>set message time</p>
+<p>As noted above, not all settings have so many qualifiers. For example,
+to change the )quit command to being unprotected (that is, you will not
+be prompted for verification), you need only issue</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">quit</span> <span class="n">unprotected</span>
+</pre></div>
+</div>
+<p>set quit unprotected</p>
+<blockquote>
+<div>Also See: )quit ugSysCmdquit.</div></blockquote>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.20.html" title="previous chapter">16.20 )read</a></li>
+      <li>Next: <a href="section-16.22.html" title="next chapter">16.22 )show</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.21.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.21.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,884 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.13 CycleIndicators &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.14 DeRhamComplex" href="section-9.14.html" />
+    <link rel="prev" title="9.12 ContinuedFraction" href="section-9.12.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="cycleindicators">
+<h1>9.13 CycleIndicators<a class="headerlink" href="#cycleindicators" title="Permalink to this headline">¶</a></h1>
+<p>This section is based upon the paper J. H. Redfield, The Theory of
+Group-Reduced Distributions, American J. Math.,49 (1927) 433-455, and is
+an application of group theory to enumeration problems. It is a
+development of the work by P. A. MacMahon on the application of
+symmetric functions and Hammond operators to combinatorial theory.</p>
+<p>The theory is based upon the power sum symmetric functions si which are
+the sum of the i-th powers of the variables. The cycle index of a
+permutation is an expression that specifies the sizes of the cycles of a
+permutation, and may be represented as a partition. A partition of a
+non-negative integer n is a collection of positive integers called its
+parts whose sum is n. For example, the partition (32212) will be used to
+represent and will indicate that the permutation has two cycles of
+length 3, one of length 2 and two of length 1. The cycle index of a
+permutation group is the sum of the cycle indices of its permutations
+divided by the number of permutations. The cycle indices of certain
+groups are provided.</p>
+<p>The operation complete returns the cycle index of the symmetric group of
+order n for argument n. Alternatively, it is the n-th complete
+homogeneous symmetric function expressed in terms of power sum symmetric
+functions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complete</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><ol class="first last arabic simple">
+<li></li>
+</ol>
+</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SymmetricPolynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complete</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>12(2)+12(12)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SymmetricPolynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complete</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>13(3)+12(21)+16(13)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SymmetricPolynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">complete</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>17(7)+16(61)+110(52)+110(512)+112(43)+18(421)+124(413)+118(321)+124(322)+112(3212)+172(314)+148(231)+148(2213)+1240(215)+15040(17)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SymmetricPolynomial Fraction Integer</sub></p>
+<p>The operation elementary computes the n-th elementary symmetric function
+for argument n.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">elementary</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>17(7)-16(61)-110(52)+110(512)-112(43)+18(421)-124(413)+118(321)+124(322)-112(3212)+172(314)-148(231)+148(2213)-1240(215)+15040(17)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SymmetricPolynomial Fraction Integer</sub></p>
+<p>The operation alternating returns the cycle index of the alternating
+group having an even number of even parts in each cycle partition.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">alternating</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>27(7)+15(512)+14(421)+19(321)+112(322)+136(314)+124(2213)+12520(17)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SymmetricPolynomial Fraction Integer</sub></p>
+<p>The operation cyclic returns the cycle index of the cyclic group.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cyclic</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>67(7)+17(17)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SymmetricPolynomial Fraction Integer</sub></p>
+<p>The operation dihedral is the cycle index of the dihedral group.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dihedral</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>37(7)+12(231)+114(17)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SymmetricPolynomial Fraction Integer</sub></p>
+<p>The operation graphs for argument n returns the cycle index of the group
+of permutations on the edges of the complete graph with n nodes induced
+by applying the symmetric group to the nodes.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">graphs</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>16(631)+15(52)+14(422)+16(331)+18(2412)+112(2314)+1120(110)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SymmetricPolynomial Fraction Integer</sub></p>
+<p>The cycle index of a direct product of two groups is the product of the
+cycle indices of the groups. Redfield provided two operations on two
+cycle indices which will be called cup and cap here. The cup of two
+cycle indices is a kind of scalar product that combines monomials for
+permutations with the same cycles. The cap operation provides the sum of
+the coefficients of the result of the cup operation which will be an
+integer that enumerates what Redfield called group-reduced
+distributions.</p>
+<p>We can, for example, represent complete 2 * complete 2 as the set of
+objects a a b b and complete 2 * complete 1 * complete 1 as c c d e.</p>
+<p>This integer is the number of different sets of four pairs.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">complete</span> <span class="mi">2</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">complete</span> <span class="mi">2</span><span class="o">*</span><span class="n">complete</span> <span class="mi">1</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>For example,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="n">a</span> <span class="n">b</span> <span class="n">b</span>     <span class="n">a</span> <span class="n">a</span> <span class="n">b</span> <span class="n">b</span>    <span class="n">a</span> <span class="n">a</span> <span class="n">b</span> <span class="n">b</span>   <span class="n">a</span> <span class="n">a</span> <span class="n">b</span> <span class="n">b</span>
+<span class="n">c</span> <span class="n">c</span> <span class="n">d</span> <span class="n">e</span>     <span class="n">c</span> <span class="n">d</span> <span class="n">c</span> <span class="n">e</span>    <span class="n">c</span> <span class="n">e</span> <span class="n">c</span> <span class="n">d</span>   <span class="n">d</span> <span class="n">e</span> <span class="n">c</span> <span class="n">c</span>
+</pre></div>
+</div>
+<p>This integer is the number of different sets of four pairs no two pairs
+being equal.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">elementary</span> <span class="mi">2</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">complete</span> <span class="mi">2</span><span class="o">*</span><span class="n">complete</span> <span class="mi">1</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>For example,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="n">a</span> <span class="n">b</span> <span class="n">b</span>    <span class="n">a</span> <span class="n">a</span> <span class="n">b</span> <span class="n">b</span>
+<span class="n">c</span> <span class="n">d</span> <span class="n">c</span> <span class="n">e</span>    <span class="n">c</span> <span class="n">e</span> <span class="n">c</span> <span class="n">d</span>
+</pre></div>
+</div>
+<p>In this case the configurations enumerated are easily constructed,
+however the theory merely enumerates them providing little help in
+actually constructing them.</p>
+<p>Here are the number of 6-pairs, first from a a a b b c, second from d d
+e e f g.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">complete</span> <span class="mi">3</span><span class="o">*</span><span class="n">complete</span> <span class="mi">2</span><span class="o">*</span><span class="n">complete</span> <span class="mi">1</span><span class="p">,</span><span class="n">complete</span> <span class="mi">2</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">complete</span> <span class="mi">1</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>24</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>Here it is again, but with no equal pairs.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">elementary</span> <span class="mi">3</span><span class="o">*</span><span class="n">elementary</span> <span class="mi">2</span><span class="o">*</span><span class="n">elementary</span> <span class="mi">1</span><span class="p">,</span><span class="n">complete</span> <span class="mi">2</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">complete</span> <span class="mi">1</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">complete</span> <span class="mi">3</span><span class="o">*</span><span class="n">complete</span> <span class="mi">2</span><span class="o">*</span><span class="n">complete</span> <span class="mi">1</span><span class="p">,</span><span class="n">elementary</span> <span class="mi">2</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">elementary</span> <span class="mi">1</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>The number of 6-triples, first from a a a b b c, second from d d e e f
+g, third from h h i i j j.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">cup</span><span class="p">(</span><span class="n">complete</span> <span class="mi">3</span><span class="o">*</span><span class="n">complete</span> <span class="mi">2</span><span class="o">*</span><span class="n">complete</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cup</span><span class="p">(</span><span class="n">complete</span> <span class="mi">2</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">complete</span>
+</pre></div>
+</div>
+<p>1^2,complete 2^3)))</p>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1500</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>The cycle index of vertices of a square is dihedral 4.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">square</span><span class="p">:</span><span class="o">=</span><span class="n">dihedral</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>14(4)+38(22)+14(212)+18(14)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SymmetricPolynomial Fraction Integer</sub></p>
+<p>The number of different squares with 2 red vertices and 2 blue vertices.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">complete</span> <span class="mi">2</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span><span class="n">square</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>The number of necklaces with 3 red beads, 2 blue beads and 2 green
+beads.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">complete</span> <span class="mi">3</span><span class="o">*</span><span class="n">complete</span> <span class="mi">2</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span><span class="n">dihedral</span> <span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>18</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>The number of graphs with 5 nodes and 7 edges.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">graphs</span> <span class="mi">5</span><span class="p">,</span><span class="n">complete</span> <span class="mi">7</span><span class="o">*</span><span class="n">complete</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>The cycle index of rotations of vertices of a cube.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">powerSum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cube</span><span class="p">:</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">24</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">s</span> <span class="mi">1</span><span class="o">^</span><span class="mi">8</span><span class="o">+</span><span class="mi">9</span><span class="o">*</span><span class="n">s</span> <span class="mi">2</span><span class="o">^</span><span class="mi">4</span> <span class="o">+</span> <span class="mi">8</span><span class="o">*</span><span class="n">s</span> <span class="mi">3</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">s</span> <span class="mi">1</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="mi">6</span><span class="o">*</span><span class="n">s</span> <span class="mi">4</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">s</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">PositiveInteger</span> <span class="o">-&gt;</span>
+   <span class="n">SymmetricPolynomial</span> <span class="n">Fraction</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>14(42)+13(3212)+38(24)+124(18)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SymmetricPolynomial Fraction Integer</sub></p>
+<p>The number of cubes with 4 red vertices and 4 blue vertices.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">complete</span> <span class="mi">4</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span><span class="n">cube</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>The number of labeled graphs with degree sequence 2 2 2 1 1 with no
+loops or multiple edges.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">complete</span> <span class="mi">2</span><span class="o">^</span><span class="mi">3</span><span class="o">*</span><span class="n">complete</span> <span class="mi">1</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span><span class="n">wreath</span><span class="p">(</span><span class="n">elementary</span> <span class="mi">4</span><span class="p">,</span><span class="n">elementary</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>Again, but with loops allowed but not multiple edges.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">complete</span> <span class="mi">2</span><span class="o">^</span><span class="mi">3</span><span class="o">*</span><span class="n">complete</span> <span class="mi">1</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span><span class="n">wreath</span><span class="p">(</span><span class="n">elementary</span> <span class="mi">4</span><span class="p">,</span><span class="n">complete</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>17</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>Again, but with multiple edges allowed, but not loops</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">complete</span> <span class="mi">2</span><span class="o">^</span><span class="mi">3</span><span class="o">*</span><span class="n">complete</span> <span class="mi">1</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span><span class="n">wreath</span><span class="p">(</span><span class="n">complete</span> <span class="mi">4</span><span class="p">,</span><span class="n">elementary</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>Again, but with both multiple edges and loops allowed</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">complete</span> <span class="mi">2</span><span class="o">^</span><span class="mi">3</span><span class="o">*</span><span class="n">complete</span> <span class="mi">1</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span><span class="n">wreath</span><span class="p">(</span><span class="n">complete</span> <span class="mi">4</span><span class="p">,</span><span class="n">complete</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>23</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>Having constructed a cycle index for a configuration we are at liberty
+to evaluate the si components any way we please. For example we can
+produce enumerating generating functions. This is done by providing a
+function f on an integer i to the value required of si, and then
+evaluating eval(f, cycleindex).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">:</span> <span class="n">ULS</span><span class="p">(</span><span class="n">FRAC</span> <span class="n">INT</span><span class="p">,</span><span class="s1">&#39;x,0) := &#39;</span><span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Fraction Integer,x,0)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ZeroOrOne</span><span class="p">:</span> <span class="n">INT</span> <span class="o">-&gt;</span> <span class="n">ULS</span><span class="p">(</span><span class="n">FRAC</span> <span class="n">INT</span><span class="p">,</span> <span class="s1">&#39;x, 0)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Integers</span><span class="p">:</span> <span class="n">INT</span> <span class="o">-&gt;</span> <span class="n">ULS</span><span class="p">(</span><span class="n">FRAC</span> <span class="n">INT</span><span class="p">,</span> <span class="s1">&#39;x, 0)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>For the integers 0 and 1, or two colors.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ZeroOrOne</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="o">+</span><span class="n">x</span><span class="o">^</span><span class="n">n</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ZeroOrOne</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">ZeroOrOne</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Integer</span> <span class="o">-&gt;</span>
+   <span class="n">UnivariateLaurentSeries</span><span class="p">(</span><span class="n">Fraction</span> <span class="n">Integer</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x5</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Fraction Integer,x,0)</sub></p>
+<p>For the integers 0, 1, 2, ... we have this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Integers</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="o">^</span><span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Integers</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">Integers</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Integer</span> <span class="o">-&gt;</span>
+   <span class="n">UnivariateLaurentSeries</span><span class="p">(</span><span class="n">Fraction</span> <span class="n">Integer</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x5+O(x8)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Fraction Integer,x,0)</sub></p>
+<p>The coefficient of xn is the number of graphs with 5 nodes and n edges.</p>
+<p>Note that there is an eval function that takes two arguments. It has the
+signature:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">((</span><span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">D1</span><span class="p">),</span><span class="n">SymmetricPolynomial</span> <span class="n">Fraction</span> <span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">D1</span>
+  <span class="kn">from</span> <span class="nn">EvaluateCycleIndicators</span> <span class="n">D1</span> <span class="k">if</span> <span class="n">D1</span> <span class="n">has</span> <span class="n">ALGEBRA</span> <span class="n">FRAC</span> <span class="n">INT</span>
+</pre></div>
+</div>
+<p>This function is not normally exposed (it will not normally be
+considered in the list of eval functions) as it is only useful for this
+particular domain. To use it we ask that it be considered thus:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">expose</span> <span class="n">EVALCYC</span>
+</pre></div>
+</div>
+<p>and now we can use it:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">ZeroOrOne</span><span class="p">,</span> <span class="n">graphs</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x+2x2+4x3+6x4+6x5+6x6+4x7+O(x8)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Fraction Integer,x,0)</sub></p>
+<p>The coefficient of xn is the number of necklaces with n red beads and
+n-8 green beads.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">ZeroOrOne</span><span class="p">,</span><span class="n">dihedral</span> <span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x+4x2+5x3+8x4+5x5+4x6+x7+O(x8)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Fraction Integer,x,0)</sub></p>
+<p>The coefficient of xn is the number of partitions of n into 4 or fewer
+parts.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">Integers</span><span class="p">,</span><span class="n">complete</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x+2x2+3x3+5x4+6x5+9x6+11x7+O(x8)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Fraction Integer,x,0)</sub></p>
+<p>The coefficient of xn is the number of partitions of n into 4 boxes
+containing ordered distinct parts.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">Integers</span><span class="p">,</span><span class="n">elementary</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x6+x7+2x8+3x9+5x10+6x11+9x12+11x13+O(x14)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Fraction Integer,x,0)</sub></p>
+<p>The coefficient of xn is the number of different cubes with n red
+vertices and 8-n green ones.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">ZeroOrOne</span><span class="p">,</span><span class="n">cube</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x+3x2+3x3+7x4+3x5+3x6+x7+O(x8)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Fraction Integer,x,0)</sub></p>
+<p>The coefficient of xn is the number of different cubes with integers on
+the vertices whose sum is n.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">Integers</span><span class="p">,</span><span class="n">cube</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x+4x2+7x3+21x4+37x5+85x6+151x7+O(x8)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Fraction Integer,x,0)</sub></p>
+<p>The coefficient of xn is the number of graphs with 5 nodes and with
+integers on the edges whose sum is n. In other words, the enumeration is
+of multigraphs with 5 nodes and n edges.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">Integers</span><span class="p">,</span><span class="n">graphs</span> <span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x+3x2+7x3+17x4+35x5+76x6+149x7+O(x8)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Fraction Integer,x,0)</sub></p>
+<p>Graphs with 15 nodes enumerated with respect to number of edges.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">ZeroOrOne</span> <span class="p">,</span><span class="n">graphs</span> <span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1+x+2x2+5x3+11x4+26x5+68x6+177x7+O(x8)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Fraction Integer,x,0)</sub></p>
+<p>Necklaces with 7 green beads, 8 white beads, 5 yellow beads and 10 red
+beads.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">dihedral</span> <span class="mi">30</span><span class="p">,</span><span class="n">complete</span> <span class="mi">7</span><span class="o">*</span><span class="n">complete</span> <span class="mi">8</span><span class="o">*</span><span class="n">complete</span> <span class="mi">5</span><span class="o">*</span><span class="n">complete</span> <span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>49958972383320</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>The operation SFunction is the S-function or Schur function of a
+partition written as a descending list of integers expressed in terms of
+power sum symmetric functions.</p>
+<p>In this case the argument partition represents a tableau shape. For
+example 3,2,2,1 represents a tableau with three boxes in the first row,
+two boxes in the second and third rows, and one box in the fourth row.
+SFunction [3,2,2,1] counts the number of different tableaux of shape 3,
+2, 2, 1 filled with objects with an ascending order in the columns and a
+non-descending order in the rows.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sf3221</span><span class="p">:</span><span class="o">=</span> <span class="n">SFunction</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>112(62)-112(612)-116(42)+112(431)+124(414)-136(322)+136(3212)-124(3221)-136(3213)-172(315)-1192(24)+148(2312)+196(2214)-1144(216)+1576(18)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: SymmetricPolynomial Fraction Integer</sub></p>
+<p>This is the number filled with a a b b c c d d.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">sf3221</span><span class="p">,</span><span class="n">complete</span> <span class="mi">2</span><span class="o">^</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>The configurations enumerated above are:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="n">a</span> <span class="n">b</span>    <span class="n">a</span> <span class="n">a</span> <span class="n">c</span>    <span class="n">a</span> <span class="n">a</span> <span class="n">d</span>
+<span class="n">b</span> <span class="n">c</span>      <span class="n">b</span> <span class="n">b</span>      <span class="n">b</span> <span class="n">b</span>
+<span class="n">c</span> <span class="n">d</span>      <span class="n">c</span> <span class="n">d</span>      <span class="n">c</span> <span class="n">c</span>
+<span class="n">d</span>        <span class="n">d</span>        <span class="n">d</span>
+</pre></div>
+</div>
+<p>This is the number of tableaux filled with 1..8.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cap</span><span class="p">(</span><span class="n">sf3221</span><span class="p">,</span> <span class="n">powerSum</span> <span class="mi">1</span><span class="o">^</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>70</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>The coefficient of xn is the number of column strict reverse plane
+partitions of n of shape 3 2 2 1.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">Integers</span><span class="p">,</span> <span class="n">sf3221</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x9+3x10+7x11+14x12+27x13+47x14+O(x15)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariateLaurentSeries(Fraction Integer,x,0)</sub></p>
+<p>The smallest is</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+<span class="mi">1</span> <span class="mi">1</span>
+<span class="mi">2</span> <span class="mi">2</span>
+<span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.12.html" title="previous chapter">9.12 ContinuedFraction</a></li>
+      <li>Next: <a href="section-9.14.html" title="next chapter">9.14 DeRhamComplex</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.13.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.13.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.28 )what &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="17.1 FriCAS Categories" href="section-17.1.html" />
+    <link rel="prev" title="16.27 )undo" href="section-16.27.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="what">
+<h1>16.28 )what<a class="headerlink" href="#what" title="Permalink to this headline">¶</a></h1>
+<p>ugSysCmdwhat</p>
+<p>what</p>
+<blockquote>
+<div><p>User Level Required: interpreter</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)what categories pattern1 [pattern2 ...]</p>
+<p>)what commands pattern1 [pattern2 ...]</p>
+<p>)what domains pattern1 [pattern2 ...]</p>
+<p>)what operations pattern1 [pattern2 ...]</p>
+<p>)what packages pattern1 [pattern2 ...]</p>
+<p>)what synonym pattern1 [pattern2 ...]</p>
+<p>)what things pattern1 [pattern2 ...]</p>
+<p>)apropos pattern1 [pattern2 ...]</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>This command is used to display lists of things in the system. The
+patterns are all strings and, if present, restrict the contents of the
+lists. Only those items that contain one or more of the strings as
+substrings are displayed. For example,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">what</span> <span class="n">synonym</span>
+</pre></div>
+</div>
+<p>displays all command synonyms,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">what</span> <span class="n">synonym</span> <span class="n">ver</span>
+</pre></div>
+</div>
+<p>displays all command synonyms containing the substring ver,</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">what</span> <span class="n">synonym</span> <span class="n">ver</span> <span class="n">pr</span>
+</pre></div>
+</div>
+<p>displays all command synonyms containing the substring ver or the
+substring pr. Output similar to the following will be displayed</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">----------------</span> <span class="n">System</span> <span class="n">Command</span> <span class="n">Synonyms</span> <span class="o">-----------------</span>
+<span class="n">user</span><span class="o">-</span><span class="n">defined</span> <span class="n">synonyms</span> <span class="n">satisfying</span> <span class="n">patterns</span><span class="p">:</span>
+      <span class="n">ver</span> <span class="n">pr</span>
+  <span class="p">)</span><span class="n">apr</span> <span class="o">...........................</span> <span class="p">)</span><span class="n">what</span> <span class="n">things</span>
+  <span class="p">)</span><span class="n">apropos</span> <span class="o">.......................</span> <span class="p">)</span><span class="n">what</span> <span class="n">things</span>
+  <span class="p">)</span><span class="n">prompt</span> <span class="o">........................</span> <span class="p">)</span><span class="nb">set</span> <span class="n">message</span> <span class="n">prompt</span>
+  <span class="p">)</span><span class="n">version</span> <span class="o">.......................</span> <span class="p">)</span><span class="n">lisp</span> <span class="o">*</span><span class="n">yearweek</span><span class="o">*</span>
+</pre></div>
+</div>
+<p>Several other things can be listed with the )what command:</p>
+<dl class="docutils">
+<dt>categories</dt>
+<dd>displays a list of category constructors. what categories</dd>
+<dt>commands</dt>
+<dd>displays a list of system commands available at your user-level.
+what commands Your user-level user-level is set via the )set
+userlevel command. set userlevel To get a description of a
+particular command, such as )what, issue )help what.</dd>
+<dt>domains</dt>
+<dd>displays a list of domain constructors. what domains</dd>
+<dt>operations</dt>
+<dd>displays a list of operations in the system library. what operations
+It is recommended that you qualify this command with one or more
+patterns, as there are thousands of operations available. For
+example, say you are looking for functions that involve computation
+of eigenvalues. To find their names, try )what operations eig. A
+rather large list of operations is loaded into the workspace when
+this command is first issued. This list will be deleted when you
+clear the workspace via )clear all or )clear completely. It will be
+re-created if it is needed again.</dd>
+<dt>packages</dt>
+<dd>displays a list of package constructors. what packages</dd>
+<dt>synonym</dt>
+<dd>lists system command synonyms. what synonym</dd>
+<dt>things</dt>
+<dd><blockquote class="first">
+<div>displays all of the above types for items containing what things the
+pattern strings as substrings. The command synonym )apropos is
+equivalent to apropos )what things.</div></blockquote>
+<p class="last">Also See: )display ugSysCmddisplay, )set ugSysCmdset, and )show</p>
+</dd>
+</dl>
+<p>ugSysCmdshow.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.27.html" title="previous chapter">16.27 )undo</a></li>
+      <li>Next: <a href="section-17.1.html" title="next chapter">17.1 FriCAS Categories</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.28.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.28.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.11 Derivatives &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="1.12 Integration" href="section-1.12.html" />
+    <link rel="prev" title="1.10 Series" href="section-1.10.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="derivatives">
+<h1>1.11 Derivatives<a class="headerlink" href="#derivatives" title="Permalink to this headline">¶</a></h1>
+<p>Use the FriCAS function <strong>D</strong> to differentiate an expression.</p>
+<p>To find the derivative of an expression f with respect to a variable x,</p>
+<div class="math">
+\[\frac{d\,f(x)}{d\,x}\]</div>
+<p>enter <code class="docutils literal"><span class="pre">D(f,</span> <span class="pre">x)</span></code>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">exp</span> <span class="n">exp</span> <span class="n">x</span>
+</pre></div>
+</div>
+<div class="math">
+\[{e} ^ {{{e} ^ {x}}}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{e} ^ {x}} \  {{e} ^ {{{e} ^ {x}}}}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>An optional third argument n in D asks FriCAS for the n-th derivative of
+f. This finds the fourth derivative of f with respect to x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{\left( {{{{e} ^ {x}}} ^ {4}}+{6 \  {{{{e} ^ {x}}} ^ {3}}}+{7 \
+{{{{e} ^ {x}}} ^ {2}}}+{{e} ^ {x}}
+\right)}
+\  {{e} ^ {{{e} ^ {x}}}}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>You can also compute partial derivatives by specifying the order of
+differentiation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="p">:</span><span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\sin
+\left(
+  {{y+{{x} ^ {2}}}}
+\right)\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\cos
+ \left(
+  {{y+{{x} ^ {2}}}}
+ \right)\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="p">[</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[{4 \  {{x} ^ {2}} \  {\sin
+ \left(
+ {{y+{{x} ^ {2}}}}
+ \right)}}
+  -{2 \  {\cos
+ \left(
+ {{y+{{x} ^ {2}}}}
+ \right)}}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>FriCAS can manipulate the derivatives (partial and iterated) of
+expressions involving formal operators. All the dependencies must be
+explicit.</p>
+<p>This returns 0 since F (so far) does not explicitly depend on x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="n">F</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: Polynomial Integer</sub></p>
+<p>Suppose that we have F a function of x, y, and z, where x and y are
+themselves functions of z.</p>
+<p>Start by declaring that F, x, and y are operators. operator</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">F</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span> <span class="s1">&#39;F; x := operator &#39;</span><span class="n">x</span><span class="p">;</span> <span class="n">y</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span> <span class="s1">&#39;y</span>
+</pre></div>
+</div>
+<div class="math">
+\[y\]</div>
+<p><sub>Type: BasicOperator</sub></p>
+<p>You can use F, x, and y in expressions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="n">F</span><span class="p">(</span><span class="n">x</span> <span class="n">z</span><span class="p">,</span> <span class="n">y</span> <span class="n">z</span><span class="p">,</span> <span class="n">z</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span> <span class="n">y</span><span class="p">(</span><span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{x\left({{y\left({{z+1}}\right)}}\right)}+{F
+  \left({{x\left({z}\right)},\: {y
+  \left({z}\right)},\: {{z} ^ {2}}}\right)}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>Differentiate formally with respect to z. The formal derivatives
+appearing in dadz are not just formal symbols, but do represent the
+derivatives of x, y, and F.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dadz</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\scriptstyle{
+{2 \  z \  {{F _ {{,3}}}
+ \left({{x\left({z}\right)},\: {y\left({z}\right)},\: {{z} ^ {2}}}
+ \right)}}+{{{y_ {{\ }} ^ {,}}\left({z}\right)}\  {{F _ {{,2}}}
+ \left({{x\left({z}\right)},\: {y\left({z}\right)},\: {{z} ^ {2}}}
+ \right)}}+{{{x_ {{\ }} ^ {,}}\left({z}\right)}\  {{F _ {{,1}}}
+ \left({{x\left({z}\right)},\: {y\left({z}\right)},\: {{z} ^ {2}}}
+ \right)}}+{{{x_ {{\ }} ^ {,}}\left({{y\left({{z+1}}\right)}}
+ \right)}\  {{y _ {{\ }} ^ {,}}\left({{z+1}}\right)}}}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>You can evaluate the above for particular functional values of F, x, and
+y. If x(z) is exp(z) and y(z) is log(z+1), then evaluates dadz.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">dadz</span><span class="p">,</span> <span class="s1">&#39;x, z +-&gt; exp z), &#39;</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+-&gt;</span> <span class="n">log</span><span class="p">(</span><span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\scriptstyle{
+{{{\left( {2 \  {{z} ^ {2}}}+{2 \  z} \right)}
+ \  {{F _ {{,3}}}\left({{{e} ^ {z}}, \: {\log\left({{z+1}}\right)},
+ \: {{z} ^ {2}}}\right)}}+{{F_ {{,2}}}\left({{{e} ^ {z}}, \: {\log
+ \left({{z+1}}\right)},\: {{z} ^ {2}}}\right)}+{{\left(z+1\right)}
+ \  {{e} ^ {z}} \  {{F _ {{,1}}}\left({{{e} ^ {z}}, \: {\log
+ \left({{z+1}}\right)},\: {{z} ^ {2}}}\right)}}+z+1}\over {z+1}}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<p>You obtain the same result by first evaluating a and then
+differentiating.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s1">&#39;x, z +-&gt; exp z), &#39;</span><span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">+-&gt;</span> <span class="n">log</span><span class="p">(</span><span class="n">z</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[{F\left({{{e} ^ {z}}, \: {\log\left({{z+1}}\right)},\: {{z} ^ {2}}}
+   \right)}+z+2\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span><span class="p">(</span><span class="o">%</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\scriptstyle{
+{{{\left( {2 \  {{z} ^ {2}}}+{2 \  z}\right)}\  {{F _ {{,3}}}
+ \left({{{e} ^ {z}}, \: {\log\left({{z+1}}\right)},\: {{z} ^ {2}}}
+ \right)}}+{{F_ {{,2}}}\left({{{e} ^ {z}}, \: {\log\left({{z+1}}
+ \right)},\: {{z} ^ {2}}}\right)}+{{\left(z+1\right)}
+ \  {{e} ^ {z}} \  {{F _ {{,1}}}\left({{{e} ^ {z}}, \: {\log
+ \left({{z+1}}\right)},\: {{z} ^ {2}}}\right)}}+z+1}\over {z+1}}\]</div>
+<p><sub>Type: Expression Integer</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-1.10.html" title="previous chapter">1.10 Series</a></li>
+      <li>Next: <a href="section-1.12.html" title="next chapter">1.12 Integration</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.11.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-1.11.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

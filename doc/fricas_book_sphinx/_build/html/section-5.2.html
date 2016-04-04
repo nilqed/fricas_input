@@ -1,0 +1,341 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>5.2 Blocks &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="5.3 if-then-else" href="section-5.3.html" />
+    <link rel="prev" title="5.1 Immediate and Delayed Assignments" href="section-5.1.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="blocks">
+<h1>5.2 Blocks<a class="headerlink" href="#blocks" title="Permalink to this headline">¶</a></h1>
+<p>A block is a sequence of expressions evaluated in the order that they
+appear, except as modified by control expressions such as break, break
+return, return iterate and iterate if-then-else constructions. The value
+of a block is the value of the expression last evaluated in the block.</p>
+<p>To leave a block early, use =&gt;. For example, i&lt;0=&gt;x. The expression
+before the =&gt; must evaluate to true or false. The expression following
+the =&gt; is the return value for the block.</p>
+<p>A block can be constructed in two ways:</p>
+<ol class="arabic simple">
+<li>the expressions can be separated by semicolons and the resulting
+expression surrounded by parentheses, and</li>
+<li>the expressions can be written on succeeding lines with each line
+indented the same number of spaces (which must be greater than zero).
+indentation A block entered in this form is called a pile.</li>
+</ol>
+<p>Only the first form is available if you are entering expressions
+directly to FriCAS. Both forms are available in .input files.</p>
+<p>The syntax for a simple block of expressions entered interactively is</p>
+<p>( expression1; expression2; ...; expressionN )</p>
+<div class="line-block">
+<div class="line">The value returned by a block is the value of an =&gt; expression, or</div>
+</div>
+<p>expressionN if no =&gt; is encountered.</p>
+<p>In .input files, blocks can also be written using piles. The examples
+throughout this book are assumed to come from .input files.</p>
+<p>In this example, we assign a rational number to a using a block
+consisting of three expressions. This block is written as a pile. Each
+expression in the pile has the same indentation, in this case two spaces
+to the right of the first line.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span>
+  <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">gcd</span><span class="p">(</span><span class="mi">234</span><span class="p">,</span><span class="mi">672</span><span class="p">)</span>
+  <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">i</span><span class="o">^</span><span class="mi">5</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+  <span class="mi">1</span> <span class="o">/</span> <span class="n">i</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>123323</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>Here is the same block written on one line. This is how you are required
+to enter it at the input prompt.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="n">gcd</span><span class="p">(</span><span class="mi">234</span><span class="p">,</span><span class="mi">672</span><span class="p">);</span> <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">3</span><span class="o">*</span><span class="n">i</span><span class="o">^</span><span class="mi">5</span> <span class="o">-</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>123323</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>Blocks can be used to put several expressions on one line. The value
+returned is that of the last expression.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="mi">3</span><span class="p">;</span> <span class="p">[</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[1,2,3]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List PositiveInteger</sub></p>
+<p>FriCAS gives you two ways of writing a block and the preferred way in an
+.input file is to use a pile. <a class="reference external" href="file:input">file:input</a> Roughly speaking, a pile is a
+block whose constituent expressions are indented the same amount. You
+begin a pile by starting a new line for the first expression, indenting
+it to the right of the previous line. You then enter the second
+expression on a new line, vertically aligning it with the first line.
+And so on. If you need to enter an inner pile, further indent its lines
+to the right of the outer pile. FriCAS knows where a pile ends. It ends
+when a subsequent line is indented to the left of the pile or the end of
+the file.</p>
+<p>Blocks can be used to perform several steps before an assignment
+(immediate or delayed) is made.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="p">:</span><span class="o">=</span>
+   <span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="n">a</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">b</span><span class="o">^</span><span class="mi">2</span>
+   <span class="n">sqrt</span><span class="p">(</span><span class="n">c</span> <span class="o">*</span> <span class="mf">1.3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2.549509756796392415</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>Blocks can be used in the arguments to functions. (Here h is assigned
+2.1+3.5.)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">h</span> <span class="p">:</span><span class="o">=</span> <span class="mf">2.1</span> <span class="o">+</span>
+   <span class="mf">1.0</span>
+   <span class="mf">3.5</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>5.6</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>Here the second argument to eval is x=z, where the value of z is
+computed in the first line of the block starting on the second line.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span>
+     <span class="n">z</span> <span class="p">:</span><span class="o">=</span> <span class="o">%</span><span class="n">pi</span><span class="o">/</span><span class="mf">2.0</span> <span class="o">-</span> <span class="n">exp</span><span class="p">(</span><span class="mf">4.1</span><span class="p">)</span>
+     <span class="n">x</span> <span class="o">=</span> <span class="n">z</span>
+   <span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>58.769491270567072878y2+3453.853104201259382</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Float</sub></p>
+<p>Blocks can be used in the clauses of if-then-else expressions (see
+<a class="reference external" href="section-5.3.html#ugLangIf">ugLangIf</a> ).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="mf">3.1</span> <span class="n">then</span> <span class="mf">1.0</span> <span class="k">else</span> <span class="p">(</span><span class="n">z</span> <span class="p">:</span><span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">h</span><span class="p">);</span> <span class="nb">max</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="mf">0.5</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1.0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>This is the pile version of the last block.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="mf">3.1</span> <span class="n">then</span>
+    <span class="mf">1.0</span>
+  <span class="k">else</span>
+    <span class="n">z</span> <span class="p">:</span><span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+    <span class="nb">max</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1.0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>Blocks can be nested.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">factorial</span><span class="p">(</span><span class="mi">12</span><span class="p">);</span> <span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">d</span> <span class="p">:</span><span class="o">=</span> <span class="n">eulerPhi</span><span class="p">(</span><span class="mi">22</span><span class="p">);</span> <span class="n">factorial</span><span class="p">(</span><span class="n">d</span><span class="p">));</span><span class="n">b</span><span class="o">+</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>482630400</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>This is the pile version of the last block.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span>
+  <span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">factorial</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+  <span class="n">c</span> <span class="p">:</span><span class="o">=</span>
+    <span class="n">d</span> <span class="p">:</span><span class="o">=</span> <span class="n">eulerPhi</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
+    <span class="n">factorial</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+  <span class="n">b</span><span class="o">+</span><span class="n">c</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>482630400</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Since c+d does equal 3628855, a has the value of c and the last line is
+never evaluated.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span><span class="o">=</span>
+  <span class="n">c</span> <span class="p">:</span><span class="o">=</span> <span class="n">factorial</span> <span class="mi">10</span>
+  <span class="n">d</span> <span class="p">:</span><span class="o">=</span> <span class="n">fibonacci</span> <span class="mi">10</span>
+  <span class="n">c</span> <span class="o">+</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">3628855</span> <span class="o">=&gt;</span> <span class="n">c</span>
+  <span class="n">d</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3628800</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-5.1.html" title="previous chapter">5.1 Immediate and Delayed Assignments</a></li>
+      <li>Next: <a href="section-5.3.html" title="next chapter">5.3 if-then-else</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-5.2.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-5.2.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

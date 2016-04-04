@@ -1,0 +1,427 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8.2 Polynomial Factorization &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="8.3 Manipulating Symbolic Roots of a Polynomial" href="section-8.3.html" />
+    <link rel="prev" title="8.1 Numeric Functions" href="section-8.1.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="polynomial-factorization">
+<h1>8.2 Polynomial Factorization<a class="headerlink" href="#polynomial-factorization" title="Permalink to this headline">¶</a></h1>
+<p>The FriCAS polynomial factorization polynomial:factorization facilities
+are available for all polynomial types and a wide variety of coefficient
+domains. factorization Here are some examples.</p>
+<div class="section" id="integer-and-rational-number-coefficients">
+<h2>8.2.1 Integer and Rational Number Coefficients<a class="headerlink" href="#integer-and-rational-number-coefficients" title="Permalink to this headline">¶</a></h2>
+<p>Polynomials with integer polynomial:factorization:integer coefficients
+coefficients can be be factored.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">12</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">5</span><span class="o">-</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-2x3y3+(24x5+24)y2+(-4x6-x3)y+48x8+12x5+48x3+12</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span> <span class="n">v</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-(x3y-12x5-12)(2y2+4x3+1)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial Integer</sub></p>
+<p>Also, FriCAS can factor polynomials with
+polynomial:factorization:rational number coefficients rational number
+coefficients.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mi">12</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">5</span><span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>48x8+8x7-2x6+353x5+952x3+8x2+12</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial Fraction Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span> <span class="n">w</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>48(x3+16x2+14)(x5-124x3+1)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial Fraction Integer</sub></p>
+</div>
+<div class="section" id="finite-field-coefficients">
+<h2>8.2.2 Finite Field Coefficients<a class="headerlink" href="#finite-field-coefficients" title="Permalink to this headline">¶</a></h2>
+<p>Polynomials with coefficients in a finite field
+polynomial:factorization:finite field coefficients can be also be
+factored. finite field:factoring polynomial with coefficients in</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="p">:</span> <span class="n">POLY</span><span class="p">(</span><span class="n">PF</span><span class="p">(</span><span class="mi">19</span><span class="p">))</span> <span class="p">:</span><span class="o">=</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">4</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="mi">15</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">18</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3x4+2x2+15x+18</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial PrimeField 19</sub></p>
+<p>These include the integers mod p, where p is prime, and extensions of
+these fields.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span> <span class="n">u</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3(x+18)(x3+x2+8x+13)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial PrimeField 19</sub></p>
+<p>Convert this to have coefficients in the finite field with 193 elements.
+See <a class="reference external" href="section-8.11.html#ugProblemFinite">ugProblemFinite</a> for more
+information about finite fields.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="n">u</span> <span class="p">::</span> <span class="n">POLY</span> <span class="n">FFX</span><span class="p">(</span><span class="n">PF</span> <span class="mi">19</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3(x+18)(x+5%I2+3%I+13)(x+16%I2+14%I+13)(x+17%I2+2%I+13)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial FiniteFieldExtension(PrimeField 19,3)</sub></p>
+</div>
+<div class="section" id="simple-algebraic-extension-field-coefficients">
+<h2>8.2.3 Simple Algebraic Extension Field Coefficients<a class="headerlink" href="#simple-algebraic-extension-field-coefficients" title="Permalink to this headline">¶</a></h2>
+<p>Polynomials with coefficients in simple algebraic extensions
+polynomial:factorization:algebraic extension field coefficients of the
+rational numbers can be factored. algebraic number number:algebraic</p>
+<p>Here, aa and bb are symbolic roots of polynomials.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">aa</span> <span class="p">:</span><span class="o">=</span> <span class="n">rootOf</span><span class="p">(</span><span class="n">aa</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">aa</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>aa</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: AlgebraicNumber</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span><span class="p">:</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span><span class="o">+</span><span class="n">aa</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">aa</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="n">aa</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">aa</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(-aa-1)y5+((-aa-1)x3+aax)y4+((-2aa-2)x2+(-2aa-2)x)y3+((-2aa-2)x5+(-2aa-2)x4+2aax3+2aax2)y2+((-aa-1)x4+(-2aa-2)x3+(-aa-1)x2)y+(-aa-1)x7+(-2aa-2)x6-x5+2aax4+aax3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial AlgebraicNumber</sub></p>
+<p>Note that the second argument to factor can be a list of algebraic
+extensions to factor over.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="n">p</span><span class="p">,[</span><span class="n">aa</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(-aa-1)(y+x3+(-aa-1)x)(y2+x2+x)2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial AlgebraicNumber</sub></p>
+<p>This factors x**2+3 over the integers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x2+3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial Integer</sub></p>
+<p>Factor the same polynomial over the field obtained by adjoining aa to
+the rational numbers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">+</span><span class="mi">3</span><span class="p">,[</span><span class="n">aa</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x-2aa-1)(x+2aa+1)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial AlgebraicNumber</sub></p>
+<p>Factor x**6+108 over the same field.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">6</span><span class="o">+</span><span class="mi">108</span><span class="p">,[</span><span class="n">aa</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x3-12aa-6)(x3+12aa+6)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial AlgebraicNumber</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bb</span><span class="p">:</span><span class="o">=</span><span class="n">rootOf</span><span class="p">(</span><span class="n">bb</span><span class="o">^</span><span class="mi">3</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>bb</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: AlgebraicNumber</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">6</span><span class="o">+</span><span class="mi">108</span><span class="p">,[</span><span class="n">bb</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x2-3bbx+3bb2)(x2+3bb2)(x2+3bbx+3bb2)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial AlgebraicNumber</sub></p>
+<p>Factor again over the field obtained by adjoining both aa and bb to the
+rational numbers.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">6</span><span class="o">+</span><span class="mi">108</span><span class="p">,[</span><span class="n">aa</span><span class="p">,</span><span class="n">bb</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x+(-2aa-1)bb)(x+(-aa-2)bb)(x+(-aa+1)bb)(x+(aa-1)bb)(x+(aa+2)bb)(x+(2aa+1)bb)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Polynomial AlgebraicNumber</sub></p>
+</div>
+<div class="section" id="factoring-rational-functions">
+<h2>8.2.4 Factoring Rational Functions<a class="headerlink" href="#factoring-rational-functions" title="Permalink to this headline">¶</a></h2>
+<p>Since fractions of polynomials form a field, every element (other than
+zero) rational function:factoring divides any other, so there is no
+useful notion of irreducible factors. Thus the factor operation is not
+very useful for fractions of polynomials.</p>
+<p>There is, instead, a specific operation factorFraction that separately
+factors the numerator and denominator and returns a fraction of the
+factored results.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factorFraction</span><span class="p">((</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x-2)(x+2)(y-2)(y+2)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Factored Polynomial Integer</sub></p>
+<p>You can also use map. This expression applies the factor operation to
+the numerator and denominator.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">map</span><span class="p">(</span><span class="n">factor</span><span class="p">,(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">y</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>(x-2)(x+2)(y-2)(y+2)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Factored Polynomial Integer</sub></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">8.2 Polynomial Factorization</a><ul>
+<li><a class="reference internal" href="#integer-and-rational-number-coefficients">8.2.1 Integer and Rational Number Coefficients</a></li>
+<li><a class="reference internal" href="#finite-field-coefficients">8.2.2 Finite Field Coefficients</a></li>
+<li><a class="reference internal" href="#simple-algebraic-extension-field-coefficients">8.2.3 Simple Algebraic Extension Field Coefficients</a></li>
+<li><a class="reference internal" href="#factoring-rational-functions">8.2.4 Factoring Rational Functions</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-8.1.html" title="previous chapter">8.1 Numeric Functions</a></li>
+      <li>Next: <a href="section-8.3.html" title="next chapter">8.3 Manipulating Symbolic Roots of a Polynomial</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-8.2.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-8.2.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

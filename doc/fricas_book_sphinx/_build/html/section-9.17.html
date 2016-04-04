@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.17 DoubleFloat &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.18 EqTable" href="section-9.18.html" />
+    <link rel="prev" title="9.16 DistributedMultivariatePolynomial" href="section-9.16.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="doublefloat">
+<h1>9.17 DoubleFloat<a class="headerlink" href="#doublefloat" title="Permalink to this headline">¶</a></h1>
+<p>FriCAS provides two kinds of floating point numbers. The domain Float
+(abbreviation FLOAT) implements a model of arbitrary precision floating
+point numbers. The domain DoubleFloat (abbreviation DFLOAT) is intended
+to make available hardware floating point arithmetic in FriCAS. The
+actual model of floating point DoubleFloat that provides is
+system-dependent. For example, on the IBM system 370 FriCAS uses IBM
+double precision which has fourteen hexadecimal digits of precision or
+roughly sixteen decimal digits. Arbitrary precision floats allow the
+user to specify the precision at which arithmetic operations are
+computed. Although this is an attractive facility, it comes at a cost.
+Arbitrary-precision floating-point arithmetic typically takes twenty to
+two hundred times more time than hardware floating point.</p>
+<p>The usual arithmetic and elementary functions are available for
+DoubleFloat. Use )show DoubleFloat to get a list of operations or the
+HyperDoc browse facility to get more extensive documentation about
+DoubleFloat.</p>
+<p>By default, floating point numbers that you enter into FriCAS are of
+type Float.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">2.71828</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2.71828</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Float</sub></p>
+<p>You must therefore tell FriCAS that you want to use DoubleFloat values
+and operations. The following are some conservative guidelines for
+getting FriCAS to use DoubleFloat.</p>
+<p>To get a value of type DoubleFloat, use a target with &#64;, ...</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">2.71828</span><span class="nd">@DoubleFloat</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2.71828</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DoubleFloat</sub></p>
+<p>a conversion, ...</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mf">2.71828</span> <span class="p">::</span> <span class="n">DoubleFloat</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2.71828</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DoubleFloat</sub></p>
+<p>or an assignment to a declared variable. It is more efficient if you use
+a target rather than an explicit or implicit conversion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eApprox</span> <span class="p">:</span> <span class="n">DoubleFloat</span> <span class="p">:</span><span class="o">=</span> <span class="mf">2.71828</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2.71828</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DoubleFloat</sub></p>
+<p>You also need to declare functions that work with DoubleFloat.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">avg</span> <span class="p">:</span> <span class="n">List</span> <span class="n">DoubleFloat</span> <span class="o">-&gt;</span> <span class="n">DoubleFloat</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>avg l ==
+  empty? l =&gt; 0 :: DoubleFloat
+  reduce(_+,l) / #l
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">avg</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p>this complains but succeeds</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">avg</span> <span class="p">[</span><span class="mf">3.4</span><span class="p">,</span><span class="mf">9.7</span><span class="p">,</span><span class="o">-</span><span class="mf">6.8</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">avg</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">List</span> <span class="n">Float</span> <span class="o">-&gt;</span> <span class="n">DoubleFloat</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2.1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DoubleFloat</sub></p>
+<p>Use package-calling for operations from DoubleFloat unless the arguments
+themselves are already of type DoubleFloat.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>cos(3.1415926)$DoubleFloat
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-0.999999999999999</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DoubleFloat</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cos</span><span class="p">(</span><span class="mf">3.1415926</span> <span class="p">::</span> <span class="n">DoubleFloat</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-0.999999999999999</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DoubleFloat</sub></p>
+<p>By far, the most common usage of DoubleFloat is for functions to be
+graphed. For more information about FriCAS&#8217;s numerical and graphical
+facilities, see Section <a class="reference external" href="section-7.0.html#ugGraph">ugGraph</a> ,
+<a class="reference external" href="section-8.1.html#ugProblemNumeric">ugProblemNumeric</a> , and
+<a class="reference external" href="section-9.17.html#DoubleFloatXmpPage">FloatXmpPage</a> .</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.16.html" title="previous chapter">9.16 DistributedMultivariatePolynomial</a></li>
+      <li>Next: <a href="section-9.18.html" title="next chapter">9.18 EqTable</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.17.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.17.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

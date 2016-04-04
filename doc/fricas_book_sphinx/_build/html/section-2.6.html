@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.6 The Any Domain &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="2.7 Conversion" href="section-2.7.html" />
+    <link rel="prev" title="2.5 Unions" href="section-2.5.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="the-any-domain">
+<h1>2.6 The Any Domain<a class="headerlink" href="#the-any-domain" title="Permalink to this headline">¶</a></h1>
+<p>With the exception of objects of type Record, all FriCAS data structures
+are homogenous, that is, they hold objects all of the same type. If
+you need to get around this, you can use type <code class="docutils literal"><span class="pre">Any</span></code>. Using Any, for
+example, you can create lists whose elements are integers, rational
+numbers, strings, and even other lists.</p>
+<p>Declare u to have type Any.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span><span class="p">:</span> <span class="n">Any</span>
+</pre></div>
+</div>
+<p><sub>Type: Void</sub></p>
+<p>Assign a list of mixed type values to u</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">7.2</span><span class="p">,</span> <span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;wally&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{[1,7.2,32,x2,&quot;wally&quot;]}\]</div>
+<p><sub>Type: List Any</sub></p>
+<p>When we ask for the elements, FriCAS displays these types.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span><span class="o">.</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Actually, these objects belong to Any but FriCAS automatically converts
+them to their natural types for you.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span><span class="o">.</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\frac{3}{2}\]</div>
+<p><sub>Type: Fraction Integer</sub></p>
+<p>Since type Any can be anything, it can only belong to type <code class="docutils literal"><span class="pre">Type</span></code>.
+Therefore it <strong>cannot</strong> be used in algebraic domains.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">v</span> <span class="p">:</span> <span class="n">Matrix</span><span class="p">(</span><span class="n">Any</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Matrix&nbsp;Any&nbsp;is&nbsp;not&nbsp;a&nbsp;valid&nbsp;type.</p>
+</div>
+<p>Perhaps you are wondering how FriCAS internally represents objects of
+type <code class="docutils literal"><span class="pre">Any</span></code>. An object of type <code class="docutils literal"><span class="pre">Any</span></code> consists not only of a data part
+representing its normal value, but also a type part (a badge) giving
+badge its type. For example, the value 1 of type PositiveInteger as an
+object of type Any internally looks like [1,PositiveInteger()].</p>
+<p>When should you use Any instead of a Union type? For a Union, you must
+know in advance exactly which types you are going to allow. For Any,
+anything that comes along can be accommodated.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-2.5.html" title="previous chapter">2.5 Unions</a></li>
+      <li>Next: <a href="section-2.7.html" title="next chapter">2.7 Conversion</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-2.6.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-2.6.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

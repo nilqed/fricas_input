@@ -1,0 +1,142 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>16.14 )library &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="16.15 )lisp" href="section-16.15.html" />
+    <link rel="prev" title="16.13 )history" href="section-16.13.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="library">
+<h1>16.14 )library<a class="headerlink" href="#library" title="Permalink to this headline">¶</a></h1>
+<p>ugSysCmdlibrary</p>
+<p>library</p>
+<blockquote>
+<div><p>User Level Required: interpreter</p>
+<p>Command Syntax:</p>
+</div></blockquote>
+<p>)library libName1 [libName2 ...]</p>
+<p>)library )dir dirName</p>
+<p>)library )only objName1 [objlib2 ...]</p>
+<p>)library )noexpose</p>
+<blockquote>
+<div>Command Description:</div></blockquote>
+<p>This command replaces the )load system command that was available in
+FriCAS releases before version 2.0. The )library command makes available
+to FriCAS the compiled objects in the libraries listed.</p>
+<p>For example, if you )compile dopler.as in your home directory, issue
+)library dopler to have FriCAS look at the library, determine the
+category and domain constructors present, update the internal database
+with various properties of the constructors, and arrange for the
+constructors to be automatically loaded when needed. If the )noexpose
+option has not been given, the constructors will be exposed (that is,
+available) in the current frame.</p>
+<p>If you compiled a file with the old system compiler, you will have an
+NRLIB present, for example, DOPLER.NRLIB, where DOPLER is a constructor
+abbreviation. The command )library DOPLER will then do the analysis and
+database updates as above.</p>
+<p>To tell the system about all libraries in a directory, use )library )dir
+dirName where dirName is an explicit directory. You may specify . as the
+directory, which means the current directory from which you started the
+system or the one you set via the )cd command. The directory name is
+required.</p>
+<p>You may only want to tell the system about particular constructors
+within a library. In this case, use the )only option. The command
+)library dopler )only Test1 will only cause the Test1 constructor to be
+analyzed, autoloaded, etc..</p>
+<p>Finally, each constructor in a library are usually automatically exposed
+when the )library command is used. Use the )noexpose option if you not
+want them exposed. At a later time you can use )set expose add
+constructor to expose any hidden constructors.</p>
+<blockquote>
+<div>Note for FriCAS beta testers: At various times this command was called</div></blockquote>
+<p>)local and )with before the name )library became the official name.</p>
+<blockquote>
+<div>Also See: )cd ugSysCmdcd, )compile ugSysCmdcompile, )frame</div></blockquote>
+<p>ugSysCmdframe, and )set ugSysCmdset.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-16.13.html" title="previous chapter">16.13 )history</a></li>
+      <li>Next: <a href="section-16.15.html" title="next chapter">16.15 )lisp</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-16.14.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-16.14.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

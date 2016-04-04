@@ -1,0 +1,521 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.43 LiePolynomial &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.44 LinearOrdinaryDifferentialOperator" href="section-9.44.html" />
+    <link rel="prev" title="9.42 LieExponentials" href="section-9.42.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="liepolynomial">
+<h1>9.43 LiePolynomial<a class="headerlink" href="#liepolynomial" title="Permalink to this headline">¶</a></h1>
+<p>Declaration of domains</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">RN</span> <span class="p">:</span><span class="o">=</span> <span class="n">Fraction</span> <span class="n">Integer</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>FractionInteger</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">LiePolynomial</span><span class="p">(</span><span class="n">Symbol</span><span class="p">,</span><span class="n">RN</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>LiePolynomial(Symbol,FractionInteger)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Dpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">XDPOLY</span><span class="p">(</span><span class="n">Symbol</span><span class="p">,</span><span class="n">RN</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>XDistributedPolynomial(Symbol,FractionInteger)</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Lword</span> <span class="p">:</span><span class="o">=</span> <span class="n">LyndonWord</span> <span class="n">Symbol</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>LyndonWordSymbol</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Domain</sub></p>
+<p>Initialisation</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span><span class="p">:</span><span class="n">Symbol</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span><span class="p">:</span><span class="n">Symbol</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>b</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">c</span><span class="p">:</span><span class="n">Symbol</span> <span class="p">:</span><span class="o">=</span> <span class="s1">&#39;c</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>c</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">aa</span><span class="p">:</span> <span class="n">Lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">a</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[a]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bb</span><span class="p">:</span> <span class="n">Lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">b</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[b]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cc</span><span class="p">:</span> <span class="n">Lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">c</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[c]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span> <span class="n">Lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">aa</span><span class="p">,</span><span class="n">bb</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[ab]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">:</span> <span class="n">Lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">,</span><span class="n">bb</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[ab2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<p>All the Lyndon words of order 4</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">liste</span> <span class="p">:</span> <span class="n">List</span> <span class="n">Lword</span> <span class="p">:</span><span class="o">=</span> <span class="n">LyndonWordsList</span><span class="p">([</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[a],[b],[ab],[a2b],[ab2],[a3b],[a2b2],[ab3]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List LyndonWord Symbol</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>r: Lpoly := p + q + 3*LiePoly(liste.4)$Lpoly
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[ab]+3[a2b]+[ab2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span><span class="p">:</span><span class="n">Lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">,</span><span class="n">r</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-3[a2bab]+[abab2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span><span class="p">:</span><span class="n">Lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">LiePoly</span><span class="p">(</span><span class="n">liste</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="mi">5</span><span class="o">*</span><span class="n">LiePoly</span><span class="p">(</span><span class="n">liste</span><span class="o">.</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2[ab]-5[ab2]-3[a2bab]+[abab2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">degree</span> <span class="n">t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>5</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mirror</span> <span class="n">t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-2[ab]-5[ab2]-3[a2bab]+[abab2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<p>Jacobi Relation</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Jacobi(p: Lpoly, q: Lpoly, r: Lpoly): Lpoly == [ [p,q]$Lpoly, r] + [
+</pre></div>
+</div>
+<p>[q,r]$Lpoly, p] + [ [r,p]$Lpoly, q]</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Function</span> <span class="n">declaration</span> <span class="n">Jacobi</span> <span class="p">:</span> <span class="p">(</span>
+  <span class="n">LiePolynomial</span><span class="p">(</span><span class="n">Symbol</span><span class="p">,</span>  <span class="n">Fraction</span> <span class="n">Integer</span><span class="p">),</span>
+  <span class="n">LiePolynomial</span><span class="p">(</span><span class="n">Symbol</span><span class="p">,</span><span class="n">Fraction</span> <span class="n">Integer</span><span class="p">),</span>
+  <span class="n">LiePolynomial</span><span class="p">(</span><span class="n">Symbol</span><span class="p">,</span><span class="n">Fraction</span> <span class="n">Integer</span><span class="p">))</span> <span class="o">-&gt;</span>
+    <span class="n">LiePolynomial</span><span class="p">(</span><span class="n">Symbol</span><span class="p">,</span><span class="n">Fraction</span> <span class="n">Integer</span><span class="p">)</span>
+  <span class="n">has</span> <span class="n">been</span> <span class="n">added</span> <span class="n">to</span> <span class="n">workspace</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Void</p>
+<p>Tests</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">:</span> <span class="n">Lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">Jacobi</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">:</span> <span class="n">Lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">Jacobi</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">r</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">test</span><span class="p">:</span> <span class="n">Lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="n">Jacobi</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">t</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<p>Evaluation</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>eval(p, a, p)$Lpoly
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[ab2]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>eval(p, [a,b], [2*bb, 3*aa])$Lpoly
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-6[ab]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span><span class="p">:</span> <span class="n">Lpoly</span> <span class="p">:</span><span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="p">,</span><span class="n">c</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[abc]+[acb]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>r1: Lpoly := eval(r, [a,b,c], [bb, cc, aa])$Lpoly
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-[abc]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>r2: Lpoly := eval(r, [a,b,c], [cc, aa, bb])$Lpoly
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>-[acb]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">+</span> <span class="n">r1</span> <span class="o">+</span> <span class="n">r2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LiePolynomial(Symbol,Fraction Integer)</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.42.html" title="previous chapter">9.42 LieExponentials</a></li>
+      <li>Next: <a href="section-9.44.html" title="next chapter">9.44 LinearOrdinaryDifferentialOperator</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.43.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.43.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

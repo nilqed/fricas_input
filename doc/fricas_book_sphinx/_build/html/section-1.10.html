@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.10 Series &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="1.11 Derivatives" href="section-1.11.html" />
+    <link rel="prev" title="1.9 Limits" href="section-1.9.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="series">
+<h1>1.10 Series<a class="headerlink" href="#series" title="Permalink to this headline">¶</a></h1>
+<p>FriCAS also provides power series. By default, FriCAS tries
+to compute and display the first ten elements of a series. Use
+<code class="docutils literal"><span class="pre">)set</span> <span class="pre">streams</span> <span class="pre">calculate</span></code> to change the default value to something else.
+For the purposes of this document, we have used this system command to
+display fewer than ten terms. For more information about working with series,
+see <a class="reference external" href="section-8.9.html#ugProblemSeries">ugProblemSeries</a>.</p>
+<p>You can convert a functional expression to a power series by using the
+operation <code class="docutils literal"><span class="pre">series</span></code>. In this example, sin(a*x) is expanded in powers of
+(x-0), that is, in powers of x.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">series</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{a \  x} -{{{{a} ^ {3}} \over 6} \  {{x} ^ {3}}}+{{{{a} ^ {5}} \over
+{120}} \  {{x} ^ {5}}} -{{{{a} ^ {7}} \over {5040}} \  {{x} ^
+{7}}}+{{{{a} ^ {9}} \over {362880}} \  {{x} ^ {9}}} -{{{{a} ^ {{11}}}
+\over {39916800}} \  {{x} ^ {{11}}}}+{O
+\left(
+{{{x} ^ {{12}}}}
+\right)}\]</div>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>This expression expands sin(a*x) in powers of (x - %pi/4).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">series</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="o">%</span><span class="n">pi</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\scriptstyle{
+{\sin
+ \left(
+  {{{a \  \pi} \over 4}}
+ \right)}+{a
+ \  {\cos
+  \left(
+  {{{a \  \pi} \over 4}}
+ \right)}
+ \  {\left( x -{\pi \over 4}
+ \right)}}
+ -{{{{{a} ^ {2}} \  {\sin
+  \left(
+  {{{a \  \pi} \over 4}}
+  \right)}}
+  \over 2}} \ldots
+}\]</div>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,pi/4)</sub></p>
+<p>FriCAS provides Puiseux series with rational number exponents. The first
+argument to series is an in-place function that computes the n-th coefficient.
+(Recall that the <code class="docutils literal"><span class="pre">+-&gt;</span></code> is an infix operator meaning maps to.)</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">series</span><span class="p">(</span><span class="n">n</span> <span class="o">+-&gt;</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="p">((</span><span class="mi">3</span><span class="o">*</span><span class="n">n</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span><span class="o">/</span><span class="mi">6</span><span class="p">)</span><span class="o">/</span><span class="n">factorial</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="o">/</span><span class="mf">3.</span><span class="o">.</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{x} ^ {{4 \over 3}}} -{{1 \over 6} \  {{x} ^ {{{10} \over 3}}}}+{O
+\left(
+{{{x} ^ {5}}}
+\right)}\]</div>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>Once you have created a power series, you can perform arithmetic
+operations on that series. We compute the Taylor expansion of 1/(1-x).
+series:Taylor</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[1+x+{{x} ^ {2}}+{{x} ^ {3}}+{{x} ^ {4}}+{{x} ^ {5}}+{{x} ^
+{6}}+{{x} ^ {7}}+{{x} ^ {8}}+{{x} ^ {9}}+{{x} ^ {{10}}}+{O
+\left(
+{{{x} ^ {{11}}}}
+\right)}\]</div>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>Compute the square of the series.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">^</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[1+{2 \  x}+{3 \  {{x} ^ {2}}}+{4 \  {{x} ^ {3}}}+{5 \  {{x} ^ {4}}}+{6
+\  {{x} ^ {5}}}+{7 \  {{x} ^ {6}}}+{8 \  {{x} ^ {7}}}+{9 \  {{x} ^
+{8}}}+{{10} \  {{x} ^ {9}}}+{{11} \  {{x} ^ {{10}}}}+{O
+\left(
+{{{x} ^ {{11}}}}
+\right)}\]</div>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>The usual elementary functions ( log, exp, trigonometric functions, and
+so on) are defined for power series.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">x</span><span class="p">),</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[1+x+{{x} ^ {2}}+{{x} ^ {3}}+{{x} ^ {4}}+{{x} ^ {5}}+{{x} ^
+{6}}+{{x} ^ {7}}+{{x} ^ {8}}+{{x} ^ {9}}+{{x} ^ {{10}}}+{O
+\left(
+{{{x} ^ {{11}}}}
+\right)}\]</div>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="p">:</span><span class="o">=</span> <span class="n">log</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[ \scriptstyle{
+ x+{{1 \over 2} \  {{x} ^ {2}}}+{{1 \over 3} \  {{x} ^ {3}}}+{{1 \over 4}
+\  {{x} ^ {4}}}+{{1 \over 5} \  {{x} ^ {5}}}+{{1 \over 6} \  {{x} ^
+{6}}}+{{1 \over 7} \  {{x} ^ {7}}}+{{1 \over 8} \  {{x} ^ {8}}}+{{1 \over
+9} \  {{x} ^ {9}}}+{{1 \over {10}} \  {{x} ^ {{10}}}}+{{1 \over {11}} \
+{{x} ^ {{11}}}}+{O
+\left(
+{{{x} ^ {{12}}}}
+\right)}}\]</div>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">exp</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[1+x+{{x} ^ {2}}+{{x} ^ {3}}+{{x} ^ {4}}+{{x} ^ {5}}+{{x} ^
+{6}}+{{x} ^ {7}}+{{x} ^ {8}}+{{x} ^ {9}}+{{x} ^ {{10}}}+{O
+\left(
+{{{x} ^ {{11}}}}
+\right)}\]</div>
+<p><sub>Type: UnivariatePuiseuxSeries(Expression Integer,x,0)</sub></p>
+<p>Here is a way to obtain numerical approximations of e from the Taylor
+series expansion of exp(x). First create the desired Taylor expansion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="p">:</span><span class="o">=</span> <span class="n">taylor</span><span class="p">(</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[\scriptstyle{
+1+x+{{1 \over 2} \  {{x} ^ {2}}}+{{1 \over 6} \  {{x} ^ {3}}}+{{1 \over
+{24}} \  {{x} ^ {4}}}+{{1 \over {120}} \  {{x} ^ {5}}}+{{1 \over {720}} \
+{{x} ^ {6}}}+{{1 \over {5040}} \  {{x} ^ {7}}}+{{1 \over {40320}} \  {{x}
+^ {8}}}+{{1 \over {362880}} \  {{x} ^ {9}}}+{{1 \over {3628800}} \  {{x}
+^ {{10}}}}+{O
+\left(
+{{{x} ^ {{11}}}}
+\right)}}\]</div>
+<p><sub>Type: UnivariateTaylorSeries(Expression Integer,x,0)</sub></p>
+<p>Evaluate the series at the value 1.0. As you see, you get a sequence of
+partial sums.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="mf">1.0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\scriptstyle{
+\left[
+  {1.0}, \: {2.0}, \: {2.5}, \: {2.6666666666\_666666667}, \:
+  {2.7083333333\_333333333}, \: {2.7166666666\_666666667}, \:
+   ...
+\right]}\]</div>
+<p><sub>Type: Stream Expression Float</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-1.9.html" title="previous chapter">1.9 Limits</a></li>
+      <li>Next: <a href="section-1.11.html" title="next chapter">1.11 Derivatives</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.10.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-1.10.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

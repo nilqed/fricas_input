@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6.3 Introduction to Functions &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="6.4 Declaring the Type of Functions" href="section-6.4.html" />
+    <link rel="prev" title="6.2 Macros" href="section-6.2.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction-to-functions">
+<h1>6.3 Introduction to Functions<a class="headerlink" href="#introduction-to-functions" title="Permalink to this headline">¶</a></h1>
+<p>Each name in your workspace can refer to a single object. This may be
+any kind of object including a function. You can use interactively any
+function from the library or any that you define in the workspace. In
+the library the same name can have very many functions, but you can have
+only one function with a given name, although it can have any number of
+arguments that you choose.</p>
+<p>If you define a function in the workspace that has the same name and
+number of arguments as one in the library, then your definition takes
+precedence. In fact, to get the library function you must package-call
+it (see section <a class="reference external" href="section-2.9.html#ugTypesPkgCall">ugTypesPkgCall</a> ).</p>
+<p>To use a function in FriCAS, you apply it to its arguments. Most
+functions are applied by entering the name of the function followed by
+its argument or arguments.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">factor</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>223</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Factored Integer</sub></p>
+<p>Some functions like <code class="docutils literal"><span class="pre">+</span></code> have infix operators as names.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">3</span> <span class="o">+</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>7</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The function <code class="docutils literal"><span class="pre">+</span></code> has two arguments. When you give it more than two
+arguments, FriCAS groups the arguments to the left. This expression is
+equivalent to (1+2)+7.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">1</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">7</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>10</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>All operations, including infix operators, can be written in prefix
+form, that is, with the operation name followed by the arguments in
+parentheses. For example, 2+3 can alternatively be written as +(2,3).
+But +(2,3,4) is an error since + takes only two arguments.</p>
+<p>Prefix operations are generally applied before the infix operation. Thus
+the form factorial&nbsp;3+1 means factorial(3)+1 producing 7, and -2+5 means
+(-2)+5 producing 3. An example of a prefix operator is prefix -. For
+example, -2+5 converts to (-2)+5 producing the value 3. Any prefix
+function taking two arguments can be written in an infix manner by
+putting an ampersand &amp; before the name. Thus D(2*x,x) can be written as
+2*x&amp;Dx returning 2.</p>
+<p>Every function in FriCAS is identified by a name and type. (An exception
+is an anonymous function discussed in
+<a class="reference external" href="section-6.17.html#ugUserAnon">ugUserAnon</a> .) The type of a function
+is always a mapping of the form Source-&gt;Target where Source and Target
+are types. To enter a type from the keyboard, enter the arrow by using a
+hyphen - followed by a greater-than sign &gt;, e.g. Integer -&gt; Integer.</p>
+<p>Let&#8217;s go back to <code class="docutils literal"><span class="pre">+</span></code>. There are many <code class="docutils literal"><span class="pre">+</span></code> functions in the FriCAS
+library: one for integers, one for floats, another for rational numbers,
+and so on. These <code class="docutils literal"><span class="pre">+</span></code> functions have different types and thus are
+different functions. You&#8217;ve seen examples of this overloading
+before&#8212;using the same name for different functions. Overloading is the
+rule rather than the exception. You can add two integers, two
+polynomials, two matrices or two power series. These are all done with
+the same function name but with different functions.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-6.2.html" title="previous chapter">6.2 Macros</a></li>
+      <li>Next: <a href="section-6.4.html" title="next chapter">6.4 Declaring the Type of Functions</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-6.3.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-6.3.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

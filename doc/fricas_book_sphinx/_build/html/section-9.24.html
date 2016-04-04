@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.24 File &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.25 FileName" href="section-9.25.html" />
+    <link rel="prev" title="9.23 FactoredFunctions2" href="section-9.23.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="file">
+<h1>9.24 File<a class="headerlink" href="#file" title="Permalink to this headline">¶</a></h1>
+<p>The File(S) domain provides a basic interface to read and write values
+of type S in files.</p>
+<p>Before working with a file, it must be made accessible to FriCAS with
+the openopenFile operation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ifile</span><span class="p">:</span><span class="n">File</span> <span class="n">List</span> <span class="n">Integer</span><span class="p">:</span><span class="o">=</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;/tmp/jazz1&quot;</span><span class="p">,</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;/tmp/jazz1&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: File List Integer</sub></p>
+<p>The openopenFile function arguments are a FileName and a String
+specifying the mode. If a full pathname is not specified, the current
+default directory is assumed. The mode must be one of input or output.
+If it is not specified, input is assumed. Once the file has been opened,
+you can read or write data.</p>
+<p>The operations readreadFile and writewriteFile are provided.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>write!(ifile, [-1,2,3])
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-1,2,3]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>write!(ifile, [10,-10,0,111])
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[10,-10,0,111]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>write!(ifile, [7])
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[7]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>You can change from writing to reading (or vice versa) by reopening a
+file.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>reopen!(ifile, &quot;input&quot;)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;/tmp/jazz1&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: File List Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>read! ifile
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[-1,2,3]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>read! ifile
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[10,-10,0,111]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>The readreadFile operation can cause an error if one tries to read more
+data than is in the file. To guard against this possibility the
+readIfCanreadIfCanFile operation should be used.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>readIfCan! ifile
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[7]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(List Integer,...)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>readIfCan! ifile
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;failed&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Union(&#8220;failed&#8221;,...)</sub></p>
+<p>You can find the current mode of the file, and the file&#8217;s name.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">iomode</span> <span class="n">ifile</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;input&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">name</span> <span class="n">ifile</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;/tmp/jazz1&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: FileName</sub></p>
+<p>When you are finished with a file, you should close it.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>close! ifile
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&#8220;/tmp/jazz1&#8221;</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: File List Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">system</span> <span class="n">rm</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">jazz1</span>
+</pre></div>
+</div>
+<p>A limitation of the underlying LISP system is that not all values can be
+represented in a file. In particular, delayed values containing compiled
+functions cannot be saved.</p>
+<p>For more information on related topics, see
+<a class="reference external" href="section-9.81.html#TextFileXmpPage">TextFileXmpPage</a> ,
+<a class="reference external" href="section-9.38.html#KeyedAccessFileXmpPage">KeyedAccessFileXmpPage</a> ,
+<a class="reference external" href="section-9.41.html#LibraryXmpPage">LibraryXmpPage</a> , and
+<a class="reference external" href="section-9.25.html#FileNameXmpPage">FileNameXmpPage</a> .</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.23.html" title="previous chapter">9.23 FactoredFunctions2</a></li>
+      <li>Next: <a href="section-9.25.html" title="next chapter">9.25 FileName</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.24.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.24.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

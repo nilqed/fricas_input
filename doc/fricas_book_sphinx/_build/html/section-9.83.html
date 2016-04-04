@@ -1,0 +1,683 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.83 UnivariatePolynomial &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.84 UniversalSegment" href="section-9.84.html" />
+    <link rel="prev" title="9.82 TwoDimensionalArray" href="section-9.82.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="univariatepolynomial">
+<h1>9.83 UnivariatePolynomial<a class="headerlink" href="#univariatepolynomial" title="Permalink to this headline">¶</a></h1>
+<p>The domain constructor UnivariatePolynomial (abbreviated UP) creates
+domains of univariate polynomials in a specified variable. For example,
+the domain UP(a1,POLY FRAC INT) provides polynomials in the single
+variable a1 whose coefficients are general polynomials with rational
+number coefficients.</p>
+<blockquote>
+<div>Restriction:</div></blockquote>
+<p>FriCAS does not allow you to create types where UnivariatePolynomial is
+contained in the coefficient type of Polynomial. Therefore, UP(x,POLY
+INT) is legal but POLY UP(x,INT) is not.</p>
+<p>.</p>
+<p>UP(x,INT) is the domain of polynomials in the single variable x with
+integer coefficients.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span> <span class="p">:</span> <span class="n">UP</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>18x3+60x2-46x+8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="mi">6</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">9</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>81x4-108x3+54x2-12x+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Integer)</sub></p>
+<p>The usual arithmetic operations are available for univariate
+polynomials.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">p</span><span class="o">*</span><span class="n">q</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1458x7+3240x6-7074x5+10584x4-9282x3+4120x2-878x+72</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Integer)</sub></p>
+<p>The operation leadingCoefficientleadingCoefficientUnivariatePolynomial
+extracts the coefficient of the term of highest degree.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leadingCoefficient</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>18</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The operation degreedegreeUnivariatePolynomial returns the degree of the
+polynomial. Since the polynomial has only one variable, the variable is
+not supplied to operations like degreedegreeUnivariatePolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">degree</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The reductum of the polynomial, the polynomial obtained by subtracting
+the term of highest order, is returned by
+reductumreductumUnivariatePolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reductum</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>60x2-46x+8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Integer)</sub></p>
+<p>The operation gcdgcdUnivariatePolynomial computes the greatest common
+divisor of two polynomials.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gcd</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>9x2-6x+1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Integer)</sub></p>
+<p>The operation lcmlcmUnivariatePolynomial computes the least common
+multiple.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lcm</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>162x5+432x4-756x3+408x2-94x+8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Integer)</sub></p>
+<p>The operation resultantresultantUnivariatePolynomial computes the
+resultant of two univariate polynomials. In the case of p and q, the
+resultant is 0 because they share a common root.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">resultant</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: NonNegativeInteger</sub></p>
+<p>To compute the derivative of a univariate polynomial with respect to its
+variable, use DDUnivariatePolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">D</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>54x2+120x-46</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Integer)</sub></p>
+<p>Univariate polynomials can also be used as if they were functions. To
+evaluate a univariate polynomial at some point, apply the polynomial to
+the point.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>300</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The same syntax is used for composing two univariate polynomials, i.e.
+substituting one polynomial for the variable in another. This
+substitutes q for the variable in p.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>9565938x12-38263752x11+70150212x10-77944680x9+58852170x8-32227632x7+13349448x6-4280688x5+1058184x4-192672x3+23328x2-1536x+40</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Integer)</sub></p>
+<p>This substitutes p for the variable in q.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>8503056x12+113374080x11+479950272x10+404997408x9-1369516896x8-626146848x7+2939858712x6-2780728704x5+1364312160x4-396838872x3+69205896x2-6716184x+279841</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Integer)</sub></p>
+<p>To obtain a list of coefficients of the polynomial, use
+coefficientscoefficientsUnivariatePolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">l</span> <span class="p">:</span><span class="o">=</span> <span class="n">coefficients</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[18,60,-46,8]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List Integer</sub></p>
+<p>From this you can use gcdgcdUnivariatePolynomial and reducereduceList to
+compute the content of the polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reduce</span><span class="p">(</span><span class="n">gcd</span><span class="p">,</span><span class="n">l</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Alternatively (and more easily), you can just call
+contentcontentUnivariatePolynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">content</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>Note that the operation coefficientscoefficientsUnivariatePolynomial
+omits the zero coefficients from the list. Sometimes it is useful to
+convert a univariate polynomial to a vector whose i-th position contains
+the degree i-1 coefficient of the polynomial.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ux</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">4</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="mi">3</span><span class="p">)::</span><span class="n">UP</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x4+2x+3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Integer)</sub></p>
+<p>To get a complete vector of coefficients, use the operation
+vectorisevectoriseUnivariatePolynomial, which takes a univariate
+polynomial and an integer denoting the length of the desired vector.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">vectorise</span><span class="p">(</span><span class="n">ux</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[3,2,0,0,1]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Vector Integer</sub></p>
+<p>It is common to want to do something to every term of a polynomial,
+creating a new polynomial in the process.</p>
+<p>This is a function for iterating across the terms of a polynomial,
+squaring each term.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">squareTerms</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="o">==</span> <span class="n">reduce</span><span class="p">(</span><span class="o">+</span><span class="p">,[</span><span class="n">t</span><span class="o">^</span><span class="mi">2</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">monomials</span> <span class="n">p</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Void</p>
+<p>Recall what p looked like.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>18x3+60x2-46x+8</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Integer)</sub></p>
+<p>We can demonstrate squareTerms on p.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">squareTerms</span> <span class="n">p</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">function</span> <span class="n">squareTerms</span> <span class="k">with</span> <span class="nb">type</span>
+  <span class="n">UnivariatePolynomial</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">Integer</span><span class="p">)</span> <span class="o">-&gt;</span>
+    <span class="n">UnivariatePolynomial</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>324x6+3600x4+2116x2+64</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(x,Integer)</sub></p>
+<p>When the coefficients of the univariate polynomial belong to a field,For
+example, when the coefficients are rational numbers, as opposed to
+integers. The important property of a field is that non-zero elements
+can be divided and produce another element. The quotient of the integers
+2 and 3 is not another integer. it is possible to compute quotients and
+remainders.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">s</span><span class="p">)</span> <span class="p">:</span> <span class="n">UP</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="n">FRAC</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">a1</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">2</span><span class="o">/</span><span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a12-23</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(a1,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="p">:</span><span class="o">=</span> <span class="n">a1</span> <span class="o">+</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a1+4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(a1,Fraction Integer)</sub></p>
+<p>When the coefficients are rational numbers or rational expressions, the
+operation quoquoUnivariatePolynomial computes the quotient of two
+polynomials.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="n">quo</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a1-4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(a1,Fraction Integer)</sub></p>
+<p>The operation remremUnivariatePolynomial computes the remainder.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="n">rem</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>463</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(a1,Fraction Integer)</sub></p>
+<p>The operation dividedivideUnivariatePolynomial can be used to return a
+record of both components.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="p">:</span><span class="o">=</span> <span class="n">divide</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[quotient=a1-4,remainder=463]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Record( quotient: UnivariatePolynomial(a1,Fraction Integer),</sub>
+remainder: UnivariatePolynomial(a1,Fraction Integer))</p>
+<p>Now we check the arithmetic!</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">-</span> <span class="p">(</span><span class="n">d</span><span class="o">.</span><span class="n">quotient</span> <span class="o">*</span> <span class="n">s</span> <span class="o">+</span> <span class="n">d</span><span class="o">.</span><span class="n">remainder</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(a1,Fraction Integer)</sub></p>
+<p>It is also possible to integrate univariate polynomials when the
+coefficients belong to a field.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">integrate</span> <span class="n">r</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>13a13-23a1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(a1,Fraction Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">integrate</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>12a12+4a1</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(a1,Fraction Integer)</sub></p>
+<p>One application of univariate polynomials is to see expressions in terms
+of a specific variable.</p>
+<p>We start with a polynomial in a1 whose coefficients are quotients of
+polynomials in b1 and b2.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="p">:</span> <span class="n">UP</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="n">FRAC</span> <span class="n">POLY</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Void</p>
+<p>Since in this case we are not talking about using multivariate
+polynomials in only two variables, we use Polynomial. We also use
+Fraction because we want fractions.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="p">:</span><span class="o">=</span> <span class="n">a1</span><span class="o">^</span><span class="mi">2</span> <span class="o">-</span> <span class="n">a1</span><span class="o">/</span><span class="n">b2</span> <span class="o">+</span> <span class="p">(</span><span class="n">b1</span><span class="o">^</span><span class="mi">2</span><span class="o">-</span><span class="n">b1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">b2</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a12-1b2a1+b12-b1b2+3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(a1,Fraction Polynomial Integer)</sub></p>
+<p>We push all the variables into a single quotient of polynomials.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">u</span> <span class="p">:</span> <span class="n">FRAC</span> <span class="n">POLY</span> <span class="n">INT</span> <span class="p">:</span><span class="o">=</span> <span class="n">t</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>a12b22+(b12-b1+3a12-a1)b2-3a1b22+3b2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Fraction Polynomial Integer</sub></p>
+<p>Alternatively, we can view this as a polynomial in the variable This is
+a mode-directed conversion: you indicate as much of the structure as you
+care about and let FriCAS decide on the full type and how to do the
+transformation.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>u :: UP(b1,?)
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>1b2+3b12-1b2+3b1+a12b2-a1b2</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: UnivariatePolynomial(b1,Fraction Polynomial Integer)</sub></p>
+<p>See <a class="reference external" href="ugProblemFactorPage">ugProblemFactorPage</a> in Section
+<a class="reference external" href="ugProblemFactorNumber">ugProblemFactorNumber</a> for a discussion of
+the factorization facilities in FriCAS for univariate polynomials. For
+more information on related topics, see
+<a class="reference external" href="ugIntroVariablesPage">ugIntroVariablesPage</a> in Section
+<a class="reference external" href="ugIntroVariablesNumber">ugIntroVariablesNumber</a> ,
+<a class="reference external" href="ugTypesConvertPage">ugTypesConvertPage</a> in Section
+<a class="reference external" href="ugTypesConvertNumber">ugTypesConvertNumber</a> ,
+<a class="reference external" href="section-9.16.html#DistributedMultivariatePolynomialXmpPage">PolynomialXmpPage</a>
+,
+<a class="reference external" href="section-9.16.html#DistributedMultivariatePolynomialXmpPage">MultivariatePolynomialXmpPage</a>
+, and
+<a class="reference external" href="section-9.16.html#DistributedMultivariatePolynomialXmpPage">DistributedMultivariatePolynomialXmpPage</a>
+.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.82.html" title="previous chapter">9.82 TwoDimensionalArray</a></li>
+      <li>Next: <a href="section-9.84.html" title="next chapter">9.84 UniversalSegment</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.83.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.83.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

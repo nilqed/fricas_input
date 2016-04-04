@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.15 DecimalExpansion &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.16 DistributedMultivariatePolynomial" href="section-9.16.html" />
+    <link rel="prev" title="9.14 DeRhamComplex" href="section-9.14.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="decimalexpansion">
+<h1>9.15 DecimalExpansion<a class="headerlink" href="#decimalexpansion" title="Permalink to this headline">¶</a></h1>
+<p>All rationals have repeating decimal expansions. Operations to access
+the individual digits of a decimal expansion can be obtained by
+converting the value to RadixExpansion(10). More examples of expansions
+are available in
+<a class="reference external" href="section-9.4.html#BinaryExpansionXmpPage">BinaryExpansionXmpPage</a> ,
+<a class="reference external" href="section-9.33.html#HexadecimalExpansionXmpPage">HexadecimalExpansionXmpPage</a>
+, and
+<a class="reference external" href="section-9.65.html#RadixExpansionXmpPage">RadixExpansionXmpPage</a> .</p>
+<p>The operation decimaldecimalDecimalExpansion is used to create this
+expansion of type DecimalExpansion.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="p">:</span><span class="o">=</span> <span class="n">decimal</span><span class="p">(</span><span class="mi">22</span><span class="o">/</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>3.142857‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DecimalExpansion</sub></p>
+<p>Arithmetic is exact.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">+</span> <span class="n">decimal</span><span class="p">(</span><span class="mi">6</span><span class="o">/</span><span class="mi">7</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>4</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DecimalExpansion</sub></p>
+<p>The period of the expansion can be short or long ...</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">decimal</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">350.</span><span class="o">.</span><span class="mi">354</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[0.00285714‾,0.002849‾,0.0028409‾,0.00283286118980169971671388101983‾,0.00282485875706214689265536723163841807909604519774011299435‾]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List DecimalExpansion</sub></p>
+<p>or very long.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">decimal</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2049</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.000488042947779404587603709126403123474865788189360663738408979990239‾141044411908247925817471937530502684236212786725231820400195217179111‾761835041483650561249389946315275744265495363591996095656417764763299‾170326988775012201073694485114690092728160078086871644704734016593460‾22449975597852611029770619814543679843826256710590531966813079551‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: DecimalExpansion</sub></p>
+<p>These numbers are bona fide algebraic objects.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="n">decimal</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">decimal</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">decimal</span><span class="p">(</span><span class="mi">4</span><span class="o">/</span><span class="mi">9</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.25x2+0.6‾x+0.4‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial DecimalExpansion</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">q</span> <span class="p">:</span><span class="o">=</span> <span class="n">differentiate</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>0.5x+0.6‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial DecimalExpansion</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="p">:</span><span class="o">=</span> <span class="n">gcd</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>x+1.3‾</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: Polynomial DecimalExpansion</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.14.html" title="previous chapter">9.14 DeRhamComplex</a></li>
+      <li>Next: <a href="section-9.16.html" title="next chapter">9.16 DistributedMultivariatePolynomial</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.15.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.15.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

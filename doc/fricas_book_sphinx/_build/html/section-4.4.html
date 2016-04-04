@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4.4 Monospace Two-Dimensional Mathematical Format &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="4.5 TeX Format" href="section-4.5.html" />
+    <link rel="prev" title="4.3 Common Features of Using Output Formats" href="section-4.3.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="monospace-two-dimensional-mathematical-format">
+<h1>4.4 Monospace Two-Dimensional Mathematical Format<a class="headerlink" href="#monospace-two-dimensional-mathematical-format" title="Permalink to this headline">¶</a></h1>
+<p>This is the default output format for FriCAS. It is usually on when you
+start the system. set output algebra output formats:monospace 2D
+monospace 2D output format</p>
+<p>If it is not, issue this.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">output</span> <span class="n">algebra</span> <span class="n">on</span>
+</pre></div>
+</div>
+<p>Since the printed version of this book (as opposed to the HyperDoc
+version) shows output produced by the TeX output formatter, let us
+temporarily turn off TeX output.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">output</span> <span class="n">tex</span> <span class="n">off</span>
+</pre></div>
+</div>
+<p>Here is an example of what it looks like.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">matrix</span> <span class="p">[</span> <span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span><span class="o">*%</span><span class="n">i</span><span class="o">*</span><span class="n">y</span><span class="o">^</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">3.</span><span class="o">.</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>     <span class="o">+</span>     <span class="mi">3</span>           <span class="mi">3</span>     <span class="mi">2</span><span class="o">+</span>
+     <span class="o">|</span><span class="mi">3</span><span class="o">%</span><span class="n">i</span> <span class="n">y</span>  <span class="o">+</span> <span class="n">x</span>  <span class="mi">3</span><span class="o">%</span><span class="n">i</span> <span class="n">y</span>  <span class="o">+</span> <span class="mi">2</span><span class="n">x</span> <span class="o">|</span>
+<span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="o">|</span>                        <span class="o">|</span>
+     <span class="o">|</span>     <span class="mi">4</span>           <span class="mi">4</span>     <span class="mi">2</span><span class="o">|</span>
+     <span class="o">+</span><span class="mi">4</span><span class="o">%</span><span class="n">i</span> <span class="n">y</span>  <span class="o">+</span> <span class="n">x</span>  <span class="mi">4</span><span class="o">%</span><span class="n">i</span> <span class="n">y</span>  <span class="o">+</span> <span class="mi">2</span><span class="n">x</span> <span class="o">+</span>
+</pre></div>
+</div>
+<p><sub>Type: Matrix Polynomial Complex Integer</sub></p>
+<p>Issue this to turn off this kind of formatting.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">output</span> <span class="n">algebra</span> <span class="n">off</span>
+</pre></div>
+</div>
+<p>Turn TeX output on again.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="nb">set</span> <span class="n">output</span> <span class="n">tex</span> <span class="n">on</span>
+</pre></div>
+</div>
+<p>The characters used for the matrix brackets above are rather ugly. You
+get this character set when you issue character set )set output
+characters plain. set output characters This character set should be
+used when you are running on a machine that does not support the IBM
+extended ASCII character set. If you are running on an IBM workstation,
+for example, issue )set output characters default to get better looking
+output.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-4.3.html" title="previous chapter">4.3 Common Features of Using Output Formats</a></li>
+      <li>Next: <a href="section-4.5.html" title="next chapter">4.5 TeX Format</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-4.4.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-4.4.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>13.1 Domains vs. Packages &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="13.2 Definitions" href="section-13.2.html" />
+    <link rel="prev" title="13.0 Domains" href="section-13.0.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="domains-vs-packages">
+<h1>13.1 Domains vs. Packages<a class="headerlink" href="#domains-vs-packages" title="Permalink to this headline">¶</a></h1>
+<p>Packages are special cases of domains. What is the difference between a
+package and a domain that is not a package? By definition, there is only
+one difference: a domain that is not a package has the symbol $
+appearing somewhere among the types of its exported operations. The $
+denotes this domain. If the $ appears before the -&gt; in the type of a
+signature, it means the operation takes an element from the domain as an
+argument. If it appears after the -&gt;, then the operation returns an
+element of the domain.</p>
+<p>If no exported operations mention $, then evidently there is nothing of
+interest to do with the objects of the domain. You might then say that a
+package is a boring domain! But, as you saw in Chapter
+<a class="reference external" href="section-11.0.html#ugPackages">ugPackages</a>, packages are a very
+useful notion indeed. The exported operations of a package depend solely
+on the parameters to the package constructor and other explicit domains.</p>
+<p>To summarize, domain constructors are versatile structures that serve
+two distinct practical purposes: Those like Polynomial and List describe
+classes of computational objects; others, like SortPackage, describe
+packages of useful operations. As in the last chapter, we focus here on
+the first kind.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-13.0.html" title="previous chapter">13.0 Domains</a></li>
+      <li>Next: <a href="section-13.2.html" title="next chapter">13.2 Definitions</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-13.1.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-13.1.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

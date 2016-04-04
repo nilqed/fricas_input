@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>0.5 General Points about FriCAS &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="0.6 Data Structures in FriCAS" href="section-0.6.html" />
+    <link rel="prev" title="0.4 Using FriCAS as a Symbolic Calculator" href="section-0.4.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="general-points-about-fricas">
+<h1>0.5 General Points about FriCAS<a class="headerlink" href="#general-points-about-fricas" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="computation-without-output">
+<h2>0.5.1 Computation Without Output<a class="headerlink" href="#computation-without-output" title="Permalink to this headline">¶</a></h2>
+<p>It is sometimes desirable to enter an expression and prevent FriCAS from
+displaying the result. To do this the expression should be terminated
+with a semicolon <code class="docutils literal"><span class="pre">;</span></code>. In a previous section it was mentioned that a set of
+expressions separated by semicolons would be evaluated and the result of
+the last one displayed. Thus if a single expression is followed by a
+semicolon no output will be produced (except for its type):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">*</span><span class="mi">5</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><sub>Type: PositiveInteger</sub></p>
+</div>
+<div class="section" id="accessing-earlier-results">
+<h2>0.5.2 Accessing Earlier Results<a class="headerlink" href="#accessing-earlier-results" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">%</span></code> macro represents the result of the previous computation. The
+<code class="docutils literal"><span class="pre">%%</span></code> macro is available which takes a single integer argument. If
+the argument is positive then it refers to the step number of the
+calculation where the numbering begins from one and can be seen at the
+end of each prompt (the number in parentheses). If the argument is
+negative then it refers to previous results counting backwards from the
+last result. That is, <code class="docutils literal"><span class="pre">%%(-1)</span></code> is the same as <code class="docutils literal"><span class="pre">%</span></code>. The value of
+<code class="docutils literal"><span class="pre">%%(0)</span></code> is not defined and will generate an error if requested.</p>
+</div>
+<div class="section" id="splitting-expressions-over-several-lines">
+<h2>0.5.3 Splitting Expressions Over Several Lines<a class="headerlink" href="#splitting-expressions-over-several-lines" title="Permalink to this headline">¶</a></h2>
+<p>Although FriCAS will quite happily accept expressions that are longer
+than the width of the screen (just keep typing without pressing the
+Return key) it is often preferable to split the expression being entered
+at a point where it would result in more readable input. To do this the
+underscore <code class="docutils literal"><span class="pre">_</span></code> symbol is placed before the break point and then the
+Return key is pressed. The rest of the expression is typed on the next
+line, can be preceeded by any number of whitespace chars, for example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2</span><span class="n">_</span>
+<span class="o">+</span><span class="n">_</span>
+<span class="mi">3</span>
+</pre></div>
+</div>
+<div class="math">
+\[5\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<p>The underscore symbol is an escape character and its presence alters the
+meaning of the characters that follow it. As mentions above whitespace
+following an underscore is ignored (the Return key generates a
+whitespace character). Any other character following an underscore loses
+whatever special meaning it may have had. Thus one can create the
+identifier <code class="docutils literal"><span class="pre">a+b</span></code> by typing <code class="docutils literal"><span class="pre">a_+b</span></code> although this might lead to
+confusions. Also note the result of the following example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ThisIsAVeryLong_</span> <span class="n">VariableName</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{ThisIsAVeryLongVariableName}\]</div>
+<p><sub>Type: Variable ThisIsAVeryLongVariableName</sub></p>
+</div>
+<div class="section" id="comments-and-descriptions">
+<h2>0.5.4 Comments and Descriptions<a class="headerlink" href="#comments-and-descriptions" title="Permalink to this headline">¶</a></h2>
+<p>Comments and descriptions are really only of use in files of FriCAS code
+but can be used when the output of an interactive session is being
+spooled to a file (via the system command <code class="docutils literal"><span class="pre">)spool</span></code>). A comment begins with
+two dashes <code class="docutils literal"><span class="pre">--</span></code> and continues until the end of the line. Multi-line
+comments are only possible if each individual line begins with two
+dashes.</p>
+<p>Descriptions are the same as comments except that the FriCAS compiler
+will include them in the object files produced and make them availabe to
+the end user for documentation purposes.</p>
+<p>A description is placed before a calculation begins with three <code class="docutils literal"><span class="pre">+++</span></code>
+signs and a description placed after a calculation begins with two plus
+symbols <code class="docutils literal"><span class="pre">+</span></code>. The so-called plus plus comments are used within the
+algebra files and are processed by the compiler to add to the
+documentation. The so-called minus minus comments are ignored
+everywhere.</p>
+</div>
+<div class="section" id="control-of-result-types">
+<h2>0.5.5 Control of Result Types<a class="headerlink" href="#control-of-result-types" title="Permalink to this headline">¶</a></h2>
+<p>In earlier sections the type of an expression was converted to another
+via the <code class="docutils literal"><span class="pre">::</span></code> operator. However, this is not the only method for
+converting between types and two other operators need to be introduced
+and explained.</p>
+<p>The first operator is <code class="docutils literal"><span class="pre">$</span></code> and is used to specify the package to be
+used to calculate the result. Thus:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(2/3)$Float
+</pre></div>
+</div>
+<div class="math">
+\[0.66666666666666666667\]</div>
+<p><sub>Type: Float</sub></p>
+<p>tells FriCAS to use the <code class="docutils literal"><span class="pre">/</span></code> operator from the Float package to evaluate
+the expression 2/3. This does not necessarily mean that the result will
+be of the same type as the domain from which the operator was taken. In
+the following example the sign operator is taken from the Float package
+but the result is of type Integer.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>sign(2.3)$Float
+</pre></div>
+</div>
+<div class="math">
+\[1\]</div>
+<p><sub>Type: Integer</sub></p>
+<p>The other operator is <code class="docutils literal"><span class="pre">&#64;</span></code> which is used to tell FriCAS what the
+desired type of the result of the calculation is. In most situations all
+three operators yield the same results but the example below should help
+distinguish them.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)::</span><span class="n">String</span>
+</pre></div>
+</div>
+<div class="math">
+\[5\]</div>
+<p><sub>Type: String</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span><span class="nd">@String</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">An&nbsp;expression&nbsp;involving&nbsp;&#64;&nbsp;String&nbsp;actually&nbsp;evaluated&nbsp;to&nbsp;one&nbsp;of
+type&nbsp;PositiveInteger&nbsp;.&nbsp;Perhaps&nbsp;you&nbsp;should&nbsp;use&nbsp;::&nbsp;String&nbsp;.</p>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>(2 + 3)$String
+</pre></div>
+</div>
+<div class="admonition error">
+<p class="first admonition-title">Error</p>
+<p class="last">The&nbsp;function&nbsp;+&nbsp;is&nbsp;not&nbsp;implemented&nbsp;in&nbsp;String&nbsp;.</p>
+</div>
+<p>If an expression X is converted using one of the three operators to type
+T the interpretations are::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>:: means explicitly convert X to type T if possible.
+
+$ means use the available operators for type T to compute X.
+
+@ means choose operators to compute X so that the result is of type T.
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">0.5 General Points about FriCAS</a><ul>
+<li><a class="reference internal" href="#computation-without-output">0.5.1 Computation Without Output</a></li>
+<li><a class="reference internal" href="#accessing-earlier-results">0.5.2 Accessing Earlier Results</a></li>
+<li><a class="reference internal" href="#splitting-expressions-over-several-lines">0.5.3 Splitting Expressions Over Several Lines</a></li>
+<li><a class="reference internal" href="#comments-and-descriptions">0.5.4 Comments and Descriptions</a></li>
+<li><a class="reference internal" href="#control-of-result-types">0.5.5 Control of Result Types</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-0.4.html" title="previous chapter">0.4 Using FriCAS as a Symbolic Calculator</a></li>
+      <li>Next: <a href="section-0.6.html" title="next chapter">0.6 Data Structures in FriCAS</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-0.5.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-0.5.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

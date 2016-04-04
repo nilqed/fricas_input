@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>9.44 LinearOrdinaryDifferentialOperator &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="9.45 LinearOrdinaryDifferentialOperator1" href="section-9.45.html" />
+    <link rel="prev" title="9.43 LiePolynomial" href="section-9.43.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="linearordinarydifferentialoperator">
+<h1>9.44 LinearOrdinaryDifferentialOperator<a class="headerlink" href="#linearordinarydifferentialoperator" title="Permalink to this headline">¶</a></h1>
+<p>LinearOrdinaryDifferentialOperator(A, diff) is the domain of linear
+ordinary differential operators with coefficients in a ring A with a
+given derivation.</p>
+<div class="section" id="differential-operators-with-series-coefficients">
+<h2>9.44.1 Differential Operators with Series Coefficients<a class="headerlink" href="#differential-operators-with-series-coefficients" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>Problem: Find the first few coefficients of exp(x)/x^i of Dop phi where</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Dop</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">G</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span> <span class="o">*</span> <span class="n">D</span> <span class="o">+</span> <span class="n">H</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="n">phi</span> <span class="p">:</span><span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="mf">0.</span><span class="o">.</span><span class="p">)</span>
+
+
+
+<span class="n">Solution</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>Define the differential.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Dx</span><span class="p">:</span> <span class="n">LODO</span><span class="p">(</span><span class="n">EXPR</span> <span class="n">INT</span><span class="p">,</span> <span class="n">f</span> <span class="o">+-&gt;</span> <span class="n">D</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Dx</span> <span class="p">:</span><span class="o">=</span> <span class="n">D</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>D</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator(Expression Integer,theMap NIL)</sub></p>
+<p>Now define the differential operator Dop.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Dop</span><span class="p">:</span><span class="o">=</span> <span class="n">Dx</span><span class="o">^</span><span class="mi">3</span> <span class="o">+</span> <span class="n">G</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">Dx</span> <span class="o">+</span> <span class="n">H</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>D3+Gx2D+-x3+Hx3</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: LinearOrdinaryDifferentialOperator(Expression Integer,theMap NIL)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">==</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">phi</span> <span class="o">==</span> <span class="n">reduce</span><span class="p">(</span><span class="o">+</span><span class="p">,[</span><span class="n">subscript</span><span class="p">(</span><span class="n">s</span><span class="p">,[</span><span class="n">i</span><span class="p">])</span><span class="o">*</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">x</span><span class="o">^</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">0.</span><span class="o">.</span><span class="n">n</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">phi1</span> <span class="o">==</span> <span class="n">Dop</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span> <span class="o">/</span> <span class="n">exp</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">phi2</span> <span class="o">==</span> <span class="n">phi1</span> <span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">phi3</span> <span class="o">==</span> <span class="n">retract</span><span class="p">(</span><span class="n">phi2</span><span class="p">)</span><span class="o">@</span><span class="p">(</span><span class="n">POLY</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pans</span> <span class="o">==</span> <span class="n">phi3</span> <span class="p">::</span><span class="n">UP</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">POLY</span> <span class="n">INT</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pans1</span> <span class="o">==</span> <span class="p">[</span><span class="n">coefficient</span><span class="p">(</span><span class="n">pans</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">3</span><span class="o">-</span><span class="n">i</span><span class="p">)</span> <span class="p">::</span> <span class="n">NNI</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">2.</span><span class="o">.</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leq</span> <span class="o">==</span> <span class="n">solve</span><span class="p">(</span><span class="n">pans1</span><span class="p">,[</span><span class="n">subscript</span><span class="p">(</span><span class="n">s</span><span class="p">,[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="n">n</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Void</p>
+<p>Evaluate this for several values of n.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leq</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">n</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">PositiveInteger</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">phi</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">Expression</span>
+   <span class="n">Integer</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">phi1</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">Expression</span>
+   <span class="n">Integer</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">phi2</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">Expression</span>
+   <span class="n">Integer</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">phi3</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">Polynomial</span>
+   <span class="n">Integer</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">pans</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span>
+   <span class="n">UnivariatePolynomial</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">Polynomial</span> <span class="n">Integer</span><span class="p">)</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">pans1</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">List</span>
+   <span class="n">Polynomial</span> <span class="n">Integer</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">leq</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">List</span> <span class="n">List</span>
+   <span class="n">Equation</span> <span class="n">Fraction</span> <span class="n">Polynomial</span> <span class="n">Integer</span>
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">G83347</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Integer</span> <span class="o">-&gt;</span> <span class="n">Boolean</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n</span><span class="o">==</span><span class="mi">4</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[s1=s0G3,s2=3s0H+s0G2+6s0G18,s3=(9s0G+54s0)H+s0G3+18s0G2+72s0G162]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Equation Fraction Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leq</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>[[s1=s0G3,s2=3s0H+s0G2+6s0G18,s3=(9s0G+54s0)H+s0G3+18s0G2+72s0G162]]</td>
+</tr>
+</tbody>
+</table>
+<p><sub>Type: List List Equation Fraction Polynomial Integer</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">n</span><span class="o">==</span><span class="mi">7</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">n</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">leq</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">pans1</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">phi2</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">phi</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">phi3</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">phi1</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="n">Compiled</span> <span class="n">code</span> <span class="k">for</span> <span class="n">pans</span> <span class="n">has</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+<span class="mi">1</span> <span class="n">old</span> <span class="n">definition</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">deleted</span> <span class="k">for</span> <span class="n">function</span> <span class="ow">or</span> <span class="n">rule</span> <span class="n">n</span>
+</pre></div>
+</div>
+<p>Void</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leq</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">n</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">PositiveInteger</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">n</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">phi</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">Expression</span>
+  <span class="n">Integer</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">phi</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">phi1</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">Expression</span>
+  <span class="n">Integer</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">phi1</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">phi2</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">Expression</span>
+  <span class="n">Integer</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">phi2</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">phi3</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">Polynomial</span>
+  <span class="n">Integer</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">phi3</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">pans</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span>
+  <span class="n">UnivariatePolynomial</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">Polynomial</span> <span class="n">Integer</span><span class="p">)</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">pans</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">pans1</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">List</span>
+  <span class="n">Polynomial</span> <span class="n">Integer</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">pans1</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+<span class="n">Compiling</span> <span class="n">body</span> <span class="n">of</span> <span class="n">rule</span> <span class="n">leq</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">value</span> <span class="n">of</span> <span class="nb">type</span> <span class="n">List</span> <span class="n">List</span>
+  <span class="n">Equation</span> <span class="n">Fraction</span> <span class="n">Polynomial</span> <span class="n">Integer</span>
+<span class="o">+++</span> <span class="o">|*</span><span class="mi">0</span><span class="p">;</span><span class="n">leq</span><span class="p">;</span><span class="mi">1</span><span class="p">;</span><span class="n">G82322</span><span class="o">|</span> <span class="n">redefined</span>
+</pre></div>
+</div>
+<div class="math">
+\[\]</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p>s7=((2835s0G+91854s0)H3+(945s0G3+81648s0G2+2082996s0G+14171760s0)H2+(63s0G5+7560s0G4+317520s0G3+5554008s0G2+34058880s0G)H+s0G7+126s0G6+4788s0G5+25272s0G4-1744416s0G3-26827200s0G2-97977600s0G)11022480]]</p>
+<p><sub>Type: List List Equation Fraction Polynomial Integer</sub></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">9.44 LinearOrdinaryDifferentialOperator</a><ul>
+<li><a class="reference internal" href="#differential-operators-with-series-coefficients">9.44.1 Differential Operators with Series Coefficients</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-9.43.html" title="previous chapter">9.43 LiePolynomial</a></li>
+      <li>Next: <a href="section-9.45.html" title="next chapter">9.45 LinearOrdinaryDifferentialOperator1</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-9.44.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-9.44.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

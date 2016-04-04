@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>11.7 Parameters &mdash; FriCAS 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="FriCAS 0.1 documentation" href="index.html" />
+    <link rel="next" title="11.8 Conditionals" href="section-11.8.html" />
+    <link rel="prev" title="11.6 Compiling Packages" href="section-11.6.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="parameters">
+<h1>11.7 Parameters<a class="headerlink" href="#parameters" title="Permalink to this headline">¶</a></h1>
+<p>The power of packages becomes evident when packages have parameters.
+Usually these parameters are domains and the exported operations have
+types involving these parameters.</p>
+<p>In Chapter <a class="reference external" href="section-2.0.html#ugTypes">ugTypes</a> , you learned that
+categories denote classes of domains. Although we cover this notion in
+detail in the next chapter, we now give you a sneak preview of its
+usefulness.</p>
+<p>In <a class="reference external" href="section-6.15.html#ugUserBlocks">ugUserBlocks</a> , we defined
+functions bubbleSort(m) and insertionSort(m) to sort a list of integers.
+If you look at the code for these functions, you see that they may be
+used to sort any structure m with the right properties. Also, the
+functions can be used to sort lists of any elements&#8212;not just integers.
+Let us now recall the code for bubbleSort.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>bubbleSort(m) ==
+  n := #m
+  for i in 1..(n-1) repeat
+    for j in n..(i+1) by -1 repeat
+      if m.j &lt; m.(j-1) then swap!(m,j,j-1)
+  m
+</pre></div>
+</div>
+<p>What properties of lists of integers are assumed by the sorting
+algorithm? In the first line, the operation # computes the maximum index
+of the list. The first obvious property is that m must have a finite
+number of elements. In FriCAS, this is done by your telling FriCAS that
+m has the attribute finiteAggregate. An attribute is a property that a
+domain either has or does not have. As we show later in
+<a class="reference external" href="section-12.9.html#ugCategoriesAttributes">ugCategoriesAttributes</a> ,
+programs can query domains as to the presence or absence of an
+attribute.</p>
+<p>The operation swap swaps elements of m. Using Browse, you find that swap
+requires its elements to come from a domain of category IndexedAggregate
+with attribute shallowlyMutable. This attribute means that you can
+change the internal components of m without changing its external
+structure. Shallowly-mutable data structures include lists, streams,
+one- and two-dimensional arrays, vectors, and matrices.</p>
+<p>The category IndexedAggregate designates the class of aggregates whose
+elements can be accessed by the notation m.s for suitable selectors s.
+The category IndexedAggregate takes two arguments: Index, a domain of
+selectors for the aggregate, and Entry, a domain of entries for the
+aggregate. Since the sort functions access elements by integers, we must
+choose Index=Integer. The most general class of domains for which
+bubbleSort and insertionSort are defined are those of category
+IndexedAggregate(Integer,Entry) with the two attributes shallowlyMutable
+and finiteAggregate.</p>
+<p>Using Browse, you can also discover that FriCAS has many kinds of
+domains with attribute shallowlyMutable. Those of class
+IndexedAggregate(Integer,Entry) include Bits, FlexibleArray,
+OneDimensionalArray, List, String, and Vector, and also HashTable and
+EqTable with integer keys. Although you may never want to sort all such
+structures, we nonetheless demonstrate FriCAS&#8217;s ability to do so.</p>
+<p>Another requirement is that Entry has an operation &lt;. One way to get
+this operation is to assume that Entry has category OrderedSet. By
+definition, will then export a &lt; operation. A more general approach is
+to allow any comparison function f to be used for sorting. This function
+will be passed as an argument to the sorting functions.</p>
+<p>Our sorting package then takes two arguments: a domain S of objects of
+any type, and a domain A, an aggregate of type IndexedAggregate(Integer,
+S) with the above two attributes. Here is its definition using what are
+close to the original definitions of bubbleSort and insertionSort for
+sorting lists of integers. The symbol ! is added to the ends of the
+operation names. This uniform naming convention is used for FriCAS
+operation names that destructively change one or more of their
+arguments.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>SortPackage(S,A) : Exports == Implementation where
+  S: Object
+  A: IndexedAggregate(Integer,S)
+    with (finiteAggregate; shallowlyMutable)
+  Exports == with
+    bubbleSort!: (A,(S,S) -&gt; Boolean) -&gt; A
+    insertionSort!: (A, (S,S) -&gt; Boolean) -&gt; A
+  Implementation == add
+    bubbleSort!(m,f) ==
+      n := #m
+      for i in 1..(n-1) repeat
+        for j in n..(i+1) by -1 repeat
+          if f(m.j,m.(j-1)) then swap!(m,j,j-1)
+      m
+    insertionSort!(m,f) ==
+      for i in 2..#m repeat
+        j := i
+        while j &gt; 1 and f(m.j,m.(j-1)) repeat
+          swap!(m,j,j-1)
+          j := (j - 1) pretend PositiveInteger
+      m
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="section-11.6.html" title="previous chapter">11.6 Compiling Packages</a></li>
+      <li>Next: <a href="section-11.8.html" title="next chapter">11.8 Conditionals</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-11.7.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, FriCAS.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/section-11.7.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
