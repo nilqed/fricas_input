@@ -1,5 +1,7 @@
-1 Introduction
---------------
+.. _introduction:
+
+1.0 Introduction
+----------------
 
 Differential forms occur in various fields of mathematics and physics providing
 a method to formulate many objects in a way which is independent of a particular 
@@ -16,7 +18,7 @@ There are many approaches to introduce differential forms: alternating linear
 mappings, completely antisymmetric tensors, sections of cotangent bundles or 
 free vector spaces to name a few. The following references give witness of the
 different methods and are ordered by nondecreasing
-difficulty and rigor ([4],[6],[1],[2],[7],[3]).
+difficulty and rigor: [4]_ , [6]_ , [1]_ , [2]_ , [7]_ , [3]_
 
 Here we have to consider differential forms in local coordinates in order to 
 perform some nonsymbolic computations:
@@ -48,4 +50,27 @@ symbol :math:`vee` in his representation [7].
 
 **Notation**: The domain ``DeRhamcomplex`` uses ``dx*dy`` for :math:`dx\wedge dy`.
 
+.. [1] Ralph Abraham, Jerrold E.Marsden and Tudor Ratiu.Manifolds, 
+       Tensor Analysis, and Applications. Springer,
+       Auflage: 2nd Corrected ed. 1988. Corr. 2nd printing 1993 edition.
+       
+.. [2] Henri Cartan. Di erential Forms. Dover Pubn Inc, Au age: Tra edition.
 
+.. [3] Herbert Federer. Geometric Measure Theory. Springer, Au age: Reprint of 
+       the 1st ed. Berlin, Heidelberg, New York 1969 edition.
+
+.. [4] Harley Flanders and Mathematics. Di erential Forms with Applications to 
+       the Physical Sciences. Dover Pubn Inc, Auflage: Revised. edition.
+
+.. [5] L. A. Lambe and D. E. Radford. Introduction to the Quantum Yang-Baxter 
+       Equation and Quantum Groups:An Algebraic Approach. Springer, 
+       Auflage: 1997 edition.
+
+.. [6] Walter Rudin and RudinWalter. Principles ofMathematicalAnalysis.Mcgraw 
+       Hill Book Co, Au age: Revised. edition.
+
+.. [7] Hassler Whitney. Geometric Integration Theory: Princeton Mathematical 
+       Series, No. 21. Literary Licensing, LLC.
+       
+       
+:ref:`startpage`

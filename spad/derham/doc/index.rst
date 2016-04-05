@@ -3,8 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to DeRhamComplex's documentation!
-=========================================
+    
+.. _startpage:
+
+=======================
+FriCAS :: DeRhamComplex
+=======================
 
 Contents:
 
@@ -14,7 +18,9 @@ Contents:
    section-1.0
    section-1.1
    section-1.2
+   bibliography
 
+   
 Indices and tables
 ==================
 

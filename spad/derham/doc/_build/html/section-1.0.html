@@ -6,9 +6,9 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>1 Introduction &mdash; DeRhamComplex 1.0 documentation</title>
+    <title>1.0 Introduction &mdash; DeRhamComplex 1.0 documentation</title>
     
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -25,14 +25,25 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="DeRhamComplex 1.0 documentation" href="index.html" />
-    <link rel="next" title="1.1 DeRhamComplex" href="section-1.1.html" />
-    <link rel="prev" title="Welcome to DeRhamComplex’s documentation!" href="index.html" />
-   
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="next" title="1.1 Domain: DeRhamComplex" href="section-1.1.html" />
+    <link rel="prev" title="FriCAS :: DeRhamComplex" href="index.html" /> 
   </head>
-  <body role="document">  
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="section-1.1.html" title="1.1 Domain: DeRhamComplex"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="FriCAS :: DeRhamComplex"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DeRhamComplex 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -40,7 +51,7 @@
           <div class="body" role="main">
             
   <div class="section" id="introduction">
-<h1>1 Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>1.0 Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p>Differential forms occur in various fields of mathematics and physics providing
 a method to formulate many objects in a way which is independent of a particular
 coordinate system. Although primary usage certainly is in a theoretical context,
@@ -55,7 +66,7 @@ instance.</p>
 mappings, completely antisymmetric tensors, sections of cotangent bundles or
 free vector spaces to name a few. The following references give witness of the
 different methods and are ordered by nondecreasing
-difficulty and rigor ([4],[6],[1],[2],[7],[3]).</p>
+difficulty and rigor: <a class="footnote-reference" href="#id11" id="id2">[4]</a> , <a class="footnote-reference" href="#id13" id="id3">[6]</a> , <a class="footnote-reference" href="#id8" id="id4">[1]</a> , <a class="footnote-reference" href="#id9" id="id5">[2]</a> , <a class="footnote-reference" href="#id14" id="id6">[7]</a> , <a class="footnote-reference" href="#id10" id="id7">[3]</a></p>
 <p>Here we have to consider differential forms in local coordinates in order to
 perform some nonsymbolic computations:</p>
 <div class="math">
@@ -78,6 +89,57 @@ notations in the literature.
 In the book of H.Flanders [4] it is not used at all while H.Whitney used the
 symbol <span class="math">\(vee\)</span> in his representation [7].</p>
 <p><strong>Notation</strong>: The domain <code class="docutils literal"><span class="pre">DeRhamcomplex</span></code> uses <code class="docutils literal"><span class="pre">dx*dy</span></code> for <span class="math">\(dx\wedge dy\)</span>.</p>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[1]</a></td><td>Ralph Abraham, Jerrold E.Marsden and Tudor Ratiu.Manifolds,
+Tensor Analysis, and Applications. Springer,
+Auflage: 2nd Corrected ed. 1988. Corr. 2nd printing 1993 edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[2]</a></td><td>Henri Cartan. Di erential Forms. Dover Pubn Inc, Au age: Tra edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[3]</a></td><td>Herbert Federer. Geometric Measure Theory. Springer, Au age: Reprint of
+the 1st ed. Berlin, Heidelberg, New York 1969 edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[4]</a></td><td>Harley Flanders and Mathematics. Di erential Forms with Applications to
+the Physical Sciences. Dover Pubn Inc, Auflage: Revised. edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td>L. A. Lambe and D. E. Radford. Introduction to the Quantum Yang-Baxter
+Equation and Quantum Groups:An Algebraic Approach. Springer,
+Auflage: 1997 edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[6]</a></td><td>Walter Rudin and RudinWalter. Principles ofMathematicalAnalysis.Mcgraw
+Hill Book Co, Au age: Revised. edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id14" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[7]</a></td><td>Hassler Whitney. Geometric Integration Theory: Princeton Mathematical
+Series, No. 21. Literary Licensing, LLC.</td></tr>
+</tbody>
+</table>
+<p><a class="reference internal" href="index.html#startpage"><span class="std std-ref">FriCAS :: DeRhamComplex</span></a></p>
 </div>
 
 
@@ -85,15 +147,13 @@ symbol <span class="math">\(vee\)</span> in his representation [7].</p>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to DeRhamComplex&#8217;s documentation!</a></li>
-      <li>Next: <a href="section-1.1.html" title="next chapter">1.1 DeRhamComplex</a></li>
-  </ul></li>
-</ul>
-</div>
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">FriCAS :: DeRhamComplex</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="section-1.1.html"
+                        title="next chapter">1.1 Domain: DeRhamComplex</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -115,20 +175,24 @@ symbol <span class="math">\(vee\)</span> in his representation [7].</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2016, Kurt Pagani <nilqed@gmail.com>.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
-      
-      |
-      <a href="_sources/section-1.0.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="section-1.1.html" title="1.1 Domain: DeRhamComplex"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="FriCAS :: DeRhamComplex"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DeRhamComplex 1.0 documentation</a> &raquo;</li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Kurt Pagani &lt;nilqed@gmail.com&gt;.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+    </div>
   </body>
 </html>

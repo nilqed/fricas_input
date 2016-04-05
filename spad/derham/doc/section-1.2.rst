@@ -10,11 +10,13 @@ Let us briefly disuss the exported methods of X=DERHAM:
 
 ::
     
-    leadingCoefficient alpha
+    leadingCoefficient(a*dx + b*dy + c*dz)
 
+.. math::
     
-    c(x,y,z,0)
-                                                    Type: Expression(Integer)
+    c
+                                                    
+:sub:`Type: Expression(Integer)`
 
 It seems that it is the first coefficient given in the OutputForm. 
 It is not quite clear what happens when this order is changed by some method,
@@ -26,10 +28,14 @@ if possible at all (todo).
 
 ::
     
-    leadingBasisTerm alpha
+    leadingBasisTerm(a*dx + b*dy +c*dz)
 
-     dy dz
-                                         Type: DeRhamComplex(Integer,[x,y,z])
+.. math::
+
+    dz
+
+
+:sub:`Type: DeRhamComplex(Integer,[x,y,z])`
 
                                          
                                          
@@ -39,10 +45,14 @@ if possible at all (todo).
 
 ::
     
-    reductum alpha
+    reductum(a*dx + b*dy + c*dz)
 
-    99dx + b(x,y,z,0)dx dz + a(x,y,z,0)dx dy
-                                         Type: DeRhamComplex(Integer,[x,y,z])
+.. math::
+
+    b dy + a dx
+    
+                                         
+:sub:`Type: DeRhamComplex(Integer,[x,y,z])`
 
                                          
 One can see that this works like a list of cons': head/tail where head can 
@@ -57,10 +67,14 @@ term recursively.
 
 ::
     
-    coefficient(alpha,dx*dy)
+    coefficient(a*dx + b*dy + c*dz, dy)
 
-    a(x,y,z,0)
-                                                    Type: Expression(Integer)
+.. math::
+
+    b
+
+
+:sub:`Type: Expression(Integer)`
 
                                                     
 **generator**
@@ -70,8 +84,12 @@ term recursively.
     
     generator(1)$X
 
+.. math::
+
     dx
-                                         Type: DeRhamComplex(Integer,[x,y,z])
+
+    
+:sub:`Type: DeRhamComplex(Integer,[x,y,z])`
 
 The description given in derham.spad seems to be not quite suitable.
 
@@ -82,11 +100,18 @@ The description given in derham.spad seems to be not quite suitable.
 
 ::
     
-    homogeneous? alpha
+    homogeneous?(a*dx + b*dy + c*dz)
 
-    (18)  false
-                                                                Type: Boolean
-                                                                                                                           
+.. math::
+
+    \mathrm{true}
+                                                              
+    
+:sub:`Type: Boolean`
+                                                              
+Adding a term like ``dx*dy`` above would result in ``false``.
+                                                              
+                                                              
 **retractable?**
     retractable?(σ) tests if differential form σ is a 0-form, i.e., if 
     degree(σ) = 0.
@@ -95,27 +120,42 @@ The description given in derham.spad seems to be not quite suitable.
     
     retractable? (1::X)
 
-    true
-                                                                 Type: Boolean
-    retractable? alpha
+.. math::
 
-    false
-                                                                 Type: Boolean
+    \mathrm{true}
+    
+:sub:`Type: Boolean`
+
+::
+    
+    retractable? dx
+
+.. math::
+
+    \mathrm{false}
+    
+                                                                 
+:sub:`Type: Boolean`
      
+
 **degree**
     degree(σ) returns the homogeneous degree of differential form σ.
 
 ::
     
-    degree alpha
+    degree(dx+dx*dz)
 
     >> Error detected within library code:
     not a homogeneous element
 
     degree(dx*dy)
 
+.. math::
+
      2
-                                                        Type: PositiveInteger
+                                                        
+  
+:sub:`Type: PositiveInteger`
 
 
 **map**
@@ -124,15 +164,20 @@ The description given in derham.spad seems to be not quite suitable.
 
 ::
     
-    f:R->R
-                                                                   Type: Void
+    R ==> Expression Integer 
+    f:R->R                                                               
     f(x)==x^2
-                                                                   Type: Void
-    map(T,alpha)
-                   2                           2                  2
-    c(x,y,z,0) dy dz + 9801dx + b(x,y,z,0) dx dz + a(x,y,z,0) dx dy
+                                                                  
+    map(f,a*dx + b*dy + c*dz)
+   
 
-                                         Type: DeRhamComplex(Integer,[x,y,z])
+.. math::
+
+             
+    c^2\, dz + b^2\, dy + a^2\, dx
+                                         
+    
+:sub:`Type: DeRhamComplex(Integer,[x,y,z])`
 
 
 **totalDifferential**
@@ -141,42 +186,66 @@ The description given in derham.spad seems to be not quite suitable.
 
 ::
     
-    totalDifferential(a(x,y,z))$X
+    g:=operator 'g
+    
+    totalDifferential(g(x,y,z))$X
 
-     a  (x,y,z)dz + a  (x,y,z)dy + a  (x,y,z)dx
-          ,3             ,2             ,1
-                                          Type: DeRhamComplex(Integer,[x,y,z])
+ 
+.. math::
 
+  {{{g _ {{,3}}}
+  \left(
+  {x, \: y, \: z}
+  \right)}
+  \  dz}+{{{g _ {{,2}}}
+  \left(
+  {x, \: y, \: z}
+  \right)}
+  \  dy}+{{{g _ {{,1}}}
+  \left(
+  {x, \: y, \: z}
+  \right)}
+  \  dx}
+
+    
+                                        
+:sub:`Type: DeRhamComplex(Integer,[x,y,z])`
+
+                                        
 Here, polynomial expressions are allowed as well:
 
-    (27) -> totalDifferential(x^m)$X
+::
 
-            m - 1
-     (27)  m x     dx
-                                          Type: DeRhamComplex(Integer,[x,y,z])
+    totalDifferential(x^m)$X
 
-even mixed ones:
+    
+.. math::
 
-(28) -> totalDifferential(x^2*sin(x-y)*b(z))$X
+      m\,x^{m-1}\,dx
+                                          
+    
+:sub:`Type: DeRhamComplex(Integer,[x,y,z])`
 
-   (28)
-        2           ,         2
-     - x sin(y - x)b (z)dz - x b(z)cos(y - x)dy
 
-   +
-                             2
-     (- 2x b(z)sin(y - x) + x b(z)cos(y - x))dx
-                                          Type: DeRhamComplex(Integer,[x,y,z])
 
+                                          
 **exteriorDifferential**
     exteriorDifferential(σ) returns the exterior derivative of the differential
     form σ. This is the  well known d with d∘d=0. We will abbreviate it by
 
-(29) -> d ==> exteriorDifferential
-                                                                   Type: Void
-(30) -> d alpha
 
-   (30)  (c  (x,y,z,0) - b  (x,y,z,0) + a  (x,y,z,0))dx dy dz
-           ,1             ,2             ,3
-                                         Type: DeRhamComplex(Integer,[x,y,z])
-                                       
+    
+::
+    
+    d ==> exteriorDifferential
+    
+    d(x*dy + z*dx*dy) 
+    
+.. math::
+
+    {dx \  dy}+{dx \  dy \  dz}
+  
+     
+:sub:`Type: DeRhamComplex(Integer,[x,y,z])`
+                              
+:ref:`startpage`
