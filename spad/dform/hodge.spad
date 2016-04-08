@@ -37,6 +37,7 @@ HodgeStar(R,v) : Exports == Implementation where
     scalarField : Symbol -> X
     covectorField : Symbol -> List DRC
     nullForm : Symbol -> DRC
+    volumeForm : SMR -> DRC
 
 
     hodgeStar : (SMR,DRC) -> DRC
@@ -56,11 +57,6 @@ HodgeStar(R,v) : Exports == Implementation where
     lieDerivative : (SMR, Vector(X),DRC) -> DRC
       ++ Calculates the Lie derivative L_X(a) of the differential 
       ++ form a with respect to the vector field X (w.r.t. metric g).
-
-
-    pullBack : (List(X)->List(X),List Symbol, DRC) -> DRC
-      ++ Pullback of a differential form by f:dom -> v
-    
 
 	
   Implementation ==  add 
@@ -107,6 +103,10 @@ HodgeStar(R,v) : Exports == Implementation where
     err4:="Index out of range" 
     err5:="Not implemented"
 
+
+    volumeForm(g:SMR):DRC == 
+      not R has IntegralDomain => error(err1)
+      sqrt(abs(determinant(g)))*reduce(_*,baseForms())
 
     -- flip 0->1, 1->0 
     flip(b:EAB):EAB ==
@@ -202,17 +202,5 @@ HodgeStar(R,v) : Exports == Implementation where
       b := interiorProduct(g,w, exteriorDifferential(x))
       a+b
   
-    --
-)if todo
-    pullBack(f,dom,x) ==
-      rdom:List X:=[r::X for r in dom]
-      val:List(X):=f(rdom)
-      #val ~= #v => error "Incompatible range"
-      t:List REA := x::List REA
-      s := [copy(r) for r in t] -- we need a copy of x!
-      cv:List X:=coordVector()
-      el:List Equation(X)=[cv.j=val.j for j in 1..#cv]
-      N:=DeRhamComplex(R,dom)
-      --subst : (%,List(Equation(%))) -> %
-      x
-)endif      
+
+
