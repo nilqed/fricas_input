@@ -1,8 +1,8 @@
--- ===============================
--- HODGE tests (package HodgeStar)
--- ===============================
+-- =======================================
+-- DFORM tests (package DifferentialForms)
+-- =======================================
 -- Requires: DeRhamComplex (../derham/derham.spad)
--- Version: 07-ARP-2016
+-- Version: 09-ARP-2016
 
 
 -----------
@@ -11,17 +11,17 @@
 
 )clear all
 )co ../derham/derham.spad
-)co hodge.spad
+)co dform.spad
 
-n:=6 -- dim of base space (n>=2 !)
-N:=36 -- number of tests
+n:=3 -- dim of base space (n>=2 !)
+N:=35 -- number of tests
 
 O ==> OutputForm
 
 -- HodgeStar package for DERHAM(R,v)
 R:=Integer  -- Ring
 v:=[subscript(x,[j::OutputForm]) for j in 1..n] -- (x_1,..,x_n)
-M:=HODGE(R,v)
+M:=DFORM(R,v)
 
 -- basis 1-forms and coordinate vector
 dx:=baseForms()$M     -- [dx[1],...,dx[n]]
@@ -106,19 +106,16 @@ res.31 := test (proj(volumeForm(g)$M,random(n)$NNI)$M = 0)
 
 
 -- Interior product
-res.32 := test (interiorProduct(g,vf,dx.1)$M = (-1)^(n+1) * b.1)
-res.33 := test (interiorProduct(g,vf,dx.n)$M = (-1)^(n+1) * b.n)
-res.34 := test (d interiorProduct(g,vf,volumeForm(g)$M)$M =  _
+res.32 := test (interiorProduct(vf,dx.1)$M = b.1)
+res.33 := test (interiorProduct(vf,dx.n)$M = b.n)
+res.34 := test (d interiorProduct(vf, volumeForm(g)$M)$M =  _
                  reduce(_+,[D(b.j,xs.j) for j in 1..n])*volumeForm(g)$M)
 
 
 
 -- Lie derivative
-res.35 := test ( d interiorProduct(g,vf,b*dx)$M + _
-                interiorProduct(g,vf,d(b*dx))$M = lieDerivative(g,vf,b*dx)$M)
-
-res.36 := test ( d interiorProduct(h,vf,b*dx)$M + _
-                interiorProduct(h,vf,d(b*dx))$M = lieDerivative(h,vf,b*dx)$M)
+res.35 := test ( d interiorProduct(vf,b*dx)$M + _
+                interiorProduct(vf,d(b*dx))$M = lieDerivative(vf,b*dx)$M)
 
 
 

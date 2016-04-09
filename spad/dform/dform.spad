@@ -1,13 +1,14 @@
-)abbrev package HODGE HodgeStar
+)abbrev package DFORM DifferentialForms
 ++ Author: Kurt Pagani
 ++ Date Created: Sat Jan 02 19:52:00 CET 2016
 ++ License: BSD
 ++ References:
 ++ Description: Differential form methods
 ++ Requires DeRhamComplex (+)
-++ HodgeStar --> e.g. http://math.uh.edu/~minru/Riemann08/hodgetheory.pdf 
+++ Revision: 
+++ modified interiorProduct, lieDerivative (independent of metric)
 ++
-HodgeStar(R,v) : Exports == Implementation where
+DifferentialForms(R,v) : Exports == Implementation where
     
   R: Join(Ring,Comparable)
   v: List Symbol
@@ -38,7 +39,10 @@ HodgeStar(R,v) : Exports == Implementation where
     covectorField : Symbol -> List DRC
     nullForm : Symbol -> DRC
     volumeForm : SMR -> DRC
+    
     atomizeBasisTerm : DRC -> List DRC 
+      ++ Given a basis term, e.g. dx*dy*du, atomizeBasisTerm  returns
+      ++ a list of the generators (atoms), i.e. [dx,dy,du] for our example.
 
 
     hodgeStar : (SMR,DRC) -> DRC
@@ -51,16 +55,14 @@ HodgeStar(R,v) : Exports == Implementation where
     proj : (DRC,NNI) -> DRC
       ++ projection to homogeneous terms of degree p
    
-    interiorProduct : (SMR, Vector(X),DRC) -> DRC
+    interiorProduct : (Vector(X),DRC) -> DRC
       ++ Calculates the interior product i_X(a) of the vector field X
-      ++ with the differential form a (w.r.t. metric g).
+      ++ with the differential form a.
         
-    lieDerivative : (SMR, Vector(X),DRC) -> DRC
+    lieDerivative : (Vector(X),DRC) -> DRC
       ++ Calculates the Lie derivative L_X(a) of the differential 
-      ++ form a with respect to the vector field X (w.r.t. metric g).
+      ++ form a with respect to the vector field X.
 
-
-    intProd : (Vector(X),DRC) -> DRC
 
 
   Implementation ==  add 
@@ -186,27 +188,8 @@ HodgeStar(R,v) : Exports == Implementation where
       convert(s)$DRC
       
       
-    interiorProduct(g:SMR,w:Vector X,x:DRC):DRC ==
-      not R has IntegralDomain => error(err1)
-      f := reduce("+", [generator(i)$DRC for i in 1..#v]::List(DRC))
-      t:List REA := f::List REA
-      for j in 1..#v repeat 
-        t.(#v-j+1).c := g(j,j)*w(j)  -- reverse order!
-      f -- term manipulations are destructive ;)
-      dg:X := determinant(g)
-      sg:X := dg/abs(dg)
-      if odd?(#v) then
-        m:X := sg
-      else
-        m:X := (-1)^degree(x) * sg
-      m * hodgeStar(g,f * hodgeStar(g,x))
-        
-        
-   
-    lieDerivative(g,w,x) ==
-      a := exteriorDifferential(interiorProduct(g,w,x))
-      b := interiorProduct(g,w, exteriorDifferential(x))
-      a+b
+
+      
   
     atomizeBasisTerm(x:DRC):List(DRC) ==
       x ~= leadingBasisTerm(x) => error(err6)
@@ -222,13 +205,16 @@ HodgeStar(R,v) : Exports == Implementation where
       a:List(DRC):=atomizeBasisTerm(x)
       b:DRC:=reduce(_*,rest a)
       -- i_w is an antiderivative => 
-      intProdBasisTerm(w,a.1)*b+(-1)^degree(b)* a.1 * intProdBasisTerm(w,b)
+      intProdBasisTerm(w,a.1)*b - a.1 * intProdBasisTerm(w,b)
       
         
-    intProd(w:Vector X, x:DRC):DRC ==
+    interiorProduct(w:Vector X, x:DRC):DRC ==
       x=0$DRC => x
       leadingCoefficient(x)*intProdBasisTerm(w,leadingBasisTerm(x)) + _
-        intProd(w, reductum(x))
+        interiorProduct(w, reductum(x))
            
-
+    lieDerivative(w:Vector X,x:DRC):DRC ==
+      a := exteriorDifferential(interiorProduct(w,x))
+      b := interiorProduct(w, exteriorDifferential(x))
+      a+b
 
