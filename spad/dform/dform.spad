@@ -22,7 +22,7 @@ DifferentialForms(R,v) : Exports == Implementation where
   SMR ==> SquareMatrix(#v,X)
   EAB ==> ExtAlgBasis
   REA ==> Record(k : EAB, c : X)
-  
+  SGCF ==> SymmetricGroupCombinatoricFunctions
   
   Exports ==  with
     
@@ -39,11 +39,17 @@ DifferentialForms(R,v) : Exports == Implementation where
     covectorField : Symbol -> List DRC
     nullForm : Symbol -> DRC
     volumeForm : SMR -> DRC
-    
+ 
+    conjBasisTerm : DRC -> DRC
+      ++ Return the complement of a basis term w.r.t. volumeForm
+ 
     atomizeBasisTerm : DRC -> List DRC 
       ++ Given a basis term, e.g. dx*dy*du, atomizeBasisTerm  returns
       ++ a list of the generators (atoms), i.e. [dx,dy,du] for our example.
 
+    monomials : NNI -> List DRC
+      ++ List of all monomials of degree p (p in 1..n).
+      ++ This is a basis for Lambda(n,p).
 
     hodgeStar : (SMR,DRC) -> DRC
       ++ computes the Hodge dual of the differential form % with respect
@@ -109,11 +115,21 @@ DifferentialForms(R,v) : Exports == Implementation where
     err4:="Index out of range" 
     err5:="Not implemented"
     err6:="Basis term expected"
+    err7:="Zero is not a basis term"
 
 
     volumeForm(g:SMR):DRC == 
       not R has IntegralDomain => error(err1)
       sqrt(abs(determinant(g)))*reduce(_*,baseForms())
+
+
+    monomials(p:NNI):List DRC ==
+      bf:=baseForms()
+      p=0 => [1$DRC]
+      p=1 => bf
+      np:=[reverse subSet(n,p,i)$SGCF for i in 0..binomial(n,p)-1]
+      [reduce(_*,[bf.(1+s.j) for j in 1..p]) for s in np]
+
 
     -- flip 0->1, 1->0 
     flip(b:EAB):EAB ==
@@ -189,9 +205,18 @@ DifferentialForms(R,v) : Exports == Implementation where
       
       
 
+    conjBasisTerm(x:DRC):DRC ==
+      x=0$DRC => error(err7)
+      x ~= leadingBasisTerm(x) => error(err6)
+      t:EAB:=(x::List REA).1.k
+      l:List(Integer):=exponents(t)
+      m:List(DRC):=[generator(i)$DRC for i in 1..#l | l.i=0]
+      m=[] => 1$DRC
+      reduce(_*,m)
       
   
     atomizeBasisTerm(x:DRC):List(DRC) ==
+      x=0$DRC => error(err7)
       x ~= leadingBasisTerm(x) => error(err6)
       t:EAB:=(x::List REA).1.k
       l:List(Integer):=exponents(t)
