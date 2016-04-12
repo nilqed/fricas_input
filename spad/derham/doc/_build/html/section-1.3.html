@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.3 Example: Maxwell’s Equation &mdash; DeRhamComplex 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DeRhamComplex 1.0 documentation" href="index.html" />
+    <link rel="next" title="Bibliography" href="bibliography.html" />
+    <link rel="prev" title="1.2 Exported methods" href="section-1.2.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="bibliography.html" title="Bibliography"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="section-1.2.html" title="1.2 Exported methods"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DeRhamComplex 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="example-maxwell-s-equation">
+<h1>1.3 Example: Maxwell&#8217;s Equation<a class="headerlink" href="#example-maxwell-s-equation" title="Permalink to this headline">¶</a></h1>
+<p>Equipped with the machinery provided by the <code class="docutils literal"><span class="pre">DeRhamComplex</span></code> we try to verify
+some calculations done in <a class="footnote-reference" href="#id2" id="id1">[4]</a> , namely <em>Maxwell&#8217;s field equations</em> in
+differential form notation. The ordinary well known form of the equations reads
+as follows, where the first set is <em>Faraday&#8217;s</em> and <em>Ampere&#8217;s</em> law and the
+second set are the continuity laws:</p>
+<div class="math">
+\[\operatorname {curl} E = - \frac{1}{c}  \frac{\partial B}{\partial t},
+\hspace{2.4em}
+\operatorname {curl} H = \frac{4 \pi}{c} J + \frac{1}{c}
+\frac{\partial D}{\partial t},\]</div>
+<p>and</p>
+<div class="math">
+\[\operatorname{div} D = 4 \pi \rho, \hspace{1.8em}
+\operatorname{div} B = 0.\]</div>
+<p>The vector functions <strong>E,H,B,D</strong> and <strong>J</strong>  are called, in this order,
+<em>electric</em>- and <em>magnetic</em> field, <em>magnetic induction</em>,
+<em>dielectric displacement</em> and <em>electric current</em>. The only scalar function ρ
+is the <em>charge density</em>. Each of the vector functions is a
+function <span class="math">\(\mathbb{R}^4\rightarrow \mathbb{R}^3\)</span>,
+and ρ is <span class="math">\(\mathbb{R}^4\rightarrow \mathbb{R}\)</span>, a scalar function in the
+variables <span class="math">\((x,y,z,t)\)</span>. And <strong>c</strong> denotes the <em>speed of light</em>.
+<em>Flanders</em> defines the following differential forms:</p>
+<div class="math">
+\[\alpha = (E_1 d x + E_2 d y + E_3 d z) \wedge c d t + (B_1 d y \wedge d z +
+  B_2 d z \wedge d x + B_3 d x \wedge d y)\]</div>
+<p>and</p>
+<div class="math">
+\[\beta = - (H_1 d x + H_2 d y + H_3 d z) \wedge c d t + (D_1 d y \wedge
+d z + D_2 d z \wedge d x + D_3 d x \wedge d y)\]</div>
+<p>and</p>
+<div class="math">
+\[\gamma = (J_1 d y \wedge d z + J_2 d z \wedge d x + J_3 d x
+\wedge d y) \wedge d t - \rho d x \wedge d y \wedge d z.\]</div>
+<p>Then it is claimed that the four vector equations above are equivalent to the
+following two differential form equations:</p>
+<div class="math">
+\[d \alpha = 0 \hspace{1.8em} \mathrm{and} \hspace{1.8em} d \beta +
+4 \pi \gamma = 0.\]</div>
+<p>Now let us prove this. We choose <span class="math">\(c=1\)</span> for simplicity.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>R:=Expression(Integer)
+M := DERHAM(Integer,[x,y,z,t])
+X := [x,y,z,t]::List R
+dX := [dx,dy,dz,dt] := [generator(i)$M for i in 1..4]
+d ==&gt; exteriorDifferential
+</pre></div>
+</div>
+<p><sub>Type: List(DeRhamComplex(Integer,[x,y,z,t]))</sub></p>
+<p>After these preparations we define the various fields and functions:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">E</span><span class="p">:</span><span class="o">=</span><span class="n">vector</span> <span class="p">[(</span><span class="n">operator</span> <span class="n">E</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="n">X</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">D</span><span class="p">:</span><span class="o">=</span><span class="n">vector</span> <span class="p">[(</span><span class="n">operator</span> <span class="n">D</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="n">X</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">B</span><span class="p">:</span><span class="o">=</span><span class="n">vector</span> <span class="p">[(</span><span class="n">operator</span> <span class="n">B</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="n">X</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">H</span><span class="p">:</span><span class="o">=</span><span class="n">vector</span> <span class="p">[(</span><span class="n">operator</span> <span class="n">H</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="n">X</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">J</span><span class="p">:</span><span class="o">=</span><span class="n">vector</span> <span class="p">[(</span><span class="n">operator</span> <span class="n">J</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="n">X</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="mf">1.</span><span class="o">.</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="n">rho</span> <span class="p">:</span><span class="o">=</span> <span class="p">(</span><span class="n">operator</span> <span class="s1">&#39;rho) X</span>
+</pre></div>
+</div>
+<p>Now we may define the forms <span class="math">\(\alpha,\beta,\gamma\)</span>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">alpha</span><span class="p">:</span><span class="o">=</span><span class="p">(</span><span class="n">E</span><span class="o">.</span><span class="mi">1</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">E</span><span class="o">.</span><span class="mi">2</span><span class="o">*</span><span class="n">dy</span> <span class="o">+</span> <span class="n">E</span><span class="o">.</span><span class="mi">3</span><span class="o">*</span><span class="n">dz</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span><span class="o">+</span> <span class="n">B</span><span class="o">.</span><span class="mi">1</span><span class="o">*</span><span class="n">dy</span><span class="o">*</span><span class="n">dz</span> <span class="o">+</span> <span class="n">B</span><span class="o">.</span><span class="mi">2</span><span class="o">*</span><span class="n">dz</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">B</span><span class="o">.</span><span class="mi">3</span><span class="o">*</span><span class="n">dx</span><span class="o">*</span><span class="n">dy</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{{E _ {3}}\left({x, \: y, \: z, \: t}\right)}\  dz \  dt}+{{{E _ {2}}
+\left({x, \: y, \: z, \: t}\right)}\  dy \  dt}+{{{B _ {1}}
+\left({x, \: y, \: z, \: t}\right)}\  dy \  dz}+  \\
+{{{E _ {1}}\left({x, \: y, \: z, \: t}\right)}\  dx \  dt} -{{{B _ {2}}
+\left({x, \: y, \: z, \: t}\right)}\  dx \  dz}+{{{B _ {3}}
+\left({x, \: y, \: z, \: t}\right)}\  dx \  dy}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z,t])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">beta</span><span class="p">:</span><span class="o">=-</span><span class="p">(</span><span class="n">H</span><span class="o">.</span><span class="mi">1</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">H</span><span class="o">.</span><span class="mi">2</span><span class="o">*</span><span class="n">dy</span> <span class="o">+</span> <span class="n">H</span><span class="o">.</span><span class="mi">3</span><span class="o">*</span><span class="n">dz</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span> <span class="o">+</span> <span class="n">D</span><span class="o">.</span><span class="mi">1</span><span class="o">*</span><span class="n">dy</span><span class="o">*</span><span class="n">dz</span> <span class="o">+</span> <span class="n">D</span><span class="o">.</span><span class="mi">2</span><span class="o">*</span><span class="n">dz</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">D</span><span class="o">.</span><span class="mi">3</span><span class="o">*</span><span class="n">dx</span><span class="o">*</span><span class="n">dy</span>
+</pre></div>
+</div>
+<p>and finally</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">gamma</span><span class="p">:</span><span class="o">=</span><span class="p">(</span><span class="n">J</span><span class="o">.</span><span class="mi">1</span><span class="o">*</span><span class="n">dy</span><span class="o">*</span><span class="n">dz</span> <span class="o">+</span> <span class="n">J</span><span class="o">.</span><span class="mi">2</span><span class="o">*</span><span class="n">dz</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">J</span><span class="o">.</span><span class="mi">3</span><span class="o">*</span><span class="n">dx</span><span class="o">*</span><span class="n">dy</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span> <span class="o">-</span> <span class="n">rho</span><span class="o">*</span><span class="n">dx</span><span class="o">*</span><span class="n">dy</span><span class="o">*</span><span class="n">dz</span>
+</pre></div>
+</div>
+<p>Now let us calculate <span class="math">\(d\alpha\)</span></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="n">alpha</span>
+</pre></div>
+</div>
+<p>giving the output</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>  <span class="p">(</span><span class="n">E</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">E</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">B</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">))</span><span class="n">dy</span> <span class="n">dz</span> <span class="n">dt</span>
+    <span class="mi">3</span><span class="p">,</span><span class="mi">2</span>             <span class="mi">2</span><span class="p">,</span><span class="mi">3</span>             <span class="mi">1</span><span class="p">,</span><span class="mi">4</span>
+<span class="o">+</span>
+  <span class="p">(</span><span class="n">E</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">E</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">B</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">))</span><span class="n">dx</span> <span class="n">dz</span> <span class="n">dt</span>
+    <span class="mi">3</span><span class="p">,</span><span class="mi">1</span>             <span class="mi">1</span><span class="p">,</span><span class="mi">3</span>             <span class="mi">2</span><span class="p">,</span><span class="mi">4</span>
+<span class="o">+</span>
+  <span class="p">(</span><span class="n">E</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">E</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">B</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">))</span><span class="n">dx</span> <span class="n">dy</span> <span class="n">dt</span>
+    <span class="mi">2</span><span class="p">,</span><span class="mi">1</span>             <span class="mi">1</span><span class="p">,</span><span class="mi">2</span>             <span class="mi">3</span><span class="p">,</span><span class="mi">4</span>
+<span class="o">+</span>
+  <span class="p">(</span><span class="n">B</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">B</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">B</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">))</span><span class="n">dx</span> <span class="n">dy</span> <span class="n">dz</span>
+    <span class="mi">3</span><span class="p">,</span><span class="mi">3</span>             <span class="mi">2</span><span class="p">,</span><span class="mi">2</span>             <span class="mi">1</span><span class="p">,</span><span class="mi">1</span>
+
+                                    <span class="n">Type</span><span class="p">:</span> <span class="n">DeRhamComplex</span><span class="p">(</span><span class="n">Integer</span><span class="p">,[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Thus, if we extract the coefficients of each term, we get for dα=0:</p>
+<div class="math">
+\[\begin{split}\begin{array}{c}
+\frac{\partial B_1}{\partial t} + E_{3, 2} - E_{2, 3}=0\\
+\\
+- \frac{\partial B_2}{\partial t} + E_{3, 1} - E_{1, 3}=0\\
+\\
+\frac{\partial B_3}{\partial t} + E_{2, 1} - E_{1, 2}=0\\
+\\
+B_{1, 1} + B_{2, 2} + B_{3, 3}=0
+\end{array}\end{split}\]</div>
+<p>which is just the first and last of the Maxwell equations.
+In the same manner we see that dβ+4πγ corresponds to the second and third one.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">-&gt;</span> <span class="n">d</span> <span class="n">beta</span> <span class="o">+</span> <span class="mi">4</span> <span class="o">*</span> <span class="o">%</span><span class="n">pi</span> <span class="o">*</span> <span class="n">gamma</span>
+</pre></div>
+</div>
+<p>resulting in</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="o">-</span> <span class="n">H</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">H</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">D</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="o">%</span><span class="n">pi</span> <span class="n">J</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">))</span><span class="n">dy</span> <span class="n">dz</span> <span class="n">dt</span>
+    <span class="mi">3</span><span class="p">,</span><span class="mi">2</span>             <span class="mi">2</span><span class="p">,</span><span class="mi">3</span>             <span class="mi">1</span><span class="p">,</span><span class="mi">4</span>                  <span class="mi">1</span>
+ <span class="o">+</span>
+<span class="p">(</span><span class="o">-</span> <span class="n">H</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">H</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="n">D</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="o">%</span><span class="n">pi</span> <span class="n">J</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">))</span><span class="n">dx</span> <span class="n">dz</span> <span class="n">dt</span>
+    <span class="mi">3</span><span class="p">,</span><span class="mi">1</span>             <span class="mi">1</span><span class="p">,</span><span class="mi">3</span>             <span class="mi">2</span><span class="p">,</span><span class="mi">4</span>                  <span class="mi">2</span>
+ <span class="o">+</span>
+<span class="p">(</span><span class="o">-</span> <span class="n">H</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">H</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">D</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="mi">4</span><span class="o">%</span><span class="n">pi</span> <span class="n">J</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">))</span><span class="n">dx</span> <span class="n">dy</span> <span class="n">dt</span>
+    <span class="mi">2</span><span class="p">,</span><span class="mi">1</span>             <span class="mi">1</span><span class="p">,</span><span class="mi">2</span>             <span class="mi">3</span><span class="p">,</span><span class="mi">4</span>                  <span class="mi">3</span>
+ <span class="o">+</span>
+<span class="p">(</span><span class="n">D</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">D</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">D</span>   <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="o">%</span><span class="n">pi</span> <span class="n">rho</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">))</span> <span class="n">dx</span> <span class="n">dy</span> <span class="n">dz</span>
+  <span class="mi">3</span><span class="p">,</span><span class="mi">3</span>             <span class="mi">2</span><span class="p">,</span><span class="mi">2</span>             <span class="mi">1</span><span class="p">,</span><span class="mi">1</span>
+
+                                     <span class="n">Type</span><span class="p">:</span> <span class="n">DeRhamComplex</span><span class="p">(</span><span class="n">Integer</span><span class="p">,[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">])</span>
+</pre></div>
+</div>
+<table class="docutils footnote" frame="void" id="id2" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[4]</a></td><td>Harley Flanders and Mathematics. Differential Forms with Applications to
+the Physical Sciences. Dover Pubn Inc, Auflage: Revised. edition.</td></tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="section-1.2.html"
+                        title="previous chapter">1.2 Exported methods</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="bibliography.html"
+                        title="next chapter">Bibliography</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.3.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="bibliography.html" title="Bibliography"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="section-1.2.html" title="1.2 Exported methods"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DeRhamComplex 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Kurt Pagani &lt;nilqed@gmail.com&gt;.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+    </div>
+  </body>
+</html>
