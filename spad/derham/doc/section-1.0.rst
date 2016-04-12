@@ -43,10 +43,10 @@ antisymmetric tensor product:
 
     \alpha\wedge\beta=\frac{1}{2}\, \left(a\otimes b - b\otimes a \right)
     
-and is, although standard tody, quite unhandy and there are different 
+and is, although standard today, quite unhandy and there are different 
 notations in the literature.
 In the book of H.Flanders [4] it is not used at all while H.Whitney used the 
-symbol :math:`vee` in his representation [7].
+symbol :math:`\vee` in his representation [7].
 
 **Notation**: The domain ``DeRhamcomplex`` uses ``dx*dy`` for :math:`dx\wedge dy`.
 
