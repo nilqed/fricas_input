@@ -59,7 +59,7 @@ symbol :math:`\vee` in his representation [7].
 .. [3] Herbert Federer. Geometric Measure Theory. Springer, Au age: Reprint of 
        the 1st ed. Berlin, Heidelberg, New York 1969 edition.
 
-.. [4] Harley Flanders and Mathematics. Di erential Forms with Applications to 
+.. [4] Harley Flanders and Mathematics. Differential Forms with Applications to 
        the Physical Sciences. Dover Pubn Inc, Auflage: Revised. edition.
 
 .. [5] L. A. Lambe and D. E. Radford. Introduction to the Quantum Yang-Baxter 

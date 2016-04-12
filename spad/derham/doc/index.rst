@@ -18,6 +18,7 @@ Contents:
    section-1.0
    section-1.1
    section-1.2
+   section-1.3
    bibliography
 
    
