@@ -3,8 +3,8 @@
 1.0 Introduction
 ----------------
 
-The package ``DiffForm`` (in file ``dform.spad``) builds on the domain
-``DeRhamComplex``. In the following section we give a brief overview
+The package ``DifferentialForms`` (in file ``dform.spad``) builds on the 
+domain ``DeRhamComplex``. In the following section we give a brief overview
 of the functions that are going to be implemented. The focus is on precise
 definitions of the notions, since those may be varying in the literature.
 In section (2) we will describe the exported functions and how they work, 

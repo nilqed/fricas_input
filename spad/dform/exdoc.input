@@ -1,0 +1,41 @@
+-----------
+-- Setup --
+-----------
+
+)clear all
+)co ../derham/derham.spad
+)co dform.spad
+
+O ==> OutputForm
+
+-- HodgeStar package for DERHAM(R,v)
+R:=Integer  -- Ring
+v:=[subscript(x,[j::OutputForm]) for j in 0..3] 
+M:=DFORM(R,v)
+
+-- basis 1-forms and coordinate vector
+dx:=baseForms()$M     -- [dx[1],...,dx[n]]
+x:=coordVector()$M    -- [x[1],...,x[n]]
+xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+
+g:= diagonalMatrix([-1,1,1,1])@SquareMatrix(4,Integer)
+
+
+-- volumeForm
+volumeForm(g)$M
+
+-- dot
+dot(g,dx.1*dx.2,dx.1*dx.2)$M
+
+-- hodgeStar
+hodgeStar(g,dx.2 * dx.3)$M
+
+-- interiorProduct
+interiorProduct(vector x, dx.1*dx.3)$M
+
+-- lieDerivative
+ lieDerivative(vector x, dx.1*dx.3*dx.4)
+ 
+
+-- proj
+proj(2*dx.1 + dx.2*dx.3 - dx.3*dx.4, 2)

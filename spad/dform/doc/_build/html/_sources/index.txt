@@ -6,9 +6,9 @@
    
 .. _startpage
    
-==========================   
-FriCAS:: DifferentialForms
-==========================
+===========================   
+FriCAS :: DifferentialForms
+===========================
 
 Contents:
 
@@ -16,6 +16,7 @@ Contents:
    :maxdepth: 2
    
    section-1.0
+   section-2.0
 
 Indices and tables
 ==================
