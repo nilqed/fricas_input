@@ -10,7 +10,7 @@
 ++
 DifferentialForms(R,v) : Exports == Implementation where
     
-  R: Join(Ring,Comparable)
+  R: Join(Ring,Comparable) -- IntegralDomain instead of Ring?
   v: List Symbol
 
   X   ==> Expression R
@@ -69,7 +69,8 @@ DifferentialForms(R,v) : Exports == Implementation where
       ++ Calculates the Lie derivative L_X(a) of the differential 
       ++ form a with respect to the vector field X.
 
-
+    hodgeStar2 :(SMR,DRC) -> DRC
+   
 
   Implementation ==  add 
     
@@ -178,7 +179,8 @@ DifferentialForms(R,v) : Exports == Implementation where
       else
         reduce("+",[dot1(g,tx.j,ty.j) for j in 1..#tx])
 
-     
+      
+
     -- export
     hodgeStar(g,x) ==
       not R has IntegralDomain => error(err1)
@@ -243,3 +245,26 @@ DifferentialForms(R,v) : Exports == Implementation where
       b := interiorProduct(w, exteriorDifferential(x))
       a+b
 
+
+--
+    eps(x:DRC):Integer ==
+      eta:DRC:=reduce("*",[generator(j)$DRC for j in 1..n])
+      if opposite?(x*conjBasisTerm(x),eta)$DRC then
+        return(-1)
+      else
+        return 1
+
+    hodgeStarBT(g:SMR,x:DRC):DRC ==
+      not R has IntegralDomain => error(err1)
+      q:=sqrt(abs(determinant(g)))
+      p:=degree(x)
+      J:=monomials(p)
+      s:=[eps(y)*dot(g,y,x)*conjBasisTerm(y) for y in J]
+      q*reduce(_+,s)
+      
+      
+    hodgeStar2(g:SMR,x:DRC):DRC ==
+      x=0$DRC => x
+      leadingCoefficient(x)*hodgeStarBT(g,leadingBasisTerm(x)) + _
+        hodgeStar2(g, reductum(x))
+                 
