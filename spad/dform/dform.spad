@@ -175,9 +175,9 @@ DifferentialForms(R,v) : Exports == Implementation where
       ty:List REA := y::List(REA)
       tx = [] or ty = [] => 0::X
       if diagonal? g then -- better performance 
-        reduce("+",[dot2(g,tx.j,ty.j) for j in 1..#tx])
-      else
         reduce("+",[dot1(g,tx.j,ty.j) for j in 1..#tx])
+      else
+        reduce("+",[dot2(g,tx.j,ty.j) for j in 1..#tx])
 
       
 
@@ -194,7 +194,7 @@ DifferentialForms(R,v) : Exports == Implementation where
         fs:= convert([s.j])$DRC
         ft:= convert([t.j])$DRC
         s.j.c := s.j.c * w * dot1(g,t.j,t.j)/leadingCoefficient(ft*fs)
-      convert(s)$DRC
+      convert(reverse s)$DRC
 
 
     -- export
@@ -247,12 +247,14 @@ DifferentialForms(R,v) : Exports == Implementation where
 
 
 --
-    eps(x:DRC):Integer ==
+    eps0(x:DRC):Integer ==
       eta:DRC:=reduce("*",[generator(j)$DRC for j in 1..n])
       if opposite?(x*conjBasisTerm(x),eta)$DRC then
         return(-1)
       else
         return 1
+
+    eps(x:DRC):X == leadingCoefficient(x*conjBasisTerm(x))
 
     hodgeStarBT(g:SMR,x:DRC):DRC ==
       not R has IntegralDomain => error(err1)

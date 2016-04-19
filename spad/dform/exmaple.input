@@ -18,8 +18,11 @@ a:=operator 'a
 b:=operator 'b
 c:=operator 'c
 
-g:= matrix[[a(x,y),b(x,y)],[b(x,y),c(x,y)]]@SquareMatrix(2,Integer)
+g:= matrix[[a(x,y),b(x,y)],[b(x,y),c(x,y)]]@SquareMatrix(2,EXPR Integer)
 
-hodgeStar2(g,dx)
+hodgeStar2(g,dx)$M
+hodgeStar2(g,dy)$M
 
+f:=hodgeStar2(g,dx*dy)$M
+hodgeStar2(g,f)$M
 
