@@ -128,6 +128,12 @@ dimension of the space is huge.
 3.3 hodgeStar :: Hodge dual
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+In this new version we have removed the first method (3.3.1) because the
+performance difference is not as significant as we thought in the first
+place, at least not for :math:`n\leq 7`. However, we save the method in
+case someone has to deal with really high space dimensions.
+
+
 3.3.1 Diagonal, non-degenerated g
 .................................
 
@@ -231,10 +237,75 @@ If we choose :math:`\beta=e_M` we finally get
       \star e_M = \sqrt{g} \sum_{|J|=p} \epsilon(J)\, g_{JM}\, e_{J_\sharp}.
       
 
-This formula will be used to compute the Hodge dual for *monomials*.
+This formula will be used to compute the Hodge dual for *monomials*. We define
+a function **hodgeBT**, in pseudo-code:
 
 ::
     
-   hodgeStarBT(dx[M])= sqrt(g) * SUM[J] eps(dx[J]) * dot(g,dx[J],dx[M]) *
-                           conjBasisTerm(dx[j])
-                           
+  hodgeStarBT(dx[M])= sqrt(g)* 
+       SUM[J] {eps(dx[J])*dot(g,dx[J],dx[M])*conjBasisTerm(dx[j])}
+       
+which then allows to compute the Hodge dual of any form by simple recursion:
+
+::
+    
+    hodgeStar(g:SMR,x:DRC):DRC ==
+      x=0$DRC => x
+      leadingCoefficient(x) * hodgeStarBT(g,leadingBasisTerm(x)) + _
+        hodgeStar(g, reductum(x))
+        
+
+3.4 interiorProduct :: Interior product
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In this newer version we have replaced the method which uses the Hodge
+operator. Instead we used the fact that the interior product is 
+an *antiderivation*, actually the unique antiderivation of degree 
+:math:`-1` on the exterior algebra such that :math:`i_X(\alpha)=\alpha(X)`:
+
+.. math::
+
+    i_X(\beta\wedge\gamma)=i_X(\beta)\wedge\gamma)+
+     (-1)^{{\mathtt deg}\, \beta}\ \beta\wedge i_X(\gamma)
+     
+This also allows an easy implementation by recursion.
+  
+
+3.5 lieDerivative :: Lie derivative
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Here we use *Cartan's formula* (see 1.1.5), so that there is not much to
+say.
+
+::
+    
+    lieDerivative(w:Vector X,x:DRC):DRC ==
+      a := exteriorDifferential(interiorProduct(w,x))
+      b := interiorProduct(w, exteriorDifferential(x))
+      a+b
+
+                       
+3.6 proj :: Projection
+~~~~~~~~~~~~~~~~~~~~~~
+
+Since the elements of :math:`\mathtt{DeRhamComplex}` are in
+
+.. math::
+
+   X = \bigoplus_{p = 0}^n \Omega^p (V) 
+   
+it is convenient to have a function 
+:math:`\mathtt{proj}: X \times \{ 0, \ldots,n \} \rightarrow X` which 
+returns the projection on the homogeneous component
+:math:`\Omega^p (V)`. The implementation is straightforward when using the
+internals of EAB. Probably there are better ways to do this,
+especially by using exported functions only.
+
+::
+    
+    proj(x,p) ==
+      t:List REA := x::List REA
+      idx := [j for j in 1..#t | #pos(t.j.k,1)=p]
+      s := [copy(t.j) for j in idx::List(NNI)]
+      convert(s)$DRC
+      

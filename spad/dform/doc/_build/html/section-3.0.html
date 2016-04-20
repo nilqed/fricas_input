@@ -142,6 +142,10 @@ dimension of the space is huge.</p>
 </div>
 <div class="section" id="hodgestar-hodge-dual">
 <h2>3.3 hodgeStar :: Hodge dual<a class="headerlink" href="#hodgestar-hodge-dual" title="Permalink to this headline">¶</a></h2>
+<p>In this new version we have removed the first method (3.3.1) because the
+performance difference is not as significant as we thought in the first
+place, at least not for <span class="math">\(n\leq 7\)</span>. However, we save the method in
+case someone has to deal with really high space dimensions.</p>
 <div class="section" id="diagonal-non-degenerated-g">
 <h3>3.3.1 Diagonal, non-degenerated g<a class="headerlink" href="#diagonal-non-degenerated-g" title="Permalink to this headline">¶</a></h3>
 <p>If g is a diagonal matrix then the components of <span class="math">\(\star \beta\)</span> reduce to</p>
@@ -208,11 +212,60 @@ therefore</p>
 <p>If we choose <span class="math">\(\beta=e_M\)</span> we finally get</p>
 <div class="math">
 \[\star e_M = \sqrt{g} \sum_{|J|=p} \epsilon(J)\, g_{JM}\, e_{J_\sharp}.\]</div>
-<p>This formula will be used to compute the Hodge dual for <em>monomials</em>.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hodgeStarBT</span><span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="n">M</span><span class="p">])</span><span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">g</span><span class="p">)</span> <span class="o">*</span> <span class="n">SUM</span><span class="p">[</span><span class="n">J</span><span class="p">]</span> <span class="n">eps</span><span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="n">J</span><span class="p">])</span> <span class="o">*</span> <span class="n">dot</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">dx</span><span class="p">[</span><span class="n">J</span><span class="p">],</span><span class="n">dx</span><span class="p">[</span><span class="n">M</span><span class="p">])</span> <span class="o">*</span>
-                        <span class="n">conjBasisTerm</span><span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+<p>This formula will be used to compute the Hodge dual for <em>monomials</em>. We define
+a function <strong>hodgeBT</strong>, in pseudo-code:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hodgeStarBT</span><span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="n">M</span><span class="p">])</span><span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">g</span><span class="p">)</span><span class="o">*</span>
+     <span class="n">SUM</span><span class="p">[</span><span class="n">J</span><span class="p">]</span> <span class="p">{</span><span class="n">eps</span><span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="n">J</span><span class="p">])</span><span class="o">*</span><span class="n">dot</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">dx</span><span class="p">[</span><span class="n">J</span><span class="p">],</span><span class="n">dx</span><span class="p">[</span><span class="n">M</span><span class="p">])</span><span class="o">*</span><span class="n">conjBasisTerm</span><span class="p">(</span><span class="n">dx</span><span class="p">[</span><span class="n">j</span><span class="p">])}</span>
 </pre></div>
 </div>
+<p>which then allows to compute the Hodge dual of any form by simple recursion:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>hodgeStar(g:SMR,x:DRC):DRC ==
+  x=0$DRC =&gt; x
+  leadingCoefficient(x) * hodgeStarBT(g,leadingBasisTerm(x)) + _
+    hodgeStar(g, reductum(x))
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="interiorproduct-interior-product">
+<h2>3.4 interiorProduct :: Interior product<a class="headerlink" href="#interiorproduct-interior-product" title="Permalink to this headline">¶</a></h2>
+<p>In this newer version we have replaced the method which uses the Hodge
+operator. Instead we used the fact that the interior product is
+an <em>antiderivation</em>, actually the unique antiderivation of degree
+<span class="math">\(-1\)</span> on the exterior algebra such that <span class="math">\(i_X(\alpha)=\alpha(X)\)</span>:</p>
+<div class="math">
+\[i_X(\beta\wedge\gamma)=i_X(\beta)\wedge\gamma)+
+ (-1)^{{\mathtt deg}\, \beta}\ \beta\wedge i_X(\gamma)\]</div>
+<p>This also allows an easy implementation by recursion.</p>
+</div>
+<div class="section" id="liederivative-lie-derivative">
+<h2>3.5 lieDerivative :: Lie derivative<a class="headerlink" href="#liederivative-lie-derivative" title="Permalink to this headline">¶</a></h2>
+<p>Here we use <em>Cartan&#8217;s formula</em> (see 1.1.5), so that there is not much to
+say.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lieDerivative</span><span class="p">(</span><span class="n">w</span><span class="p">:</span><span class="n">Vector</span> <span class="n">X</span><span class="p">,</span><span class="n">x</span><span class="p">:</span><span class="n">DRC</span><span class="p">):</span><span class="n">DRC</span> <span class="o">==</span>
+  <span class="n">a</span> <span class="p">:</span><span class="o">=</span> <span class="n">exteriorDifferential</span><span class="p">(</span><span class="n">interiorProduct</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="n">x</span><span class="p">))</span>
+  <span class="n">b</span> <span class="p">:</span><span class="o">=</span> <span class="n">interiorProduct</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">exteriorDifferential</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+  <span class="n">a</span><span class="o">+</span><span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="proj-projection">
+<h2>3.6 proj :: Projection<a class="headerlink" href="#proj-projection" title="Permalink to this headline">¶</a></h2>
+<p>Since the elements of <span class="math">\(\mathtt{DeRhamComplex}\)</span> are in</p>
+<div class="math">
+\[X = \bigoplus_{p = 0}^n \Omega^p (V)\]</div>
+<p>it is convenient to have a function
+<span class="math">\(\mathtt{proj}: X \times \{ 0, \ldots,n \} \rightarrow X\)</span> which
+returns the projection on the homogeneous component
+<span class="math">\(\Omega^p (V)\)</span>. The implementation is straightforward when using the
+internals of EAB. Probably there are better ways to do this,
+especially by using exported functions only.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>proj(x,p) ==
+  t:List REA := x::List REA
+  idx := [j for j in 1..#t | #pos(t.j.k,1)=p]
+  s := [copy(t.j) for j in idx::List(NNI)]
+  convert(s)$DRC
+</pre></div>
 </div>
 </div>
 </div>
@@ -233,6 +286,9 @@ therefore</p>
 <li><a class="reference internal" href="#general-case">3.3.2 General case</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#interiorproduct-interior-product">3.4 interiorProduct :: Interior product</a></li>
+<li><a class="reference internal" href="#liederivative-lie-derivative">3.5 lieDerivative :: Lie derivative</a></li>
+<li><a class="reference internal" href="#proj-projection">3.6 proj :: Projection</a></li>
 </ul>
 </li>
 </ul>
