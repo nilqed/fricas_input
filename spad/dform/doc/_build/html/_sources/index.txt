@@ -17,6 +17,7 @@ Contents:
    
    section-1.0
    section-2.0
+   section-3.0
 
 Indices and tables
 ==================
