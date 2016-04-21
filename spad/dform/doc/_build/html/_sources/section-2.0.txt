@@ -172,9 +172,9 @@ the coordinates, however, as symbols only (convenient when used by **D**).
 ::
     
     NNI ==> NonNegativeInteger
-    proj : (DRC,NNI) -> DRC
+    proj : (NNI,DRC) -> DRC
     
-    proj(2*dx.1 + dx.2*dx.3 - dx.3*dx.4, 2)
+    proj(2, 2*dx.1 + dx.2*dx.3 - dx.3*dx.4)
     
 .. math::
 

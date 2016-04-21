@@ -295,7 +295,7 @@ Since the elements of :math:`\mathtt{DeRhamComplex}` are in
    X = \bigoplus_{p = 0}^n \Omega^p (V) 
    
 it is convenient to have a function 
-:math:`\mathtt{proj}: X \times \{ 0, \ldots,n \} \rightarrow X` which 
+:math:`\mathtt{proj}:\{ 0, \ldots,n \}\times X \rightarrow X` which 
 returns the projection on the homogeneous component
 :math:`\Omega^p (V)`. The implementation is straightforward when using the
 internals of EAB. Probably there are better ways to do this,
@@ -303,9 +303,30 @@ especially by using exported functions only.
 
 ::
     
+    ** deprecated **
     proj(x,p) ==
       t:List REA := x::List REA
       idx := [j for j in 1..#t | #pos(t.j.k,1)=p]
       s := [copy(t.j) for j in idx::List(NNI)]
       convert(s)$DRC
       
+**NEW**
+
+In the new version we actually replaced the function above by the following
+recursive one:
+
+::
+    
+    proj(p,x) ==
+      x=0 => x
+      homogeneous? x and degree(x)=p => x
+      a:=leadingBasisTerm(x)
+      if degree(a)=p then
+        leadingCoefficient(x)*a + proj(p, reductum x)
+      else
+        proj(p, reductum x)
+        
+**NOTE**
+We have changed the order of arguments from (DRC,NNI) to (NNI,DRC) because
+this corresponds more to the usual nomenclature of projections. 
+        

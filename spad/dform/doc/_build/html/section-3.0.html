@@ -255,18 +255,35 @@ say.</p>
 <div class="math">
 \[X = \bigoplus_{p = 0}^n \Omega^p (V)\]</div>
 <p>it is convenient to have a function
-<span class="math">\(\mathtt{proj}: X \times \{ 0, \ldots,n \} \rightarrow X\)</span> which
+<span class="math">\(\mathtt{proj}:\{ 0, \ldots,n \}\times X \rightarrow X\)</span> which
 returns the projection on the homogeneous component
 <span class="math">\(\Omega^p (V)\)</span>. The implementation is straightforward when using the
 internals of EAB. Probably there are better ways to do this,
 especially by using exported functions only.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>proj(x,p) ==
+<div class="highlight-default"><div class="highlight"><pre><span></span>** deprecated **
+proj(x,p) ==
   t:List REA := x::List REA
   idx := [j for j in 1..#t | #pos(t.j.k,1)=p]
   s := [copy(t.j) for j in idx::List(NNI)]
   convert(s)$DRC
 </pre></div>
 </div>
+<p><strong>NEW</strong></p>
+<p>In the new version we actually replaced the function above by the following
+recursive one:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>proj(p,x) ==
+  x=0 =&gt; x
+  homogeneous? x and degree(x)=p =&gt; x
+  a:=leadingBasisTerm(x)
+  if degree(a)=p then
+    leadingCoefficient(x)*a + proj(p, reductum x)
+  else
+    proj(p, reductum x)
+</pre></div>
+</div>
+<p><strong>NOTE</strong>
+We have changed the order of arguments from (DRC,NNI) to (NNI,DRC) because
+this corresponds more to the usual nomenclature of projections.</p>
 </div>
 </div>
 

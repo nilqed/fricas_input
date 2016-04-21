@@ -1,12 +1,11 @@
 )abbrev package DFORM DifferentialForms
-++ Author: Kurt Pagani
-++ Date Created: Sat Jan 02 19:52:00 CET 2016
+++ Author: Kurt Pagani <nilqed@gmail.com>
+++ Date Created: October 2014 
+++ Revised: Sat Jan 02 19:52:00 CET 2016
 ++ License: BSD
-++ References:
 ++ Description: Differential form methods
-++ Requires DeRhamComplex (+)
-++ Revision: 
-++ modified interiorProduct, lieDerivative (independent of metric)
+++ Requirements: DeRhamComplex (+) 
+++ Documentation: nilqed.github.io/TBD
 ++
 DifferentialForms(R,v) : Exports == Implementation where
     
@@ -58,7 +57,7 @@ DifferentialForms(R,v) : Exports == Implementation where
     dot : (SMR,DRC,DRC) -> X
       ++ computes the inner product of two differential forms w.r.t. g
         
-    proj : (DRC,NNI) -> DRC
+    proj : (NNI,DRC) -> DRC
       ++ projection to homogeneous terms of degree p
    
     interiorProduct : (Vector(X),DRC) -> DRC
@@ -182,7 +181,7 @@ DifferentialForms(R,v) : Exports == Implementation where
       
 
     -- export
-    hodgeStar(g,x) ==
+    hodgeStar2(g,x) ==
       not R has IntegralDomain => error(err1)
       not diagonal? g => error(err5)
       w := sqrt(abs(determinant(g))) -- volume factor
@@ -198,14 +197,23 @@ DifferentialForms(R,v) : Exports == Implementation where
 
 
     -- export
-    proj(x,p) ==
-      p < 0 or p > #v => error(err4)
-      t:List REA := x::List REA
-      idx := [j for j in 1..#t | #pos(t.j.k,1)=p]
-      s := [copy(t.j) for j in idx::List(NNI)]
-      convert(s)$DRC
-      
-      
+    --proj0(x,p) ==
+    --  p < 0 or p > #v => error(err4)
+    --  t:List REA := x::List REA
+    --  idx := [j for j in 1..#t | #pos(t.j.k,1)=p]
+    --  s := [copy(t.j) for j in idx::List(NNI)]
+    --  convert(s)$DRC
+
+
+    proj(p,x) ==
+      x=0 => x
+      homogeneous? x and degree(x)=p => x
+      a:=leadingBasisTerm(x)
+      if degree(a)=p then
+        leadingCoefficient(x)*a + proj(p, reductum x)
+      else
+        proj(p, reductum x)
+ 
 
     conjBasisTerm(x:DRC):DRC ==
       x=0$DRC => error(err7)
@@ -247,12 +255,12 @@ DifferentialForms(R,v) : Exports == Implementation where
 
 
 --
-    eps0(x:DRC):Integer ==
-      eta:DRC:=reduce("*",[generator(j)$DRC for j in 1..n])
-      if opposite?(x*conjBasisTerm(x),eta)$DRC then
-        return(-1)
-      else
-        return 1
+    --eps0(x:DRC):Integer ==
+    --  eta:DRC:=reduce("*",[generator(j)$DRC for j in 1..n])
+    --  if opposite?(x*conjBasisTerm(x),eta)$DRC then
+    --    return(-1)
+    --  else
+    --    return 1
 
     eps(x:DRC):X == leadingCoefficient(x*conjBasisTerm(x))
 
@@ -265,8 +273,8 @@ DifferentialForms(R,v) : Exports == Implementation where
       q*reduce(_+,s)
       
       
-    hodgeStar2(g:SMR,x:DRC):DRC ==
+    hodgeStar(g:SMR,x:DRC):DRC ==
       x=0$DRC => x
       leadingCoefficient(x)*hodgeStarBT(g,leadingBasisTerm(x)) + _
-        hodgeStar2(g, reductum(x))
+        hodgeStar(g, reductum(x))
                  

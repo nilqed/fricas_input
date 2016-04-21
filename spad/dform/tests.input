@@ -98,11 +98,11 @@ res.25 := test (rd*hodgeStar(h,rd)$M = dot(h,rd,rd)$M * volumeForm(h)$M)
 res.26 := test (degree(hodgeStar(h,dx.n)$M) = n-1)
 
 -- Projections
-res.27 := test (proj(nf+b*dx+d(b*dx),0)$M = nf)
-res.28 := test (proj(nf+b*dx+d(b*dx),1)$M = b*dx)
-res.29 := test (proj(nf+b*dx+d(b*dx),2)$M = d(b*dx))
-res.30 := test (proj(volumeForm(g)$M,n)$M = volumeForm(g)$M)
-res.31 := test (proj(volumeForm(g)$M,random(n)$NNI)$M = 0)
+res.27 := test (proj(0,nf+b*dx+d(b*dx))$M = nf)
+res.28 := test (proj(1,nf+b*dx+d(b*dx))$M = b*dx)
+res.29 := test (proj(2,nf+b*dx+d(b*dx))$M = d(b*dx))
+res.30 := test (proj(n,volumeForm(g)$M)$M = volumeForm(g)$M)
+res.31 := test (proj(random(n)$NNI,volumeForm(g)$M)$M = 0)
 
 
 -- Interior product
