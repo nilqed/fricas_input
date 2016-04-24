@@ -3,8 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-   
-.. _startpage
+
    
 ===========================   
 FriCAS :: DifferentialForms
@@ -18,6 +17,8 @@ Contents:
    section-1.0
    section-2.0
    section-3.0
+   section-4.0
+   
 
 Indices and tables
 ==================

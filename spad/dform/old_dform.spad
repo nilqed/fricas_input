@@ -1,11 +1,12 @@
 )abbrev package DFORM DifferentialForms
-++ Author: Kurt Pagani <nilqed@gmail.com>
-++ Date Created: October 2014 
-++ Revised: Sat Jan 02 19:52:00 CET 2016
+++ Author: Kurt Pagani
+++ Date Created: Sat Jan 02 19:52:00 CET 2016
 ++ License: BSD
+++ References:
 ++ Description: Differential form methods
-++ Requirements: DeRhamComplex (+) 
-++ Documentation: nilqed.github.io/TBD
+++ Requires DeRhamComplex (+)
+++ Revision: 
+++ modified interiorProduct, lieDerivative (independent of metric)
 ++
 DifferentialForms(R,v) : Exports == Implementation where
     
@@ -36,7 +37,7 @@ DifferentialForms(R,v) : Exports == Implementation where
     vectorField : Symbol -> List X
     scalarField : Symbol -> X
     covectorField : Symbol -> List DRC
-    zeroForm : Symbol -> DRC
+    nullForm : Symbol -> DRC
     volumeForm : SMR -> DRC
  
     conjBasisTerm : DRC -> DRC
@@ -96,7 +97,7 @@ DifferentialForms(R,v) : Exports == Implementation where
       vf:=vectorField(s)
       [a*1@DRC for a in vf]
 
-    zeroForm(s:Symbol):DRC == scalarField(s)*1@DRC
+    nullForm(s:Symbol):DRC == scalarField(s)*1@DRC
 
 
     (l:List(X) * x:List DRC):DRC == 

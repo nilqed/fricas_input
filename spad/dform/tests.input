@@ -36,9 +36,9 @@ c:=vectorField(c)$M
 P:=scalarField(P)$M    -- scalar field P(x1,..,xn)
 
 
--- (pseudo-) random form & nullForm
+-- (pseudo-) random form & zeroForm
 rd:=reduce(_*,[dx.j for j in 1..random(n)$NNI+1])
-nf:=nullForm(nf)$M
+nf:=zeroForm(nf)$M
 
 -- metric
 g:=diagonalMatrix([1 for i in 1..n])$SquareMatrix(n,EXPR R)  -- Euclidean
@@ -62,8 +62,8 @@ res.4 := test (a x = a(x))
 res.5 := test (#b = n)
 
 -- null Form (i.e. degree 0)
-res.6 := test (nullForm('a)$M = a(x)*one()$M)
-res.7 := test (d nullForm('a)$M = reduce(_+,[D(a(x),xs.i)*dx.i for i in 1..n]))
+res.6 := test (zeroForm('a)$M = a(x)*one()$M)
+res.7 := test (d zeroForm('a)$M = reduce(_+,[D(a(x),xs.i)*dx.i for i in 1..n]))
 
 -- products (à la Flanders, vector forms)
 res.8 := test ( x*dx = reduce(_+,[x.i*dx.i for i in 1..n]))
