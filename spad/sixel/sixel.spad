@@ -1,0 +1,29 @@
+)abbrev package SIXEL SixelGraphics
+++ Author: Kurt Pagani
+++ Date Created: Mon Sep 26 23:28:55 CEST 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+SixelGraphics() : Exports == Implementation where
+  
+  STR ==> String
+  --PINT   ==> Polynomial(Integer)
+  --SBPINT ==> SegmentBinding(PINT)
+  
+  Exports ==  with
+    
+    sixel(x:Any):Any == tex(x) 
+	
+	
+  Implementation ==  add 
+    
+    cfg: Table(String, String) := table()
+    
+    packages:STR:="amsmath,amsymb,breqn"
+    dc:STR:=string FORMAT(nil,"\documentclass[~A]{article}",12)$Lisp
+    up:STR:=string FORMAT(nil,"\usepackage{~A}",packages)$Lisp
+   
+   
+--  )system  bash fricas2sixel -bg White -D 120 -fg Blue '$\alpha+\omega$'
+-- sixel(x:TexFormt):Void == tex(x).1

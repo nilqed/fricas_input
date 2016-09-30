@@ -1,0 +1,213 @@
+
+)sys gnuplot -e "set term dumb; plot [t=0:2] t/2,t"
+ 
+)sys gnuplot -e "set term dumb; plot [t=0:2] -t/2,t"
+ 
+--
+-- Types
+X==>EXPR INT
+ 
+                                                                   Type: Void
+--tv:X; tc:X, to:X, %tv:X, %tc:X, %to:X, v:X, c:X
+--a:X,b:X,r:X,s:X
+-- Fixed observer X
+Xv := vector [v*tv,tv] 
+ 
+
+   (2)  [tv v,tv]
+                                            Type: Vector(Polynomial(Integer))
+Xc := vector [c*tc,tc]
+ 
+
+   (3)  [c tc,tc]
+                                            Type: Vector(Polynomial(Integer))
+Xo := vector [0,to]
+ 
+
+   (4)  [0,to]
+                                            Type: Vector(Polynomial(Integer))
+
+-- Moving observer Y
+Yv := vector [0,%tv]
+ 
+
+   (5)  [0,%tv]
+                                            Type: Vector(Polynomial(Integer))
+Yc := vector [c*%tc,%tc]
+ 
+
+   (6)  [%tc c,%tc]
+                                            Type: Vector(Polynomial(Integer))
+Yo := vector [-v*%to,%to]
+ 
+
+   (7)  [- %to v,%to]
+                                            Type: Vector(Polynomial(Integer))
+
+
+-- Linear transformation
+-- x' = a*x + b*t
+-- t' = r*x + s*t
+--
+L := matrix [[a,b],[r,s]]
+ 
+
+        +a  b+
+   (8)  |    |
+        +r  s+
+                                            Type: Matrix(Polynomial(Integer))
+
+-- Equations
+eq11 := (L * Xv).1 = Yv.1
+ 
+
+   (9)  a tv v + b tv= 0
+                                          Type: Equation(Polynomial(Integer))
+eq12 := (L * Xv).2 = Yv.2
+ 
+
+   (10)  r tv v + s tv= %tv
+                                          Type: Equation(Polynomial(Integer))
+eq21 := (L * Xc).1 = Yc.1
+ 
+
+   (11)  (a c + b)tc= %tc c
+                                          Type: Equation(Polynomial(Integer))
+eq22 := (L * Xc).2 = Yc.2
+ 
+
+   (12)  (s + c r)tc= %tc
+                                          Type: Equation(Polynomial(Integer))
+eq31 := (L * Xo).1 = Yo.1
+ 
+
+   (13)  b to= - %to v
+                                          Type: Equation(Polynomial(Integer))
+eq32 := (L * Xo).2 = Yo.2
+ 
+
+   (14)  s to= %to
+                                          Type: Equation(Polynomial(Integer))
+
+
+r_a := solve(eq11,a).1
+ 
+
+              b
+   (15)  a= - -
+              v
+                                Type: Equation(Fraction(Polynomial(Integer)))
+r_s := solve(lhs(-v*eq32)=lhs(eq31),s).1
+ 
+
+              b
+   (16)  s= - -
+              v
+                                Type: Equation(Fraction(Polynomial(Integer)))
+r:=rhs solve(lhs(c*eq22)=lhs(eq21),r).1
+ 
+
+         - c s + a c + b
+   (17)  ---------------
+                 2
+                c
+                                          Type: Fraction(Polynomial(Integer))
+
+r:=subst(r,[r_a,r_s])
+ 
+
+          b
+   (18)  --
+          2
+         c
+                                                    Type: Expression(Integer)
+a:=rhs r_a
+ 
+
+           b
+   (19)  - -
+           v
+                                          Type: Fraction(Polynomial(Integer))
+s:=rhs r_s
+ 
+
+           b
+   (20)  - -
+           v
+                                          Type: Fraction(Polynomial(Integer))
+
+L := matrix [[a,b],[r,s]]
+ 
+
+         +  b     +
+         |- -   b |
+         |  v     |
+   (21)  |        |
+         | b     b|
+         |--   - -|
+         | 2     v|
+         +c       +
+                                            Type: Matrix(Expression(Integer))
+
+r_b:=solve(determinant(L)=1,b).2
+ 
+
+                   c v
+   (22)  b= - ------------
+               +---------+
+               |   2    2
+              \|- v  + c
+                                          Type: Equation(Expression(Integer))
+
+L := matrix [[subst(a,r_b),subst(b,r_b)],[subst(r,r_b),subst(s,r_b)]]
+ 
+
+         +       c                c v    +
+         | ------------    - ------------|
+         |  +---------+       +---------+|
+         |  |   2    2        |   2    2 |
+         | \|- v  + c        \|- v  + c  |
+   (23)  |                               |
+         |        v               c      |
+         |- -------------   ------------ |
+         |    +---------+    +---------+ |
+         |    |   2    2     |   2    2  |
+         +  c\|- v  + c     \|- v  + c   +
+                                            Type: Matrix(Expression(Integer))
+
+M:=L*vector([x,t]) -- new coords
+ 
+
+                                 2
+           c x - c t v  - v x + c t
+   (24)  [------------,-------------]
+           +---------+   +---------+
+           |   2    2    |   2    2
+          \|- v  + c   c\|- v  + c
+                                            Type: Vector(Expression(Integer))
+
+gamma:=1/sqrt(1-(v/c)^2)
+ 
+
+               1
+   (25)  ------------
+          +---------+
+          |   2    2
+          |- v  + c
+          |---------
+          |     2
+         \|    c
+                                                    Type: Expression(Integer)
+normalize(M*(1/gamma))
+ 
+
+                           2
+                  - v x + c t
+   (26)  [x - t v,-----------]
+                        2
+                       c
+                                              Type: List(Expression(Integer))
+
+-- end
+)spool 
+ 

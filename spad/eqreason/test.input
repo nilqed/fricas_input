@@ -1,0 +1,75 @@
+)clear all
+
+p:=operator 'p
+f:=operator 'f
+g:=operator 'g
+h:=operator 'h
+m:=operator 'm
+
+N:=29 -- number of tests
+
+-----------------------------------------
+-- Type: List Equation Expression Integer
+-----------------------------------------
+P1:=[f(g(x),x) = f(y,a)]
+P2:=[f(x,h(x),y) = f(g(z), u, z)] 
+P3:=[p(a,x,f(y)) = p(u,v,w),p(a,x,f(y))= p(a, s,f(c)),p(u,v,w) = p(a,s,f(c))] 
+P4:=[f(x, b, g(z)) = f(f(y), y, g(u))] 
+P5:=[p(a,x,h(g(z))) = p(z,h(y),h(y))] 
+P6:=[p(f(a),g(x)) = p(y,y)]  
+P7:=[p(x,x) = p(y,f(y))]  
+P8:=[sin(x+y) = sin(u^2+v^2)] 
+P9:=[p(c,b)=p(a,c),p(a,b)=p(b,c)] 
+P10:=[p(c,b)=p(a,c),p(a,b)=p(b,c),m(a,b)=m(c,d)]
+P11:=[g(x,f(x,b))=g(f(a,b),f(y,z))]
+P12:=[p(a,x,h(g(z)))=p(z,h(y),h(y))]
+P13:=[p(f(a),g(x))=p(y,y)]
+P14:=[f(x1)=f(g(x0,x0))]
+P15:=[f(x1,x2)=f(g(x0,x0),g(x1,x1))]
+P16:=[f(x1,x2,x3)=f(g(x0,x0),g(x1,x1),g(x2,x2))]
+
+-- Result list
+res:List(Boolean):=[false for i in 1..N]
+
+--------
+-- unify
+--------
+res.1:=test (unify(P1,[])=[y= g(a),x= a])
+res.2:=test (unify(P2,[])=[x= g(z),u= h(g(z)),y= z])
+res.3:=test (unify(P3,[])=[a= u,x= s,w= f(c),v= s,y= c])
+res.4:=test (unify(P4,[])=[x= f(y),b= y,z= u])
+res.5:=test (unify(P5,[])=[a= z,x= h(g(z)),y= g(z)])
+res.6:=test (unify(P6,[]) case "failed")
+res.7:=test (unify(P7,[]) case "failed")
+res.8:=test (unify(P8,[])=[y + x = v^2  + u^2 ])
+res.9:=test (unify(P9,[])= [c = a,b = a])
+res.10:=test (unify(P10,[])= [c = d,b = d,a = d])
+res.11:=test (unify(P11,[])=[x= f(a,z),y= f(a,z),b= z])
+res.12:=test (unify(P12,[])=[a = z,x = h(g(z)),y = g(z)])
+res.13:=test (unify(P13,[]) case "failed")
+res.14:=test (unify(P14,[])= [x1 = g(x0,x0)])
+res.15:=test (unify(P15,[])=[x1 = g(x0,x0),x2 = g(g(x0,x0),g(x0,x0))])
+res.16:=test (unify(P16,[])= [x1 = g(x0,x0), x2 = g(g(x0,x0),g(x0,x0)), _
+    x3 = g(g(g(x0,x0),g(x0,x0)),g(g(x0,x0),g(x0,x0)))])
+
+res.17:=true
+
+-------------
+-- reduceWith
+-------------
+res.18:=test (reduceWith(P1,unify(P1,[])).1)
+res.19:=test (reduceWith(P2,unify(P2,[])).1)
+res.20:=test (reduceWith(P3,unify(P3,[])).1)
+res.21:=test (reduceWith(P4,unify(P4,[])).1)
+res.22:=test (reduceWith(P5,unify(P5,[])).1)
+res.23:=test (reduceWith(P9,unify(P9,[])).1)
+res.24:=test (reduceWith(P10,unify(P10,[])).1)
+res.25:=test (reduceWith(P11,unify(P11,[])).1)
+res.26:=test (reduceWith(P12,unify(P12,[])).1)
+res.27:=test (reduceWith(P14,unify(P14,[])).1)
+res.28:=test (reduceWith(P15,unify(P15,[])).1)
+res.29:=test (reduceWith(P16,unify(P16,[])).1)
+             
+
+-- ***** Final result *****
+reduce(_and,res)

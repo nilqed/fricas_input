@@ -1,0 +1,46 @@
+1. Quicklisp
+------------
+
+:Quicklisp: `homepage`_.
+
+.. _homepage: https://www.quicklisp.org/beta/
+
+**Quicklisp** is a library manager for *Common Lisp*. It works with your 
+existing Common Lisp implementation to download, install, and load any of 
+over 1,200 libraries with a few simple commands.
+
+Quicklisp is easy to install and works with ABCL, Allegro CL, Clasp, 
+Clozure CL, CLISP, CMUCL, ECL, LispWorks, MKCL, SBCL, and Scieneer CL, 
+on Linux, Mac OS X, and Windows.  
+
+:Note:
+If you have one of the Common Lisp flavours installed then it is recommended 
+to follow the instructions on the Quicklisp homepage. Otherwise Quicklisp 
+may be installed using **FriCAS**, as described in the following section.
+
+If Quicklisp is already installed then you may skip the following section and
+jump to x.
+
+
+2. Installing with FriCAS
+-------------------------
+Since FriCAS is based on Common Lisp we can install Quicklisp as follows:
+
+* Download https://beta.quicklisp.org/quicklisp.lisp
+* Start FriCAS
+* ``)lisp (load "quicklisp.lisp")``
+* ``)lisp (quicklisp-quickstart:install)``
+* ``)quit``
+
+Check if there is a folder **quicklisp** in your home directory.
+
+2.1 Manually loading after installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You only need to install Quicklisp with ``quicklisp.lisp`` once. To load 
+Quicklisp into your FriCAS session after the initial installation, load the 
+file ``quicklisp/setup.lisp`` with the Common Lisp load function::
+    
+    )lisp (load "~/quicklisp/setup.lisp")
+    
+
+

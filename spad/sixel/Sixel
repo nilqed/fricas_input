@@ -1,0 +1,23 @@
+Gnuplot: configure --with-bitmap-terminals
+.... set term sixel
+.... test
+
+Ubuntu: xterm -ti 340
+
+
+
+http://stackoverflow.com/questions/2114347/raster-graphics-in-xterm
+
+
+tar xvf ../Downloads/mlterm-3.7.2.tar.gz 
+./configure
+make
+sudo make install
+
+----
+
+
+add ~/.Xresources
+xrdb -merge ~/.Xresources    -- important!
+
+https://lukas.zapletalovi.com/2013/07/hidden-gems-of-xterm.html

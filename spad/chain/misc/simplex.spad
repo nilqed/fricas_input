@@ -1,0 +1,198 @@
+)abbrev domain SMPLX Simplex
+++ Author: 
+++ Date Created: Thu Oct 09 05:04:46 CEST 2014
+++ License: 
+++ Date Last Updated:
+++ Basic Operations: 
+++ Related Domains: 
+++ Also See:
+++ AMS Classifications:
+++ Keywords: 
+++ Examples:
+++ References:
+++
+++ Description:
+++ An element of Simplex(F,n) represents an affine simplex embedded in the
+++ vector space F^n (over field F) given by its extreme points.
+++ Note: the convex hull, volume and so on have to be taken over the
+++ reals, otherwise the meaning has to be re-interpreted. A single point
+++ has volume=1 (Hausdorff measure 0 = counting measure).
+++
+Simplex(F,n) : Exports == Implementation where
+  
+  NNI ==> NonNegativeInteger
+  OF  ==> OutputForm
+  n : NNI
+  F : Field
+  
+  Exports == Join(SetCategory, CoercibleTo OutputForm) with
+  
+    degenerate? : % -> Boolean
+    ++ Determines if the simplex is degenerate.
+    
+    degree : % -> NNI
+    ++ Returns the degree of the simplex (0,...,n)
+    ++ A 0-simplex is a single point in F^n.
+    ++ Note: the function does not check whether the
+    ++ simplex is degenerate or not. Use degenerate?
+    ++ before computing the degree.
+    
+    volume : % -> F
+    ++ Calculates the oriented volume if % is a n-simplex in F^n.
+    ++ Method: det(v1,...,vn)/factorial(n) where vi are the edge
+    ++ vectors.
+    
+    faces : % -> List(%)
+    ++ Returns the list of all (k-1)-faces of a s:Simplex(F,n) with
+    ++ degree s = k. If k=0 then the empty list is returned.
+    
+    nFaces : (%,NNI) -> NNI
+    ++ Returns the number of m-faces of the simplex s.
+    
+    stdSimplex : -> %
+    ++ Returns the standard simplex for F^n which is defined as
+    ++ [[0..0],[1,0..0],[0,1..0],..,[0,0,..1]].
+    ++X  stdSimplex()$Simplex(F,3)
+     
+    coerce : List(List F) -> %
+    coerce : Matrix(F)    -> %
+    coerce : % -> OutputForm
+    
+	
+	
+  Implementation == Matrix(F) add   
+
+    Rep := Matrix(F)
+     
+    err1 := "Empty list defines no simplex"
+    err2 := "Dimension error"
+    err3 := "Space dimension mismatch"
+    err4 := "Number of points mismatch"
+    err5 := "Inhomogeneous"
+    
+    --list of function definitions for exported operations
+   
+    degenerate?(s) ==
+      M:=s::Rep
+      nr:=nrows(M)
+      nr = 1 => false  
+      S:=subMatrix(M,2,nrows(M),1,ncols(M))
+      for j in 1..nrows(S) repeat
+        setRow!(S,j,row(S,j)-row(M,1))
+      r := rank S
+      r = nr-1 => false
+      true
+   
+    degree(s:%):NNI == 
+      M:=s::Rep
+      nr:=nrows(M)
+      (nr-1)::NNI
+    
+    volume(s:%):F ==
+      degree(s)<n => 0::F
+      M:=s::Rep
+      S:=subMatrix(M,2,nrows(M),1,ncols(M))
+      for j in 1..nrows(S) repeat
+        setRow!(S,j,row(S,j)-row(M,1))
+      determinant(S)/factorial(n)::F
+    
+    face(m:Matrix(F),i:NNI):Matrix(F) ==
+      nr:=nrows(m)
+      nc:=ncols(m)
+      m1:=subMatrix(m,1,i-1,1,nc)::Rep
+      m2:=subMatrix(m,i+1,nr,1,nc)::Rep
+      vertConcat(m1,m2)
+      
+    faces(s:%):List(%) ==
+      M:=s::Rep
+      nr:=nrows(M)
+      nr =1 => []
+      [face(M,j) for j in 1..nr]
+      
+  
+    nFaces(s:%,m:NNI):NNI ==
+      d:=degree s
+      m > d => 0
+      binomial(d+1,m+1)::NNI
+      
+    stdSimplex():% ==
+      M:=diagonalMatrix([1::F for j in 1..n])::Rep
+      m:=matrix([[0::F for j in 1..n]])::Rep
+      vertConcat(m,M)
+  
+    coerce(L:List(List F)):% == 
+      L = [] => error(err1)
+      kk:=#L
+      nn:=#L.1
+      kk > nn+1 => error(err2)
+      nn ~= n   => error(err3)
+      not reduce("and",[test(nn=#L.j) for j in 1..kk]) => error(err5)
+      matrix(L)$Rep
+   
+    coerce(M:Matrix(F)):% == 
+      ncols M ~= n   => error(err3)
+      M
+          
+    coerce(s:%):OutputForm ==
+      nr := nrows(s::Rep)
+      nc := ncols(s::Rep)
+      --hconcat [" <"::OF,nc::OF,","::OF,nr::OF,">"::OF]
+      --vconcat[" __S__ "::OF, hconcat[nc::OF,"|"::OF,nr::OF]]
+      [row(s::Rep,j)::OF for j in 1..nr]::OF
+      
+      
+)abbrev domain SLCHAIN SimplicialChain
+++ Author: 
+++ Date Created: Thu Oct 09 05:04:46 CEST 2014
+++ License: 
+++ Date Last Updated:
+++ Basic Operations: 
+++ Related Domains: 
+++ Also See:
+++ AMS Classifications:
+++ Keywords: 
+++ Examples:
+++ References:
+++
+++ Description:
+++ An element of SimplicialChain(F,n) is a formal sum of elements 
+++ of Simplex(F,n) with integer multiplicity. In other words it is
+++ the free abelian group on the set of simplices in the vectorspace 
+++ F^n (F a field) with integer coefficients. 
+++
+SimplicialChain(F,n) : Exports == Implementation where
+  
+  NNI ==> NonNegativeInteger
+  INT ==> Integer
+  n : NNI
+  F : Field
+  
+  SMPLX ==> Simplex(F,n)
+  
+  Exports == Join(AbelianGroup , CoercibleTo OutputForm, RetractableTo SMPLX) with
+    
+   
+    bdry : % -> %
+    
+    --coerce : % -> OutputForm
+    
+	
+  Implementation == FreeAbelianGroup(SMPLX) add   
+
+    Rep:=FreeAbelianGroup(SMPLX)
+
+    bdry(c:%):% ==
+      if size(c) = 1 then
+        s:=nthFactor(c,1)
+        fs:=faces(s)
+        sgn:=(j:INT):INT+->if even? (j-1) then 1 else -1 
+        nthCoef(c,1)*reduce("+",[sgn(j)*fs.j::Rep for j in 1..#fs])
+      else
+        ct:=[(nthCoef(c,j)*nthFactor(c,j))::Rep for j in 1..size(c)]
+        reduce("+",map(bdry,ct))
+        
+       
+
+ 
+
+    
