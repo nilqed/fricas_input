@@ -21,6 +21,7 @@ may be installed using **FriCAS**, as described in the following section.
 If Quicklisp is already installed then you may skip the following section and
 jump to x.
 
+
 2. Installing with FriCAS
 -------------------------
 Since FriCAS is based on Common Lisp we can install Quicklisp as follows:
@@ -29,4 +30,17 @@ Since FriCAS is based on Common Lisp we can install Quicklisp as follows:
 * Start FriCAS
 * ``)lisp (load "quicklisp.lisp")``
 * ``)lisp (quicklisp-quickstart:install)``
+* ``)quit``
+
+Check if there is a folder **quicklisp** in your home directory.
+
+2.1 Manually loading after installation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+You only need to install Quicklisp with ``quicklisp.lisp`` once. To load 
+Quicklisp into your FriCAS session after the initial installation, load the 
+file ``quicklisp/setup.lisp`` with the Common Lisp load function::
+    
+    )lisp (load "~/quicklisp/setup.lisp")
+    
+
 

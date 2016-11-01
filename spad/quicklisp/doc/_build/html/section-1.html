@@ -25,6 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="QuickLisp &amp; FriCAS 1.0 documentation" href="index.html" />
+    <link rel="next" title="Sample Installation" href="appendix-1.html" />
     <link rel="prev" title="QuickLisp &amp; FriCAS" href="index.html" /> 
   </head>
   <body role="document">
@@ -34,6 +35,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="appendix-1.html" title="Sample Installation"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="QuickLisp &amp; FriCAS"
              accesskey="P">previous</a> |</li>
@@ -84,7 +88,18 @@ jump to x.</p>
 <li>Start FriCAS</li>
 <li><code class="docutils literal"><span class="pre">)lisp</span> <span class="pre">(load</span> <span class="pre">&quot;quicklisp.lisp&quot;)</span></code></li>
 <li><code class="docutils literal"><span class="pre">)lisp</span> <span class="pre">(quicklisp-quickstart:install)</span></code></li>
+<li><code class="docutils literal"><span class="pre">)quit</span></code></li>
 </ul>
+<p>Check if there is a folder <strong>quicklisp</strong> in your home directory.</p>
+<div class="section" id="manually-loading-after-installation">
+<h2>2.1 Manually loading after installation<a class="headerlink" href="#manually-loading-after-installation" title="Permalink to this headline">¶</a></h2>
+<p>You only need to install Quicklisp with <code class="docutils literal"><span class="pre">quicklisp.lisp</span></code> once. To load
+Quicklisp into your FriCAS session after the initial installation, load the
+file <code class="docutils literal"><span class="pre">quicklisp/setup.lisp</span></code> with the Common Lisp load function:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">lisp</span> <span class="p">(</span><span class="n">load</span> <span class="s2">&quot;~/quicklisp/setup.lisp&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -96,12 +111,18 @@ jump to x.</p>
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">1. Quicklisp</a></li>
-<li><a class="reference internal" href="#installing-with-fricas">2. Installing with FriCAS</a></li>
+<li><a class="reference internal" href="#installing-with-fricas">2. Installing with FriCAS</a><ul>
+<li><a class="reference internal" href="#manually-loading-after-installation">2.1 Manually loading after installation</a></li>
+</ul>
+</li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="index.html"
                         title="previous chapter">QuickLisp &amp; FriCAS</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="appendix-1.html"
+                        title="next chapter">Sample Installation</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -129,6 +150,9 @@ jump to x.</p>
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="appendix-1.html" title="Sample Installation"
+             >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="QuickLisp &amp; FriCAS"
              >previous</a> |</li>
