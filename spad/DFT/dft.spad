@@ -3,8 +3,14 @@
 ++ Date Created: Wed Mar 02 23:13:52 CET 2016
 ++ License: BSD
 ++ References: en.wikipedia.org/wiki/Discrete_Fourier_transform_%28general%29
-++ Description:
-++
+++ Description: Discrete Fourier transform (DFT) over any ring, commonly called
+++   a number-theoretic transform (NTT) in the case of finite fields.  
+++   Given a ring R and a principal n-th root of unity a, the package designator
+++   DFT(R,n,a) is used to compute the various objects: dftMatrix()$DFT(R,n,a)
+++   for instance, will compute and display a matrix M (the DFT matrix) such
+++   the discrete Fourier transform of the vector v is given by M*v. 
+++ Examples: see dft_test.input
+
 DiscreteFourierTransform(R,n,a) : Exports == Implementation where
   
   R:Ring
@@ -16,17 +22,33 @@ DiscreteFourierTransform(R,n,a) : Exports == Implementation where
   Exports ==  with
     
     dftMatrix  : () -> MATR
-    dftMatrix? : MATR -> Boolean
-    
+      ++ dftMatrix() computes and returns the DFT(R,n,a) matrix.  
     dftInvMatrix : () -> MATR
-    
+      ++ dftInvMatrix() computes and returns the inverse DFT(R,n,a) matrix.
+    principalRoot? : (R,PositiveInteger) -> Boolean
+      ++ principalRoot?(a,n) checks if a is a n-th principal root of unity.
+    dftMatrix? : MATR -> Boolean
+      ++ dftMatrix?(M) checks whether M is a DFT matrix (true) or not.
+      ++ This includes a verification of a being a n-th principal root.
     dft  : Vector R -> Vector R
+      ++ dft(v) performs the DFT of the vector v.
     idft : Vector R -> Vector R
+      ++ idft(v) performs the inverse DFT of the vector v.
 	
 	
   Implementation ==  add 
-  
-    
+
+    err1 := "Not given a principal n-th root of unity." 
+    err2 := "Not invertible."
+    err3 := "Wrong dimension of vector."
+
+    principalRoot?(r:R,m:PositiveInteger):Boolean ==
+      r = 1::R => false
+      r^m ~= 1::R => false
+      l1:List R:=[reduce(_+,[r^(j*k) for j in 0..m-1]) for k in 1..m-1]
+      l2:List Boolean:=[test(x=0) for x in l1]
+      l:=reduce(_and,l2)
+
     dftMatrix?(m:Matrix R):Boolean ==
       a^n ~= 1::R => false 
       r1:List R:=[reduce(_+,entries(row(m,k))) for k in 2..n]
@@ -36,7 +58,7 @@ DiscreteFourierTransform(R,n,a) : Exports == Implementation where
     dftMatrix() ==
       m:MATR:=matrix [[a^(i*j) for i in 0..n-1] for j in 0..n-1]
       dftMatrix?(m) => m
-      error "Not given a principal n-th root of unity."
+      error err1
       
     dftInvMatrix() ==
       b:=recip(a)
@@ -44,17 +66,19 @@ DiscreteFourierTransform(R,n,a) : Exports == Implementation where
       if b case R and c case R then 
         m:MATR:=c * matrix [[b^(i*j) for i in 0..n-1] for j in 0..n-1]
       else
-        error "Not invertible."
+        error err2
 
-    M:= dftMatrix()
-    IM:= dftInvMatrix()
+    -- pre-compute matrices
+    --not principalRoot?(a,n) => error err1  -- rm redundancies
+    M  := dftMatrix() 
+    IM := dftInvMatrix()
  
     dft(v) ==
-      #v ~= n => error "wrong dimension of vector."
+      #v ~= n => error err3
       M * v
       
     idft(v) ==
-      #v ~= n => error "wrong dimension of vector."
+      #v ~= n => error err3
       IM * v      
  
    
@@ -75,57 +99,3 @@ DiscreteFourierTransform(R,n,a) : Exports == Implementation where
 -- ...   
 
 
-)abbrev package UDFT UnitaryDiscreteFourierTransform
-++ Author: Kurt Pagani
-++ Date Created: Thu Mar 03 03:47:06 CET 2016
-++ License: BSD
-++ References:
-++ Description:
-++
-UnitaryDiscreteFourierTransform(n) : Exports == Implementation where
-  
-  n:PositiveInteger
- 
-  R ==> Expression Integer
-  C ==> Complex R
-  
-  Exports == with
-    
-    udftMatrix    : () -> Matrix C
-    udftInvMatrix : () -> Matrix C
-    
-    udft  : Vector C -> Vector C
-    iudft : Vector C -> Vector C
-	
-	
-  Implementation == add 
-    
-
-    a(m:PositiveInteger):C ==
-      q:R:=(2/m)::Fraction(Integer)::R
-      c2:C:=complex(q,0)$C
-      im:C:=complex(0,1)$C
-      pi:R:=pi()::R
-      exp(-c2*im*pi)
-      
-    
-    X:=DiscreteFourierTransform(C,n,a(n))
-    
-    
-    udftMatrix() == dftMatrix()$X  -- factor missing yet +7sqrt(n)
-    udftInvMatrix() == dftInvMatrix()$X  -- dito
-     
-    U  := udftMatrix()
-    IU := udftInvMatrix()
- 
-    udft(v) ==
-      #v ~= n => error "wrong dimension of vector."
-      U * v
-      
-    iudft(v) ==
-      #v ~= n => error "wrong dimension of vector."
-      IU * v      
- 
--- simplifyExp complexNormalize ...
--- 
-   
