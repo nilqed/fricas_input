@@ -1,3 +1,48 @@
+)abbrev package TYPEPKG TypePackage
+TypePackage (T : Type) : Exports == Implementation where
+  Exports == with
+    typeof : T -> Type
+  Implementation  == add
+    typeof(x:T) == T
+
+)abbrev package CMPTYPE CompareTypes
+CompareTypes(T:Type,S:Type):Exports == Implementation  where
+  SEX ==> SExpression
+  Exports == with
+    sameType? : (T, S) -> Boolean
+  Implementation  == add
+
+    import TypePackage(T)
+    import TypePackage(S)
+
+    sameType?(x:T,y:S):Boolean ==
+      test ( typeof(x)::SEX = typeof(y):: SEX )
+
+
+)abbrev package ROU RootOfUnity
+RootOfUnity(R: Ring) : Exports == Implementation where
+
+  CI  ==> Complex Integer
+  ECI ==> Expression CI 
+
+  Exports == with
+
+    principalRoot? : (R,PositiveInteger) -> Boolean
+      ++ principalRoot?(a,n) checks if a is a n-th principal root of unity. 
+    
+      
+  Implementation == add
+    
+    principalRoot?(r:R,n:PositiveInteger):Boolean ==
+      sameType?(r,sample()$ECI)$CompareTypes(R,ECI) => error "use complex ..."
+      r = 1::R => false
+      r^n ~= 1::R => false
+      lr:List R:=[reduce(_+,[r^(j*k) for j in 0..n-1]) for k in 1..n-1]
+      lb:List Boolean:=[test(x=0) for x in lr]
+      reduce(_and,lb)
+
+
+
 )abbrev package DFT DiscreteFourierTransform
 ++ Author: Kurt Pagani
 ++ Date Created: Wed Mar 02 23:13:52 CET 2016
@@ -67,19 +112,14 @@ DiscreteFourierTransform(R,n,a) : Exports == Implementation where
         m:MATR:=c * matrix [[b^(i*j) for i in 0..n-1] for j in 0..n-1]
       else
         error err2
-
-    -- pre-compute matrices
-    --not principalRoot?(a,n) => error err1  -- rm redundancies
-    M  := dftMatrix() 
-    IM := dftInvMatrix()
  
     dft(v) ==
       #v ~= n => error err3
-      M * v
+      dftMatrix() * v
       
     idft(v) ==
       #v ~= n => error err3
-      IM * v      
+      dftInvMatrix() * v      
  
    
 -- Examples
@@ -94,7 +134,7 @@ DiscreteFourierTransform(R,n,a) : Exports == Implementation where
 -- idft([0,4,3,2])$DFTZ5
    
 -- R:=Expression Complex Integer
--- n:=3
+-- n:=3   
 -- a:=exp(-2*%i*%pi/n)
 -- ...   
 

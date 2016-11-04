@@ -1,0 +1,81 @@
+)abbrev package EXPFUN ExponentialFunction
+ExponentialFunction () : Exports == Implementation where
+
+  IF ==> InputForm 
+  CI ==> Complex Integer
+  EI ==> Expression Integer
+  ECI ==> Expression CI
+  INT ==> Integer
+
+  Exports == with
+  
+    isExpfun1? : EI -> Boolean
+    isExpfun? : ECI -> Boolean
+    arg : ECI -> ECI
+    conj : ECI -> Any
+    real : ECI -> ECI
+    imag : ECI -> ECI
+    conjugate : IF -> IF
+    complex? : IF -> Boolean
+      ++ True if argument of the form (complex m n)
+    conjAtom : IF -> IF
+      ++ Transforms (complex m n) to (complex m -n)
+    uncar: (IF,IF) -> IF
+      ++ It holds uncar(car L, cdr L)=L
+    cc : ECI -> ECI
+    
+  Implementation  == add
+  
+    isExpfun1?(f:EI):Boolean ==
+      k:List Kernel EI:=kernels(f)
+      #k ~= 1 => false
+      name(k.1) = 'exp => true
+      false
+
+    isExpfun?(f:ECI):Boolean ==
+      k:List Kernel ECI:=kernels(f)
+      #k ~= 1 => false
+      name(k.1) = 'exp => true
+      false
+      
+    arg(f:ECI):ECI ==
+      not isExpfun?(f) => error "argument must be exp function"
+      argument(kernels(f).1).1::ECI
+ 
+ 
+    complex?(x:InputForm):Boolean ==
+      atom? x => false
+      car(x)=convert('complex)@IF => true
+      
+      
+    conjAtom(x:InputForm):InputForm ==
+      not complex? x => x
+      convert([x.1,x.2,convert(-integer(x.3))$IF])$IF
+
+    uncar(x:InputForm, y:InputForm):InputForm ==
+      z:=destruct(y)
+      convert(concat(x,z))
+
+    conjugate(x:InputForm):InputForm ==
+      null? x => x
+      atom? x => x     
+      complex? x => conjAtom x
+      y:=car(x)
+      complex? y => uncar(conjAtom y, conjugate cdr(x))
+      uncar(conjugate car(x),conjugate cdr(x))
+              
+    
+    conj(f:ECI):Any ==
+      not isExpfun?(f) => error "argument must be exp function"
+      a:ECI:=arg f
+      i:InputForm:=convert(f)@InputForm
+      c:InputForm:=conjugate(i)
+      interpret(c)
+      
+    cc(f:ECI):ECI ==
+      i:InputForm:=convert(f)@InputForm
+      c:InputForm:=conjugate(i)
+      interpret(c)$InputFormFunctions1(ECI)
+
+
+ 

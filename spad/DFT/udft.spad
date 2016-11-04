@@ -1,57 +1,53 @@
 )abbrev package UDFT UnitaryDiscreteFourierTransform
-++ Author: Kurt Pagani
-++ Date Created: Thu Mar 03 03:47:06 CET 2016
-++ License: BSD
-++ References:
-++ Description:
-++
-UnitaryDiscreteFourierTransform(n) : Exports == Implementation where
+
+UnitaryDiscreteFourierTransform() : Exports == Implementation where
   
-  n:PositiveInteger
- 
   X ==> Expression Integer
   Q ==> Fraction Integer
-  R ==> Complex X
+  C ==> Complex X
+  
+  PI  ==> PositiveInteger
+  NNI ==> NonNegativeInteger
   
   Exports == with
     
-    udftMatrix    : () -> Matrix R
-    udftInvMatrix : () -> Matrix R
+    udftMatrix    : NNI -> Matrix C
+    udftInvMatrix : NNI -> Matrix C
     
-    udft  : Vector R -> Vector R
-    iudft : Vector R -> Vector R
+    udft  : Vector C -> Vector C
+    iudft : Vector C -> Vector C
 	
 	
   Implementation == add 
       
-    --import from ComplexTrigonometricManipulations(X,R)
-    --import from TranscendentalManipulations(X,R)
+    --import from ComplexTrigonometricManipulations(X,C)
+    import from TranscendentalManipulations(X,C)
     
 
-    udftMatrix() == 
-      a:R:=exp(-(2/n)::Q::X*pi()$X*complex(0,1)$R)::R
-      c:R:=1/sqrt(n::X)::R
-      c * matrix [[a^(i*j) for i in 0..n-1] for j in 0..n-1] 
+    udftMatrix(n:NNI):Matrix C ==
+      q:X:=(2/n)::Q::X
+      p:X:=pi()::X
+      z:C:=complex(0,-q*p)
+      a:C:=exp(z)
+      c:C:=1/sqrt(n::C)::C
+      c * matrix [[a^(i*j rem n) for i in 0..n-1] for j in 0..n-1] 
     
-    
-    
-    
-    udftInvMatrix() == 
-      b:R:=exp((2/n)::Q::X*pi()$X*complex(0,1)$R)::R
-      c:R:=1/sqrt(n::X)::R
-      c * matrix [[b^(i*j) for i in 0..n-1] for j in 0..n-1]
      
-    U  := udftMatrix()
-    IU := udftInvMatrix()
+    udftInvMatrix(n:NNI):Matrix C == 
+      q:X:=(2/n)::Q::X
+      p:X:=pi()::X
+      z:C:=complex(0,q*p)
+      a:C:=exp(z)
+      c:C:=1/sqrt(n::C)::C
+      c * matrix [[a^(i*j rem n) for i in 0..n-1] for j in 0..n-1]
+     
  
-    udft(v) ==
-      #v ~= n => error "wrong dimension of vector."
-      U * v
+    udft(v) == udftMatrix(#v) * v
       
-    iudft(v) ==
-      #v ~= n => error "wrong dimension of vector."
-      IU * v      
+    iudft(v) == udftInvMatrix(#v) * v      
 
 -- Example
---  udft([j for j in 1..13])$UDFT(13)  
+--  x:=udft([j for j in 1..14])
+--  y:=iudft(x)::List(EXPR INT)
+--  z:=[numeric(real s) for s in y]
    
