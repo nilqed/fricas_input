@@ -1,0 +1,22 @@
+)abbrev package TYPEPKG TypePackage
+TypePackage (T : Type) : Exports == Impl where
+  Exports == with
+    typeof : T -> Type
+  Impl == add
+    typeof(x:T) == T
+    
+)abbrev package CMPTYPE CompareTypes
+CompareTypes(T:Type,S:Type):Exports == Impl where
+  SEX ==> SExpression
+  Exports == with
+    sameType? : (T, S) -> Boolean
+  Impl == add
+  
+    import TypePackage(T)
+    import TypePackage(S)
+    
+    sameType?(x:T,y:S):Boolean == 
+      test ( typeof(x)::SEX = typeof(y):: SEX )
+  
+ 
+
