@@ -1,0 +1,20 @@
+)abbrev package FSERIES FSeries
+FSeries () : Exports == Implementation where
+
+  X ==> Expression Integer
+  I ==> Integer
+  Q ==> Fraction Integer
+  NNI ==> NonNegativeInteger
+
+  Exports == with
+  
+    coeffa : (NNI,X->X,X,X) -> Union(OrderedCompletion(Expression(Integer)),"failed")
+    
+  Implementation  == add
+  
+    coeffa(n:NNI,f:X->X,a:X,b:X) ==
+      p:X:=b-a
+      c:X:=(1+1)/p
+      d:X:=(pi()$X*n/p)
+      integrate(f(t)*cos(d*t),t=a..b)
+      

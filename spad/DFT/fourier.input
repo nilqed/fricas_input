@@ -1,0 +1,40 @@
+X  ==> Expression Complex Integer
+MX ==> Matrix X
+VX ==> Vector X
+LX ==> List X
+
+RR ==> RewriteRule(Integer,Complex Integer,X)
+
+-- e(m,n)=(a_n)^m
+--
+e(m,n) == exp(-2*%pi*%i*(m rem n)/n)
+
+dftMatrix(n)  == matrix [[e(i*j,n) for i in 0..n-1] for j in 0..n-1]
+idftMatrix(n) == matrix [[e(-i*j,n) for i in 0..n-1] for j in 0..n-1]/n
+
+udftMatrix(n)  == dftMatrix(n)/sqrt(n)
+iudftMatrix(n) == idftMatrix(n)*sqrt(n)
+
+--
+M:=udftMatrix(3)
+determinant(M)
+IM:=iudftMatrix(3)
+M*IM
+IM*M
+--
+
+-- strange
+fracrule():RR == rule 
+  exp((m|integer? m)/(n|integer? n)*%i*'%pi) == 
+    (-1)^(m quo n)*exp('%i*%pi*(m rem n)/n)
+
+dft(v)   == vector [simplify s for s in (dftMatrix(#v)*v)::LX]
+udft(v)  == vector [simplify s for s in (udftMatrix(#v)*v)::LX]
+idft(v)  == vector [simplify s for s in (idftMatrix(#v)*v)::LX]
+iudft(v) == vector [simplify s for s in (iudftMatrix(#v)*v)::LX]
+
+--
+v:=dft(vector([j for j in 1..6]))
+idft(v)
+
+--)quit

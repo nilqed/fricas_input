@@ -1,0 +1,38 @@
+)abbrev package FGG FiniteGroupGen
+++ Author: Kurt Pagani
+++ Date Created: Mon Nov 07 02:35:57 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+FiniteGroupGen(L:List Symbol) : Exports == Implementation where
+  
+  LS      ==> List Symbol
+  OVAR    ==> OrderedVariableList 
+  FG(S)   ==> FreeGroup OVAR S
+  LEQ(G)  ==> List Equation G
+  REC     ==> Record(gen:List FG(L), rel:LEQ FG(L)) 
+       
+  Exports == with 
+    
+    1 : () -> FG(L)
+    freeGroup : () -> Type
+    generators : () -> List FG(L)
+    fpGroup : LEQ FG(L) -> REC
+	
+	
+  Implementation == add 
+    
+    1 == 1$FG(L)
+    
+    freeGroup() == FG(removeDuplicates L)
+    
+    generators():List FG(L) == [coerce(g) for g in enumerate()$OVAR(L)]
+    
+    fpGroup(x) == construct(generators(),x)$REC
+   
+   
+-- X==>FGG [r,s,t]
+-- freeGroup()$X
+-- g:=generators()$X
+-- fpGroup [g.1=g.2,g.2*g.3=1$X]

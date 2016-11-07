@@ -1,0 +1,41 @@
+)abbrev domain FPG FinitelyPresentedGroup
+++ Author: Kurt Pagani
+++ Date Created: Mon Nov 07 05:18:24 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+FinitelyPresentedGroup(R) : Exports == Implementation where
+   
+  LS      ==> List Symbol
+  OVAR    ==> OrderedVariableList 
+  FG(S)   ==> FreeGroup OVAR S
+  LEQ(G)  ==> List Equation G
+  REC     ==> Record(gen:List FG(L), rel:LEQ FG(L)) 
+  
+  R: Record(gen:List FG(LS), rel:LEQ FG(LS))
+  
+  Exports == Join(CoercibleTo OutputForm) with
+    
+    1 : () -> FG(L)
+    freeGroup : () -> Type
+    generators : () -> List FG(L)
+    fpGroup : LEQ FG(L) -> %
+    coerce : % -> OutputForm
+	
+	
+  Implementation == FG(L) add 
+  
+    Rep := REC
+
+    1 == 1$FG(L)
+    
+    freeGroup() == FG(removeDuplicates L)
+    
+    generators():List FG(L) == [coerce(g) for g in enumerate()$OVAR(L)]
+    
+    fpGroup(x) == construct(generators(),x)$Rep
+    
+    coerce(x) == 1::OutputForm
+
+   
