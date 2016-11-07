@@ -5,37 +5,62 @@
 ++ References:
 ++ Description:
 ++
-FinitelyPresentedGroup(R) : Exports == Implementation where
+FinitelyPresentedGroup(L,R) : Exports == Implementation where
    
   LS      ==> List Symbol
   OVAR    ==> OrderedVariableList 
   FG(S)   ==> FreeGroup OVAR S
   LEQ(G)  ==> List Equation G
-  REC     ==> Record(gen:List FG(L), rel:LEQ FG(L)) 
   
-  R: Record(gen:List FG(LS), rel:LEQ FG(LS))
+  L: LS
+  R: LEQ FG(L)
   
-  Exports == Join(CoercibleTo OutputForm) with
+  Exports == Join(Group, CoercibleTo OutputForm) with
     
-    1 : () -> FG(L)
-    freeGroup : () -> Type
-    generators : () -> List FG(L)
-    fpGroup : LEQ FG(L) -> %
+    1 : () -> %
+    generators : () -> List %
+    relations : () -> LEQ %
+    fpGroup : LEQ % -> Type
+    rewrite : % -> %
+    free? : () -> Boolean
+    
+    size : % -> NonNegativeInteger
+    factors : % -> List(Record(gen: OVAR L,exp: Integer))
+    
     coerce : % -> OutputForm
 	
 	
   Implementation == FG(L) add 
   
-    Rep := REC
+    Rep := FG(L)
 
-    1 == 1$FG(L)
+    1 == 1$Rep
     
-    freeGroup() == FG(removeDuplicates L)
     
-    generators():List FG(L) == [coerce(g) for g in enumerate()$OVAR(L)]
+    generators():List % == [coerce(g)::Rep for g in enumerate()$OVAR(L)]
+    relations():LEQ % == R pretend LEQ(%)
+    fpGroup(r) == FinitelyPresentedGroup(L,r pretend LEQ(Rep)) 
     
-    fpGroup(x) == construct(generators(),x)$Rep
+    rewrite(g:%):% ==
+      for x in R repeat
+        g:=g/lhs(x)*rhs(x)
+      g
     
-    coerce(x) == 1::OutputForm
+    free?() == empty? R
+      
+    
 
-   
+-- G:=FPG([a,b,c],[])
+-- g:=generators()$G
+--
+-- 
+-- X==>FGG [r,s,t]
+-- freeGroup()$X
+-- g:=generators()$X
+-- fpGroup [g.1=g.2,g.2*g.3=1$X]
+
+-- FG:=FPG([a,b,c],[])
+-- fg:=generators()$FG
+-- G:=fpGroup([fg.1=fg.3])$FG
+
+

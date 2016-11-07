@@ -1,3 +1,4 @@
+)co fpg
 )abbrev package FGG FiniteGroupGen
 ++ Author: Kurt Pagani
 ++ Date Created: Mon Nov 07 02:35:57 CET 2016
@@ -18,7 +19,8 @@ FiniteGroupGen(L:List Symbol) : Exports == Implementation where
     1 : () -> FG(L)
     freeGroup : () -> Type
     generators : () -> List FG(L)
-    fpGroup : LEQ FG(L) -> REC
+    fpGroupRec : LEQ FG(L) -> REC
+    fpGroup : LEQ FG(L) -> Type
 	
 	
   Implementation == add 
@@ -29,10 +31,13 @@ FiniteGroupGen(L:List Symbol) : Exports == Implementation where
     
     generators():List FG(L) == [coerce(g) for g in enumerate()$OVAR(L)]
     
-    fpGroup(x) == construct(generators(),x)$REC
+    fpGroupRec(x) == construct(generators(),x)$REC
+    
+    fpGroup(r) == FinitelyPresentedGroup(L,r) 
    
    
 -- X==>FGG [r,s,t]
 -- freeGroup()$X
 -- g:=generators()$X
 -- fpGroup [g.1=g.2,g.2*g.3=1$X]
+--

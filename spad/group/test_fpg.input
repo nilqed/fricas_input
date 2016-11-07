@@ -1,0 +1,21 @@
+)co fpg
+
+FG:=FPG([a,b,c],[])
+fg:=generators()$FG
+G:=fpGroup([fg.1=fg.3])$FG
+g:=generators()$G
+r:=relations()$G
+
+free?()$G
+y:=g.1*g.2^3
+factors(y)$G
+factors(inv y)$G
+
+
+-- better FPG(eq freeGroup)?
+
+L:=[u,v,w]
+FG2:=FreeGroup OVAR L
+fg2:=[coerce(s)$FG2 for s in enumerate()$OVAR(L)]
+LL:=[retract(s)$FG2 for s in fg2]
+
