@@ -4,26 +4,66 @@ FSeries () : Exports == Implementation where
   NNI ==> NonNegativeInteger
   INT ==> Integer
   X   ==> Expression Integer
+  LS  ==> List Symbol
   OCX ==> OrderedCompletion X
 
   Z ==> ElementaryFunctionDefiniteIntegration(INT,X)
-  U ==> Union(f1:OCX,f2: List OCX)
+  U ==> Union(f1:OCX,f2: List OCX, fail: "failed", pole: "potentialPole")
 
 
 
   Exports == with
   
-    coeffa : (NNI,X->X,Segment OCX) -> Any
+    coeff    : (Symbol, NNI,X->X, Segment OCX) -> U
+    coeffFun : (Symbol, X->X, Segment OCX) -> (NNI -> X)
+    coeffX   : (Symbol, X->X, Segment OCX) -> X
     
   Implementation  == add
   
-    coeffa(n:NNI,f:X->X,s:Segment OCX):Any ==
+    coeff(ab:Symbol,n:NNI,f:X->X,s:Segment OCX):U ==
+      not member?(ab,['a,'b]::LS) => error "Coeff name neither a nor b."
       p:X:=retract(hi(s)::OCX - lo(s)::OCX)
+      p=0$X => error "Zero length intervall."
       c:X:=(1+1)/p
       d:X:=(pi()$X*n/p)
-      t:X
       sb:SegmentBinding OCX:=equation('t,s)
-      integrate(f(t)*cos(d*t),sb)$Z
+      x:X:=coerce('t)$X
+      if ab='a then
+        y:X:=c*f(x)*cos(2*d*x)
+      else
+        n=0 => error "Coeff b only for n=1,2..."
+        y:X:=c*f(x)*sin(2*d*x)
+      res:U:=integrate(y,sb,"noPole")$Z
+      res
+
+    coeffFun(ab:Symbol,f:X->X,s:Segment OCX):(NNI -> X) ==
+      not member?(ab,['a,'b]::LS) => error "Coeff name neither a nor b."
+      p:X:=retract(hi(s)::OCX - lo(s)::OCX)
+      p=0$X => error "Zero length intervall."
+      c:X:=(1+1)/p
+      n:X:=coerce('n)$X
+      d:X:=(pi()$X*n/p)
+      sb:SegmentBinding OCX:=equation('t,s)
+      x:X:=coerce('t)$X
+      if ab='a then
+        y:X:=c*f(x)*cos(2*d*x)
+      else
+        y:X:=c*f(x)*sin(2*d*x)
+      res:U:=integrate(y,sb,"noPole")$Z
+      (m:NNI):X+->eval(retract(res.f1)$OCX,n=coerce(m::Integer)$X)
       
-      
-      
+    coeffX(ab:Symbol,f:X->X,s:Segment OCX):X ==
+      not member?(ab,['a,'b]::LS) => error "Coeff name neither a nor b."
+      p:X:=retract(hi(s)::OCX - lo(s)::OCX)
+      p=0$X => error "Zero length intervall."
+      c:X:=(1+1)/p
+      n:X:=coerce('n)$X
+      d:X:=(pi()$X*n/p)
+      sb:SegmentBinding OCX:=equation('t,s)
+      x:X:=coerce('t)$X
+      if ab='a then
+        y:X:=c*f(x)*cos(2*d*x)
+      else
+        y:X:=c*f(x)*sin(2*d*x)
+      res:U:=integrate(y,sb,"noPole")$Z
+      res case f1 => retract(res.f1)$OCX
