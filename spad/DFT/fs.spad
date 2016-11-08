@@ -1,20 +1,29 @@
 )abbrev package FSERIES FSeries
 FSeries () : Exports == Implementation where
 
-  X ==> Expression Integer
-  I ==> Integer
-  Q ==> Fraction Integer
   NNI ==> NonNegativeInteger
+  INT ==> Integer
+  X   ==> Expression Integer
+  OCX ==> OrderedCompletion X
+
+  Z ==> ElementaryFunctionDefiniteIntegration(INT,X)
+  U ==> Union(f1:OCX,f2: List OCX)
+
+
 
   Exports == with
   
-    coeffa : (NNI,X->X,X,X) -> Union(OrderedCompletion(Expression(Integer)),"failed")
+    coeffa : (NNI,X->X,Segment OCX) -> Any
     
   Implementation  == add
   
-    coeffa(n:NNI,f:X->X,a:X,b:X) ==
-      p:X:=b-a
+    coeffa(n:NNI,f:X->X,s:Segment OCX):Any ==
+      p:X:=retract(hi(s)::OCX - lo(s)::OCX)
       c:X:=(1+1)/p
       d:X:=(pi()$X*n/p)
-      integrate(f(t)*cos(d*t),t=a..b)
+      t:X
+      sb:SegmentBinding OCX:=equation('t,s)
+      integrate(f(t)*cos(d*t),sb)$Z
+      
+      
       
