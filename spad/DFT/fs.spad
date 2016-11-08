@@ -1,4 +1,6 @@
 )abbrev package FSERIES FSeries
+++ Fourier series package.
+++
 FSeries () : Exports == Implementation where
 
   NNI ==> NonNegativeInteger
@@ -19,11 +21,15 @@ FSeries () : Exports == Implementation where
     coeffX   : (Symbol, X->X, Segment OCX) -> X
     
   Implementation  == add
-  
+
+    err1 := "Coeff name neither a nor b."
+    err2 := "Zero length intervall."
+    err3 := "Coeff b only for n=1,2..."
+
     coeff(ab:Symbol,n:NNI,f:X->X,s:Segment OCX):U ==
-      not member?(ab,['a,'b]::LS) => error "Coeff name neither a nor b."
+      not member?(ab,['a,'b]::LS) => error err1
       p:X:=retract(hi(s)::OCX - lo(s)::OCX)
-      p=0$X => error "Zero length intervall."
+      p=0$X => error err2
       c:X:=(1+1)/p
       d:X:=(pi()$X*n/p)
       sb:SegmentBinding OCX:=equation('t,s)
@@ -31,15 +37,15 @@ FSeries () : Exports == Implementation where
       if ab='a then
         y:X:=c*f(x)*cos(2*d*x)
       else
-        n=0 => error "Coeff b only for n=1,2..."
+        n=0 => error err3
         y:X:=c*f(x)*sin(2*d*x)
       res:U:=integrate(y,sb,"noPole")$Z
       res
 
     coeffFun(ab:Symbol,f:X->X,s:Segment OCX):(NNI -> X) ==
-      not member?(ab,['a,'b]::LS) => error "Coeff name neither a nor b."
+      not member?(ab,['a,'b]::LS) => error err1
       p:X:=retract(hi(s)::OCX - lo(s)::OCX)
-      p=0$X => error "Zero length intervall."
+      p=0$X => error err2
       c:X:=(1+1)/p
       n:X:=coerce('n)$X
       d:X:=(pi()$X*n/p)
@@ -53,9 +59,9 @@ FSeries () : Exports == Implementation where
       (m:NNI):X+->eval(retract(res.f1)$OCX,n=coerce(m::Integer)$X)
       
     coeffX(ab:Symbol,f:X->X,s:Segment OCX):X ==
-      not member?(ab,['a,'b]::LS) => error "Coeff name neither a nor b."
+      not member?(ab,['a,'b]::LS) => error err1
       p:X:=retract(hi(s)::OCX - lo(s)::OCX)
-      p=0$X => error "Zero length intervall."
+      p=0$X => error err2
       c:X:=(1+1)/p
       n:X:=coerce('n)$X
       d:X:=(pi()$X*n/p)
