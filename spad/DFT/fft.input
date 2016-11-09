@@ -1,0 +1,29 @@
+
+CF  ==> Complex Float
+VCF ==> Vector CF
+LCF ==> List CF
+
+fft(x:VCF):VCF ==
+  N:=#x
+  N <= 1 => x
+  M:=N quo 2
+  even := fft([x.j for j in 1..N | even? j])
+  odd  := fft([x.j for j in 1..N | odd? j])
+  f := [exp(-2*%i*%pi*(k-1)/N)*even.k for k in 1..M]
+  concat([odd.k + f.k for k in 1..M], [odd.k - f.k for k in 1..M])
+  
+
+-- x:=[1.0,1.0,1.0,1.0,0.0,0.0,0.0,0.0]
+-- [abs(z) for z in fft(x)::List CF]
+-- [4.0, 1.0 - 2.4142135623_730950488 %i, 0.0, 1.0 - 0.4142135623_730950488 %i,
+--  0.0, 1.0 + 0.4142135623_730950488 %i, 0.0, 1.0 + 2.4142135623_730950488 %i]
+--                                         Type: List(Complex(Float))
+
+ifft(x:VCF):VCF ==
+  N:=#x
+  xc := vector [conjugate z for z in x::LCF]
+  1/N * vector [conjugate z for z in fft(xc)::LCF]
+
+-- ifft %
+-- [1.0,1.0,1.0,1.0,0.0,0.0,- 0.3388131789_0172013563 E -20,0.0]
+--                                         Type: Vector(Complex(Float))
