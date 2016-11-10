@@ -1,0 +1,46 @@
+)abbrev package TRIGF TrigFormulary
+++ Author: Kurt Pagani
+++ Date Created: Thu Nov 10 02:38:37 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+TrigFormulary() : Exports == Implementation where
+  
+  INT ==> Integer
+  RRI ==> RewriteRule(Integer,Integer,Expression(Integer))
+  X   ==> Expression Integer
+  
+  
+  Exports ==  with
+    
+    simpProd :  X -> X
+	 
+	
+  Implementation ==  add 
+    
+    k:X:='k::X
+    n:X:='n::X
+    sb1:SegmentBinding(X):=equation('k,segment(1,n-1::X))
+    
+    L1:X:=product(sin(k*pi()/n),sb1)
+    R1:X:=n/2::X^(n-1)
+    
+    L2:X:=product(cos(k*pi()/n),sb1)
+    R2:X:=sin(pi()*n/2::X)/2::X^(n-1) 
+ 
+    L3:X:=product(tan(k*pi()/n),sb1)
+    R3:X:=n/sin(pi()*n/2::X) 
+    
+    
+    prodRulesSet: Ruleset(INT,INT,X) := 
+      ruleset [rule(L1,R1), rule(L2,R2), rule(L3,R3)]
+
+    
+    simpProd(x) == prodRulesSet x
+    
+    
+
+--  simpProd(product(sin(k*pi()/n),k=1..n-1))
+--  simpProd(product(cos(k*pi()/n),k=1..n-1))
+--  simpProd(product(tan(k*pi()/n),k=1..n-1))

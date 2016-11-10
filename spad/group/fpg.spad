@@ -4,7 +4,7 @@
 ++ License: BSD
 ++ References:
 ++ Description:
-++
+++ https://en.wikipedia.org/wiki/Presentation_of_a_group
 FinitelyPresentedGroup(L,R) : Exports == Implementation where
    
   LS      ==> List Symbol
@@ -21,7 +21,7 @@ FinitelyPresentedGroup(L,R) : Exports == Implementation where
     generators : () -> List %
     relations : () -> LEQ %
     fpGroup : LEQ % -> Type
-    rewrite : % -> %
+    rewriteFake : % -> %
     free? : () -> Boolean
     
     size : % -> NonNegativeInteger
@@ -41,7 +41,8 @@ FinitelyPresentedGroup(L,R) : Exports == Implementation where
     relations():LEQ % == R pretend LEQ(%)
     fpGroup(r) == FinitelyPresentedGroup(L,r pretend LEQ(Rep)) 
     
-    rewrite(g:%):% ==
+    rewriteFake(g:%):% ==
+      sg:=g
       for x in R repeat
         g:=g/lhs(x)*rhs(x)
       g
@@ -62,5 +63,13 @@ FinitelyPresentedGroup(L,R) : Exports == Implementation where
 -- FG:=FPG([a,b,c],[])
 -- fg:=generators()$FG
 -- G:=fpGroup([fg.1=fg.3])$FG
+)if f
+F:=FPG([x,y,z],[])
+F has Group
+[x,y,z]:=generators()$F
 
-
+-- Heisenberg group
+HG:=fpGroup([z=x*y*inv(x)*inv(y),x*z=z*x,y*z=z*y])$F
+HG has Group  
+[x,y,z]:=generators()$HG
+)endif
