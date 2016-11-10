@@ -1,28 +1,12 @@
-NNI ==> NonNegativeInteger
-X   ==> Expression Integer
-OCX ==> OrderedCompletion X
+)co fs
 
-Z ==> ElementaryFunctionDefiniteIntegration(Integer,X)
-U ==> Union(f1:OCX,f2: List OCX, fail:"failed", pole:"potentialPole")
+coeff('a,1,sin,0..%pi)  -- forget it! Neeeds to much time for big n
+a:=coeffFun('a,sin,0..%pi)
+ax:=coeffX('a,sin,0..%pi)
+
+fourierPartialSum(3,sin,0..%pi)
+fourierPartialSum(3,sin,-%pi/2..%pi/2)
+
+fourierPartialSumX(N,sin,0..2*%pi)
 
 
-coeffa(n:NNI,f:X->X,s:Segment OCX):U ==
-  p:X:=hi(s)::X - lo(s)::X
-  c:X:=2/p
-  d:X:=(pi()$X*n/p)
-  integrate(f(t)*cos(d*t),equation('t,s))$Z
-      
-      
---coeffa(34,sin,a..b).f1
-
-f:=(x:X):X+->1/(1+x^2)
---coeffa(2,f,1..2)
---coeffa(2,f,a..b)
-
-coeffan(n:X,g:X->X,s:Segment OCX):U ==
-  p:X:=retract(hi(s)::OCX - lo(s)::OCX)
-  c:X:=2/p
-  d:X:=(pi()$X*n/p)
-  integrate(g(t)*cos(d*t),equation('t,s),"noPole")$Z
-  
-a(n) == coeffan(n,f,1..2)

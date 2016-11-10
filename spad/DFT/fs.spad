@@ -17,8 +17,22 @@ FSeries () : Exports == Implementation where
   Exports == with
   
     coeff    : (Symbol, NNI,X->X, Segment OCX) -> U
+      ++ coeff('a,n,f,u..v) calculates the Fourier coefficient a_n of the
+      ++ function f on the interval [u,v]. Use 'b instead of 'a to get the
+      ++ coeffcient b_n.
     coeffFun : (Symbol, X->X, Segment OCX) -> (NNI -> X)
+      ++ coeffFun('a,f,u..v) provides a function defined on the negative
+      ++ integers which in turn gives the coeffcients a_i. That is for 
+      ++ instance: a:=coeff('a,n,f,u..v) => a(m)=a_m.
     coeffX   : (Symbol, X->X, Segment OCX) -> X
+      ++ coeffX('a,f,u..v) returns the coefficient a_n as an expression,
+      ++ that means with parameter n (which must not occur in f!).
+    fourierPartialSum  : (N:NNI, X->X, Segment OCX) -> X
+      ++ fourierPartialSum(10,f,u..v) gives the partial sum of the Fourier
+      ++ series of f, that is a_0/2+ the first ten terms.
+    fourierPartialSumX  : (N:X,   X->X, Segment OCX) -> X
+      ++ fourierPartialSumX(N,f,u..v) returns the partial sum up to N as a
+      ++ formal sum 1..N.
     
   Implementation  == add
 
@@ -73,3 +87,32 @@ FSeries () : Exports == Implementation where
         y:X:=c*f(x)*sin(2*d*x)
       res:U:=integrate(y,sb,"noPole")$Z
       res case f1 => retract(res.f1)$OCX
+      
+    fourierPartialSum(N:NNI,f:X->X,s:Segment OCX):X ==
+      lb:X:=retract(lo(s)::OCX)
+      ub:X:=retract(hi(s)::OCX)
+      p:X:=ub-lb
+      a0:X:=retract(coeff('a,0::NNI,f,s).f1)
+      n:X:=coerce('n)$X
+      x:X:=coerce('x)$X
+      sb:SegmentBinding X:=equation('n,segment(1::X,N::X))
+      s0:X:=a0/2::X 
+      s1:X:=sum(coeffX('a,f,s)*cos(pi()$X*n/p*x),sb)$FunctionSpaceSum(INT,X)
+      s2:X:=sum(coeffX('b,f,s)*sin(pi()$X*n/p*x),sb)$FunctionSpaceSum(INT,X)
+      s0+s1+s2
+
+
+    fourierPartialSumX(N:X,f:X->X,s:Segment OCX):X ==
+      lb:X:=retract(lo(s)::OCX)
+      ub:X:=retract(hi(s)::OCX)
+      p:X:=ub-lb
+      a0:X:=retract(coeff('a,0::NNI,f,s).f1)
+      n:X:=coerce('n)$X
+      x:X:=coerce('x)$X
+      sb:SegmentBinding X:=equation('n,segment(1::X,N))
+      s0:X:=a0/2::X 
+      s1:X:=sum(coeffX('a,f,s)*cos(pi()$X*n/p*x),sb)$FunctionSpaceSum(INT,X)
+      s2:X:=sum(coeffX('b,f,s)*sin(pi()$X*n/p*x),sb)$FunctionSpaceSum(INT,X)
+      s0+s1+s2
+      
+      
