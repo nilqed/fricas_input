@@ -1,0 +1,58 @@
+)abbrev package FOURIER Fourier
+++ Author: Kurt Pagani
+++ Date Created: Sat Nov 12 01:18:13 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+Fourier() : Exports == Implementation where
+  
+  INT ==> Integer
+  SYM ==> Symbol
+  CI  ==> Complex INT
+  XCI ==> Expression CI
+  XI  ==> Expression INT
+  
+  SBX ==> SegmentBinding XCI
+  
+  Exports ==  with
+     
+	coeff : (SYM,XCI,SBX) -> XCI
+	
+	fourierSum : (SYM,XCI,SBX) -> XCI
+	
+  Implementation ==  add 
+    
+    coeff(n,f,sb) ==
+      n:XCI:=coerce(n)$XCI
+      xs:SYM:=variable(sb)
+      x:XCI:=coerce(xs)$XCI
+      c:XCI:=c:XCI:=coerce(2)$XCI*coerce(complex(0,1))$XCI*pi()$XCI
+      s:Segment(XCI):=segment(sb)
+      a:XCI:=lo s
+      b:XCI:=hi s
+      r:XCI:=f*exp(-c*x*n/(b-a)) 
+      I1:XCI:=complexIntegrate(r,xs)$FunctionSpaceComplexIntegration(CI,XCI)
+      (eval(I1,x=b)-eval(I1,x=a))/(b-a)
+      
+-- eval(coeff('n,sin(x),x=0..%pi),n=0)      
+      
+    fourierSum(N,f,sb) ==
+      N:XCI:=coerce(N)$XCI
+      n:XCI:=coerce('n)$XCI
+      xs:SYM:=variable(sb)
+      x:XCI:=coerce(xs)$XCI
+      c:XCI:=c:XCI:=coerce(2)$XCI*coerce(complex(0,1))$XCI*pi()$XCI
+      s:Segment(XCI):=segment(sb)
+      a:XCI:=lo s
+      b:XCI:=hi s
+      r:XCI:=exp(c*x*n/(b-a))
+      cr:XCI:=coeff('n,f,sb)
+      sbr:SBX:=equation('n,segment(-N,N))
+      sum(cr*r,sbr)$FunctionSpaceSum(CI,XCI)
+      
+--  fourierSum('N,sin(z),z=0..%pi)
+--   eval(%,N=2)
+
+-- fourierSum('N,1/(1+z^2),z=0..%pi)
+-- sixel %

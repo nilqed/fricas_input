@@ -1,5 +1,7 @@
 )co fs
 
+X ==> Expression Integer
+
 coeff('a,1,sin,0..%pi)  -- forget it! Neeeds to much time for big n
 a:=coeffFun('a,sin,0..%pi)
 ax:=coeffX('a,sin,0..%pi)
@@ -10,3 +12,5 @@ fourierPartialSum(3,sin,-%pi/2..%pi/2)
 fourierPartialSumX(N,sin,0..2*%pi)
 
 
+f1:=(x:X):X+-> x
+fourierPartialSum(3,f1,-%pi..%pi)
