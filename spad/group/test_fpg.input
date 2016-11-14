@@ -1,5 +1,26 @@
 )co fpg
 
+
+-- FreeGroup
+F:=FPG([x,y,z],[])
+F has Group
+[x,y,z]:=generators()$F
+
+-- Heisenberg group
+HG:=fpGroup([z=x*y*inv(x)*inv(y),x*z=z*x,y*z=z*y])$F
+HG has Group
+[x,y,z]:=generators()$HG
+x^2*y*inv(z)
+x^(-2)*y
+y:=x^6*y^(-2)
+
+free?()$HG
+factors(y)$HG
+factors(inv y)$HG
+
+
+)if false
+
 FG:=FPG([a,b,c],[])
 fg:=generators()$FG
 G:=fpGroup([fg.1=fg.3])$FG
@@ -19,3 +40,4 @@ FG2:=FreeGroup OVAR L
 fg2:=[coerce(s)$FG2 for s in enumerate()$OVAR(L)]
 LL:=[retract(s)$FG2 for s in fg2]
 
+)endif

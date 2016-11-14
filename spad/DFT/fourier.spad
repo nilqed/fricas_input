@@ -14,12 +14,15 @@ Fourier() : Exports == Implementation where
   XI  ==> Expression INT
   
   SBX ==> SegmentBinding XCI
+  LAP ==> LaplaceTransform(CI,XCI)
   
   Exports ==  with
      
 	coeff : (SYM,XCI,SBX) -> XCI
 	
 	fourierSum : (SYM,XCI,SBX) -> XCI
+	
+	fourierTransform : (XCI,SYM,SYM) -> XCI
 	
   Implementation ==  add 
     
@@ -56,3 +59,9 @@ Fourier() : Exports == Implementation where
 
 -- fourierSum('N,1/(1+z^2),z=0..%pi)
 -- sixel %
+
+    fourierTransform(f,x,k) ==
+      A:XCI:=eval(laplace(f,x,k)$LAP,coerce(k)$XCI=complex(0,1)*coerce(k)$XCI)
+      fr:=subst(f,coerce(x)$XCI=-coerce(x)$XCI)
+      B:XCI:=eval(laplace(fr,x,k)$LAP,coerce(k)$XCI=complex(0,-1)*coerce(k)$XCI)
+      (A+B)/sqrt(2*pi()$XCI)
