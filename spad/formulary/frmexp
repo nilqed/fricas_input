@@ -1,0 +1,26 @@
+)abbrev domain FormalExpression FormalExpression
+++ Author: Kurt Pagani
+++ Date Created: Mon Nov 14 22:40:38 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+FormalExpression() : Exports == Implementation where
+  
+  --optional type declarations, e.g.
+  --PINT   ==> Polynomial(Integer)
+  --SBPINT ==> SegmentBinding(PINT)
+  
+  Exports == Join(CoercibleTo OutputForm, ConvertibleTo String) with
+    
+    --list of exported operations, e.g.
+    --coerce : % -> OutputForm
+	
+	
+  Implementation ==  add 
+
+    Rep := 
+    
+    --list of function definitions for exported operations
+   
+ 
