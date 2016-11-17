@@ -1,0 +1,139 @@
+)abbrev domain SYMB Symbolic
+++ Bill Page: https://github.com/billpage/fricas/src/algebra/symbolic.spad
+Symbolic(F:Join(Comparable,ConvertibleTo(InputForm))):Join(Comparable,ConvertibleTo(InputForm)) with
+    if F has Ring then
+      Ring
+      -- maybe should come from Field?
+      _/ : (%,%) -> %
+      -- operations not already defined in InputForm
+      _^: (%,%) -> %
+      _-: (%,%) -> %
+    -- conversions
+    convert: % -> F
+    coerce: F -> %
+    convert: Symbol -> %
+    coerce: Pi -> % 
+    -- Expression etc.
+    if F has FunctionSpace(Integer) or F has FunctionSpace(Float) then
+      -- Elementary Functions
+      acos : % -> %
+      acosh : % -> %
+      acot : % -> %
+      acoth : % -> %
+      acsc : % -> %
+      acsch : % -> %
+      asec : % -> %
+      asech : % -> %
+      asin : % -> %
+      asinh : % -> %
+      atan : % -> %
+      atanh : % -> %
+      cos : % -> %
+      cosh : % -> %
+      cot : % -> %
+      coth : % -> %
+      csc : % -> %
+      csch : % -> %
+      exp : % -> %
+      log : % -> %
+      sec : % -> %
+      sech : % -> %
+      sin : % -> %
+      sinh : % -> %
+      sqrt : % -> %
+      tan : % -> %
+      tanh : % -> %
+      
+      --sum : (%,SegmentBinding(%)) -> %
+      
+    -- transformations
+    simplify : % -> %
+  == InputForm add
+    Rep := InputForm
+    (x:% ^ y:%):% == binary(convert('_^),[x::Rep,y::Rep])$InputForm
+    (x:% ^ y:PositiveInteger):% ==
+      binary(convert('_^),[x::Rep,y::Rep])$InputForm
+    (x:% ^ y:NonNegativeInteger):% ==
+      binary(convert('_^),[x::Rep,y::Rep])$InputForm
+    -- don't want InputForm +0 and *1 autosimplification
+    (x:% + y:%):% == binary(convert('_+),[x::Rep,y::Rep])$InputForm
+    (x:% - y:%):% == binary(convert('_-),[x::Rep,y::Rep])$InputForm
+    (x:% * y:%):% == binary(convert('_*),[x::Rep,y::Rep])$InputForm
+    (x:% / y:%):% == binary(convert('_/),[x::Rep,y::Rep])$InputForm
+    (x:Integer * y:%):% == convert(x)@InputForm * y
+    _-(x:%):% == convert([convert('_-)@InputForm,x::Rep])
+    -- +0 is a hack to avoid premature conversion
+    hack(x:%):Rep == binary(convert('_+),[x::Rep,0::Rep])$InputForm
+    -- Do this instead of defining a package forall R:Comparable, FunctionSpace(R)
+    if F has FunctionSpace(Integer)
+    or F has FunctionSpace(DoubleFloat)
+    or F has FunctionSpace(Float) then
+      convert(x:%):F ==
+        interpret(x::Rep)$InputFormFunctions1(F)
+      -- use equality from Expression(F)
+      (x:% = y:%):Boolean ==
+        interpret(hack(x))$InputFormFunctions1(F) = interpret(hack(y))$InputFormFunctions1(F)
+
+      if F has TranscendentalFunctionCategory then
+        if F has FunctionSpace(Integer) then
+          simplify(x:%):% ==
+            convert(simplify(
+              interpret(hack(x))$InputFormFunctions1(F)
+                )$TranscendentalManipulations(Integer,F) )
+        if F has FunctionSpace(Float) then
+          simplify(x:%):% ==
+            convert(simplify(
+              interpret(hack(x))$InputFormFunctions1(F)
+                )$TranscendentalManipulations(Float,F) )
+        if F has FunctionSpace(DoubleFloat) then
+          simplify(x:%):% ==
+            convert(simplify(
+              interpret(hack(x))$InputFormFunctions1(F)
+                )$TranscendentalManipulations(DoubleFloat,F) )
+      else
+        simplify(x:%):% ==
+          convert( interpret(hack(x))$InputFormFunctions1(F) )
+
+      -- Elementary Functions
+      acos(x:%):% == convert([convert('acos)@InputForm,x::Rep])
+      acosh(x:%):% == convert([convert('acosh)@InputForm,x::Rep])
+      acot(x:%):% == convert([convert('acot)@InputForm,x::Rep])
+      acoth(x:%):% == convert([convert('acoth)@InputForm,x::Rep])
+      acsc(x:%):% == convert([convert('acsc)@InputForm,x::Rep])
+      acsch(x:%):% == convert([convert('acsch)@InputForm,x::Rep])
+      asec(x:%):% == convert([convert('asec)@InputForm,x::Rep])
+      asech(x:%):% == convert([convert('asech)@InputForm,x::Rep])
+      asin(x:%):% == convert([convert('asin)@InputForm,x::Rep])
+      asinh(x:%):% == convert([convert('asinh)@InputForm,x::Rep])
+      atan(x:%):% == convert([convert('atan)@InputForm,x::Rep])
+      atanh(x:%):% == convert([convert('atanh)@InputForm,x::Rep])
+      cos(x:%):% == convert([convert('cos)@InputForm,x::Rep])
+      cosh(x:%):% == convert([convert('cosh)@InputForm,x::Rep])
+      cot(x:%):% == convert([convert('cot)@InputForm,x::Rep])
+      coth(x:%):% == convert([convert('coth)@InputForm,x::Rep])
+      csc(x:%):% == convert([convert('csc)@InputForm,x::Rep])
+      csch(x:%):% == convert([convert('csch)@InputForm,x::Rep])
+      exp(x:%):% == convert([convert('exp)@InputForm,x::Rep])
+      log(x:%):% == convert([convert('log)@InputForm,x::Rep])
+      pi():% == convert([convert('pi)@InputForm])
+      sec(x:%):% == convert([convert('sec)@InputForm,x::Rep])
+      sech(x:%):% == convert([convert('sech)@InputForm,x::Rep])
+      sin(x:%):% == convert([convert('sin)@InputForm,x::Rep])
+      sinh(x:%):% == convert([convert('sinh)@InputForm,x::Rep])
+      sqrt(x:%):% == convert([convert('sqrt)@InputForm,x::Rep])
+      tan(x:%):% == convert([convert('tan)@InputForm,x::Rep])
+      tanh(x:%):% == convert([convert('tanh)@InputForm,x::Rep])
+      
+      --sum(x,sb) == convert([convert('sum)@InputForm,x::Rep,sb])
+      
+    else
+      simplify(x:%):% ==
+        convert(interpret(hack(x))$InputFormFunctions1(Expression F))
+      (x:% = y:%):Boolean ==
+        interpret(hack(x))$InputFormFunctions1(Expression F) = interpret(hack(y))$InputFormFunctions1(Expression F)
+      convert(x:%):F ==
+        retract(interpret(hack(x))$InputFormFunctions1(Expression F))
+    convert(x:Symbol):% == convert(x)@InputForm
+    coerce(x:Pi):% == convert(x)@InputForm
+    coerce(x:%):OutputForm == x pretend OutputForm -- message unparse(x)
+    coerce(x:F):% == convert(x)@InputForm
