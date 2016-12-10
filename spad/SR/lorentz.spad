@@ -1,0 +1,55 @@
+)abbrev package LT LorentzTransformation
+++ Author: Kurt Pagani
+++ Date Created: Mon Dec 05 03:42:25 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+LorentzTransformation() : Exports == Implementation where
+  
+  X ==> Expression Integer
+  
+  Exports ==  with
+    
+    eta : () -> Matrix X
+    fourVector : (X,X,X,X) -> Vector X
+    beta : (X,X,X) -> X
+    gamma : (X,X,X) -> X
+    boost : (X,X,X) -> Matrix X
+    --coerce : % -> OutputForm
+	
+	
+  Implementation ==  add 
+    
+    eta() == matrix [[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,-1]]
+    
+    fourVector(x0,x1,x2,x3) == vector [x0,x1,x2,x3]
+    
+    beta(v1,v2,v3) == 
+      c:X:=coerce('c)$X
+      v:Vector X := vector [v1,v2,v3]
+      sqrt(dot(v,v))/c
+      
+    gamma(v1,v2,v3) == 1/sqrt(1-beta(v1,v2,v3)^2)
+     
+    boost(v1,v2,v3) == 
+      b:X:=beta(v1,v2,v3)
+      g:X:=gamma(v1,v2,v3)
+      c:X:=coerce('c)$X
+      n1:X:=v1/(b*c)
+      n2:X:=v2/(b*c)
+      n3:X:=v3/(b*c)
+      r1:X:= vector [g,-g*b*n1,-g*b*n2,-g*b*n3]
+      --r2:= [-g*b*n1,1+(g-1)*n1^2,(g-1)*n1*n2,(g-1)*n1*n3]
+      --r3:= [-g*b*n2,(g-1)*n1*n2,1+(g-1)*n2^2,(g-1)*n2*n3]
+      --r4:= [-g*b*n3,(g-1)*n1*n3,(g-1)*n2*n3,1+(g-1))*n3^2]
+      M:Matrix X := matrix [r1::Vector X,r1,r1,r1]
+
+
+
+
+
+              
+  
+    
+                    

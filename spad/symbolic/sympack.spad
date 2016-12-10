@@ -1,0 +1,55 @@
+)abbrev package SYMPACK SymbolicPackage
+++ Author: Kurt Pagani
+++ Date Created: Sat Dec 10 03:15:27 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+SymbolicPackage() : Exports == Implementation where
+  
+  --optional type declarations, e.g.
+  --PINT   ==> Polynomial(Integer)
+  --SBPINT ==> SegmentBinding(PINT)
+  OUT ==> OutputForm
+  INP ==> InputForm
+  SEX ==> SExpression
+  
+  Exports ==  with
+    
+    coerce : OUT -> INP
+    coerce : INP -> OUT
+   
+    var : Symbol -> OUT
+    
+    check  : (OUT,Symbol) -> Boolean
+    kindOf : OUT -> Symbol
+
+    lhs : OUT -> OUT
+    rhs : OUT -> OUT
+    sup : OUT -> OUT
+    sub : OUT -> OUT
+	
+  Implementation ==  OutputForm add 
+
+    noop := '?::OutputForm
+
+    coerce(x:OUT):INP == x pretend INP
+    coerce(x:INP):OUT == x pretend OUT
+   
+    var(s:Symbol):OUT == s::OUT
+    -- binomial(var 'm,var 'n)
+    
+    check(x:OUT,s:Symbol):Boolean ==
+      test((coerce x).1 = convert(s)$Symbol)  
+
+    kindOf(x:OUT):Symbol ==
+      atom?(coerce x) => convert('ATOM)$Symbol
+      symbol((coerce x).1)
+ 
+    lhs(x:OUT):OUT == 
+      s:=kindOf x
+      s = 'ATOM => noop
+      s = 'LET => coerce (coerce x).2
+      noop
+      
+    

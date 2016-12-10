@@ -1,0 +1,36 @@
+R ==> EXPR INT
+
+e:=[subscript('e, [k]) for k in 1..3]
+g:=[subscript('g, [k]) for k in 1..4]
+h:=[superscript('h, [k]) for k in 1..4]
+
+B1:=OrderedVariableList e
+B2:=OrderedVariableList g 
+B3:=OrderedVariableList h 
+
+M1:=FreeModule(R,B1)
+M2:=FreeModule(R,B2)
+M3:=FreeModule(R,B3)
+
+M12:=TensorProduct(R,B1,B2,M1,M2)
+M23:=TensorProduct(R,B2,B3,M2,M3)
+M123:=TensorProduct(R,Product(B1,B2),B3,M12,M3)
+
+v1:=x*(e.1)::M1 - y*(e.3)::M1
+v2:=q*(g.2)::M2 + r*(g.4)::M2
+v3:=3*(h.1)::M3 - z*(h.3)::M3
+
+t12:=tensor(v1,v2)$M12
+t23:=tensor(v2,v3)$M23
+
+t123:=tensor(t12,v3)$M123
+
+N:=TensorPower(3,R,B2,M2)
+tt3:=tensor([(g.1)::M2,(g.2)::M2,(g.4)::M2])$N
+
+-- 
+
+construct(e.1,g.1)$Product(B1,B2)::M12
+BB12:=concat [[construct((e.i)::B1,(g.j)::B2)$Product(B1,B2)::M12 for j in 1..4] for i in 1..3]
+
+typeOf(%) has OrderedSet
