@@ -2,13 +2,6 @@
 ++ Author: Kurt Pagani
 ++ Date Created: Sat Dec 26 03:08:58 CET 2015
 ++ License: BSD
-++ Date Last Updated:
-++ Basic Operations: 
-++ Related Domains: 
-++ Keywords: 
-++ Examples:
-++ References:
-++
 ++ Description:
 ++ An ordered basis is also called a frame.
 ++
@@ -25,6 +18,10 @@ FrameVector(R,s,r) : Exports == Implementation where
   Exports == Join(CoercibleTo OutputForm, VectorSpace R) with
     
     getFrame : () -> List(%)
+    frameSymbol : () -> Symbol
+    frameSymbol : % -> Symbol
+    frameSegment : () -> Segment(NonNegativeInteger)
+    frameSegment : % -> Segment(NonNegativeInteger)
     dim : % -> NNI
     coerce : % -> OutputForm
     coerce : % -> Vector R
@@ -46,6 +43,10 @@ FrameVector(R,s,r) : Exports == Implementation where
     dim(x) == #L
     
     getFrame() == [L.j::Rep for j in lo(r)..hi(r)]
+    frameSymbol() == s
+    frameSymbol(v) == s
+    frameSegment() == r
+    frameSegment(v) == r
     
     coerce(x:%):OF == coerce(rep(x))$Rep
     
