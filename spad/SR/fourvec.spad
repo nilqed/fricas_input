@@ -1,9 +1,16 @@
+)lisp (setq |$inclAssertions| nil)
 )abbrev domain FOURVEC FourVector
 ++ Author: Kurt Pagani
 ++ Date Created: Sat Dec 10 20:06:32 CET 2016
 ++ License: BSD
 ++ References:
 ++ Description:
+++ Reference:
+++ -- https://en.wikipedia.org/wiki/Four-vector#Four-vector_algebra
+++ -- https://en.wikipedia.org/wiki/Lorentz_transformation
+++ -- https://en.wikipedia.org/wiki/Rotation_matrix
+++ -- http://web.hep.uiuc.edu/home/serrede/P436/Lecture_Notes/P436_Lect_16.pdf
+++ -- http://fricas.github.io/api/TranscendentalManipulations.html?highlight=simplify
 ++
 FourVector() : Exports == Implementation where
   
@@ -55,7 +62,7 @@ LorentzTransformation() : Exports == Implementation where
   Col ==> Vector K
   
   
-  Exports == Join(CoercibleTo OutputForm, MatrixCategory(K, Row, Col)) with
+  Exports == Join(CoercibleTo OutputForm, MatrixCategory(K, Row, Col),Group) with
     
     eta :  () -> %
     beta : Vector K -> K
@@ -65,11 +72,13 @@ LorentzTransformation() : Exports == Implementation where
 
     _* : (%,FourVector) -> FourVector
 
+    inv : % -> %
     simp: % -> %
 	
   Implementation == Matrix(K) add 
 
     Rep :=Matrix(K)
+    
     eta() == matrix([[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,-1]])
 
     beta(v:Vector K):K == sqrt(dot(v,v))/coerce('c)$K
@@ -107,12 +116,18 @@ LorentzTransformation() : Exports == Implementation where
     (L:%) * (v:FourVector) == 
       convert(entries(L*vector(v::List K)))$FourVector
 
+    inv(L:%):% == 
+      IL:Union(%,"failed"):=inverse(L)
+      IL case "failed" ==> error "???"
+      IL case % => IL
+
     simp(L:%):% ==
       map((x:K):K+->simplify(x)$TranscendentalManipulations(Integer,K),L)
 
+)if false
 -- example: B1:=boost(vector [b*c,0,0])
---          u:=fourVector [c*t,x,y,z]
---          dot(A,(eta()*A)) = u*u
+--          u:=fourVector(c*t,x,y,z)
+--          dot(u,(eta()*u)) = u*u  -> true
 --          IB1:=boost(vector [-b*c,0,0]) = inverse B1
 -- use simp to simplify:
 --          simp ( inverse(B1)- IB1)
@@ -120,3 +135,7 @@ LorentzTransformation() : Exports == Implementation where
 --
 -- rotation: R:=rotation([1,0,0],%pi)
 -- R*u = [c*t,x,-y,t]
+
+
+)endif
+
