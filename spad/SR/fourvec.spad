@@ -1,0 +1,122 @@
+)abbrev domain FOURVEC FourVector
+++ Author: Kurt Pagani
+++ Date Created: Sat Dec 10 20:06:32 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+FourVector() : Exports == Implementation where
+  
+  K   ==> Expression Integer
+  NNI ==> NonNegativeInteger
+  
+  Exports == Join(CoercibleTo OutputForm, VectorCategory K) with
+    
+    coerce  : % -> OutputForm
+    coerce  : % -> List K
+    convert : List K -> %
+    
+    fourVector: (K,K,K,K) -> %
+    
+    _* : (%,%) -> K
+    
+    
+
+	
+  Implementation ==  IndexedVector(K,0)  add 
+
+    import from List(K)
+    
+    Qelt1 ==> QAREF1O$Lisp
+    Qsetelt1 ==> QSETAREF1O$Lisp
+
+    qelt(x, i) == Qelt1(x, i, 0)
+    qsetelt!(x, i, s) == Qsetelt1(x, i, s, 0)
+    
+    fourVector(t,x,y,z) == construct [t,x,y,z]
+    
+    (u:% * v:%):K == (u.0*v.0)-(u.1*v.1)-(u.2*v.2)-(u.3*v.3) 
+
+    coerce(u:%):List K == [u.0,u.1,u.2,u.3]
+    
+    convert(l:List K):% == construct l
+
+)abbrev domain LOTRA LorentzTransformation
+++ Author: Kurt Pagani
+++ Date Created: Sat Dec 10 23:01:44 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+LorentzTransformation() : Exports == Implementation where
+  
+  K   ==> Expression Integer
+  Row ==> Vector K
+  Col ==> Vector K
+  
+  
+  Exports == Join(CoercibleTo OutputForm, MatrixCategory(K, Row, Col)) with
+    
+    eta :  () -> %
+    beta : Vector K -> K
+    gamma : Vector K -> K
+    boost : Vector K -> %
+    rotation : (Vector K,K) -> %
+
+    _* : (%,FourVector) -> FourVector
+
+    simp: % -> %
+	
+  Implementation == Matrix(K) add 
+
+    Rep :=Matrix(K)
+    eta() == matrix([[1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,-1]])
+
+    beta(v:Vector K):K == sqrt(dot(v,v))/coerce('c)$K
+    
+    gamma(v:Vector K):K == 1/sqrt(1-beta(v)^2)
+
+    boost(v:Vector K):% ==
+      not(#v=3) => error "3-vector expected."
+      dot(v,v)=0 => diagonalMatrix [1,1,1,1::K]
+      b:K:=beta v
+      g:K:=gamma v
+      q:K:=1/sqrt(dot(v,v))
+      n:Vector K:=q*v
+      r1:List K:= [g,-g*b*n.1,-g*b*n.2,-g*b*n.3]
+      r2:List K:= [-g*b*n.1,1+(g-1)*n.1^2,(g-1)*n.1*n.2,(g-1)*n.1*n.3]
+      r3:List K:= [-g*b*n.2,(g-1)*n.1*n.2,1+(g-1)*n.2^2,(g-1)*n.2*n.3]
+      r4:List K:= [-g*b*n.3,(g-1)*n.1*n.3,(g-1)*n.2*n.3,1+(g-1)*n.3^2]
+      matrix [r1,r2,r3,r4]
+
+    rotation(w:Vector K, th:K):% ==
+      not(#w=3) => error "3-vector expected."
+      dot(w,w)=0 => error "Cannot rotate about zero vector"
+      th=0 => diagonalMatrix [1,1,1,1::K]
+      if not(dot(w,w)=1) then
+        w:=1/sqrt(dot(w,w))*w
+      C:K:=cos(th)
+      S:K:=sin(th)
+      r1:List K:= [1,0,0,0]
+      r2:List K:= [0,C+w.1^2*(1-C),w.1*w.2*(1-C)-w.3*S,w.1*w.3*(1-C)+w.2*S]
+      r3:List K:= [0,w.1*w.2*(1-C)+w.3*S,C+w.2^2*(1-C),w.2*w.3*(1-C)-w.1*S]
+      r4:List K:= [0,w.1*w.3*(1-C)-w.2*S,w.2*w.3*(1-C)+w.1*S,C+w.3^2*(1-C)]
+      matrix [r1,r2,r3,r1]
+
+ 
+    (L:%) * (v:FourVector) == 
+      convert(entries(L*vector(v::List K)))$FourVector
+
+    simp(L:%):% ==
+      map((x:K):K+->simplify(x)$TranscendentalManipulations(Integer,K),L)
+
+-- example: B1:=boost(vector [b*c,0,0])
+--          u:=fourVector [c*t,x,y,z]
+--          dot(A,(eta()*A)) = u*u
+--          IB1:=boost(vector [-b*c,0,0]) = inverse B1
+-- use simp to simplify:
+--          simp ( inverse(B1)- IB1)
+--          simp ( B1 * IB1 )
+--
+-- rotation: R:=rotation([1,0,0],%pi)
+-- R*u = [c*t,x,-y,t]
