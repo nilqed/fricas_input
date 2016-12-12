@@ -2,16 +2,20 @@
 )abbrev domain FOURVEC FourVector
 ++ Author: Kurt Pagani
 ++ Date Created: Sat Dec 10 20:06:32 CET 2016
-++ License: BSD
-++ References:
-++ Description:
-++ Reference:
-++ -- https://en.wikipedia.org/wiki/Four-vector#Four-vector_algebra
-++ -- https://en.wikipedia.org/wiki/Lorentz_transformation
-++ -- https://en.wikipedia.org/wiki/Rotation_matrix
-++ -- http://web.hep.uiuc.edu/home/serrede/P436/Lecture_Notes/P436_Lect_16.pdf
-++ -- http://fricas.github.io/api/TranscendentalManipulations.html?highlight=simplify
-++
+++ License: FriCAS/BSD
+++ References: https://en.wikipedia.org/wiki/Four-vector
+++ Description: In special relativity, a four-vector (also known as a 4-vector)
+++   is an object with four components, that transforms in a specific way under 
+++   Lorentz transformations (see next domain below: LorentzTransformation). 
+++   Four vectors are implemented here as IndexedVector(K,0), where K is the
+++   "field" Expression(Integer). The general form is X:=[x0,x1,x2,x3], thar is 
+++   each component has type K. Note that indexing starts at "0", so that we
+++   have X.0=x0,...,X.3=x3, as it is custom in the literature.
+++   Four vectors form a real vector space with a (pseudo-) scalar product:
+++           X*Y = X.0 * Y.0 - X.1 * Y.1 - X.2 * Y.2 - X.3 * Y.3.
+++   However, on technical reasons this type does not inherit from VectorSpace,
+++   but from VectorCategory K (thus all vector operations are available).
+++  
 FourVector() : Exports == Implementation where
   
   K   ==> Expression Integer
@@ -27,8 +31,6 @@ FourVector() : Exports == Implementation where
     
     _* : (%,%) -> K
     
-    
-
 	
   Implementation ==  IndexedVector(K,0)  add 
 
@@ -44,16 +46,30 @@ FourVector() : Exports == Implementation where
     
     (u:% * v:%):K == (u.0*v.0)-(u.1*v.1)-(u.2*v.2)-(u.3*v.3) 
 
+    Zero():% == construct([0,0,0,0]::List K)
+
     coerce(u:%):List K == [u.0,u.1,u.2,u.3]
     
     convert(l:List K):% == construct l
 
+
 )abbrev domain LOTRA LorentzTransformation
 ++ Author: Kurt Pagani
 ++ Date Created: Sat Dec 10 23:01:44 CET 2016
-++ License: BSD
-++ References:
-++ Description:
+++ License: FriCAS/BSD
+++ References: https://en.wikipedia.org/wiki/Lorentz_transformation
+++   https://en.wikipedia.org/wiki/Rotation_matrix
+++   http://fricas.github.io/api/TranscendentalManipulations.html
+++ Description: The type LorentzTransformation comprises 4x4 matrices
+++   from MatrixCategory(K, Row, Col), where K=Expression(Integer). 
+++   There are constructors for boosts in any direction as well as space 
+++   rotations with ange theta about a given unit vector and some others.
+++   Moreover: LorentzTransformation has Group -> true, where "1" is the
+++   unit diagonal matrix and "inv" the inverse. The Minkowski matrix is
+++   implemented by "eta()". Furthermore: 
+++              LorentzMatrix * FourVector = FourVector.
+++   There is a simplifier "simp" because the group operations may result
+++   in unsimplified expressions. See the ref: TranscendentalManipulations.
 ++
 LorentzTransformation() : Exports == Implementation where
   
@@ -65,15 +81,27 @@ LorentzTransformation() : Exports == Implementation where
   Exports == Join(CoercibleTo OutputForm, MatrixCategory(K, Row, Col),Group) with
     
     eta :  () -> %
+      ++ eta() returns the 4x4 Minkowski matrix with signature [+,-,-,-], i.e.
+      ++ diagonalMatrix(1,-1,-1,-1).      
     beta : Vector K -> K
+      ++ beta([v1,v2,v3]) calculates v/c, where v:=sqrt(v1^2+v2^2+v3^2).
     gamma : Vector K -> K
+      ++ gamma([v1,v2,v3]) returns the Lorentz factor 1/sqrt(1-beta(v)^2).
     boost : Vector K -> %
+      ++ boost([v1,v2,v3]) 
     rotation : (Vector K,K) -> %
-
+      ++ rotation([v1,v2,v3])
     _* : (%,FourVector) -> FourVector
-
+      ++ Scalar product u*u of two FourVectors, equivalent to dot(u,eta()*u).
+    One : () -> %
+      ++ One() is the unit element of the group.
     inv : % -> %
+      ++ inv(L) computes the (group)inverse element.
     simp: % -> %
+      ++ simp(L) simplifies the matrix L by simplifying each entry.
+    coerce : % -> Matrix K
+      ++ coerce(L) coerce a LorentzTransformation to the matrix type 
+      ++ Matrix(Expression Integer).
 	
   Implementation == Matrix(K) add 
 
@@ -116,10 +144,14 @@ LorentzTransformation() : Exports == Implementation where
     (L:%) * (v:FourVector) == 
       convert(entries(L*vector(v::List K)))$FourVector
 
+    coerce(L:%):Matrix K == L::Rep
+
+    One():% == diagonalMatrix([1,1,1,1::K]) 
+
     inv(L:%):% == 
-      IL:Union(%,"failed"):=inverse(L)
+      IL:Union(Matrix(K),"failed"):=inverse(L::Matrix K)$Matrix(K)
       IL case "failed" ==> error "???"
-      IL case % => IL
+      coerce(IL)
 
     simp(L:%):% ==
       map((x:K):K+->simplify(x)$TranscendentalManipulations(Integer,K),L)
