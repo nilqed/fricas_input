@@ -13,7 +13,7 @@
 ++   have X.0=x0,...,X.3=x3, as it is custom in the literature.
 ++   Four vectors form a real vector space with a (pseudo-) scalar product:
 ++           X*Y = X.0 * Y.0 - X.1 * Y.1 - X.2 * Y.2 - X.3 * Y.3.
-++   However, on technical reasons this type does not inherit from VectorSpace,
+++   However, for technical reasons this type does not inherit from VectorSpace,
 ++   but from VectorCategory K (thus all vector operations are available).
 ++  
 FourVector() : Exports == Implementation where
@@ -24,12 +24,15 @@ FourVector() : Exports == Implementation where
   Exports == Join(CoercibleTo OutputForm, VectorCategory K) with
     
     coerce  : % -> OutputForm
+      ++ coerce(u) coerces u to output form.
     coerce  : % -> List K
+      ++ coerce(u) coerces to a list.
     convert : List K -> %
-    
+      ++ convert(u) converts a list of four elements to a four vector,
     fourVector: (K,K,K,K) -> %
-    
+      ++ fourVector(x0,x1,x2,x3) creates a four vector.
     _* : (%,%) -> K
+      ++ u*v computes the scalar quantity u.0*v.0-u.1*v.1-u.2*v.2-u.3*v.3.
     
 	
   Implementation ==  IndexedVector(K,0)  add 
@@ -62,8 +65,8 @@ FourVector() : Exports == Implementation where
 ++   http://fricas.github.io/api/TranscendentalManipulations.html
 ++ Description: The type LorentzTransformation comprises 4x4 matrices
 ++   from MatrixCategory(K, Row, Col), where K=Expression(Integer). 
-++   There are constructors for boosts in any direction as well as space 
-++   rotations with ange theta about a given unit vector and some others.
+++   There are constructors for "boosts" in any direction as well as space 
+++   rotations with angle "theta" about a given unit vector and some more.
 ++   Moreover: LorentzTransformation has Group -> true, where "1" is the
 ++   unit diagonal matrix and "inv" the inverse. The Minkowski matrix is
 ++   implemented by "eta()". Furthermore: 
@@ -76,8 +79,7 @@ LorentzTransformation() : Exports == Implementation where
   K   ==> Expression Integer
   Row ==> Vector K
   Col ==> Vector K
-  
-  
+   
   Exports == Join(CoercibleTo OutputForm, MatrixCategory(K, Row, Col),Group) with
     
     eta :  () -> %
@@ -140,7 +142,6 @@ LorentzTransformation() : Exports == Implementation where
       r4:List K:= [0,w.1*w.3*(1-C)-w.2*S,w.2*w.3*(1-C)+w.1*S,C+w.3^2*(1-C)]
       matrix [r1,r2,r3,r1]
 
- 
     (L:%) * (v:FourVector) == 
       convert(entries(L*vector(v::List K)))$FourVector
 
