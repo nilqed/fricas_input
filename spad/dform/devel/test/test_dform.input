@@ -1,0 +1,126 @@
+-- =======================================
+-- DFORM tests (package DifferentialForms)
+-- =======================================
+-- Requires: DeRhamComplex (src/derham.spad)
+-- Version: 09-ARP-2016
+
+
+-----------
+-- Setup --
+-----------
+
+)clear all
+
+n:=7 -- dim of base space (n>=2 !)
+N:=35 -- number of tests
+
+O ==> OutputForm
+
+-- HodgeStar package for DERHAM(R,v)
+R:=Integer  -- Ring
+v:=[subscript(x,[j::OutputForm]) for j in 1..n] -- (x_1,..,x_n)
+M:=DFORM(R,v)
+
+-- basis 1-forms and coordinate vector
+dx:=baseForms()$M     -- [dx[1],...,dx[n]]
+x:=coordVector()$M    -- [x[1],...,x[n]]
+xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+
+
+-- operator, vector field, scalar field, symbol
+a:=operator 'a         -- operator
+b:=vectorField(b)$M    -- generic vector field [b1(x1..xn),...,bn(x1..xn)]
+c:=vectorField(c)$M
+P:=scalarField(P)$M    -- scalar field P(x1,..,xn)
+
+
+-- (pseudo-) random form & zeroForm
+rd:=reduce(_*,[dx.j for j in 1..random(n)$NNI+1])
+nf:=zeroForm(nf)$M
+
+-- metric
+g:=diagonalMatrix([1 for i in 1..n])$SquareMatrix(n,EXPR R)  -- Euclidean
+h:=diagonalMatrix(c)$SquareMatrix(n,EXPR R)
+
+-- vector field
+vf:=vector b
+
+-- eval ??? todo
+-- volumeForm(g)$M --> .... 
+ 
+
+-- Result list  
+res:List(Boolean):=[false for j in 1..N] 
+
+-- 
+res.1 := test (dx.1=d(x.1*one()$M))
+res.2 := test (#dx = n)
+res.3 := test (#x = n)
+res.4 := test (a x = a(x))
+res.5 := test (#b = n)
+
+-- null Form (i.e. degree 0)
+res.6 := test (zeroForm('a)$M = a(x)*one()$M)
+res.7 := test (d zeroForm('a)$M = reduce(_+,[D(a(x),xs.i)*dx.i for i in 1..n]))
+
+-- products (à la Flanders, vector forms)
+res.8 := test ( x*dx = reduce(_+,[x.i*dx.i for i in 1..n]))
+res.9 := test ( dx * dx = 0)
+res.10 := test ( (x*dx)*dx = -dx*(x*dx))
+
+-- (co-)vector field
+res.11 := test (vectorField(W)$M * dx = dx * vectorField(W)$M)
+res.12 := test (typeOf(vectorField(S)$M)::O=List(Expression(R))::O)
+res.13 := test (typeOf(covectorField(K)$M)::O=List(DERHAM(R,v))::O)
+res.14 := test (typeOf(vectorField(W)$M * covectorField(K)$M)::O=DERHAM(R,v)::O)
+
+
+-- dot products w.r.t. g
+res.15 := reduce(_and,[test ( dot(g,dx.j,dx.j)$M = 1) for j in 1..n])
+res.16 := reduce(_and,[test ( dot(g,dx.j,dx.(j+1))$M = 0) for j in 1..n-1])
+res.17 := reduce(_and,[test ( dot(g,dx.1*dx.j,dx.1*dx.j)$M = 1) for j in 2..n])
+
+res.18 := reduce(_and,[test ( dot(h,dx.j,dx.j)$M = 1/c.j) for j in 1..n])
+res.19 := reduce(_and,[test ( dot(h,dx.j,dx.(j+1))$M = 0) for j in 1..n-1])
+res.20 := reduce(_and,[test ( dot(h,dx.1*dx.j,dx.1*dx.j)$M = 1/(c.1*c.j)) _
+                                  for j in 2..n])
+
+
+-- Hodge star
+res.21 := test (one()$M*hodgeStar(g,1)$M = dot(g,1,1)$M * volumeForm(g)$M)
+res.22 := test (rd*hodgeStar(g,rd)$M = dot(g,rd,rd)$M * volumeForm(g)$M)
+res.23 := test (degree(hodgeStar(g,dx.n)$M) = n-1)
+
+res.24 := test (one()$M*hodgeStar(h,1)$M = dot(h,1,1)$M * volumeForm(h)$M)
+res.25 := test (rd*hodgeStar(h,rd)$M = dot(h,rd,rd)$M * volumeForm(h)$M)
+res.26 := test (degree(hodgeStar(h,dx.n)$M) = n-1)
+
+-- Projections
+res.27 := test (proj(0,nf+b*dx+d(b*dx))$M = nf)
+res.28 := test (proj(1,nf+b*dx+d(b*dx))$M = b*dx)
+res.29 := test (proj(2,nf+b*dx+d(b*dx))$M = d(b*dx))
+res.30 := test (proj(n,volumeForm(g)$M)$M = volumeForm(g)$M)
+res.31 := test (proj(random(n)$NNI,volumeForm(g)$M)$M = 0)
+
+
+-- Interior product
+res.32 := test (interiorProduct(vf,dx.1)$M = b.1)
+res.33 := test (interiorProduct(vf,dx.n)$M = b.n)
+res.34 := test (d interiorProduct(vf, volumeForm(g)$M)$M =  _
+                 reduce(_+,[D(b.j,xs.j) for j in 1..n])*volumeForm(g)$M)
+
+
+
+-- Lie derivative
+res.35 := test ( d interiorProduct(vf,b*dx)$M + _
+                interiorProduct(vf,d(b*dx))$M = lieDerivative(vf,b*dx)$M)
+
+
+
+
+-------------
+-- Results --
+-------------
+
+res
+reduce(_and,res)

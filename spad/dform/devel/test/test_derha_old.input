@@ -1,0 +1,178 @@
+-- $ runs with original version
+-- ===================
+-- DeRhamComplex tests
+-- ===================
+
+
+-----------
+-- Setup --
+-----------
+
+)clear all
+
+N:=50  -- number of tests
+
+der:=DERHAM(INT,[x,y,z]) 
+[dx,dy,dz]:=[generator(j)$der for j in 1..3]
+q:=[x,y,z]
+R ==> EXPR INT
+d ==> exteriorDifferential
+
+[a,b,c,u,v,w,s]:=map(operator,['a,'b,'c,'u,'v,'w,'s])
+
+one : der := 1                                 -- 0-form, unity 
+alpha := a(q)*dx + b(q)*dy + c(q)*dz           -- general 1-form
+beta  := u(q)*dx*dy + v(q)*dx*dz + w(q)*dy*dz  -- general 2-form
+gamma := s(q)*dx*dy*dz                         -- general 3-form
+  
+-- Result list  
+res:List(Boolean):=[false for j in 1..N] 
+  
+----------
+-- Degrees
+----------
+res.1 := test(degree one   = 0)
+res.2 := test(degree alpha = 1)
+res.3 := test(degree beta  = 2)
+res.4 := test(degree gamma = 3)
+
+
+--------------
+-- Homogeneity
+--------------
+
+res.5 := test(reduce(_and, map(homogeneous?,[one,alpha,beta,gamma])))
+res.6 := test(~homogeneous?(alpha+beta))
+res.7 := test(~homogeneous?(one+gamma))
+
+
+-------
+-- One?
+-------
+
+res.8 := test(one? one)
+res.9 := test(~one? gamma)
+
+
+--------------
+-- Annihilate?, i.e. a*b=0
+--------------
+
+res.10 := test(~annihilate?(alpha,beta))
+res.11 := test(annihilate?(alpha,alpha))
+res.12 := test(annihilate?(beta,gamma))
+
+
+---------------
+-- Retractable?
+---------------
+
+res.13 := test(retractable? one)
+res.14 := test(~retractable? beta)
+
+
+--------
+-- Zero?
+--------
+
+res.15 := test(zero?(0*one))
+res.16 := test(zero?(alpha*gamma))
+res.17 := test(zero?(d gamma))
+
+
+--------------
+-- Coefficient
+--------------
+
+res.18 := test(coefficient(alpha,dx) = a(q))
+res.19 := test(coefficient(beta,dx*dz) = v(q))
+res.20 := test(coefficient(gamma,dx*dz*dy) ~= -s(q)) -- order irrelevant!
+res.21 := test(coefficient(a(q)*one,one)=a(q))
+
+
+---------------------
+-- LeadingCoefficient 
+---------------------
+
+res.22 := test(leadingCoefficient alpha = c(q))  -- notice order!
+res.23 := test(leadingCoefficient beta = w(q))
+res.24 := test(leadingCoefficient one = 1::R)
+
+
+------
+-- Map
+------
+
+res.25 := test(map((x:R):R+->x^2,alpha) = a(q)^2*dx+b(q)^2*dy+c(q)^2*dz)
+res.26 := test(map((f:R):R+->D(f,x),gamma) = D(s(q),x)*dx*dy*dz)
+
+
+--------------------
+-- TotalDifferential
+--------------------
+td ==> totalDifferential
+
+res.27 := test(td(a(q))$der = D(a(q),x)*dx + D(a(q),y)*dy + D(a(q),z)*dz)
+res.28 := test(degree td(b(q))$der = 1)
+
+
+--------------------------
+-- Mult by PositiveInteger
+-- Negative
+--------------------------
+
+res.29 := test(2*beta = beta + beta)
+res.30 := test(5*alpha = 3*alpha + 2*alpha)
+res.31 := test(7*gamma = 8*gamma+(-gamma))
+
+
+-------------------
+-- LeadingBasisTerm
+-------------------
+
+res.32 := test(leadingBasisTerm alpha = dz)
+res.33 := test(leadingBasisTerm beta = dy*dz)
+res.34 := test(leadingBasisTerm gamma = dx*dy*dz)
+res.35 := test(leadingBasisTerm (reductum alpha) = dy)
+
+
+-----------
+-- Reductum (like rest in lists)
+-----------
+
+res.36 := test(reductum alpha = b(q)*dy + a(q)*dx)
+res.37 := test(reductum beta = v(q)*dx*dz + u(q)*dx*dy)
+res.38 := test(reductum reductum(beta) = u(q)*dx*dy)
+res.39 := test(reductum(alpha+beta+gamma) = alpha+beta+gamma - c(q)*dz)
+
+
+-------------
+-- Arithmetic
+-------------
+
+res.40 := test((alpha+beta)^2 = 2*alpha*beta)
+res.41 := test((dx+dy=dy+dx))
+res.42 := test((dy*dz+dz*dy=0))
+res.43 := test(dz*dz=0)
+res.44 := test(dx*(dy*dz)=(dx*dy)*dz)
+
+
+---------------------------
+-- Exterior differentiation
+---------------------------
+
+res.45 := test(d (d alpha) = 0)
+res.46 := test(coefficient(d alpha,dy*dz) = D(c(q),y)-D(b(q),z))  
+res.47 := test(coefficient(d beta, dx*dy*dz) = D(w(q),x)-D(v(q),y)+D(u(q),z))
+res.48 := test(td(a(q))$der = d(a(q)*one))
+res.49 := test(d(alpha+beta)=d(alpha)+d(beta))
+res.50 := test(d(v(q)*1$der)*alpha+v(q)*d(alpha) = d(v(q)*alpha))
+
+-- ===============
+-- === SUMMARY ===
+-- ===============
+res
+reduce(_and,res) 
+
+
+

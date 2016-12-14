@@ -1,0 +1,26 @@
+)clear all
+
+O ==> OutputForm
+
+-- HodgeStar package for DERHAM(R,v)
+R:=Integer  -- Ring
+v:=[x,y]
+M:=DFORM(R,v)
+
+-- basis 1-forms and coordinate vector
+[dx,dy]:=baseForms()$M     -- [dx[1],...,dx[n]]
+[x,y]:=coordVector()$M    -- [x[1],...,x[n]]
+XS:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+
+a:=operator 'a
+b:=operator 'b
+c:=operator 'c
+
+g:= matrix[[a(x,y),b(x,y)],[b(x,y),c(x,y)]]@SquareMatrix(2,EXPR Integer)
+
+hodgeStar2(g,dx)$M
+hodgeStar2(g,dy)$M
+
+f:=hodgeStar2(g,dx*dy)$M
+hodgeStar2(g,f)$M
+

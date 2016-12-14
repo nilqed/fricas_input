@@ -1,0 +1,450 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2.0 Package Details &mdash; DifferentialForms 1.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DifferentialForms 1.1.0 documentation" href="index.html" />
+    <link rel="next" title="3.0 Implementation Notes" href="section-3.0.html" />
+    <link rel="prev" title="1.0 Introduction" href="section-1.0.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="section-3.0.html" title="3.0 Implementation Notes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="section-1.0.html" title="1.0 Introduction"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DifferentialForms 1.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="package-details">
+<h1>2.0 Package Details<a class="headerlink" href="#package-details" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Package Name:</th><td class="field-body">DifferentialForms</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Abbreviation:</th><td class="field-body">DFORM</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Source files:</th><td class="field-body">dform.spad</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Dependent on:</th><td class="field-body">DeRhamComplex (DERHAM)</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">DifferentialForms</span><span class="p">(</span><span class="n">R</span><span class="p">,</span><span class="n">v</span><span class="p">)</span>
+
+<span class="n">R</span><span class="p">:</span> <span class="n">Join</span><span class="p">(</span><span class="n">Ring</span><span class="p">,</span><span class="n">Comparable</span><span class="p">)</span>   <span class="o">--</span> <span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span> <span class="n">Integer</span>
+<span class="n">v</span><span class="p">:</span> <span class="n">List</span> <span class="n">Symbol</span>             <span class="o">--</span> <span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">]</span> <span class="ow">or</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="mi">2</span><span class="p">]]</span>
+
+<span class="n">X</span> <span class="o">==&gt;</span> <span class="n">Expression</span> <span class="n">R</span>         <span class="o">--</span> <span class="n">function</span> <span class="n">Ring</span>
+</pre></div>
+</div>
+<p>For the examples following, we choose <code class="docutils literal"><span class="pre">R=Integer</span></code> and
+<code class="docutils literal"><span class="pre">v=[x[0],x[1],x[2],x[3]]</span></code>, and the abbreviation <code class="docutils literal"><span class="pre">M:=DFORM(R,v)</span></code>.</p>
+</div>
+<div class="section" id="the-metric-g">
+<h1>2.1 The metric g<a class="headerlink" href="#the-metric-g" title="Permalink to this headline">¶</a></h1>
+<p>Some functions expect the metric <code class="docutils literal"><span class="pre">g</span></code> as a parameter. Generally this
+will be provided by an invertible square matrix <code class="docutils literal"><span class="pre">g:SquareMatrix(#v,X)</span></code>.</p>
+<p>For the examples following, we choose the Minkowski metric::</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="p">:</span><span class="o">=</span> <span class="n">diagonalMatrix</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span><span class="nd">@SquareMatrix</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="n">Integer</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}\left[
+\begin{array}{cccc}
+-1 &amp; 0 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 0 &amp; 1
+\end{array}
+\right]\end{split}\]</div>
+<p><sub>Type: SquareMatrix(4,Integer)</sub></p>
+</div>
+<div class="section" id="exported-functions">
+<h1>2.2 Exported Functions<a class="headerlink" href="#exported-functions" title="Permalink to this headline">¶</a></h1>
+<p>The function <strong>baseForms</strong> return the basis one forms, while <strong>coordVector</strong>
+returns a list of the coordinates. The function <strong>coordSymbols</strong> also returns
+the coordinates, however, as symbols only (convenient when used by <strong>D</strong>).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>SMR ==&gt; SquareMatrix(#v,X)
+DRC ==&gt; DeRhamComplex(R,v)
+
+dx:=baseForms()$M     -- [dx[0],...,dx[3]]
+x:=coordVector()$M    -- [x[0],...,x[3]]
+xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiation)
+</pre></div>
+</div>
+<div class="section" id="volume-form">
+<h2>2.2.1 Volume Form<a class="headerlink" href="#volume-form" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>volumeForm</strong></dt>
+<dd>Given a metric <span class="math">\(g\)</span> the function returns the corresponding volume
+element of the Riemannian (pseudo-) manifold.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span>volumeForm : SquareMatrix(#v,X) -&gt; DeRhamComplex(R,v)
+
+volumeForm(g)$M
+</pre></div>
+</div>
+<div class="math">
+\[{dx _ {0}} \  {dx _ {1}} \  {dx _ {2}} \  {dx _ {3}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
+</div>
+<div class="section" id="scalar-product">
+<h2>2.2.1 Scalar Product<a class="headerlink" href="#scalar-product" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>dot</strong></dt>
+<dd>Compute the inner product of two differential forms with respect to the
+metric <code class="docutils literal"><span class="pre">g</span></code>.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span>dot : (SMR,DRC,DRC) -&gt; X
+
+dot(g,dx.1*dx.2,dx.1*dx.2)$M   -- note dx.1 corresponds to dx[0].
+</pre></div>
+</div>
+<div class="math">
+\[- 1\]</div>
+<p><sub>Type: Expression(Integer)</sub></p>
+</div>
+<div class="section" id="hodge-star-operator">
+<h2>2.2.2 Hodge Star Operator<a class="headerlink" href="#hodge-star-operator" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>hodgeStar</strong></dt>
+<dd>Compute the Hodge dual form of a differential form with respect
+to a metric <code class="docutils literal"><span class="pre">g</span></code>.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">hodgeStar</span> <span class="p">:</span> <span class="p">(</span><span class="n">SMR</span><span class="p">,</span><span class="n">DRC</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DRC</span>
+
+<span class="n">hodgeStar</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">dx</span><span class="o">.</span><span class="mi">2</span> <span class="o">*</span> <span class="n">dx</span><span class="o">.</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{dx _ {0}} \  {dx _ {3}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
+</div>
+<div class="section" id="interior-product">
+<h2>2.2.3 Interior Product<a class="headerlink" href="#interior-product" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>interiorProduct</strong></dt>
+<dd>Calculate the interior product <span class="math">\(i_X(a)\)</span> of the vector field X
+with the differential form a.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span>interiorProduct : (Vector(X),DRC) -&gt; DRC
+
+interiorProduct(vector x, dx.1*dx.3)$M
+</pre></div>
+</div>
+<div class="math">
+\[{{x _ {0}} \  {dx _ {2}}} -{{x _ {2}} \  {dx _ {0}}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
+</div>
+<div class="section" id="lie-derivative">
+<h2>2.2.4 Lie Derivative<a class="headerlink" href="#lie-derivative" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>lieDerivative</strong></dt>
+<dd>Calculates the Lie derivative <span class="math">\(\mathcal{L}_X(a)\)</span> of the differential
+form a with respect to the vector field X.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lieDerivative</span> <span class="p">:</span> <span class="p">(</span><span class="n">Vector</span><span class="p">(</span><span class="n">X</span><span class="p">),</span><span class="n">DRC</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DRC</span>
+
+<span class="n">lieDerivative</span><span class="p">(</span><span class="n">vector</span> <span class="n">x</span><span class="p">,</span> <span class="n">dx</span><span class="o">.</span><span class="mi">1</span> <span class="o">*</span> <span class="n">dx</span><span class="o">.</span><span class="mi">3</span> <span class="o">*</span> <span class="n">dx</span><span class="o">.</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[3 \  {dx _ {0}} \  {dx _ {2}} \  {dx _ {3}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
+</div>
+<div class="section" id="projection">
+<h2>2.2.5 Projection<a class="headerlink" href="#projection" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>proj</strong></dt>
+<dd>Project to homogeneous terms of degree p.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">NNI</span> <span class="o">==&gt;</span> <span class="n">NonNegativeInteger</span>
+<span class="n">proj</span> <span class="p">:</span> <span class="p">(</span><span class="n">NNI</span><span class="p">,</span><span class="n">DRC</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DRC</span>
+
+<span class="n">proj</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">dx</span><span class="o">.</span><span class="mi">1</span> <span class="o">+</span> <span class="n">dx</span><span class="o">.</span><span class="mi">2</span><span class="o">*</span><span class="n">dx</span><span class="o">.</span><span class="mi">3</span> <span class="o">-</span> <span class="n">dx</span><span class="o">.</span><span class="mi">3</span><span class="o">*</span><span class="n">dx</span><span class="o">.</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{{dx _ {2}} \  {dx _ {3}}}+{{dx _ {1}} \  {dx _ {2}}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
+</div>
+<div class="section" id="monomials">
+<h2>2.2.6 Monomials<a class="headerlink" href="#monomials" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>monomials</strong></dt>
+<dd>List all monomials of degree p (p in 1..n).
+This is a basis for <span class="math">\(\Lambda_p^n\)</span>.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span>monomials : NNI -&gt; List DRC
+
+monomials(3)$M
+</pre></div>
+</div>
+<div class="math">
+\[\left[
+{{dx _ {0}} \  {dx _ {1}} \  {dx _ {2}}}, \: {{dx _ {0}} \  {dx _
+{1}} \  {dx _ {3}}}, \: {{dx _ {0}} \  {dx _ {2}} \  {dx _ {3}}}, \:
+{{dx _ {1}} \  {dx _ {2}} \  {dx _ {3}}}
+\right]\]</div>
+<p><sub>Type: List DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
+</div>
+<div class="section" id="atomize-basis-term">
+<h2>2.2.7 Atomize Basis Term<a class="headerlink" href="#atomize-basis-term" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>atomizeBasisTerm</strong></dt>
+<dd>Given a basis term, return a list of the generators (atoms).</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">atomizeBasisTerm</span> <span class="p">:</span> <span class="n">DRC</span> <span class="o">-&gt;</span> <span class="n">List</span> <span class="n">DRC</span>
+
+<span class="n">atomizeBasisTerm</span><span class="p">(</span><span class="n">dx</span><span class="o">.</span><span class="mi">1</span> <span class="o">*</span> <span class="n">dx</span><span class="o">.</span><span class="mi">2</span> <span class="o">*</span> <span class="n">dx</span><span class="o">.</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\left[
+ {dx _ {0}}, \: {dx _ {1}}, \: {dx _ {3}}
+\right]\]</div>
+<p><sub>Type: List(DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]]))</sub></p>
+</div>
+<div class="section" id="conjugate-basis-term">
+<h2>2.2.8 Conjugate Basis Term<a class="headerlink" href="#conjugate-basis-term" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>conjBasisTerm</strong></dt>
+<dd>Return the complement of a basis term with respect to the Euclidean
+volume form.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">conjBasisTerm</span> <span class="p">:</span> <span class="n">DRC</span> <span class="o">-&gt;</span> <span class="n">DRC</span>
+
+<span class="n">conjBasisTerm</span> <span class="n">dx</span><span class="o">.</span><span class="mi">4</span>
+</pre></div>
+</div>
+<div class="math">
+\[{dx _ {0}} \  {dx _ {1}} \  {dx _ {2}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
+</div>
+<div class="section" id="scalar-and-vector-field">
+<h2>2.2.9 Scalar and Vector Field<a class="headerlink" href="#scalar-and-vector-field" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt><strong>vectorField</strong></dt>
+<dd>Generate a generic vector field named by a given symbol.</dd>
+<dt><strong>covectorField</strong></dt>
+<dd>Generate a generic co-vector field named by a given symbol.</dd>
+<dt><strong>scalarField</strong></dt>
+<dd>Generate a generic scalar field named by a given symbol.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span>vectorField   : Symbol -&gt; List X
+covectorField : Symbol -&gt; List DRC
+scalarField   : Symbol -&gt; X
+
+vectorField(Q)$M
+scalarField(f)$M
+</pre></div>
+</div>
+<div class="math">
+\[\left[
+{{Q _ {1}}
+\left(
+{{x _ {0}}, \: {x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+\right)},
+\: {{Q _ {2}}
+\left(
+{{x _ {0}}, \: {x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+\right)},
+\: {{Q _ {3}}
+\left(
+{{x _ {0}}, \: {x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+\right)},
+\: {{Q _ {4}}
+\left(
+{{x _ {0}}, \: {x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+\right)}
+\right]\]</div>
+<p><sub>Type: List(Expression(Integer))</sub></p>
+<div class="math">
+\[f
+\left(
+ {{x _ {0}}, \: {x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+\right)\]</div>
+<p><sub>Type: Expression(Integer)</sub></p>
+</div>
+<div class="section" id="miscellaneous-functions">
+<h2>2.2.10 Miscellaneous Functions<a class="headerlink" href="#miscellaneous-functions" title="Permalink to this headline">¶</a></h2>
+<p>A <em>zero form</em> with symbol s can be generated by</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>zeroForm : Symbol -&gt; DRC
+
+zeroForm(s)$M
+</pre></div>
+</div>
+<div class="math">
+\[s
+\left(
+ {{x _ {0}}, \: {x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+\right)\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
+<p>A synonym for the <strong>exteriorDerivative</strong> is the common operator <strong>d</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>d : DRC -&gt; DRC
+
+d zeroForm(f)$M
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{{f _ {{,4}}}
+\left(
+{{x _ {0}}, \: {x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+\right)}
+\  {dx _ {3}}}+{{{f _ {{,3}}}
+\left(
+{{x _ {0}}, \: {x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+\right)}
+\  {dx _ {2}}}+ \\ {{{f _ {{,2}}}
+\left(
+{{x _ {0}}, \: {x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+\right)}
+\  {dx _ {1}}}+{{{f _ {{,1}}}
+\left(
+{{x _ {0}}, \: {x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+\right)}
+\  {dx _ {0}}}\end{split}\]</div>
+<p>The special zero forms <strong>0</strong> and <strong>1</strong> can be generated by</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>one :  -&gt; DRC
+zero : -&gt; DRC
+
+zero()$M
+one()$M
+</pre></div>
+</div>
+<p>There are also some special multiplication operators which allow to deal
+with a kind <em>vector valued</em> forms (actually lists):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">_</span><span class="o">*</span> <span class="p">:</span> <span class="p">(</span><span class="n">List</span> <span class="n">X</span><span class="p">,</span> <span class="n">List</span> <span class="n">DRC</span><span class="p">)</span>   <span class="o">-&gt;</span> <span class="n">DRC</span>
+<span class="n">_</span><span class="o">*</span> <span class="p">:</span> <span class="p">(</span><span class="n">List</span> <span class="n">DRC</span><span class="p">,</span> <span class="n">List</span> <span class="n">DRC</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DRC</span>
+
+<span class="n">Note</span><span class="p">:</span> <span class="n">the</span> <span class="n">lists</span> <span class="n">must</span> <span class="n">have</span> <span class="n">dimension</span> <span class="c1">#v.</span>
+
+<span class="n">For</span> <span class="n">instance</span><span class="p">:</span>
+
+<span class="n">x</span> <span class="o">*</span> <span class="n">dx</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{x _ {3}} \  {dx _ {3}}}+{{x _ {2}} \  {dx _ {2}}}+{{x _ {1}} \
+{dx _ {1}}}+{{x _ {0}} \  {dx _ {0}}}\]</div>
+<p>An example for the second case:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>dx*[hodgeStar(g,dx.j)$M for j in 1..4]
+</pre></div>
+</div>
+<div class="math">
+\[2 \  {dx _ {0}} \  {dx _ {1}} \  {dx _ {2}} \  {dx _ {3}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2.0 Package Details</a></li>
+<li><a class="reference internal" href="#the-metric-g">2.1 The metric g</a></li>
+<li><a class="reference internal" href="#exported-functions">2.2 Exported Functions</a><ul>
+<li><a class="reference internal" href="#volume-form">2.2.1 Volume Form</a></li>
+<li><a class="reference internal" href="#scalar-product">2.2.1 Scalar Product</a></li>
+<li><a class="reference internal" href="#hodge-star-operator">2.2.2 Hodge Star Operator</a></li>
+<li><a class="reference internal" href="#interior-product">2.2.3 Interior Product</a></li>
+<li><a class="reference internal" href="#lie-derivative">2.2.4 Lie Derivative</a></li>
+<li><a class="reference internal" href="#projection">2.2.5 Projection</a></li>
+<li><a class="reference internal" href="#monomials">2.2.6 Monomials</a></li>
+<li><a class="reference internal" href="#atomize-basis-term">2.2.7 Atomize Basis Term</a></li>
+<li><a class="reference internal" href="#conjugate-basis-term">2.2.8 Conjugate Basis Term</a></li>
+<li><a class="reference internal" href="#scalar-and-vector-field">2.2.9 Scalar and Vector Field</a></li>
+<li><a class="reference internal" href="#miscellaneous-functions">2.2.10 Miscellaneous Functions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="section-1.0.html"
+                        title="previous chapter">1.0 Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="section-3.0.html"
+                        title="next chapter">3.0 Implementation Notes</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-2.0.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="section-3.0.html" title="3.0 Implementation Notes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="section-1.0.html" title="1.0 Introduction"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DifferentialForms 1.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Kurt Pagani &lt;nilqed@gmail.com&gt;.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>

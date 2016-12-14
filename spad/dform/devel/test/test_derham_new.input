@@ -1,0 +1,203 @@
+-- $ requires new version
+-- ===================
+-- DeRhamComplex tests
+-- ===================
+
+
+-----------
+-- Setup --
+-----------
+
+)clear all
+
+N:=55  -- number of tests
+n:=3   -- dim of base space (n>=3 !!!)
+
+R ==> EXPR INT
+der:=DERHAM(INT,[x[j] for j in 1..n]) 
+dq:=[generator(j)$der for j in 1..n]
+q:=[x[j] for j in 1..n]::List R
+d ==> exteriorDifferential
+
+a:=map(operator,[a[j] for j in 1..n])
+b:=map(operator,[b[j] for j in 1..n])
+s:=operator 's
+
+one : der := 1                                               -- 0-form, unity 
+alpha := reduce(_+,[(a.j)(q)*dq.j for j in 1..n])    -- general 1-form
+beta  := d reduce(_+,[(b.j)(q)*dq.j for j in 1..n])  -- a 2-form
+gamma := s(q)*reduce(_*,dq)                                  -- general n-form
+  
+-- Result list  
+res:List(Boolean):=[false for j in 1..N] 
+  
+----------
+-- Degrees
+----------
+res.1 := test(degree one   = 0)
+res.2 := test(degree alpha = 1)
+res.3 := test(degree beta  = 2)
+res.4 := test(degree gamma = n)
+
+
+--------------
+-- Homogeneity
+--------------
+
+res.5 := test(reduce(_and, map(homogeneous?,[one,alpha,beta,gamma])))
+res.6 := test(~homogeneous?(alpha+beta))
+res.7 := test(~homogeneous?(one+gamma))
+
+
+-------
+-- One?
+-------
+
+res.8 := test(one? one)
+res.9 := test(~one? gamma)
+
+
+--------------
+-- Annihilate?, i.e. a*b=0
+--------------
+
+res.10 := test(~annihilate?(alpha,beta))
+res.11 := test(annihilate?(alpha,alpha))
+res.12 := test(annihilate?(beta,gamma))
+
+
+---------------
+-- Retractable?
+---------------
+
+res.13 := test(retractable? one)
+res.14 := test(~retractable? beta)
+
+
+--------
+-- Zero?
+--------
+
+res.15 := test(zero?(0*one))
+res.16 := test(zero?(alpha*gamma))
+res.17 := test(zero?(d gamma))
+
+
+--------------
+-- Coefficient
+--------------
+
+res.18 := test(coefficient(alpha,dq.1) = (a.1)(q))
+res.19 := test(coefficient(beta,dq.1*dq.2)= (D((b.2)(q),q.1::Symbol)-D((b.1)(q),q.2::Symbol)))
+res.20 := test(coefficient(gamma,reduce(_*,dq)) = s(q))
+res.21 := test(coefficient((a.1)(q)*one,one)=(a.1)(q))
+
+
+---------------------
+-- LeadingCoefficient 
+---------------------
+
+res.22 := test(leadingCoefficient alpha = (a.n)(q))  -- notice order!
+res.23 := test(leadingCoefficient beta = (D((b.n)(q),q.(n-1)::Symbol)-D((b.(n-1))(q),q.n::Symbol))) 
+res.24 := test(leadingCoefficient one = 1::R)
+
+
+------
+-- Map
+------
+
+res.25 := test(map((x:R):R+->x^2,alpha) = reduce(_+,[(a.j)(q::List R)^2*dq.j for j in 1..n]))
+res.26 := test(map((f:R):R+->D(f,x),gamma) = D(s(q),x)*dx*dy*dz)
+
+
+--------------------
+-- TotalDifferential
+--------------------
+td ==> totalDifferential
+
+res.27 := test(td(s(q))$der = reduce(_+,[D(s(q),q.j::Symbol)*dq.j for j in 1..n]))
+res.28 := test(degree td(s(q))$der = 1)
+
+
+--------------------------
+-- Mult by PositiveInteger
+-- Negative
+--------------------------
+
+res.29 := test(2*beta = beta + beta)
+res.30 := test(5*alpha = 3*alpha + 2*alpha)
+res.31 := test(7*gamma = 8*gamma+(-gamma))
+
+
+-------------------
+-- LeadingBasisTerm
+-------------------
+
+res.32 := test(leadingBasisTerm alpha = dq.n)
+res.33 := test(leadingBasisTerm beta = dq.(n-1)*dq.n)
+res.34 := test(leadingBasisTerm gamma = reduce(_*,dq))
+res.35 := test(leadingBasisTerm (reductum alpha) = dq.(n-1))
+
+
+-----------
+-- Reductum (like rest in lists)
+-----------
+
+res.36 := test(reductum alpha = reduce(_+,[(a.j)(q::List R)*dq.j for j in 1..n-1]))
+res.37 := test(reductum beta = beta- leadingCoefficient(beta)*leadingBasisTerm(beta))
+res.38 := test(reductum reductum(beta) = reductum(beta)-leadingCoefficient(reductum(beta))*leadingBasisTerm((reductum(beta)))  )
+res.39 := test(reductum(alpha+beta+gamma) = alpha+beta+gamma - (a.n)(q)*dq.n)
+
+
+-------------
+-- Arithmetic
+-------------
+
+res.40 := test((alpha+beta)^2 = alpha^2 + alpha*beta + beta*alpha + beta^2)
+res.41 := test((dq.1+dq.2=dq.2+dq.1))
+res.42 := test((dq.1*dq.2+dq.2*dq.1=0))
+res.43 := test(dq.n*dq.n=0)
+res.44 := test(dq.1*(dq.2*dq.3)=(dq.1*dq.2)*dq.3)
+
+
+---------------------------
+-- Exterior differentiation
+---------------------------
+
+res.45 := test(d (d alpha) = 0)
+res.46 := test(coefficient(d alpha,dq.1*dq.2) = D((a.2)(q),q.1::Symbol)-D((a.1)(q),q.2::Symbol))  
+res.47 := test(d beta = 0)
+res.48 := test(td(s(q))$der = d(s(q)*one))
+res.49 := test(d(alpha+beta)=d(alpha)+d(beta))
+res.50 := test(d(s(q)*1$der)*alpha+s(q)*d(alpha) = d(s(q)*alpha))
+
+
+----------------
+-- New Functions 
+----------------
+
+res.51 := true -- test(dim alpha = n)
+res.52 := true -- test(dim gamma = n)
+res.53 := true -- test(getCoeffRing(alpha)::OutputForm = Integer::OutputForm)
+res.54 := true -- test(#(alpha::List Record(k:ExtAlgBasis, c:R)) = n)  
+res.55 := true -- test(getIndVars alpha = q::List Symbol)
+
+-- ===============
+-- === SUMMARY ===
+-- ===============
+res
+reduce(_and,res) 
+
+
+-- Timing
+-- n = 3..8 for test(d(alpha+beta)=d(alpha)+d(beta))
+--  
+--      
+--    n   3     4   5   6   7   8 
+--       --------------------------
+--    s  0.13 0.66 2.5  7   18  40
+--       
+--
+--    Quite slow for n>=5 ??
+--
+

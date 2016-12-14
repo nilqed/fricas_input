@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# DifferentialForms documentation build configuration file, created by
-# sphinx-quickstart on Sun Apr 17 00:19:29 2016.
+# DeRhamComplex documentation build configuration file, created by
+# sphinx-quickstart on Sun Apr  3 23:06:08 2016.
 #
 # This file is execfile()d with the current directory set to its
 # containing dir.
@@ -49,7 +49,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'DifferentialForms'
+project = u'DeRhamComplex'
 copyright = u'2016, Kurt Pagani <nilqed@gmail.com>'
 author = u'Kurt Pagani <nilqed@gmail.com>'
 
@@ -113,7 +113,9 @@ todo_include_todos = False
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #html_theme = 'alabaster'
-html_theme = 'classic'
+#html_theme = 'sphinx_rtd_theme'
+#html_theme = 'sphinxdoc'
+html_theme = "classic" 
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -125,7 +127,7 @@ html_theme = 'classic'
 
 # The name for this set of Sphinx documents.
 # "<project> v<release> documentation" by default.
-#html_title = u'DifferentialForms v1.0'
+#html_title = u'DeRhamComplex v1.0'
 
 # A shorter title for the navigation bar.  Default is the same as html_title.
 #html_short_title = None
@@ -207,7 +209,7 @@ html_static_path = ['_static']
 #html_search_scorer = 'scorer.js'
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'DifferentialFormsdoc'
+htmlhelp_basename = 'DeRhamComplexdoc'
 
 # -- Options for LaTeX output ---------------------------------------------
 
@@ -229,7 +231,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'DifferentialForms.tex', u'DifferentialForms Documentation',
+    (master_doc, 'DeRhamComplex.tex', u'DeRhamComplex Documentation',
      u'Kurt Pagani \\textless{}nilqed@gmail.com\\textgreater{}', 'manual'),
 ]
 
@@ -259,7 +261,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'differentialforms', u'DifferentialForms Documentation',
+    (master_doc, 'derhamcomplex', u'DeRhamComplex Documentation',
      [author], 1)
 ]
 
@@ -273,8 +275,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'DifferentialForms', u'DifferentialForms Documentation',
-     author, 'DifferentialForms', 'One line description of project.',
+    (master_doc, 'DeRhamComplex', u'DeRhamComplex Documentation',
+     author, 'DeRhamComplex', 'One line description of project.',
      'Miscellaneous'),
 ]
 

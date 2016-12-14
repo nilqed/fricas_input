@@ -1,0 +1,78 @@
+-----------
+-- Setup --
+-----------
+)clear all
+
+n:=4 -- dim of base space (n>=2 !)
+
+O ==> OutputForm
+
+-- HodgeStar package for DERHAM(R,v)
+R:=Integer  -- Ring
+v:=[subscript(x,[j::OutputForm]) for j in 1..n] -- (x_1,..,x_n)
+M:=DFORM(R,v)
+
+-- basis 1-forms and coordinate vector
+dx:=baseForms()$M     -- [dx[1],...,dx[n]]
+x:=coordVector()$M    -- [x[1],...,x[n]]
+xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+
+
+-- operator, vector field, scalar field, symbol
+a:=operator 'a         -- operator
+b:=vectorField(b)$M    -- generic vector field [b1(x1..xn),...,bn(x1..xn)]
+c:=vectorField(c)$M
+P:=scalarField(P)$M -- scalar field P(x1,..,xn)
+
+-- metric
+g:=diagonalMatrix([1 for i in 1..n])$SquareMatrix(n,EXPR R)  -- Euclidean
+h:=diagonalMatrix(c)$SquareMatrix(n,EXPR R)
+
+-- vector field
+vf:=vector b
+
+-- macros
+dV(g) ==> volumeForm(g)$M
+i(X,w) ==> interiorProduct(X,w)$M
+L(X,w) ==> lieDerivative(X,w)$M
+** w ==> hodgeStar(g,w)$M
+
+---
+
+w:=x.1*dx.2-x.2*dx.1
+d w
+w*w
+i(vf,w)
+L(vf,w)
+d i(vf,w) + i(vf,d w)
+% - L(vf,w)
+dot(g,w,w)$M
+d i(vf,dV(g)) -- div(b) dV
+
+d (P*one()$M) -- One()?
+i(vf,%)
+
+1/dot(g,w,w)$M*w -- careful, diff?
+d %
+
+s:=zeroForm('s)$M
+d s
+d (** s)
+** ( d s)
+d (** ( d s)) -- Laplacian(s) dV
+
+r:=sin(x.1*x.2)*one()$M
+d r
+d (** ( d r))
+
+--)read /home/kfp/.fricas
+** (d (** ( d r)))
+--sixel %
+
+** (d (** ( d r)))::EXPR INT
+eval(%,xs.1=%pi)
+eval(%,xs.2=%pi/3)
+
+
+a(P)*one()$M
+d (a(P)*one()$M) -- chain diff

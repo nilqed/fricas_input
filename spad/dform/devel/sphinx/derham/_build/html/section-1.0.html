@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.0 Introduction &mdash; DeRhamComplex 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DeRhamComplex 1.0 documentation" href="index.html" />
+    <link rel="next" title="1.1 Domain: DeRhamComplex" href="section-1.1.html" />
+    <link rel="prev" title="FriCAS :: DeRhamComplex" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="section-1.1.html" title="1.1 Domain: DeRhamComplex"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="FriCAS :: DeRhamComplex"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DeRhamComplex 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<span id="id1"></span><h1>1.0 Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>Differential forms occur in various fields of mathematics and physics providing
+a method to formulate many objects in a way which is independent of a particular
+coordinate system. Although primary usage certainly is in a theoretical context,
+there are situations where actual computations have to be done. Due to the
+antisymmetric nature and especially in the context of manifolds the calculations
+may be quite involved and tedious, therefore, it is convenient to have tool box
+for the most elaborate transformations. The price one has to pay for the
+conciseness and beauty of the presentation is that concrete evaluations are
+slightly more challenging than conventional methods like vector calulus for
+instance.</p>
+<p>There are many approaches to introduce differential forms: alternating linear
+mappings, completely antisymmetric tensors, sections of cotangent bundles or
+free vector spaces to name a few. The following references give witness of the
+different methods and are ordered by nondecreasing
+difficulty and rigor: <a class="footnote-reference" href="#id11" id="id2">[4]</a> , <a class="footnote-reference" href="#id13" id="id3">[6]</a> , <a class="footnote-reference" href="#id8" id="id4">[1]</a> , <a class="footnote-reference" href="#id9" id="id5">[2]</a> , <a class="footnote-reference" href="#id14" id="id6">[7]</a> , <a class="footnote-reference" href="#id10" id="id7">[3]</a></p>
+<p>Here we have to consider differential forms in local coordinates in order to
+perform some nonsymbolic computations:</p>
+<div class="math">
+\[\omega(x) = \sum_{1\leq j_1&lt;\ldots&lt;j_p\leq n}
+   \omega_{j_1,\ldots,j_p}(x_1,\ldots,x_n) \,
+   dx_{j_1}\wedge\ldots\wedge dx_{j_p}\]</div>
+<p>The expression above is the local representation of the p-form
+<span class="math">\(\omega\)</span> in an
+open set of <span class="math">\(\mathbb{R}^n\)</span>. There are many other ways to express this
+fact: some authors take the sum over
+<span class="math">\(\{j_k=1,\ldots,n ; k =1,\ldots,p\}\)</span>
+then one has to multiply by the factor <span class="math">\(\frac{1}{p!}\)</span>,
+others write it as a p-covector field, but all these have the same
+meaning. The wedge product <span class="math">\((\wedge)\)</span> basically denotes  the
+antisymmetric tensor product:</p>
+<div class="math">
+\[\alpha\wedge\beta=\frac{1}{2}\, \left(a\otimes b - b\otimes a \right)\]</div>
+<p>and is, although standard today, quite unhandy and there are different
+notations in the literature.
+In the book of H.Flanders [4] it is not used at all while H.Whitney used the
+symbol <span class="math">\(\vee\)</span> in his representation [7].</p>
+<p><strong>Notation</strong>: The domain <code class="docutils literal"><span class="pre">DeRhamcomplex</span></code> uses <code class="docutils literal"><span class="pre">dx*dy</span></code> for <span class="math">\(dx\wedge dy\)</span>.</p>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id4">[1]</a></td><td>Ralph Abraham, Jerrold E.Marsden and Tudor Ratiu.Manifolds,
+Tensor Analysis, and Applications. Springer,
+Auflage: 2nd Corrected ed. 1988. Corr. 2nd printing 1993 edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[2]</a></td><td>Henri Cartan. Di erential Forms. Dover Pubn Inc, Au age: Tra edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[3]</a></td><td>Herbert Federer. Geometric Measure Theory. Springer, Au age: Reprint of
+the 1st ed. Berlin, Heidelberg, New York 1969 edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id11" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[4]</a></td><td>Harley Flanders and Mathematics. Differential Forms with Applications to
+the Physical Sciences. Dover Pubn Inc, Auflage: Revised. edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id12" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td>L. A. Lambe and D. E. Radford. Introduction to the Quantum Yang-Baxter
+Equation and Quantum Groups:An Algebraic Approach. Springer,
+Auflage: 1997 edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id13" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[6]</a></td><td>Walter Rudin and RudinWalter. Principles ofMathematicalAnalysis.Mcgraw
+Hill Book Co, Au age: Revised. edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id14" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id6">[7]</a></td><td>Hassler Whitney. Geometric Integration Theory: Princeton Mathematical
+Series, No. 21. Literary Licensing, LLC.</td></tr>
+</tbody>
+</table>
+<p><a class="reference internal" href="index.html#startpage"><span class="std std-ref">FriCAS :: DeRhamComplex</span></a></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">FriCAS :: DeRhamComplex</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="section-1.1.html"
+                        title="next chapter">1.1 Domain: DeRhamComplex</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.0.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="section-1.1.html" title="1.1 Domain: DeRhamComplex"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="FriCAS :: DeRhamComplex"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DeRhamComplex 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Kurt Pagani &lt;nilqed@gmail.com&gt;.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+    </div>
+  </body>
+</html>

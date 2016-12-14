@@ -1,0 +1,91 @@
+----------
+-- LocalFrame   requires the new DERHAM !
+-- Moving frames (see FrameVector)
+----------
+
+)clear values all
+
+n:=5
+
+M:=DFORM(INT,[subscript(x,[j::OutputForm]) for j in 1..n])
+
+-- basis 1-forms and coordinate vector
+dx:=baseForms()$M
+x:=coordVector()$M
+
+d(dx.2*x.1)
+
+a:=operator 'a
+
+a x
+
+b:=vectorField(b)$M
+P:=scalarField(P)$M
+
+b.1
+
+test (dx.1=d(x.1*one()$M))
+
+Q:=nullForm(Q)$M
+d Q 
+
+-- eval ??? todo
+
+-- list * list
+x*dx
+(x*dx)*dx
+
+-- 
+vectorField(W)$M * dx
+
+--
+J:=covectorField(J)$M
+J*dx
+
+--
+--
+--
+
+g:=diagonalMatrix([1,1,1])$SquareMatrix(3,EXPR INT)
+a1:=hodgeStar(g,1)$M
+a2:=hodgeStar(g,dx.1*dx.2)$M
+a3:=hodgeStar(g,dx.3)$M
+dx.3 * %
+
+--
+proj(a1+a2+a3,0)$M
+proj(a1+a2+a3,1)$M
+proj(a1+a2+a3,2)$M
+proj(a1+a2+a3,3)$M
+
+
+--
+
+dot(g,dx.1,dx.1)$M
+dot(g,a2,dx.2)$M
+
+--
+v:=vector [r,s,t::EXPR INT]
+interiorProduct(v,dx.1)$M
+interiorProduct(v,dx.3*dx.1)$M
+
+--
+
+m:=monomials(n-2)$M
+cm:=[conjBasisTerm x for x in m]
+acm:=[atomizeBasisTerm x for x in cm]
+
+--
+
+volumeForm(g)$M
+
+
+-- new hodge:: todo
+--hodgeStarBT(dx[M])=
+--   sqrt(..) * SUM[J] eps(dx[J],dx[J#]) * dot(g,dx[J],dx[M]) *
+--      conjBasisTerm(dx[j])
+--
+--{J} = monomials(degree(dx[M]))
+-- eps(dx[J],dx[J#])= -1 if opposite?(dx[J]*dx[J#],dx[1]*..*dx[n]) else 1
+
+

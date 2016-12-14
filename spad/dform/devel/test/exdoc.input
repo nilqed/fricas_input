@@ -1,0 +1,74 @@
+-----------
+-- Setup --
+-----------
+
+)clear all
+
+
+O ==> OutputForm
+
+-- HodgeStar package for DERHAM(R,v)
+R:=Integer  -- Ring
+v:=[subscript(x,[j::OutputForm]) for j in 0..3] 
+M:=DFORM(R,v)
+
+-- basis 1-forms and coordinate vector
+dx:=baseForms()$M     -- [dx[1],...,dx[n]]
+x:=coordVector()$M    -- [x[1],...,x[n]]
+xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+
+g:= diagonalMatrix([-1,1,1,1])@SquareMatrix(4,Integer)
+
+
+-- volumeForm
+volumeForm(g)$M
+
+-- dot
+dot(g,dx.1*dx.2,dx.1*dx.2)$M
+
+-- hodgeStar
+hodgeStar(g,dx.2 * dx.3)$M
+
+-- interiorProduct
+interiorProduct(vector x, dx.1*dx.3)$M
+
+-- lieDerivative
+lieDerivative(vector x, dx.1*dx.3*dx.4)$M
+ 
+
+-- proj
+proj(2, 2*dx.1 + dx.2*dx.3 - dx.3*dx.4)
+
+
+-----
+h:=diagonalMatrix([scalarField(y)$M for y in [h1::Symbol,h2,h3,h4]])
+
+hodgeStar(h,zero()$M)$M
+hodgeStar2(h,zero()$M)$M
+
+
+hodgeStar(h,dx.1*dx.2*dx.4)$M
+hodgeStar2(h,dx.1*dx.2*dx.4)$M
+
+hodgeStar(h,one())$M
+hodgeStar2(h,one())$M
+
+hodgeStar(g,volumeForm(g)$M)$M
+hodgeStar2(g,volumeForm(g)$M)$M
+
+hodgeStar(g,dx.1*dx.2*dx.4)$M
+hodgeStar2(g,dx.1*dx.2*dx.4)$M
+
+hodgeStar(g,dx.1)$M
+hodgeStar2(g,dx.1)$M
+
+
+alpha:=one()$M+2*dx.1+3*dx.2*dx.3-4*dx.2*dx.3*dx.4+volumeForm(g)$M
+beta:=one()$M+2*dx.1+3*dx.2*dx.3-4*dx.2*dx.3*dx.4+volumeForm(h)$M
+
+test(hodgeStar(g,alpha)$M=hodgeStar2(g,alpha)$M)
+test(hodgeStar(g,beta)$M=hodgeStar2(g,beta)$M)
+
+test(hodgeStar(h,alpha)$M=hodgeStar2(h,alpha)$M)
+test(hodgeStar(h,beta)$M=hodgeStar2(h,beta)$M)
+

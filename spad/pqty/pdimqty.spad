@@ -1,0 +1,30 @@
+)abbrev domain PFLOAT PrecisionFloat
+++ Author: Kurt Pagani
+++ Date Created: Wed Dec 14 02:53:57 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+PrecisionFloat() : Exports == Implementation where
+  
+  COF ==> CoercibleTo(OutputForm)
+  CTS ==> ConvertibleTo(String)
+  ICF ==> IntervalCategory(Float)
+  IVF ==> Interval(Float)
+  NNI ==> NonNegativeInteger
+  
+  Exports == Join(COF,CTS,ICF) with
+    
+    elt : (Float,NNI) -> %
+    coerce : % -> OutputForm
+	
+	
+  Implementation  ==  add 
+
+    Rep := Interval(Float)  
+    
+    elt(v:Float,e:Float):% == interval(v-e,v+e)$IVF
+    
+    coerce(f:%):OutputForm ==
+      a:Float:=inf(f@Rep)$IVF
+      a::OutputForm

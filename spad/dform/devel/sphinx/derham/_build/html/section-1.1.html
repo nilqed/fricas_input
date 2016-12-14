@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.1 Domain: DeRhamComplex &mdash; DeRhamComplex 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DeRhamComplex 1.0 documentation" href="index.html" />
+    <link rel="next" title="1.2 Exported methods" href="section-1.2.html" />
+    <link rel="prev" title="1.0 Introduction" href="section-1.0.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="section-1.2.html" title="1.2 Exported methods"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="section-1.0.html" title="1.0 Introduction"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DeRhamComplex 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="domain-derhamcomplex">
+<h1>1.1 Domain: DeRhamComplex<a class="headerlink" href="#domain-derhamcomplex" title="Permalink to this headline">¶</a></h1>
+<p>The module <code class="docutils literal"><span class="pre">DeRhamComplex</span></code> is contained in the file <code class="docutils literal"><span class="pre">…/algebra/derham.spad</span></code>
+which contains two other domains, <code class="docutils literal"><span class="pre">ExtAlgBasis,</span> <span class="pre">AntiSymm</span></code> and a category
+<code class="docutils literal"><span class="pre">LeftAlgebra</span></code>. The description field in the corresponding headers tells us:</p>
+<dl class="docutils">
+<dt><strong>LeftAlgebra</strong></dt>
+<dd>The category of all left algebras over an arbitrary ring.</dd>
+<dt><strong>ExtAlgBasis</strong></dt>
+<dd>A domain used in the construction of the exterior algebra on a set X
+over a ring R. This domain represents the set of all ordered subsets
+of the set X, assumed to be in correspondance with {1,2,3…}. The ordered
+subsets are themselves ordered lexicographically and are in bijective
+correspondance with an ordered basis of the exterior algebra. In this
+domain we are dealing strictly with the exponents of basis elements
+which can only be 0 or 1. Thus we really have L({0, 1}).
+The multiplicative identity element of the exterior algebra corresponds
+to the empty subset of X. A coerce from List Integer to an ordered basis
+element is provided to allow the convenient input of expressions.
+Another exported function forgets the ordered structure and simply
+returns the list corresponding to an ordered subset.</dd>
+<dt><strong>AntiSymm</strong></dt>
+<dd>The domain of antisymmetric polynomials.</dd>
+<dt><strong>DeRhamComplex</strong></dt>
+<dd>The DeRham complex of Euclidean space, that is, the class of differential
+forms of arbitary degree over a coefficient ring. See Flanders, Harley,
+Differential Forms, with Applications to the Physical Sciences, New York,
+Academic Press, 1963.</dd>
+</dl>
+<p>The author of these modules, <em>Larry A. Lambe</em>, is also the author of many
+research papers and the co-author of the book [5]. His current website is
+<a class="reference external" href="http://pages.bangor.ac.uk/~mas019/">http://pages.bangor.ac.uk/~mas019/</a>.</p>
+<p>In order to enter a differential form (1) one needs some preparations which
+are best illustrated by some examples:</p>
+<p><strong>Example</strong></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">X</span><span class="p">:</span><span class="o">=</span><span class="n">DeRhamComplex</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{DeRhamComplex(Integer,[x,y,z])}\]</div>
+<p><sub>Type: Type</sub></p>
+<p>this defines the space X of differential forms in the coordinates x,y,z.
+That is the underlying manifold (in a broad sense) is three dimensional.
+The coefficient ring Integer may be misleading, but we will come back to
+this point. Next we define the generators:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>[dx,dy,dz]:=[generator(i)$X for i in 1..3]
+</pre></div>
+</div>
+<div class="math">
+\[[dx,dy,dz]\]</div>
+<p><sub>Type: List(DeRhamComplex(Integer,[x,y,z]))</sub></p>
+<p>Now we can enter a differential form: <span class="math">\(dx+2 dy+3 dz\)</span>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">dx</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">dy</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">dz</span>
+</pre></div>
+</div>
+<div class="math">
+\[3\,dz + 2\,dy + dx\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<p>which represents a differential 1-form. When we multiply (i.e. <span class="math">\(\wedge\)</span>)
+the result above by <span class="math">\(dy\)</span> from the right we should get the 2-form</p>
+<div class="math">
+\[(dx+2\,dy+3\,dz)\wedge dy = dx\wedge dy - 3\, dy\wedge dz\]</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%*</span><span class="n">dy</span>
+</pre></div>
+</div>
+<div class="math">
+\[- 3\,dy\,dz + dx\,dy\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<p>One recognizes that the terms are automatically ordered according to the
+order given by the generators on the one hand (there usually is never a term
+<span class="math">\(dy\wedge dx\)</span> in the output, unless deliberately generated) and
+lexicographic ordering on the other. This might be a source of confusion if
+the variables and generators are carelessly chosen. Surprisingly enough the
+following works as well:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">3</span><span class="o">/</span><span class="mi">5</span><span class="o">*</span><span class="n">dx</span>
+</pre></div>
+</div>
+<div class="math">
+\[-\frac{3}{5} \,dx\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">*</span><span class="n">dx</span>
+</pre></div>
+</div>
+<div class="math">
+\[x \, dx\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">dx</span>
+</pre></div>
+</div>
+<div class="math">
+\[x^2 \, dx\]</div>
+<p><sub>Type: Polynomial(DeRhamComplex(Integer,[x,y,z]))</sub></p>
+<p>so the coefficient ring is certainly bigger than Integer (<span class="math">\(\mathbb{Z}\)</span>).
+Actually the coefficient ring is <code class="docutils literal"><span class="pre">Expression(Integer)</span></code> which is a huge space
+(with all the properties of a field), however, it is not compatible to the
+type <code class="docutils literal"><span class="pre">Polynomial(Integer)</span></code>. The output above shows that the return type
+does not correspond to the defined space X. This is because <span class="math">\(x^2\)</span> has
+type Polynomial(Integer) instead of Expression(Integer). This means that we
+have to <em>coerce</em> certain expressions:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">==&gt;</span> <span class="n">Expression</span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span>
+                                                            <span class="n">Type</span><span class="p">:</span> <span class="n">Void</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)::</span><span class="n">R</span><span class="o">*</span><span class="n">dx</span>
+</pre></div>
+</div>
+<div class="math">
+\[x^2\,dx\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<p>Warning.
+Polynomial expressions must be coerced to the coefficient ring (R). The return
+type should always coincide with the initially defined space (X in our example).
+Other functions are usually no problem, e.g. <span class="math">\(\sin(x+y),dx\wedge dy\)</span>.
+It is of course possible to work with general undetermined functions using
+the <code class="docutils literal"><span class="pre">BasicOperator</span></code> type (note that <code class="docutils literal"><span class="pre">BOP</span></code> is the official abbreviation for
+the latter):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="p">:</span> <span class="n">BOP</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span><span class="p">(</span><span class="s1">&#39;a);</span>
+
+                                                      <span class="n">Type</span><span class="p">:</span> <span class="n">BasicOperator</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="p">:</span> <span class="n">BOP</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span><span class="p">(</span><span class="s1">&#39;b);</span>
+
+                                                      <span class="n">Type</span><span class="p">:</span> <span class="n">BasicOperator</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="p">:</span> <span class="n">BOP</span> <span class="p">:</span><span class="o">=</span> <span class="n">operator</span><span class="p">(</span><span class="s1">&#39;c);</span>
+
+                                                      <span class="n">Type</span><span class="p">:</span> <span class="n">BasicOperator</span>
+</pre></div>
+</div>
+<p>Now we can enter the most general 2-form in X:</p>
+<div class="math">
+\[\sigma=a(x,y,z)\,dx\wedge dy + b(x,y,z)\,dx\wedge dz +
+    c(x,y,z)\, dy\wedge dz.\]</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sigma</span><span class="p">:</span><span class="o">=</span><span class="n">a</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">)</span><span class="o">*</span> <span class="n">dx</span><span class="o">*</span><span class="n">dy</span> <span class="o">+</span> <span class="n">b</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">)</span><span class="o">*</span> <span class="n">dx</span><span class="o">*</span><span class="n">dz</span> <span class="o">+</span> <span class="n">c</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">)</span><span class="o">*</span> <span class="n">dy</span><span class="o">*</span><span class="n">dz</span>
+</pre></div>
+</div>
+<div class="math">
+\[c(x,y,z)\,dy\,dz + b(x,y,z)\,dx\,dz + a(x,y,z)\,dx\, dy\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<p>This <code class="docutils literal"><span class="pre">BOP</span></code> method is very convenient and gives great flexibility. We can also
+define forms which depend on parameters, i.e. form valued functions
+<span class="math">\(\sigma:T \rightarrow X\)</span> as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sigma</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">==</span> <span class="n">a</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span><span class="o">*</span><span class="n">dy</span> <span class="o">+</span> <span class="n">b</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span><span class="o">*</span><span class="n">dz</span> <span class="o">+</span> <span class="n">c</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">dy</span><span class="o">*</span><span class="n">dz</span>
+</pre></div>
+</div>
+<p>Although <span class="math">\(\sigma(t)\)</span> is not a form, it will become one as soon as it
+is evaluated:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span> <span class="n">sigma</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span>
+
+<span class="n">Compiling</span> <span class="n">function</span> <span class="n">sigma</span> <span class="k">with</span> <span class="nb">type</span> <span class="n">Variable</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DeRhamComplex</span><span class="p">(</span>
+   <span class="n">Integer</span><span class="p">,[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">])</span>
+
+ <span class="n">c</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">tau</span><span class="p">)</span><span class="n">dy</span> <span class="n">dz</span> <span class="o">+</span> <span class="n">b</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">tau</span><span class="p">)</span><span class="n">dx</span> <span class="n">dz</span> <span class="o">+</span> <span class="n">a</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">tau</span><span class="p">)</span><span class="n">dx</span> <span class="n">dy</span>
+                                      <span class="n">Type</span><span class="p">:</span> <span class="n">DeRhamComplex</span><span class="p">(</span><span class="n">Integer</span><span class="p">,[</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">z</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><strong>Contrary</strong> to most introductional expositions, by <em>differential forms</em> we
+here mean the graded differential algebra, that is we can add forms of
+different degrees:</p>
+<div class="math">
+\[1+dx + dy\wedge dz + dx\wedge dy \wedge dz\]</div>
+<p><a class="reference internal" href="index.html#startpage"><span class="std std-ref">FriCAS :: DeRhamComplex</span></a></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="section-1.0.html"
+                        title="previous chapter">1.0 Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="section-1.2.html"
+                        title="next chapter">1.2 Exported methods</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.1.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="section-1.2.html" title="1.2 Exported methods"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="section-1.0.html" title="1.0 Introduction"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DeRhamComplex 1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Kurt Pagani &lt;nilqed@gmail.com&gt;.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.
+    </div>
+  </body>
+</html>

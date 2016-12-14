@@ -1,0 +1,323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.0 Introduction &mdash; DifferentialForms 1.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DifferentialForms 1.1.0 documentation" href="index.html" />
+    <link rel="next" title="2.0 Package Details" href="section-2.0.html" />
+    <link rel="prev" title="FriCAS :: DifferentialForms" href="index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="section-2.0.html" title="2.0 Package Details"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="FriCAS :: DifferentialForms"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DifferentialForms 1.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<span id="id1"></span><h1>1.0 Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>The package <code class="docutils literal"><span class="pre">DifferentialForms</span></code> (in file <code class="docutils literal"><span class="pre">dform.spad</span></code>) builds on the
+domain <code class="docutils literal"><span class="pre">DeRhamComplex</span></code>. In the following section we give a brief overview
+of the functions that are going to be implemented. The focus is on precise
+definitions of the notions, since those may be varying in the literature.
+In section (2) we will describe the exported functions and how they work,
+in section (3) some short implementation notes will be given and finally
+the last section is devoted to some examples.</p>
+</div>
+<div class="section" id="definitions">
+<h1>1.1 Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
+<p>Let <span class="math">\(\mathcal{M}\)</span> be a n-dimensional manifold (sufficiently smooth and
+orientable). To each point <span class="math">\(P \in \mathcal{M}\)</span> there is a neighborhood
+which can be diffeomorphically mapped to some region in <span class="math">\(\mathbb{R}^n\)</span>,
+with coordinates</p>
+<div class="math">
+\[x_1 (P'), \ldots, x_n (P')\]</div>
+<p>for all <span class="math">\(P' \in \mathcal{U} (P) \subset \mathcal{M}\)</span>. The tangent space
+<span class="math">\(T_{P'} (\mathcal{M})\)</span> at the point <span class="math">\(P'\)</span> is a vector space, that
+is spanned by the basis</p>
+<div class="math">
+\[e_1 (P'), \ldots, e_n (P')\]</div>
+<p>which also is often denoted by</p>
+<div class="math">
+\[\partial_1, \ldots, \partial_n =
+ \frac{\partial}{\partial x_1}, \ldots,
+ \frac{\partial}{\partial x_n}.\]</div>
+<p>A tangent vector <span class="math">\(v\)</span> has the form</p>
+<div class="math">
+\[v = \sum_{j = 1}^n v^j e_j .\]</div>
+<p>The cotangent space <span class="math">\(T_{P'}^{} (\mathcal{M})^{\star}\)</span> is the vector space
+of linear functionals</p>
+<div class="math">
+\[\alpha : T_{P'} (\mathcal{M}) \rightarrow \mathbb{R},\]</div>
+<p>spanned by the basis <span class="math">\(e^1 (P'), \ldots, e^n (P')\)</span>
+which (corresponding to the basis <span class="math">\(\partial_j\)</span>) is also denoted by</p>
+<div class="math">
+\[d x^1,\ldots, d x^n.\]</div>
+<p>The latter notation indicates the dependency on the moving
+point <span class="math">\(P'\)</span>. The dual basis is by definition comprised of those linear
+functionals such that</p>
+<div class="math">
+\[e^j (e_k) = \delta^j_k .\]</div>
+<p>Therefore we have</p>
+<div class="math">
+\[\alpha (v) = \alpha \left( \sum_{j = 1}^n v^j e_j \right) =
+\sum_{j = 1}^n v^j \alpha (e_j) = \sum_{j = 1}^n v^j \alpha_j,\]</div>
+<p>where <span class="math">\(\alpha = \sum_{j = 1}^n \alpha_j e^j\)</span>.</p>
+<div class="section" id="inner-product-of-differential-forms-dot">
+<h2>1.1.1 Inner product of differential forms (<strong>dot</strong>)<a class="headerlink" href="#inner-product-of-differential-forms-dot" title="Permalink to this headline">¶</a></h2>
+<p>Let <span class="math">\(g_x\)</span> be a symmetric <span class="math">\(n \times n\)</span> matrix which is nondegenerate
+(i.e. <span class="math">\(\det (g_x) \neq 0\)</span>). The index x indicates that this matrix
+depends on the coordinates <span class="math">\(x_1 (P), \ldots, x_n (P)\)</span> and may be varying
+from point to point. If this dependency is smooth (enough) we speak of a
+(pseudo-) Riemannian metric (locally). This way we get an isomorphism between
+tangent vectors and 1-forms (= covectors):</p>
+<div class="math">
+\[\alpha_j = g_{j k} v^k, \hspace{1.2em} v^j = g^{j k} \alpha_j .\]</div>
+<p>Clearly, <span class="math">\(\sum_k g^{j k} g_{k l} = \delta^j_l\)</span>, in other words
+<span class="math">\((g^{j k})\)</span> is the inverse of g. The metric g defines an <em>inner product</em>
+of vectors</p>
+<div class="math">
+\[g (v, w) = \langle v, w \rangle : = g_{i j} v^i w^j\]</div>
+<p>and by duality also on 1-forms:</p>
+<div class="math">
+\[g^{- 1} (\alpha, \beta) = \langle \alpha, \beta \rangle : = g^{i j}
+ \alpha_i \beta_j .\]</div>
+<p>Now, this inner product is extended to arbitrary p-forms by</p>
+<div class="math">
+\[\langle \alpha_1 \wedge \ldots \wedge \alpha_p , \beta_1 \wedge
+\ldots \wedge \beta_p \rangle : = \det (\langle \alpha_i, \beta_j \rangle)
+, \hspace{1.8em} (1 \leqslant i, j \leqslant p), \label{dot}\]</div>
+<p>and linearity.</p>
+</div>
+<div class="section" id="the-volume-form-volumeform">
+<h2>1.1.2. The volume form <span class="math">\(\eta\)</span> (<strong>volumeForm</strong>)<a class="headerlink" href="#the-volume-form-volumeform" title="Permalink to this headline">¶</a></h2>
+<p>The Riemannian <em>volume form</em> <span class="math">\(\eta\)</span> is (by definition) given by the
+n-form</p>
+<div class="math">
+\[\eta = \sqrt{| \det g |} e^1 \wedge \ldots \wedge e^n = \sqrt{| \det\,g |} d
+x^1 \wedge \ldots \wedge d x^n . \label{vol}\]</div>
+<p>This definition makes sense because by a (orientation preserving) change of
+coordinates <span class="math">\(\sqrt{\mathrm{det} g}\)</span> transforms like the component of
+a n-form.</p>
+</div>
+<div class="section" id="hodge-dual-hodgestar">
+<h2>1.1.3. Hodge dual (<strong>hodgeStar</strong>)<a class="headerlink" href="#hodge-dual-hodgestar" title="Permalink to this headline">¶</a></h2>
+<p>The <em>Hodge dual</em> of a differential p-form <span class="math">\(\beta\)</span> is the (n - p)-form
+<span class="math">\(\star \beta\)</span> such that</p>
+<div class="math">
+\[\alpha \wedge \star \beta = \langle \alpha, \beta \rangle \eta \label{hodge}\]</div>
+<p>holds, for all p-forms <span class="math">\(\alpha\)</span>. The linear operator <span class="math">\((\star)\)</span> is
+called the <em>Hodge star operator</em>. By the <em>Riesz representation theorem</em> the
+Hodge dual is uniquely defined by the expression above.</p>
+<p><strong>Warning</strong></p>
+<p>Flanders <a class="footnote-reference" href="#id6" id="id2">[4]</a> defines the Hodge dual by the equality</p>
+<div class="math">
+\[\lambda \wedge \mu = \langle \star \lambda, \mu \rangle \eta\]</div>
+<p>where <span class="math">\(\lambda\)</span> is a p-form and <span class="math">\(\mu\)</span> a (n - p)-form.
+This can result in different signs. The generally adopted definition (2016)
+is the one given at the beginning of this subsection.</p>
+<p>The components of <span class="math">\(\star \beta\)</span> are</p>
+<div class="math">
+\[(\star \beta)_{j_1, \ldots, j_{n - p}} = \frac{1}{p!} \varepsilon_{i_1,
+ \ldots, i_p, j_1, \ldots, j_{n - p}}  \sqrt{| \det g |} g^{i_1 k_1} \ldots
+ g^{i_p k_p} \beta_{k_1, \ldots, k_p}\]</div>
+<p>what is equal to</p>
+<div class="math">
+\[\frac{1}{p! \sqrt{| \det g |}} \varepsilon_{}^{k_1, \ldots, k_p, l_1,
+ \ldots, l_{n - p}} g_{j_1 l_1} \ldots g_{j_{n - p}, l_{n - p}} \beta_{k_1,
+ \ldots, k_p} .\]</div>
+</div>
+<div class="section" id="interior-product-interiorproduct">
+<h2>1.1.4 Interior product (<strong>interiorProduct</strong>)<a class="headerlink" href="#interior-product-interiorproduct" title="Permalink to this headline">¶</a></h2>
+<p>The <em>interior product</em> of a vectorfield <span class="math">\(v\)</span> and a p-form <span class="math">\(\alpha\)</span>
+is a (p -1)-form <span class="math">\(i_v (\alpha)\)</span> such that</p>
+<div class="math">
+\[i_v (\alpha) (v_1, \ldots, v_{p - 1}) = \alpha (v, v_1, \ldots, v_{p - 1})\]</div>
+<p>holds, for all vectorfields <span class="math">\(v_1, \ldots, v_{p - 1}\)</span>. Therefore, the
+components of <span class="math">\(i_v (\alpha)\)</span> are</p>
+<div class="math">
+\[i_v (\alpha)_{j_1, \ldots, j_{p - 1}} = v^j \alpha_{j, j_1, \ldots, j_{p -
+  1} .}\]</div>
+<p>One can express the interior product by using the <span class="math">\(\star\)</span>-operator.
+Let <span class="math">\(\alpha\)</span> be the 1-form defined by the equation</p>
+<div class="math">
+\[\alpha (w) = g (v, w), \forall w.\]</div>
+<p>That means in components: <span class="math">\(\alpha_j = g_{j k} v^k\)</span>,
+thus we have</p>
+<div class="math">
+\[i_v (\beta) = (-)^{p - 1} \star^{- 1} (\alpha \wedge \star \beta) .\]</div>
+<p>Clearly, the interior product is independent of any metric, whereas the
+Hodge operator is <strong>not</strong>! So, usually one should not use the Hodge
+operator to compute the interior product.</p>
+<p>We will use the fact that the interior product is an <em>antiderivation</em>,
+which allows a recursive implementation.</p>
+</div>
+<div class="section" id="the-lie-derivative-liederivative">
+<h2>1.1.5 The Lie derivative (<strong>lieDerivative</strong>)<a class="headerlink" href="#the-lie-derivative-liederivative" title="Permalink to this headline">¶</a></h2>
+<p>The <em>Lie derivative</em> with respect to a vector field <span class="math">\(v\)</span> can be
+calculated (and defined) using Cartan&#8217;s formula:</p>
+<div class="math">
+\[\mathcal{L}_v \alpha = d i_v (\alpha) + i_v (d \alpha).\]</div>
+<p>There are other ways to define <span class="math">\(\mathcal{L}_v \alpha\)</span>, however,
+it is convenient to compute it this way when <span class="math">\(d\)</span> and <span class="math">\(i_v\)</span> are
+already at hand.</p>
+</div>
+</div>
+<div class="section" id="literature">
+<h1>Literature<a class="headerlink" href="#literature" title="Permalink to this headline">¶</a></h1>
+<table class="docutils footnote" frame="void" id="id3" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td>Ralph Abraham, Jerrold E.Marsden and Tudor Ratiu.Manifolds,
+Tensor Analysis, and Applications. Springer,
+Auflage: 2nd Corrected ed. 1988. Corr. 2nd printing 1993 edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id4" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td>Henri Cartan. Di erential Forms. Dover Pubn Inc, Au age: Tra edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id5" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[3]</td><td>Herbert Federer. Geometric Measure Theory. Springer, Au age: Reprint of
+the 1st ed. Berlin, Heidelberg, New York 1969 edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id6" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[4]</a></td><td>Harley Flanders and Mathematics. Differential Forms with Applications to
+the Physical Sciences. Dover Pubn Inc, Auflage: Revised. edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id7" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td>L. A. Lambe and D. E. Radford. Introduction to the Quantum Yang-Baxter
+Equation and Quantum Groups:An Algebraic Approach. Springer,
+Auflage: 1997 edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id8" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[6]</td><td>Walter Rudin and RudinWalter. Principles ofMathematicalAnalysis.Mcgraw
+Hill Book Co, Au age: Revised. edition.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[7]</td><td>Hassler Whitney. Geometric Integration Theory: Princeton Mathematical
+Series, No. 21. Literary Licensing, LLC.</td></tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1.0 Introduction</a></li>
+<li><a class="reference internal" href="#definitions">1.1 Definitions</a><ul>
+<li><a class="reference internal" href="#inner-product-of-differential-forms-dot">1.1.1 Inner product of differential forms (<strong>dot</strong>)</a></li>
+<li><a class="reference internal" href="#the-volume-form-volumeform">1.1.2. The volume form <span class="math">\(\eta\)</span> (<strong>volumeForm</strong>)</a></li>
+<li><a class="reference internal" href="#hodge-dual-hodgestar">1.1.3. Hodge dual (<strong>hodgeStar</strong>)</a></li>
+<li><a class="reference internal" href="#interior-product-interiorproduct">1.1.4 Interior product (<strong>interiorProduct</strong>)</a></li>
+<li><a class="reference internal" href="#the-lie-derivative-liederivative">1.1.5 The Lie derivative (<strong>lieDerivative</strong>)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#literature">Literature</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">FriCAS :: DifferentialForms</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="section-2.0.html"
+                        title="next chapter">2.0 Package Details</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-1.0.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="section-2.0.html" title="2.0 Package Details"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="FriCAS :: DifferentialForms"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DifferentialForms 1.1.0 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Kurt Pagani &lt;nilqed@gmail.com&gt;.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.
+    </div>
+  </body>
+</html>
