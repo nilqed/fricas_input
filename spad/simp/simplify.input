@@ -1,0 +1,62 @@
+F := Expression(Complex Integer)
+K := Kernel(F)
+
+exp_to_pow(f) ==
+    tf := tower(f)
+    tf1 := tf
+    sl0 : List(K) := []
+    sl1 : List(F) := []
+    while not(empty?(tf1)) repeat
+        k := first(tf1)
+        tf1 := rest(tf1)
+        not(is?(k, 'exp)) => "iterate"
+        k1 := exp_to_pow1(k, sl0, sl1)
+        if k::F ~= k1 then
+            sl0 := cons(k, sl0)
+            sl1 := cons(k1, sl1)
+    subst(f, sl0, sl1)
+
+exp_to_pow1(k, sl0, sl1) ==
+    a := first(argument(k))
+    a := subst(a, sl0, sl1)
+    ta := tower(a)
+    ll := [k1 for k1 in ta | is?(k1, 'log)]
+    #ll ~= 1 => k::F
+    k_log := first(ll)
+    ua := univariate(a, k_log)
+    denom(ua) ~= 1 => k::F
+    uap := numer(ua)
+    degree(uap) ~= 1 or coefficient(uap, 0) ~= 0 => k::F
+    c := leadingCoefficient(uap)
+    a1 := first(argument(k_log))
+    a1^c
+
+-- simplify e^{i*pi*m/n} if m>n
+
+simp1(f) ==
+    tf := tower(f)
+    tf1 := tf
+    sl0 : List(K) := []
+    sl1 : List(F) := []
+    while not empty?(tf1) repeat
+        k := first(tf1)
+        tf1 := rest(tf1)
+        not is?(k, 'exp) => "iterate"
+        k1 := simp2(k, sl0, sl1)
+        if k::F ~= k1 then
+            sl0 := cons(k, sl0)
+            sl1 := cons(k1, sl1)
+    subst(f, sl0, sl1)
+ 
+simp2(k,sl0,sl1) ==
+    a := first(argument(k))
+    a := subst(a, sl0, sl1)
+    b:=imag(a)
+    a ~= %i*b => error "not imag"
+    not is?(tower(b).1,'pi) => error "not pi"
+    c:=b/%pi
+    not rational?(c) => error "not rat"
+    n:=numer(c)::Integer
+    d:=denom(c)::Integer
+    (-1)^(n quo d)*exp(%i*%pi*(n rem d)/d) 
+        

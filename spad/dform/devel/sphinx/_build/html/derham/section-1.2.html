@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1.2 Exported methods &#8212; DifferentialForms 1.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DifferentialForms 1.1.0 documentation" href="../index.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">DifferentialForms 1.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="exported-methods">
+<h1>1.2 Exported methods<a class="headerlink" href="#exported-methods" title="Permalink to this headline">¶</a></h1>
+<p>Let us briefly disuss the exported methods of X=DERHAM:</p>
+<dl class="docutils">
+<dt><strong>leadingCoefficient</strong></dt>
+<dd>Returns the leading coefficient, obviously, but what is the leading
+coefficient?</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leadingCoefficient</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">b</span><span class="o">*</span><span class="n">dy</span> <span class="o">+</span> <span class="n">c</span><span class="o">*</span><span class="n">dz</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[c\]</div>
+<p><sub>Type: Expression(Integer)</sub></p>
+<p>It seems that it is the first coefficient given in the OutputForm.
+It is not quite clear what happens when this order is changed by some method,
+if possible at all (todo).</p>
+<dl class="docutils">
+<dt><strong>leadingBasisTerm</strong></dt>
+<dd>Returns the basis form (corresponding to the leadingCoefficient).</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">leadingBasisTerm</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">b</span><span class="o">*</span><span class="n">dy</span> <span class="o">+</span><span class="n">c</span><span class="o">*</span><span class="n">dz</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[dz\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<dl class="docutils">
+<dt><strong>reductum</strong></dt>
+<dd>Returns df minus the leading term of σ if σ has two or more terms, and 0
+otherwise.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">reductum</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">b</span><span class="o">*</span><span class="n">dy</span> <span class="o">+</span> <span class="n">c</span><span class="o">*</span><span class="n">dz</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[b dy + a dx\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<p>One can see that this works like a list of cons&#8217;: head/tail where head can
+be split into coefficient and basis term and so on, allowing traverse the
+term recursively.</p>
+<dl class="docutils">
+<dt><strong>coefficient</strong></dt>
+<dd>coefficient(σ, u), where σ is a differential form, returns the coefficient
+of df containing the basis term u if such a term exists, and 0 otherwise.
+If we want the coefficient of the basis term d x∧d y for example:</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">coefficient</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">b</span><span class="o">*</span><span class="n">dy</span> <span class="o">+</span> <span class="n">c</span><span class="o">*</span><span class="n">dz</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[b\]</div>
+<p><sub>Type: Expression(Integer)</sub></p>
+<dl class="docutils">
+<dt><strong>generator</strong></dt>
+<dd>generator(i) returns the i^th basis 1-form for X. For instance</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span>generator(1)$X
+</pre></div>
+</div>
+<div class="math">
+\[dx\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<p>The description given in derham.spad seems to be not quite suitable.</p>
+<dl class="docutils">
+<dt><strong>homogeneous?</strong></dt>
+<dd>homogeneous?(σ) tests if all of the terms of differential form σ have
+the same degree. The degree is defined as p if σ is a pure p-form.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span>homogeneous?(a*dx + b*dy + c*dz)
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{true}\]</div>
+<p><sub>Type: Boolean</sub></p>
+<p>Adding a term like <code class="docutils literal"><span class="pre">dx*dy</span></code> above would result in <code class="docutils literal"><span class="pre">false</span></code>.</p>
+<dl class="docutils">
+<dt><strong>retractable?</strong></dt>
+<dd>retractable?(σ) tests if differential form σ is a 0-form, i.e., if
+degree(σ) = 0.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span>retractable? (1::X)
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{true}\]</div>
+<p><sub>Type: Boolean</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>retractable? dx
+</pre></div>
+</div>
+<div class="math">
+\[\mathrm{false}\]</div>
+<p><sub>Type: Boolean</sub></p>
+<dl class="docutils">
+<dt><strong>degree</strong></dt>
+<dd>degree(σ) returns the homogeneous degree of differential form σ.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">degree</span><span class="p">(</span><span class="n">dx</span><span class="o">+</span><span class="n">dx</span><span class="o">*</span><span class="n">dz</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;</span> <span class="n">Error</span> <span class="n">detected</span> <span class="n">within</span> <span class="n">library</span> <span class="n">code</span><span class="p">:</span>
+<span class="ow">not</span> <span class="n">a</span> <span class="n">homogeneous</span> <span class="n">element</span>
+
+<span class="n">degree</span><span class="p">(</span><span class="n">dx</span><span class="o">*</span><span class="n">dy</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[2\]</div>
+<p><sub>Type: PositiveInteger</sub></p>
+<dl class="docutils">
+<dt><strong>map</strong></dt>
+<dd>map(f, σ) replaces each coefficient c of a differential form σ by f(c).
+For example let f:R→R⁣,x↦x^2, then all coefficients should be squared:</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">==&gt;</span> <span class="n">Expression</span> <span class="n">Integer</span>
+<span class="n">f</span><span class="p">:</span><span class="n">R</span><span class="o">-&gt;</span><span class="n">R</span>
+<span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">==</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span>
+
+<span class="nb">map</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">a</span><span class="o">*</span><span class="n">dx</span> <span class="o">+</span> <span class="n">b</span><span class="o">*</span><span class="n">dy</span> <span class="o">+</span> <span class="n">c</span><span class="o">*</span><span class="n">dz</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[c^2\, dz + b^2\, dy + a^2\, dx\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<dl class="docutils">
+<dt><strong>totalDifferential</strong></dt>
+<dd>totalDifferential(f) returns the total differential (gradient) form for
+a function f.</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span>g:=operator &#39;g
+
+totalDifferential(g(x,y,z))$X
+</pre></div>
+</div>
+<div class="math">
+\[{{{g _ {{,3}}}
+\left(
+{x, \: y, \: z}
+\right)}
+\  dz}+{{{g _ {{,2}}}
+\left(
+{x, \: y, \: z}
+\right)}
+\  dy}+{{{g _ {{,1}}}
+\left(
+{x, \: y, \: z}
+\right)}
+\  dx}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<p>Here, polynomial expressions are allowed as well:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>totalDifferential(x^m)$X
+</pre></div>
+</div>
+<div class="math">
+\[m\,x^{m-1}\,dx\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<dl class="docutils">
+<dt><strong>exteriorDifferential</strong></dt>
+<dd>exteriorDifferential(σ) returns the exterior derivative of the differential
+form σ. This is the  well known d with d∘d=0. We will abbreviate it by</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">==&gt;</span> <span class="n">exteriorDifferential</span>
+
+<span class="n">d</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">dy</span> <span class="o">+</span> <span class="n">z</span><span class="o">*</span><span class="n">dx</span><span class="o">*</span><span class="n">dy</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{dx \  dy}+{dx \  dy \  dz}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub></p>
+<p><a class="reference internal" href="index.html#startpage"><span class="std std-ref">FriCAS :: DeRhamComplex</span></a></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/derham/section-1.2.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="nav-item nav-item-0"><a href="../index.html">DifferentialForms 1.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Kurt Pagani &lt;nilqed@gmail.com&gt;.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,811 @@
+
+(1) -> )read new
+-----------
+-- Setup --
+-----------
+)clear all
+ 
+   All user variables and function definitions have been cleared.
+
+n:=4 -- dim of base space (n>=2 !)
+ 
+
+$$
+4 
+\leqno(1)
+$$
+
+                                                        Type: PositiveInteger
+
+O ==> OutputForm
+ 
+                                                                   Type: Void
+
+-- HodgeStar package for DERHAM(R,v)
+R:=Integer  -- Ring
+ 
+
+$$
+Integer 
+\leqno(3)
+$$
+
+                                                                   Type: Type
+v:=[subscript(x,[j::OutputForm]) for j in 1..n] -- (x_1,..,x_n)
+ 
+
+$$
+\left[
+{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}} 
+\right]
+\leqno(4)
+$$
+
+                                                           Type: List(Symbol)
+M:=DFORM(R,v)
+ 
+
+$$
+DifferentialForms(Integer,[x[1],x[2],x[3],x[4]]) 
+\leqno(5)
+$$
+
+                                                                   Type: Type
+
+-- basis 1-forms and coordinate vector
+dx:=baseForms()$M     -- [dx[1],...,dx[n]]
+ 
+
+$$
+\left[
+{dx \sb {1}}, \: {dx \sb {2}}, \: {dx \sb {3}}, \: {dx \sb {4}} 
+\right]
+\leqno(6)
+$$
+
+                     Type: List(DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]]))
+x:=coordVector()$M    -- [x[1],...,x[n]]
+ 
+
+$$
+\left[
+{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}} 
+\right]
+\leqno(7)
+$$
+
+                                              Type: List(Expression(Integer))
+xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+ 
+
+$$
+\left[
+{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}} 
+\right]
+\leqno(8)
+$$
+
+                                                           Type: List(Symbol)
+
+
+-- operator, vector field, scalar field, symbol
+a:=operator 'a         -- operator
+ 
+
+$$
+a 
+\leqno(9)
+$$
+
+                                                          Type: BasicOperator
+b:=vectorField(b)$M    -- generic vector field [b1(x1..xn),...,bn(x1..xn)]
+ 
+
+$$
+\left[
+{{b \sb {1}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)},
+\: {{b \sb {2}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)},
+\: {{b \sb {3}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)},
+\: {{b \sb {4}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\right]
+\leqno(10)
+$$
+
+                                              Type: List(Expression(Integer))
+c:=vectorField(c)$M
+ 
+
+$$
+\left[
+{{c \sb {1}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)},
+\: {{c \sb {2}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)},
+\: {{c \sb {3}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)},
+\: {{c \sb {4}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\right]
+\leqno(11)
+$$
+
+                                              Type: List(Expression(Integer))
+P:=scalarField(P)$M -- scalar field P(x1,..,xn)
+ 
+
+$$
+P 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)
+\leqno(12)
+$$
+
+                                                    Type: Expression(Integer)
+
+-- metric
+g:=diagonalMatrix([1 for i in 1..n])$SquareMatrix(n,EXPR R)  -- Euclidean
+ 
+
+$$
+\left[
+\begin{array}{cccc}
+1 & 0 & 0 & 0 \\ 
+0 & 1 & 0 & 0 \\ 
+0 & 0 & 1 & 0 \\ 
+0 & 0 & 0 & 1 
+\end{array}
+\right]
+\leqno(13)
+$$
+
+                                    Type: SquareMatrix(4,Expression(Integer))
+h:=diagonalMatrix(c)$SquareMatrix(n,EXPR R)
+ 
+
+$$
+\left[
+\begin{array}{cccc}
+{{c \sb {1}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+& 0 & 0 & 0 \\ 
+0 & {{c \sb {2}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+& 0 & 0 \\ 
+0 & 0 & {{c \sb {3}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+& 0 \\ 
+0 & 0 & 0 & {{c \sb {4}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\end{array}
+\right]
+\leqno(14)
+$$
+
+                                    Type: SquareMatrix(4,Expression(Integer))
+
+-- vector field
+vf:=vector b
+ 
+
+$$
+\left[
+{{b \sb {1}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)},
+\: {{b \sb {2}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)},
+\: {{b \sb {3}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)},
+\: {{b \sb {4}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\right]
+\leqno(15)
+$$
+
+                                            Type: Vector(Expression(Integer))
+
+-- macros
+dV(g) ==> volumeForm(g)$M
+ 
+                                                                   Type: Void
+i(X,w) ==> interiorProduct(X,w)$M
+ 
+                                                                   Type: Void
+L(X,w) ==> lieDerivative(X,w)$M
+ 
+                                                                   Type: Void
+** w ==> hodgeStar(g,w)$M
+ 
+                                                                   Type: Void
+
+---
+
+w:=x.1*dx.2-x.2*dx.1
+ 
+
+$$
+{{x \sb {1}} \  {dx \sb {2}}} -{{x \sb {2}} \  {dx \sb {1}}} 
+\leqno(20)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+d w
+ 
+
+$$
+2 \  {dx \sb {1}} \  {dx \sb {2}} 
+\leqno(21)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+w*w
+ 
+
+$$
+0 
+\leqno(22)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+i(vf,w)
+ 
+
+$$
+{{x \sb {1}} \  {{b \sb {2}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+-{{x \sb {2}} \  {{b \sb {1}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+\leqno(23)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+L(vf,w)
+ 
+
+$$
+{{\left( {{x \sb {1}} \  {{{b \sb {2}} \sb {{,4}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+-{{x \sb {2}} \  {{{b \sb {1}} \sb {{,4}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+\right)}
+\  {dx \sb {4}}}+{{\left( {{x \sb {1}} \  {{{b \sb {2}} \sb {{,3}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+-{{x \sb {2}} \  {{{b \sb {1}} \sb {{,3}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+\right)}
+\  {dx \sb {3}}}+{{\left( {{x \sb {1}} \  {{{b \sb {2}} \sb {{,2}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+-{{x \sb {2}} \  {{{b \sb {1}} \sb {{,2}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}+{{b
+\sb {1}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\right)}
+\  {dx \sb {2}}}+{{\left( {{x \sb {1}} \  {{{b \sb {2}} \sb {{,1}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+-{{x \sb {2}} \  {{{b \sb {1}} \sb {{,1}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+-{{b \sb {2}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\right)}
+\  {dx \sb {1}}} 
+\leqno(24)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+d i(vf,w) + i(vf,d w)
+ 
+
+$$
+{{\left( {{x \sb {1}} \  {{{b \sb {2}} \sb {{,4}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+-{{x \sb {2}} \  {{{b \sb {1}} \sb {{,4}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+\right)}
+\  {dx \sb {4}}}+{{\left( {{x \sb {1}} \  {{{b \sb {2}} \sb {{,3}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+-{{x \sb {2}} \  {{{b \sb {1}} \sb {{,3}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+\right)}
+\  {dx \sb {3}}}+{{\left( {{x \sb {1}} \  {{{b \sb {2}} \sb {{,2}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+-{{x \sb {2}} \  {{{b \sb {1}} \sb {{,2}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}+{{b
+\sb {1}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\right)}
+\  {dx \sb {2}}}+{{\left( {{x \sb {1}} \  {{{b \sb {2}} \sb {{,1}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+-{{x \sb {2}} \  {{{b \sb {1}} \sb {{,1}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+-{{b \sb {2}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\right)}
+\  {dx \sb {1}}} 
+\leqno(25)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+% - L(vf,w)
+ 
+
+$$
+0 
+\leqno(26)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+dot(g,w,w)$M
+ 
+
+$$
+{{{x \sb {2}}} \sp {2}}+{{{x \sb {1}}} \sp {2}} 
+\leqno(27)
+$$
+
+                                                    Type: Expression(Integer)
+d i(vf,dV(g)) -- div(b) dV
+ 
+
+$$
+{\left( {{{b \sb {4}} \sb {{,4}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}+{{{b
+\sb {3}} \sb {{,3}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}+{{{b
+\sb {2}} \sb {{,2}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}+{{{b
+\sb {1}} \sb {{,1}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\right)}
+\  {dx \sb {1}} \  {dx \sb {2}} \  {dx \sb {3}} \  {dx \sb {4}} 
+\leqno(28)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+
+d (P*one()$M) -- One()?
+ 
+
+$$
+{{{P \sb {{,4}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {dx \sb {4}}}+{{{P \sb {{,3}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {dx \sb {3}}}+{{{P \sb {{,2}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {dx \sb {2}}}+{{{P \sb {{,1}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {dx \sb {1}}} 
+\leqno(29)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+i(vf,%)
+ 
+
+$$
+{{{b \sb {1}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {{P \sb {{,1}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}+{{{b
+\sb {2}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {{P \sb {{,2}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}+{{{b
+\sb {3}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {{P \sb {{,3}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}+{{{b
+\sb {4}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {{P \sb {{,4}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+\leqno(30)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+
+1/dot(g,w,w)$M*w -- careful, diff?
+ 
+
+$$
+{{{x \sb {1}} \over {{{{x \sb {2}}} \sp {2}}+{{{x \sb {1}}} \sp {2}}}} \  {dx 
+\sb {2}}} -{{{x \sb {2}} \over {{{{x \sb {2}}} \sp {2}}+{{{x \sb {1}}} \sp 
+{2}}}} \  {dx \sb {1}}} 
+\leqno(31)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+d %
+ 
+
+$$
+0 
+\leqno(32)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+
+s:=zeroForm('s)$M
+ 
+
+$$
+s 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)
+\leqno(33)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+d s
+ 
+
+$$
+{{{s \sb {{,4}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {dx \sb {4}}}+{{{s \sb {{,3}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {dx \sb {3}}}+{{{s \sb {{,2}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {dx \sb {2}}}+{{{s \sb {{,1}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {dx \sb {1}}} 
+\leqno(34)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+d (** s)
+ 
+
+$$
+0 
+\leqno(35)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+** ( d s)
+ 
+
+$$
+{{{s \sb {{,1}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {dx \sb {2}} \  {dx \sb {3}} \  {dx \sb {4}}} -{{{s \sb {{,2}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {dx \sb {1}} \  {dx \sb {3}} \  {dx \sb {4}}}+{{{s \sb {{,3}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {dx \sb {1}} \  {dx \sb {2}} \  {dx \sb {4}}} -{{{s \sb {{,4}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {dx \sb {1}} \  {dx \sb {2}} \  {dx \sb {3}}} 
+\leqno(36)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+d (** ( d s)) -- Laplacian(s) dV
+ 
+
+$$
+{\left( {{s \sb {{{,1}{,1}}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}+{{s
+\sb {{{,2}{,2}}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}+{{s
+\sb {{{,3}{,3}}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}+{{s
+\sb {{{,4}{,4}}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\right)}
+\  {dx \sb {1}} \  {dx \sb {2}} \  {dx \sb {3}} \  {dx \sb {4}} 
+\leqno(37)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+
+r:=sin(x.1*x.2)*one()$M
+ 
+
+$$
+\sin 
+\left(
+{{{x \sb {1}} \  {x \sb {2}}}} 
+\right)
+\leqno(38)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+d r
+ 
+
+$$
+{{x \sb {1}} \  {\cos 
+\left(
+{{{x \sb {1}} \  {x \sb {2}}}} 
+\right)}
+\  {dx \sb {2}}}+{{x \sb {2}} \  {\cos 
+\left(
+{{{x \sb {1}} \  {x \sb {2}}}} 
+\right)}
+\  {dx \sb {1}}} 
+\leqno(39)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+d (** ( d r))
+ 
+
+$$
+{\left( -{{{x \sb {2}}} \sp {2}} -{{{x \sb {1}}} \sp {2}} 
+\right)}
+\  {\sin 
+\left(
+{{{x \sb {1}} \  {x \sb {2}}}} 
+\right)}
+\  {dx \sb {1}} \  {dx \sb {2}} \  {dx \sb {3}} \  {dx \sb {4}} 
+\leqno(40)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+
+--)read /home/kfp/.fricas
+** (d (** ( d r)))
+ 
+
+$$
+{\left( -{{{x \sb {2}}} \sp {2}} -{{{x \sb {1}}} \sp {2}} 
+\right)}
+\  {\sin 
+\left(
+{{{x \sb {1}} \  {x \sb {2}}}} 
+\right)}
+\leqno(41)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+--sixel %
+
+** (d (** ( d r)))::EXPR INT
+ 
+
+$$
+{\left( -{{{x \sb {2}}} \sp {2}} -{{{x \sb {1}}} \sp {2}} 
+\right)}
+\  {\sin 
+\left(
+{{{x \sb {1}} \  {x \sb {2}}}} 
+\right)}
+\leqno(42)
+$$
+
+                                                    Type: Expression(Integer)
+eval(%,xs.1=%pi)
+ 
+
+$$
+{\left( -{{\pi} \sp {2}} -{{{x \sb {2}}} \sp {2}} 
+\right)}
+\  {\sin 
+\left(
+{{{x \sb {2}} \  \pi}} 
+\right)}
+\leqno(43)
+$$
+
+                                                    Type: Expression(Integer)
+eval(%,xs.2=%pi/3)
+ 
+
+$$
+-{{{10} \  {{\pi} \sp {2}} \  {\sin 
+\left(
+{{{{\pi} \sp {2}} \over 3}} 
+\right)}}
+\over 9} 
+\leqno(44)
+$$
+
+                                                    Type: Expression(Integer)
+
+
+a(P)*one()$M
+ 
+
+$$
+a 
+\left(
+{{P 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+\right)
+\leqno(45)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+d (a(P)*one()$M) -- chain diff
+ 
+
+$$
+{{{P \sb {{,4}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {{a \sb {{\ }} \sp {,}} 
+\left(
+{{P 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+\right)}
+\  {dx \sb {4}}}+{{{P \sb {{,3}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {{a \sb {{\ }} \sp {,}} 
+\left(
+{{P 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+\right)}
+\  {dx \sb {3}}}+{{{P \sb {{,2}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {{a \sb {{\ }} \sp {,}} 
+\left(
+{{P 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+\right)}
+\  {dx \sb {2}}}+{{{P \sb {{,1}}} 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}
+\  {{a \sb {{\ }} \sp {,}} 
+\left(
+{{P 
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+\right)}}
+\right)}
+\  {dx \sb {1}}} 
+\leqno(46)
+$$
+
+                           Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])
+(47) -> )spool

@@ -26,49 +26,74 @@ DifferentialForms(R,v) : Exports == Implementation where
   Exports ==  with
     
     _* : (List X, List DRC) -> DRC
+      ++ v*w computes the sum of the products v_i * w_i
+      ++ where v_i is a scalar and w_i a differential form.
+      ++ This is for convenience only, just to deal with
+      ++ differential form valued vectors.
     _* : (List DRC, List DRC) -> DRC
+      ++ w1*w2 computes the sum of the exterior products
+      ++ w1_i * w2_i, where w1,w2 are differential forms.
     d : DRC -> DRC
+      ++ d w computes the exterior derivative and is just an
+      ++ abbreviation for the fucntion "exteriorDifferential"
+      ++ defined in the domain "DeRhamComplex".
     one :  -> DRC
+      ++ one() gives 1@DeRhamComplex, i.e. "1" as a differential
+      ++ form. This is useful to intern elements of the function
+      ++ ring (just multiply them by one()$DFORM).
     zero : -> DRC
+      ++ zero() gives the zero form, i.e. 0@DRC.
     baseForms : () -> List DRC
+      ++ baseForms()$M returns a list of all base forms in the
+      ++ space M=DFORM(Ring,Coordinates).
     coordVector : () -> List X
+      ++ coordVector()$M returns a list of the coordinates in
+      ++ the space M=DFORM(Ring,Coordinates).
     coordSymbols : () -> List Symbol
+      ++ coordSymbols()$M returns a list of the coordinates as
+      ++ symbols. This is useful for example if the differential
+      ++ operators "D" are going to be used.
     vectorField : Symbol -> List X
+      ++ vectorField(V) creates a vector (actually a list) whose
+      ++ components are given by V[j](x[1],...,x[n]), j=1..n, 
+      ++ whereby "x" are the space coordinates (possibly not the
+      ++ same symbol).
     scalarField : Symbol -> X
+      ++ scalarField(s) creates a scalar function s(x[1],...,[n]),
+      ++ whereby "x" are the space coordinates (possibly not the
+      ++ same symbol).      
     covectorField : Symbol -> List DRC
+      ++ covectorField(Y) creates a covector (actually a list)
+      ++ whose components are given by w[j](x[1],...,x[n]), 
+      ++ j=1..n.
     zeroForm : Symbol -> DRC
+      ++ zeroForm(s) creates a zero form with symbol "s". This
+      ++ is the same as scalarField(s)*one().
     volumeForm : SMR -> DRC
- 
+      ++ volumeForm(g) returns the volume form with respect to 
+      ++ the (pseudo-) metric "g".
     conjBasisTerm : DRC -> DRC
       ++ Return the complement of a basis term w.r.t. volumeForm
- 
     atomizeBasisTerm : DRC -> List DRC 
       ++ Given a basis term, e.g. dx*dy*du, atomizeBasisTerm  returns
       ++ a list of the generators (atoms), i.e. [dx,dy,du] for our example.
-
     monomials : NNI -> List DRC
       ++ List of all monomials of degree p (p in 1..n).
       ++ This is a basis for Lambda(n,p).
-
     hodgeStar : (SMR,DRC) -> DRC
       ++ computes the Hodge dual of the differential form % with respect
-      ++ to a metric g.
-        
+      ++ to a metric g.      
     dot : (SMR,DRC,DRC) -> X
-      ++ computes the inner product of two differential forms w.r.t. g
-        
+      ++ computes the inner product of two differential forms w.r.t. g  
     proj : (NNI,DRC) -> DRC
-      ++ projection to homogeneous terms of degree p
-   
+      ++ projection to homogeneous terms of degree p 
     interiorProduct : (Vector(X),DRC) -> DRC
       ++ Calculates the interior product i_X(a) of the vector field X
-      ++ with the differential form a.
-        
+      ++ with the differential form a.       
     lieDerivative : (Vector(X),DRC) -> DRC
       ++ Calculates the Lie derivative L_X(a) of the differential 
       ++ form a with respect to the vector field X.
-
-   
+ 
 
   Implementation ==  add 
 
@@ -99,7 +124,8 @@ DifferentialForms(R,v) : Exports == Implementation where
       op:=[operator t for t in ls]
       x:=[a::X for a in v]
       [f x for f in op]
-    
+
+
     scalarField(s:Symbol):X ==
       f:=operator s
       f [a::X for a in v]
@@ -109,12 +135,14 @@ DifferentialForms(R,v) : Exports == Implementation where
       vf:=vectorField(s)
       [a*1@DRC for a in vf]
 
+
     zeroForm(s:Symbol):DRC == scalarField(s)*1@DRC
 
 
     (l:List(X) * x:List DRC):DRC == 
       l:List DRC:=[l.j * x.j for j in 1..n]
       reduce(_+,l)
+
 
     (x:List DRC * y:List DRC):DRC == 
       l:List DRC:=[x.j * y.j for j in 1..n]
@@ -166,8 +194,7 @@ DifferentialForms(R,v) : Exports == Implementation where
       M := matrix([[G(pr.i,ps.j)::X for j in 1..#ps] for i in 1..#pr])
       determinant(M)::X * r.c * s.c
 
-        
-  
+
     -- export
     dot(g,x,y) ==
       not symmetric? g => error(err1)
@@ -189,7 +216,7 @@ DifferentialForms(R,v) : Exports == Implementation where
       else
         proj(p, reductum x)
  
-
+ 
     conjBasisTerm(x:DRC):DRC ==
       x=0$DRC => error(err6)
       x ~= leadingBasisTerm(x) => error(err5)
@@ -198,8 +225,8 @@ DifferentialForms(R,v) : Exports == Implementation where
       m:List(DRC):=[generator(i)$DRC for i in 1..#l | l.i=0]
       m=[] => 1$DRC
       reduce(_*,m)
-      
-  
+
+
     atomizeBasisTerm(x:DRC):List(DRC) ==
       x=0$DRC => error(err6)
       x ~= leadingBasisTerm(x) => error(err5)
@@ -216,13 +243,14 @@ DifferentialForms(R,v) : Exports == Implementation where
       b:DRC:=reduce(_*,rest a)
       -- i_w is an antiderivative => 
       intProdBasisTerm(w,a.1)*b - a.1 * intProdBasisTerm(w,b)
-      
-        
+
+
     interiorProduct(w:Vector X, x:DRC):DRC ==
       x=0$DRC => x
       leadingCoefficient(x)*intProdBasisTerm(w,leadingBasisTerm(x)) + _
         interiorProduct(w, reductum(x))
-           
+
+
     lieDerivative(w:Vector X,x:DRC):DRC ==
       a := exteriorDifferential(interiorProduct(w,x))
       b := interiorProduct(w, exteriorDifferential(x))
@@ -231,16 +259,22 @@ DifferentialForms(R,v) : Exports == Implementation where
 
     eps(x:DRC):X == leadingCoefficient(x*conjBasisTerm(x))
 
+
     hodgeStarBT(g:SMR,x:DRC):DRC ==
       q:=sqrt(abs(determinant(g)))
       p:=degree(x)
       J:=monomials(p)
       s:=[eps(y)*dot(g,y,x)*conjBasisTerm(y) for y in J]
       q*reduce(_+,s)
-      
-      
+
+
     hodgeStar(g:SMR,x:DRC):DRC ==
       x=0$DRC => x
       leadingCoefficient(x)*hodgeStarBT(g,leadingBasisTerm(x)) + _
         hodgeStar(g, reductum(x))
-                 
+ 
+-- 
+--
+-- todo: codifferential, sign(g)=signature(g)/|signature(g)|
+--       p+q=n, sign(det g) = (-)^q, sign(g):=(-)^s, where s=p-q=n-2q ??
+--       laplaceOperator = d delta + delta d

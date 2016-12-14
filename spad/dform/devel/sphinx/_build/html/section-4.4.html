@@ -1,0 +1,615 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4.4 More examples (way of working) &#8212; DifferentialForms 1.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="DifferentialForms 1.1.0 documentation" href="index.html" />
+    <link rel="prev" title="4.0 Examples" href="section-4.0.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="section-4.0.html" title="4.0 Examples"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DifferentialForms 1.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="more-examples-way-of-working">
+<h1>4.4 More examples (way of working)<a class="headerlink" href="#more-examples-way-of-working" title="Permalink to this headline">¶</a></h1>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Setup:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">clear</span> <span class="nb">all</span>
+
+  <span class="n">All</span> <span class="n">user</span> <span class="n">variables</span> <span class="ow">and</span> <span class="n">function</span> <span class="n">definitions</span> <span class="n">have</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>n:=4 -- dim of base space (n&gt;=2 !)
+R:=Integer  -- Ring
+
+v:=[subscript(x,[j::OutputForm]) for j in 1..n] -- (x_1,..,x_n)
+
+M:=DFORM(R,v)
+
+-- basis 1-forms and coordinate vector
+dx:=baseForms()$M     -- [dx[1],...,dx[n]]
+x:=coordVector()$M    -- [x[1],...,x[n]]
+xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+
+-- operator, vector field, scalar field, symbol
+a:=operator &#39;a         -- operator
+b:=vectorField(b)$M    -- generic vector field [b1(x1..xn),...,bn(x1..xn)]
+c:=vectorField(c)$M
+P:=scalarField(P)$M -- scalar field P(x1,..,xn)
+
+-- metric
+g:=diagonalMatrix([1 for i in 1..n])$SquareMatrix(n,EXPR R)  -- Euclidean
+h:=diagonalMatrix(c)$SquareMatrix(n,EXPR R)
+
+-- vector field (R)
+vf:=vector b
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Macros:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span>-- macros
+dV(g) ==&gt; volumeForm(g)$M
+i(X,w) ==&gt; interiorProduct(X,w)$M
+L(X,w) ==&gt; lieDerivative(X,w)$M
+** w ==&gt; hodgeStar(g,w)$M  -- don&#39;t use * instead of ** !
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span><span class="p">:</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="mi">1</span><span class="o">*</span><span class="n">dx</span><span class="o">.</span><span class="mi">2</span><span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="mi">2</span><span class="o">*</span><span class="n">dx</span><span class="o">.</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{x _ {1}} \  {dx _ {2}}} -{{x _ {2}} \  {dx _ {1}}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="n">w</span>
+</pre></div>
+</div>
+<div class="math">
+\[2 \  {dx _ {1}} \  {dx _ {2}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span><span class="o">*</span><span class="n">w</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{x _ {1}} \  {{b _ {2}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{b _ {1}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">L</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {4}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {3}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}+{{b
+_ {1}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\right)}
+\  {dx _ {2}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{b _ {2}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\right)}
+\  {dx _ {1}}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="n">i</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="n">d</span> <span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {4}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {3}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}+{{b
+_ {1}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\right)}
+\  {dx _ {2}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{b _ {2}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\right)}
+\  {dx _ {1}}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="o">-</span> <span class="n">L</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>dot(g,w,w)$M
+</pre></div>
+</div>
+<div class="math">
+\[{{{x _ {2}}} ^ {2}}+{{{x _ {1}}} ^ {2}}\]</div>
+<p><sub>Type: Expression(Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="n">i</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="n">dV</span><span class="p">(</span><span class="n">g</span><span class="p">))</span> <span class="o">--</span> <span class="n">div</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="n">dV</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{\left( {{{b _ {4}} _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}+{{{b
+_ {3}} _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}+ \\ {{{b
+_ {2}} _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}+{{{b
+_ {1}} _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\right)}
+\  {dx _ {1}} \  {dx _ {2}} \  {dx _ {3}} \  {dx _ {4}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>d (P*one()$M) -- One()?
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{{P _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {4}}}+{{{P _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {3}}}+ \\ {{{P _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {2}}}+{{{P _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {1}}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="o">%</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{{b _ {1}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{P _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}+ \\ {{{b
+_ {2}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{P _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}+ \\ {{{b
+_ {3}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{P _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}+ \\ {{{b
+_ {4}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{P _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>1/dot(g,w,w)$M*w
+</pre></div>
+</div>
+<div class="math">
+\[{{{x _ {1}} \over {{{{x _ {2}}} ^ {2}}+{{{x _ {1}}} ^ {2}}}} \  {dx
+_ {2}}} -{{{x _ {2}} \over {{{{x _ {2}}} ^ {2}}+{{{x _ {1}}} ^
+{2}}}} \  {dx _ {1}}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">%</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span><span class="p">:</span><span class="o">=</span><span class="n">zeroForm</span><span class="p">(</span><span class="s1">&#39;s)$M</span>
+</pre></div>
+</div>
+<div class="math">
+\[s
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{{s _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {4}}}+{{{s _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {3}}}+ \\ {{{s _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {2}}}+{{{s _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {1}}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="p">(</span><span class="o">**</span> <span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">**</span> <span class="p">(</span> <span class="n">d</span> <span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{{s _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {2}} \  {dx _ {3}} \  {dx _ {4}}} -{{{s _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {1}} \  {dx _ {3}} \  {dx _ {4}}}+ \\ {{{s _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {1}} \  {dx _ {2}} \  {dx _ {4}}} -{{{s _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {1}} \  {dx _ {2}} \  {dx _ {3}}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="p">(</span><span class="o">**</span> <span class="p">(</span> <span class="n">d</span> <span class="n">s</span><span class="p">))</span> <span class="o">--</span> <span class="n">Laplacian</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">dV</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{\left( {{s _ {{{,1}{,1}}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}+{{s
+_ {{{,2}{,2}}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}+ \\ {{s
+_ {{{,3}{,3}}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}+{{s
+_ {{{,4}{,4}}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\right)}
+\  {dx _ {1}} \  {dx _ {2}} \  {dx _ {3}} \  {dx _ {4}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>r:=sin(x.1*x.2)*one()$M
+</pre></div>
+</div>
+<div class="math">
+\[\sin
+\left(
+{{{x _ {1}} \  {x _ {2}}}}
+\right)\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="n">r</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{x _ {1}} \  {\cos
+\left(
+{{{x _ {1}} \  {x _ {2}}}}
+\right)}
+\  {dx _ {2}}}+{{x _ {2}} \  {\cos
+\left(
+{{{x _ {1}} \  {x _ {2}}}}
+\right)}
+\  {dx _ {1}}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="p">(</span><span class="o">**</span> <span class="p">(</span> <span class="n">d</span> <span class="n">r</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[{\left( -{{{x _ {2}}} ^ {2}} -{{{x _ {1}}} ^ {2}}
+\right)}
+\  {\sin
+\left(
+{{{x _ {1}} \  {x _ {2}}}}
+\right)}
+\  {dx _ {1}} \  {dx _ {2}} \  {dx _ {3}} \  {dx _ {4}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">**</span> <span class="p">(</span><span class="n">d</span> <span class="p">(</span><span class="o">**</span> <span class="p">(</span> <span class="n">d</span> <span class="n">r</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="math">
+\[{\left( -{{{x _ {2}}} ^ {2}} -{{{x _ {1}}} ^ {2}}
+\right)}
+\  {\sin
+\left(
+{{{x _ {1}} \  {x _ {2}}}}
+\right)}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">**</span> <span class="p">(</span><span class="n">d</span> <span class="p">(</span><span class="o">**</span> <span class="p">(</span> <span class="n">d</span> <span class="n">r</span><span class="p">)))::</span><span class="n">EXPR</span> <span class="n">INT</span>
+</pre></div>
+</div>
+<div class="math">
+\[{\left( -{{{x _ {2}}} ^ {2}} -{{{x _ {1}}} ^ {2}}
+\right)}
+\  {\sin
+\left(
+{{{x _ {1}} \  {x _ {2}}}}
+\right)}\]</div>
+<p><sub>Type: Expression(Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="o">%</span><span class="p">,</span><span class="n">xs</span><span class="o">.</span><span class="mi">1</span><span class="o">=%</span><span class="n">pi</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{\left( -{{\pi} ^ {2}} -{{{x _ {2}}} ^ {2}}
+\right)}
+\  {\sin
+\left(
+{{{x _ {2}} \  \pi}}
+\right)}\]</div>
+<p><sub>Type: Expression(Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="o">%</span><span class="p">,</span><span class="n">xs</span><span class="o">.</span><span class="mi">2</span><span class="o">=%</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{{{10} \  {{\pi} ^ {2}} \  {\sin
+\left(
+{{{{\pi} ^ {2}} \over 3}}
+\right)}}
+\over 9}\]</div>
+<p><sub>Type: Expression(Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>a(P)*one()$M
+</pre></div>
+</div>
+<div class="math">
+\[a
+\left(
+{{P
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>d (a(P)*one()$M) -- chain diff
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{{P _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{a _ {{\ }} ^ {,}}
+\left(
+{{P
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {4}}}+ \\ {{{P _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{a _ {{\ }} ^ {,}}
+\left(
+{{P
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {3}}}+ \\ {{{P _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{a _ {{\ }} ^ {,}}
+\left(
+{{P
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {2}}}+ \\ {{{P _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{a _ {{\ }} ^ {,}}
+\left(
+{{P
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {1}}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="section-4.0.html"
+                        title="previous chapter">4.0 Examples</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/section-4.4.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="section-4.0.html" title="4.0 Examples"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">DifferentialForms 1.1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Kurt Pagani &lt;nilqed@gmail.com&gt;.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.6.
+    </div>
+  </body>
+</html>
