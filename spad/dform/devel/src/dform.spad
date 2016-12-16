@@ -101,6 +101,11 @@ DifferentialForms(R,v) : Exports == Implementation where
     codifferential : (SMR,DRC) -> DRC
       ++ codifferential(g,x), also known as "delta", computes the 
       ++ co-differential of a form.
+    hodgeLaplacian : (SMR,DRC) -> DRC
+      ++ hodgeLaplacian(g,x) also known as "Laplace-de Rham operator" is 
+      ++ defined on any manifold equipped with a (pseudo-) Riemannian
+      ++ metric and is given by d codifferential(g,x)+ codifferential(g, d x).
+      ++ Note that in the Euclidean case hodgeLaplacian = - Laplacian.
       
 
   Implementation ==  add 
@@ -298,7 +303,7 @@ DifferentialForms(R,v) : Exports == Implementation where
         invHodgeStar(g, reductum(x))
 
                    
-    codifferential(g:SMR,x:DRC) ==
+    codifferential(g:SMR,x:DRC):DRC ==
       x=0$DRC => 0
       y:DRC:=leadingBasisTerm(x)
       k:X:=coerce(degree y)$X
@@ -306,6 +311,12 @@ DifferentialForms(R,v) : Exports == Implementation where
       c*hodgeStar(g,d hodgeStar(g,leadingCoefficient(x)*y)) + _
         codifferential(g,reductum(x)) 
 
+    hodgeLaplacian(g:SMR,x:DRC):DRC ==
+      d codifferential(g,x)+ codifferential(g, d x)
+
+
+
+      
 -- 
 --
 -- todo: codifferential, sign(g)=signature(g)/|signature(g)|

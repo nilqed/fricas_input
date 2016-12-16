@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3.0 Implementation Notes &#8212; DifferentialForms 1.1.0 documentation</title>
+    <title>3 Implementation &#8212; DifferentialForms 1.1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="DifferentialForms 1.1.0 documentation" href="index.html" />
     <link rel="next" title="4.0 Examples" href="section-4.0.html" />
-    <link rel="prev" title="2.0 Package Details" href="section-2.0.html" /> 
+    <link rel="prev" title="2 Export" href="section-2.0.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -39,7 +39,7 @@
           <a href="section-4.0.html" title="4.0 Examples"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="section-2.0.html" title="2.0 Package Details"
+          <a href="section-2.0.html" title="2 Export"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">DifferentialForms 1.1.0 documentation</a> &#187;</li> 
       </ul>
@@ -50,12 +50,14 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="implementation-notes">
-<h1>3.0 Implementation Notes<a class="headerlink" href="#implementation-notes" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="implementation">
+<h1>3 Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="implementation-notes">
+<h2>3.0 Implementation Notes<a class="headerlink" href="#implementation-notes" title="Permalink to this headline">¶</a></h2>
 <p>In this section some implementation details will be described. This is a
 ongoing process and might be improved.</p>
 <div class="section" id="internal-representation">
-<h2>3.1 Internal Representation<a class="headerlink" href="#internal-representation" title="Permalink to this headline">¶</a></h2>
+<h3>3.1 Internal Representation<a class="headerlink" href="#internal-representation" title="Permalink to this headline">¶</a></h3>
 <p>Differential forms are represented as <code class="docutils literal"><span class="pre">List</span> <span class="pre">Record(k:EAB,</span> <span class="pre">c:R)</span></code> where each
 basic term is represented as <code class="docutils literal"><span class="pre">Record(k:EAB,</span> <span class="pre">c:R)</span></code>, for instance:</p>
 <div class="math">
@@ -94,7 +96,7 @@ calculated and transferred to the <code class="docutils literal"><span class="pr
 </div>
 </div>
 <div class="section" id="dot-inner-product">
-<h2>3.2 dot :: inner product<a class="headerlink" href="#dot-inner-product" title="Permalink to this headline">¶</a></h2>
+<h3>3.2 dot :: inner product<a class="headerlink" href="#dot-inner-product" title="Permalink to this headline">¶</a></h3>
 <p>Given a (pseudo)-Riemannian metric g, the scalar product of two basic terms of
 the same degree is given by</p>
 <div class="math">
@@ -145,20 +147,20 @@ basis vectors being orthogonal) because the performance might be better if the
 dimension of the space is huge.</p>
 </div>
 <div class="section" id="hodgestar-hodge-dual">
-<h2>3.3 hodgeStar :: Hodge dual<a class="headerlink" href="#hodgestar-hodge-dual" title="Permalink to this headline">¶</a></h2>
+<h3>3.3 hodgeStar :: Hodge dual<a class="headerlink" href="#hodgestar-hodge-dual" title="Permalink to this headline">¶</a></h3>
 <p>In this new version we have removed the first method (3.3.1) because the
 performance difference is not as significant as we thought in the first
 place, at least not for <span class="math">\(n\leq 7\)</span>. However, we save the method in
 case someone has to deal with really high space dimensions.</p>
 <div class="section" id="diagonal-non-degenerated-g">
-<h3>3.3.1 Diagonal, non-degenerated g<a class="headerlink" href="#diagonal-non-degenerated-g" title="Permalink to this headline">¶</a></h3>
+<h4>3.3.1 Diagonal, non-degenerated g<a class="headerlink" href="#diagonal-non-degenerated-g" title="Permalink to this headline">¶</a></h4>
 <p>If g is a diagonal matrix then the components of <span class="math">\(\star \beta\)</span> reduce to</p>
 <div class="math">
 \[(\star \beta)_{j_1, \ldots, j_{n - p}} = \frac{1}{p!} \varepsilon_{k_1,
   \ldots, k_p, j_1, \ldots, j_{n - p}}  \sqrt{| \det g |}  [g^{k_1 k_1}
   \ldots g^{k_p k_p}] \beta_{k_1, \ldots, k_p}\]</div>
 <p>which implies that <span class="math">\((j_1, \ldots, j_{n - p})\)</span> must be the complement of
-<span class="math">\((k_1,\ldots, k_p)$ in $\{ 1, 2, \ldots, n \}\)</span> and</p>
+<span class="math">\((k_1,\ldots, k_p)\)</span> in <span class="math">\(\{ 1, 2, \ldots, n \}\)</span> and</p>
 <div class="math">
 \[\star (d x_{k_1} \wedge \ldots \wedge d x_{k_p}) = C d x_{j_1} \wedge
  \ldots \wedge d x_{j_{n - p}}\]</div>
@@ -193,7 +195,7 @@ signatures. Moreover, we have not to care whether the metric g is positive or
 negative definite.</p>
 </div>
 <div class="section" id="general-case">
-<h3>3.3.2 General case<a class="headerlink" href="#general-case" title="Permalink to this headline">¶</a></h3>
+<h4>3.3.2 General case<a class="headerlink" href="#general-case" title="Permalink to this headline">¶</a></h4>
 <p>Let <span class="math">\(J\)</span> denote an ordered multi-index and <span class="math">\(J_\sharp\)</span> its dual.
 Then a generic p-vector may be written as</p>
 <div class="math">
@@ -232,7 +234,7 @@ a function <strong>hodgeBT</strong>, in pseudo-code:</p>
 </div>
 </div>
 <div class="section" id="interiorproduct-interior-product">
-<h2>3.4 interiorProduct :: Interior product<a class="headerlink" href="#interiorproduct-interior-product" title="Permalink to this headline">¶</a></h2>
+<h3>3.4 interiorProduct :: Interior product<a class="headerlink" href="#interiorproduct-interior-product" title="Permalink to this headline">¶</a></h3>
 <p>In this newer version we have replaced the method which uses the Hodge
 operator. Instead we used the fact that the interior product is
 an <em>antiderivation</em>, actually the unique antiderivation of degree
@@ -243,7 +245,7 @@ an <em>antiderivation</em>, actually the unique antiderivation of degree
 <p>This also allows an easy implementation by recursion.</p>
 </div>
 <div class="section" id="liederivative-lie-derivative">
-<h2>3.5 lieDerivative :: Lie derivative<a class="headerlink" href="#liederivative-lie-derivative" title="Permalink to this headline">¶</a></h2>
+<h3>3.5 lieDerivative :: Lie derivative<a class="headerlink" href="#liederivative-lie-derivative" title="Permalink to this headline">¶</a></h3>
 <p>Here we use <em>Cartan&#8217;s formula</em> (see 1.1.5), so that there is not much to
 say.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lieDerivative</span><span class="p">(</span><span class="n">w</span><span class="p">:</span><span class="n">Vector</span> <span class="n">X</span><span class="p">,</span><span class="n">x</span><span class="p">:</span><span class="n">DRC</span><span class="p">):</span><span class="n">DRC</span> <span class="o">==</span>
@@ -254,7 +256,7 @@ say.</p>
 </div>
 </div>
 <div class="section" id="proj-projection">
-<h2>3.6 proj :: Projection<a class="headerlink" href="#proj-projection" title="Permalink to this headline">¶</a></h2>
+<h3>3.6 proj :: Projection<a class="headerlink" href="#proj-projection" title="Permalink to this headline">¶</a></h3>
 <p>Since the elements of <span class="math">\(\mathtt{DeRhamComplex}\)</span> are in</p>
 <div class="math">
 \[X = \bigoplus_{p = 0}^n \Omega^p (V)\]</div>
@@ -290,6 +292,7 @@ We have changed the order of arguments from (DRC,NNI) to (NNI,DRC) because
 this corresponds more to the usual nomenclature of projections.</p>
 </div>
 </div>
+</div>
 
 
           </div>
@@ -299,7 +302,8 @@ this corresponds more to the usual nomenclature of projections.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">3.0 Implementation Notes</a><ul>
+<li><a class="reference internal" href="#">3 Implementation</a><ul>
+<li><a class="reference internal" href="#implementation-notes">3.0 Implementation Notes</a><ul>
 <li><a class="reference internal" href="#internal-representation">3.1 Internal Representation</a></li>
 <li><a class="reference internal" href="#dot-inner-product">3.2 dot :: inner product</a></li>
 <li><a class="reference internal" href="#hodgestar-hodge-dual">3.3 hodgeStar :: Hodge dual</a><ul>
@@ -313,10 +317,12 @@ this corresponds more to the usual nomenclature of projections.</p>
 </ul>
 </li>
 </ul>
+</li>
+</ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="section-2.0.html"
-                        title="previous chapter">2.0 Package Details</a></p>
+                        title="previous chapter">2 Export</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="section-4.0.html"
                         title="next chapter">4.0 Examples</a></p>
@@ -351,7 +357,7 @@ this corresponds more to the usual nomenclature of projections.</p>
           <a href="section-4.0.html" title="4.0 Examples"
              >next</a> |</li>
         <li class="right" >
-          <a href="section-2.0.html" title="2.0 Package Details"
+          <a href="section-2.0.html" title="2 Export"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">DifferentialForms 1.1.0 documentation</a> &#187;</li> 
       </ul>

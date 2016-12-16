@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>4.0 Examples &#8212; DifferentialForms 1.1.0 documentation</title>
+    <title>4 Usage &#8212; DifferentialForms 1.1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,8 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="DifferentialForms 1.1.0 documentation" href="index.html" />
-    <link rel="next" title="4.4 More examples (way of working)" href="section-4.4.html" />
-    <link rel="prev" title="3.0 Implementation Notes" href="section-3.0.html" /> 
+    <link rel="prev" title="3 Implementation" href="section-3.0.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -36,10 +35,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="section-4.4.html" title="4.4 More examples (way of working)"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="section-3.0.html" title="3.0 Implementation Notes"
+          <a href="section-3.0.html" title="3 Implementation"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">DifferentialForms 1.1.0 documentation</a> &#187;</li> 
       </ul>
@@ -50,11 +46,13 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="examples">
-<h1>4.0 Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="usage">
+<h1>4 Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="examples">
+<h2>4.0 Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
 <p>In this chapter some examples are provided.</p>
 <div class="section" id="calculus-in">
-<h2>4.1 Calculus in <span class="math">\(\mathbb{R}^3\)</span><a class="headerlink" href="#calculus-in" title="Permalink to this headline">¶</a></h2>
+<h3>4.1 Calculus in <span class="math">\(\mathbb{R}^3\)</span><a class="headerlink" href="#calculus-in" title="Permalink to this headline">¶</a></h3>
 <p>We will prove the following identities (see the summary, 4.1.4, for details):</p>
 <div class="math">
 \[\begin{split}d\,f = [\mathtt{grad}\,f]_1 \\
@@ -120,7 +118,7 @@ and also because we can form expressions like</p>
 \[z\ dz + y\ dy + x\ dx\]</div>
 <p><sub>Type: DeRhamComplex(Integer,[x,y,z])</sub>.</p>
 <div class="section" id="gradient">
-<h3>4.1.1 Gradient<a class="headerlink" href="#gradient" title="Permalink to this headline">¶</a></h3>
+<h4>4.1.1 Gradient<a class="headerlink" href="#gradient" title="Permalink to this headline">¶</a></h4>
 <p>There are many ways to create a zero form, one of those is</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>f := zeroForm(f)$M
 </pre></div>
@@ -170,7 +168,7 @@ and also because we can form expressions like</p>
 <p>the components of the gradient vector <span class="math">\(\nabla f\)</span> of <span class="math">\(f\)</span>.</p>
 </div>
 <div class="section" id="curl">
-<h3>4.1.2 Curl<a class="headerlink" href="#curl" title="Permalink to this headline">¶</a></h3>
+<h4>4.1.2 Curl<a class="headerlink" href="#curl" title="Permalink to this headline">¶</a></h4>
 <p>Let T be a generic vector field on <span class="math">\(M=\mathbb{R}^3\)</span>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>T := vectorField(T)$M
 </pre></div>
@@ -200,7 +198,7 @@ and also because we can form expressions like</p>
 </pre></div>
 </div>
 <div class="math">
-\[\begin{split}\small{
+\[\begin{split}\scriptstyle{
 {{\left( {{{T _ {3}} _ {{,2}}}
 \left(
 {x, \: y, \: z}
@@ -236,7 +234,7 @@ and also because we can form expressions like</p>
 </pre></div>
 </div>
 <div class="math">
-\[\small{
+\[\scriptstyle{
 \left[
 {{{{T _ {2}} _ {{,1}}}
 \left(
@@ -265,7 +263,7 @@ and also because we can form expressions like</p>
 \right]}\]</div>
 <p>The (well known) <strong>curl</strong> is defined as</p>
 <div class="math">
-\[\mathtt{curl}(T) =\nabla\times T= \small{
+\[\mathtt{curl}(T) =\nabla\times T= \scriptstyle{
 \left(
 \frac{\partial T_3}{\partial y} - \frac{\partial T_2}{\partial z},
 \frac{\partial T_1}{\partial z} - \frac{\partial T_3}{\partial x},
@@ -299,12 +297,12 @@ metric</p>
 <p><sub>Type: Boolean</sub></p>
 </div>
 <div class="section" id="divergence">
-<h3>4.1.3 Divergence<a class="headerlink" href="#divergence" title="Permalink to this headline">¶</a></h3>
+<h4>4.1.3 Divergence<a class="headerlink" href="#divergence" title="Permalink to this headline">¶</a></h4>
 <p>Again, let T be a generic vector field on <span class="math">\(M=\mathbb{R}^3\)</span>, then the
 divergence is defined by</p>
 <div class="math">
 \[\mathtt{div}(T) = \nabla \bullet T =
-\small{
+\scriptstyle{
 \frac{\partial T_1}{\partial x} +
 \frac{\partial T_2}{\partial y} +
 \frac{\partial T_3}{\partial z}}.\]</div>
@@ -330,7 +328,7 @@ _ {1}} _ {{,1}}}
 \  dx \  dy \  dz\]</div>
 </div>
 <div class="section" id="summary">
-<h3>4.1.4 Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h3>
+<h4>4.1.4 Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h4>
 <p>Let us summarize what we have obtained above. We use the following notation
 for the mapping of scalar functions and vector fields to differential forms:</p>
 <div class="math">
@@ -348,7 +346,7 @@ d\,[T]_1 = [\mathtt{curl}\,T]_2 \\
 d\,[T]_2 = [\mathtt{div}\,T]_3\end{split}\]</div>
 </div>
 <div class="section" id="hodge-duals">
-<h3>4.1.5 Hodge duals<a class="headerlink" href="#hodge-duals" title="Permalink to this headline">¶</a></h3>
+<h4>4.1.5 Hodge duals<a class="headerlink" href="#hodge-duals" title="Permalink to this headline">¶</a></h4>
 <p>To conclude this example, we are going to calculate a table for the Hodge
 duals of the monomials.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>g:=diagonalMatrix([1,1,1])::SquareMatrix(3,INT)
@@ -404,11 +402,11 @@ duals of the monomials.</p>
 </div>
 </div>
 <div class="section" id="faraday-2-form">
-<h2>4.2 Faraday 2-form<a class="headerlink" href="#faraday-2-form" title="Permalink to this headline">¶</a></h2>
+<h3>4.2 Faraday 2-form<a class="headerlink" href="#faraday-2-form" title="Permalink to this headline">¶</a></h3>
 <p>The free electromagnetic field can be described by a 2-form <strong>F</strong> in
 Minkowski space. This form - also known as Faraday 2-form - is given by</p>
 <div class="math">
-\[\small{
+\[\scriptstyle{
 F=B_1\ dy\wedge dz + B_2\ dz\wedge dx + B_3\ dx\wedge dy +
   E_1\ dx\wedge dt + E_2\ dy\wedge dt + E_3\ dz\wedge dt
 }\]</div>
@@ -451,7 +449,7 @@ dX := baseForms()$M
 </pre></div>
 </div>
 <div class="math">
-\[\begin{split}\small{
+\[\begin{split}\scriptstyle{
 {{{E _ {3}}
 \left(
 {x, \: y, \: z, \: t}
@@ -485,7 +483,7 @@ dX := baseForms()$M
 </pre></div>
 </div>
 <div class="math">
-\[\begin{split}\small{
+\[\begin{split}\scriptstyle{
   {{\left( {{{E _ {3}} _ {{,2}}}
   \left(
   {x, \: y, \: z, \: t}
@@ -560,7 +558,7 @@ we have shown (the well known fact)</p>
 </pre></div>
 </div>
 <div class="math">
-\[\begin{split}\small{
+\[\begin{split}\scriptstyle{
  {{{B _ {3}}
  \left(
  {x, \: y, \: z, \: t}
@@ -594,7 +592,7 @@ we have shown (the well known fact)</p>
 </pre></div>
 </div>
 <div class="math">
-\[\begin{split}\small{
+\[\begin{split}\scriptstyle{
 {{\left( -{{{E _ {1}} _ {{,4}}}
 \left(
 {x, \: y, \: z, \: t}
@@ -673,7 +671,7 @@ to compute the scalar product <span class="math">\(\langle F,F\rangle\)</span>:<
 </pre></div>
 </div>
 <div class="math">
-\[\begin{split}\small{
+\[\begin{split}\scriptstyle{
  -{{{{E _ {3}}
  \left(
  {x, \: y, \: z, \: t}
@@ -707,7 +705,7 @@ to compute the scalar product <span class="math">\(\langle F,F\rangle\)</span>:<
 </pre></div>
 </div>
 <div class="math">
-\[\small{
+\[\scriptstyle{
  -{2 \  {{B _ {3}}
  \left(
  {x, \: y, \: z, \: t}
@@ -743,10 +741,10 @@ to compute the scalar product <span class="math">\(\langle F,F\rangle\)</span>:<
 <p><sub>Type: Boolean</sub></p>
 </div>
 <div class="section" id="some-examples-from-maple">
-<h2>4.3 Some Examples from <em>Maple</em><a class="headerlink" href="#some-examples-from-maple" title="Permalink to this headline">¶</a></h2>
+<h3>4.3 Some Examples from <em>Maple</em><a class="headerlink" href="#some-examples-from-maple" title="Permalink to this headline">¶</a></h3>
 <p>Examples from <a class="reference external" href="http://www.maplesoft.com/support/help/Maple/view.aspx?path=DifferentialGeometry/Tensor/HodgeStar">Maple</a>.</p>
 <div class="section" id="dimensional-manifold">
-<h3>4.3.1 5-dimensional Manifold<a class="headerlink" href="#dimensional-manifold" title="Permalink to this headline">¶</a></h3>
+<h4>4.3.1 5-dimensional Manifold<a class="headerlink" href="#dimensional-manifold" title="Permalink to this headline">¶</a></h4>
 <p>First create a 5-dimensional manifold M and define a metric tensor g on the
 tangent space of M:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>v:=[x[j] for j in 1..5]
@@ -759,7 +757,7 @@ dX:=baseForms()$M
 </pre></div>
 </div>
 <div class="math">
-\[{dx _ {2}} \  {dx \_ {3}} \  {dx _ {4}} \  {dx _ {5}}\]</div>
+\[{dx _ {2}} \  {dx _ {3}} \  {dx _ {4}} \  {dx _ {5}}\]</div>
 <p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4],x[5]])</sub></p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>hodgeStar(g,dX.2)$M
 </pre></div>
@@ -788,7 +786,7 @@ dX:=baseForms()$M
 <p>We see an exact match with the published results.</p>
 </div>
 <div class="section" id="general-metric-2-dim">
-<h3>4.3.2 General metric (2-dim)<a class="headerlink" href="#general-metric-2-dim" title="Permalink to this headline">¶</a></h3>
+<h4>4.3.2 General metric (2-dim)<a class="headerlink" href="#general-metric-2-dim" title="Permalink to this headline">¶</a></h4>
 <p>To show the dependence of the Hodge star operator upon the metric, we consider
 a general metric g on a 2-dimensional manifold.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>v:=[x,y]
@@ -848,7 +846,7 @@ g:=matrix([[a::R,b],[b,c]])::SquareMatrix(2,R)
 <p><sub>Type: DeRhamComplex(Integer,[x,y])</sub></p>
 </div>
 <div class="section" id="laplacian">
-<h3>4.3.3 Laplacian<a class="headerlink" href="#laplacian" title="Permalink to this headline">¶</a></h3>
+<h4>4.3.3 Laplacian<a class="headerlink" href="#laplacian" title="Permalink to this headline">¶</a></h4>
 <p>The Laplacian of a function with respect to a metric g can be calculated
 using the exterior derivative and the Hodge star operator. Generally, the
 following identity holds:</p>
@@ -912,7 +910,7 @@ g:=matrix([[1,0],[0,r^2]])::SquareMatrix(2,R)
            \frac{1}{r^2} \frac{\partial^2 f}{\partial u^2}\]</div>
 </div>
 <div class="section" id="lie-derivative">
-<h3>4.3.4 Lie derivative<a class="headerlink" href="#lie-derivative" title="Permalink to this headline">¶</a></h3>
+<h4>4.3.4 Lie derivative<a class="headerlink" href="#lie-derivative" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-default"><div class="highlight"><pre><span></span>v:=[x[i] for i in 1..3]
 M:=DFORM(INT,v)
 dX:=baseForms()$M
@@ -924,7 +922,7 @@ f:=scalarField(f)$M
 </pre></div>
 </div>
 <div class="math">
-\[\small{
+\[\scriptstyle{
 {{{{V _ {1}} _ {{,3}}}
 \left(
 {{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
@@ -943,124 +941,537 @@ f:=scalarField(f)$M
 </pre></div>
 </div>
 <div class="math">
-\[\begin{split}\small{
-{{f
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{{V _ {1}} _ {{,3}}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {dx _ {3}}}+{{f
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{{V _ {1}} _ {{,2}}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {dx _ {2}}}+ \\
-{{\left( {{{V _ {1}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{f _ {{,1}}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}}+{{{V
-_ {2}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{f _ {{,2}}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}}+ \\
-{{{V
-_ {3}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{f _ {{,3}}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}}+{{f
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{{V _ {1}} _ {{,1}}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}}
-\right)}
-\  {dx _ {1}}}}\end{split}\]</div>
+\[\cal{L}_V\,f\,dx_1\]</div>
 <p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3]])</sub></p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">lieDerivative</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="n">f</span><span class="o">*</span><span class="n">dX</span><span class="o">.</span><span class="mi">1</span><span class="o">*</span><span class="n">dX</span><span class="o">.</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="math">
-\[\begin{split}\small{
--{{f
+\[\cal{L}_V\,f\,dx_1\wedge dx_2\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3]])</sub></p>
+</div>
+</div>
+<div class="section" id="more-examples-way-of-working">
+<h3>4.4 More examples (way of working)<a class="headerlink" href="#more-examples-way-of-working" title="Permalink to this headline">¶</a></h3>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Setup:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">clear</span> <span class="nb">all</span>
+
+  <span class="n">All</span> <span class="n">user</span> <span class="n">variables</span> <span class="ow">and</span> <span class="n">function</span> <span class="n">definitions</span> <span class="n">have</span> <span class="n">been</span> <span class="n">cleared</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span>n:=4 -- dim of base space (n&gt;=2 !)
+R:=Integer  -- Ring
+
+v:=[subscript(x,[j::OutputForm]) for j in 1..n] -- (x_1,..,x_n)
+
+M:=DFORM(R,v)
+
+-- basis 1-forms and coordinate vector
+dx:=baseForms()$M     -- [dx[1],...,dx[n]]
+x:=coordVector()$M    -- [x[1],...,x[n]]
+xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+
+-- operator, vector field, scalar field, symbol
+a:=operator &#39;a         -- operator
+b:=vectorField(b)$M    -- generic vector field [b1(x1..xn),...,bn(x1..xn)]
+c:=vectorField(c)$M
+P:=scalarField(P)$M -- scalar field P(x1,..,xn)
+
+-- metric
+g:=diagonalMatrix([1 for i in 1..n])$SquareMatrix(n,EXPR R)  -- Euclidean
+h:=diagonalMatrix(c)$SquareMatrix(n,EXPR R)
+
+-- vector field (R)
+vf:=vector b
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Macros:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default"><div class="highlight"><pre><span></span>-- macros
+dV(g) ==&gt; volumeForm(g)$M
+i(X,w) ==&gt; interiorProduct(X,w)$M
+L(X,w) ==&gt; lieDerivative(X,w)$M
+** w ==&gt; hodgeStar(g,w)$M  -- don&#39;t use * instead of ** !
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span><span class="p">:</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="mi">1</span><span class="o">*</span><span class="n">dx</span><span class="o">.</span><span class="mi">2</span><span class="o">-</span><span class="n">x</span><span class="o">.</span><span class="mi">2</span><span class="o">*</span><span class="n">dx</span><span class="o">.</span><span class="mi">1</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{x _ {1}} \  {dx _ {2}}} -{{x _ {2}} \  {dx _ {1}}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="n">w</span>
+</pre></div>
+</div>
+<div class="math">
+\[2 \  {dx _ {1}} \  {dx _ {2}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">w</span><span class="o">*</span><span class="n">w</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{x _ {1}} \  {{b _ {2}}
 \left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{{V _ {1}} _ {{,3}}}
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{b _ {1}}
 \left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {dx _ {2}} \  {dx _ {3}}}+{{f
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">L</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,4}}}
 \left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{{V _ {2}} _ {{,3}}}
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,4}}}
 \left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {dx _ {1}} \  {dx _ {3}}}+ \\
-{{\left( {{{V _ {1}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{f _ {{,1}}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}}+{{{V
-_ {2}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{f _ {{,2}}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}}+ \\
-{{{V
-_ {3}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{f _ {{,3}}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}}+{{f
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{{V _ {2}} _ {{,2}}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}}+ \\
-{{f
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
-\right)}
-\  {{{V _ {1}} _ {{,1}}}
-\left(
-{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
 \right)}}
 \right)}
-\  {dx _ {1}} \  {dx _ {2}}}}\end{split}\]</div>
-<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3]])</sub></p>
+\  {dx _ {4}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {3}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}+{{b
+_ {1}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\right)}
+\  {dx _ {2}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{b _ {2}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\right)}
+\  {dx _ {1}}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="n">i</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="n">d</span> <span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {4}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {3}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}+{{b
+_ {1}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\right)}
+\  {dx _ {2}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{x _ {2}} \  {{{b _ {1}} _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+-{{b _ {2}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\right)}
+\  {dx _ {1}}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">%</span> <span class="o">-</span> <span class="n">L</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="n">w</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>dot(g,w,w)$M
+</pre></div>
+</div>
+<div class="math">
+\[{{{x _ {2}}} ^ {2}}+{{{x _ {1}}} ^ {2}}\]</div>
+<p><sub>Type: Expression(Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="n">i</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="n">dV</span><span class="p">(</span><span class="n">g</span><span class="p">))</span> <span class="o">--</span> <span class="n">div</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="n">dV</span>
+</pre></div>
+</div>
+<div class="math">
+\[\def\sp{^}\def\sb{_}\def\leqno(#1){}
+\def\erf{\mathrm{erf}}\def\sinh{\mathrm{sinh}}
+\def\zag#1#2{{{\left.{#1}\right|}\over{\left|{#2}\right.}}}
+\def\csch{\mathrm{csch}}
+{\left( {{{b \sb {4}} \sb {{,4}}}
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}}
+\right)}+{{{b
+\sb {3}} \sb {{,3}}}
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}}
+\right)}+{{{b
+\sb {2}} \sb {{,2}}}
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}}
+\right)}+{{{b
+\sb {1}} \sb {{,1}}}
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}}
+\right)}
+\right)}
+\  {dx \sb {1}} \  {dx \sb {2}} \  {dx \sb {3}} \  {dx \sb {4}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>d (P*one()$M) -- One()?
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{{P _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {4}}}+{{{P _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {3}}}+ \\ {{{P _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {2}}}+{{{P _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {1}}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i</span><span class="p">(</span><span class="n">vf</span><span class="p">,</span><span class="o">%</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{{b _ {1}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{P _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}+ \\ {{{b
+_ {2}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{P _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}+ \\ {{{b
+_ {3}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{P _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}+ \\ {{{b
+_ {4}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{P _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>1/dot(g,w,w)$M*w
+</pre></div>
+</div>
+<div class="math">
+\[{{{x _ {1}} \over {{{{x _ {2}}} ^ {2}}+{{{x _ {1}}} ^ {2}}}} \  {dx
+_ {2}}} -{{{x _ {2}} \over {{{{x _ {2}}} ^ {2}}+{{{x _ {1}}} ^
+{2}}}} \  {dx _ {1}}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">%</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">s</span><span class="p">:</span><span class="o">=</span><span class="n">zeroForm</span><span class="p">(</span><span class="s1">&#39;s)$M</span>
+</pre></div>
+</div>
+<div class="math">
+\[s
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="n">s</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{{s _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {4}}}+{{{s _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {3}}}+ \\ {{{s _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {2}}}+{{{s _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {1}}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="p">(</span><span class="o">**</span> <span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[0\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">**</span> <span class="p">(</span> <span class="n">d</span> <span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{{s _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {2}} \  {dx _ {3}} \  {dx _ {4}}} -{{{s _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {1}} \  {dx _ {3}} \  {dx _ {4}}}+ \\ {{{s _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {1}} \  {dx _ {2}} \  {dx _ {4}}} -{{{s _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {dx _ {1}} \  {dx _ {2}} \  {dx _ {3}}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="p">(</span><span class="o">**</span> <span class="p">(</span> <span class="n">d</span> <span class="n">s</span><span class="p">))</span> <span class="o">--</span> <span class="n">Laplacian</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">dV</span>
+</pre></div>
+</div>
+<div class="math">
+\[{\left( {{s \sb {{{,1}{,1}}}}
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}}
+\right)}+{{s
+\sb {{{,2}{,2}}}}
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}}
+\right)}+{{s
+\sb {{{,3}{,3}}}}
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}}
+\right)}+{{s
+\sb {{{,4}{,4}}}}
+\left(
+{{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}}
+\right)}
+\right)}
+\  {dx \sb {1}} \  {dx \sb {2}} \  {dx \sb {3}} \  {dx \sb {4}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>r:=sin(x.1*x.2)*one()$M
+</pre></div>
+</div>
+<div class="math">
+\[\sin
+\left(
+{{{x _ {1}} \  {x _ {2}}}}
+\right)\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="n">r</span>
+</pre></div>
+</div>
+<div class="math">
+\[{{x _ {1}} \  {\cos
+\left(
+{{{x _ {1}} \  {x _ {2}}}}
+\right)}
+\  {dx _ {2}}}+{{x _ {2}} \  {\cos
+\left(
+{{{x _ {1}} \  {x _ {2}}}}
+\right)}
+\  {dx _ {1}}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="p">(</span><span class="o">**</span> <span class="p">(</span> <span class="n">d</span> <span class="n">r</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="math">
+\[{\left( -{{{x _ {2}}} ^ {2}} -{{{x _ {1}}} ^ {2}}
+\right)}
+\  {\sin
+\left(
+{{{x _ {1}} \  {x _ {2}}}}
+\right)}
+\  {dx _ {1}} \  {dx _ {2}} \  {dx _ {3}} \  {dx _ {4}}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">**</span> <span class="p">(</span><span class="n">d</span> <span class="p">(</span><span class="o">**</span> <span class="p">(</span> <span class="n">d</span> <span class="n">r</span><span class="p">)))</span>
+</pre></div>
+</div>
+<div class="math">
+\[{\left( -{{{x _ {2}}} ^ {2}} -{{{x _ {1}}} ^ {2}}
+\right)}
+\  {\sin
+\left(
+{{{x _ {1}} \  {x _ {2}}}}
+\right)}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">**</span> <span class="p">(</span><span class="n">d</span> <span class="p">(</span><span class="o">**</span> <span class="p">(</span> <span class="n">d</span> <span class="n">r</span><span class="p">)))::</span><span class="n">EXPR</span> <span class="n">INT</span>
+</pre></div>
+</div>
+<div class="math">
+\[{\left( -{{{x _ {2}}} ^ {2}} -{{{x _ {1}}} ^ {2}}
+\right)}
+\  {\sin
+\left(
+{{{x _ {1}} \  {x _ {2}}}}
+\right)}\]</div>
+<p><sub>Type: Expression(Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="o">%</span><span class="p">,</span><span class="n">xs</span><span class="o">.</span><span class="mi">1</span><span class="o">=%</span><span class="n">pi</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[{\left( -{{\pi} ^ {2}} -{{{x _ {2}}} ^ {2}}
+\right)}
+\  {\sin
+\left(
+{{{x _ {2}} \  \pi}}
+\right)}\]</div>
+<p><sub>Type: Expression(Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nb">eval</span><span class="p">(</span><span class="o">%</span><span class="p">,</span><span class="n">xs</span><span class="o">.</span><span class="mi">2</span><span class="o">=%</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="math">
+\[-{{{10} \  {{\pi} ^ {2}} \  {\sin
+\left(
+{{{{\pi} ^ {2}} \over 3}}
+\right)}}
+\over 9}\]</div>
+<p><sub>Type: Expression(Integer)</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>a(P)*one()$M
+</pre></div>
+</div>
+<div class="math">
+\[a
+\left(
+{{P
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>d (a(P)*one()$M) -- chain diff
+</pre></div>
+</div>
+<div class="math">
+\[\begin{split}{{{P _ {{,4}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{a _ {{\ }} ^ {,}}
+\left(
+{{P
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {4}}}+ \\ {{{P _ {{,3}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{a _ {{\ }} ^ {,}}
+\left(
+{{P
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {3}}}+ \\ {{{P _ {{,2}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{a _ {{\ }} ^ {,}}
+\left(
+{{P
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {2}}}+ \\ {{{P _ {{,1}}}
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}
+\  {{a _ {{\ }} ^ {,}}
+\left(
+{{P
+\left(
+{{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}
+\right)}}
+\right)}
+\  {dx _ {1}}}\end{split}\]</div>
+<p><sub>Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])</sub></p>
 </div>
 </div>
 </div>
@@ -1073,7 +1484,8 @@ _ {3}}
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">4.0 Examples</a><ul>
+<li><a class="reference internal" href="#">4 Usage</a><ul>
+<li><a class="reference internal" href="#examples">4.0 Examples</a><ul>
 <li><a class="reference internal" href="#calculus-in">4.1 Calculus in <span class="math">\(\mathbb{R}^3\)</span></a><ul>
 <li><a class="reference internal" href="#gradient">4.1.1 Gradient</a></li>
 <li><a class="reference internal" href="#curl">4.1.2 Curl</a></li>
@@ -1090,16 +1502,16 @@ _ {3}}
 <li><a class="reference internal" href="#lie-derivative">4.3.4 Lie derivative</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#more-examples-way-of-working">4.4 More examples (way of working)</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="section-3.0.html"
-                        title="previous chapter">3.0 Implementation Notes</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="section-4.4.html"
-                        title="next chapter">4.4 More examples (way of working)</a></p>
+                        title="previous chapter">3 Implementation</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -1128,10 +1540,7 @@ _ {3}}
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="section-4.4.html" title="4.4 More examples (way of working)"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="section-3.0.html" title="3.0 Implementation Notes"
+          <a href="section-3.0.html" title="3 Implementation"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">DifferentialForms 1.1.0 documentation</a> &#187;</li> 
       </ul>

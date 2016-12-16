@@ -1,0 +1,178 @@
+
+1.1 Domain: DeRhamComplex
+*************************
+
+The module "DeRhamComplex" is contained in the file
+"…/algebra/derham.spad" which contains two other domains,
+"ExtAlgBasis, AntiSymm" and a category "LeftAlgebra". The description
+field in the corresponding headers tells us:
+
+**LeftAlgebra**
+   The category of all left algebras over an arbitrary ring.
+
+**ExtAlgBasis**
+   A domain used in the construction of the exterior algebra on a set
+   X over a ring R. This domain represents the set of all ordered
+   subsets of the set X, assumed to be in correspondance with
+   {1,2,3…}. The ordered subsets are themselves ordered
+   lexicographically and are in bijective correspondance with an
+   ordered basis of the exterior algebra. In this domain we are
+   dealing strictly with the exponents of basis elements which can
+   only be 0 or 1. Thus we really have L({0, 1}). The multiplicative
+   identity element of the exterior algebra corresponds to the empty
+   subset of X. A coerce from List Integer to an ordered basis element
+   is provided to allow the convenient input of expressions. Another
+   exported function forgets the ordered structure and simply returns
+   the list corresponding to an ordered subset.
+
+**AntiSymm**
+   The domain of antisymmetric polynomials.
+
+**DeRhamComplex**
+   The DeRham complex of Euclidean space, that is, the class of
+   differential forms of arbitary degree over a coefficient ring. See
+   Flanders, Harley, Differential Forms, with Applications to the
+   Physical Sciences, New York, Academic Press, 1963.
+
+The author of these modules, *Larry A. Lambe*, is also the author of
+many research papers and the co-author of the book [5]. His current
+website is http://pages.bangor.ac.uk/~mas019/.
+
+In order to enter a differential form (1) one needs some preparations
+which are best illustrated by some examples:
+
+**Example**
+
+   X:=DeRhamComplex(Integer, [x,y,z])
+
+   \mathrm{DeRhamComplex(Integer,[x,y,z])}
+
+_Type: Type
+
+this defines the space X of differential forms in the coordinates
+x,y,z. That is the underlying manifold (in a broad sense) is three
+dimensional. The coefficient ring Integer may be misleading, but we
+will come back to this point. Next we define the generators:
+
+   [dx,dy,dz]:=[generator(i)$X for i in 1..3]
+
+   [dx,dy,dz]
+
+_Type: List(DeRhamComplex(Integer,[x,y,z]))
+
+Now we can enter a differential form: dx+2 dy+3 dz:
+
+   dx+2*dy+3*dz
+
+   3\,dz + 2\,dy + dx
+
+_Type: DeRhamComplex(Integer,[x,y,z])
+
+which represents a differential 1-form. When we multiply (i.e. \wedge)
+the result above by dy from the right we should get the 2-form
+
+   (dx+2\,dy+3\,dz)\wedge dy = dx\wedge dy - 3\, dy\wedge dz
+
+   %*dy
+
+   - 3\,dy\,dz + dx\,dy
+
+_Type: DeRhamComplex(Integer,[x,y,z])
+
+One recognizes that the terms are automatically ordered according to
+the order given by the generators on the one hand (there usually is
+never a term dy\wedge dx in the output, unless deliberately generated)
+and lexicographic ordering on the other. This might be a source of
+confusion if the variables and generators are carelessly chosen.
+Surprisingly enough the following works as well:
+
+   3/5*dx
+
+   -\frac{3}{5} \,dx
+
+_Type: DeRhamComplex(Integer,[x,y,z])
+
+   x*dx
+
+   x \, dx
+
+_Type: DeRhamComplex(Integer,[x,y,z])
+
+   x^2*dx
+
+   x^2 \, dx
+
+_Type: Polynomial(DeRhamComplex(Integer,[x,y,z]))
+
+so the coefficient ring is certainly bigger than Integer (\mathbb{Z}).
+Actually the coefficient ring is "Expression(Integer)" which is a huge
+space (with all the properties of a field), however, it is not
+compatible to the type "Polynomial(Integer)". The output above shows
+that the return type does not correspond to the defined space X. This
+is because x^2 has type Polynomial(Integer) instead of
+Expression(Integer). This means that we have to *coerce* certain
+expressions:
+
+   R ==> Expression(Integer)
+                                                               Type: Void
+
+   (x^2)::R*dx
+
+   x^2\,dx
+
+_Type: DeRhamComplex(Integer,[x,y,z])
+
+Warning. Polynomial expressions must be coerced to the coefficient
+ring (R). The return type should always coincide with the initially
+defined space (X in our example). Other functions are usually no
+problem, e.g. \sin(x+y),dx\wedge dy. It is of course possible to work
+with general undetermined functions using the "BasicOperator" type
+(note that "BOP" is the official abbreviation for the latter):
+
+   a : BOP := operator('a);
+
+                                                         Type: BasicOperator
+
+   b : BOP := operator('b);
+
+                                                         Type: BasicOperator
+
+   c : BOP := operator('c);
+
+                                                         Type: BasicOperator
+
+Now we can enter the most general 2-form in X:
+
+   \sigma=a(x,y,z)\,dx\wedge dy + b(x,y,z)\,dx\wedge dz +
+   c(x,y,z)\, dy\wedge dz.
+
+   sigma:=a(x,y,z)* dx*dy + b(x,y,z)* dx*dz + c(x,y,z)* dy*dz
+
+   c(x,y,z)\,dy\,dz + b(x,y,z)\,dx\,dz + a(x,y,z)\,dx\, dy
+
+_Type: DeRhamComplex(Integer,[x,y,z])
+
+This "BOP" method is very convenient and gives great flexibility. We
+can also define forms which depend on parameters, i.e. form valued
+functions \sigma:T \rightarrow X as follows:
+
+   sigma(t) == a(x,y,z,t)*dx*dy + b(x,y,z,t)*dx*dz + c(x,y,z,t)*dy*dz
+
+Although \sigma(t) is not a form, it will become one as soon as it is
+evaluated:
+
+    sigma(tau)
+
+   Compiling function sigma with type Variable(tau) -> DeRhamComplex(
+      Integer,[x,y,z])
+
+    c(x,y,z,tau)dy dz + b(x,y,z,tau)dx dz + a(x,y,z,tau)dx dy
+                                         Type: DeRhamComplex(Integer,[x,y,z])
+
+**Contrary** to most introductional expositions, by *differential
+forms* we here mean the graded differential algebra, that is we can
+add forms of different degrees:
+
+   1+dx + dy\wedge dz + dx\wedge dy \wedge dz
+
+FriCAS :: DeRhamComplex

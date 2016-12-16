@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>2.0 Package Details &#8212; DifferentialForms 1.1.0 documentation</title>
+    <title>2 Export &#8212; DifferentialForms 1.1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="DifferentialForms 1.1.0 documentation" href="index.html" />
     <link rel="next" title="3.0 Implementation Notes" href="section-3.0.html" />
-    <link rel="prev" title="1.0 Introduction" href="section-1.0.html" /> 
+    <link rel="prev" title="1 Theory" href="section-1.0.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -39,7 +39,7 @@
           <a href="section-3.0.html" title="3.0 Implementation Notes"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="section-1.0.html" title="1.0 Introduction"
+          <a href="section-1.0.html" title="1 Theory"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">DifferentialForms 1.1.0 documentation</a> &#187;</li> 
       </ul>
@@ -50,8 +50,10 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="package-details">
-<h1>2.0 Package Details<a class="headerlink" href="#package-details" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="export">
+<h1>2 Export<a class="headerlink" href="#export" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="package-details">
+<h2>2.0 Package Details<a class="headerlink" href="#package-details" title="Permalink to this headline">¶</a></h2>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -78,7 +80,7 @@
 <code class="docutils literal"><span class="pre">v=[x[0],x[1],x[2],x[3]]</span></code>, and the abbreviation <code class="docutils literal"><span class="pre">M:=DFORM(R,v)</span></code>.</p>
 </div>
 <div class="section" id="the-metric-g">
-<h1>2.1 The metric g<a class="headerlink" href="#the-metric-g" title="Permalink to this headline">¶</a></h1>
+<h2>2.1 The metric g<a class="headerlink" href="#the-metric-g" title="Permalink to this headline">¶</a></h2>
 <p>Some functions expect the metric <code class="docutils literal"><span class="pre">g</span></code> as a parameter. Generally this
 will be provided by an invertible square matrix <code class="docutils literal"><span class="pre">g:SquareMatrix(#v,X)</span></code>.</p>
 <p>For the examples following, we choose the Minkowski metric::</p>
@@ -97,7 +99,7 @@ will be provided by an invertible square matrix <code class="docutils literal"><
 <p><sub>Type: SquareMatrix(4,Integer)</sub></p>
 </div>
 <div class="section" id="exported-functions">
-<h1>2.2 Exported Functions<a class="headerlink" href="#exported-functions" title="Permalink to this headline">¶</a></h1>
+<h2>2.2 Exported Functions<a class="headerlink" href="#exported-functions" title="Permalink to this headline">¶</a></h2>
 <p>The function <strong>baseForms</strong> return the basis one forms, while <strong>coordVector</strong>
 returns a list of the coordinates. The function <strong>coordSymbols</strong> also returns
 the coordinates, however, as symbols only (convenient when used by <strong>D</strong>).</p>
@@ -110,7 +112,7 @@ xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiation)
 </pre></div>
 </div>
 <div class="section" id="volume-form">
-<h2>2.2.1 Volume Form<a class="headerlink" href="#volume-form" title="Permalink to this headline">¶</a></h2>
+<h3>2.2.1 Volume Form<a class="headerlink" href="#volume-form" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>volumeForm</strong></dt>
 <dd>Given a metric <span class="math">\(g\)</span> the function returns the corresponding volume
@@ -126,7 +128,7 @@ volumeForm(g)$M
 <p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
 </div>
 <div class="section" id="scalar-product">
-<h2>2.2.1 Scalar Product<a class="headerlink" href="#scalar-product" title="Permalink to this headline">¶</a></h2>
+<h3>2.2.1 Scalar Product<a class="headerlink" href="#scalar-product" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>dot</strong></dt>
 <dd>Compute the inner product of two differential forms with respect to the
@@ -142,7 +144,7 @@ dot(g,dx.1*dx.2,dx.1*dx.2)$M   -- note dx.1 corresponds to dx[0].
 <p><sub>Type: Expression(Integer)</sub></p>
 </div>
 <div class="section" id="hodge-star-operator">
-<h2>2.2.2 Hodge Star Operator<a class="headerlink" href="#hodge-star-operator" title="Permalink to this headline">¶</a></h2>
+<h3>2.2.2 Hodge Star Operator<a class="headerlink" href="#hodge-star-operator" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>hodgeStar</strong></dt>
 <dd>Compute the Hodge dual form of a differential form with respect
@@ -158,7 +160,7 @@ to a metric <code class="docutils literal"><span class="pre">g</span></code>.</d
 <p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
 </div>
 <div class="section" id="interior-product">
-<h2>2.2.3 Interior Product<a class="headerlink" href="#interior-product" title="Permalink to this headline">¶</a></h2>
+<h3>2.2.3 Interior Product<a class="headerlink" href="#interior-product" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>interiorProduct</strong></dt>
 <dd>Calculate the interior product <span class="math">\(i_X(a)\)</span> of the vector field X
@@ -174,7 +176,7 @@ interiorProduct(vector x, dx.1*dx.3)$M
 <p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
 </div>
 <div class="section" id="lie-derivative">
-<h2>2.2.4 Lie Derivative<a class="headerlink" href="#lie-derivative" title="Permalink to this headline">¶</a></h2>
+<h3>2.2.4 Lie Derivative<a class="headerlink" href="#lie-derivative" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>lieDerivative</strong></dt>
 <dd>Calculates the Lie derivative <span class="math">\(\mathcal{L}_X(a)\)</span> of the differential
@@ -190,7 +192,7 @@ form a with respect to the vector field X.</dd>
 <p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
 </div>
 <div class="section" id="projection">
-<h2>2.2.5 Projection<a class="headerlink" href="#projection" title="Permalink to this headline">¶</a></h2>
+<h3>2.2.5 Projection<a class="headerlink" href="#projection" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>proj</strong></dt>
 <dd>Project to homogeneous terms of degree p.</dd>
@@ -206,7 +208,7 @@ form a with respect to the vector field X.</dd>
 <p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
 </div>
 <div class="section" id="monomials">
-<h2>2.2.6 Monomials<a class="headerlink" href="#monomials" title="Permalink to this headline">¶</a></h2>
+<h3>2.2.6 Monomials<a class="headerlink" href="#monomials" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>monomials</strong></dt>
 <dd>List all monomials of degree p (p in 1..n).
@@ -226,7 +228,7 @@ monomials(3)$M
 <p><sub>Type: List DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
 </div>
 <div class="section" id="atomize-basis-term">
-<h2>2.2.7 Atomize Basis Term<a class="headerlink" href="#atomize-basis-term" title="Permalink to this headline">¶</a></h2>
+<h3>2.2.7 Atomize Basis Term<a class="headerlink" href="#atomize-basis-term" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>atomizeBasisTerm</strong></dt>
 <dd>Given a basis term, return a list of the generators (atoms).</dd>
@@ -243,7 +245,7 @@ monomials(3)$M
 <p><sub>Type: List(DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]]))</sub></p>
 </div>
 <div class="section" id="conjugate-basis-term">
-<h2>2.2.8 Conjugate Basis Term<a class="headerlink" href="#conjugate-basis-term" title="Permalink to this headline">¶</a></h2>
+<h3>2.2.8 Conjugate Basis Term<a class="headerlink" href="#conjugate-basis-term" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>conjBasisTerm</strong></dt>
 <dd>Return the complement of a basis term with respect to the Euclidean
@@ -259,7 +261,7 @@ volume form.</dd>
 <p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
 </div>
 <div class="section" id="scalar-and-vector-field">
-<h2>2.2.9 Scalar and Vector Field<a class="headerlink" href="#scalar-and-vector-field" title="Permalink to this headline">¶</a></h2>
+<h3>2.2.9 Scalar and Vector Field<a class="headerlink" href="#scalar-and-vector-field" title="Permalink to this headline">¶</a></h3>
 <dl class="docutils">
 <dt><strong>vectorField</strong></dt>
 <dd>Generate a generic vector field named by a given symbol.</dd>
@@ -304,7 +306,7 @@ scalarField(f)$M
 <p><sub>Type: Expression(Integer)</sub></p>
 </div>
 <div class="section" id="miscellaneous-functions">
-<h2>2.2.10 Miscellaneous Functions<a class="headerlink" href="#miscellaneous-functions" title="Permalink to this headline">¶</a></h2>
+<h3>2.2.10 Miscellaneous Functions<a class="headerlink" href="#miscellaneous-functions" title="Permalink to this headline">¶</a></h3>
 <p>A <em>zero form</em> with symbol s can be generated by</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span>zeroForm : Symbol -&gt; DRC
 
@@ -373,6 +375,7 @@ with a kind <em>vector valued</em> forms (actually lists):</p>
 <p><sub>Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])</sub></p>
 </div>
 </div>
+</div>
 
 
           </div>
@@ -382,7 +385,8 @@ with a kind <em>vector valued</em> forms (actually lists):</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">2.0 Package Details</a></li>
+<li><a class="reference internal" href="#">2 Export</a><ul>
+<li><a class="reference internal" href="#package-details">2.0 Package Details</a></li>
 <li><a class="reference internal" href="#the-metric-g">2.1 The metric g</a></li>
 <li><a class="reference internal" href="#exported-functions">2.2 Exported Functions</a><ul>
 <li><a class="reference internal" href="#volume-form">2.2.1 Volume Form</a></li>
@@ -399,10 +403,12 @@ with a kind <em>vector valued</em> forms (actually lists):</p>
 </ul>
 </li>
 </ul>
+</li>
+</ul>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="section-1.0.html"
-                        title="previous chapter">1.0 Introduction</a></p>
+                        title="previous chapter">1 Theory</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="section-3.0.html"
                         title="next chapter">3.0 Implementation Notes</a></p>
@@ -437,7 +443,7 @@ with a kind <em>vector valued</em> forms (actually lists):</p>
           <a href="section-3.0.html" title="3.0 Implementation Notes"
              >next</a> |</li>
         <li class="right" >
-          <a href="section-1.0.html" title="1.0 Introduction"
+          <a href="section-1.0.html" title="1 Theory"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">DifferentialForms 1.1.0 documentation</a> &#187;</li> 
       </ul>

@@ -12,13 +12,13 @@ FriCAS :: DifferentialForms
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    
    section-1.0
    section-2.0
    section-3.0
    section-4.0
-   section-4.4   
+   
 
 Indices and tables
 ==================

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>1.0 Introduction &#8212; DifferentialForms 1.1.0 documentation</title>
+    <title>1 Theory &#8212; DifferentialForms 1.1.0 documentation</title>
     
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="DifferentialForms 1.1.0 documentation" href="index.html" />
-    <link rel="next" title="2.0 Package Details" href="section-2.0.html" />
+    <link rel="next" title="2 Export" href="section-2.0.html" />
     <link rel="prev" title="FriCAS :: DifferentialForms" href="index.html" /> 
   </head>
   <body role="document">
@@ -36,7 +36,7 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="section-2.0.html" title="2.0 Package Details"
+          <a href="section-2.0.html" title="2 Export"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="index.html" title="FriCAS :: DifferentialForms"
@@ -50,8 +50,10 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="introduction">
-<span id="id1"></span><h1>1.0 Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="theory">
+<span id="introduction"></span><h1>1 Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>1.0 Introduction<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <p>The package <code class="docutils literal"><span class="pre">DifferentialForms</span></code> (in file <code class="docutils literal"><span class="pre">dform.spad</span></code>) builds on the
 domain <code class="docutils literal"><span class="pre">DeRhamComplex</span></code>. In the following section we give a brief overview
 of the functions that are going to be implemented. The focus is on precise
@@ -61,7 +63,7 @@ in section (3) some short implementation notes will be given and finally
 the last section is devoted to some examples.</p>
 </div>
 <div class="section" id="definitions">
-<h1>1.1 Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h1>
+<h2>1.1 Definitions<a class="headerlink" href="#definitions" title="Permalink to this headline">¶</a></h2>
 <p>Let <span class="math">\(\mathcal{M}\)</span> be a n-dimensional manifold (sufficiently smooth and
 orientable). To each point <span class="math">\(P \in \mathcal{M}\)</span> there is a neighborhood
 which can be diffeomorphically mapped to some region in <span class="math">\(\mathbb{R}^n\)</span>,
@@ -100,7 +102,7 @@ functionals such that</p>
 \sum_{j = 1}^n v^j \alpha (e_j) = \sum_{j = 1}^n v^j \alpha_j,\]</div>
 <p>where <span class="math">\(\alpha = \sum_{j = 1}^n \alpha_j e^j\)</span>.</p>
 <div class="section" id="inner-product-of-differential-forms-dot">
-<h2>1.1.1 Inner product of differential forms (<strong>dot</strong>)<a class="headerlink" href="#inner-product-of-differential-forms-dot" title="Permalink to this headline">¶</a></h2>
+<h3>1.1.1 Inner product of differential forms (<strong>dot</strong>)<a class="headerlink" href="#inner-product-of-differential-forms-dot" title="Permalink to this headline">¶</a></h3>
 <p>Let <span class="math">\(g_x\)</span> be a symmetric <span class="math">\(n \times n\)</span> matrix which is nondegenerate
 (i.e. <span class="math">\(\det (g_x) \neq 0\)</span>). The index x indicates that this matrix
 depends on the coordinates <span class="math">\(x_1 (P), \ldots, x_n (P)\)</span> and may be varying
@@ -126,7 +128,7 @@ of vectors</p>
 <p>and linearity.</p>
 </div>
 <div class="section" id="the-volume-form-volumeform">
-<h2>1.1.2. The volume form <span class="math">\(\eta\)</span> (<strong>volumeForm</strong>)<a class="headerlink" href="#the-volume-form-volumeform" title="Permalink to this headline">¶</a></h2>
+<h3>1.1.2. The volume form <span class="math">\(\eta\)</span> (<strong>volumeForm</strong>)<a class="headerlink" href="#the-volume-form-volumeform" title="Permalink to this headline">¶</a></h3>
 <p>The Riemannian <em>volume form</em> <span class="math">\(\eta\)</span> is (by definition) given by the
 n-form</p>
 <div class="math">
@@ -137,7 +139,7 @@ coordinates <span class="math">\(\sqrt{\mathrm{det} g}\)</span> transforms like 
 a n-form.</p>
 </div>
 <div class="section" id="hodge-dual-hodgestar">
-<h2>1.1.3. Hodge dual (<strong>hodgeStar</strong>)<a class="headerlink" href="#hodge-dual-hodgestar" title="Permalink to this headline">¶</a></h2>
+<h3>1.1.3. Hodge dual (<strong>hodgeStar</strong>)<a class="headerlink" href="#hodge-dual-hodgestar" title="Permalink to this headline">¶</a></h3>
 <p>The <em>Hodge dual</em> of a differential p-form <span class="math">\(\beta\)</span> is the (n - p)-form
 <span class="math">\(\star \beta\)</span> such that</p>
 <div class="math">
@@ -150,8 +152,10 @@ Hodge dual is uniquely defined by the expression above.</p>
 <div class="math">
 \[\lambda \wedge \mu = \langle \star \lambda, \mu \rangle \eta\]</div>
 <p>where <span class="math">\(\lambda\)</span> is a p-form and <span class="math">\(\mu\)</span> a (n - p)-form.
-This can result in different signs. The generally adopted definition (2016)
-is the one given at the beginning of this subsection.</p>
+This can result in different signs (actually <span class="math">\(\star_F = s(g)\star\)</span>,
+where <span class="math">\(s(g)\)</span> is the sign of the determinant of <span class="math">\(g\)</span>).</p>
+<p>The generally adopted definition (2016) is the one given at the beginning
+of this subsection.</p>
 <p>The components of <span class="math">\(\star \beta\)</span> are</p>
 <div class="math">
 \[(\star \beta)_{j_1, \ldots, j_{n - p}} = \frac{1}{p!} \varepsilon_{i_1,
@@ -164,7 +168,7 @@ is the one given at the beginning of this subsection.</p>
  \ldots, k_p} .\]</div>
 </div>
 <div class="section" id="interior-product-interiorproduct">
-<h2>1.1.4 Interior product (<strong>interiorProduct</strong>)<a class="headerlink" href="#interior-product-interiorproduct" title="Permalink to this headline">¶</a></h2>
+<h3>1.1.4 Interior product (<strong>interiorProduct</strong>)<a class="headerlink" href="#interior-product-interiorproduct" title="Permalink to this headline">¶</a></h3>
 <p>The <em>interior product</em> of a vectorfield <span class="math">\(v\)</span> and a p-form <span class="math">\(\alpha\)</span>
 is a (p -1)-form <span class="math">\(i_v (\alpha)\)</span> such that</p>
 <div class="math">
@@ -189,7 +193,7 @@ operator to compute the interior product.</p>
 which allows a recursive implementation.</p>
 </div>
 <div class="section" id="the-lie-derivative-liederivative">
-<h2>1.1.5 The Lie derivative (<strong>lieDerivative</strong>)<a class="headerlink" href="#the-lie-derivative-liederivative" title="Permalink to this headline">¶</a></h2>
+<h3>1.1.5 The Lie derivative (<strong>lieDerivative</strong>)<a class="headerlink" href="#the-lie-derivative-liederivative" title="Permalink to this headline">¶</a></h3>
 <p>The <em>Lie derivative</em> with respect to a vector field <span class="math">\(v\)</span> can be
 calculated (and defined) using Cartan&#8217;s formula:</p>
 <div class="math">
@@ -198,9 +202,52 @@ calculated (and defined) using Cartan&#8217;s formula:</p>
 it is convenient to compute it this way when <span class="math">\(d\)</span> and <span class="math">\(i_v\)</span> are
 already at hand.</p>
 </div>
+<div class="section" id="the-codifferential-codifferential">
+<h3>1.1.6 The CoDifferential <span class="math">\(\delta\)</span> (<strong>codifferential</strong>)<a class="headerlink" href="#the-codifferential-codifferential" title="Permalink to this headline">¶</a></h3>
+<p>The <em>codifferential</em> <span class="math">\(\delta\)</span> is defined on a p-form as follows:</p>
+<div class="math">
+\[\delta = (-1)^{n(p-1)+1}\,s(g) \star\,d\,\star\]</div>
+<p>where <span class="math">\(g\)</span> is the metric and <span class="math">\(s(g)\)</span> is related to the
+<strong>signature</strong> of <span class="math">\(s(g)\)</span> as described next.</p>
 </div>
-<div class="section" id="literature">
-<h1>Literature<a class="headerlink" href="#literature" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="the-sign-of-a-metric-s">
+<h3>1.1.7 The sign of a metric  <span class="math">\(s(g)\)</span> (<strong>s</strong>)<a class="headerlink" href="#the-sign-of-a-metric-s" title="Permalink to this headline">¶</a></h3>
+<p>The signature of a metric <span class="math">\(g\)</span> is defined as the difference of
+the number of positive (p) and negative (q) eigenvalues, i.e:</p>
+<div class="math">
+\[\mathrm{signature(g)} = p - q\]</div>
+<p>and the <strong>sign</strong> functions <strong>s</strong> is defined as:</p>
+<div class="math">
+\[s(g) = (-1)^{\frac{n -\mathrm{signature(g)}}{2}}\]</div>
+<p>Since, as we always assume, <span class="math">\(g\)</span>  is non-degenerate, we have
+<span class="math">\(p+q=n\)</span>, and consequently:</p>
+<div class="math">
+\[s(g) = (-1)^{q} = \mathrm{sign}\, \mathrm{det}(g)\]</div>
+</div>
+<div class="section" id="the-inverse-hodge-star-invhodgestar">
+<h3>1.1.8 The inverse Hodge star <span class="math">\(\star^{-1}\)</span> (<strong>invHodgeStar</strong>)<a class="headerlink" href="#the-inverse-hodge-star-invhodgestar" title="Permalink to this headline">¶</a></h3>
+<p>Applying the Hodge star operator twice on a p-form twice we get
+the identity up to sign:</p>
+<div class="math">
+\[\star\circ\star\, \omega_p = (-1)^{p(n-p)}\,s(g)\,\omega_p.\]</div>
+<p>Therefore</p>
+<div class="math">
+\[\star^{-1}\,\omega_p = (-1)^{p(n-p)}\,s(g)\,\star\omega_p.\]</div>
+</div>
+<div class="section" id="the-hodge-laplacian-hodgelaplacian">
+<h3>1.1.9 The Hodge-Laplacian <span class="math">\(\Delta_g\)</span> (<strong>hodgeLaplacian</strong>)<a class="headerlink" href="#the-hodge-laplacian-hodgelaplacian" title="Permalink to this headline">¶</a></h3>
+<p>The <strong>Hodge-Laplacian</strong> also known as <em>Laplace-de Rham operator</em> is
+defined on any manifold equipped with a (pseudo-) Riemannian
+metric <span class="math">\(g\)</span> and is given by</p>
+<div class="math">
+\[\Delta_g = d\circ\delta + \delta\circ d\]</div>
+<p>Note that in the Euclidean case <span class="math">\(\Delta_g = - \Delta\)</span>, where
+latter is the ordinary Laplacian.</p>
+</div>
+</div>
+<div class="section" id="bibliography">
+<h2>Bibliography<a class="headerlink" href="#bibliography" title="Permalink to this headline">¶</a></h2>
+<p class="rubric">References</p>
 <table class="docutils footnote" frame="void" id="id3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
@@ -252,6 +299,7 @@ Series, No. 21. Literary Licensing, LLC.</td></tr>
 </tbody>
 </table>
 </div>
+</div>
 
 
           </div>
@@ -261,16 +309,23 @@ Series, No. 21. Literary Licensing, LLC.</td></tr>
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">1.0 Introduction</a></li>
+<li><a class="reference internal" href="#">1 Theory</a><ul>
+<li><a class="reference internal" href="#id1">1.0 Introduction</a></li>
 <li><a class="reference internal" href="#definitions">1.1 Definitions</a><ul>
 <li><a class="reference internal" href="#inner-product-of-differential-forms-dot">1.1.1 Inner product of differential forms (<strong>dot</strong>)</a></li>
 <li><a class="reference internal" href="#the-volume-form-volumeform">1.1.2. The volume form <span class="math">\(\eta\)</span> (<strong>volumeForm</strong>)</a></li>
 <li><a class="reference internal" href="#hodge-dual-hodgestar">1.1.3. Hodge dual (<strong>hodgeStar</strong>)</a></li>
 <li><a class="reference internal" href="#interior-product-interiorproduct">1.1.4 Interior product (<strong>interiorProduct</strong>)</a></li>
 <li><a class="reference internal" href="#the-lie-derivative-liederivative">1.1.5 The Lie derivative (<strong>lieDerivative</strong>)</a></li>
+<li><a class="reference internal" href="#the-codifferential-codifferential">1.1.6 The CoDifferential <span class="math">\(\delta\)</span> (<strong>codifferential</strong>)</a></li>
+<li><a class="reference internal" href="#the-sign-of-a-metric-s">1.1.7 The sign of a metric  <span class="math">\(s(g)\)</span> (<strong>s</strong>)</a></li>
+<li><a class="reference internal" href="#the-inverse-hodge-star-invhodgestar">1.1.8 The inverse Hodge star <span class="math">\(\star^{-1}\)</span> (<strong>invHodgeStar</strong>)</a></li>
+<li><a class="reference internal" href="#the-hodge-laplacian-hodgelaplacian">1.1.9 The Hodge-Laplacian <span class="math">\(\Delta_g\)</span> (<strong>hodgeLaplacian</strong>)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#literature">Literature</a></li>
+<li><a class="reference internal" href="#bibliography">Bibliography</a></li>
+</ul>
+</li>
 </ul>
 
   <h4>Previous topic</h4>
@@ -278,7 +333,7 @@ Series, No. 21. Literary Licensing, LLC.</td></tr>
                         title="previous chapter">FriCAS :: DifferentialForms</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="section-2.0.html"
-                        title="next chapter">2.0 Package Details</a></p>
+                        title="next chapter">2 Export</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -307,7 +362,7 @@ Series, No. 21. Literary Licensing, LLC.</td></tr>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="section-2.0.html" title="2.0 Package Details"
+          <a href="section-2.0.html" title="2 Export"
              >next</a> |</li>
         <li class="right" >
           <a href="index.html" title="FriCAS :: DifferentialForms"

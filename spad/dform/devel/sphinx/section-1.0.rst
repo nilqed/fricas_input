@@ -1,5 +1,9 @@
 .. _introduction:
 
+========
+1 Theory
+========
+
 1.0 Introduction
 ----------------
 
@@ -242,8 +246,79 @@ it is convenient to compute it this way when :math:`d` and :math:`i_v` are
 already at hand.
 
 
-Literature
-----------
+1.1.6 The CoDifferential :math:`\delta` (**codifferential**)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The *codifferential* :math:`\delta` is defined on a p-form as follows:
+
+.. math::
+
+  \delta = (-1)^{n(p-1)+1}\,s(g) \star\,d\,\star
+  
+where :math:`g` is the metric and :math:`s(g)` is related to the 
+**signature** of :math:`s(g)` as described next.
+
+1.1.7 The sign of a metric  :math:`s(g)` (**s**)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The signature of a metric :math:`g` is defined as the difference of
+the number of positive (p) and negative (q) eigenvalues, i.e:
+
+.. math::
+
+  \mathrm{signature(g)} = p - q
+  
+and the **sign** functions **s** is defined as:
+
+.. math::
+
+   s(g) = (-1)^{\frac{n -\mathrm{signature(g)}}{2}} 
+   
+Since, as we always assume, :math:`g`  is non-degenerate, we have 
+:math:`p+q=n`, and consequently:
+
+.. math::
+
+   s(g) = (-1)^{q} = \mathrm{sign}\, \mathrm{det}(g)
+
+ 
+1.1.8 The inverse Hodge star :math:`\star^{-1}` (**invHodgeStar**)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Applying the Hodge star operator twice on a p-form twice we get
+the identity up to sign:
+
+.. math::
+
+    \star\circ\star\, \omega_p = (-1)^{p(n-p)}\,s(g)\,\omega_p.
+
+Therefore
+
+.. math::
+
+    \star^{-1}\,\omega_p = (-1)^{p(n-p)}\,s(g)\,\star\omega_p. 
+    
+
+1.1.9 The Hodge-Laplacian :math:`\Delta_g` (**hodgeLaplacian**)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The **Hodge-Laplacian** also known as *Laplace-de Rham operator* is 
+defined on any manifold equipped with a (pseudo-) Riemannian
+metric :math:`g` and is given by
+
+.. math::
+
+    \Delta_g = d\circ\delta + \delta\circ d
+    
+    
+Note that in the Euclidean case :math:`\Delta_g = - \Delta`, where
+latter is the ordinary Laplacian.
+      
+    
+Bibliography
+------------
+
+.. rubric:: References
 
 .. [1] Ralph Abraham, Jerrold E.Marsden and Tudor Ratiu.Manifolds, 
        Tensor Analysis, and Applications. Springer,

@@ -1,0 +1,73 @@
+
+1.0 Introduction
+****************
+
+Differential forms occur in various fields of mathematics and physics
+providing a method to formulate many objects in a way which is
+independent of a particular coordinate system. Although primary usage
+certainly is in a theoretical context, there are situations where
+actual computations have to be done. Due to the antisymmetric nature
+and especially in the context of manifolds the calculations may be
+quite involved and tedious, therefore, it is convenient to have tool
+box for the most elaborate transformations. The price one has to pay
+for the conciseness and beauty of the presentation is that concrete
+evaluations are slightly more challenging than conventional methods
+like vector calulus for instance.
+
+There are many approaches to introduce differential forms: alternating
+linear mappings, completely antisymmetric tensors, sections of
+cotangent bundles or free vector spaces to name a few. The following
+references give witness of the different methods and are ordered by
+nondecreasing difficulty and rigor: [4] , [6] , [1] , [2] , [7] , [3]
+
+Here we have to consider differential forms in local coordinates in
+order to perform some nonsymbolic computations:
+
+   \omega(x) = \sum_{1\leq j_1<\ldots<j_p\leq n}
+   \omega_{j_1,\ldots,j_p}(x_1,\ldots,x_n) \,
+   dx_{j_1}\wedge\ldots\wedge dx_{j_p}
+
+The expression above is the local representation of the p-form \omega
+in an open set of \mathbb{R}^n. There are many other ways to express
+this fact: some authors take the sum over \{j_k=1,\ldots,n ; k
+=1,\ldots,p\} then one has to multiply by the factor \frac{1}{p!},
+others write it as a p-covector field, but all these have the same
+meaning. The wedge product (\wedge) basically denotes  the
+antisymmetric tensor product:
+
+   \alpha\wedge\beta=\frac{1}{2}\, \left(a\otimes b - b\otimes a
+   \right)
+
+and is, although standard today, quite unhandy and there are different
+notations in the literature. In the book of H.Flanders [4] it is not
+used at all while H.Whitney used the symbol \vee in his representation
+[7].
+
+**Notation**: The domain "DeRhamcomplex" uses "dx*dy" for dx\wedge dy.
+
+[1] Ralph Abraham, Jerrold E.Marsden and Tudor Ratiu.Manifolds,
+    Tensor Analysis, and Applications. Springer, Auflage: 2nd
+    Corrected ed. 1988. Corr. 2nd printing 1993 edition.
+
+[2] Henri Cartan. Di erential Forms. Dover Pubn Inc, Au age: Tra
+    edition.
+
+[3] Herbert Federer. Geometric Measure Theory. Springer, Au age:
+    Reprint of the 1st ed. Berlin, Heidelberg, New York 1969 edition.
+
+[4] Harley Flanders and Mathematics. Differential Forms with
+    Applications to the Physical Sciences. Dover Pubn Inc, Auflage:
+    Revised. edition.
+
+[5] L. A. Lambe and D. E. Radford. Introduction to the Quantum
+    Yang- Baxter Equation and Quantum Groups:An Algebraic Approach.
+    Springer, Auflage: 1997 edition.
+
+[6] Walter Rudin and RudinWalter. Principles
+    ofMathematicalAnalysis.Mcgraw Hill Book Co, Au age: Revised.
+    edition.
+
+[7] Hassler Whitney. Geometric Integration Theory: Princeton
+    Mathematical Series, No. 21. Literary Licensing, LLC.
+
+FriCAS :: DeRhamComplex
