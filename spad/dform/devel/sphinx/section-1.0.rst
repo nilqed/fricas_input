@@ -162,8 +162,11 @@ Flanders [4]_ defines the Hodge dual by the equality
    \lambda \wedge \mu = \langle \star \lambda, \mu \rangle \eta 
    
 where :math:`\lambda` is a p-form and :math:`\mu` a (n - p)-form.
-This can result in different signs. The generally adopted definition (2016)
-is the one given at the beginning of this subsection. 
+This can result in different signs (actually :math:`\star_F = s(g)\star`,
+where :math:`s(g)` is the sign of the determinant of :math:`g`).
+ 
+The generally adopted definition (2016) is the one given at the beginning 
+of this subsection. 
 
 
 The components of :math:`\star \beta` are

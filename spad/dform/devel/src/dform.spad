@@ -93,7 +93,15 @@ DifferentialForms(R,v) : Exports == Implementation where
     lieDerivative : (Vector(X),DRC) -> DRC
       ++ Calculates the Lie derivative L_X(a) of the differential 
       ++ form a with respect to the vector field X.
- 
+    s : SMR -> X
+      ++ s(g) determines the sign of determinant(g) and is related to the
+      ++ signature of g (n=p+q,t=p-q,s=(-)^(n-t)/2 => s=(-)^q. 
+    invHodgeStar : (SMR,DRC) -> DRC
+      ++ invHodgeStar is the inverse of hodgeStar.
+    codifferential : (SMR,DRC) -> DRC
+      ++ codifferential(g,x), also known as "delta", computes the 
+      ++ co-differential of a form.
+      
 
   Implementation ==  add 
 
@@ -272,9 +280,39 @@ DifferentialForms(R,v) : Exports == Implementation where
       x=0$DRC => x
       leadingCoefficient(x)*hodgeStarBT(g,leadingBasisTerm(x)) + _
         hodgeStar(g, reductum(x))
- 
+
+
+    s(g:SMR):X ==
+      det:X:=determinant g
+      sd:Union(Integer,"failed"):=sign(det)$ElementaryFunctionSign(Integer,X)
+      sd case "failed" => 's?::X
+      sd case Integer => coerce(sd)$X
+      
+
+    invHodgeStar(g:SMR,x:DRC):DRC ==
+      x=0$DRC => x
+      y:DRC:=leadingBasisTerm(x)
+      k:X:=coerce(degree y)$X
+      c:X:=s(g)*(-1)^(k*(coerce(n)$X-k))
+      leadingCoefficient(x)*hodgeStarBT(g,c*y) + _
+        invHodgeStar(g, reductum(x))
+
+                   
+    codifferential(g:SMR,x:DRC) ==
+      x=0$DRC => 0
+      y:DRC:=leadingBasisTerm(x)
+      k:X:=coerce(degree y)$X
+      c:X:=s(g)*(-1)^(coerce(n)$X*(k-1)+1)
+      c*hodgeStar(g,d hodgeStar(g,leadingCoefficient(x)*y)) + _
+        codifferential(g,reductum(x)) 
+
 -- 
 --
 -- todo: codifferential, sign(g)=signature(g)/|signature(g)|
 --       p+q=n, sign(det g) = (-)^q, sign(g):=(-)^s, where s=p-q=n-2q ??
 --       laplaceOperator = d delta + delta d
+-- s(g)$M -> 1
+-- s(h)$M -> s?
+-- s(eta)$M -> -1
+-- delta x ==> codifferential(g,x)$M
+-- Lap(x) = d delta x + delta d x (note Lap <-> -Delta)
