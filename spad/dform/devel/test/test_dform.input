@@ -6,6 +6,10 @@
 -- .... DifferentialForms (dform.spad).
 -- Version 1.1: 09-ARP-2016
 -- Version 1.2: 17-DEC-2016
+--
+-- FriCAS Computer Algebra System
+-- Version: FriCAS 1.3.0
+-- Timestamp: Don Sep 29 21:26:01 CEST 2016
 
 
 -----------
@@ -15,7 +19,7 @@
 )clear all
 
 n:=7 -- dim of base space (n>=2 !), may change in course
-N:=65 -- number of tests
+N:=91 -- number of tests
 
 O ==> OutputForm
 
@@ -204,10 +208,65 @@ res.63 := test( s(g)$M = 1)
 res.64 := test( s(eta)$M = -1)
 res.65 := test( s(h)$M = 's? )
 
+-- https://en.wikipedia.org/wiki/Hodge_dual
+-- Four dimensions
 
+res.66 := test( hodgeStar(eta,dx.1)$M = dx.2*dx.3*dx.4)
+res.67 := test( hodgeStar(eta,dx.2)$M = dx.1*dx.3*dx.4)
+res.68 := test( hodgeStar(eta,dx.3)$M = dx.1*dx.4*dx.2)
+res.69 := test( hodgeStar(eta,dx.4)$M = dx.1*dx.2*dx.3)
+res.70 := test( hodgeStar(eta,dx.1*dx.2)$M = dx.4*dx.3)
+res.71 := test( hodgeStar(eta,dx.1*dx.3)$M = dx.2*dx.4)
+res.72 := test( hodgeStar(eta,dx.1*dx.4)$M = dx.3*dx.2) 
+res.73 := test( hodgeStar(eta,dx.2*dx.3)$M = dx.1*dx.4)
+res.74 := test( hodgeStar(eta,dx.2*dx.4)$M = dx.3*dx.1)
+res.75 := test( hodgeStar(eta,dx.3*dx.4)$M = dx.1*dx.2)
+
+
+-- codifferential: (delta=(-)^degree(x)*invHodgeStar(g, d hodgeStar(g,x))
+res.76 := test(codifferential(g,s*dx.1)$M = -D(retract s,xs.1)*one()$M)
+res.77 := test(codifferential(g,P*dx.2)$M = -D(P,xs.2)*one()$M)
+res.78 := test(codifferential(g,s*P*dx.1*dx.2)$M = _
+    (-P*D(retract s,xs.1)-s*D(P,xs.1))*dx.2+_
+    (P*D(retract s,xs.2)+s*D(P,xs.2))*dx.1)
+res.79 := test(codifferential(g,P*w)$M = x.2*D(P,xs.1)*one()$M -_
+     x.1*D(P,xs.2)*one()$M)
+res.80 := test(codifferential(g,P*w)$M = _
+    (-1)^degree(w)*invHodgeStar(g, d hodgeStar(g,P*w)$M)$M)
+res.81 := test(codifferential(eta,P*w)$M = _
+    (-1)^degree(w)*invHodgeStar(eta, d hodgeStar(eta,P*w)$M)$M)
+res.82 := test(codifferential(h,P*w)$M = _
+    (-1)^degree(w)*invHodgeStar(h, d hodgeStar(h,P*w)$M)$M)
+res.83 := test(codifferential(h,P*w*dx.3)$M = _
+    (-1)^degree(w*dx.3)*invHodgeStar(h, d hodgeStar(h,P*w*dx.3)$M)$M)
+
+-- the codifferential \delta is (sort of) the adjoint to the differential.
+-- This doesn’t quite hold, but we can show that it does hold “up to homology”.
+-- We can calculate their difference times the canonical volume form:
+res.84 := test((dot(g,d w, dx.1*dx.2)$M -_
+    dot(g,w,codifferential(g,dx.1*dx.2)$M)$M)*dV(g)=
+    d (w*hodgeStar(g,dx.1*dx.2)$M))
+res.85 := test((dot(eta,d w, dx.1*dx.2)$M -_
+    dot(eta,w,codifferential(eta,dx.1*dx.2)$M)$M)*dV(eta)=
+    d (w*hodgeStar(eta,dx.1*dx.2)$M))
+
+res.86 := test(hodgeLaplacian(g,w*(** w))$M = -4 * dV(g))
+res.87 := test(hodgeLaplacian(eta,w*(hodgeStar(eta,w)$M))$M = 4 * dV(eta)) 
+res.88 := test(hodgeLaplacian(h,w*(hodgeStar(h,w)$M))$M =_
+    d codifferential(h,w*hodgeStar(h,w)$M)$M)
+    
+res.89 := test(d(vf*dx) *  (** d(vf*dx))=dot(g,d(vf*dx),d(vf*dx))$M*dV(g))
+-- next is inequality because ** = hodgeStar w.r.t to metric g!
+res.90 := test(d(vf*dx) *  (** d(vf*dx))~=dot(eta,d(vf*dx),d(vf*dx))$M*dV(eta))
+-- correct is:
+res.91 := test(d(vf*dx)*hodgeStar(eta,d(vf*dx))$M=_
+    dot(eta,d(vf*dx),d(vf*dx))$M*dV(eta))
 -------------
 -- Results --
 -------------
+)version
+)lisp (lisp-implementation-type)
+)lisp (lisp-implementation-version)
 
 res
 reduce(_and,res)
