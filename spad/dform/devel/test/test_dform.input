@@ -1,8 +1,11 @@
 -- =======================================
 -- DFORM tests (package DifferentialForms)
 -- =======================================
--- Requires: DeRhamComplex (src/derham.spad)
--- Version: 09-ARP-2016
+-- Requires:
+-- .... DeRhamComplex (src/derham.spad) or FriCAS 1.3 or later.
+-- .... DifferentialForms (dform.spad).
+-- Version 1.1: 09-ARP-2016
+-- Version 1.2: 17-DEC-2016
 
 
 -----------
@@ -11,8 +14,8 @@
 
 )clear all
 
-n:=7 -- dim of base space (n>=2 !)
-N:=35 -- number of tests
+n:=7 -- dim of base space (n>=2 !), may change in course
+N:=65 -- number of tests
 
 O ==> OutputForm
 
@@ -44,9 +47,6 @@ h:=diagonalMatrix(c)$SquareMatrix(n,EXPR R)
 
 -- vector field
 vf:=vector b
-
--- eval ??? todo
--- volumeForm(g)$M --> .... 
  
 
 -- Result list  
@@ -116,6 +116,93 @@ res.35 := test ( d interiorProduct(vf,b*dx)$M + _
                 interiorProduct(vf,d(b*dx))$M = lieDerivative(vf,b*dx)$M)
 
 
+
+-- Version 1.2
+)clear values n R v M x xs dx a b c p g h P vf 
+
+n:=4 -- dim of base space (n>=2 !)
+
+O ==> OutputForm
+
+-- HodgeStar package for DERHAM(R,v)
+R:=Integer  -- Ring
+v:=[subscript(x,[j::OutputForm]) for j in 1..n] -- (x_1,..,x_n)
+M:=DFORM(R,v)
+
+-- basis 1-forms and coordinate vector
+dx:=baseForms()$M     -- [dx[1],...,dx[n]]
+x:=coordVector()$M    -- [x[1],...,x[n]]
+xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+
+
+-- operator, vector field, scalar field, symbol
+a:=operator 'a         -- operator
+b:=vectorField(b)$M    -- generic vector field [b1(x1..xn),...,bn(x1..xn)]
+c:=vectorField(c)$M
+P:=scalarField(P)$M -- scalar field P(x1,..,xn)
+
+-- metric
+g:=diagonalMatrix([1 for i in 1..n])$SquareMatrix(n,EXPR R)  -- Euclidean
+h:=diagonalMatrix(c)$SquareMatrix(n,EXPR R)
+eta:=diagonalMatrix(concat(1,[-1 for i in 2..n]))$SquareMatrix(n,EXPR R)
+
+-- vector field
+vf:=vector b
+
+-- macros
+dV(g) ==> volumeForm(g)$M
+i(X,w) ==> interiorProduct(X,w)$M
+L(X,w) ==> lieDerivative(X,w)$M
+** w ==> hodgeStar(g,w)$M
+
+---
+
+w:=x.1*dx.2-x.2*dx.1
+res.36 := test(d w = 2*dx.1*dx.2)
+res.37 := test(w*w = zero()$M)
+res.38 := test(i(vf,w) = x.1*b.2-x.2*b.1)
+res.39 := test(L(vf,w) = d i(vf,w) + i(vf,d w))
+res.40 := test(d i(vf,w) + i(vf,d w) - L(vf,w) = zero()$M)
+res.41 := test(dot(g,w,w)$M = x.1^2+x.2^2)
+-- div(b) dV
+res.41 := test(d i(vf,dV(g)) = reduce(_+,[D(b.j,xs.j) for j in 1..n])*dV(g))
+res.42 := test(d (P*one()$M) = reduce(_+,[D(P,xs.j)*dx.j for j in 1..n])) 
+res.43 := test(i(vf,d (P*one()$M))= reduce(_+,[D(P,xs.j)*b.j for j in 1..n])*one()$M)
+res.44 := test(1/dot(g,w,w)$M*w =  w*(1/(x.1^2+x.2^2)))
+res.45 := test(d (1/dot(g,w,w)$M*w) = zero()$M)
+
+---
+s:=zeroForm('s)$M
+res.46 := test(d s =  totalDifferential(retract s)$DeRhamComplex(Integer,v))
+res.47 := test(d s =  totalDifferential(retract s)$typeOf(s))
+res.48 := test(d (** s) = 0$typeOf(s))
+res.49 := test(dot(g,** ( d s),w*dx.2*dx.3)$M = x.2*D(retract s, xs.4)) 
+res.50 := test(d (** ( d s)) = reduce(_+,[D(retract s,xs.j,2) for j in 1..n])*dV(g))
+
+r:=sin(x.1*x.2)*one()$M
+
+res.51 := test(d r = x.1*cos(x.1*x.2)*dx.2+x.2*cos(x.1*x.2)*dx.1) 
+res.52 := test(d (** ( d r)) = -(x.1^2+x.2^2)*sin(x.1*x.2)*dV(g))
+
+res.53 := test(** (d (** ( d r))) = -(x.1^2+x.2^2)*sin(x.1*x.2)) 
+res.53 := test(** (d (** ( d r)))::EXPR INT = retract (** (d (** ( d r))))) 
+res.54 := test(eval(** (d (** ( d r)))::EXPR INT,xs.1=%pi) = (-%pi^2-x.2^2)*sin(%pi*x.2))
+res.55 := test(eval(eval(** (d (** ( d r)))::EXPR INT,xs.1=%pi) ,xs.2=%pi)=-2*%pi^2*sin(%pi^2))
+
+a(P)*one()$M
+-- chain diff
+res.56 := test(d (a(P)*one()$M) =  eval(D(a(t),'t),t=P)*d (P*one()$M)) 
+
+res.57 := test(** invHodgeStar(g,w)$M = w)
+res.58 := test(invHodgeStar(g,** w)$M = w)
+res.59 := test(** invHodgeStar(g,** w + dx.1)$M = ** w + dx.1)
+res.60 := test( ** dV(g) = invHodgeStar(g,dV(g))$M)
+res.61 := test(** dV(h) ~= invHodgeStar(h,dV(g))$M)
+res.62 := test( dot(h,w,w)$M = (c.2*x.2^2+c.1*x.1^2)/(c.1*c.2))
+
+res.63 := test( s(g)$M = 1)
+res.64 := test( s(eta)$M = -1)
+res.65 := test( s(h)$M = 's? )
 
 
 -------------

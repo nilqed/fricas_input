@@ -209,15 +209,17 @@ DifferentialForms(R,v) : Exports == Implementation where
 
 
     -- export
-    dot(g,x,y) ==
+    dot(g:SMR,x:DRC,y:DRC):X ==
       not symmetric? g => error(err1)
       tx:List REA := drc2rea(x)
       ty:List REA := drc2rea(y)
       tx = [] or ty = [] => 0::X
       if diagonal? g then -- better performance 
-        reduce("+",[dot1(g,tx.j,ty.j) for j in 1..#tx])
+        a:List(X):=concat[[dot1(g,tx.j,ty.l)::X for j in 1..#tx] for l in 1..#ty]
+        reduce(_+,a)
       else
-        reduce("+",[dot2(g,tx.j,ty.j) for j in 1..#tx])
+        b:List(X):=concat[[dot2(g,tx.j,ty.l)::X for j in 1..#tx] for l in 1..#ty]
+        reduce(_+,b)
 
 
     proj(p,x) ==

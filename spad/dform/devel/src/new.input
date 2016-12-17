@@ -27,6 +27,7 @@ P:=scalarField(P)$M -- scalar field P(x1,..,xn)
 -- metric
 g:=diagonalMatrix([1 for i in 1..n])$SquareMatrix(n,EXPR R)  -- Euclidean
 h:=diagonalMatrix(c)$SquareMatrix(n,EXPR R)
+eta:=diagonalMatrix([-1,1,1,1::EXPR R])$SquareMatrix(n,EXPR R)
 
 -- vector field
 vf:=vector b
