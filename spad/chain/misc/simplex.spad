@@ -1,16 +1,10 @@
 )abbrev domain SMPLX Simplex
-++ Author: 
+++ Author: Kurt Pagani <nilqed@gmail.com> 
 ++ Date Created: Thu Oct 09 05:04:46 CEST 2014
-++ License: 
-++ Date Last Updated:
-++ Basic Operations: 
-++ Related Domains: 
-++ Also See:
-++ AMS Classifications:
-++ Keywords: 
+++ License: FriCAS/BSD
+++ Date Last Updated: 19-DEC-2016
 ++ Examples:
 ++ References:
-++
 ++ Description:
 ++ An element of Simplex(F,n) represents an affine simplex embedded in the
 ++ vector space F^n (over field F) given by its extreme points.
@@ -28,35 +22,38 @@ Simplex(F,n) : Exports == Implementation where
   Exports == Join(SetCategory, CoercibleTo OutputForm) with
   
     degenerate? : % -> Boolean
-    ++ Determines if the simplex is degenerate.
-    
+      ++ degenerate?(s) determines if the simplex is degenerate.  
     degree : % -> NNI
-    ++ Returns the degree of the simplex (0,...,n)
-    ++ A 0-simplex is a single point in F^n.
-    ++ Note: the function does not check whether the
-    ++ simplex is degenerate or not. Use degenerate?
-    ++ before computing the degree.
-    
+      ++ degree(s) returns the degree of the simplex s.
+      ++ A 0-simplex is a single point in F^n.
+      ++ Note: the function does not check whether the
+      ++ simplex is degenerate or not. Use "degenerate?"
+      ++ before computing the degree.  
     volume : % -> F
-    ++ Calculates the oriented volume if % is a n-simplex in F^n.
-    ++ Method: det(v1,...,vn)/factorial(n) where vi are the edge
-    ++ vectors.
-    
+      ++ volume(s) calculates the oriented volume of a n-simplex in F^n.
+      ++ Method: det(v1,...,vn)/factorial(n) where vi are the edge
+      ++ vectors. 
     faces : % -> List(%)
-    ++ Returns the list of all (k-1)-faces of a s:Simplex(F,n) with
-    ++ degree s = k. If k=0 then the empty list is returned.
-    
+      ++ faces(s) returns the list of all (k-1)-faces of s:Simplex(F,n) with
+      ++ degree s = k. If k=0 then the empty list is returned.  
     nFaces : (%,NNI) -> NNI
-    ++ Returns the number of m-faces of the simplex s.
-    
+      ++ nFaces(s,m) returns the number of m-faces of the simplex s. 
     stdSimplex : -> %
-    ++ Returns the standard simplex for F^n which is defined as
-    ++ [[0..0],[1,0..0],[0,1..0],..,[0,0,..1]].
-    ++X  stdSimplex()$Simplex(F,3)
-     
+      ++ stdSimplex() returns the standard simplex for F^n which is defined as
+      ++ [[0..0],[1,0..0],[0,1..0],..,[0,0,..1]].
+      ++X  stdSimplex()$Simplex(F,3)
+    translate : (Vector(F),%) -> %
+      ++ translate(v,s) returns a new simplex which is the translate of s by 
+      ++ the vector v (in F^n).
+    scale : (F,%) -> %
+      ++ scale(c,s) returns a new simplex which is a scaled version of s by
+      ++ the factor c (in F).
     coerce : List(List F) -> %
+      ++ coerce a list of (n+1) points in F^n to a simplex.
     coerce : Matrix(F)    -> %
+      ++ coerce a matrix of (n+1) rows and n columns to a simplex.
     coerce : % -> OutputForm
+      ++ coerce a simplex to OutputForm.
     
 	
 	
@@ -64,11 +61,11 @@ Simplex(F,n) : Exports == Implementation where
 
     Rep := Matrix(F)
      
-    err1 := "Empty list defines no simplex"
-    err2 := "Dimension error"
-    err3 := "Space dimension mismatch"
-    err4 := "Number of points mismatch"
-    err5 := "Inhomogeneous"
+    err1 := "Empty list defines no simplex."
+    err2 := "Dimension error."
+    err3 := "Space dimension mismatch."
+    err4 := "Number of points mismatch."
+    err5 := "Inhomogeneous."
     
     --list of function definitions for exported operations
    
@@ -82,12 +79,14 @@ Simplex(F,n) : Exports == Implementation where
       r := rank S
       r = nr-1 => false
       true
-   
+
+
     degree(s:%):NNI == 
       M:=s::Rep
       nr:=nrows(M)
       (nr-1)::NNI
-    
+
+
     volume(s:%):F ==
       degree(s)<n => 0::F
       M:=s::Rep
@@ -95,14 +94,16 @@ Simplex(F,n) : Exports == Implementation where
       for j in 1..nrows(S) repeat
         setRow!(S,j,row(S,j)-row(M,1))
       determinant(S)/factorial(n)::F
-    
+
+
     face(m:Matrix(F),i:NNI):Matrix(F) ==
       nr:=nrows(m)
       nc:=ncols(m)
       m1:=subMatrix(m,1,i-1,1,nc)::Rep
       m2:=subMatrix(m,i+1,nr,1,nc)::Rep
       vertConcat(m1,m2)
-      
+
+
     faces(s:%):List(%) ==
       M:=s::Rep
       nr:=nrows(M)
@@ -114,12 +115,16 @@ Simplex(F,n) : Exports == Implementation where
       d:=degree s
       m > d => 0
       binomial(d+1,m+1)::NNI
-      
+
+
     stdSimplex():% ==
       M:=diagonalMatrix([1::F for j in 1..n])::Rep
       m:=matrix([[0::F for j in 1..n]])::Rep
       vertConcat(m,M)
-  
+
+    translate(v:Vector F, s:%):% ==
+      s
+
     coerce(L:List(List F)):% == 
       L = [] => error(err1)
       kk:=#L
@@ -128,11 +133,13 @@ Simplex(F,n) : Exports == Implementation where
       nn ~= n   => error(err3)
       not reduce("and",[test(nn=#L.j) for j in 1..kk]) => error(err5)
       matrix(L)$Rep
-   
+
+
     coerce(M:Matrix(F)):% == 
       ncols M ~= n   => error(err3)
       M
-          
+
+
     coerce(s:%):OutputForm ==
       nr := nrows(s::Rep)
       nc := ncols(s::Rep)
@@ -141,19 +148,13 @@ Simplex(F,n) : Exports == Implementation where
       [row(s::Rep,j)::OF for j in 1..nr]::OF
       
       
-)abbrev domain SLCHAIN SimplicialChain
-++ Author: 
+)abbrev domain SMPLCHN SimplicialChain
+++ Author: Kurt Pagani <nilqed@gmail.com> 
 ++ Date Created: Thu Oct 09 05:04:46 CEST 2014
-++ License: 
-++ Date Last Updated:
-++ Basic Operations: 
-++ Related Domains: 
-++ Also See:
-++ AMS Classifications:
-++ Keywords: 
+++ License: FriCAS/BSD
+++ Date Last Updated: 19-DEC-2016
 ++ Examples:
 ++ References:
-++
 ++ Description:
 ++ An element of SimplicialChain(F,n) is a formal sum of elements 
 ++ of Simplex(F,n) with integer multiplicity. In other words it is
@@ -193,6 +194,8 @@ SimplicialChain(F,n) : Exports == Implementation where
         
        
 
- 
+-- SX==> Simplex(EXPR INT,3)
+-- s3:=stdSimplex()$SX
+--
 
     
