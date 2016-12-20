@@ -36,8 +36,8 @@ Simplex(F,n) : Exports == Implementation where
     faces : % -> List(%)
       ++ faces(s) returns the list of all (k-1)-faces of s:Simplex(F,n) with
       ++ degree s = k. If k=0 then the empty list is returned.  
-    nFaces : (%,NNI) -> NNI
-      ++ nFaces(s,m) returns the number of m-faces of the simplex s. 
+    numFaces : (%,NNI) -> NNI
+      ++ numFaces(s,m) returns the number of m-faces of the simplex s. 
     stdSimplex : -> %
       ++ stdSimplex() returns the standard simplex for F^n which is defined as
       ++ [[0..0],[1,0..0],[0,1..0],..,[0,0,..1]].
@@ -48,6 +48,17 @@ Simplex(F,n) : Exports == Implementation where
     scale : (F,%) -> %
       ++ scale(c,s) returns a new simplex which is a scaled version of s by
       ++ the factor c (in F).
+    pointList : % -> List List F
+      ++ pointList(s) returns a list of all points of the simplex s.
+    span : % -> List Vector F
+      ++ span(s) returns a list of vectors that span the simplex s.
+    allFaces : % -> List %
+    vertices : % -> List %
+      ++ vertices(s) returns a list of all vertices (0-simplices) of s.
+    edges : % -> List %
+      ++ edges(s) returns a list of all edges (1-simplices) of s.
+    facets : % -> List %
+      ++ facets(s) returns a list of all facets ((n-1)-simplices of s.
     coerce : List(List F) -> %
       ++ coerce a list of (n+1) points in F^n to a simplex.
     coerce : Matrix(F)    -> %
@@ -66,6 +77,7 @@ Simplex(F,n) : Exports == Implementation where
     err3 := "Space dimension mismatch."
     err4 := "Number of points mismatch."
     err5 := "Inhomogeneous."
+    err6 := "Unsuitable vector size" 
     
     --list of function definitions for exported operations
    
@@ -111,7 +123,7 @@ Simplex(F,n) : Exports == Implementation where
       [face(M,j) for j in 1..nr]
       
   
-    nFaces(s:%,m:NNI):NNI ==
+    numFaces(s:%,m:NNI):NNI ==
       d:=degree s
       m > d => 0
       binomial(d+1,m+1)::NNI
@@ -122,8 +134,32 @@ Simplex(F,n) : Exports == Implementation where
       m:=matrix([[0::F for j in 1..n]])::Rep
       vertConcat(m,M)
 
+
     translate(v:Vector F, s:%):% ==
-      s
+      #v ~= n ==> error(err6)
+      lv:=entries(v)
+      s::Rep + matrix [lv for j in 0..degree(s)]
+
+
+    scale(c:F,s:%):% == c * s::Rep
+      
+
+    pointList(s:%):List List F == listOfLists(s::Rep)
+
+
+    span(s:%):List Vector F ==
+      M:=s::Rep
+      r:=nrows(M)
+      [row(M,j)-row(M,1) for j in 2..r]
+      
+    
+    allFaces(s:%):List % ==
+      degree s = 0 ==> []
+      --concat(s,concat [allFaces u for u in faces(s)])
+      --todo: edges, facets .....
+
+    vertices(s:%):List % == [coerce [x] for x in listOfLists(s::Rep)] 
+
 
     coerce(L:List(List F)):% == 
       L = [] => error(err1)
@@ -148,7 +184,7 @@ Simplex(F,n) : Exports == Implementation where
       [row(s::Rep,j)::OF for j in 1..nr]::OF
       
       
-)abbrev domain SMPLCHN SimplicialChain
+)abbrev domain AFFCHN AffineChain
 ++ Author: Kurt Pagani <nilqed@gmail.com> 
 ++ Date Created: Thu Oct 09 05:04:46 CEST 2014
 ++ License: FriCAS/BSD
@@ -156,12 +192,12 @@ Simplex(F,n) : Exports == Implementation where
 ++ Examples:
 ++ References:
 ++ Description:
-++ An element of SimplicialChain(F,n) is a formal sum of elements 
+++ An element of AffineChain(F,n) is a formal sum of elements 
 ++ of Simplex(F,n) with integer multiplicity. In other words it is
 ++ the free abelian group on the set of simplices in the vectorspace 
 ++ F^n (F a field) with integer coefficients. 
 ++
-SimplicialChain(F,n) : Exports == Implementation where
+AffineChain(F,n) : Exports == Implementation where
   
   NNI ==> NonNegativeInteger
   INT ==> Integer
@@ -194,7 +230,7 @@ SimplicialChain(F,n) : Exports == Implementation where
         
        
 
--- SX==> Simplex(EXPR INT,3)
+-- SX==> Simplex(EXPR INT,3)  
 -- s3:=stdSimplex()$SX
 --
 
