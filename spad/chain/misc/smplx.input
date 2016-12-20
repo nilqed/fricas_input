@@ -1,0 +1,29 @@
+)co simplex
+
+N:=8 -- number of tests
+res:List(Boolean):=[false for m in 1..N]
+
+X ==> Expression Integer
+n:=3 -- we assume n>0 for the tests, othwerise faces(s,n-1) is not defined.
+SX(m)==>Simplex(X,m)
+s:=stdSimplex()$SX(n)
+
+f:=allFaces(s) -- bad performance for n>=8
+res.1 := test(#f=2^(degree(s)+1)-2)
+
+res.2 := test([u for u in f | degree(u)=2] = faces(s,2))
+res.3 := test(vertices(s) = faces(s,0))
+res.4 := test(edges(s) = faces(s,1))
+res.5 := test(facets(s) = faces(s,n-1))
+
+s12:=[[1,0,0::X],[0,1,0::X]]::SX(3)
+res.6 := test(join([[1,0,0::X]]::SX(3),[[0,1,0::X]]::SX(3))= s12)
+
+s3:=stdSimplex()$SX(3)
+bc1:=barycentricCoords(translate([2/7,5,3::X],s3),[1/2,2/3,0::X])
+bc2:=barycentricCoords(translate([2/7,5,3::X],s3),[1/2+2/7,2/3+5,0+3::X])
+res.7 := test(bc1 = [3/14,-13/3,-3::X])
+res.8 := test(bc2 = [1/2,2/3,0::X])
+
+res
+

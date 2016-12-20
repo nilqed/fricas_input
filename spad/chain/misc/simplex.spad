@@ -33,14 +33,17 @@ Simplex(F,n) : Exports == Implementation where
       ++ volume(s) calculates the oriented volume of a n-simplex in F^n.
       ++ Method: det(v1,...,vn)/factorial(n) where vi are the edge
       ++ vectors. 
-    faces : % -> List(%)
-      ++ faces(s) returns the list of all (k-1)-faces of s:Simplex(F,n) with
-      ++ degree s = k. If k=0 then the empty list is returned.  
+    facets : % -> List(%)
+      ++ facets(s) returns the list of all (k-1)-faces of s:Simplex(F,n) with
+      ++ degree s = k. If k=0 then the empty list is returned. Note: usually
+      ++ a facet is defined when k=n, however, we use it in this generalizd
+      ++ form.
     numFaces : (%,NNI) -> NNI
       ++ numFaces(s,m) returns the number of m-faces of the simplex s. 
     stdSimplex : -> %
       ++ stdSimplex() returns the standard simplex for F^n which is defined as
-      ++ [[0..0],[1,0..0],[0,1..0],..,[0,0,..1]].
+      ++ [[0..0],[1,0..0],[0,1..0],..,[0,0,..1]]. Not to be confused with the
+      ++ notion of standard simplices in algebraic topology.
       ++X  stdSimplex()$Simplex(F,3)
     translate : (Vector(F),%) -> %
       ++ translate(v,s) returns a new simplex which is the translate of s by 
@@ -53,12 +56,24 @@ Simplex(F,n) : Exports == Implementation where
     span : % -> List Vector F
       ++ span(s) returns a list of vectors that span the simplex s.
     allFaces : % -> List %
+      ++ allFaces(s) returns a list of all faces of s without s itself.
+      ++ Consequently the size of the list is 2^(degree(s)+1)-2.
+    faces : (%,NNI) -> List %
+      ++ faces(s,k) return a list of all k-faces of s, that is those faces
+      ++ which have degree k.
     vertices : % -> List %
       ++ vertices(s) returns a list of all vertices (0-simplices) of s.
     edges : % -> List %
       ++ edges(s) returns a list of all edges (1-simplices) of s.
-    facets : % -> List %
-      ++ facets(s) returns a list of all facets ((n-1)-simplices of s.
+    join : (%,%) -> %
+      ++ join(s1,s2) returns a new simplex, the join of s1 and s2. The
+      ++ degree of the joined simplex is degree(s1)+degree(s2)+1 provided
+      ++ that this number is lesser or equal to n. Otherwise an error is
+      ++ issued.
+    barycentricCoords : (%,List F) -> List F
+      ++ barycentricCoords(s,x) computes the numbers t1,...,tn, each in F,
+      ++ such that the point x in F^n may be represented in the form
+      ++ p0+t1*v1+...+tn*vn, where vi=pi-p0, s=[p0,p1,...,pn].
     coerce : List(List F) -> %
       ++ coerce a list of (n+1) points in F^n to a simplex.
     coerce : Matrix(F)    -> %
@@ -77,7 +92,9 @@ Simplex(F,n) : Exports == Implementation where
     err3 := "Space dimension mismatch."
     err4 := "Number of points mismatch."
     err5 := "Inhomogeneous."
-    err6 := "Unsuitable vector size" 
+    err6 := "Unsuitable vector size"
+    err7 := "Only defined for proper simplexes."
+    err8 := "Cannot join: resulting degree greater than space dimension."
     
     --list of function definitions for exported operations
    
@@ -116,7 +133,7 @@ Simplex(F,n) : Exports == Implementation where
       vertConcat(m1,m2)
 
 
-    faces(s:%):List(%) ==
+    facets(s:%):List(%) ==
       M:=s::Rep
       nr:=nrows(M)
       nr =1 => []
@@ -155,11 +172,35 @@ Simplex(F,n) : Exports == Implementation where
     
     allFaces(s:%):List % ==
       degree s = 0 ==> []
-      --concat(s,concat [allFaces u for u in faces(s)])
-      --todo: edges, facets .....
+      removeDuplicates concat(facets s,concat [allFaces u for u in facets(s)])
+
 
     vertices(s:%):List % == [coerce [x] for x in listOfLists(s::Rep)] 
 
+    faces(s:%,k:NNI):List % ==
+      k = n => [s]
+      k = 0 => vertices s
+      k > n => []
+      f:=allFaces(s)
+      [u for u in f | degree(u)=k]
+
+
+    edges(s:%):List % == faces(s,1)    
+
+
+    join(s1:%,s2:%):% ==
+      degree(s1)+degree(s2)+1 > n => error err8
+      concat(pointList s1,pointList s2)::%
+
+    
+    barycentricCoords(s:%,x:List F):List F ==
+      #x ~= n => error err2
+      p:=pointList(s)
+      v:=span(s)
+      xv:=vector x
+      p0:=vector p.1
+      b1:List F:=[dot(xv-p0,u) for u in v]
+      
 
     coerce(L:List(List F)):% == 
       L = [] => error(err1)
@@ -221,7 +262,7 @@ AffineChain(F,n) : Exports == Implementation where
     bdry(c:%):% ==
       if size(c) = 1 then
         s:=nthFactor(c,1)
-        fs:=faces(s)
+        fs:=facets(s)
         sgn:=(j:INT):INT+->if even? (j-1) then 1 else -1 
         nthCoef(c,1)*reduce("+",[sgn(j)*fs.j::Rep for j in 1..#fs])
       else
