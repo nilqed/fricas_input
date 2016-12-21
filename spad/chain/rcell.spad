@@ -1,0 +1,94 @@
+)abbrev domain RCELL RectangularCell
+++ Author: Kurt Pagani
+++ Date Created: Wed Dec 21 01:05:58 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+RectangularCell(F) : Exports == Implementation where
+  
+  F:Field
+  
+  NNI ==> NonNegativeInteger
+  PI  ==> PositiveInteger
+  
+  Exports == Join(CoercibleTo OutputForm) with
+    
+    construct : List Segment F -> %
+      ++ construct([a1..b1,a2..b2,a3..b3,...] constructs a rectangular cell,
+      ++ that is [a1,b1] x [a2,b2] x [a3,b3] x ...
+    interval : (F,F) -> %
+      ++ interval(a,b) constructs a rectangular one cell [a..b].
+    _* : (%,%) -> %
+      ++ C1*C2 gives the product of two cells: e.g. C1=[a..b,c..d], C2=[e..f],
+      ++ then C1*C2 = [a..b,c..d,e..f]. The product is not commutative.
+    dim : % -> NNI
+      ++ dim(C) returns the (pseudo) dimension of the cell, that is the number
+      ++ segments whereby disregarding whether the cell is degenerate or not.
+    mass : % -> F
+      ++ mass(C) computes the Hausdorff measure of the cell C in the subspace
+      ++ F^m, where m=dim(C).
+    translate : (Vector F,%) -> %
+      ++ translate(v,C) translates the cell C by the vector v. If #v is not
+      ++ equal to dim(C) then nothing will be done and C is returned.
+    translate : (F,%,PositiveInteger) -> %
+      ++ translate(h,C,k) translates the cell C by the vector e_k=[0..h..0],
+      ++ where all components are zero except the k'th which is h.
+    scale : (Vector F,%) -> %
+      ++ scale(w,C) scales the cell C in each direction j by the value w.j.
+      ++ If #w is not equal to dim(C) then nothing will be done and C is 
+      ++ returned.
+    scale : (F,%) -> %
+      ++ scale(s,C) scales the cell C in every direction by the same value s.
+      ++ Equivalent to scale([s,s,s,...],C).
+    scale : (F,%,PositiveInteger) -> %
+      ++ scale(s,C,k) scales the cell C in direction k by the value s.
+      ++ Equivalent to scale([0,0,h,...0],C).
+     
+
+  Implementation ==  List Segment F add 
+
+    Rep := List Segment F 
+
+
+    construct(ls:List Segment F):% ==
+      ls::Rep
+
+
+    interval(a:F,b:F):% == construct([a..b])
+
+
+    x:% * y:% == concat(x,y)
+
+
+    dim(x:%):NNI == #x
+
+
+    mass(x:%):F ==
+      d:List F:=[hi(u)-lo(u) for u in x]
+      reduce(_*,d)
+
+
+    translate(v:Vector F,x:%):% ==
+      #v ~= dim(x) => x
+      [(lo(x.j)+v.j)..(hi(x.j)+v.j) for j in 1..#x]
+
+
+    translate(h:F,x:%,k:PI):% ==
+      ek:=[0::F for j in 1..dim(x)]
+      ek.k:=h
+      translate(vector ek,x)
+
+
+    scale(v:Vector F,x:%):% ==
+      #v ~= dim(x) => x
+      [(lo(x.j)*v.j)..(hi(x.j)*v.j) for j in 1..#x]
+
+
+    scale(h:F,x:%):% == scale(vector [h for j in 1..#x],x) 
+
+
+    scale(h:F,x:%,k:PI):% ==
+      ek:=[1::F for j in 1..dim(x)]
+      ek.k:=h
+      scale(vector ek,x)    
