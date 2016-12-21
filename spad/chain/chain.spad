@@ -12,20 +12,36 @@ CellMap(R,n) : Exports == Implementation where
   MAP ==> List X -> List X
   DOM ==> List(Segment X)
 
-  Exports == Join(CoercibleTo OutputForm) with
+  Exports == Join(CoercibleTo OutputForm,SetCategory) with
   
     _= : (%,%) -> Boolean
-  
-    cellMap   : (DOM,MAP) -> %
-    getDom    : % -> DOM
-    getMap    : % -> MAP
-    faces     : % -> List List(%)
-    coerce    : % -> OutputForm
+      ++ f1=f2 checks if two given cell maps are equal, that is if they have
+      ++ the same domain D and the same mapping from D into X^n.
+    cellMap : (DOM,MAP) -> %
+      ++ cellMap(D,f) is the constructor. Usually one has to specify the
+      ++ dimension of the target space. For example, let Q=[a..b,c..d], then
+      ++ cellMap(Q,Z+->[sin(Z.1),cos(Z.2),Z.1*Z.2])$CMAP(INT,3) defines a
+      ++ 2-surface in X^3.
+    getDom : % -> DOM
+      ++ getDom(f) extracts the domain of f.
+    getMap : % -> MAP
+      ++ getMap(f) extracts the map of f.
+    faces  : % -> List List(%)
+      ++ faces(f) returns the faces of f, that means the images of the boundary
+      ++ of the domain. Note: the returned list contains pairs of faces 
+      ++ corresponding to the endpoints of intervals.
+    coerce : % -> OutputForm
+      ++ coerce(f) gives the output representation.
+    drawIfPossible : % -> Void
+      ++ drawIfPossible(f) tries to draw the cellMap f using FriCAS' plotting
+      ++ capabilities. 
+
 
   Implementation ==  add 
     
     Rep := Record(d:DOM,f:MAP)
-    
+
+
     (x:% = y:%):Boolean == 
       l:NNI:=min(#(x.d),#(y.d))
       v:List X
@@ -34,12 +50,14 @@ CellMap(R,n) : Exports == Implementation where
         v:=concat(v,s::X)
       x.d =y.d and (x.f) v = (y.f) v => true
       false
-    
+
+
     cellMap(d:DOM,f:MAP):% == 
       #d > n => error concat("#DOM > ",string n)
       v:List X:=[1::X for j in 1..#d]
       ~test(#f(v)=n) => error concat("#Range ~= ", string n) 
       construct(d,f)
+
 
     faceLoHi(x:%,i:NNI,lo:Boolean):% ==
       l:NNI:=#(x.d)
@@ -61,17 +79,16 @@ CellMap(R,n) : Exports == Implementation where
       f:MAP:=vv+->(x.f) v
       cellMap(d,f)
       
-
+     
     faces(x:%):List List(%) ==
       l:NNI:=#(x.d)
       [[faceLoHi(x,j,true), faceLoHi(x,j,false)] for j in 1..l]
         
-
+        
     getDom(x) == x.d
     getMap(x) == x.f
     
-      
-      
+    
     coerce(x) == 
       v:List X
       for j in 1..#(x.d) repeat
@@ -82,10 +99,9 @@ CellMap(R,n) : Exports == Implementation where
   
     
       
-   
-)abbrev domain CHCO ChainComplex
+)abbrev domain SCMPLX SurfaceComplex
 ++
-ChainComplex(R,n) : Exports == Implementation where
+SurfaceComplex(R,n) : Exports == Implementation where
 
   NNI ==> NonNegativeInteger
   INT ==> Integer
@@ -102,16 +118,30 @@ ChainComplex(R,n) : Exports == Implementation where
 
   Exports == Join(AbelianGroup ,CTOF, RetractableTo CMAP) with
  
-    bdry      : % -> %
-    size      : % -> NNI
-    nthCoef   : (%,Integer) -> Integer
+    bdry : % -> %
+      ++ bdry(S) computes the boundary of the surface complex S.
+    size : % -> NNI
+      ++ size(S) returns the number of "pieces" of the surface complex S.
+    nthCoef : (%,Integer) -> Integer
+      ++ nthCoef(x, n) returns the coefficient of the n^th term of x.
     nthFactor : (%,Integer) -> CMAP
-    zero?     : % -> Boolean 
-    _=        : (%,%) -> Boolean
-    terms     : % -> List(Record(gen: CMAP,exp: Integer))
-    mapGen    : ((CMAP -> CMAP),%) -> %
-    mapCoef   : ((Integer -> Integer),%) -> %
-    chainTerm : (DOM,MAP) -> %
+      ++ nthFactor(x, n) returns the factor of the n^th term of x.
+    zero? : % -> Boolean 
+      ++ zero?(S) returns true if S is the empty surface complex.
+    _= : (%,%) -> Boolean
+      ++ S=S' checks if the surface complexes S and S' are equal.
+    terms : % -> List(Record(gen: CMAP,exp: Integer))
+      ++ terms(S) returns all terms of S as a record.
+    mapGen : ((CMAP -> CMAP),%) -> %
+      ++ mapGen(f, e1 a1 +...+ en an) returns
+      ++ \spad{e1 f(a1) +...+ en f(an)}.
+    mapCoef : ((Integer -> Integer),%) -> %
+      ++ mapCoef(f, e1 a1 +...+ en an) returns
+      ++ \spad{f(e1) a1 +...+ f(en) an}.
+    construct : (DOM,MAP) -> %
+      ++ construct(d,f) constructs a term (piece) of a k-surface, where
+      ++ d is the domain (a k-cell) and f is a mapping from d to a vector
+      ++ space of dimension n.
     
     
     --coerce : % -> OutputForm
@@ -133,7 +163,7 @@ ChainComplex(R,n) : Exports == Implementation where
         reduce("+",map(bdry,ct))
         
  
-    chainTerm(d:DOM,f:MAP):% == cellMap(d,f)$CMAP::%
+    construct(d:DOM,f:MAP):% == cellMap(d,f)$CMAP::%
 
 
 
