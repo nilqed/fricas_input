@@ -60,8 +60,12 @@ F4:=cellMap(Q3,X+->[X.1,5*X.3,4*X.2^2-2*X.3,X.3*sin(X.1)])$R4
 J:=jacobianMatrix(F4)
 x:=coords('x,4)$R4
 J x
+nullSpace (J x)
+rank (J x)
+tangentSpace(F4)$R4
 
 test(J x = matrix [[1,0,0],[0,0,5],[0,8*x.2,-2],[x.3*cos(x.1),0,sin(x.1)]])
+test( rank (J x) = 3)
 
 
 -- Example 5
