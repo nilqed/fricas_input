@@ -12,7 +12,7 @@ CellMap(R,n) : Exports == Implementation where
   MAP ==> List X -> List X
   DOM ==> List(Segment X)
 
-  Exports == Join(CoercibleTo OutputForm,SetCategory) with
+  Exports == Join(CoercibleTo OF,SetCategory,Evalable X) with
   
     _= : (%,%) -> Boolean
       ++ f1=f2 checks if two given cell maps are equal, that is if they have
@@ -30,6 +30,14 @@ CellMap(R,n) : Exports == Implementation where
       ++ faces(f) returns the faces of f, that means the images of the boundary
       ++ of the domain. Note: the returned list contains pairs of faces 
       ++ corresponding to the endpoints of intervals.
+    coords : (Symbol,PositiveInteger) -> List X
+      ++ coords(s,m) provides a sample of coordinates s[1],..,s[m] as a list.
+    coordSymbols : (Symbol,PositiveInteger) -> List Symbol
+      ++ coordSymbols(s,m) provides a sample of coordinates s[1],..,s[m] as a
+      ++ list of symbols.
+    jacobianMatrix : % -> (List X -> Matrix X)
+      ++ jacobianMatrix(f) returns the Jacobian matrix as a marix valued
+      ++ function defined on the same cell as the cellMap.
     coerce : % -> OutputForm
       ++ coerce(f) gives the output representation.
 
@@ -87,10 +95,24 @@ CellMap(R,n) : Exports == Implementation where
     getMap(x) == x.f
 
 
-    jacobianMatrix(S:%, xs:List Symbol):Matrix(X) ==
-      x:List X:=[coerce(xs.j)$X for j in 1..#xs]
+    coordSymbols(s:Symbol,m:PositiveInteger):List Symbol == 
+      [subscript(s,[j::OF]) for j in 1..m]
+      
+      
+    coords(s:Symbol,m:PositiveInteger):List X ==
+      xs:=[subscript(s,[j::OF]) for j in 1..m]
+      [coerce(xs.j)$X for j in 1..#xs]
+    
+
+    jacobianMatrix(S:%):List(X) -> Matrix(X) ==
+      --xs:List Symbol:=v:=[subscript('x,[j::OF]) for j in 1..#(getDom S)]
+      --x:List X:=[coerce(xs.j)$X for j in 1..#xs]
+      xs:List Symbol:=coordSymbols('x,#(getDom S)::PositiveInteger)
+      x:List X:=coords('x,#xs::PositiveInteger)
       F:List X:=(getMap S) x
-      transpose matrix [[D(ff,u) for u in xs] for ff in F]
+      J:Matrix(X):=matrix [[D(ff,u) for u in xs] for ff in F]
+      if Matrix(X) has Join(SetCategory,Evalable(X)) then
+        (y:List X):Matrix(X)+-> eval(J,x,y)
     
 
     coerce(x) == 
