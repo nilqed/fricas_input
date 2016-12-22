@@ -32,9 +32,7 @@ CellMap(R,n) : Exports == Implementation where
       ++ corresponding to the endpoints of intervals.
     coerce : % -> OutputForm
       ++ coerce(f) gives the output representation.
-    drawIfPossible : % -> Void
-      ++ drawIfPossible(f) tries to draw the cellMap f using FriCAS' plotting
-      ++ capabilities. 
+
 
 
   Implementation ==  add 
@@ -52,11 +50,11 @@ CellMap(R,n) : Exports == Implementation where
       false
 
 
-    cellMap(d:DOM,f:MAP):% == 
-      #d > n => error concat("#DOM > ",string n)
-      v:List X:=[1::X for j in 1..#d]
-      ~test(#f(v)=n) => error concat("#Range ~= ", string n) 
-      construct(d,f)
+    cellMap(dd:DOM,ff:MAP):% == 
+      #dd > n => error concat("#DOM > ",string n)
+      v:List X:=[1::X for j in 1..#dd]
+      ~test(#ff(v)=n) => error concat("#Range ~= ", string n) 
+      construct(dd,ff)
 
 
     faceLoHi(x:%,i:NNI,lo:Boolean):% ==
@@ -75,9 +73,9 @@ CellMap(R,n) : Exports == Implementation where
             s:X:=subscript('%,[j::OF])::X
         v:=concat(v,s::X)
       vv:=delete(v,i..i)
-      d:List(Segment X):=delete(x.d,i..i)
-      f:MAP:=vv+->(x.f) v
-      cellMap(d,f)
+      dd:List(Segment X):=delete(x.d,i..i)
+      ff:MAP:=vv+->(x.f) v
+      cellMap(dd,ff)
       
      
     faces(x:%):List List(%) ==
@@ -87,8 +85,14 @@ CellMap(R,n) : Exports == Implementation where
         
     getDom(x) == x.d
     getMap(x) == x.f
+
+
+    jacobianMatrix(S:%, xs:List Symbol):Matrix(X) ==
+      x:List X:=[coerce(xs.j)$X for j in 1..#xs]
+      F:List X:=(getMap S) x
+      transpose matrix [[D(ff,u) for u in xs] for ff in F]
     
-    
+
     coerce(x) == 
       v:List X
       for j in 1..#(x.d) repeat
