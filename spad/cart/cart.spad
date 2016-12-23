@@ -1,0 +1,52 @@
+)abbrev domain CART Cartesian
+++ Author: Kurt Pagani
+++ Date Created: Fri Dec 23 19:08:11 CET 2016
+++ License: FriCAS/BSD
+++ References:
+++ Description:
+++
+Cartesian(s,n) : Exports == Implementation where
+  
+  s : Symbol
+  n : PositiveInteger
+  
+  SYM ==> Symbol 
+  NNI ==> NonNegativeInteger
+  PI  ==> PositiveInteger
+  OF  ==> OutputForm
+  X   ==> Expression Integer
+
+  Exports == Join(CoercibleTo OF, VectorSpace X, ListAggregate X) with
+    
+    coords : () -> %
+    coordSymbols : () -> List(Symbol)
+    dot : (%,%) -> X
+    dist : (%,%) -> X
+    unitVector : PI -> %
+    D: (%, Symbol) -> %
+    D: (%, Symbol, NonNegativeInteger) -> %
+    D: (%, List Symbol) -> %
+    D: (%, List Symbol, List NonNegativeInteger) -> %
+    copy : % -> %
+    coerce : List X -> %
+    --coerce : % -> OutputForm
+	
+	
+  Implementation == DirectProduct(n,X) add 
+
+    Rep := DirectProduct(n,X) 
+
+    coordSymbols():List Symbol == 
+      [subscript(s,[j::OF]) for j in 1..n]
+
+    coords():% == 
+      xs:List Symbol:=coordSymbols()
+      directProduct([coerce(xs.j)$X for j in 1..#xs])
+ 
+    
+    dist(x:%,y:%):X == sqrt dot(x-y,x-y)
+
+    copy(x:%):% == x  -- inherited copy -> stack overflow !!
+
+    coerce(l:List X):% ==
+      #l=n => directProduct((vector l)::Vector(X))$Rep

@@ -1,0 +1,70 @@
+)clear all
+)co cart
+
+X ==> EXPR INT
+Cx3 ==> CART('x,3)
+
+x:=coords()$Cx3
+xs:=coordSymbols()$Cx3
+
+x+x
+2*x
+-x
+
+
+dot(x,x)
+dist(x,x)
+
+y:=[a,b,c::X]::Cx3
+x+y
+dist(x,y)
+
+#x
+x-x
+
+x.1+x.2+x.3
+
+unitVector(1)$Cx3
+unitVector(2)$Cx3
+unitVector(3)$Cx3
+
+eval(y,a=4)
+eval(x,x.1=%pi)
+eval(x,[x.1=2,x.2=y.1,x.3=3/7])
+
+
+D(x,xs.1)
+D(x,xs.3)
+D(sin(x.1)*x,xs.1)
+
+D(y,xs.1)
+D(y,'a)
+
+member?(a,y)
+member?(x.1,x)
+member?(a,x)
+
+map(t+->t^2,x)
+map(t+->sin(t),x)
+map(t+->sin(t),y.1*y)
+
+every?(t+->t=x.1,x)
+any?(t+->t=x.1,x)
+
+x 1
+x 2
+x 3
+
+D(x.1*x,xs.1)$Cx3
+D(x.1*x,xs.2)$Cx3
+D(x,xs.1)
+
+D(x,xs)
+D(x.1*x.2*x.3*x,xs)
+
+x=x
+x=y
+x~=y
+
+-- )show DirectProduct(3,X) 
+entries x
