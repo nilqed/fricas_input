@@ -62,11 +62,13 @@ x:=coords('x,4)$R4
 J x
 nullSpace (J x)
 rank (J x)
-tangentSpace(F4)$R4
+T:=tangentSpace(F4)$R4
+T x
+
 
 test(J x = matrix [[1,0,0],[0,0,5],[0,8*x.2,-2],[x.3*cos(x.1),0,sin(x.1)]])
 test( rank (J x) = 3)
-
+test( J x = transpose matrix (T x))
 
 -- Example 5
 F5:=cellMap(Q3,X+->[5*X.2,4*X.1^2-2*sin(X.2*X.3),X.2*X.3])$R3
@@ -76,6 +78,8 @@ J x
 determinant (J x)
 
 M:=[[0,5,0],[8*x.1,-2*x.3*cos(x.2*x.3),-2*x.2*cos(x.2*x.3)],[0,x.3,x.2]]
+T:=tangentSpace(F5)$R3
 
 test(J x = matrix M)
 test(determinant (J x) = -40*x.1*x.2)
+test( J x = transpose matrix (T x))

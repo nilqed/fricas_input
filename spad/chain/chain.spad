@@ -38,7 +38,7 @@ CellMap(R,n) : Exports == Implementation where
     jacobianMatrix : % -> (List X -> Matrix X)
       ++ jacobianMatrix(f) returns the Jacobian matrix as a marix valued
       ++ function defined on the same cell as the cellMap.
-    tangentSpace : % -> (List(X) -> List Vector(X))
+    tangentSpace : % -> (List(X) -> List(Vector X))
       ++ tangentSpace(f) returns a 
     coerce : % -> OutputForm
       ++ coerce(f) gives the output representation.
@@ -118,12 +118,14 @@ CellMap(R,n) : Exports == Implementation where
       else
         (y:List X):Matrix(X)+-> J
 
-    tangentSpace(S:%):List(X) -> List(Vector X)
+
+    tangentSpace(S:%):List(X) -> List(Vector X) ==
       J:=jacobianMatrix(S)
       x:List X:=coords('x,#(getDom S)::PositiveInteger)
-      cs:=columnSpace(J x)
-      if Vector(X) has Join(SetCategory,Evalable(X)) then 
-        (y:List X):List Vector(X)+-> [eval(t,x,y) for t in cs]
+      if Vector(X) has Join(SetCategory,Evalable(X)) then
+        if X has EuclideanDomain then 
+          cs:List(Vector X):=columnSpace(J x)
+          (y:List X):List Vector(X)+-> [eval(t,x,y) for t in cs]
       
 
     coerce(x) == 
