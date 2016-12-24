@@ -1,3 +1,5 @@
+\iffalse
+)lisp (setq |$inclAssertions| nil)
 )abbrev domain CMAP CellMap
 ++
 CellMap(R,n) : Exports == Implementation where
@@ -204,6 +206,108 @@ SurfaceComplex(R,n) : Exports == Implementation where
  
     construct(d:DOM,f:MAP):% == cellMap(d,f)$CMAP::%
 
+)if false
+\fi
+%==============================================================================
+% Documentation (pdflatex --interaction=nonstopmode this_file.spad
+% Note: ensure that the code above is between \iffalse ... \fi.
+%==============================================================================
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{epstopdf}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{orange}{rgb}{1.0,0.44,0}
+
+\lstdefinelanguage{SPAD}
+{keywords={if,then,else,for,in,repeat},
+keywords=[2]{Fraction,Integer,Polynomial,RealClosure,Cell, Float, 
+             DoubleFloat, CylindricalAlgebraicDecompositionPackage, 
+             List},
+keywords=[3]{cylindricalDecomposition},
+keywordstyle=[2]\color{red},
+keywordstyle=[3]\color{orange},
+sensitive=true,%
+alsoletter={\$},%
+comment=[l]{--},%
+string=[b]",%
+string=[b]'%
+}
+
+\lstset{frame=tb,
+  language=SPAD,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\author{Kurt Pagani \\ {\tt nilqed@gmail.com}}
+\date{\today}
+\title{SurfaceComplex \\ {\small\tt Domain: SCMPLX}}
+%
+\newcommand{\CAD}{{\tt CAD}}
+\newcommand{\QE}{{\tt QE}}
+\newcommand{\RR}[1]{\mathbb{R}^{#1}}
+\newcommand{\QQ}[1]{\mathbb{Q}^{#1}}
+\newcommand{\ZZ}[1]{\mathbb{Z}^{#1}}
+\newcommand{\KK}[1]{\mathbb{K}^{#1}}
+%
+\begin{document}
+\maketitle
+%
+\begin{abstract}
+lorem ipsum. 
+\end{abstract}
+%
+\section{Introduction}
+%
+\begin{lstlisting}
+ -- code
+\end{lstlisting}
+
+%
+%\begin{figure}[!htb]
+%\centering
+%\includegraphics[scale=1.0]{cad1.eps}
+%\caption{Example 1.}
+%\label{fig:cad1}
+%\end{figure}
+% 
+\begin{thebibliography}{1}
+%
+\bibitem{COL73} Collins G.E, {\em Computer algebra of polynomials and rational 
+functions.}, Amer. Math. Monthly, 80, (1973), p. 725-755.
+%
+\bibitem{ACM82} Arnon D.S, Collins G.E, McCallum S., {\em Cylindrical Algebraic
+Decomposition I: The Basic Algorithm}, Computer Science Technical Reports,
+1982, \#82-427, Purdue University. \\
+Url: {\small {\tt http://docs.lib.purdue.edu/}} 
+\end{thebibliography}
+%
+\end{document}
+% -----------------------------------------------------------------------------
+% END DOCUMENTATION
+% -----------------------------------------------------------------------------
+)endif
 
 
 
