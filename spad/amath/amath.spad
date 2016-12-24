@@ -1,0 +1,656 @@
+)abbrev domain AMATH ASCIImath
+++ Author: 
+++ Date Created: December 2016
+++ Based on TeXFormat (tex.spad) by Robert S. Sutor, created 1987 through 1992. 
+++ Basic Operations: coerce, convert, display, epilogue,
+++   amath, new, prologue, setEpilogue!, setAMATH!, setPrologue!
+++ Related Constructors: ASCIImath1
+++ Also See: ScriptFormulaFormat, TeXFormat
+++ Keywords: ASCIImath, ASCIImathML, output, format
+++ Description:
+++   \spadtype{ASCIImath} provides a coercion from \spadtype{OutputForm} to
+++   asciimath format.  
+++
+ASCIImath() : public == private where
+  E      ==> OutputForm
+  I      ==> Integer
+  L      ==> List
+  S      ==> String
+  Sy     ==> Symbol
+  US     ==> UniversalSegment(Integer)
+
+  public == SetCategory with
+    coerce :   E -> %
+      ++ coerce(o) changes o in the standard output format to AMATH
+      ++ format.
+    convert :  (E, I) -> %
+      ++ convert(o, step) changes o in standard output format to
+      ++ AMATH format and also adds the given step number. This is useful
+      ++ if you want to create equations with given numbers or have the
+      ++ equation numbers correspond to the interpreter step numbers.
+    convert :  (E, I, E) -> %
+      ++ convert(o, step, type) changes o in standard output format to
+      ++ AMATH format and also adds the given step number and type. This
+      ++ is useful if you want to create equations with given numbers
+      ++ or have the equation numbers correspond to the interpreter step
+      ++ numbers.
+    display :  (%, I) -> Void
+      ++ display(t, width) outputs the AMATH formatted code t so that each
+      ++ line has length less than or equal to \spadvar{width}.
+    display :  % -> Void
+      ++ display(t) outputs the AMATH formatted code t so that each
+      ++ line has length less than or equal to the value set by
+      ++ the system command \spadsyscom{set output length}.
+    epilogue : % -> L S
+      ++ epilogue(t) extracts the epilogue section of a AMATH form t.
+    amath :      % -> L S
+      ++ amath(t) extracts the AMATH section of a AMATH form t.
+    new :      () -> %
+      ++ new() create a new, empty object. Use \spadfun{setPrologue!},
+      ++ \spadfun{setAMATH!} and \spadfun{setEpilogue!} to set the various
+      ++ components of this object.
+    prologue : % -> L S
+      ++ prologue(t) extracts the prologue section of a AMATH form t.
+    setEpilogue! : (%, L S) -> L S
+      ++ setEpilogue!(t, strings) sets the epilogue section of a AMATH form t to strings.
+    setAMATH! :  (%, L S) -> L S
+      ++ setAMATH!(t, strings) sets the AMATH section of a AMATH form t to strings.
+    setPrologue! : (%, L S) -> L S
+      ++ setPrologue!(t, strings) sets the prologue section of a AMATH form t to strings.
+
+  private == add
+    import from OutputForm
+    import from Character
+    import from Integer
+    import from List OutputForm
+    import from List String
+    import from OutputFormTools
+
+    Rep := Record(prolog : L S, AMATH : L S, epilog : L S)
+
+    -- local variable declarations and definitions
+
+    expr : E
+    prec, opPrec : I
+    str :  S
+    blank         : S := " "
+
+    maxPrec       : I   := 1000000
+    minPrec       : I   := 0
+
+    unaryOps      : L Sy := ["-"::Sy]$(L Sy)
+    unaryPrecs    : L I := [710]$(L I)
+
+    -- the precedence of / in the following is relatively low because
+    -- the bar obviates the need for parentheses.
+    binaryOps     : L Sy := ["+->"::Sy, "|"::Sy, "^"::Sy, "/"::Sy, "="::Sy,
+                             "~="::Sy, "<"::Sy, "<="::Sy, ">"::Sy, ">="::Sy,
+                               'OVER, 'LET]
+    binaryPrecs   : L I := [0, 0, 900, 700, 400,
+                            400, 400, 400, 400, 400,
+                              700, 125]$(L I)
+
+    naryOps       : L Sy := ["-"::Sy, "+"::Sy, "*"::Sy, ","::Sy, ";"::Sy,
+                             'ROW, 'STRSEP, 'TENSOR]
+    naryPrecs     : L I := [700, 700, 800, 110, 110,
+                            0, 0, 850]$(L I)
+    naryNGOps     : L Sy := ['ROW]
+
+    plexOps       : L Sy := ['SIGMA, 'SIGMA2, 'PI, 'PI2, 'INTSIGN]
+    plexPrecs     : L I := [ 750, 750, 750, 750, 700]$(L I)
+
+    specialOps    : L Sy := ['MATRIX, 'BRACKET, 'BRACE, 'CONCATB, 'VCONCAT,  _
+                             'AGGLST, 'CONCAT, 'OVERBAR, 'ROOT, 'SUB, 'TAG, _
+                             'SUPERSUB, 'ZAG, 'AGGSET, 'SC, 'PAREN, _
+                             'SEGMENT, 'QUOTE, 'theMap, 'SLASH, 'PRIME]
+
+    -- the next two lists provide translations for some strings for
+    -- which AMATH provides special macros.
+
+    specialStrings : L Sy :=
+      ['cos, 'cot, 'csc, 'log, 'sec, 'sin, 'tan,
+        'cosh, 'coth, 'csch, 'sech, 'sinh, 'tanh,
+          'acos, 'asin, 'atan, 'erf, "..."::Sy, "$"::Sy, 'infinity,
+            'Gamma]
+
+    specialStringsInAMATH : L S :=
+      ["cos","cot","csc","log","sec","sin","tan",
+        "cosh","coth","csch","sech","sinh","tanh",
+          "arccos","arcsin","arctan","erf","...","$","oo",
+            "Gamma"]
+
+    -- local function signatures
+
+    addBraces :      S -> S
+    addBrackets :    S -> S
+    group :          S -> S
+    formatBinary :   (Sy, L E, I) -> S
+    formatFunction : (E, L E, I) -> S
+    formatMatrix :   L E -> S
+    formatNary :     (Sy, S, I, L E, I) -> S
+    formatNaryNoGroup : (Sy, S, I, L E, I) -> S
+    formatNullary :  Sy -> S
+    formatPlex :     (Sy, L E, I) -> S
+    formatSpecial :  (Sy, L E, I) -> S
+    formatUnary :    (Sy, E, I) -> S
+    formatExpr :      (E, I) -> S
+    newWithNum :     I -> %
+    parenthesize :   S -> S
+    postcondition :  S -> S
+    splitLong :      (S, I) -> L S
+    splitLong1 :     (S, I) -> L S
+    stringify :      E -> S
+    ungroup :        S -> S
+
+    -- public function definitions
+
+    new() : % ==
+--    [["\["]$(L S), [""]$(L S), ["\]"]$(L S)]$Rep
+      [["amath "]$(L S), [""]$(L S), [" endamath"]$(L S)]$Rep
+
+    newWithNum(stepNum : I) : % ==
+--    num : S := concat("%AXIOM STEP NUMBER: ",string(stepNum)$S)
+--    [["\["]$(L S), [""]$(L S), ["\]",num]$(L S)]$Rep
+      num : S := concat(concat("(",string(stepNum)$S),")")$S
+      [["amath "]$(L S), [""]$(L S), [num," endamath"]$(L S)]$Rep
+
+    coerce(expr : E) : % ==
+      f : % := new()$%
+      f.AMATH := [postcondition
+          formatExpr(precondition expr, minPrec)]$(L S)
+      f
+
+    convert(expr : E, stepNum : I) : % ==
+      f : % := newWithNum(stepNum)
+      f.AMATH := [postcondition
+          formatExpr(precondition expr, minPrec)]$(L S)
+      f
+
+    sayExpr(s : S) : Void ==
+        sayTeX$Lisp s
+
+    display(f : %, len : I) ==
+      s, t : S
+      for s in f.prolog repeat sayExpr s
+      for s in f.AMATH repeat
+        for t in splitLong(s, len) repeat sayExpr t
+      for s in f.epilog repeat sayExpr s
+      void()$Void
+
+    display(f : %) ==
+      display(f, _$LINELENGTH$Lisp pretend I)
+
+    prologue(f : %) == f.prolog
+    amath(f : %)  == f.AMATH
+    epilogue(f : %) == f.epilog
+
+    setPrologue!(f : %, l : L S) == f.prolog := l
+    setAMATH!(f : %, l : L S)  == f.AMATH := l
+    setEpilogue!(f : %, l : L S) == f.epilog := l
+
+    coerce(f : %) : E ==
+      s, t : S
+      l : L S := nil
+      for s in f.prolog repeat l := concat(s, l)
+      for s in f.AMATH repeat
+        for t in splitLong(s, (_$LINELENGTH$Lisp pretend Integer) - 4) repeat
+          l := concat(t, l)
+      for s in f.epilog repeat l := concat(s, l)
+      (reverse l) :: E
+
+    -- local function definitions
+
+    ungroup(str : S) : S ==
+      len : I := #str
+      len < 2 => str
+      lbrace : Character := char "{"
+      rbrace : Character := char "}"
+      -- drop leading and trailing braces
+      if (str.1 =$Character lbrace) and (str.len =$Character rbrace) then
+        u : US := segment(2, len-1)$US
+        str := str.u
+      str
+
+    postcondition(str : S) : S ==
+      str := ungroup str
+      len : I := #str
+      plus : Character := char "+"
+      minus : Character := char "-"
+      len < 4 => str
+      for i in 1..(len-1) repeat
+        if (str.i =$Character plus) and (str.(i+1) =$Character minus)
+          then setelt!(str, i, char " ")$S
+      str
+
+    stringify expr == (mathObject2String$Lisp expr) pretend S
+
+    lineConcat( line : S, lines : L S ) : L S ==
+      length := #line
+
+      if ( length > 0 ) then
+        -- If the last character is a backslash then split at "\ ".
+        -- Reinstate the blank.
+
+        if (line.length = char "\" ) then line := concat(line, " ")
+
+        -- Remark: for some reason, "\%" at the beginning
+        -- of a line has the "\" erased when printed
+
+        if ( line.1 = char "%" ) then line := concat(" \", line)
+        else if ( line.1 = char "\" ) and length > 1 and ( line.2 = char "%" ) then
+          line := concat(" ", line)
+
+        lines := concat(line, lines)$List(S)
+      lines
+
+    splitLong(str : S, len : I) : L S ==
+      -- this blocks into lines
+      if len < 20 then len := _$LINELENGTH$Lisp
+      splitLong1(str, len)
+
+    splitLong1(str : S, len : I) ==
+      -- We first build the list of lines backwards and then we
+      -- reverse it.
+
+      l : List S := nil
+      s : S := ""
+      ls : I := 0
+      ss : S
+      lss : I
+      for ss in split(str,char " ") repeat
+        -- have the newline macro end a line (even if it means the line
+        -- is slightly too long)
+
+        ss = "\\" =>
+          l := lineConcat( concat(s, ss), l )
+          s := ""
+          ls := 0
+
+        lss := #ss
+
+        -- place certain tokens on their own lines for clarity
+
+        ownLine : Boolean :=
+          u : US := segment(1, 4)$US
+          (lss > 3) and ("\end" = ss.u) => true
+          u      := segment(1, 5)$US
+          (lss > 4) and ("\left" = ss.u) => true
+          u      := segment(1, 6)$US
+          (lss > 5) and (("\right" = ss.u) or ("\begin" = ss.u)) => true
+          false
+
+        if ownLine or (ls + lss > len) then
+          if not empty? s then l := lineConcat( s, l )
+          s := ""
+          ls := 0
+
+        ownLine or lss > len => l := lineConcat( ss, l )
+
+        (lss = 1) and (ss.1 = char "\") =>
+          ls := ls + lss + 2
+          s := concat(s,concat(ss,"  ")$S)$S
+
+        ls := ls + lss + 1
+        s := concat(s,concat(ss," ")$S)$S
+
+      if ls > 0 then l := lineConcat( s, l )
+
+      reverse l
+
+    group str ==
+      concat ["(",str,")"]
+
+    addBraces str ==
+      concat ["{ ",str," }"]
+
+    addBrackets str ==
+      concat ["[ ",str," ]"]
+
+    parenthesize str ==
+      concat ["( ",str," )"]
+
+    formatSpecial(op : Sy, args : L E, prec : I) : S ==
+        arg : E
+        prescript : Boolean := false
+        op = 'theMap => "lambda"
+        op = 'AGGLST =>
+            formatNary(","::Sy, "", 0, args, prec)
+        op = 'AGGSET =>
+            formatNary(";"::Sy, "", 0, args, prec)
+        op = 'TAG =>
+            group concat [formatExpr(first args, prec),
+                          "rarr",
+                            formatExpr(second args, prec)]
+        op = 'SLASH =>
+            group concat [formatExpr(first args, prec),
+                          "/", formatExpr(second args, prec)]
+        op = 'VCONCAT =>
+            group concat("",
+                         concat(concat([concat(formatExpr(u, minPrec), "")
+                                    for u in args]::L S),
+                            ""))
+        op = 'CONCATB =>
+            formatNary('STRSEP, " ", 0, args, prec)
+        op = 'CONCAT =>
+            formatNary('STRSEP, "", 0, args, minPrec)
+        op = 'QUOTE =>
+            group concat(formatExpr(first args, minPrec))
+        op = 'BRACKET =>
+            group addBrackets ungroup formatExpr(first args, minPrec)
+        op = 'BRACE =>
+            group addBraces ungroup formatExpr(first args, minPrec)
+        op = 'PAREN =>
+            group parenthesize ungroup formatExpr(first args, minPrec)
+        op = 'PRIME =>
+            formatSpecial('SUPERSUB, [first args, " "::E, second(args)], prec)
+        op = 'OVERBAR =>
+            null args => ""
+            group concat ["\overline ", formatExpr(first args, minPrec)]
+        op = 'ROOT =>
+            null args => ""
+            tmp : S := group formatExpr(first args, minPrec)
+            null rest args => group concat ["sqrt ",tmp]
+            group concat
+                ["root ", group formatExpr(first rest args, minPrec),
+                   "  ", tmp]
+        op = 'SEGMENT =>
+            tmp : S := concat [formatExpr(first args, minPrec), "..."]
+            group
+                null rest args =>  tmp
+                concat [tmp, formatExpr(first rest args, minPrec)]
+        op = 'SUB =>
+            group concat [formatExpr(first args, minPrec), "__",
+                formatSpecial('AGGLST, rest args, minPrec)]
+        op = 'SUPERSUB =>
+            -- variable name
+            form : List S := [formatExpr(first args, minPrec)]
+            -- subscripts
+            args := rest args
+            null args => concat(form)$S
+            tmp : S := formatExpr(first args, minPrec)
+            if (tmp ~= "") and (tmp ~= "{}") and (tmp ~= " ") then
+                form := append(form,["__",group tmp])$(List S)
+            -- superscripts
+            args := rest args
+            null args => group concat(form)$S
+            tmp : S := formatExpr(first args, minPrec)
+            if (tmp ~= "") and (tmp ~= "{}") and (tmp ~= " ") then
+                form := append(form,["^",group tmp])$(List S)
+            -- presuperscripts
+            args := rest args
+            null args => group concat(form)$S
+            tmp : S := formatExpr(first args, minPrec)
+            if (tmp ~= "") and (tmp ~= "{}") and (tmp ~= " ") then
+                form := append(["^",group tmp],form)$(List S)
+                prescript := true
+            -- presubscripts
+            args := rest args
+            null args =>
+                group concat
+                    prescript => cons("()",form)
+                    form
+            tmp : S := formatExpr(first args, minPrec)
+            if (tmp ~= "") and (tmp ~= "()") and (tmp ~= " ") then
+                form := append(["__",group tmp],form)$(List S)
+                prescript := true
+            group concat
+                prescript => cons("()",form)
+                form
+        op = 'SC =>
+            -- need to handle indentation someday
+            null args => ""
+            tmp := formatNaryNoGroup('STRSEP, " \\ ", 800, args, minPrec)
+            -- error "SC unhandled"
+            group concat ["(",tmp,")"]
+        op = 'MATRIX => formatMatrix rest args
+        op = 'ZAG =>
+            concat [" \zag{", formatExpr(first args, minPrec), "}{",
+                formatExpr(first rest args, minPrec), "}"]
+        concat ["not done yet for ", string(op)]
+
+    formatPlex(op : Sy, args : L E, prec : I) : S ==
+        hold : S
+        p : I := position(op, plexOps)
+        p < 1 => error "unknown plex op"
+        opPrec := plexPrecs.p
+        n : I := #args
+        (n ~= 2) and (n ~= 3) => error "wrong number of arguments for plex"
+        s : S :=
+            op = 'SIGMA   => "sum"
+            op = 'SIGMA2   => "sum"
+            op = 'PI      => "prod"
+            op = 'PI2     => "prod"
+            op = 'INTSIGN => "int"
+            "????"
+        hold := formatExpr(first args, minPrec)
+        args := rest args
+        if hold ~= "" then
+            s := concat [s, "__", group concat ["", hold]]
+        if not null rest args then
+            hold := formatExpr(first args, minPrec)
+            if hold ~= "" then
+                s := concat [s, "^",
+                             group concat ["", hold]]
+            args := rest args
+        s := concat [s, " ", formatExpr(first args, opPrec)]
+        if opPrec < prec then s := parenthesize s
+        group s
+
+    formatMatrix(args : L E) : S ==
+      -- format for args is [[ROW ...], [ROW ...], [ROW ...]]
+      -- generate string for formatting columns (centered)
+      group addBrackets concat
+        ["(", "(",
+          formatNaryNoGroup('STRSEP, ")", 0, args, minPrec),
+            ")"]
+
+    formatFunction(op : E, args : L E, prec : I) : S ==
+        ops := formatExpr(op, minPrec)
+        group concat [ops, " ", parenthesize
+                      formatNary(","::Sy, "", 0, args, minPrec)]
+
+    formatNullary(op : Sy) ==
+        op = 'NOTHING => ""
+        group concat [string(op), "()"]
+
+    formatUnary(op : Sy, arg : E, prec : I) ==
+        p : I := position(op, unaryOps)
+        p < 1 => error "unknown unary op"
+        opPrec := unaryPrecs.p
+        s : S := concat [string(op), formatExpr(arg, opPrec)]
+        opPrec < prec => group parenthesize s
+        op = "-"::Sy => s
+        group s
+
+    formatBinary(op : Sy, args : L E, prec : I) : S ==
+        p : I := position(op, binaryOps)
+        p < 1 => error "unknown binary op"
+        opPrec := binaryPrecs.p
+        s1 := formatExpr(first args, opPrec)
+        s2 := formatExpr(first rest args, (op = "^"::Sy => minPrec ; opPrec))
+        ops : S :=
+            op = "|"::Sy     => "|"
+            op = "^"::Sy    => "^"
+            op = "/"::Sy     => "/"
+            op = 'OVER  => "//"
+            op = "+->"::Sy   => "|->"
+            op = "~="::Sy => "!="
+            op = "<="::Sy => "<="
+            op = ">="::Sy => ">="
+            -- FIXME how to do this properly ???
+            op = 'LET   => ":="
+            string(op)
+        s :=
+            op = "^"::Sy => concat [group(s1), ops, group(s2)]
+            concat [s1, ops, s2]
+        group
+            op = "/"::Sy or op = 'OVER => s
+            opPrec < prec => parenthesize s
+            s
+
+    formatNary(op : Sy, sep : S, opprec : I, args : L E, prec : I) : S ==
+        group formatNaryNoGroup(op, sep, opprec, args, prec)
+
+    formatNaryNoGroup(op : Sy, sep : S, opprec : I, args : L E, prec : I) : S ==
+        null args => ""
+        p : I := position(op, naryOps)
+        p < 1 => error "unknown nary op"
+        ops : S :=
+            op = 'STRSEP => sep
+            op = ","::Sy     => ", \: "
+            op = ";"::Sy     => "; \: "
+            op = "*"::Sy     => blank
+            op = '_     => " \ "
+            op = 'ROW   => " & "
+            op = 'TENSOR => " ox "
+            string(op)
+        l : L S := nil
+        opPrec :=
+            op = 'STRSEP => opprec
+            naryPrecs.p
+        for a in args repeat
+            l := concat(ops, concat(formatExpr(a, opPrec), l)$L(S))$L(S)
+        s : S := concat reverse rest l
+        opPrec < prec => parenthesize s
+        s
+
+    formatExpr(expr : E, prec : I) : S ==
+      i, len : Integer
+      intSplitLen : Integer := 20
+      str, s : S
+      atom?(expr) =>
+        str := stringify expr
+        len := #str
+        integer?(expr) =>
+          i := integer(expr)
+          if (i < 0) or (i > 9)
+            then
+              group
+                 nstr : String := ""
+                 -- insert some blanks into the string, if too long
+                 while ((len := #str) > intSplitLen) repeat
+                   nstr := concat [nstr, " ",
+                     elt(str, segment(1, intSplitLen)$US)]
+                   str := elt(str, segment(intSplitLen + 1)$US)
+                 empty? nstr => str
+                 nstr :=
+                   empty? str => nstr
+                   concat [nstr, " ", str]
+                 elt(nstr, segment(2)$US)
+            else str
+        str = "%pi" => "pi"
+        str = "%e"  => "e"
+        str = "%i"  => "i"
+        len > 1 and str.1 = char "%" and str.2 = char "%" =>
+          u : US := segment(3, len)$US
+          concat(" \%\%", str.u)
+        len > 0 and str.1 = char "%" => concat(" \", str)
+        len > 0 and str.1 = char "_"" =>
+          s := ""
+          for i in 1..len repeat
+            if str.i = char "#" then
+              s := concat(s, "")
+            else
+              s := concat(s, (str.i)::S)
+          concat(s, "")
+        len = 1 and str.1 = char " " => "{\ }"
+        -- escape the underscore character
+        s := ""
+        for i in 1..len repeat
+            s := concat(s, (if str.i = char "__" then "\__" else (str.i)::S))
+        str := s
+        len > 1 and digit? str.1 => group str -- should handle floats
+        if symbol?(expr) then
+            op := symbol(expr)
+            (i := position(op, specialStrings)) > 0 =>
+                str := specialStringsInAMATH.i
+        (i := position(char " ", str)) > 0 =>
+          -- We want to preserve spacing, so use a roman font.
+          concat [" ", str, "} "]
+        str
+      opf : E := operator(expr)
+      args : L E := arguments(expr)
+      nargs : I := #args
+
+      symbol?(opf) =>
+          op := symbol(opf)
+          -- special cases
+          member?(op, specialOps) => formatSpecial(op, args, prec)
+          member?(op, plexOps)    => formatPlex(op, args, prec)
+
+          -- nullary case
+          0 = nargs => formatNullary op
+
+          -- unary case
+          (1 = nargs) and member?(op, unaryOps) =>
+            formatUnary(op, first args, prec)
+
+          -- binary case
+          (2 = nargs) and member?(op, binaryOps) =>
+            formatBinary(op, args, prec)
+
+          -- nary case
+          member?(op, naryNGOps) => formatNaryNoGroup(op, "", 0, args, prec)
+          member?(op, naryOps) => formatNary(op, "", 0, args, prec)
+          formatFunction(opf, args, prec)
+      formatFunction(opf, args, prec)
+
+)abbrev package TEX1 TexFormat1
+++ Author: Robert S. Sutor
+++ Date Created: 1987 through 1990
+++ Basic Operations: coerce
+++ Related Constructors: TexFormat
+++ Also See: ScriptFormulaFormat, ScriptFormulaFormat1
+++ AMS Classifications:
+++ Keywords: AMATH, output, format
+++ References: \AMATH{} is a trademark of the American Mathematical
+++   Society.
+++ Description:
+++   \spadtype{TexFormat1} provides a utility coercion for changing
+++   to AMATH format anything that has a coercion to the standard output
+++   format.
+
+ASCIImath1(S : SetCategory) : public == private where
+  public  ==  with
+    coerce : S -> ASCIImath()
+      ++ coerce(s) provides a direct coercion from a domain S to
+      ++ AMATH format. This allows the user to skip the step of first
+      ++ manually coercing the object to standard output format before
+      ++ it is coerced to AMATH format.
+
+  private == add
+    import from ASCIImath()
+
+    coerce(s : S) : ASCIImath ==
+      coerce(s :: OutputForm)$ASCIImath
+
+--Copyright (c) 1991-2002, The Numerical ALgorithms Group Ltd.
+--All rights reserved.
+--
+--Redistribution and use in source and binary forms, with or without
+--modification, are permitted provided that the following conditions are
+--met:
+--
+--    - Redistributions of source code must retain the above copyright
+--      notice, this list of conditions and the following disclaimer.
+--
+--    - Redistributions in binary form must reproduce the above copyright
+--      notice, this list of conditions and the following disclaimer in
+--      the documentation and/or other materials provided with the
+--      distribution.
+--
+--    - Neither the name of The Numerical ALgorithms Group Ltd. nor the
+--      names of its contributors may be used to endorse or promote products
+--      derived from this software without specific prior written permission.
+--
+--THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+--IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+--TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+--PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+--OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+--EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+--PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+--PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+--LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+--NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+--SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
