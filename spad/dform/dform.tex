@@ -60,13 +60,18 @@ string=[b]'%
 \newcommand{\QQ}[1]{\mathbb{Q}^{#1}}
 \newcommand{\ZZ}[1]{\mathbb{Z}^{#1}}
 \newcommand{\KK}[1]{\mathbb{K}^{#1}}
-%
+\newcommand{\spadfun}[1]{\textcolor{magenta}{\tt #1}}
+\newcommand{\spadbold}[1]{{\tt\bf #1}}
+\newcommand{\type}[1]{\textcolor{blue}{\tt\tiny #1}}
+\makeindex
 \begin{document}
 \maketitle
 %
 \begin{abstract}
-lorem ipsum. 
+Reference manual for the package {\tt DifferentialForms}.
 \end{abstract}
+%
+\tableofcontents
 %
 \section{Introduction}
 The package {\tt DifferentialForms} (file: {\tt dform.spad}) builds on the
@@ -154,7 +159,7 @@ Now, this inner product is extended to arbitrary $p$-forms by
 and linearity.
 %
 
-\subsection{ The volume form $\eta$ ({\tt volumeForm})}
+\subsection{The volume form $\eta$ ({\tt volumeForm})}
 The Riemannian {\it volume form} $\eta$ is (by definition) given by the 
 $n$-form 
 \begin{displaymath}
@@ -240,7 +245,7 @@ which will allow a recursive implementation.
 \subsection{The Lie derivative $\mathcal{L}_v$ ({\tt lieDerivative})} 
 The {\it Lie derivative} with respect to a vector field $v$ can be 
 calculated (and defined) using {\it Cartan's} formula:
-\begin{displaymath}
+\begin{displaymath}\label{cartan}
 	\mathcal{L}_v \alpha = d i_v (\alpha) + i_v (d \alpha).
 \end{displaymath}
 
@@ -276,7 +281,7 @@ $p+q=n$, and consequently
 \end{displaymath}
 %
 
-\subsection{ The inverse Hodge star $\star^{-1}$ ({\tt invHodgeStar})}
+\subsection{The inverse Hodge star $\star^{-1}$ ({\tt invHodgeStar})}
 Applying the Hodge star operator on a $p$-form twice we get
 the identity map up to sign:
 \begin{displaymath}
@@ -358,10 +363,931 @@ In the sequel we will choose the Minkowski metric:
   \end{array}
   \right]
 \end{displaymath}
+%
 
- 
+\subsection{Exported functions}
+The function \spadfun{baseForms} returns the basis one forms, while 
+\spadfun{coordVector} returns a list of the coordinates. The function 
+\spadfun{coordSymbols} also returns the coordinates, however, as symbols 
+only (convenient when used with {\tt D}).
+%
+\begin{lstlisting} 
+    
+    SMR ==> SquareMatrix(#v,X)
+    DRC ==> DeRhamComplex(R,v)
+
+    dx:=baseForms()$M       -- [dx[0],...,dx[3]]
+    x:=coordVector()$M      -- [x[0],...,x[3]]
+    xs:=coordSymbols()$M    -- as above but as List Symbol 
+                            -- e.g for differentiation D
+
+\end{lstlisting} 
+%
+\subsubsection{Volume Form }
+\spadbold{volumeForm}
   
-%:sub:`Type: SquareMatrix(4,Integer)`
+Given a metric $g$ the function returns the corresponding volume 
+element of the Riemannian (pseudo-) manifold.   
+
+\begin{lstlisting}    
+    volumeForm : SquareMatrix(#v,X) -> DeRhamComplex(R,v)    
+    volumeForm(g)$M
+\end{lstlisting}
+\begin{displaymath}
+	 {dx _ {0}} \  {dx _ {1}} \  {dx _ {2}} \  {dx _ {3}}	 
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])}
+%
+\subsubsection{Scalar Product} 
+\spadbold{dot}
+
+Compute the inner product of two differential forms with respect to the
+metric $g$.
+\begin{lstlisting}
+    dot : (SMR,DRC,DRC) -> X    
+    dot(g,dx.1*dx.2,dx.1*dx.2)$M   -- note dx.1 corresponds to dx[0].
+\end{lstlisting}    
+\begin{displaymath}
+	-1
+\end{displaymath}
+\type{Type: Expression(Integer)}
+%
+\subsubsection{Hodge Star Operator}
+\spadbold{hodgeStar}
+
+Compute the Hodge dual form of a differential form with respect
+to a metric $g$.
+\begin{lstlisting}    
+    hodgeStar : (SMR,DRC) -> DRC     
+    hodgeStar(g,dx.2 * dx.3)    
+\end{lstlisting} 
+\begin{displaymath}
+	{dx _ {0}} \  {dx _ {3}}
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])}
+%
+\subsubsection{Interior Product} 
+\spadbold{interiorProduct}
+  
+Calculate the interior product $i_X(a)$ of the vector field $X$
+with the differential form $a$.
+\begin{lstlisting}
+  interiorProduct : (Vector(X),DRC) -> DRC 
+  interiorProduct(vector x, dx.1*dx.3)$M
+\end{lstlisting}
+\begin{displaymath}
+	 {{x _ {0}} \  {dx _ {2}}} -{{x _ {2}} \  {dx _ {0}}}
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])}  
+%
+\subsubsection{Lie Derivative}
+\spadbold{lieDerivative}
+ 
+Calculate the Lie derivative $\mathcal{L}_X(a)$ of the differential 
+form $a$ with respect to the vector field $X$.
+\begin{lstlisting}    
+    lieDerivative : (Vector(X),DRC) -> DRC   
+    lieDerivative(vector x, dx.1 * dx.3 * dx.4)
+\end{lstlisting}    
+\begin{displaymath}
+	3 \  {dx _ {0}} \  {dx _ {2}} \  {dx _ {3}}
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])}
+%
+\subsubsection{Co-differential}
+\spadbold{codifferential}
+
+Calculate the co-differential of a form with respect to a metric $g$.
+\begin{lstlisting}
+    codifferential(g,f*dx.1)$M 
+\end{lstlisting}
+%
+\subsubsection{Sign of a metric $g$}
+Calculate the  sign of a metric $g$.
+\begin{lstlisting}
+    s(g)
+\end{lstlisting}
+%
+\subsubsection{Inverse Hodge star}
+Calculate the inverse Hodge star operator:
+\begin{lstlisting}
+    invHodgeStar(g,dx.1)
+\end{lstlisting}
+%
+\subsubsection{Hodge-Laplacian}
+Calculate the Hodge-Laplacian.
+\begin{lstlisting}
+   hodgeLaplacian(g,f*dx.1)
+\end{lstlisting}
+%
+\subsubsection{Projection}
+\spadbold{proj}
+
+Project to homogeneous terms of degree $p$.
+  
+\begin{lstlisting}
+    NNI ==> NonNegativeInteger
+    proj : (NNI,DRC) -> DRC    
+    proj(2, 2*dx.1 + dx.2*dx.3 - dx.3*dx.4)
+\end{lstlisting}
+\begin{displaymath}
+	 -{{dx _ {2}} \  {dx _ {3}}}+{{dx _ {1}} \  {dx _ {2}}}
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])}
+%
+\subsubsection{Monomials}
+\spadbold{monomials}
+
+List all monomials of degree $p$ ($p\in 1\ldots n$).
+This is a basis of $\Lambda_p^n$.
+\begin{lstlisting}
+    monomials : NNI -> List DRC
+    monomials(3)$M
+\end{lstlisting}
+\begin{displaymath}
+  \left[
+  {{dx _ {0}} \  {dx _ {1}} \  {dx _ {2}}}, \: {{dx _ {0}} \  {dx _
+  {1}} \  {dx _ {3}}}, \: {{dx _ {0}} \  {dx _ {2}} \  {dx _ {3}}}, \:
+  {{dx _ {1}} \  {dx _ {2}} \  {dx _ {3}}}
+  \right]
+\end{displaymath}
+\type{Type: List DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])}
+%
+\subsubsection{Atomize Basis Term}
+\spadbold{atomizeBasisTerm}
+
+Given a basis term, return a list of the generators (atoms).
+\begin{lstlisting}
+    atomizeBasisTerm : DRC -> List DRC  
+    atomizeBasisTerm(dx.1 * dx.2 * dx.4) 
+\end{lstlisting}
+\begin{displaymath}
+  \left[
+   {dx _ {0}}, \: {dx _ {1}}, \: {dx _ {3}}
+  \right]
+\end{displaymath}
+\type{Type: List(DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]]))}
+%
+\subsubsection{Conjugate Basis Term}
+\spadbold{conjBasisTerm}
+
+Return the complement of a basis term with respect to the Euclidean
+volume form.
+\begin{lstlisting}
+    conjBasisTerm : DRC -> DRC    
+    conjBasisTerm dx.4
+\end{lstlisting}
+\begin{displaymath}
+	{dx _ {0}} \  {dx _ {1}} \  {dx _ {2}}
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])}
+%
+\subsubsection{Scalar and Vector Field} 
+\spadbold{vectorField}
+
+Generate a generic vector field named by a given symbol.
+\\
+\spadbold{covectorField}
+
+Generate a generic co-vector field named by a given symbol.
+\\  
+\spadbold{scalarField}
+
+Generate a generic scalar field named by a given symbol.
+\begin{lstlisting}
+   vectorField   : Symbol -> List X
+   covectorField : Symbol -> List DRC
+   scalarField   : Symbol -> X
+   
+   vectorField(Q)$M
+   scalarField(f)$M
+\end{lstlisting}
+\begin{displaymath}
+	[Q_1(x_0,x_1,x_2,x_3),Q_2,Q_3,Q_4]
+\end{displaymath}
+\type{Type: List(Expression(Integer))}
+%
+\begin{displaymath}
+	 f
+  \left(
+   {{x _ {0}}, \: {x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+  \right)
+\end{displaymath}
+\type{ype: Expression(Integer)}
+%
+\subsubsection{Miscellaneous Functions}
+A {\it zero form} with symbol $s$ can be generated by
+\begin{lstlisting}
+    zeroForm : Symbol -> DRC  
+    zeroForm(s)$M
+\end{lstlisting}
+\begin{displaymath}
+	  s
+  \left(
+   {{x _ {0}}, \: {x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+  \right)
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])}
+%
+
+A synonym for the \spadfun{exteriorDerivative} is the common operator 
+\spadbold{d}:
+\begin{lstlisting}
+    d : DRC -> DRC    
+    d zeroForm(f)$M
+\end{lstlisting}
+\begin{displaymath}
+   f,_{4} dx_3 + \ldots +  f,_{1} dx_0
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])}
+\\
+{\bf Notice} the indices in the example above. We have deliberately 
+chosen $0$ as start value to see where one has to be cautious. The
+derivatives of the function $f$, for instance $f,_{4}$, are meant
+with respect to the order of the variables, $x_3$ in this case. 
+%
+
+The special zero forms \spadbold{0} and \spadbold{1} can be generated 
+by
+\begin{lstlisting}
+    one :  -> DRC
+    zero : -> DRC    
+    zero()$M
+    one()$M
+\end{lstlisting}
+There are also some special multiplication operators which allow to deal
+with a kind {\it vector valued} forms (actually lists):
+\begin{lstlisting}
+    _* : (List X, List DRC)   -> DRC
+    _* : (List DRC, List DRC) -> DRC
+    Note: the lists must have dimension #v.    
+    For instance:   
+    x * dx 
+\end{lstlisting}
+\begin{displaymath}
+ {{x_{3}} \  {dx_{3}}}+{{x_{2}} \  {dx_{2}}}+{{x_{1}} \
+  {dx_{1}}}+{{x_{0}} \ {d _{0}}}  
+\end{displaymath}
+%
+An example for the second case:
+\begin{lstlisting}
+    dx*[hodgeStar(g,dx.j)$M for j in 1..4]
+\end{lstlisting}
+\begin{displaymath}
+    2 \  {dx _ {0}} \  {dx _ {1}} \  {dx _ {2}} \  {dx _ {3}}
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[0],x[1],x[2],x[3]])}
+%
+%
+%
+\section{Implementation}
+\subsection{Implementation Notes} 
+In this section some implementation details will be described. This is a 
+ongoing process and might be improved.
+\subsection{Internal Representation}
+Differential forms are represented as {\tt List Record(k:EAB, c:R)} 
+where each basic term is represented as {\tt Record(k:EAB, c:R)}, 
+for instance:
+\begin{displaymath}
+  h (x, y, z)\ dz + g (x, y, z)\ dy + f (x, y, z)\ dx
+\end{displaymath}
+maps to
+\begin{lstlisting}
+    [[k= [0,0,1],c= h(x,y,z)],[k= [0,1,0],c= g(x,y,z)],
+     [k= [1,0,0],c= f(x,y,z)]]
+\end{lstlisting}
+or, another example:
+\begin{displaymath}
+ c (x, y, z)\ dy\ dz + b (x, y, z)\ dx\ dz + a (x, y, z)\ dx\ dy
+\end{displaymath}
+goes to
+\begin{lstlisting}
+    [[k= [0,1,1],c= c(x,y,z)],[k= [1,0,1],c= b(x,y,z)],
+     [k= [1,1,0],c= a(x,y,z)]]
+\end{lstlisting}
+It is easily seen that for n generators $x_1, \ldots, x_n$ the term 
+$d x_{j_p} \wedge \ldots \wedge d x_{j_q}$ is represented by
+$\mathtt{[k = [a_{i_1}, \ldots, a_{i_n}], c = \pm 1]}$
+where $a_{i_s} \in \{ 0, 1 \}$ depending on whether 
+$d x_{i_s}$ is contained in the term or not. The (local) function 
+ {\bf terms} send a differential form $\omega$ to the representation 
+$r(\omega)$.
+Note that the operations are {\bf destructive}, this means that one has 
+to copy the objects in order to get new ones (mere assignment inherits 
+all previous changes).
+
+The interpreter normalizes the basic terms according to increasing
+generators, i.e for example: $d x_3 \wedge d x_2$ will be stored 
+as $- d x_2 \wedge d x_3$, whereby the signum of the permutation is 
+calculated and transferred to the $c$-field in the record.
+\begin{lstlisting}
+Example
+  
+    terms(dx3*dx2) -> [[k= [0,1,1],c= - 1]]
+\end{lstlisting}
+%
+\subsection{dot :: inner product}
+Given a (pseudo)-Riemannian metric $g$, the scalar product of two basic 
+terms of the same degree is given by
+\begin{displaymath}
+ \langle d x_{i_1} \ldots d x_{i_p}, d x_{j_1} \ldots d x_{j_p} \rangle =
+   \det (\langle d x_{i_k} , d x_{j_l} \rangle) = \det (g^{- 1} (i_k,
+   j_l)),
+\end{displaymath}
+whereby $1 \leqslant k, l \leqslant p$. Note that 
+$g^{- 1} (i_k, j_l) = g^{i_k j_l}$ is the inverse of 
+$g_{i_k j_l}$ (raised indexes as usual). In other words, the scalar 
+product is inherited from the dual vector space of the space where the 
+coordinates $(x_1, \ldots, x_n)$ live, and is continued by linearity.
+By the way, terms of different \spadbold{degree} are considered to be
+{\it orthogonal} to each other.
+\begin{lstlisting}
+Example
+  
+    [x,y,z], G = matrix(G[i,j]) = g^{- 1}
+\end{lstlisting}
+\begin{displaymath}
+\langle d x \wedge d y, d y \wedge d z \rangle = \langle d x, d y \rangle
+     \langle d y, d z \rangle - \langle d x, d z \rangle \langle d y, d y
+     \rangle = \\ {G_{1,2} G_{2, 3} - G_{1, 3} G_{2, 2}} 
+\end{displaymath}
+The corresponding {\tt EAB's} are {\tt [1,1,0]} and {\tt [0,1,1]}. 
+When we define a function \spadfun{pos} which gives the positions of 
+$0$ or $1$ respectively, the example above tells us:
+\begin{lstlisting}
+    pos([1,1,0],1)=[1,2] and pos([0,1,1],1)=[2,3]
+\end{lstlisting}
+so that the direct product of the two resulting lists gives the desired 
+minor:
+\begin{lstlisting}
+     [1,2]x[2,3]=[[1,2],[1,3],[2,2],[2,3]] =>
+\end{lstlisting}
+\begin{displaymath}
+  \left|\begin{array}{c}
+     G_{12} G_{1 3}\\
+     G_{2 2} G_{2 3}
+   \end{array}\right| .
+\end{displaymath}
+This essentially comprises the method we will use to compute the scalar 
+product w.r.t symmetric matrices $g$ and two basic terms of equal degree.
+
+\noindent Local function: \spadbold{dot2}
+\begin{itemize}
+\item compute the inverse of {\tt g}.
+\item build the {\tt pos} lists.
+\item build the minor and apply \spadfun{determinant}.
+\end{itemize}
+Actually there are two functions \spadbold{dot1} and \spadbold{dot2}, 
+where the former is used when the metric $g$ is {\it diagonal} 
+(which is equivalent to the basis vectors being orthogonal) because 
+the performance might be better if the dimension of the space is huge.
+%
+\subsection{hodgeStar :: Hodge dual}
+In this new version we have removed the first method because the
+performance difference is not as significant as we thought in the first
+place, at least not for $n\leq 7$. However, we save the method in
+case someone has to deal with really high space dimensions.
+\subsubsection{Diagonal, non-degenerated $g$}
+If g is a diagonal matrix then the components of $\star \beta$ reduce to
+\begin{displaymath}
+(\star \beta)_{j_1, \ldots, j_{n - p}} = \frac{1}{p!} \varepsilon_{k_1,
+   \ldots, k_p, j_1, \ldots, j_{n - p}}  \sqrt{| \det g |}  [g^{k_1 k_1}
+   \ldots g^{k_p k_p}] \beta_{k_1, \ldots, k_p} 
+\end{displaymath}
+which implies that $(j_1, \ldots, j_{n - p})$ must be the complement of 
+$(k_1,\ldots, k_p)$ in $\{ 1, 2, \ldots, n \}$ and
+\begin{displaymath}
+  \star (d x_{k_1} \wedge \ldots \wedge d x_{k_p}) = C d x_{j_1} \wedge
+   \ldots \wedge d x_{j_{n - p}} 
+\end{displaymath}  
+for some (yet unknown) factor {\tt C} which must actually be equal to 
+the right hand side of the component formula above. When we recollect 
+the internal representation of $d x_{k_1} \wedge \ldots \wedge d x_{k_p}$ 
+as {\tt EAB} then it is easy to get the complement by flipping
+$0$ and $1$. Define a function \spadfun{flip} such that
+\begin{displaymath}
+  \mathrm{flip} (d x_{k_1} \wedge \ldots \wedge d x_{k_p}) = d x_{j_1} 
+  \wedge \ldots \wedge d x_{j_{n - p}}
+\end{displaymath}
+then by using the Hodge formula with 
+$\alpha = \beta = dx_{k_1} \wedge \ldots \wedge d x_{k_p}$ we get using
+$\star \alpha = C\ \mathrm{flip} (\alpha)$:
+\begin{displaymath}
+  C \alpha \wedge \mathrm{flip} (\alpha) = \langle \alpha, \alpha 
+  \rangle \eta
+   = \langle \alpha, \alpha \rangle \sqrt{| \det (g) |} d x_1 \wedge 
+   \ldots\wedge d x_n . 
+\end{displaymath}
+Since $\alpha \wedge \mathrm{flip} (\alpha)$ is a $n$-form, the function
+\spadbold{leadingCoefficient} returns the one and only coefficient. 
+Thus we can calculate {\tt C} to
+\begin{displaymath}
+  C = \frac{\langle \alpha, \alpha \rangle \sqrt{| \det (g)
+   |}}{\mathtt{leadingCoefficient} (\alpha \wedge \mathrm{flip} (\alpha))}.
+\end{displaymath}
+In {\tt SPAD} syntax this looks like:
+\begin{displaymath}
+ \mathtt{C =}  \frac{\mathtt{dot} (\alpha, \alpha) \star
+   \mathtt{sqrt\left(abs\left(\right.determinant\left(g\right)\right)}}
+   {\mathtt{leadingCoefficient}
+   \left( \alpha \star \mathtt{flip} (\alpha) \right)} .    
+\end{displaymath}
+This way the interpreter saved us the tedious computation of the permutation
+signatures. Moreover, we have not to care whether the metric $g$ is 
+positive or negative definite.
+%
+\subsubsection{General case}
+Let $J$ denote an ordered multi-index and $J_\sharp$ its dual.
+Then a generic $p$-vector may be written as
+\begin{displaymath}
+   \beta = \sum_{|J|=p} b^J \ e_J.
+\end{displaymath}
+Thus by definition we obtain:
+\begin{displaymath}
+    \alpha\wedge\star\beta=(\alpha,\beta)\,\eta \Rightarrow
+    e_J\wedge\star\beta=(e_J,\beta)\,\eta
+\end{displaymath}
+Since $\star\beta$ is a $(n-p)$-form, we get:
+\begin{displaymath}
+ \star\beta=\sum_{|K|=n-p} a^K e_K \Rightarrow
+   \sum_{|K|=n-p} a^K e_J\wedge e_K=\sum_{|I|=p} b^I (e_J,e_I)=
+   \sum_{|I|=p} g_{JI} b^I \eta = b_J \eta. 
+\end{displaymath}
+Now the term $e_J\wedge e_K$ is non-zero only if $K=J_\sharp$,
+therefore
+\begin{displaymath}
+  a^{J_\sharp} =\sqrt{g}\, \epsilon(J)\, \sum_{|I|=p} g_{JI} b^I
+\end{displaymath}
+where $e_J\wedge e_{J_\sharp}=\epsilon(J)\, \eta\ $ defines 
+$\epsilon$.
+
+If we choose $\beta=e_M$ we finally get
+\begin{displaymath}
+  \star e_M = \sqrt{g} \sum_{|J|=p} \epsilon(J)\, g_{JM}\, e_{J_\sharp}.
+\end{displaymath}
+This formula will be used to compute the Hodge dual for {\it monomials}. 
+We define a function \spadbold{hodgeBT}, in pseudo-code:
+\begin{lstlisting}
+    hodgeStarBT(dx[M])= sqrt(g)* 
+       SUM[J] {eps(dx[J])*dot(g,dx[J],dx[M])*conjBasisTerm(dx[j])}
+\end{lstlisting}
+which then will allow computing the Hodge dual of any form by simple recursion:
+\begin{lstlisting}
+    hodgeStar(g:SMR,x:DRC):DRC ==
+      x=0$DRC => x
+      leadingCoefficient(x) * hodgeStarBT(g,leadingBasisTerm(x)) + _
+        hodgeStar(g, reductum(x))
+\end{lstlisting}
+%
+\subsubsection{interiorProduct :: Interior product}
+In this newer version we have replaced the method which uses the Hodge
+operator. Instead we used the fact that the interior product is 
+an {\it antiderivation}, actually the unique antiderivation of degree 
+$-1$ on the exterior algebra such that $i_X(\alpha)=\alpha(X)$:
+\begin{displaymath}
+      i_X(\beta\wedge\gamma)=i_X(\beta)\wedge\gamma)+
+     (-1)^{{\mathtt deg}\, \beta}\ \beta\wedge i_X(\gamma)
+\end{displaymath}
+This also allows an easy implementation by recursion.
+%
+\subsubsection{lieDerivative :: Lie derivative}
+Here we use {\it Cartan's formula} (see \ref{cartan}), so that there is 
+not much more to say here.
+\begin{lstlisting}
+    lieDerivative(w:Vector X,x:DRC):DRC ==
+      a := exteriorDifferential(interiorProduct(w,x))
+      b := interiorProduct(w, exteriorDifferential(x))
+      a+b
+\end{lstlisting}
+%
+\subsubsection{proj :: Projection}
+Since the elements of $\mathtt{DeRhamComplex}$ are in
+\begin{displaymath}
+  X = \bigoplus_{p = 0}^n \Omega^p (V) 
+\end{displaymath}
+it is convenient to have a function 
+$\mathtt{proj}:\{ 0, \ldots,n \}\times X \rightarrow X$ which 
+returns the projection on the homogeneous component
+$\Omega^p (V)$. The implementation is straightforward when using the
+internals of {\tt EAB}. Probably there are better ways to do this,
+especially by using exported functions only.
+\begin{lstlisting}
+    ** deprecated **
+    proj(x,p) ==
+      t:List REA := x::List REA
+      idx := [j for j in 1..#t | #pos(t.j.k,1)=p]
+      s := [copy(t.j) for j in idx::List(NNI)]
+      convert(s)$DRC
+\end{lstlisting}
+{\bf NEW:}In the new version we actually replaced the function above by 
+the following recursive one:
+\begin{lstlisting}
+    proj(p,x) ==
+      x=0 => x
+      homogeneous? x and degree(x)=p => x
+      a:=leadingBasisTerm(x)
+      if degree(a)=p then
+        leadingCoefficient(x)*a + proj(p, reductum x)
+      else
+        proj(p, reductum x)
+\end{lstlisting}
+{\bf Note} \\
+We have changed the order of arguments from 
+{\tt (DRC,NNI)} to {\tt (NNI,DRC)} because this corresponds more to the 
+usual nomenclature of projections.
+%
+\section{Usage}
+\subsection{Examples}
+In this section we will give various examples.
+\subsection{Calculus in $\RR 3$}
+We will prove the following identities (see the summary %\ref{•}, for 
+details):
+\begin{eqnarray*}
+    d\,f &= [\mathtt{grad}\,f]_1 \\
+    d\,[T]_1 &= [\mathtt{curl}\,T]_2 \\
+    d\,[T]_2 &= [\mathtt{div}\,T]_3
+\end{eqnarray*}
+Let M denote our differential graded algebra on $\RR 3$. In
+{\tt FriCAS} we can express this as
+\begin{lstlisting}
+     M ==> DFORM(INT,[x,y,z])
+\end{lstlisting}
+\begin{displaymath}
+  \mathtt{DifferentialForms(Integer,[x,y,z])}
+\end{displaymath}
+\type{Type: Type}
+\\
+The list of available methods can be seen by
+\begin{lstlisting}
+    )show M
+    
+    DifferentialForms(Integer,[x,y,z]) is a package constructor.
+    Abbreviation for DifferentialForms is DFORM
+    This constructor is exposed in this frame.
+    ------------------------------- Operations -----------------
+
+    coordSymbols : () -> List(Symbol)
+    ...
+    baseForms : () -> List(DeRhamComplex(Integer,[x,y,z]))
+    coordVector : () -> List(Expression(Integer))
+    .
+    .
+    .
+\end{lstlisting}
+The position vector $P=(x,y,z)$ and the basis of one forms can be
+obtained by
+\begin{lstlisting}
+    P:=coordVector()$M
+\end{lstlisting}
+\begin{displaymath}
+    [x,y,z]
+\end{displaymath}
+\type{Type: List(Expression(Integer))}
+\\
+and
+\begin{lstlisting}
+    dP:=baseForms()$M
+\end{lstlisting}
+\begin{displaymath}
+  [dx,dy,dz]
+\end{displaymath}
+\type{Type: List(DeRhamComplex(Integer,[x,y,z]))}
+
+This way we can call the coordinates as $P.i$ and the basis one forms
+as $dP.i$. Of course, we can also use $dx,dy,dz$ directly when
+setting
+\begin{lstlisting}
+     [dx,dy,dz]:=baseForms()$M
+\end{lstlisting}
+or when we use the generators of the domain {\tt DeRhamComplex} itself:
+\begin{lstlisting}   
+     dx:=generator(1)$DERHAM(INT,[x,y,z])
+     dy:= ...    
+\end{lstlisting}
+
+The first method, however, is quite convenient when using indexed coordinates
+and also because we can form expressions like
+\begin{lstlisting}
+    P * dP
+\end{lstlisting}
+\begin{displaymath}
+   z\ dz + y\ dy + x\ dx
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x,y,z])}.
+%
+\subsubsection{Gradient} 
+There are many ways to create a zero form, one of those is
+\begin{lstlisting}
+    f := zeroForm(f)$M
+\end{lstlisting}
+\begin{displaymath}
+   f(x,y,z)
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x,y,z])}
+\\
+Now we apply the exterior differential operator to $f$:
+\begin{lstlisting}
+    d f
+\end{lstlisting}
+\begin{displaymath}
+   {{{f _ {{,3}}}\left(
+   {x, \: y, \: z}\right)}
+   \  dz}+{{{f _ {{,2}}}\left({x, \: y, \: z}
+   \right)}\  dy}+{{{f _ {{,1}}}
+   \left({x, \: y, \: z}\right)}\  dx}
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x,y,z])}
+\\
+The coefficients of $df$ are just
+\begin{lstlisting}
+    [coefficient(d f, dP.j) for j in 1..3]
+\end{lstlisting}
+\begin{displaymath}
+  \left[{{f _ {{,1}}}\left({x, \: y, \: z}
+  \right)},\: {{f _ {{,2}}}\left(
+  {x, \: y, \: z}\right)},
+  \: {{f _ {{,3}}}\left({x, \: y, \: z}\right)}\right]
+\end{displaymath}
+\type{Type: List(Expression(Integer))}
+\\ 
+the components of the gradient vector $\nabla f$ of $f$.
+%
+\subsubsection{Curl}
+Let $T$ be a generic vector field on $M=\RR 3$:
+\begin{lstlisting}
+    T := vectorField(T)$M
+\end{lstlisting}
+\begin{displaymath}
+    \left[{{T _ {1}}\left({x, \: y, \: z}\right)},\: {{T _ {2}}
+    \left({x, \: y, \: z}\right)},\: {{T _ {3}}\left({x, \: y, \: z}
+    \right)}\right]
+\end{displaymath}
+\type{Type: List(Expression(Integer))}
+\\
+Then we build the general one form $\tau$:
+\begin{lstlisting}
+    tau := T * dP
+\end{lstlisting}
+\begin{displaymath}
+    T_3\left(x, \: y, \: z\right)\  dz+T_2
+   \left({x, \: y, \: z}
+   \right)\  dy+T_1\left({x, \: y, \: z}\right)\  dx
+\end{displaymath}
+
+Now we apply the exterior differential operator $d$:
+\begin{lstlisting}
+    d tau
+\end{lstlisting}
+\begin{displaymath}
+    \left( T_{3,2}\left(x, \: y, \: z\right)
+    -T_{2,3}\left(x, \: y, \: z\right)\right)
+    \ dy \ dz + \ldots
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x,y,z])}
+\\
+Next, we want to extract the coefficients:
+\begin{lstlisting}
+    [coefficient(d tau, m) for m in monomials(2)$M]
+\end{lstlisting}
+\begin{displaymath}
+\scriptstyle{
+    \left[{{{{T _ {2}} _ {{,1}}}\left({x, \: y, \: z}\right)}
+    -{{{T _ {1}} _ {{,2}}}\left( {x, \: y, \: z}\right)}},
+    \: {{{{T _ {3}} _ {{,1}}}\left({x, \: y, \: z}\right)}
+    -{{{T _ {1}} _ {{,3}}}\left({x, \: y, \: z}\right)}},
+    \: {{{{T _ {3}} _ {{,2}}}\left({x, \: y, \: z}
+    \right)} -{{{T _ {2}} _ {{,3}}}\left({x, \: y, \: z}\right)}}
+    \right]}
+\end{displaymath}
+\\    
+The (well known) {\tt\bf curl} is defined as
+\begin{displaymath}
+    \mathtt{curl}(T) =\nabla\times T= \scriptstyle{
+    \left(
+    \frac{\partial T_3}{\partial y} - \frac{\partial T_2}{\partial z},
+    \frac{\partial T_1}{\partial z} - \frac{\partial T_3}{\partial x},
+    \frac{\partial T_2}{\partial x} - \frac{\partial T_1}{\partial y}
+    \right)}
+\end{displaymath}
+\begin{lstlisting}
+    curl(V) == [D(V.3,y)-D(V.2,z),D(V.1,z)-D(V.3,x),D(V.2,x)-D(V.1,y)]
+\end{lstlisting}
+We now claim that the following identity holds:
+\begin{displaymath}
+     d (T\, dP) =  \star(\mathtt{curl}(V)\, dP)
+\end{displaymath}
+where $\star$ denotes the Hodge star operator with respect to the Euclidean
+metric
+\begin{lstlisting}
+    g:=diagonalMatrix([1,1,1])
+\end{lstlisting}
+\begin{displaymath}
+   \left[
+   \begin{array}{ccc}
+   1 & 0 & 0 \\
+   0 & 1 & 0 \\
+   0 & 0 & 1
+   \end{array}
+   \right]
+\end{displaymath}
+To prove it we just have to test:
+\begin{lstlisting}
+     test( d(T*dP) = hodgeStar(g,curl(T)*dP)$M )
+\end{lstlisting}
+\begin{displaymath}
+    \mathtt{true}
+\end{displaymath}
+\type{Type: Boolean}
+%
+\subsubsection{Divergence} 
+Again, let $T$ be a generic vector field on $M={\RR 3}$, then the
+{\it divergence} is defined by
+\begin{displaymath}
+   \mathtt{div}(T) = \nabla \bullet T =
+   \frac{\partial T_1}{\partial x} +
+   \frac{\partial T_2}{\partial y} +
+   \frac{\partial T_3}{\partial z}.
+\end{displaymath}
+When we calculate
+\begin{lstlisting}
+    d hodgeStar(g, T*dP)$M
+\end{lstlisting}
+we get the 3-form
+\begin{displaymath}
+    {\left( {{{T _ {3}} _ {{,3}}}
+    \left({x, \: y, \: z}\right)}+{{{T_ {2}} _ {{,2}}}
+    \left({x, \: y, \: z}\right)}+{{{T_ {1}} _ {{,1}}}
+    \left({x, \: y, \: z}\right)}\right)}\  dx \  dy \  dz
+\end{displaymath}
+%
+\subsubsection{Summary}\label{summvc}
+Let us summarize what we have obtained above. We use the following notation
+for the mapping of scalar functions and vector fields to differential forms:
+\begin{eqnarray*}
+    f \rightarrow [f]_0 \\
+    T \rightarrow [T]_1 
+\end{eqnarray*}
+where the index denotes the degree of the form. Moreover, we define another
+pair of forms by applying the Hodge operator:
+\begin{eqnarray*}
+    [T]_2 &= \star [T]_1 \\
+    \left[f\right[_3 &= \star [f]_0
+\end{eqnarray*}
+So we can state the general identities:
+\begin{eqnarray*}
+    d\,f &= [\nabla\,f]_1 \\
+    d\,[T]_1 &= [\mathtt{curl}\,T]_2 \\
+    d\,[T]_2 &= [\mathtt{div}\,T]_3
+\end{eqnarray*}
+%
+\subsubsection{Hodge duals}
+To conclude this example, we are going to calculate a table for the Hodge
+duals of the monomials.
+\begin{lstlisting}
+     g:=diagonalMatrix([1,1,1])::SquareMatrix(3,INT) 
+     [[hodgeStar(g,m)$M for m in monomials(j)$M] for j in 0..3]
+     
+\end{lstlisting}
+\begin{displaymath}
+   \left[{\left[ {dx \  dy \  dz}\right]},
+   \: {\left[ {dy \  dz}, \: -{dx \  dz}, \: {dx \  dy}\right]},
+   \: {\left[ dz, \: -dy, \: dx\right]},\: {\left[ 1\right]}\right]
+\end{displaymath}
+\type{Type: List(List(DeRhamComplex(Integer,[x,y,z])))}
+\\
+Thus we get the following table:
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+$\alpha$ & $\star\alpha$ & $\star\star\alpha$ \\ 
+\hline 
+$1$ & $dx\wedge dy \wedge dz$ & $1$ \\ 
+\hline 
+$dx$ & $dy \wedge dz$ & $dx$ \\ 
+\hline 
+$dy$ & $-dx \wedge dz$ & $dy$ \\ 
+\hline 
+$dz$ & $dx \wedge dy$ & $dz$ \\ 
+\hline 
+\end{tabular} 
+\end{center}
+By the way, this method can be applied in any dimension for any metric.
+%
+\subsection{Faraday $2$-form} 
+The free electromagnetic field can be described by a $2$-form 
+\spadbold{F} in Minkowski space. This form - also known as Faraday $2$-form - 
+is given by
+\begin{displaymath}
+   %\scriptstyle{
+   F=B_1\ dy\wedge dz + B_2\ dz\wedge dx + B_3\ dx\wedge dy +
+     E_1\ dx\wedge dt + E_2\ dy\wedge dt + E_3\ dz\wedge dt 
+   %}
+\end{displaymath}
+where we here use the {\it cgs} system and \spadbold{E},
+\spadbold{B} denote the classical fields (see the example in the 
+documentation of {tt DeRhamComplex}).
+
+To represent \spadbold{F} in {\tt FriCAS} we have to choose space-time 
+variables $x,y,z,t$ in the correct order, and $g$ will be the 
+Minkowski metric:
+\begin{lstlisting}    
+    v := [x,y,z,t]   
+    g := diagonalMatrix([-1,-1,-1,1])::SquareMatrix(4,INT)   
+    M := DFORM(INT,v)    
+    R ==> EXPR(INT)  
+\end{lstlisting}
+
+Instead of $x,y,z,t$ we also could have chosen $x_0,x_1,x_2,x_3$
+for instance. Now we need the coordinates and basis one forms:
+\begin{lstlisting}
+    X := coordVector()$M
+    dX := baseForms()$M
+\end{lstlisting}
+{\bf Important:} The order of the variables must coincide with that in 
+the metric g. This means, for $t,x,y,z$ the positive $1$ in the 
+metric comes first, whereas for $x,y,z,t$ the positive $1$ comes last.
+
+We also need the fields \spadbold{E} and \spadbold{B}, but this time we 
+will not choose the \spadfun{vectorField} function because we only need 
+three components:
+\begin{lstlisting}
+    E := [operator E[i] for i in 1..3]
+    B := [operator B[i] for i in 1..3]
+\end{lstlisting}
+Eventually we can build \spadbold{F}:
+\begin{lstlisting}
+    F := (B.1 X)*dX.2*dX.3 + (B.2 X)*dX.3*dX.1 + (B.3 X)*dX.1*dX.2 +
+         (E.1 X)*dX.1*dX.4 + (E.2 X)*dX.2*dX.4 + (E.3 X)*dX.3*dX.4
+\end{lstlisting}
+\begin{eqnarray*}
+    {{{E _ {3}}\left({x, \: y, \: z, \: t}\right)}
+    \  dz \  dt}+{{{E _ {2}}\left({x, \: y, \: z, \: t}\right)}
+    \  dy \  dt}+{{{B _ {1}}\left({x, \: y, \: z, \: t}\right)} 
+    \  dy \  dz} + \\
+    {{{E _ {1}}\left({x, \: y, \: z, \: t}\right)}
+    \  dx \  dt} -{{{B _ {2}}\left({x, \: y, \: z, \: t}\right)}
+    \  dx \  dz}+{{{B _ {3}}\left({x, \: y, \: z, \: t}\right)}
+    \  dx \  dy}    
+\end{eqnarray*}
+\type{Type: DeRhamComplex(Integer,[x,y,z,t])}
+\\
+We apply the exterior differential operator {\tt d} to 
+\spadbold{F}:
+\begin{lstlisting}
+    d F
+\end{lstlisting}
+\begin{eqnarray*}
+    {{\left( {{{E _ {3}} _ {{,2}}}\left({x, \: y, \: z, \: t}\right)}
+    -{{{E _ {2}} _ {{,3}}}\left({x, \: y, \: z, \: t}\right)}+{{{B
+    _ {1}} _ {{,4}}}\left({x, \: y, \: z, \: t}\right)}\right)}
+    \  dy \  dz \  dt}\, + \\ 
+    {{\left( {{{E _ {3}} _ {{,1}}}\left(
+    {x, \: y, \: z, \: t}\right)}-{{{E _ {1}} _ {{,3}}}\left(
+    {x, \: y, \: z, \: t}\right)}-{{{B _ {2}} _ {{,4}}}\left(
+    {x, \: y, \: z, \: t}\right)}\right)}\  dx \  dz \  dt}\, + \\
+    {{\left( {{{E _ {2}} _ {{,1}}}\left({x, \: y, \: z, \: t}
+    \right)}-{{{E _ {1}} _ {{,2}}}\left({x, \: y, \: z, \: t}
+    \right)}+{{{B_ {3}} _ {{,4}}}\left({x, \: y, \: z, \: t}
+    \right)}\right)}\  dx \  dy \  dt}\, + \\ 
+    {{\left( {{{B _ {3}} _ {{,3}}}\left({x, \: y, \: z, \: t}
+    \right)}+{{{B_ {2}} _ {{,2}}}\left({x, \: y, \: z, \: t}
+    \right)}+{{{B_ {1}} _ {{,1}}}\left({x, \: y, \: z, \: t}
+    \right)}\right)}\  dx \  dy \  dz}
+\end{eqnarray*}       
+\type{Type: DeRhamComplex(Integer,[x,y,z,t])}
+\\
+We see at once that the first three terms of the sum correspond to the
+vector
+\begin{displaymath}
+   \nabla\times\mathbf{E}+\frac{\partial\mathbf{B}}{\partial t}
+\end{displaymath}
+and the fourth term is
+\begin{displaymath}
+ \nabla\bullet\mathbf{B}.
+\end{displaymath}
+Actually, all terms are zero by two of the {\it Maxwell} equations. 
+Consequently we have shown (the well known fact)
+\begin{displaymath}
+   d\mathbf{F} = 0
+\end{displaymath}
+Now let us apply the $\star$-operator to \spadbold{F}, which is also a 
+$2$-form:
+\begin{lstlisting}
+   %F := hodgeStar(g,F)$M
+\end{lstlisting}
+\begin{eqnarray*}
+    {{{B _ {3}}\left({x, \: y, \: z, \: t}\right)}
+    \  dz \  dt} + {{{B _ {2}} \left({x, \: y, \: z, \: t}
+    \right)}\  dy \  dt} -{{{E _ {1}}\left({x, \: y, \: z, \: t}
+    \right)}\  dy \  dz}+ \\ 
+    {{{B _ {1}}\left({x, \: y, \: z, \: t}\right)}
+    \  dx \  dt} + {{{E _ {2}}\left({x, \: y, \: z, \: t}
+    \right)}\  dx \  dz}- {{{E _ {3}}\left({x, \: y, \: z, \: t}
+    \right)}\  dx \  dy}
+\end{eqnarray*}
+\type{Type: DeRhamComplex(Integer,[x,y,z,t])}
+\\
+Now we proceed as above:
 
 
 %
