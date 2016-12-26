@@ -28,6 +28,12 @@ Cartesian(s,n) : Exports == Implementation where
     D: (%, Symbol, NonNegativeInteger) -> %
     D: (%, List Symbol) -> %
     D: (%, List Symbol, List NonNegativeInteger) -> %
+    D: (%, PI) -> %
+    D: (%, PI, NNI) -> %
+    D: (%, List PI, List NNI) -> %
+    div : % -> X
+    grad : X -> %
+    laplacian : X -> X
     copy : % -> %
     coerce : List X -> %
     --coerce : % -> OutputForm
@@ -47,9 +53,30 @@ Cartesian(s,n) : Exports == Implementation where
     
     dist(x:%,y:%):X == sqrt dot(x-y,x-y)
 
+    D(x:%,k:PI):% == D(x,coordSymbols().k)
+    D(x:%,k:PI,m:NNI):% == D(x,coordSymbols().k,m)
+    D(x:%,lk:List PI,lm:List NNI):% ==
+      #lk ~= #lm => error "List sizes differ."
+      xs:=coordSymbols()
+      D(x,[xs.j for j in lk],lm)
+
+    div(x:%):X ==
+      xs:=coordSymbols()
+      L:List X:=[D(x.k,xs.k) for k in 1..n]
+      reduce(_+,L)
+
+    grad(f:X):% == 
+      xs:=coordSymbols()
+      [D(f,xs.k)$X for k in 1..n]::%
+ 
+    laplacian(f:X):X == div grad(f) 
+
     copy(x:%):% == x  -- inherited copy -> stack overflow !!
 
     coerce(l:List X):% ==
       #l=n => directProduct((vector l)::Vector(X))$Rep
 
+)if false
 \fi
+% Doc
+)endif
