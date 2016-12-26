@@ -68,3 +68,23 @@ x~=y
 
 -- )show DirectProduct(3,X) 
 entries x
+
+--
+t1:=(x.1^n)*(x.2^m)*x.3^q *x
+D(t1,1)
+D(t1,3)
+D(t1,1,2)
+D(t1,2,3)
+D(t1,[2,3],[2,2])
+
+--
+
+div(x)
+div(y)
+grad(x.1^n+sin(x.2))$Cx3
+div grad(x.1^n+sin(x.2))$Cx3 -- Lap ..
+laplacian(x.1^2+x.2^2+x.3^b)$Cx3
+                  
+f(x) == x.1^n
+laplacian(f x)$Cx3
+
