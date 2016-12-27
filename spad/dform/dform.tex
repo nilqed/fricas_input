@@ -1288,7 +1288,440 @@ $2$-form:
 \type{Type: DeRhamComplex(Integer,[x,y,z,t])}
 \\
 Now we proceed as above:
+\begin{lstlisting}
+    d %F
+\end{lstlisting}
+\begin{eqnarray*}
+    {{\left( -{{{E _ {1}} _ {{,4}}}\left({x, \: y, \: z, \: t}
+    \right)}+{{{B_ {3}} _ {{,2}}}\left({x, \: y, \: z, \: t}\right)}
+    -{{{B _ {2}} _ {{,3}}}\left({x, \: y, \: z, \: t}\right)}
+    \right)}\  dy \  dz \  dt}+ \\ 
+    {{\left( {{{E _ {2}} _ {{,4}}}\left({x, \: y, \: z, \: t}
+    \right)}+{{{B_ {3}} _ {{,1}}}\left({x, \: y, \: z, \: t}\right)}
+    -{{{B _ {1}} _ {{,3}}}\left({x, \: y, \: z, \: t}\right)}
+    \right)}\  dx \  dz \  dt}+ \\ 
+    {{\left( -{{{E _ {3}} _ {{,4}}}
+    \left( {x, \: y, \: z, \: t}\right)}+{{{B_ {2}} _ {{,1}}}
+    \left({x, \: y, \: z, \: t}\right)}-{{{B _ {1}} _ {{,2}}}
+    \left({x, \: y, \: z, \: t}\right)}\right)}\  dx \  dy \  dt}+ \\ 
+    {{\left( -{{{E _ {3}} _ {{,3}}}\left({x, \: y, \: z, \: t}
+    \right)}-{{{E _ {2}} _ {{,2}}}\left({x, \: y, \: z, \: t}
+    \right)}-{{{E _ {1}} _ {{,1}}}\left({x, \: y, \: z, \: t}
+    \right)}\right)}\  dx \  dy \  dz}
+\end{eqnarray*}
+\type{Type: DeRhamComplex(Integer,[x,y,z,t])}    
+\\
+Again, we see that the first three terms correspond to
+\begin{displaymath}
+   -\frac{\partial\mathbf{E}}{\partial t}+ \nabla\times\mathbf{B}
+\end{displaymath}
+while the last one corresponds to
+\begin{displaymath}
+ -\,\nabla\bullet\mathbf{E}
+\end{displaymath}
+Thus, in vacuum, these are the second pair of {\it Maxwell's* equation} and 
+we have
+\begin{displaymath}
+  d \star\mathbf{F} = 0.
+\end{displaymath}
+To conclude this example we will compute the quantities ($4$-forms)
+\begin{eqnarray*}
+     \mathbf{F} \wedge \mathbf{F} \ \ \mathrm{and}  \ \
+     \mathbf{F} \wedge \star\mathbf{F}.
+\end{eqnarray*}
+Recalling the definition of the Hodge dual it is sufficient (in principle)
+to compute the scalar product $\langle F,F\rangle$:
+\begin{lstlisting}
+   dot(g,F,F)$M
+\end{lstlisting}
+\begin{eqnarray*}
+    -{{{{E _ {3}}\left({x, \: y, \: z, \: t}\right)}}^ {2}} -{{{{E _ {2}}
+    \left({x, \: y, \: z, \: t}\right)}}^ {2}} -{{{{E _ {1}}\left(
+    {x, \: y, \: z, \: t}\right)}}^ {2}}+ \\ {{{{B _ {3}}\left(
+    {x, \: y, \: z, \: t}\right)}}^ {2}}+{{{{B _ {2}}\left(
+    {x, \: y, \: z, \: t}\right)}}^ {2}}+{{{{B _ {1}}\left(
+    {x, \: y, \: z, \: t}\right)}}^ {2}}
+\end{eqnarray*}
+\type{Type: Expression(Integer)}
+and $\langle F,\star F\rangle$:
+\begin{lstlisting}
+   dot(g,F,%F)$M
+\end{lstlisting}
+\begin{eqnarray*}
+    -{2 \  {{B _ {3}}\left({x, \: y, \: z, \: t}\right)}
+    \  {{E _ {3}}\left({x, \: y, \: z, \: t}\right)}}
+    -{2 \  {{B _ {2}}\left({x, \: y, \: z, \: t}
+    \right)}\  {{E _ {2}}\left({x, \: y, \: z, \: t}
+    \right)}} \\-{2 \  {{B _ {1}}\left({x, \: y, \: z, \: t}
+    \right)}\  {{E _ {1}}\left({x, \: y, \: z, \: t}\right)}}
+\end{eqnarray*}
+\type{Type: Expression(Integer)}
+Indeed, we can \spadfun{test} the defining identity, e.g. for the first case:
+\begin{lstlisting}
+    test(F * %F = dot(g,F,F)$M * volumeForm(g)$M)
+\end{lstlisting}
+\begin{displaymath}
+   \mathtt{true}
+\end{displaymath}
+\type{Type: Boolean}
+%
+\subsection{Some Examples from {\it Maple}}
+{\tiny\tt Ref: http://www.maplesoft.com/support/help/Maple/view.aspx?path=
+DifferentialGeometry/Tensor/HodgeStar}
 
+\subsubsection{$5$-dimensional Manifold} 
+First create a $5$-dimensional manifold $M$ and define a metric tensor $g$ 
+on the tangent space of $M$:
+\begin{lstlisting}
+    v:=[x[j] for j in 1..5]
+    M:=DFORM(INT,v)
+    g:=diagonalMatrix([1,1,1,1,1])::SquareMatrix(5,INT)
+    dX:=baseForms()$M
+       
+    hodgeStar(g,dX.1)$M  
+\end{lstlisting}
+\begin{displaymath}
+  {dx _ {2}} \  {dx _ {3}} \  {dx _ {4}} \  {dx _ {5}}
+\end{displaymath}    
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4],x[5]])}
+\begin{lstlisting}
+    hodgeStar(g,dX.2)$M
+\end{lstlisting}
+\begin{displaymath}
+   -{{dx _ {1}} \  {dx _ {3}} \  {dx _ {4}} \  {dx _ {5}}}
+\end{displaymath}    
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4],x[5]])}
+\begin{lstlisting}
+    hodgeStar(g,dX.2*dX.3)$M
+\end{lstlisting}
+\begin{displaymath}
+    {dx _ {1}} \  {dx _ {4}} \  {dx _ {5}}
+\end{displaymath}        
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4],x[5]])}
+\begin{lstlisting}
+    hodgeStar(g,dX.2*dX.4)$M
+\end{lstlisting}
+\begin{displaymath}
+   -{{dx _ {1}} \  {dx _ {3}} \  {dx _ {5}}}
+\end{displaymath}        
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4],x[5]])}
+\begin{lstlisting}
+     hodgeStar(g,dX.2*dX.3*dX.4)$M
+\end{lstlisting}
+\begin{displaymath}
+    -{{dx _ {1}} \  {dx _ {5}}}
+\end{displaymath}         
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4],x[5]])}
+\\
+We see an exact match with the published results. 
+%
+\subsubsection{General metric ($2$-dim)}
+To show the dependence of the Hodge star operator upon the metric, we consider 
+a general metric $g$ on a $2$-dimensional manifold. 
+\begin{lstlisting}
+    v:=[x,y]
+    M:=DFORM(INT,v)
+    R ==> EXPR INT
+    g:=matrix([[a::R,b],[b,c]])::SquareMatrix(2,R)
+    [dx,dy]:=baseForms()$M  
+    
+    hodgeStar(g,dx)$M
+\end{lstlisting}
+\begin{displaymath}
+    \frac{c \  {\sqrt {{\mathtt{abs}
+    \left({{{a \  c} -{{b} ^ {2}}}}
+    \right)}}}}{{a \  c} -{{b} ^ {2}}} \  dy +
+    \frac{b \  {\sqrt {{\mathtt{abs}\left(
+    {{{a \  c} -{{b} ^ {2}}}}\right)}}}}
+    {{a \  c} -{{b} ^ {2}}} \  dx
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x,y])}
+\begin{lstlisting}
+   hodgeStar(g,dy)$M 
+\end{lstlisting}
+\begin{displaymath}
+    -\frac{b \  {\sqrt {{\mathtt{abs}
+    \left({{{a \  c} -{{b} ^ {2}}}}
+    \right)}}}} {{a \  c} -{{b} ^ {2}}} \  dy -  
+    \frac{a \  {\sqrt {{\mathtt{abs}
+    \left({{{a \  c} -{{b} ^ {2}}}} \right)}}}}
+    {{a \  c} -{{b} ^ {2}}} \  dx
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x,y])}
+\begin{lstlisting}
+    f := hodgeStar(g,dx*dy)$M
+\end{lstlisting}
+\begin{displaymath}
+  \frac{\sqrt {{\mathtt{abs}
+   \left({{{a \  c} -{{b} ^ {2}}}}
+   \right)}}}{{a \  c} -{{b} ^ {2}}}
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x,y])}
+\begin{lstlisting}
+    hodgeStar(g,f)$M
+\end{lstlisting}
+\begin{displaymath}
+  \frac{\mathtt{abs}
+  \left(
+  {{{a \  c} -{{b} ^ {2}}}}
+  \right)}
+   {{a \  c} -{{b} ^ {2}}} \  dx \  dy
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x,y])}
+%
+\subsubsection{Laplacian}
+The Laplacian of a function with respect to a metric $g$ can be calculated 
+using the exterior derivative and the Hodge star operator. Generally, the
+following identity holds:
+\begin{displaymath}
+  \Delta = d \circ \delta + \delta \circ d
+\end{displaymath}
+where $\delta:=(-1)^p\, \star^{-1}\,d \,\star$ is the \spadfun{codifferential}
+to be applied on a $p$-form (resulting in a $(p-1)$-form). Therefore, the 
+Laplacian applied to a function f (zero form) is:
+\begin{displaymath}
+   \Delta f = \delta \circ df = \star^{-1}\, d \,\star df=
+     \star\, d \, \star df.
+\end{displaymath}
+\begin{lstlisting}
+    v:=[r,u]  -- polar coordinates 
+    M:=DFORM(INT,v)
+    R ==> EXPR INT
+    g:=matrix([[1,0],[0,r^2]])::SquareMatrix(2,R)
+    [dr,du]:=baseForms()$M
+\end{lstlisting}
+A function on $M$ can easiliy be defined by
+\begin{lstlisting}
+   f:=zeroForm(f)$M
+\end{lstlisting}
+\begin{displaymath}
+ f\left({r, \: u}\right)
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[r,u])}
+\\
+Translating the general formula:
+\begin{lstlisting}
+   hodgeStar(g, d hodgeStar(g,d f)$M)$M
+\end{lstlisting}
+\begin{displaymath}
+    \frac{{{\mathtt{abs}
+    \left(
+    {{{r} ^ {2}}}
+    \right)}
+    \  {{f _ {{{,2}{,2}}}}
+    \left(
+    {r, \: u}
+    \right)}}+{{{r}
+    ^ {2}} \  {\mathtt{abs}
+    \left(
+    {{{r} ^ {2}}}
+    \right)}
+    \  {{f _ {{{,1}{,1}}}}
+    \left(
+    {r, \: u}
+    \right)}}+{r
+    \  {\mathtt{abs}
+    \left(
+    {{{r} ^ {2}}}
+    \right)}
+    \  {{f _ {{,1}}}
+    \left(
+    {r, \: u}
+    \right)}}}
+    {{r} ^ {4}}
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[r,u])}
+\\
+Simplifying yields for $M$:
+\begin{displaymath}
+ \Delta_M f = \frac{\partial^2 f}{\partial r^2} +
+              \frac{1}{r} \frac{\partial f}{\partial r} +
+              \frac{1}{r^2} \frac{\partial^2 f}{\partial u^2}
+\end{displaymath}
+%
+\subsubsection{Lie derivative}
+\begin{lstlisting}
+    v:=[x[i] for i in 1..3]
+    M:=DFORM(INT,v)
+    dX:=baseForms()$M
+    V:=vectorField(V)$M
+    f:=scalarField(f)$M
+    
+    lieDerivative(V,dX.1)
+\end{lstlisting}
+\begin{displaymath}
+    {V _ {1}} _ {{,3}}
+    \left(
+    x _ {1}, \: {x _ {2}}, \: {x _ {3}}
+    \right)
+    \  {dx _ {3}}+{{V _ {1}} _ {{,2}}}
+    \left(
+    {{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+    \right)
+    \  {dx _ {2}}+{V _ {1}} _ {{,1}} 
+    \left(
+    {{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}}
+    \right)
+    \  dx _ {1}
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3]])}
+\begin{lstlisting}
+   lieDerivative(V,f*dX.1)
+\end{lstlisting}
+\begin{displaymath}
+   {\mathcal L}_V\,f\,dx_1
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3]])}
+\begin{lstlisting}
+    lieDerivative(V,f*dX.1*dX.2)
+\end{lstlisting}
+\begin{displaymath}
+   {\mathcal L}_V\,f\,dx_1\wedge dx_2
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3]])}
+%
+\subsection{More examples (way of working)}
+\subsubsection{Setup}
+\begin{lstlisting}   
+   )clear all
+ 
+    All user variables and function definitions have been cleared.
+  
+    n:=4 -- dim of base space (n>=2 !)
+    R:=Integer  -- Ring
+ 
+    v:=[subscript(x,[j::OutputForm]) for j in 1..n] -- (x_1,..,x_n)
+ 
+    M:=DFORM(R,v)
+ 
+    -- basis 1-forms and coordinate vector
+    dx:=baseForms()$M     -- [dx[1],...,dx[n]]
+    x:=coordVector()$M    -- [x[1],...,x[n]]
+    xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+ 
+    -- operator, vector field, scalar field, symbol
+    a:=operator a          -- operator
+    b:=vectorField(b)$M    -- generic vector field [b1(x1..xn),...,bn(x1..xn)]
+    c:=vectorField(c)$M
+    P:=scalarField(P)$M    -- scalar field P(x1,..,xn)
+ 
+    -- metric
+    g:=diagonalMatrix([1 for i in 1..n])$SquareMatrix(n,EXPR R)  -- Euclidean
+    h:=diagonalMatrix(c)$SquareMatrix(n,EXPR R)
+ 
+    -- vector field (R)
+    vf:=vector b
+
+\end{lstlisting}
+%
+\subsubsection{Macros} 
+\begin{lstlisting}  
+    -- macros
+    dV(g) ==> volumeForm(g)$M 
+    i(X,w) ==> interiorProduct(X,w)$M  
+    L(X,w) ==> lieDerivative(X,w)$M
+    ** w ==> hodgeStar(g,w)$M  -- don't use * instead of ** !
+\end{lstlisting} 
+%
+\subsubsection{Examples}
+\begin{lstlisting}
+   w:=x.1*dx.2-x.2*dx.1
+\end{lstlisting}
+\begin{displaymath}
+  {{x _ {1}} \  {dx _ {2}}} -{{x _ {2}} \  {dx _ {1}}} 
+\end{displaymath}    
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    d w
+\end{lstlisting}
+\begin{displaymath}
+  2 \  {dx _ {1}} \  {dx _ {2}} 
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    w*w
+\end{lstlisting}
+\begin{displaymath}
+   0
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    i(vf,w)
+\end{lstlisting}
+\begin{displaymath}
+   {{x _ {1}} \  {{b _ {2}} \left(
+    {{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}}-{{x _ {2}} \  {{b _ {1}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}}\right)}}
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    L(vf,w)
+\end{lstlisting}
+\begin{eqnarray*}
+    {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,4}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}}-{{x _ {2}} \  {{{b _ {1}} _ {{,4}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}}\right)}
+    \  {dx _ {4}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,3}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}}-{{x _ {2}} \  {{{b _ {1}} _ {{,3}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}}\right)}
+    \  {dx _ {3}}}+ \\ \ldots 
+\end{eqnarray*}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+     d i(vf,w) + i(vf,d w)
+\end{lstlisting}
+\begin{eqnarray*}
+    {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,4}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}}-{{x _ {2}} \  {{{b _ {1}} _ {{,4}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}}\right)}
+    \  {dx _ {4}}}+ \\ {{\left( {{x _ {1}} \  {{{b _ {2}} _ {{,3}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}}-{{x _ {2}} \  {{{b _ {1}} _ {{,3}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}}\right)}
+    \  {dx _ {3}}}+ \\ \ldots 
+\end{eqnarray*}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+   % - L(vf,w)
+\end{lstlisting}
+\begin{displaymath}
+   0
+\end{displaymath}    
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+   dot(g,w,w)$M
+\end{lstlisting}
+\begin{displaymath}
+   {{{x _ {2}}} ^ {2}}+{{{x _ {1}}} ^ {2}} 
+\end{displaymath}    
+\type{Type: Expression(Integer)}
+\begin{lstlisting}
+    d i(vf,dV(g)) -- div(b) dV
+\end{lstlisting}
+\begin{eqnarray*}
+   \def\sp{^}\def\sb{_}\def\leqno(#1){}
+    \def\erf{\mathrm{erf}}\def\sinh{\mathrm{sinh}}
+    \def\zag#1#2{{{\left.{#1}\right|}\over{\left|{#2}\right.}}}
+    \def\csch{\mathrm{csch}}
+    {\left( {{{b \sb {4}} \sb {{,4}}} 
+    \left(
+    {{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+    \right)}+{{b
+    \sb {3}} \sb {{,3}}} 
+    \left(
+    {{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+    \right) + \ldots \right)}
+    \  dx \sb {1} \  dx \sb {2} \  dx \sb {3} \  dx \sb {4}   
+\end{eqnarray*}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
 
 %
 %\begin{figure}[!htb]
