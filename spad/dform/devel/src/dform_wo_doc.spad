@@ -1,0 +1,331 @@
+)abbrev package DFORM DifferentialForms
+++ Author: Kurt Pagani <nilqed@gmail.com>
+++ Date Created: October 2014 
+++ Revised: Sat Sep 17 17:10:00 CET 2016
+++ License: BSD
+++ Description: Differential form methods
+++ Requirements: DeRhamComplex 
+++ Documentation: Sphinx, folder doc.
+++
+DifferentialForms(R,v) : Exports == Implementation where
+    
+  R: Join(IntegralDomain,Comparable)
+  v: List Symbol
+
+  X   ==> Expression R
+  OF  ==> OutputForm
+  DRC ==> DeRhamComplex(R,v)
+  CHC ==> ChainComplex(R,#v)
+  BOP ==> BasicOperator
+  NNI ==> NonNegativeInteger
+  SMR ==> SquareMatrix(#v,X)
+  EAB ==> ExtAlgBasis
+  REA ==> Record(k : EAB, c : X)
+  SGCF ==> SymmetricGroupCombinatoricFunctions
+  
+  Exports ==  with
+    
+    _* : (List X, List DRC) -> DRC
+      ++ v*w computes the sum of the products v_i * w_i
+      ++ where v_i is a scalar and w_i a differential form.
+      ++ This is for convenience only, just to deal with
+      ++ differential form valued vectors.
+    _* : (List DRC, List DRC) -> DRC
+      ++ w1*w2 computes the sum of the exterior products
+      ++ w1_i * w2_i, where w1,w2 are differential forms.
+    d : DRC -> DRC
+      ++ d w computes the exterior derivative and is just an
+      ++ abbreviation for the fucntion "exteriorDifferential"
+      ++ defined in the domain "DeRhamComplex".
+    one :  -> DRC
+      ++ one() gives 1@DeRhamComplex, i.e. "1" as a differential
+      ++ form. This is useful to intern elements of the function
+      ++ ring (just multiply them by one()$DFORM).
+    zero : -> DRC
+      ++ zero() gives the zero form, i.e. 0@DRC.
+    baseForms : () -> List DRC
+      ++ baseForms()$M returns a list of all base forms in the
+      ++ space M=DFORM(Ring,Coordinates).
+    coordVector : () -> List X
+      ++ coordVector()$M returns a list of the coordinates in
+      ++ the space M=DFORM(Ring,Coordinates).
+    coordSymbols : () -> List Symbol
+      ++ coordSymbols()$M returns a list of the coordinates as
+      ++ symbols. This is useful for example if the differential
+      ++ operators "D" are going to be used.
+    vectorField : Symbol -> List X
+      ++ vectorField(V) creates a vector (actually a list) whose
+      ++ components are given by V[j](x[1],...,x[n]), j=1..n, 
+      ++ whereby "x" are the space coordinates (possibly not the
+      ++ same symbol).
+    scalarField : Symbol -> X
+      ++ scalarField(s) creates a scalar function s(x[1],...,[n]),
+      ++ whereby "x" are the space coordinates (possibly not the
+      ++ same symbol).      
+    covectorField : Symbol -> List DRC
+      ++ covectorField(Y) creates a covector (actually a list)
+      ++ whose components are given by w[j](x[1],...,x[n]), 
+      ++ j=1..n.
+    zeroForm : Symbol -> DRC
+      ++ zeroForm(s) creates a zero form with symbol "s". This
+      ++ is the same as scalarField(s)*one().
+    volumeForm : SMR -> DRC
+      ++ volumeForm(g) returns the volume form with respect to 
+      ++ the (pseudo-) metric "g".
+    conjBasisTerm : DRC -> DRC
+      ++ Return the complement of a basis term w.r.t. volumeForm
+    atomizeBasisTerm : DRC -> List DRC 
+      ++ Given a basis term, e.g. dx*dy*du, atomizeBasisTerm  returns
+      ++ a list of the generators (atoms), i.e. [dx,dy,du] for our example.
+    monomials : NNI -> List DRC
+      ++ List of all monomials of degree p (p in 1..n).
+      ++ This is a basis for Lambda(n,p).
+    hodgeStar : (SMR,DRC) -> DRC
+      ++ computes the Hodge dual of the differential form % with respect
+      ++ to a metric g.      
+    dot : (SMR,DRC,DRC) -> X
+      ++ computes the inner product of two differential forms w.r.t. g  
+    proj : (NNI,DRC) -> DRC
+      ++ projection to homogeneous terms of degree p 
+    interiorProduct : (Vector(X),DRC) -> DRC
+      ++ Calculates the interior product i_X(a) of the vector field X
+      ++ with the differential form a.       
+    lieDerivative : (Vector(X),DRC) -> DRC
+      ++ Calculates the Lie derivative L_X(a) of the differential 
+      ++ form a with respect to the vector field X.
+    s : SMR -> X
+      ++ s(g) determines the sign of determinant(g) and is related to the
+      ++ signature of g (n=p+q,t=p-q,s=(-)^(n-t)/2 => s=(-)^q. 
+    invHodgeStar : (SMR,DRC) -> DRC
+      ++ invHodgeStar is the inverse of hodgeStar.
+    codifferential : (SMR,DRC) -> DRC
+      ++ codifferential(g,x), also known as "delta", computes the 
+      ++ co-differential of a form.
+    hodgeLaplacian : (SMR,DRC) -> DRC
+      ++ hodgeLaplacian(g,x) also known as "Laplace-de Rham operator" is 
+      ++ defined on any manifold equipped with a (pseudo-) Riemannian
+      ++ metric and is given by d codifferential(g,x)+ codifferential(g, d x).
+      ++ Note that in the Euclidean case hodgeLaplacian = - Laplacian.
+      
+
+  Implementation ==  add 
+
+    -- error messages           
+    err1:="Metric tensor must be symmetric"
+    err2:="Degenerate metric"
+    err3:="Index out of range" 
+    err4:="Not implemented"
+    err5:="Basis term expected"
+    err6:="Zero is not a basis term"
+
+
+    -- conversion functions (not very nice ;)
+    eab2li(x:EAB):List(Integer) == x pretend List(Integer)
+    drc2rea(x:DRC):List(REA) == x pretend List(REA)
+    
+
+    n:NNI:=#v
+    d(f) == exteriorDifferential(f)
+    one () == 1@DRC
+    zero() == 0@DRC
+    baseForms() == [generator(j)$DRC for j in 1..n]
+    coordVector() == [s::X for s in v]
+    coordSymbols() == v
+    
+    vectorField(s:Symbol):List X ==
+      ls:=[subscript(s,[j::OF]) for j in 1..n]
+      op:=[operator t for t in ls]
+      x:=[a::X for a in v]
+      [f x for f in op]
+
+
+    scalarField(s:Symbol):X ==
+      f:=operator s
+      f [a::X for a in v]
+
+
+    covectorField(s:Symbol):List DRC ==
+      vf:=vectorField(s)
+      [a*1@DRC for a in vf]
+
+
+    zeroForm(s:Symbol):DRC == scalarField(s)*1@DRC
+
+
+    (l:List(X) * x:List DRC):DRC == 
+      l:List DRC:=[l.j * x.j for j in 1..n]
+      reduce(_+,l)
+
+
+    (x:List DRC * y:List DRC):DRC == 
+      l:List DRC:=[x.j * y.j for j in 1..n]
+      reduce(_+,l)
+
+
+    volumeForm(g:SMR):DRC == 
+      sqrt(abs(determinant(g)))*reduce(_*,baseForms())
+
+
+    monomials(p:NNI):List DRC ==
+      bf:=baseForms()
+      p=0 => [1$DRC]
+      p=1 => bf
+      np:=[reverse subSet(n,p,i)$SGCF for i in 0..binomial(n,p)-1]
+      [reduce(_*,[bf.(1+s.j) for j in 1..p]) for s in np]
+
+
+    -- flip 0->1, 1->0 
+    flip(b:EAB):EAB ==
+      --bl := convert(b)$EAB
+      bl:=eab2li(b)
+      [(i+1) rem 2 for i in bl]::EAB
+
+
+    -- list the positions of a's (a=0,1) in x
+    pos(x:EAB, a:Integer):List(Integer) ==
+      y:List(Integer):=eab2li(x) 
+      [j for j in 1..#y | y.j=a]
+
+
+    -- compute dot of singletons, diagonal g
+    dot1(g:SMR,r:REA, s:REA):X ==
+      test(r.k ~= s.k) => 0::X
+      idx := pos(r.k,1)
+      idx = [] => r.c * s.c
+      reduce("*",[1/g(j,j) for j in idx]::List(X)) * r.c * s.c
+
+
+    -- compute dot of singleton terms, general symmetric g
+    dot2(g:SMR,r:REA, s:REA):X ==
+      pr := pos(r.k,1) -- list positions of 1 in r
+      ps := pos(s.k,1) -- list positions of 1 in s
+      test(#pr ~= #ps) => 0::X  -- not same degree => 0
+      pr = []  => r.c * s.c -- empty pr,ps => product of coefs
+      G := inverse(g)::SMR -- compute the inverse of the metric g
+      test(#pr = 1) => G(pr.1,ps.1)::X * r.c * s.c -- only one element
+      M:Matrix(X) -- the minor
+      M := matrix([[G(pr.i,ps.j)::X for j in 1..#ps] for i in 1..#pr])
+      determinant(M)::X * r.c * s.c
+
+
+    -- export
+    dot(g:SMR,x:DRC,y:DRC):X ==
+      not symmetric? g => error(err1)
+      tx:List REA := drc2rea(x)
+      ty:List REA := drc2rea(y)
+      tx = [] or ty = [] => 0::X
+      if diagonal? g then -- better performance 
+        a:List(X):=concat[[dot1(g,tx.j,ty.l)::X for j in 1..#tx] for l in 1..#ty]
+        reduce(_+,a)
+      else
+        b:List(X):=concat[[dot2(g,tx.j,ty.l)::X for j in 1..#tx] for l in 1..#ty]
+        reduce(_+,b)
+
+
+    proj(p,x) ==
+      x=0 => x
+      homogeneous? x and degree(x)=p => x
+      a:=leadingBasisTerm(x)
+      if degree(a)=p then
+        leadingCoefficient(x)*a + proj(p, reductum x)
+      else
+        proj(p, reductum x)
+ 
+ 
+    conjBasisTerm(x:DRC):DRC ==
+      x=0$DRC => error(err6)
+      x ~= leadingBasisTerm(x) => error(err5)
+      t:EAB:=drc2rea(x).1.k
+      l:List(Integer):=exponents(t)
+      m:List(DRC):=[generator(i)$DRC for i in 1..#l | l.i=0]
+      m=[] => 1$DRC
+      reduce(_*,m)
+
+
+    atomizeBasisTerm(x:DRC):List(DRC) ==
+      x=0$DRC => error(err6)
+      x ~= leadingBasisTerm(x) => error(err5)
+      t:EAB:=drc2rea(x).1.k
+      l:List(Integer):=exponents(t)
+      [generator(i)$DRC for i in 1..#l | l.i=1] 
+
+
+    intProdBasisTerm(w:Vector X, x:DRC):DRC ==
+      x ~= leadingBasisTerm(x) => error(err5)
+      degree(x)=0 => 0$DRC
+      degree(x)=1 => w.position(x,baseForms()) * 1$DRC
+      a:List(DRC):=atomizeBasisTerm(x)
+      b:DRC:=reduce(_*,rest a)
+      -- i_w is an antiderivative => 
+      intProdBasisTerm(w,a.1)*b - a.1 * intProdBasisTerm(w,b)
+
+
+    interiorProduct(w:Vector X, x:DRC):DRC ==
+      x=0$DRC => x
+      leadingCoefficient(x)*intProdBasisTerm(w,leadingBasisTerm(x)) + _
+        interiorProduct(w, reductum(x))
+
+
+    lieDerivative(w:Vector X,x:DRC):DRC ==
+      a := exteriorDifferential(interiorProduct(w,x))
+      b := interiorProduct(w, exteriorDifferential(x))
+      a+b
+
+
+    eps(x:DRC):X == leadingCoefficient(x*conjBasisTerm(x))
+
+
+    hodgeStarBT(g:SMR,x:DRC):DRC ==
+      q:=sqrt(abs(determinant(g)))
+      p:=degree(x)
+      J:=monomials(p)
+      s:=[eps(y)*dot(g,y,x)*conjBasisTerm(y) for y in J]
+      q*reduce(_+,s)
+
+
+    hodgeStar(g:SMR,x:DRC):DRC ==
+      x=0$DRC => x
+      leadingCoefficient(x)*hodgeStarBT(g,leadingBasisTerm(x)) + _
+        hodgeStar(g, reductum(x))
+
+
+    s(g:SMR):X ==
+      det:X:=determinant g
+      sd:Union(Integer,"failed"):=sign(det)$ElementaryFunctionSign(Integer,X)
+      sd case "failed" => 's?::X
+      sd case Integer => coerce(sd)$X
+      
+
+    invHodgeStar(g:SMR,x:DRC):DRC ==
+      x=0$DRC => x
+      y:DRC:=leadingBasisTerm(x)
+      k:X:=coerce(degree y)$X
+      c:X:=s(g)*(-1)^(k*(coerce(n)$X-k))
+      leadingCoefficient(x)*hodgeStarBT(g,c*y) + _
+        invHodgeStar(g, reductum(x))
+
+                   
+    codifferential(g:SMR,x:DRC):DRC ==
+      x=0$DRC => 0
+      y:DRC:=leadingBasisTerm(x)
+      k:X:=coerce(degree y)$X
+      c:X:=s(g)*(-1)^(coerce(n)$X*(k-1)+1)
+      c*hodgeStar(g,d hodgeStar(g,leadingCoefficient(x)*y)) + _
+        codifferential(g,reductum(x)) 
+
+    hodgeLaplacian(g:SMR,x:DRC):DRC ==
+      d codifferential(g,x)+ codifferential(g, d x)
+
+
+
+      
+-- 
+--
+-- todo: codifferential, sign(g)=signature(g)/|signature(g)|
+--       p+q=n, sign(det g) = (-)^q, sign(g):=(-)^s, where s=p-q=n-2q ??
+--       laplaceOperator = d delta + delta d
+-- s(g)$M -> 1
+-- s(h)$M -> s?
+-- s(eta)$M -> -1
+-- delta x ==> codifferential(g,x)$M
+-- Lap(x) = d delta x + delta d x (note Lap <-> -Delta)

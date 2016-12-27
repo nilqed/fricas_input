@@ -13,6 +13,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{epstopdf}
+%\usepackage[bookmarks]{hyperref}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
@@ -23,8 +24,9 @@
 {keywords={if,then,else,for,in,repeat},
 keywords=[2]{Fraction,Integer,Polynomial,RealClosure,Cell, Float, 
              DoubleFloat, CylindricalAlgebraicDecompositionPackage, 
-             List},
-keywords=[3]{cylindricalDecomposition},
+             List,Expression,DeRhamComplex,Vector,Matrix},
+keywords=[3]{dot,volumeForm,hodgeStar,interiorProduct,lieDerivative,
+             codifferential,invHodgeStar,hodgeLaplacian},
 keywordstyle=[2]\color{red},
 keywordstyle=[3]\color{orange},
 sensitive=true,%
@@ -51,7 +53,7 @@ string=[b]'%
   tabsize=3
 }
 \author{Kurt Pagani \\ {\tt nilqed@gmail.com}}
-\date{\today}
+\date{December 27,\ 2016}
 \title{DifferentialForms \\ {\small\tt FriCAS package:DFORM \\ Version 1.2}}
 %
 \newcommand{\CAD}{{\tt CAD}}
@@ -851,7 +853,7 @@ $-1$ on the exterior algebra such that $i_X(\alpha)=\alpha(X)$:
 This also allows an easy implementation by recursion.
 %
 \subsubsection{lieDerivative :: Lie derivative}
-Here we use {\it Cartan's formula} (see \ref{cartan}), so that there is 
+Here we use {\it Cartan's} formula (see \ref{cartan}), so that there is 
 not much more to say here.
 \begin{lstlisting}
     lieDerivative(w:Vector X,x:DRC):DRC ==
@@ -1707,7 +1709,7 @@ Simplifying yields for $M$:
     d i(vf,dV(g)) -- div(b) dV
 \end{lstlisting}
 \begin{eqnarray*}
-   \def\sp{^}\def\sb{_}\def\leqno(#1){}
+    \def\sp{^}\def\sb{_}\def\leqno(#1){}
     \def\erf{\mathrm{erf}}\def\sinh{\mathrm{sinh}}
     \def\zag#1#2{{{\left.{#1}\right|}\over{\left|{#2}\right.}}}
     \def\csch{\mathrm{csch}}
@@ -1722,7 +1724,172 @@ Simplifying yields for $M$:
     \  dx \sb {1} \  dx \sb {2} \  dx \sb {3} \  dx \sb {4}   
 \end{eqnarray*}
 \type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
-
+\begin{lstlisting}
+    d (P*one()$M)
+\end{lstlisting}
+\begin{displaymath}
+    {{{P _ {{,4}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}\  {dx _ {4}}}+{{{P _ {{,3}}} \left(
+    {{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}\  {dx _ {3}}}+ \ldots
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    i(vf,%) 
+\end{lstlisting}
+\begin{displaymath}
+    {{{b _ {1}} \left(
+    {{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}\  {{P _ {{,1}}} \left(
+    {{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}}+ \ldots
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    1/dot(g,w,w)$M*w 
+\end{lstlisting}
+\begin{displaymath}
+   {{\frac{x _ {1}}{{{{x _ {2}}} ^ {2}}+{{{x _ {1}}} ^ {2}}}} \  {dx 
+    _ {2}}} -{{\frac{x _ {2}}{{{{x _ {2}}} ^ {2}}+{{{x _ {1}}} ^ 
+    {2}}}} \  {dx _ {1}}} 
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    d %
+\end{lstlisting}
+\begin{displaymath}
+    0
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    s:=zeroForm('s)$M
+\end{lstlisting}
+\begin{displaymath}
+    s \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    d s
+\end{lstlisting}
+\begin{displaymath}
+ {{{s _ {{,4}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}\  {dx _ {4}}}+{{{s _ {{,3}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}\  {dx _ {3}}}+ \ldots
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    d (** s)
+\end{lstlisting}
+\begin{displaymath}
+   0
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    ** ( d s)
+\end{lstlisting}
+\begin{displaymath}
+    {{{s _ {{,1}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}\  {dx _ {2}} \  {dx _ {3}} \  {dx _ {4}}} -{{{s _ {{,2}}} 
+    \left({{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}\  {dx _ {1}} \  {dx _ {3}} \  {dx _ {4}}}+ \ldots
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    d (** ( d s)) -- Laplacian(s) dV
+\end{lstlisting}
+\begin{displaymath}
+    {\left( {{s \sb {{{,1}{,1}}}} \left(
+    {{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+    \right)}+{{s\sb {{{,2}{,2}}}} \left(
+    {{x \sb {1}}, \: {x \sb {2}}, \: {x \sb {3}}, \: {x \sb {4}}} 
+    \right)}+ \ldots\right)}
+    \  {dx \sb {1}} \  {dx \sb {2}} \  {dx \sb {3}} \  {dx \sb {4}} 
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    r:=sin(x.1*x.2)*one()$M
+\end{lstlisting}
+\begin{displaymath}
+    \sin \left({{{x _ {1}} \  {x _ {2}}}} \right)
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    d r
+\end{lstlisting}
+\begin{displaymath}
+    {{x _ {1}} \  {\cos \left({{{x _ {1}} \  {x _ {2}}}} 
+    \right)}\  {dx _ {2}}}+{{x _ {2}} \  {\cos \left(
+    {{{x _ {1}} \  {x _ {2}}}} \right)}\  {dx _ {1}}} 
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    d (** ( d r))
+\end{lstlisting}
+\begin{displaymath}
+    {\left( -{{{x _ {2}}} ^ {2}} -{{{x _ {1}}} ^ {2}} 
+    \right)}\  {\sin \left({{{x _ {1}} \  {x _ {2}}}} 
+    \right)}\  {dx _ {1}} \  {dx _ {2}} \  {dx _ {3}} \  {dx _ {4}} 
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    ** (d (** ( d r)))
+\end{lstlisting}
+\begin{displaymath}
+    {\left( -{{{x _ {2}}} ^ {2}} -{{{x _ {1}}} ^ {2}} 
+    \right)}\  {\sin  \left({{{x _ {1}} \  {x _ {2}}}} \right)} 
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    ** (d (** ( d r)))::EXPR INT
+\end{lstlisting}
+\begin{displaymath}
+    {\left( -{{{x _ {2}}} ^ {2}} -{{{x _ {1}}} ^ {2}} 
+    \right)}\  {\sin \left({{{x _ {1}} \  {x _ {2}}}} \right)}
+\end{displaymath}
+\type{Type: Expression(Integer)}
+\begin{lstlisting}
+     eval(%,xs.1=%pi)
+\end{lstlisting}
+\begin{displaymath}
+    {\left( -{{\pi} ^ {2}} -{{{x _ {2}}} ^ {2}} 
+    \right)}\  {\sin \left({{{x _ {2}} \  \pi}}\right)}
+\end{displaymath}
+\type{Type: Expression(Integer)}
+\begin{lstlisting}
+     eval(%,xs.2=%pi/3)
+\end{lstlisting}
+\begin{displaymath}
+     -\frac{{10} \  {{\pi} ^ {2}} \  {\sin \left(
+     {{\frac{{\pi} ^ {2}}{3}}} \right)}}{9} 
+\end{displaymath}
+\type{Type: Expression(Integer)}
+\begin{lstlisting}
+    a(P)*one()$M
+\end{lstlisting}
+\begin{displaymath}
+     a \left({{P \left(
+    {{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}}\right)
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
+\begin{lstlisting}
+    d (a(P)*one()$M) -- chain diff
+\end{lstlisting}
+\begin{displaymath}
+    {{{P _ {{,4}}} \left(
+    {{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}\  {{a _ {{\ }} ^ {,}} \left(
+    {{P \left(
+    {{x _ {1}}, \: {x _ {2}}, \: {x _ {3}}, \: {x _ {4}}} 
+    \right)}}
+    \right)}\  {dx _ {4}}}+ \ldots 
+\end{displaymath}
+\type{Type: DeRhamComplex(Integer,[x[1],x[2],x[3],x[4]])}
 %
 %\begin{figure}[!htb]
 %\centering
