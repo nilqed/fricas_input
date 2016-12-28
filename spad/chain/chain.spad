@@ -41,7 +41,9 @@ CellMap(R,n) : Exports == Implementation where
       ++ jacobianMatrix(f) returns the Jacobian matrix as a marix valued
       ++ function defined on the same cell as the cellMap.
     tangentSpace : % -> (List(X) -> List(Vector X))
-      ++ tangentSpace(f) returns a 
+      ++ tangentSpace(f) returns a mapping which applied to a point gives
+      ++ a list of vectors spanning the tangent space at that point.
+      ++ A better name might probably be: tangentBundle.
     coerce : % -> OutputForm
       ++ coerce(f) gives the output representation.
 
@@ -210,7 +212,7 @@ SurfaceComplex(R,n) : Exports == Implementation where
 \fi
 %==============================================================================
 % Documentation (pdflatex --interaction=nonstopmode this_file.spad
-% Note: ensure that the code above is between \iffalse ... \fi.
+% Note: ensure that the code above is between \iffalse ... )if false\fi.
 %==============================================================================
 \documentclass[12pt,a4paper]{article}
 \usepackage[utf8]{inputenc}

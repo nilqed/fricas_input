@@ -4,10 +4,11 @@
 ++ Date Created: October 2014 
 ++ Revised: Sat Sep 17 17:10:00 CET 2016
 ++ License: FriCAS/BSD
-++ Description: Differential form methods
-++ Requirements: DeRhamComplex 
-++ Documentation: Sphinx, folder doc and/or 
+++ Description: Basic differential form methods
+++ Requirements: DeRhamComplex, FriCAS 1.3 or later.  
+++ Documentation: Sphinx, folder doc and/or do 
 ++ - [pdf]latex dform.spad -> dvi or pdf file.
+++ - run two times to get refs and labels correct.
 ++
 DifferentialForms(R,v) : Exports == Implementation where
     
@@ -108,10 +109,7 @@ DifferentialForms(R,v) : Exports == Implementation where
       ++ defined on any manifold equipped with a (pseudo-) Riemannian
       ++ metric and is given by d codifferential(g,x)+ codifferential(g, d x).
       ++ Note that in the Euclidean case hodgeLaplacian = - Laplacian.
-    pullBack : (List(X)->List(X),Any) -> DRC
-      ++ pullBack(f,y) returns a differential form which is the pull
-      ++ back of the form y by the mapping f. Note: this is a ifCan
-      ++ function, i.e. it only works if all conditions are satisfied.
+
 
   Implementation ==  add 
 
@@ -322,14 +320,6 @@ DifferentialForms(R,v) : Exports == Implementation where
     hodgeLaplacian(g:SMR,x:DRC):DRC ==
       d codifferential(g,x)+ codifferential(g, d x)
 
-
-    pullBack(f,y) ==
-      s:SExpression:=dom(y)
-      car(s) ~= convert('DeRhamComplex)$SExpression => error "not a form"
-      car car cdr s ~= convert('Integer)$SExpression => error "not Int"
-      m:Integer:=# car cdr cdr s -- number of variables in target space
-      -- in progress
-      baseForms().1 
 
 )if false
 \fi
