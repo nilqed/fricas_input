@@ -176,3 +176,14 @@ J rx
 determinant(RJ rx)
 
 --
+
+q:=coords('q,4)$R4
+metricTensor(F1) q
+metricTensor(F2) q
+metricTensor(F3) q
+
+-- columnsSpace < dom
+metricTensor(f) q  
+-- >> Error detected within library code:
+-- Jacobian is degenerate.
+

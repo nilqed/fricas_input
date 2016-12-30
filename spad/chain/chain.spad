@@ -50,6 +50,11 @@ CellMap(R,n) : Exports == Implementation where
       ++ normalField(f) returns a vector valued mapping which applied to
       ++ a point of the domain cell returns the corresponding unit normal
       ++ at the corresponding surface point.
+    metricTensor : % ->(List(X) -> Matrix(X))
+      ++ metricTensor(f) returns the metric tensor of the p-surface f as
+      ++ a matrix valued function, providing the metric at each point. The
+      ++ metric is calculated by the Euclidean dot product of the tangent
+      ++ vectors (living in the ambient space).
     elt : (%,List X) -> List X
       ++ elt(f,x) is the same as (getMap f) x.
     coerce : % -> OutputForm
@@ -128,15 +133,18 @@ CellMap(R,n) : Exports == Implementation where
       if Matrix(X) has Join(SetCategory,Evalable(X)) then
         (y:List X):Matrix(X)+-> eval(J,x,y)
       else
+        message("Warning: not evalable.")$OutputForm
         (y:List X):Matrix(X)+-> J
 
 
     tangentSpace(S:%):List(X) -> List(Vector X) ==
+      k:PositiveInteger:=#(getDom S)::PositiveInteger
       J:=jacobianMatrix(S)
-      x:List X:=coords('x,#(getDom S)::PositiveInteger)
+      x:List X:=coords('x,k)
       if Vector(X) has Join(SetCategory,Evalable(X)) then
         if X has EuclideanDomain then 
           cs:List(Vector X):=columnSpace(J x)
+          #cs ~= k => error "Jacobian is degenerate."  -- #columnSpace < k
           (y:List X):List Vector(X)+-> [eval(t,x,y) for t in cs]
       
 
@@ -165,8 +173,18 @@ CellMap(R,n) : Exports == Implementation where
       if R has IntegralDomain then
         r:X:= sqrt(dot(v,v))
         r = 0 => error "No normal; zero vector"
-        (y:List X):Vector(X)+-> (1/r)*v
+        if Vector(X) has Join(SetCategory,Evalable(X)) then
+          (y:List X):Vector(X)+-> eval((1/r)*v,x,y)
       
+
+    metricTensor(S:%):List(X) -> Matrix(X) ==
+      k:PositiveInteger:=#(getDom S)::PositiveInteger
+      x:List X:=coords('x,k)
+      ts:=tangentSpace(S) x
+      M:=matrix [[dot(ts.i,ts.j) for j in 1..k] for i in 1..k]
+      if Matrix(X) has Join(SetCategory,Evalable(X)) then
+        (y:List X):Matrix(X)+-> eval(M,x,y)
+
 
     elt(S:%,x:List X):List X ==
       #(getDom S) > #x => error "#arg too small."

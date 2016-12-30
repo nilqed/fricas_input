@@ -1,0 +1,14 @@
+JB ==> JetBundle
+JBX ==> JetBundleExpression
+
+--JetCoordinateTransformation(JB1, JB2, Y, W)
+--JetDifferential(JB, D)
+--JetVectorField(JB, D)
+
+JB1  ==> JB(['x,'y,'z],['u,'v])
+JBX1 ==> JBX JB1
+
+D(u,[x,y])$JB1
+
+P(2,[1,2,3,3,2,1])$JB1
+--x:=coerce('x)@JB1
