@@ -1,0 +1,190 @@
+)clear all
+)co scmplx
+R ==> EXPR INT
+OF ==> OutputForm
+
+-- Cell map
+R2 ==> CellMap(INT,2)
+R3 ==> CellMap(INT,3)
+R4 ==> CellMap(INT,4)
+
+Q2 ==> [0..1,0..1::R]
+Q3 ==> concat(Q2,[0..1::R])
+
+--xs:List Symbol:=coordSymbols('x,4)$R4
+
+----------------------------------------------------------------
+-- https://en.wikipedia.org/wiki/Jacobian_matrix_and_determinant
+----------------------------------------------------------------
+-- Example 1
+F1:=cellMap(Q2,X+->[X.1^2*X.2,5*X.1+sin(X.2)])$R2
+J:=jacobianMatrix(F1)
+x:=coords('x,2)$R2
+J x
+determinant(J x)
+
+test(J x = matrix [[2*x.1*x.2,x.1^2],[5,cos(x.2)]])
+test(determinant(J x) = 2*x.1*x.2*cos(x.2)-5*x.1^2)  
+
+
+-- Example 2
+F2:=cellMap(Q2,X+->[X.1*cos(X.2),X.1*sin(X.2)])$R2
+J:=jacobianMatrix(F2)
+x:=[r::R,phi::R]
+(getMap F2) x
+J x
+determinant(J x)
+
+test( J x = matrix [[cos(x.2),-x.1*sin(x.2)],[sin(x.2),x.1*cos(x.2)]])
+test( normalize determinant(J x) = x.1)
+
+
+-- Example 3
+F3:=cellMap(Q3,Z+->[Z.1*sin(Z.2)*cos(Z.3),Z.1*sin(Z.2)*sin(Z.3),Z.1*cos(Z.2)])$R3
+J:=jacobianMatrix(F3)
+z:=[r::R,th::R,phi::R]
+(getMap F3) z
+J z
+determinant(J z)
+
+M:=[[sin(z.2)*cos(z.3),z.1*cos(z.2)*cos(z.3),-z.1*sin(z.2)*sin(z.3)],_
+    [sin(z.2)*sin(z.3),z.1*cos(z.2)*sin(z.3),z.1*sin(z.2)*cos(z.3)],_
+    [cos(z.2),-z.1*sin(z.2),0]]
+
+test( J z = matrix M)
+test( simplify determinant(J z) = z.1^2*sin(z.2) )
+
+
+-- Example 4
+F4:=cellMap(Q3,X+->[X.1,5*X.3,4*X.2^2-2*X.3,X.3*sin(X.1)])$R4
+J:=jacobianMatrix(F4)
+x:=coords('x,4)$R4
+J x
+nullSpace (J x)
+rank (J x)
+T:=tangentSpace(F4)$R4
+ts:=T x
+N:=normalSpace(F4)$R4
+ns:=N x
+[dot(ts.j,ns.1) for j in 1..#Q3] -- [0,0,0] 
+nf:=normalField(F4)$R4
+dot(nf x,nf x)  -- 1
+
+
+test(J x = matrix [[1,0,0],[0,0,5],[0,8*x.2,-2],[x.3*cos(x.1),0,sin(x.1)]])
+test( rank (J x) = 3)
+test( J x = transpose matrix (T x))
+
+-- Example 5
+F5:=cellMap(Q3,X+->[5*X.2,4*X.1^2-2*sin(X.2*X.3),X.2*X.3])$R3
+J:=jacobianMatrix(F5)
+x:=coords('x,3)$R3
+J x
+determinant (J x)
+
+M:=[[0,5,0],[8*x.1,-2*x.3*cos(x.2*x.3),-2*x.2*cos(x.2*x.3)],[0,x.3,x.2]]
+T:=tangentSpace(F5)$R3
+
+test(J x = matrix M)
+test(determinant (J x) = -40*x.1*x.2)
+test( J x = transpose matrix (T x))
+
+--------------------------------------------------------------------
+--)clear all
+
+-- Cell map
+g:=cellMap([a::R..b,c..d],Z+->[Z.1,Z.2,Z.2])$CellMap(INT,3)
+f:=cellMap([a::R..b,c..d,0..1],Z+->[Z.1,Z.2,Z.2+Z.1])$CellMap(INT,3)
+
+-- Chain Complex
+F:=f::SurfaceComplex(INT,3)
+G:=g::SurfaceComplex(INT,3)
+2*F+G
+
+-- Direct method w/o cellMap
+H:=construct([a..b,c..d,e..s],Z+->[Z.1,Z.2,Z.3,1])$SurfaceComplex(INT,4)
+
+-- number of terms
+size H
+
+b ==> bdry
+
+-- boundary of H
+b H
+size (b H)
+
+-- boundary of boundary => zero
+zero? (b b H)
+b b H
+
+-- elt
+f x
+g x
+f(g x)
+g(f x)
+
+-- retract to cell map
+H4:=H::R4 -- embedding of RR^3 into RR^4
+
+jacobianMatrix(H4) x
+tangentSpace(H4) x
+normalSpace(H4) x
+normalField(H4) x
+
+--
+S2map:List(R)->List(R):=z+->[cos(z.1)*cos(z.2),sin(z.1)*cos(z.2),sin(z.2)]
+S2p:=construct([0..2*%pi::R,0..%pi::R/2],S2map)$SurfaceComplex(INT,3)
+S2m:=construct([0..2*%pi::R,0..-%pi::R/2],S2map)$SurfaceComplex(INT,3)
+
+S2:=S2p-S2m
+b S2 -- southPole - northPole
+b b S2 -- 0
+
+-- list of cmaps in boundary S2
+lbs2:=[nthFactor(b S2,j)$SCMPLX(INT,3) for j in 1..2]
+lbs2.1 x -- apply on x -> north
+lbs2.2 x -- apply on x -> south
+
+--
+
+CMS2p:=S2p::R3
+CMS2m:=S2m::R3
+
+jacobianMatrix(CMS2p) x
+jacobianMatrix(CMS2m) x
+
+ts2p:=tangentSpace(CMS2p) x
+ts2m:=tangentSpace(CMS2m) x
+
+ns2p:=normalField(CMS2p) x
+ns2m:=normalField(CMS2m) x
+
+[dot(ts2p.j,ns2p) for j in 1..2]
+[dot(ts2m.j,ns2m) for j in 1..2]
+
+dot(ns2p,ns2p)
+dot(ns2p,ns2m)
+
+-- Float
+
+RR2 ==> CellMap(Float,2)
+RQ2 ==> [0..1,0..1::Float]
+RF1:=cellMap(RQ2,X+->[X.1^2*X.2,5*X.1+sin(X.2)])$RR2
+RJ:=jacobianMatrix(RF1)
+rx:=coords('x,2)$RR2
+J rx
+determinant(RJ rx)
+
+--
+
+q:=coords('q,4)$R4
+metricTensor(F1) q
+metricTensor(F2) q
+metricTensor(F3) q
+
+-- columnsSpace < dom
+----------ok:  metricTensor(f) q  
+-- >> Error detected within library code:
+-- Jacobian is degenerate.
+SG:=metricTensor(CMS2p) q  -- simp/normalize
+

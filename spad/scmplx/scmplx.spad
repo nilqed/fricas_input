@@ -1,0 +1,377 @@
+\iffalse
+)lisp (setq |$inclAssertions| nil)
+)abbrev domain CMAP CellMap
+++
+CellMap(R,n) : Exports == Implementation where
+
+  R: Join(Ring,Comparable)
+  n: NonNegativeInteger
+  
+  X   ==> Expression R
+  DP  ==> DirectProduct
+  OF  ==> OutputForm
+  NNI ==> NonNegativeInteger
+  MAP ==> List X -> List X
+  DOM ==> List(Segment X)
+
+  Exports == Join(CoercibleTo OF,SetCategory,Evalable X) with
+  
+    _= : (%,%) -> Boolean
+      ++ f1=f2 checks if two given cell maps are equal, that is if they have
+      ++ the same domain D and the same mapping from D into X^n.
+    cellMap : (DOM,MAP) -> %
+      ++ cellMap(D,f) is the constructor. Usually one has to specify the
+      ++ dimension of the target space. For example, let Q=[a..b,c..d], then
+      ++ cellMap(Q,Z+->[sin(Z.1),cos(Z.2),Z.1*Z.2])$CMAP(INT,3) defines a
+      ++ 2-surface in Expression(Integer)^3.
+    getDom : % -> DOM
+      ++ getDom(f) extracts the domain of f.
+    getMap : % -> MAP
+      ++ getMap(f) extracts the map of f.
+    faces  : % -> List List(%)
+      ++ faces(f) returns the faces of f, that means the images of the boundary
+      ++ of the domain. Note: the returned list contains pairs of faces 
+      ++ corresponding to the endpoints of intervals.
+    coords : (Symbol,PositiveInteger) -> List X
+      ++ coords(s,m) provides a sample of coordinates s[1],..,s[m] as a list.
+    coordSymbols : (Symbol,PositiveInteger) -> List Symbol
+      ++ coordSymbols(s,m) provides a sample of coordinates s[1],..,s[m] as a
+      ++ list of symbols.
+    jacobianMatrix : % -> (List X -> Matrix X)
+      ++ jacobianMatrix(f) returns the Jacobian matrix as a marix valued
+      ++ function defined on the same cell as the cellMap.
+    tangentSpace : % -> (List(X) -> List(Vector X))
+      ++ tangentSpace(f) returns a mapping which applied to a point gives
+      ++ a list of vectors spanning the tangent space at that point.
+      ++ A better name might probably be: tangentBundle.
+    normalSpace : % -> (List(X) -> List(Vector X))
+      ++ normalSpace(f) is the complement of tangentSpace(f).
+    normalField : % -> (List(X) -> Vector(X))
+      ++ normalField(f) returns a vector valued mapping which applied to
+      ++ a point of the domain cell returns the corresponding unit normal
+      ++ at the corresponding surface point.
+    metricTensor : % ->(List(X) -> Matrix(X))
+      ++ metricTensor(f) returns the metric tensor of the p-surface f as
+      ++ a matrix valued function, providing the metric at each point. The
+      ++ metric is calculated by the Euclidean dot product of the tangent
+      ++ vectors (living in the ambient space).
+    elt : (%,List X) -> List X
+      ++ elt(f,x) is the same as (getMap f) x.
+    coerce : % -> OutputForm
+      ++ coerce(f) gives the output representation.
+
+
+
+  Implementation ==  add 
+    
+    Rep := Record(d:DOM,f:MAP)
+
+
+    (x:% = y:%):Boolean == 
+      l:NNI:=min(#(x.d),#(y.d))
+      v:List X
+      for j in 1..l repeat
+        s:X:=subscript('z,[j::OF])::X
+        v:=concat(v,s::X)
+      x.d =y.d and (x.f) v = (y.f) v => true
+      false
+
+
+    cellMap(dd:DOM,ff:MAP):% == 
+      #dd > n => error concat("#DOM > ",string n)
+      v:List X:=[1::X for j in 1..#dd]
+      ~test(#ff(v)=n) => error concat("#Range ~= ", string n) 
+      construct(dd,ff)
+
+
+    faceLoHi(x:%,i:NNI,lo:Boolean):% ==
+      l:NNI:=#(x.d)
+      v:List X
+      for j in 1..l repeat
+        if j=i then
+          if lo then
+            s:X:=lo(x.d.i)
+          else
+            s:X:=hi(x.d.i)
+        else
+          if j>i then
+            s:X:=subscript('%,[(j-1)::OF])::X
+          else
+            s:X:=subscript('%,[j::OF])::X
+        v:=concat(v,s::X)
+      vv:=delete(v,i..i)
+      dd:List(Segment X):=delete(x.d,i..i)
+      ff:MAP:=vv+->(x.f) v
+      cellMap(dd,ff)
+      
+     
+    faces(x:%):List List(%) ==
+      l:NNI:=#(x.d)
+      [[faceLoHi(x,j,true), faceLoHi(x,j,false)] for j in 1..l]
+        
+        
+    getDom(x) == x.d
+    getMap(x) == x.f
+
+
+    coordSymbols(s:Symbol,m:PositiveInteger):List Symbol == 
+      [subscript(s,[j::OF]) for j in 1..m]
+      
+      
+    coords(s:Symbol,m:PositiveInteger):List X ==
+      xs:=[subscript(s,[j::OF]) for j in 1..m]
+      [coerce(xs.j)$X for j in 1..#xs]
+    
+
+    jacobianMatrix(S:%):List(X) -> Matrix(X) ==
+      --xs:List Symbol:=v:=[subscript('x,[j::OF]) for j in 1..#(getDom S)]
+      --x:List X:=[coerce(xs.j)$X for j in 1..#xs]
+      xs:List Symbol:=coordSymbols('x,#(getDom S)::PositiveInteger)
+      x:List X:=coords('x,#xs::PositiveInteger)
+      F:List X:=(getMap S) x
+      J:Matrix(X):=matrix [[D(ff,u) for u in xs] for ff in F]
+      if Matrix(X) has Join(SetCategory,Evalable(X)) then
+        (y:List X):Matrix(X)+-> eval(J,x,y)
+      else
+        message("Warning: not evalable.")$OutputForm
+        (y:List X):Matrix(X)+-> J
+
+
+    tangentSpace(S:%):List(X) -> List(Vector X) ==
+      k:PositiveInteger:=#(getDom S)::PositiveInteger
+      J:=jacobianMatrix(S)
+      x:List X:=coords('x,k)
+      if Vector(X) has Join(SetCategory,Evalable(X)) then
+        if X has EuclideanDomain then 
+          cs:List(Vector X):=columnSpace(J x)
+          #cs ~= k => error "Jacobian is degenerate."  -- #columnSpace < k
+          (y:List X):List Vector(X)+-> [eval(t,x,y) for t in cs]
+      
+
+    normalSpace(S:%):List(X) -> List(Vector X) ==
+      k:PositiveInteger:=#(getDom S)::PositiveInteger
+      k>=n => (y:List X):List Vector(X)+-> [] 
+      x:List X:=coords('x,k)
+      ts:=tangentSpace(S) x
+      rd:=[vector [0::X for i in 1..n] for j in k+1..n]
+      Q:=append(ts,rd)
+      QR:=[entries(v) for v in Q]
+      M:=(matrix QR)::Matrix(X)
+      if Vector(X) has Join(SetCategory,Evalable(X)) then
+        if X has Join(IntegralDomain,EuclideanDomain) then
+          cs:List(Vector X):=nullSpace(M)
+          (y:List X):List Vector(X)+-> [eval(t,x,y) for t in cs]
+
+
+    normalField(S:%):List(X) -> Vector(X) ==
+      k:PositiveInteger:=#(getDom S)::PositiveInteger
+      k ~= n-1 => error "Not a hypersurface"
+      x:List X:=coords('x,k)
+      cs:=normalSpace(S) x
+      #cs ~= 1 => error "Not a hypersurface"
+      v:=cs.1
+      if R has IntegralDomain then
+        r:X:= sqrt(dot(v,v))
+        r = 0 => error "No normal; zero vector"
+        if Vector(X) has Join(SetCategory,Evalable(X)) then
+          (y:List X):Vector(X)+-> eval((1/r)*v,x,y)
+      
+
+    metricTensor(S:%):List(X) -> Matrix(X) ==
+      k:PositiveInteger:=#(getDom S)::PositiveInteger
+      x:List X:=coords('x,k)
+      ts:=tangentSpace(S) x
+      M:=matrix [[dot(ts.i,ts.j) for j in 1..k] for i in 1..k]
+      if Matrix(X) has Join(SetCategory,Evalable(X)) then
+        (y:List X):Matrix(X)+-> eval(M,x,y)
+
+
+    elt(S:%,x:List X):List X ==
+      #(getDom S) > #x => error "#arg too small."
+      (getMap S) x
+    
+    
+    coerce(x) == 
+      v:List X
+      for j in 1..#(x.d) repeat
+        s:X:=subscript('%,[j::OF])::X
+        v:=concat(v,s::X)
+      r:List X:=(x.f) v
+      hconcat ["|",x.d::OF," -> ",r::OF,"|"]
+  
+    
+      
+)abbrev domain SCMPLX SurfaceComplex
+++
+SurfaceComplex(R,n) : Exports == Implementation where
+
+  NNI ==> NonNegativeInteger
+  INT ==> Integer
+  
+  n : NNI
+  R : Join(Ring,Comparable)
+  
+  CMAP ==> CellMap(R,n)
+  CTOF ==> CoercibleTo OutputForm
+  X    ==> Expression R
+  OF   ==> OutputForm
+  MAP  ==> List X -> List X
+  DOM  ==> List(Segment X)
+
+  Exports == Join(AbelianGroup ,CTOF, RetractableTo CMAP) with
+ 
+    bdry : % -> %
+      ++ bdry(S) computes the boundary of the surface complex S.
+    size : % -> NNI
+      ++ size(S) returns the number of "pieces" of the surface complex S.
+    nthCoef : (%,Integer) -> Integer
+      ++ nthCoef(x, n) returns the coefficient of the n^th term of x.
+    nthFactor : (%,Integer) -> CMAP
+      ++ nthFactor(x, n) returns the factor of the n^th term of x.
+    zero? : % -> Boolean 
+      ++ zero?(S) returns true if S is the empty surface complex.
+    _= : (%,%) -> Boolean
+      ++ S=S' checks if the surface complexes S and S' are equal.
+    terms : % -> List(Record(gen: CMAP,exp: Integer))
+      ++ terms(S) returns all terms of S as a record.
+    mapGen : ((CMAP -> CMAP),%) -> %
+      ++ mapGen(f, e1 a1 +...+ en an) returns
+      ++ \spad{e1 f(a1) +...+ en f(an)}.
+    mapCoef : ((Integer -> Integer),%) -> %
+      ++ mapCoef(f, e1 a1 +...+ en an) returns
+      ++ \spad{f(e1) a1 +...+ f(en) an}.
+    construct : (DOM,MAP) -> %
+      ++ construct(d,f) constructs a term (piece) of a k-surface, where
+      ++ d is the domain (a k-cell) and f is a mapping from d to a vector
+      ++ space of dimension n.
+    
+    
+    --coerce : % -> OutputForm
+    
+  Implementation == FreeAbelianGroup(CMAP) add
+
+    Rep:=FreeAbelianGroup(CMAP)
+      
+
+    bdry(c:%):% == 
+      if size(c) = 1 then
+        s:=nthFactor(c,1)
+        l:=faces(s)
+        fs:=[(a.2::Rep-a.1::Rep) for a in l]
+        sgn:=(j:INT):INT+->if even? (j-1) then 1 else -1
+        nthCoef(c,1)*reduce("+",[sgn(j)*fs.j::Rep for j in 1..#fs])
+      else
+        ct:=[(nthCoef(c,j)*nthFactor(c,j))::Rep for j in 1..size(c)]
+        reduce("+",map(bdry,ct))
+        
+ 
+    construct(d:DOM,f:MAP):% == cellMap(d,f)$CMAP::%
+
+)if false
+\fi
+%==============================================================================
+% Documentation (pdflatex --interaction=nonstopmode this_file.spad
+% Note: ensure that the code above is between \iffalse ... )if false\fi.
+%==============================================================================
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{epstopdf}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{orange}{rgb}{1.0,0.44,0}
+
+\lstdefinelanguage{SPAD}
+{keywords={if,then,else,for,in,repeat},
+keywords=[2]{Fraction, Integer, Polynomial, Expression, Float, 
+             DoubleFloat, SurfaceComplex, CellMap, 
+             List},
+keywords=[3]{cellMap, bdry, tangentSpace, normalSpace, normalField,
+             metricTensor},
+keywordstyle=[2]\color{red},
+keywordstyle=[3]\color{orange},
+sensitive=true,%
+alsoletter={\$},%
+comment=[l]{--},%
+string=[b]",%
+string=[b]'%
+}
+
+\lstset{frame=tb,
+  language=SPAD,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\author{Kurt Pagani \\ {\tt nilqed@gmail.com}}
+\date{\today}
+\title{SurfaceComplex \\ {\small\tt Domain: SCMPLX}}
+%
+\newcommand{\CAD}{{\tt CAD}}
+\newcommand{\QE}{{\tt QE}}
+\newcommand{\RR}[1]{\mathbb{R}^{#1}}
+\newcommand{\QQ}[1]{\mathbb{Q}^{#1}}
+\newcommand{\ZZ}[1]{\mathbb{Z}^{#1}}
+\newcommand{\KK}[1]{\mathbb{K}^{#1}}
+%
+\begin{document}
+\maketitle
+%
+\begin{abstract}
+lorem ipsum. 
+\end{abstract}
+%
+\section{Introduction}
+%
+\begin{lstlisting}
+ -- code
+\end{lstlisting}
+
+%
+%\begin{figure}[!htb]
+%\centering
+%\includegraphics[scale=1.0]{cad1.eps}
+%\caption{Example 1.}
+%\label{fig:cad1}
+%\end{figure}
+% 
+\begin{thebibliography}{1}
+%
+\bibitem{COL73} Collins G.E, {\em Computer algebra of polynomials and rational 
+functions.}, Amer. Math. Monthly, 80, (1973), p. 725-755.
+%
+\bibitem{ACM82} Arnon D.S, Collins G.E, McCallum S., {\em Cylindrical Algebraic
+Decomposition I: The Basic Algorithm}, Computer Science Technical Reports,
+1982, \#82-427, Purdue University. \\
+Url: {\small {\tt http://docs.lib.purdue.edu/}} 
+\end{thebibliography}
+%
+\end{document}
+% -----------------------------------------------------------------------------
+% END DOCUMENTATION
+% -----------------------------------------------------------------------------
+)endif
+
+
+
+
+     
