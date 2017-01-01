@@ -61,6 +61,7 @@ string=[b]'%
 \newcommand{\QQ}[1]{\mathbb{Q}^{#1}}
 \newcommand{\ZZ}[1]{\mathbb{Z}^{#1}}
 \newcommand{\KK}[1]{\mathbb{K}^{#1}}
+\newtheorem{definition}{Definition}
 %
 \begin{document}
 \maketitle
@@ -123,11 +124,87 @@ in a wider sense, though we only consider {\em nice} objects (currents
 form a really huge space and many elements look quite bizarre) which
 have some relation to differential geometry.
 
+There is, however, {\bf one notable difference} to the literature cited 
+inasmuch as a differential form here is considered as an element of 
+the graded algebra
+\begin{displaymath}
+  \bigoplus_{p=0}^n {\bf\Omega}^p(\RR n),
+\end{displaymath}
+whereas usually only homogeneous forms $\in\bf\Omega^p$
+\footnote{$\Omega$ is a synonym for e.g. $\mathcal{D,E}$ etc.} 
+are meant. This descends from the already existing domain 
+{\em DeRhamComplex} on the one hand and computational convenience of 
+such inhomogeneous forms on the other. So we have for instance
+\begin{displaymath}
+   \omega(x) = a(x)\,d\,x_1+b(x)\, dx_1\wedge dx_2,
+\end{displaymath} 
+which is neither a $1$-form nor a $2$-form but just a form. If we 
+speak of a $p$-form we always mean a homogeneous form otherwise we
+just speak of a {\em form}. This also is a reason why we speak of
+a {\em complex}.
+%
+\section{$p-$Surfaces}
+From a computational point of view it seems very convenient to follow
+the method in (\cite{PMA},chapter 10) how differential forms are 
+introduced. We will not copy here parts of that theory but merely
+state the most important definitions on which the {\em code} will be
+based.
+%
+\begin{definition}
+A subset of ${\RR p}$ of the form
+  \begin{displaymath}
+    \{\left(x_1,\ldots,x_p\right)\in {\RR p}: 
+       a_i \leq x_i \leq b_i, i=1,\ldots,p\}
+  \end{displaymath} 
+is called a $\bf p-${\bf cell}.
+\end{definition}
+%
+Usually $p>1$ and $a_i<b_i$, but we will allow $p=0$ and $a_j=b_j$ as
+a degenerate case (we will come back to this later on).
+%
+\begin{definition}
+Suppose $E$ is an open set in $\RR n$. A $\bf p-${\bf surface} in $E$
+is a $\mathcal{C}^1-$mapping $\Phi$ from a compact set $D\subset\RR p$
+into $\RR n$.
 
-
+$D$ is called the parameter domain of $\Phi$.
+\end{definition}
+%
+In the following we will tacitly assume that $D$ is some $p-$cell. 
+This entails no loss of generality as pointed out in \cite{PMA} too. 
+One important thing we will cite (\cite{PMA}, def. 10.10) here is:
+\begin{verse}
+We stress that $p-$surfaces in $E$ are defined to be mappings into $E$, 
+not subsets of $E$. This agrees with our earlier definition of curves 
+(Definition 6.26). In fact, $1-$surfaces are precisely the same as 
+continuously differentiable curves. 
+\end{verse}
+%
+In FriCAS there is no $\RR n$, not to speak of an open set $E$. Instead
+of we will use the (pseudo-) Field {\em Expression R}, where is a 
+{\em Ring} with some additional properties (usually $R=\mathbb Z)$.
+Therefore points in $\RR n$ would correspond to
 \begin{lstlisting}
- -- code
+x:List Expression Integer:=[x[1],...,x[n]]
+-- or
+y:Vector Expression Integer:=[y[1],...,y[n]]
+-- x <-> easy convertibe 
 \end{lstlisting}
+and $p-$cells will be represented by a list of segments
+\begin{lstlisting}
+Q:List Segment Expression Integer:=[a[1]..b[1],...,a[p]..b[p]] 
+\end{lstlisting}
+Instead of {\tt Integer} one might use {\tt Float} of course. This
+way we have a correspondence to the definitions given above as soon we
+fix how the mappings from $Q$ to $E$ looks like. Obviously we can
+emulate $E$ as lists of length $n$ of a suitable type, thus our 
+mapping $\Phi$ (P below) can be given by the $\lambda$ expression: 
+\begin{lstlisting}
+    X+->[P[1](X.1,...,X.p),...,P[n](X.1,...,X.p)]
+\end{lstlisting}
+where $X=X.1,...,X.p$ ranges over the $p-$cell $Q$. 
+
+
 
 %
 %\begin{figure}[!htb]
@@ -139,7 +216,7 @@ have some relation to differential geometry.
 % 
 \begin{thebibliography}{1}
 %
-\bibitem{rudin1976principles} Walter Rudin,
+\bibitem{PMA} Walter Rudin,
   {\em Principles of Mathematical Analysis},
   International series in pure and applied mathematics,
   1976, McGraw-Hill.
