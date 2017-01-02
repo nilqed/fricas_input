@@ -10,56 +10,60 @@
 ++
 JetBundleGeometry(xs,us) : Exports == Implementation where
 
-  R   ==> Expression Integer
+  X   ==> Expression Integer
   LS  ==> List Symbol
   PI  ==> PositiveInteger 
   NNI ==> NonNegativeInteger
+  VAR ==> Union(List Symbol, SegmentBinding NNI)
 
-  xs: LS
-  us: LS
+  xs: VAR
+  us: VAR
  
-  JB   ==> JetBundle(xs,us)
-  JBX  ==> JetBundleExpression JB
-  
-  JBC  ==> JetBundleCategory
-  JBFC ==> JetBundleFunctionCategory(JB)
-  
-  DRCX ==> DeRhamComplex(Integer,xs)
-  DRCU ==> DeRhamComplex(Integer,us)
  
-  Exports == Join(JBC,JBFC) with
+  Exports ==  with
     
-    ivars : () -> List R
-    dvars : () -> List R
+    ivars : () -> List X
+    dvars : () -> List X
     
-    indVars : () -> List JBX
-    depVars : () -> List JBX
+    indVars : () -> List JetBundle(xs,us)
     --coerce : % -> OutputForm
 	
 	
-  Implementation == JB add         
+  Implementation ==  add 
+
+
+    buildSymbols(vs:VAR):List Symbol ==
+      vs case List Symbol => vs
+      vs case SegmentBinding NNI => 
+        v:Symbol:=variable vs
+        r:Segment(NNI):=segment vs
+        [subscript(v,[j::OutputForm]) for j in lo(r)..hi(r)]
         
-    ivars() == [coerce(s)$R for s in xs]
-    dvars() == [coerce(s)$R for s in us]
     
-    indVars() == [X(k::PI)$JBX for k in 1..#xs]
-    depVars() == [U(k::PI)$JBX for k in 1..#us]
+    buildVars(vs:VAR):List X ==
+      vs case List Symbol => [coerce(s)$X for s in vs]
+      vs case SegmentBinding NNI => 
+        v:Symbol:=variable vs
+        r:Segment(NNI):=segment vs
+        [coerce(subscript(v,[j::OutputForm]))$X for j in lo(r)..hi(r)]
+        
+        
+    ivars() == buildVars(xs)
+    dvars() == buildVars(us)
+    
+    xs:List Symbol := buildSymbols(xs)
+    us:List Symbol := buildSymbols(us)
+    JB ==> JetBundle(xs,us)
+
+    indVars() == [U(k::PI)$JB for k in 1..#us]
 
 
 )if false
 
-variables(1)$JBG
+JBG1 ==> JetBundleGeometry(x=0..6,q=1..2)
+ivars()$JBG1
+dvars()$JBG1
 
---JBG1 ==> JetBundleGeometry(x=0..6,q=1..2)
---ivars()$JBG1
---dvars()$JBG1
-
-JBG ==> JetBundleGeometry(['x,'y],['u,'v,'w])
- X:=indVars()$JBG
- U:=depVars()$JBG
- U.1 = X.1^2+sin(X.2)
- D(rhs %,'x)
-  variables(1)$JBG -- ok!
 
 JetBundleGeometry
 (10) -> U(1)$JB1 = (X(1)$JBX1)^2
