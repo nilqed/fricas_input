@@ -61,6 +61,9 @@ string=[b]'%
 \newcommand{\QQ}[1]{\mathbb{Q}^{#1}}
 \newcommand{\ZZ}[1]{\mathbb{Z}^{#1}}
 \newcommand{\KK}[1]{\mathbb{K}^{#1}}
+\newcommand{\spadfun}[1]{\textcolor{magenta}{\tt #1}}
+\newcommand{\spadbold}[1]{{\tt\bf #1}}
+\newcommand{\type}[1]{\textcolor{blue}{\tt\tiny #1}}
 \newtheorem{definition}{Definition}
 %
 \begin{document}
@@ -200,13 +203,94 @@ fix how the mappings from $Q$ to $E$ looks like. Obviously we can
 emulate $E$ as lists of length $n$ of a suitable type, thus our 
 mapping $\Phi$ (P below) can be given by the $\lambda$ expression: 
 \begin{lstlisting}
-    X+->[P[1](X.1,...,X.p),...,P[n](X.1,...,X.p)]
+X+->[P[1](X.1,...,X.p),...,P[n](X.1,...,X.p)]
 \end{lstlisting}
 where $X=X.1,...,X.p$ ranges over the $p-$cell $Q$. 
 
+We will call a $p-$surface in FriCAS a {\em CellMap}. This because it 
+shall remind to the domain (a $p-$cell) on the one hand and to the fact 
+that it is a mapping (and not a set) on the other hand. As an example
+we construct a $1-$surface (a curve) in three space as follows:
+\begin{lstlisting}
+cellMap([0..6],x+->[cos x.1, sin x.1, x.1])$CellMap(Float,3)
+\end{lstlisting} 
+\begin{verbatim}
+            |[0.0..6.0] -> [cos($ ),sin($ ),$ ]|
+                                 1       1   1                                     
+\end{verbatim}
+\type{Type:CellMap(Float,3)}
 
+\input{fig1}
 
+Notice that domain variable ($x$ in the case above) is a list with the
+dimension of the cell ($1-$cell in the example), therefore the (only)
+parameter is {\tt x.1}. Further note that $x$ is just a dummy variable,
+we could have chosen any other symbol as well, so that a {\em CellMap}
+is independent of the coordinate symbol - which is also indicated by
+the $\$'s$ in the output format. One has to apply the mapping to a 
+point in order to get a point on the {\it surface}.
 %
+\subsection{Integration over $p-$Surfaces}
+Let $\omega$ be a general $p-$form in $\RR n$:
+\begin{displaymath}
+   \omega(u) = \sum_{I} \omega_{i_1,\ldots,i_p}(u)\ du_{i_1}
+   \wedge\ldots\wedge du_{i_p}
+\end{displaymath}
+then the integral of $\omega$ over a $p-$surface $\Phi$ is defined as
+\begin{displaymath}
+ \int_{\Phi} \omega = \int_{Q} 
+   \sum_{I} \omega_{i_1,\ldots,i_p}(\Phi(x))
+   \ \frac{\partial{(u_{i_1},\ldots,u_{i_p}})}{\partial{(x_1,\ldots,x_p})}
+   \ dx_{1} \cdots dx_{p} 
+\end{displaymath}
+where $Q$ denotes the parameter domain of $\Phi$ (a $p-$cell in FriCAS).
+The functions $\omega_{i_1,\ldots,i_p}$ are assumed to be real and
+continuous and the {\em Jacobian} in the right hand side integral above
+is the one determined by the mapping
+\begin{displaymath}
+     (x_1,\ldots,x_p) \mapsto (\Phi_{i_1}(x),\ldots,\Phi_{i_p}(x)),
+\end{displaymath} 
+which will be assumed to be continuously differentiable. Consequently
+the integral is an ordinary Riemann integral over a hypercube in $\RR p$.
+This widely corresponds to the statements given in \cite{PMA}. The
+reader acquainted with the topic will immediately see that this is just
+integration of the pull back of $\omega$ by $\Phi$ over its ($\Phi's$) 
+domain:
+\begin{displaymath}
+    \int_{\Phi(Q)} \omega = \int_{Q} \Phi^{\star}\omega
+\end{displaymath}
+This and more will be rigorously proved in \cite{PMA}, so we will end
+here with the theory and refer to the references given at the end.
+%
+\section{Surface Complex}
+A cell map may be seen as a piece of a bigger object, comparable to 
+a chart of a manifold which needs a whole atlas for its description.
+Since we have assumed that the domains of cell maps are compact we
+have a boundary $\partial Q$ which is built of of cells of one 
+lower dimension. In other words, a $p-$surface $\Phi$ has a boundary
+as well ($\partial \Phi$) which can be seen as a formal sum of other
+cell maps. Similar as the domain {\tt DeRhamComplex} we define the
+domain {\tt SurfaceComplex} as the free abelian group of cell maps
+over $\mathbb{Z}$. This will enable us to define a 
+{\em boundary operator}.
+\begin{definition}
+Let $\Sigma_p({\RR n})$ denote the set of $p-$surfaces, then 
+the formal sums of these (with integer coefficients) build a
+surface complex.
+ \begin{displaymath}
+  \mathcal{SC}_n=\bigoplus_{p=0}^n \mathbb{Z}\cdot\,{\bf\Sigma}_p ({\RR n}),
+ \end{displaymath}
+The boundary operator then is well defined
+ \begin{displaymath}
+   \partial: \mathcal{SC}_n \rightarrow \mathcal{SC}_n,
+ \end{displaymath}
+by the identity
+  \begin{displaymath}
+       \int_{\partial \Phi} \omega = \int_{\Phi} d\,\omega.
+  \end{displaymath}
+and the classical boundary of chains (simplexes in $\RR n$).
+\end{definition}
+
 %\begin{figure}[!htb]
 %\centering
 %\includegraphics[scale=1.0]{cad1.eps}
