@@ -1,3 +1,5 @@
+\iffalse
+)lisp (setq |$inclAssertions| nil)
 )abbrev package JBG JetBundleGeometry
 ++ Author: Kurt Pagani
 ++ Date Created: Sun Jan 01 23:25:52 CET 2017
@@ -26,6 +28,9 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
   
   DRCX ==> DeRhamComplex(Integer,xs)
   DRCU ==> DeRhamComplex(Integer,us)
+  
+  DFX  ==> DifferentialForms(Integer,xs)
+  DFU  ==> DifferentialForms(Integer,us)
  
   Exports == Join(JBC,JBFC) with
     
@@ -34,6 +39,9 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
     
     indVars : () -> List JBX
     depVars : () -> List JBX
+    
+    indForms : () -> List DRCX
+    depForms : () -> List DRCU
     --coerce : % -> OutputForm
 	
 	
@@ -44,6 +52,9 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
     
     indVars() == [X(k::PI)$JBX for k in 1..#xs]
     depVars() == [U(k::PI)$JBX for k in 1..#us]
+    
+    indForms() == baseForms()$DFX
+    depForms() == baseForms()$DFU
 
 
 )if false

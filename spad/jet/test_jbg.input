@@ -1,0 +1,16 @@
+)co ../dform/devel/src/dform
+)co ../scmplx/scmplx
+)co jetgeom
+)sh JBG
+
+M ==> JBG([x,y],[u,v,w])
+
+dx:=indForms()$M
+du:=depForms()$M
+
+X:=indVars()$M
+U:=depVars()$M
+
+a:=operator 'a
+a(U.1,U.2)*du.1
+d %
