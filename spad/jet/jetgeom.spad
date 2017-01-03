@@ -46,7 +46,7 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
     indForms : () -> List DRCX
     depForms : () -> List DRCU
     
-    
+    pullBack : (CellMap(Integer,#us),DRCU) -> DRCX
     --coerce : % -> OutputForm
 	
 	
@@ -64,6 +64,14 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
     indForms() == baseForms()$DFX
     depForms() == baseForms()$DFU
 
+    pullBack(S:CellMap(Integer,#us),w:DRCU):DRCX ==
+      k:=#getDom(S)
+      k ~= #xs => error "Domain does not match."
+      Y:= S ivars() 
+      DY:List DRCX:= [d(s*1$DRCX)$DFX for s in Y] -- new forms
+      -- subst
+      indForms().1
+      
 
 )if false
 

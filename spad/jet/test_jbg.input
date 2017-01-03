@@ -27,6 +27,7 @@ X(2)$M --> y
 JB==>JetBundle(XS,US)
 JBX==>JetBundleExpression(JB)
 JD==>JetDifferential(JB,JBX)
+JVF==>JetVectorField(JB,JBX)
 
 d (X.1)$JD --> JetDifferential(JetBundle([x,y],[...
 d (U.1)$JD --> ...
@@ -38,6 +39,21 @@ S:=makeSystem([U.1-X.1,U.2-X.2,U.3-X.1*X.2])$JDE(JB,JBX)
 jacobiMatrix(S)
 order S --> 0
 prolong S --> 0
+eqs:=retract S
+
+-- vector field
+V:=2*diffX(1)$JVF+a(X.1)*diffX(2)$JVF
+directions(V)
+lie(V,diffX(1)$JVF)
+--
+
+F:=cellMap([0..1,0..1],q+->[q.2,-q.1,sin(q.1*q.2)])$CellMap(INT,3)
+Y:=F indVars()$M --
+pullBack(F,dU.1)$M
+
+DERX==>DERHAM(INT,indSymbols()$M)
+1$DERX
+[d (s*1$DERX) for s in Y]
 
 
 
