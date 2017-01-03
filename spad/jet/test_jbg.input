@@ -5,12 +5,39 @@
 
 M ==> JBG([x,y],[u,v,w])
 
-dx:=indForms()$M
-du:=depForms()$M
+dX:=indForms()$M
+dU:=depForms()$M
 
 X:=indVars()$M
 U:=depVars()$M
 
+XS:=indSymbols()$M
+US:=depSymbols()$M
+
+--
 a:=operator 'a
-a(U.1,U.2)*du.1
+a(U.1,U.2)*dU.1
 d %
+--
+
+U(1)$M --> u
+X(2)$M --> y
+
+
+JB==>JetBundle(XS,US)
+JBX==>JetBundleExpression(JB)
+JD==>JetDifferential(JB,JBX)
+
+d (X.1)$JD --> JetDifferential(JetBundle([x,y],[...
+d (U.1)$JD --> ...
+
+dU(2) --> DeRhamComplex(Integer,[u,v,w]), same as dU.2
+dU(2)$JD --> dv but JetDifferential(JetBundle([x,y],...
+
+S:=makeSystem([U.1-X.1,U.2-X.2,U.3-X.1*X.2])$JDE(JB,JBX)
+jacobiMatrix(S)
+order S --> 0
+prolong S --> 0
+
+
+
