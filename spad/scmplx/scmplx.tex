@@ -330,7 +330,162 @@ First we will describe the exported functions of the domain
 For the other domain, {\tt SurfaceComplex}, we think it is an 
 adequate designator what it is for.
 \subsection{Domain: {\tt CellMap (CMAP)}}
-lorem...
+The constructor function is also called \spadfun{cellMap} and requires
+a $p-$cell and and a mapping of type {\tt List X $\rightarrow$ List X},
+where we will denote by $X$ the type {\tt Expression R}, with $R$ the
+ring in {\tt CellMap(R,n)}. To keep things as simple as possible we
+did not introduce new types for points and vectors of fixed size. It
+will be the responsibility of the user to respect the necessary 
+dimensions of the lists, that is $n$ for the range and $p$ for the
+domain of the mapping.
+\subsubsection{{\tt cellMap}} 
+\begin{lstlisting}
+cellMap: (List Segment X,List X -> List X) -> $ 
+\end{lstlisting}
+As a first example let $Q$ be the $3-$cell defined by
+\begin{displaymath}
+ 0\leq r\leq 1,\ \ ,0\leq \theta \leq \pi,\ \ ,0\leq\varphi\leq 2\pi.
+\end{displaymath}
+We translate this into SPAD language as (notice the coercion {\tt 1::X})
+\begin{verbatim}
+    Q:=[0..1::X,0..%pi,0..2*%pi]
+\end{verbatim}
+Now define $\Phi(r,\theta,\varphi)=(x,y,z)$, where
+\begin{eqnarray*}
+     x &=& r \sin(\theta) \cos(\varphi) \\
+     y &=& r \sin(\theta) \sin(\varphi) \\
+     z &=& r \cos(\theta).
+\end{eqnarray*}
+Obviously, $\Phi$  maps $Q$ onto the closed unit ball of $\RR 3$, and
+it is bijective in the interior of $Q$ (but certain boundary points
+will be identified by $\Phi$, so it is not $1-1$ on $Q$!). Again we
+translate this to SPAD:
+\begin{lstlisting}
+F:List X -> List x
+F:=Z+->[Z.1*sin(Z.2)*cos(Z.3),Z.1*sin(Z.2)*sin(Z.3),Z.1*cos(Z.3)]
+\end{lstlisting}
+where $Z_1=r,Z_2=\theta,Z_3=\varphi$. Note that the symbol $Z$ is
+irrelevant, we could have used any other admissible symbol. This
+is quite convenient to specify mappings and, moreover, it makes
+{\tt cellMap} independent of coordinate symbols. 
+Eventually we can create the $3-$surface:
+\begin{lstlisting}
+B := cellMap(Q,F)$CellMap(R,3)
+\end{lstlisting}
+\scriptsize
+\begin{verbatim}
+|[0..1,0..%pi,0..(2%pi)] -> [$ cos($ )sin($ ),$ sin($ )sin($ ),$ cos($ )]|
+                              1     3      2   1     2      3   1     3
+Type: CellMap(Integer,3)
+\end{verbatim}
+\normalsize
+{\bf Note} the dollar signs in the output whose meaning is that of
+dummy variables ($Z$ will not occur anymore).
+
+For later reference we note down the {\em Jacobian} of $\Phi$:
+\begin{displaymath}
+  J_{\Phi}(r,\theta,\varphi)=
+    \frac{\partial(x,y,z)}{\partial(r,\theta,\varphi)} =
+      r^2\,\sin(\theta),
+\end{displaymath}
+and the integral over the volume form in $\RR 3$:
+\begin{displaymath}
+  \int_{\Phi} dx\wedge dy\wedge dz = \int_{Q} J_{\Phi}\,dr d\theta d\varphi 
+  = \frac{4\pi}{3}.
+\end{displaymath}
+The latter just gives the volume of $\Phi(Q)$.
+%
+\subsubsection{{\tt getDom, getMap}}
+The two functions {\tt getDom} and {\tt getMap} will recover the 
+$p-$cell (domain) and the mapping respectively when applied to
+a {\tt CellMap}. The $p-$surfaces are stored as
+\begin{verbatim}
+   Rep := Record(d:DOM,f:MAP)
+\end{verbatim}
+so there is not much more to say here.
+%
+\subsubsection{{Apply: \tt elt}}
+Elements of {\tt CellMap(R,n)} can be applied to an argument which has
+to be a list of dimension equal or greater to the dimension of the 
+cell (domain). Taking our example it looks like:
+\begin{lstlisting}
+B [r,th,phi::X]
+
+[r cos(phi)sin(th),r sin(phi)sin(th),r cos(phi)]
+Type: List(Expression(Integer))
+\end{lstlisting}
+%
+\subsubsection{{\tt faces}}
+This function returns as its name indicates the faces of the $p-$surface, 
+that is the images of the boundary of the domain ($p-$cell). Note that 
+the returned list contains pairs of faces corresponding to the endpoints 
+of intervals. This function will be useful when later dealing with
+{\tt SurfaceComplex}. Our example gives:
+\scriptsize
+\begin{verbatim}
+faces B
+
+[
+  [|[0..%pi,0..(2%pi)] -> [0,0,0]|,
+   |[0..%pi,0..(2%pi)] -> [cos($ )sin($ ),sin($ )sin($ ),cos($ )]|],
+                                2      1       1      2       2
+
+    [|[0..1,0..(2%pi)] -> [0,0,$ cos($ )]|,
+                                1     2
+                              
+     |[0..1,0..(2%pi)] -> [0,0,$ cos($ )]|],
+                                1     2
+                                
+    [|[0..1,0..%pi] -> [$ sin($ ),0,$ ]|,
+                         1     2     1                       
+    
+    |[0..1,0..%pi] -> [$ sin($ ),0,$ ]|]]           
+                        1     2     1                     
+Type: List(List(CellMap(Integer,3)))
+\end{verbatim}
+\normalsize 
+We can nicely see how the six faces of the $3-$cell $Q$ are mapped to.
+\subsubsection{{\tt coords, coordSymbols}}
+These two functions are just for convenience in order to introduce
+coordinates as well as coordinate symbols on which {\tt CellMap}'s 
+can be applied to. The symbols are convenient when differentiation
+is needed.
+\begin{lstlisting}
+M ==> CellMap(R,3) 
+
+Y:=coords('y,3)$M
+
+[y ,y ,y ]
+  1  2  3
+Type: List(Expression(Integer))
+
+YS:=coordSymbols('y,3)$M
+ [y ,y ,y ]
+   1  2  3
+Type: List(Symbol)
+\end{lstlisting}
+\scriptsize
+\begin{verbatim}
+
+-- apply B to Y
+
+Z := B Y
+
+[y cos(y )sin(y ),y sin(y )sin(y ),y cos(y )]
+  1     3      2   1     2      3   1     3
+
+Type: List(Expression(Integer))
+
+-- differentiate w.r.t. Y
+
+[D(Z.j,YS.j) for j in 1..3]
+
+     [cos(y )sin(y ),y cos(y )sin(y ),- y sin(y )]
+           3      2   1     2      3     1     3
+Type: List(Expression(Integer))
+\end{verbatim}
+\normalsize
+
 %\begin{figure}[!htb]
 %\centering
 %\includegraphics[scale=1.0]{cad1.eps}
