@@ -52,8 +52,28 @@ Y:=F indVars()$M --
 pullBack(F,dU.1)$M
 
 DERX==>DERHAM(INT,indSymbols()$M)
+DERU==>DERHAM(INT,depSymbols()$M)
 1$DERX
 [d (s*1$DERX) for s in Y]
 
+f:=a(u,v)*dU.1*dU.3
+lf:=leadingBasisTerm(f)
+lc:=leadingCoefficient(f)
+abt:=atomizeBasisTerm(lf)
+bf:=baseForms()$DFORM(INT,depVars()$M)
+[position(x,bf) for x in abt] 
 
+pullBack(F,f)$M --  - y a(y,- x)cos(x y)dx dy
 
+pullBack(F,dU.1*dU.2*dU.3)$M -- 0
+pullBack(F,dU.1*dU.2)$M -- dx dy
+pullBack(F,dU.1*dU.3)$M -- - y cos(x y)dx dy
+
+pullBack(F,dU.1+f*tan((dvars()$M).2))$M
+
+-- todo: empty list
+-- pullBack(F,1$DERU)$M -- >> Error detected within library code:
+-- reducing over an empty list needs the 3 argument form
+
+G:=cellMap([0..1,0..1],q+->[q.1^2,q.2^2,1])$CellMap(INT,3)
+pullBack(G,dU.1*dU.2)$M -- 4x y dx dy

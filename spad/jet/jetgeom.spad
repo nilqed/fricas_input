@@ -64,13 +64,28 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
     indForms() == baseForms()$DFX
     depForms() == baseForms()$DFU
 
+
     pullBack(S:CellMap(Integer,#us),w:DRCU):DRCX ==
       k:=#getDom(S)
       k ~= #xs => error "Domain does not match."
       Y:= S ivars() 
+      X:= dvars()
       DY:List DRCX:= [d(s*1$DRCX)$DFX for s in Y] -- new forms
+      bf:=baseForms()$DFU
+      nf:=0$DRCX
+      while w ~= 0$DRCU repeat
+        lf:=leadingBasisTerm(w)
+        lc:=leadingCoefficient(w)
+        abt:=atomizeBasisTerm(lf)$DFU
+        pos:=[position(x,bf) for x in abt]
+        yl:List DRCX:=[DY.j for j in pos]
+        nbt:DRCX:=reduce("*",yl)
+        nc:R:=subst(lc,[X.j = Y.j for j in 1..#X])
+        nf:=nf+nc*nbt
+        w:=reductum(w)
       -- subst
-      indForms().1
+      --indForms().1
+      nf
       
 
 )if false
