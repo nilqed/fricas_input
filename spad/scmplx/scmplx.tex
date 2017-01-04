@@ -290,7 +290,47 @@ by the identity
   \end{displaymath}
 and the classical boundary of chains (simplexes in $\RR n$).
 \end{definition}
-
+The last statement probably should be specified. Let $a,b\in\RR p$, 
+then the line segment $[a,b]$ (the convex hull of the two points)
+induces a $1-current$ in a natural way:
+\begin{displaymath}
+   [[a,b]](\omega) = \int_0^1 \langle \omega((1-t)a+t + t b),b-a\rangle dt
+\end{displaymath} 
+for any one form $\omega\in\mathcal{D}^1({\RR p})$
+\footnote{See \cite{GMT},4.1.8 for details}. If $\omega$ is exact 
+(say $d\varphi$) we get
+\begin{displaymath}
+   [[a,b]](d\varphi) = 
+     \int_0^1 \langle \nabla\varphi((1-t)a+t + t b),b-a\rangle dt =
+     \varphi(b) -\varphi(a).
+\end{displaymath}
+This means - by the definition $\partial T(\varphi)=T(d\varphi)$ -
+\begin{displaymath}
+  \partial [[a,b]] = [[b]] - [[a]],
+\end{displaymath}
+where $[[b]](\varphi)$ is the $0-$current $\delta_b$, that is
+$[[b]](\varphi)=\varphi(b)$ for all $0-$forms. This way it can 
+be shown (by induction) that the boundary of a $p-$cell is given
+by the formula:
+\begin{eqnarray*}
+ \partial([[a_1,b_1]]\times\ldots\times[[a_p,b_p]]) = \sum_{k=1}^p\ 
+ (-1)^k [[a_+,b_1]]\times\,\ldots\times[[a_{k-1},b_{k-1}]] \\ 
+ \times([[b_k]] - [[a_k]])\times [[a_{k+1},b_{k+1}]]\times\ldots\times
+ [[a_{p},b_{p}]].
+\end{eqnarray*}
+This is a $(p-1)-$current which obviously coincides
+with the usual geometric intuition (one may think of any $p-$cell as
+a simplicial chain). We have used this formula to implement the boundary
+operator ({\tt bdry}). 
+%
+\section{Implementation}
+First we will describe the exported functions of the domain
+{\tt CellMap}. The choice of the name may be debatable, however,
+{\em ParametricSurface} and other suitable names are already taken.
+For the other domain, {\tt SurfaceComplex}, we think it is an 
+adequate designator what it is for.
+\subsection{Domain: {\tt CellMap (CMAP)}}
+lorem...
 %\begin{figure}[!htb]
 %\centering
 %\includegraphics[scale=1.0]{cad1.eps}
