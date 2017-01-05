@@ -51,3 +51,32 @@ metricTensor(B) Y
 bdry(B::SCMPLX(R,3))
 
 -- splot [0:pi] [0:2*pi] cos(v)*sin(u),sin(u)*sin(v),cos(u) , 0,0,u , 0,0,-u
+
+-- ===================
+-- EXAMPLE 10.32 (PMA)
+-- ===================
+
+-- 2-cell [0,pi]x[0,2*pi]
+Q2:=[0::X..%pi,0..2*%pi]
+
+-- F2 mapping [Z.1,Z.2] -> [x,y,z]
+F2:List X -> List X
+F2:=Z+->[sin(Z.1)*cos(Z.2),sin(Z.1)*sin(Z.2),cos(Z.1)]
+
+S:=cellMap(Q2,F2)$CellMap(R,3)
+S Y -- Y may be reused since it is big enough
+
+jacobianMatrix(S) Y
+tangentSpace(S) Y
+normalSpace(S) Y
+normalField(S) Y
+g:=metricTensor(S) Y
+determinant g
+simplify %
+
+faces S
+
+bdry(S::SCMPLX(R,3))
+
+--
+
