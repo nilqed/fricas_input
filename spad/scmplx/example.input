@@ -1,0 +1,53 @@
+)co scmplx
+
+-- R is the ring, X the fiel
+R ==> Integer
+X ==> Expression R
+
+-- 3-cell [0,1]x[0,pi]x[0,2*pi]
+Q:=[0..1::X,0..%pi,0..2*%pi]
+
+-- F mapping [Z.1,Z.2,Z.3] -> [x,y,z]
+F:List X -> List X
+F:=Z+->[Z.1*sin(Z.2)*cos(Z.3),Z.1*sin(Z.2)*sin(Z.3),Z.1*cos(Z.2)]
+
+-- B is the unit ball in X^3
+B := cellMap(Q,F)$CellMap(R,3)
+
+-- Apply B to a point (coordinates in X^3)
+B [r,th,phi::X]
+
+-- the faces of B: 2-cells
+faces B
+
+-- coords, coordSymbols
+M ==> CellMap(R,3) 
+
+Y:=coords('y,3)$M
+YS:=coordSymbols('y,3)$M
+
+Z := B Y
+
+[D(Z.j,YS.j) for j in 1..3]
+
+--
+jacobianMatrix(B)
+
+jacobianMatrix(B) Y
+
+determinant %
+
+simplify %
+
+--
+tangentSpace(B) Y
+normalSpace(B) Y
+
+-- normalField(B) Y -> not a Hypersurface
+
+metricTensor(B) Y
+
+--
+bdry(B::SCMPLX(R,3))
+
+-- splot [0:pi] [0:2*pi] cos(v)*sin(u),sin(u)*sin(v),cos(u) , 0,0,u , 0,0,-u
