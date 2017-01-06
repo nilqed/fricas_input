@@ -1,7 +1,7 @@
 -- ======================
 -- Testing: IndexedObject
 -- ======================
-
+)co indexed
 -- Examples
 
 -- Creation
@@ -35,3 +35,24 @@ homologic?(T,S)
 homologic?(T,U)
 
 cohomologic?(T, conjugate T)
+
+--
+tex(T)
+convert(T)
+
+--
+
+D(T,[!a,!b,c,x,y,z])
+DC(T,[!a,!b,c,x,y,z])
+
+D(S,[a,b,!c,!d,e])
+DC(S,[a,b,!c,!d,e])
+
+D(g,[!j])
+
+A:=mkIdxObj('A,[!j])
+D(A,[j])
+
+-- https://en.wikipedia.org/wiki/Ricci_calculus
+-- https://en.wikipedia.org/wiki/Abstract_index_notation
+-- 

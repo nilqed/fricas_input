@@ -3,16 +3,9 @@
 ++ Date Created: Sat Dec 19 23:28:32 CET 2015
 ++ License: BSD (same as Axiom)
 ++ Date Last Updated:
-++ Basic Operations: 
-++ Related Domains: 
-++ Also See:
-++ AMS Classifications:
-++ Keywords: 
 ++ Examples:
 ++ References:
-++
-++ Description:
-++ 
+++ Description: 
 ++
 IndexedObject() : Exports == Implementation where
     
@@ -23,7 +16,7 @@ IndexedObject() : Exports == Implementation where
   OF  ==> OutputForm
   
   
-  Exports == Join(CoercibleTo OutputForm, ConvertibleTo String) with
+  Exports == Join(CoercibleTo OutputForm, ConvertibleTo TexFormat) with
     
     --list of exported operations, e.g.
     rmSupMark : SYM -> SYM
@@ -64,6 +57,12 @@ IndexedObject() : Exports == Implementation where
       
     coerce : List SYM -> %
 	  ++ coerce to indexed symbol
+	  
+    convert : % -> TexFormat
+	  ++ convert to TeX format.
+	  
+    tex : % -> List String
+      ++ convert to TeX format (without $$)
 	
   Implementation ==  add 
   
@@ -182,7 +181,88 @@ IndexedObject() : Exports == Implementation where
       osub:=hconcat [s::OF for s in sub]
       s:OF:=scripts(sym::OF, [osub,osup])
         
+     
+    convert(x:%):TexFormat ==
+      xo:OF:=x::OF
+      coerce(xo)$TexFormat
+
+    tex(x:%):List String ==
+      xt:TexFormat:=convert(x)
+      tex(xt)$TexFormat
       
+    
     -- [T,i,!j,k,!l,!m ]::List Symbol::IDXOBJ  
 
-   
+
+)abbrev domain DIOBJ DifferentiatedIndexedObject
+++ Author: Kurt Pagani
+++ Date Created: Sat Dec 19 23:28:32 CET 2015
+++ License: BSD (same as Axiom)
+++ Date Last Updated:
+++ Examples:
+++ References:
+++ Description: 
+++
+DifferentiatedIndexedObject() : Exports == Implementation where
+    
+  SYM ==> Symbol
+  LS  ==> List Symbol
+  NNI ==> NonNegativeInteger
+  SEG ==> Segment NNI
+  OF  ==> OutputForm
+  IO  ==> IndexedObject
+  
+  
+  Exports == Join(CoercibleTo OutputForm, ConvertibleTo TexFormat) with
+  
+    D  : (IO, List SYM) -> %
+    DC : (IO, List SYM) -> %
+    
+    convert : % -> TexFormat
+	  ++ convert to TeX format.
+	  
+    tex : % -> List String
+      ++ convert to TeX format (without $$)
+
+  Implementation ==  add 
+  
+
+    Rep := Record(io:IO, ls: List SYM, cov?: Boolean)
+    
+    D(x,l)  == [x,l,false]$Rep
+    DC(x,l) == [x,l,true]$Rep
+    
+
+    
+    coerce(d:%):OF ==
+      import from IndexedObject
+      bc:Character:=char(32)
+      b:Symbol:=bc::String::Symbol
+      comma:OF:=outputForm(","::SYM)$OF
+      covar:OF:=outputForm(";"::SYM)$OF
+      sub:List SYM:=[]
+      sup:List SYM:=[]
+      for s in d.ls repeat
+        if sup?(s)$IO then
+          sup:=concat(sup, rmSupMark(s)$IO)
+          sub:=concat(sub, b)
+        else
+          sub:=concat(sub, s)
+          sup:=concat(sup, b)
+      osup:OF:=hconcat [t::OF for t in sup]
+      osub:OF:=hconcat [t::OF for t in sub]
+      sscr:List OF:=[osub,osup]
+      if d.cov? then
+        a:OF:=scripts(covar,sscr)
+      else
+        a:OF:=scripts(comma,sscr)
+      hconcat((d.io)::OF,a)
+
+
+    convert(x:%):TexFormat ==
+      xo:OF:=x::OF
+      coerce(xo)$TexFormat
+
+    tex(x:%):List String ==
+      xt:TexFormat:=convert(x)
+      tex(xt)$TexFormat  
