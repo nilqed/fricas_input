@@ -33,11 +33,10 @@ Z := B Y
 --
 jacobianMatrix(B)
 
-jacobianMatrix(B) Y
+jMBY:=jacobianMatrix(B) Y
 
-determinant %
+simplify determinant jMBY
 
-simplify %
 
 --
 tangentSpace(B) Y
