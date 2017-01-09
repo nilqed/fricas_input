@@ -650,7 +650,202 @@ $\sqrt{g}\, dy_1\wedge dy_2\wedge dy_3$, thus we obtain for $B$:
 \end{displaymath}
 %
 \subsection{Domain: {\tt SurfaceComplex (SCMPLX)}}
-oop
+The constructor function \spadfun{construct} is just the same as
+\spadfun{cellMap} but its return value is of type {\tt SurfaceComplex}
+instead of {\tt CellMap}. It is also possible to coerce and retract
+between the two types.
+Let us make an example where it is best seen how it goes. The cell map
+$I$ embeds its domain $[0,1]\times[0,1]$ into three space:
+\scriptsize
+\begin{verbatim}
+(1) -> I:=cellMap([0..1,0..1],z+->[z.1,z.2,0])$CellMap(INT,3)
+
+   (1)  |[0..1,0..1] -> [$ ,$ ,0]|
+                          1  2
+                                            Type: CellMap(Integer,3)
+(2) -> IC:=I::SurfaceComplex(INT,3)
+
+   (2)  |[0..1,0..1] -> [$ ,$ ,0]|
+                          1  2
+                                            Type: SurfaceComplex(Integer,3)
+(3) -> bdry IC
+
+   (3)
+     - |[0..1] -> [$ ,1,0]| + |[0..1] -> [$ ,0,0]| - |[0..1] -> [0,$ ,0]|
+                    1                      1                        1
+   + 
+     |[0..1] -> [1,$ ,0]|
+                    1
+                                            Type: SurfaceComplex(Integer,3)
+(4) -> bdry %
+
+   (4)  0
+                                            Type: SurfaceComplex(Integer,3)
+\end{verbatim}
+\normalsize
+The boundary of $I_C$ comprises four cell maps with integer coefficients
+indicating the orientation so that $\partial\circ\partial=0$. 
+\subsubsection{\tt bdry}
+The boundary operator \spadfun{bdry} computes the quantity $\partial T$
+as defined in the previous section. Note, however, that the result should
+not be confused with the topological or geometric boundary. First
+of all we ware dealing with mappings (not sets) and second the cell
+maps $\Phi$ need not be $1-1$ on the whole (compact) cell. Yet this
+does not matter because $p-$dimensional integration in $n-$space is
+blind with respect to lower dimensional $k-$surfaces and due to 
+cancellations as well.
+As in the case of Schwartz distributions, each DeRham current has
+a support {\tt spt} which in case of taking boundaries may or may not
+coincide with the topological one (this will depend on the mapping
+of course). To illustrate this we will do example $10.32$ in \cite{PMA}:
+
+Let $Q=\{u,v: 0\leq u \leq\pi,0\leq v \leq 2\pi\}$ be a $2-$cell and
+\begin{displaymath}
+\Sigma(u,v) = (\sin u \cos v,\sin u \sin v, \cos u).
+\end{displaymath}
+Then $\Sigma$ is a $2-$surface in three space, whose range is the unit
+sphere $\mathcal{S}^2$. We all know that $\partial\mathcal{S}^2=0$ in
+the topological sense, but let us now write down $\partial\Sigma$:
+\begin{displaymath}
+\partial\Sigma = \Sigma(\partial Q) = \gamma_1+\gamma_2+\gamma_3+\gamma_4
+\end{displaymath}
+where
+\begin{eqnarray*}
+\gamma_1(u) &=& \Sigma(u,0) = (\sin u,0,\cos u) \\
+\gamma_2(v) &=& \Sigma(\pi,v) = (0,0,-1) \\
+\gamma_3(u) &=& \Sigma(\pi-u,2\,\pi) = (\sin u,0,-\cos u) \\
+\gamma_4(v) &=& \Sigma(0,2\,\pi-v)=(0,0,1)
+\end{eqnarray*}
+Rudin describes this in geographic terms as follows:
+\begin{verse}
+$\partial\Sigma$ starts at the north pole $N$, runs to the
+south pole $S$ along a meridian, pauses at $S$, returns to $N$ along the 
+same meridian, and finally pauses at $N$. The two passages along the 
+meridian are in opposite directions. The corresponding two line integrals 
+therefore cancel each other. In Exercise $32$ there is also one curve 
+which occurs twice in the boundary, but without cancellation.)
+\end{verse}
+So it is obvious that we must have $\partial\Sigma = 0$ since the
+constant maps $\gamma_2$ and $\gamma_4$ have zero Jacobians and will
+not contribute to integration over one forms. The other two mappings,
+$\gamma_1$ and $\gamma_3$ are opposite and will cancel.
+
+Next let us do the same in FriCAS.
+\begin{lstlisting}
+R ==> Integer
+X ==> Expression R
+
+-- 2-cell [0,pi]x[0,2*pi]
+Q:=[0::X..%pi,0..2*%pi]
+
+-- F mapping [Z.1,Z.2] -> [x,y,z]
+F:List X -> List X
+F:=Z+->[sin(Z.1)*cos(Z.2),sin(Z.1)*sin(Z.2),cos(Z.1)]
+
+S:=cellMap(Q,F)$CellMap(R,3)
+\end{lstlisting}
+First we compute the faces of the cell map $S$,
+\scriptsize
+\begin{verbatim}
+faces S
+
+   [[|[0..(2%pi)] -> [0,0,1]|,|[0..(2%pi)] -> [0,0,- 1]|],
+    [|[0..%pi] -> [sin($ ),0,cos($ )]|,|[0..%pi] -> [sin($ ),0,cos($ )]|]]
+                        1         1                       1         1
+                                      Type: List(List(CellMap(Integer,3)))
+                                     
+\end{verbatim}
+\normalsize
+where we recognize the $\gamma$'s without direction. Now we compute the
+actual boundary, obtaining:
+\scriptsize
+\begin{verbatim}
+bdry(S::SCMPLX(R,3))
+
+     - |[0..((2%pi))] -> [0,0,1]| + |[0..(2%pi)] -> [0,0,- 1]|
+                                      
+                                      Type: SurfaceComplex(Integer,3)
+                                     
+\end{verbatim}
+\normalsize
+which is obviously not $0$, actually it is the south pole minus the
+north pole. However, the integral over any $1-$form is zero of course,
+so that $\partial\Sigma=0$ by definition. It is clear how to resolve
+this puzzle at once: the one dimensional content of a point is zero,
+so the meaning of $\partial\Sigma=0$ always is with respect to a 
+measure (in this sense our $\tt bdry\ S$ is equivalent to $0$). Note
+that we use the Riemann integral here and Jordan content, while
+geometric measure theory is mostly based on Hausdorff measure
+(see \cite{GMT}). The reason for this degeneracy is also found in the
+the vanishing of the determinant of the metric $g$ at the
+values $0$ and $2\pi$.
+\subsubsection{Example: Solid Torus}
+In order to get a feeling how to deal with the elements of {\tt SCMPLX},
+sometimes also known as affine chains, we will try to verify example
+$10.47$ in \cite{PMA}.
+Let $0<a<b$ be fixed and let $K$ be the $3-$cell determined by 
+$0\leq t\leq a$,\,$0\leq u\leq 2\pi$ and $0\leq v\leq 2\pi$.The
+equations
+\begin{eqnarray*}
+x &=& t \cos u \\
+y &=& (b+t \sin u) \cos v \\
+z &=& (b+t \sin u) \sin v
+\end{eqnarray*}
+describe a mapping $\Psi$ into three space which is $1-1$ in the interior
+of $K$, such that $\Psi(K)$ is a solid torus. Its Jacobian is claimed to
+be
+\begin{displaymath}
+  J_\Psi = \frac{\partial(x,y,z)}{\partial(t,u,v)}=t(b+t\sin u)
+\end{displaymath}.
+Next the $2-$chain $\Phi=\partial\Psi$ is considered (details see loc. cit.),
+and it is claimed that $\Phi$ is simply the $2-$surface obtained by setting
+$t=a$ in the equations above, with parameter cell $[0,2\pi]\times[0,2\pi]$
+(modulo a circle, which does not contribute to the integrals).
+Moreover, the normal to $\Phi$ at $(u,v)\in D$ should be the vector
+\begin{displaymath}
+   N(u,v) = a(b+a\sin u) \mathbf{n}(u,v)
+\end{displaymath}
+where $\mathbf{n}(u,v)=(\cos u, \sin u \cos v, \sin u \sin v)$.
+
+Now the following sequence of commands will verify these claims
+step by step.
+\begin{lstlisting}
+)clear all
+R ==> Integer
+X ==> Expression R
+
+-- 3-cell [0,a]x[0,2*pi]x[0,2*%pi]
+Q:=[0..a::X,0..2*%pi,0..2*%pi]
+
+-- F mapping [Z.1,Z.2] -> [x,y,z]
+F:List X -> List X
+F:=Z+->[Z.1*cos(Z.2),(b+Z.1*sin(Z.2))*cos(Z.3),
+         (b+Z.1*sin(Z.2))*sin(Z.3)]
+
+T:=cellMap(Q,F)$CellMap(R,3)
+
+J:=jacobianMatrix(T) [t,u,v]
+
+simplify determinant(J)   -- t^2 sin(u) + b t
+
+S:= bdry(T::SCMPLX(R,3))  -- boundary = circle + claimed map
+
+S2:=nthFactor(S,2)        -- get the mapping
+
+nf:=normalField(S2) [u,v]  
+dot(nf,nf) -- equals 1
+
+-- sometimes one has to simplify trig. expressions
+nf:=vector [simplify s for s in nf::List X]
+
+ts:=tangentSpace(S2) [u,v]
+nc:=cross(ts.1,ts.2) -- cross product of tangent vectors
+
+r1:=simplify dot(nc,nf)
+simplify (denominator(r1)^2) -- equals 1 => a^2 sin(u) + a 
+\end{lstlisting}
+
+
 %
 %
 %

@@ -79,3 +79,37 @@ bdry(S::SCMPLX(R,3))
 
 --
 -- add spivak and thorpe/singer to biblio
+
+-- =============
+-- Example 10.47
+-- =============
+)clear all
+R ==> Integer
+X ==> Expression R
+
+-- 3-cell [0,a]x[0,2*pi]x[0,2*%pi]
+Q:=[0..a::X,0..2*%pi,0..2*%pi]
+
+-- F mapping [Z.1,Z.2] -> [x,y,z]
+F:List X -> List X
+F:=Z+->[Z.1*cos(Z.2),(b+Z.1*sin(Z.2))*cos(Z.3),(b+Z.1*sin(Z.2))*sin(Z.3)]
+
+T:=cellMap(Q,F)$CellMap(R,3)
+
+J:=jacobianMatrix(T) [t,u,v]
+
+simplify determinant(J)
+
+S:= bdry(T::SCMPLX(R,3))
+
+S2:=nthFactor(S,2)
+
+nf:=normalField(S2) [u,v]
+dot(nf,nf)
+nf:=vector [simplify s for s in nf::List X]
+
+ts:=tangentSpace(S2) [u,v]
+nc:=cross(ts.1,ts.2)
+
+r1:=simplify dot(nc,nf)
+simplify (denominator(r1)^2)

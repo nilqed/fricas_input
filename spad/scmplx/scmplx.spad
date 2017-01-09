@@ -102,7 +102,7 @@ CellMap(R,n) : Exports == Implementation where
         v:=concat(v,s::X)
       vv:=delete(v,i..i)
       dd:List(Segment X):=delete(x.d,i..i)
-      ff:MAP:=vv+->(x.f) v
+      ff:MAP:=vv+->(x.f) concat(concat([vv.k for k in 1..i-1],v.i),[vv.k for k in i..#vv])
       cellMap(dd,ff)
       
      

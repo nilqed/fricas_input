@@ -136,6 +136,11 @@ S2map:List(R)->List(R):=z+->[cos(z.1)*cos(z.2),sin(z.1)*cos(z.2),sin(z.2)]
 S2p:=construct([0..2*%pi::R,0..%pi::R/2],S2map)$SurfaceComplex(INT,3)
 S2m:=construct([0..2*%pi::R,0..-%pi::R/2],S2map)$SurfaceComplex(INT,3)
 
+S2r:=construct([0..-2*%pi::R,0..-%pi::R/2],S2map)$SurfaceComplex(INT,3)
+
+--p gnuplot> splot [0:2*pi] [0:pi] cos(u)*cos(v),cos(v)*sin(u),sin(v)
+--r gnuplot> splot [0:-2*pi] [0:-pi] cos(u)*cos(v),cos(v)*sin(u),sin(v)
+
 S2:=S2p-S2m
 b S2 -- southPole - northPole
 b b S2 -- 0
