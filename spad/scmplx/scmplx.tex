@@ -13,12 +13,15 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{epstopdf}
-
+\usepackage{pgfplots}
+%
+\pgfplotsset{width=10cm,compat=1.9}
+%
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 \definecolor{orange}{rgb}{1.0,0.44,0}
-
+%
 \lstdefinelanguage{SPAD}
 {keywords={if,then,else,for,in,repeat},
 keywords=[2]{Fraction, Integer, Polynomial, Expression, Float, 
@@ -213,15 +216,32 @@ shall remind to the domain (a $p-$cell) on the one hand and to the fact
 that it is a mapping (and not a set) on the other hand. As an example
 we construct a $1-$surface (a curve) in three space as follows:
 \begin{lstlisting}
-cellMap([0..6],x+->[cos x.1, sin x.1, x.1])$CellMap(Float,3)
+cellMap([0..10],x+->[cos x.1, sin x.1, x.1])$CellMap(Float,3)
 \end{lstlisting} 
 \begin{verbatim}
-            |[0.0..6.0] -> [cos($ ),sin($ ),$ ]|
+            |[0.0..10.0] -> [cos($ ),sin($ ),$ ]|
                                  1       1   1                                     
 \end{verbatim}
 \type{Type:CellMap(Float,3)}
 
-\input{fig1}
+%\input{fig1}
+
+\begin{tikzpicture}
+\begin{axis}
+    [
+    title={Using package {\tt pgfplots}},
+    view={60}{30},
+    ]
+\addplot3[
+    domain=0:10,
+    samples = 60,
+    samples y=0,
+]
+({cos(deg(x))},
+{sin(deg(x))},
+{x});
+\end{axis}
+\end{tikzpicture}
 
 Notice that domain variable ($x$ in the case above) is a list with the
 dimension of the cell ($1-$cell in the example), therefore the (only)
@@ -845,8 +865,25 @@ r1:=simplify dot(nc,nf)
 simplify (denominator(r1)^2) -- equals 1 => a^2 sin(u) + a 
 \end{lstlisting}
 %
-
-%
+\iffalse
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tikzpicture}
+\begin{axis}[
+    title=Exmple using the mesh parameter,
+    hide axis,
+    colormap/cool,
+]
+\addplot3[
+    mesh,
+    samples=50,
+    domain=-8:8,
+]
+{sin(deg(sqrt(x^2+y^2)))/sqrt(x^2+y^2)};
+\addlegendentry{$\frac{sin(r)}{r}$}
+\end{axis}
+\end{tikzpicture}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fi
 %
 %
 \begin{thebibliography}{1}
