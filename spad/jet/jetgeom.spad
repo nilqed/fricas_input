@@ -77,9 +77,12 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
         lf:=leadingBasisTerm(w)
         lc:=leadingCoefficient(w)
         abt:=atomizeBasisTerm(lf)$DFU
-        pos:=[position(x,bf) for x in abt]
-        yl:List DRCX:=[DY.j for j in pos]
-        nbt:DRCX:=reduce("*",yl)
+        if abt ~= [] then
+          pos:=[position(x,bf) for x in abt]
+          yl:List DRCX:=[DY.j for j in pos]
+          nbt:DRCX:=reduce("*",yl)
+        else
+          nbt:DRCX:=1$DRCX
         nc:R:=subst(lc,[X.j = Y.j for j in 1..#X])
         nf:=nf+nc*nbt
         w:=reductum(w)
@@ -89,7 +92,7 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
       
 
 )if false
-
+\fi
 variables(1)$JBG
 
 --JBG1 ==> JetBundleGeometry(x=0..6,q=1..2)
