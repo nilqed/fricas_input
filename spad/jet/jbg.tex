@@ -1,0 +1,234 @@
+%==============================================================================
+% Documentation (pdflatex this_file.spad
+% Note: ensure that the code above is between \iffalse ... )if false\fi.
+%==============================================================================
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{epstopdf}
+\usepackage{pgfplots}
+%
+\pgfplotsset{width=10cm,compat=1.9}
+%
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{orange}{rgb}{1.0,0.44,0}
+%
+\lstdefinelanguage{SPAD}
+{keywords={if,then,else,for,in,repeat},
+keywords=[2]{Fraction, Integer, Polynomial, Expression, Float, 
+             DoubleFloat, SurfaceComplex, CellMap, 
+             List},
+keywords=[3]{cellMap, bdry, tangentSpace, normalSpace, normalField,
+             metricTensor, jacobianMatrix, faces, coords, coordSymbols},
+keywordstyle=[2]\color{red},
+keywordstyle=[3]\color{orange},
+sensitive=true,%
+alsoletter={\$},%
+comment=[l]{--},%
+string=[b]",%
+string=[b]'%
+}
+
+\lstset{frame=tb,
+  language=SPAD,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\author{Kurt Pagani \\ {\tt nilqed@gmail.com}}
+\date{December 20, 2016}
+\title{JetBundleGeometry \\ {\small\tt Domain: JBG}}
+%
+\newcommand{\CAD}{{\tt CAD}}
+\newcommand{\QE}{{\tt QE}}
+\newcommand{\RR}[1]{\mathbb{R}^{#1}}
+\newcommand{\QQ}[1]{\mathbb{Q}^{#1}}
+\newcommand{\ZZ}[1]{\mathbb{Z}^{#1}}
+\newcommand{\KK}[1]{\mathbb{K}^{#1}}
+\newcommand{\spadfun}[1]{\textcolor{magenta}{\tt #1}}
+\newcommand{\spadbold}[1]{{\tt\bf #1}}
+\newcommand{\type}[1]{\textcolor{blue}{\tt\tiny #1}}
+\newtheorem{definition}{Definition}
+%
+\begin{document}
+\maketitle
+%
+\begin{abstract}
+This manual decribes the FriCAS domain {\bf JetBundleGeometry}.
+This domain extends the JET series and provides methods to compute
+{\bf pull backs}, {\bf integrals} and other quantities of 
+differential forms living on a Jet bundle. The domain relies on
+{\tt JET} (\cite{wms:jet}) and some other domains and packages. 
+\end{abstract}
+%
+\tableofcontents
+\section{Introduction}
+Recall that a bundle is a triple $(M,X,\pi)$, where $M,X$ are manifolds
+and $\pi:M\rightarrow X$ is the projection, i.e. a continuous surjective
+mapping from the total space ($M$) to the base space ($X$). A bundle is 
+called trivial if $M$ is homeomorphic to $X\times U$, where
+$U$ denotes another manifold, called the fibre. A locally trivial bundle
+is called a fibre bundle, which is what we here are concerned with.
+We will use the following nomenclature: 
+\begin{displaymath}
+   x=(x_1,\ldots,x_p), \ \ u=(u^1,\ldots,u^n)
+\end{displaymath}
+where $x$ are the (local) coordinates of the base manifold $X$ and $u$
+the the ones on the fibre $U$. Locally the projection takes the form
+\begin{displaymath}
+ \pi:\begin{cases} 
+      & X\times U \\
+      & (x,u) \mapsto x.
+   \end{cases}
+\end{displaymath}
+A section of the fibre bundle then has the form
+\begin{displaymath}
+ \Phi_f:\begin{cases} 
+      & X\times U \\
+      & x \mapsto (x,f(x)).
+\end{cases}
+\end{displaymath}
+such that $\pi\circ \Phi_f = \mathcal{I}d$.
+A jet bundle now may be considered as an iteration of that construction,
+that is we will speak of a $n$-th order jet bundle $M^{(n)}$ if
+\begin{displaymath}
+ M^{(n)} = X \times \left( U\times U_1\times\ldots\times U_n  \right)
+\end{displaymath}  
+where the $U_j$ are the jet (Euclidean) spaces. We will just write $M$
+for $M^{(0)}$. 
+
+\section{Appendix}
+The following is a verbatim inclusion of the extended abstract of
+W.M.\,Seiler's paper.
+
+\begin{center}
+{\bf JET --- An AXIOM Environment for Geometric Computations with
+Differential Equations} \\
+{ W.M.~Seiler and J.~Calmet\\
+        Institut f\"ur Algorithmen und Kognitive Systeme\\
+        Universit\"at Karlsruhe\\
+        76128 Karlsruhe, Germany\\
+        Email: seilerw@ira.uka.de} \\
+\bf Extended Abstract
+\end{center}
+
+Geometric methods play an important role in the analysis of nonlinear
+differential equations. For example, symmetry methods provide the more or less
+only systematic approach to the construction of solutions. However, most
+geometric computations tend to be very tedious. Thus the use of computer algebra
+systems considerably helps in the application of these methods.
+
+{\small JET} is an environment within the computer algebra system {\small AXIOM}
+to perform such computations. The current implementation emphasizes the two key
+concepts involution and symmetry. It provides some packages for the completion
+of a given system of differential equations to an equivalent involutive one
+based on the Cartan-Kuranishi theorem and for setting up the determining
+equations for classical and non-classical point symmetries.
+
+We stress that {\small JET} is an {\em environment\/} for such computations and
+not simply a collection of some special purpose algorithms. Thus it contains
+general data structures for the jet bundle formalism which can also be used for
+other tasks than the two above mentioned. Using the generic programming
+facilities of {\small AXIOM} it is possible to provide several representations
+for jet bundles and for different classes of differential equations. The main
+application packages are independent of such details.
+
+Involution has important applications in symmetry theory. One should e.g.\
+mention that involutive systems are locally solvable and only for such systems
+the two widely used definitions of a symmetry coincide. The in calculations
+applied definition as a transformation leaving the differential equation
+invariant yields for not locally solvable systems usually less symmetries then
+the definition as a transformation mapping solutions into solutions.  This can
+easily be seen with the system $u_{z}+yu_{x}=u_{y}=0$. Obviously it is not
+invariant under $y$-translations, but its solution space $u=const$ has this
+symmetry. This effect has especially implications on the nonclassical method of
+Bluman and Cole.
+
+Other applications include computing the size of the symmetry group of a
+differential equation without solving the determining equations. Furthermore it
+is possible to ``correct'' the result by subtracting some unwanted effects like
+e.g.\ the trivial superposition symmetry of linear equations. In the case of
+gauge theory the concept of involution leads to an new intrinsic definition for
+the number of degrees of freedom based on a similar formal correction.
+
+A brief description of an earlier version of {\small JET} can be found in
+Ref.~\cite{wms:aci}. The current version is described in much detail in
+Ref.~\cite{wms:axiom}. For more information about the underlying mathematical
+theory we refer to Ref.~\cite{wms:diss}. Applications of the concept of
+involution in symmetry theory are discussed in Ref.~\cite{wms:mcm}. Finally
+we mention Ref.~\cite{wms:con1} for some applications in physics. All these
+publications can be obtained via {\small WWW} at the {\small URL}:\\
+{\tt
+http://www.mathematik.uni-kassel.de/\textasciitilde  seiler/}. 
+\footnote{link updated.}
+%
+%
+\begin{thebibliography}{1}
+%
+\bibitem{ST} Singer, I. M., and Thorpe, J. A.{\em Lecture Notes on 
+  Elementary Topology and Geometry}, Scott, Foresman and Company. 
+\bibitem{SPV} Spivak, M. {\em Calculus on Manifolds}, W. A. Benjamin, 
+  Inc., New York, 1965. 
+
+\bibitem{wms:aci}
+J.~Sch\"u, W.M. Seiler, and J.~Calmet.
+\newblock Algorithmic methods for {L}ie pseudogroups.
+\newblock In N.~Ibragimov, M.~Torrisi, and A.~Valenti, editors, {\em Proc.
+  Modern Group Analysis: Advanced Analytical and Computational Methods in
+  Mathematical Physics}, pages 337--344, Acireale (Italy), 1992. Kluwer,
+  Dordrecht~1993.
+
+\bibitem{wms:axiom}
+W.M. Seiler.
+\newblock Applying {AXIOM} to partial differential equations.
+\newblock Internal Report 95-17, Universit\"at Karlsruhe, Fakult\"at f\"ur
+  Informatik, 1995.
+
+\bibitem{wms:diss}
+W.M. Seiler.
+\newblock {\em Analysis and Application of the Formal Theory of Partial
+  Differential Equations}.
+\newblock PhD thesis, School of Physics and Materials, Lancaster University,
+  1994.
+
+\bibitem{wms:mcm}
+W.M. Seiler.
+\newblock Involution and symmetry reductions.
+\newblock Preprint~1995.
+
+\bibitem{wms:con1}
+W.M. Seiler and R.W. Tucker.
+\newblock Involution and constrained dynamics~{I}: The {D}irac approach.
+\newblock {\em J.\ Phys.~A}, to appear, 1995.
+
+\bibitem{wms:jet}
+W.M. Seiler and  Jacques Calmet
+\newblock {\em JET - An AXIOM Environment for Geometric Computations 
+     with Differential Equations}
+Electronic Proc. IMACS Conference on Applications of Computer Algebra, 
+Albuquerque 1995, M. Wester, S. Steinberg, M. Jahn (eds.)
+\end{thebibliography}
+%
+\end{document}
+% -----------------------------------------------------------------------------
+% END DOCUMENTATION
+% -----------------------------------------------------------------------------
