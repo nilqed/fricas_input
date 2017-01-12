@@ -1,5 +1,4 @@
 \iffalse
-)lisp (setq |$inclAssertions| nil)
 )abbrev domain CMAP CellMap
 ++
 CellMap(R,n) : Exports == Implementation where
@@ -64,6 +63,10 @@ CellMap(R,n) : Exports == Implementation where
       ++ matrix.
     elt : (%,List X) -> List X
       ++ elt(f,x) is the same as (getMap f) x.
+    elt : (%,"dom") -> DOM
+      ++ S.dom is the same as getDom S.
+    elt : (%,"map") -> MAP
+      ++ S.map is the same as getMap S.
     coerce : % -> OutputForm
       ++ coerce(f) gives the output representation.
 
@@ -220,7 +223,10 @@ CellMap(R,n) : Exports == Implementation where
       #(getDom S) > #x => error "#arg too small."
       (getMap S) x
     
-    
+
+    elt(S,"dom") == getDom S
+    elt(S,"map") == getMap S
+
     coerce(x) == 
       v:List X
       for j in 1..#(x.d) repeat
@@ -300,7 +306,7 @@ SurfaceComplex(R,n) : Exports == Implementation where
 )if false
 \fi
 %==============================================================================
-% Documentation (pdflatex --interaction=nonstopmode this_file.spad
+% Documentation (pdflatex this_file.spad
 % Note: ensure that the code above is between \iffalse ... )if false\fi.
 %==============================================================================
 \documentclass[12pt,a4paper]{article}
@@ -314,19 +320,22 @@ SurfaceComplex(R,n) : Exports == Implementation where
 \usepackage{listings}
 \usepackage{color}
 \usepackage{epstopdf}
-
+\usepackage{pgfplots}
+%
+\pgfplotsset{width=10cm,compat=1.9}
+%
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 \definecolor{orange}{rgb}{1.0,0.44,0}
-
+%
 \lstdefinelanguage{SPAD}
 {keywords={if,then,else,for,in,repeat},
 keywords=[2]{Fraction, Integer, Polynomial, Expression, Float, 
              DoubleFloat, SurfaceComplex, CellMap, 
              List},
 keywords=[3]{cellMap, bdry, tangentSpace, normalSpace, normalField,
-             metricTensor},
+             metricTensor, jacobianMatrix, faces, coords, coordSymbols},
 keywordstyle=[2]\color{red},
 keywordstyle=[3]\color{orange},
 sensitive=true,%
@@ -353,8 +362,8 @@ string=[b]'%
   tabsize=3
 }
 \author{Kurt Pagani \\ {\tt nilqed@gmail.com}}
-\date{\today}
-\title{SurfaceComplex \\ {\small\tt Domain: SCMPLX}}
+\date{December 20,\ 2016}
+\title{SurfaceComplex \\ {\small\tt Domains: CMAP, SCMPLX}}
 %
 \newcommand{\CAD}{{\tt CAD}}
 \newcommand{\QE}{{\tt QE}}
@@ -362,41 +371,926 @@ string=[b]'%
 \newcommand{\QQ}[1]{\mathbb{Q}^{#1}}
 \newcommand{\ZZ}[1]{\mathbb{Z}^{#1}}
 \newcommand{\KK}[1]{\mathbb{K}^{#1}}
+\newcommand{\spadfun}[1]{\textcolor{magenta}{\tt #1}}
+\newcommand{\spadbold}[1]{{\tt\bf #1}}
+\newcommand{\type}[1]{\textcolor{blue}{\tt\tiny #1}}
+\newtheorem{definition}{Definition}
 %
 \begin{document}
 \maketitle
 %
 \begin{abstract}
-This manual decribes the FriCAS domains {\tt CellMap} and 
-{\tt SurfaceComplex}. These domains provide methods to compute
-various differential geometric objects of so called $p$-surfaces
-in {\RR n}, a notion which is used by Walter Rudin in his famous
+This manual decribes the FriCAS domains {\bf CellMap} and 
+{\bf SurfaceComplex}. These domains provide methods to compute
+various differential geometric properties of so called $p$-surfaces
+in ${\RR n}$, a notion which is used by Walter Rudin in his famous
 {\it Principles of Mathematical Analysis}. 
 \end{abstract}
 %
+\tableofcontents
 \section{Introduction}
 %
-\begin{lstlisting}
- -- code
-\end{lstlisting}
+Dealing with manifolds or similar geometric structures in a scientific
+computing system like FriCAS requires a great deal of abstraction as well
+as some simplifications compared to the usual mathematical definitions of
+such objects. It makes not much sense to speak of open sets, charts,
+diffeomorphisms and other topological properties in this context. Of 
+course, it is not impossible to mimic such terms in FriCAS, however,
+it would be of little use since most of them were not computable
+anyway. Since we already have differential forms and jet bundles at
+hand, we are looking for {\it dual} objects, so that we will be able
+to integrate differential forms over {\it surfaces} for example, that
+is to have some form of {\em Stokes theorem}:
+\begin{displaymath}
+  \int_{M} d\,\omega = \int_{\partial M} \omega
+\end{displaymath}   
+The identity above holds for a wide range of objects $M$ and $\omega$,
+and is - roughly speaking - the basis of geometric integration 
+\cite{GIT} and/or geometric measure theory \cite{GMT}. The generalization
+of Stokes theorem in those theories looks like
+\begin{displaymath}
+    \langle M,d\, \omega\rangle = \langle \partial M, \omega \rangle,
+\end{displaymath}  
+where the pairing $\langle\cdot,\cdot\rangle$ usually denotes a bilinear
+mapping between so called {\em chains} and {\em co-chains}. In the 
+approach \cite{GIT} by Whitney (and recently by Harrison \cite{JH}) the
+chains $M$ are built by geometric primitives (e.g. polyhedral chains)
+forming normed linear spaces (for various norms like {\em sharp} or
+{\em flat}) whose duals are the corresponding Banach space of co-chains,
+where it is not clear a priori that they represent differential forms 
+(this can be shown under certain conditions and is a highly non-trivial
+task). The other approach (as described by Federer \cite{GMT}) starts
+from smooth differential forms and looks at the dual space, well known
+as {\em DeRham Currents}. The whole theory is more or less a fruitful
+generalization of Laurent Schwartz's concept of {\em distributions}.
+In this context Stokes theorem holds by definition:
+\begin{displaymath}
+      T(d\,\omega) = \partial T (\omega),
+\end{displaymath}
+for all smooth forms and all currents (comparable to the derivatives
+of distributions $T'(\varphi)=-T(\varphi')$). This means $\partial$ is
+a linear operator (usually called {\em boundary operator}) which is
+loosely speaking the transpose of the differential operator $d$.
 
+Here we will follow along the lines of the latter approach, that is we
+are going to deal with objects which might be seen as DeRham currents
+in a wider sense, though we only consider {\em nice} objects (currents
+form a really huge space and many elements look quite bizarre) which
+have some relation to differential geometry.
+
+There is, however, {\bf one notable difference} to the literature cited 
+inasmuch as a differential form here is considered as an element of 
+the graded algebra
+\begin{displaymath}
+  \bigoplus_{p=0}^n {\bf\Omega}^p(\RR n),
+\end{displaymath}
+whereas usually only homogeneous forms $\in\bf\Omega^p$
+\footnote{$\Omega$ is a synonym for e.g. $\mathcal{D,E}$ etc.} 
+are meant. This descends from the already existing domain 
+{\em DeRhamComplex} on the one hand and computational convenience of 
+such inhomogeneous forms on the other. So we have for instance
+\begin{displaymath}
+   \omega(x) = a(x)\,d\,x_1+b(x)\, dx_1\wedge dx_2,
+\end{displaymath} 
+which is neither a $1$-form nor a $2$-form but just a form. If we 
+speak of a $p$-form we always mean a homogeneous form otherwise we
+just speak of a {\em form}. This also is a reason why we speak of
+a {\em complex}.
 %
-%\begin{figure}[!htb]
-%\centering
-%\includegraphics[scale=1.0]{cad1.eps}
-%\caption{Example 1.}
-%\label{fig:cad1}
-%\end{figure}
-% 
+\section{$p-$Surfaces}
+From a computational point of view it seems very convenient to follow
+the method in (\cite{PMA},chapter 10) how differential forms are 
+introduced. We will not copy here parts of that theory but merely
+state the most important definitions on which the {\em code} will be
+based.
+%
+\begin{definition}
+A subset of ${\RR p}$ of the form
+  \begin{displaymath}
+    \{\left(x_1,\ldots,x_p\right)\in {\RR p}: 
+       a_i \leq x_i \leq b_i, i=1,\ldots,p\}
+  \end{displaymath} 
+is called a $\bf p-${\bf cell}.
+\end{definition}
+%
+Usually $p>1$ and $a_i<b_i$, but we will allow $p=0$ and $a_j=b_j$ as
+a degenerate case (we will come back to this later on).
+%
+\begin{definition}
+Suppose $E$ is an open set in $\RR n$. A $\bf p-${\bf surface} in $E$
+is a $\mathcal{C}^1-$mapping $\Phi$ from a compact set $D\subset\RR p$
+into $\RR n$.
+
+$D$ is called the parameter domain of $\Phi$.
+\end{definition}
+%
+In the following we will tacitly assume that $D$ is some $p-$cell. 
+This entails no loss of generality as pointed out in \cite{PMA} too. 
+One important thing we will cite (\cite{PMA}, def. 10.10) here is:
+\begin{verse}
+We stress that $p-$surfaces in $E$ are defined to be mappings into $E$, 
+not subsets of $E$. This agrees with our earlier definition of curves 
+(Definition 6.26). In fact, $1-$surfaces are precisely the same as 
+continuously differentiable curves. 
+\end{verse}
+%
+In FriCAS there is no $\RR n$, not to speak of an open set $E$. Instead
+of we will use the (pseudo-) Field {\em Expression R}, where is a 
+{\em Ring} with some additional properties (usually $R=\mathbb Z)$.
+Therefore points in $\RR n$ would correspond to
+\begin{lstlisting}
+x:List Expression Integer:=[x[1],...,x[n]]
+-- or
+y:Vector Expression Integer:=[y[1],...,y[n]]
+-- x <-> easy convertibe 
+\end{lstlisting}
+and $p-$cells will be represented by a list of segments
+\begin{lstlisting}
+Q:List Segment Expression Integer:=[a[1]..b[1],...,a[p]..b[p]] 
+\end{lstlisting}
+Instead of {\tt Integer} one might use {\tt Float} of course. This
+way we have a correspondence to the definitions given above as soon we
+fix how the mappings from $Q$ to $E$ looks like. Obviously we can
+emulate $E$ as lists of length $n$ of a suitable type, thus our 
+mapping $\Phi$ (P below) can be given by the $\lambda$ expression: 
+\begin{lstlisting}
+X+->[P[1](X.1,...,X.p),...,P[n](X.1,...,X.p)]
+\end{lstlisting}
+where $X=X.1,...,X.p$ ranges over the $p-$cell $Q$. 
+
+We will call a $p-$surface in FriCAS a {\em CellMap}. This because it 
+shall remind to the domain (a $p-$cell) on the one hand and to the fact 
+that it is a mapping (and not a set) on the other hand. As an example
+we construct a $1-$surface (a curve) in three space as follows:
+\begin{lstlisting}
+cellMap([0..10],x+->[cos x.1, sin x.1, x.1])$CellMap(Float,3)
+\end{lstlisting} 
+\begin{verbatim}
+            |[0.0..10.0] -> [cos($ ),sin($ ),$ ]|
+                                 1       1   1                                     
+\end{verbatim}
+\type{Type:CellMap(Float,3)}
+
+%\input{fig1}
+
+\begin{tikzpicture}
+\begin{axis}
+    [
+    title={Using package {\tt pgfplots}},
+    view={60}{30},
+    ]
+\addplot3[
+    domain=0:10,
+    samples = 60,
+    samples y=0,
+]
+({cos(deg(x))},
+{sin(deg(x))},
+{x});
+\end{axis}
+\end{tikzpicture}
+
+Notice that domain variable ($x$ in the case above) is a list with the
+dimension of the cell ($1-$cell in the example), therefore the (only)
+parameter is {\tt x.1}. Further note that $x$ is just a dummy variable,
+we could have chosen any other symbol as well, so that a {\em CellMap}
+is independent of the coordinate symbol - which is also indicated by
+the $\$'s$ in the output format. One has to apply the mapping to a 
+point in order to get a point on the {\it surface}.
+%
+\subsection{Integration over $p-$Surfaces}
+Let $\omega$ be a general $p-$form in $\RR n$:
+\begin{displaymath}
+   \omega(u) = \sum_{I} \omega_{i_1,\ldots,i_p}(u)\ du_{i_1}
+   \wedge\ldots\wedge du_{i_p}
+\end{displaymath}
+then the integral of $\omega$ over a $p-$surface $\Phi$ is defined as
+\begin{displaymath}
+ \int_{\Phi} \omega = \int_{Q} 
+   \sum_{I} \omega_{i_1,\ldots,i_p}(\Phi(x))
+   \ \frac{\partial{(u_{i_1},\ldots,u_{i_p}})}{\partial{(x_1,\ldots,x_p})}
+   \ dx_{1} \cdots dx_{p} 
+\end{displaymath}
+where $Q$ denotes the parameter domain of $\Phi$ (a $p-$cell in FriCAS).
+The functions $\omega_{i_1,\ldots,i_p}$ are assumed to be real and
+continuous and the {\em Jacobian} in the right hand side integral above
+is the one determined by the mapping
+\begin{displaymath}
+     (x_1,\ldots,x_p) \mapsto (\Phi_{i_1}(x),\ldots,\Phi_{i_p}(x)),
+\end{displaymath} 
+which will be assumed to be continuously differentiable. Consequently
+the integral is an ordinary Riemann integral over a hypercube in $\RR p$.
+This widely corresponds to the statements given in \cite{PMA}. The
+reader acquainted with the topic will immediately see that this is just
+integration of the pull back of $\omega$ by $\Phi$ over its ($\Phi's$) 
+domain:
+\begin{displaymath}
+    \int_{\Phi(Q)} \omega = \int_{Q} \Phi^{\star}\omega
+\end{displaymath}
+This and more will be rigorously proved in \cite{PMA}, so we will end
+here with the theory and refer to the references given at the end.
+%
+\section{Surface Complex}
+A cell map may be seen as a piece of a bigger object, comparable to 
+a chart of a manifold which needs a whole atlas for its description.
+Since we have assumed that the domains of cell maps are compact we
+have a boundary $\partial Q$ which is built of of cells of one 
+lower dimension. In other words, a $p-$surface $\Phi$ has a boundary
+as well ($\partial \Phi$) which can be seen as a formal sum of other
+cell maps. Similar as the domain {\tt DeRhamComplex} we define the
+domain {\tt SurfaceComplex} as the free abelian group of cell maps
+over $\mathbb{Z}$. This will enable us to define a 
+{\em boundary operator}.
+\begin{definition}
+Let $\Sigma_p({\RR n})$ denote the set of $p-$surfaces, then 
+the formal sums of these (with integer coefficients) build a
+surface complex.
+ \begin{displaymath}
+  \mathcal{SC}_n=\bigoplus_{p=0}^n \mathbb{Z}\cdot\,{\bf\Sigma}_p ({\RR n}),
+ \end{displaymath}
+The boundary operator then is well defined
+ \begin{displaymath}
+   \partial: \mathcal{SC}_n \rightarrow \mathcal{SC}_n,
+ \end{displaymath}
+by the identity
+  \begin{displaymath}
+       \int_{\partial \Phi} \omega = \int_{\Phi} d\,\omega.
+  \end{displaymath}
+and the classical boundary of chains (simplexes in $\RR n$).
+\end{definition}
+The last statement probably should be specified. Let $a,b\in\RR p$, 
+then the line segment $[a,b]$ (the convex hull of the two points)
+induces a $1-current$ in a natural way:
+\begin{displaymath}
+   [[a,b]](\omega) = \int_0^1 \langle \omega((1-t)a+t + t b),b-a\rangle dt
+\end{displaymath} 
+for any one form $\omega\in\mathcal{D}^1({\RR p})$
+\footnote{See \cite{GMT},4.1.8 for details}. If $\omega$ is exact 
+(say $d\varphi$) we get
+\begin{displaymath}
+   [[a,b]](d\varphi) = 
+     \int_0^1 \langle \nabla\varphi((1-t)a+t + t b),b-a\rangle dt =
+     \varphi(b) -\varphi(a).
+\end{displaymath}
+This means - by the definition $\partial T(\varphi)=T(d\varphi)$ -
+\begin{displaymath}
+  \partial [[a,b]] = [[b]] - [[a]],
+\end{displaymath}
+where $[[b]](\varphi)$ is the $0-$current $\delta_b$, that is
+$[[b]](\varphi)=\varphi(b)$ for all $0-$forms. This way it can 
+be shown (by induction) that the boundary of a $p-$cell is given
+by the formula:
+\begin{eqnarray*}
+ \partial([[a_1,b_1]]\times\ldots\times[[a_p,b_p]]) = \sum_{k=1}^p\ 
+ (-1)^k [[a_+,b_1]]\times\,\ldots\times[[a_{k-1},b_{k-1}]] \\ 
+ \times([[b_k]] - [[a_k]])\times [[a_{k+1},b_{k+1}]]\times\ldots\times
+ [[a_{p},b_{p}]].
+\end{eqnarray*}
+This is a $(p-1)-$current which obviously coincides
+with the usual geometric intuition (one may think of any $p-$cell as
+a simplicial chain). We have used this formula to implement the boundary
+operator ({\tt bdry}). 
+%
+\section{Implementation}
+First we will describe the exported functions of the domain
+{\tt CellMap}. The choice of the name may be debatable, however,
+{\em ParametricSurface} and other suitable names are already taken.
+For the other domain, {\tt SurfaceComplex}, we think it is an 
+adequate designator what it is for.
+\subsection{Domain: {\tt CellMap (CMAP)}}
+The constructor function is also called \spadfun{cellMap} and requires
+a $p-$cell and and a mapping of type {\tt List X $\rightarrow$ List X},
+where we will denote by $X$ the type {\tt Expression R}, with $R$ the
+ring in {\tt CellMap(R,n)}. To keep things as simple as possible we
+did not introduce new types for points and vectors of fixed size. It
+will be the responsibility of the user to respect the necessary 
+dimensions of the lists, that is $n$ for the range and $p$ for the
+domain of the mapping.
+\subsubsection{{\tt cellMap}} 
+\begin{lstlisting}
+cellMap: (List Segment X,List X -> List X) -> $ 
+\end{lstlisting}
+As a first example let $Q$ be the $3-$cell defined by
+\begin{displaymath}
+ 0\leq r\leq 1,\ \ ,0\leq \theta \leq \pi,\ \ ,0\leq\varphi\leq 2\pi.
+\end{displaymath}
+We translate this into SPAD language as (notice the coercion {\tt 1::X})
+\begin{verbatim}
+    Q:=[0..1::X,0..%pi,0..2*%pi]
+\end{verbatim}
+Now define $\Phi(r,\theta,\varphi)=(x,y,z)$, where
+\begin{eqnarray*}
+     x &=& r \sin(\theta) \cos(\varphi) \\
+     y &=& r \sin(\theta) \sin(\varphi) \\
+     z &=& r \cos(\theta).
+\end{eqnarray*}
+Obviously, $\Phi$  maps $Q$ onto the closed unit ball of $\RR 3$, and
+it is bijective in the interior of $Q$ (but certain boundary points
+will be identified by $\Phi$, so it is not $1-1$ on $Q$!). Again we
+translate this to SPAD:
+\begin{lstlisting}
+F:List X -> List x
+F:=Z+->[Z.1*sin(Z.2)*cos(Z.3),Z.1*sin(Z.2)*sin(Z.3),Z.1*cos(Z.2)]
+\end{lstlisting}
+where $Z_1=r,Z_2=\theta,Z_3=\varphi$. Note that the symbol $Z$ is
+irrelevant, we could have used any other admissible symbol. This
+is quite convenient to specify mappings and, moreover, it makes
+{\tt cellMap} independent of coordinate symbols. 
+Eventually we can create the $3-$surface:
+\begin{lstlisting}
+B := cellMap(Q,F)$CellMap(R,3)
+\end{lstlisting}
+\scriptsize
+\begin{verbatim}
+|[0..1,0..%pi,0..(2%pi)] -> [$ cos($ )sin($ ),$ sin($ )sin($ ),$ cos($ )]|
+                              1     3      2   1     2      3   1     2
+Type: CellMap(Integer,3)
+\end{verbatim}
+\normalsize
+{\bf Note} the dollar signs in the output whose meaning is that of
+dummy variables ($Z$ will not occur anymore).
+
+For later reference we note down the {\em Jacobian} of $\Phi$:
+\begin{displaymath}
+  J_{\Phi}(r,\theta,\varphi)=
+    \frac{\partial(x,y,z)}{\partial(r,\theta,\varphi)} =
+      r^2\,\sin(\theta),
+\end{displaymath}
+and the integral over the volume form in $\RR 3$:
+\begin{displaymath}
+  \int_{\Phi} dx\wedge dy\wedge dz = \int_{Q} J_{\Phi}\,dr d\theta d\varphi 
+  = \frac{4\pi}{3}.
+\end{displaymath}
+The latter just gives the volume of $\Phi(Q)$.
+%
+\subsubsection{{\tt getDom, getMap}}
+The two functions \spadfun{getDom} and \spadfun{getMap} will recover the 
+$p-$cell (domain) and the mapping respectively when applied to
+a {\tt CellMap}. The $p-$surfaces are stored as
+\begin{verbatim}
+   Rep := Record(d:DOM,f:MAP)
+\end{verbatim}
+{\tt S.dom} and {\tt S.map} also work synonymously.
+%
+\subsubsection{{apply: \tt elt}}
+Elements of {\tt CellMap(R,n)} can be applied to an argument which has
+to be a list of dimension equal or greater to the dimension of the 
+cell (domain). Taking our example it looks like:
+\begin{lstlisting}
+B [r,th,phi::X]
+
+[r cos(phi)sin(th),r sin(phi)sin(th),r cos(phi)]
+Type: List(Expression(Integer))
+\end{lstlisting}
+%
+\subsubsection{{\tt faces}}
+This function returns as its name indicates the faces of the $p-$surface, 
+that is the images of the boundary of the domain ($p-$cell). Note that 
+the returned list contains pairs of faces corresponding to the endpoints 
+of intervals. This function will be useful when later dealing with
+{\tt SurfaceComplex}. Our example gives:
+\scriptsize
+\begin{verbatim}
+faces B
+
+[
+  [|[0..%pi,0..(2%pi)] -> [0,0,0]|,
+   |[0..%pi,0..(2%pi)] -> [cos($ )sin($ ),sin($ )sin($ ),cos($ )]|],
+                                2      1       1      2       1
+
+    [|[0..1,0..(2%pi)] -> [0,0,$ ]|,
+                                1
+                              
+     |[0..1,0..(2%pi)] -> [0,0,-$ ]|],
+                                 1   
+                                
+    [|[0..1,0..%pi] -> [$ sin($ ),0,$  cos($ )]|,
+                         1     2     1      2                   
+    
+    |[0..1,0..%pi] -> [$ sin($ ),0,$  cos($ )]|]]           
+                        1     2     1      2                
+Type: List(List(CellMap(Integer,3)))
+\end{verbatim}
+\normalsize 
+We can nicely see how the six faces of the $3-$cell $Q$ are mapped to.
+\subsubsection{{\tt coords, coordSymbols}}
+These two functions are just for convenience in order to introduce
+coordinates as well as coordinate symbols on which {\tt CellMap}'s 
+can be applied to. The symbols are convenient when differentiation
+is needed.
+\begin{lstlisting}
+M ==> CellMap(R,3) 
+
+Y:=coords('y,3)$M
+
+[y ,y ,y ]
+  1  2  3
+Type: List(Expression(Integer))
+
+YS:=coordSymbols('y,3)$M
+ [y ,y ,y ]
+   1  2  3
+Type: List(Symbol)
+\end{lstlisting}
+\scriptsize
+\begin{verbatim}
+
+-- apply B to Y
+
+Z := B Y
+
+[y cos(y )sin(y ),y sin(y )sin(y ),y cos(y )]
+  1     3      2   1     2      3   1     2
+
+Type: List(Expression(Integer))
+
+-- differentiate w.r.t. Y
+
+[D(Z.j,YS.j) for j in 1..3]
+
+     [cos(y )sin(y ),y cos(y )sin(y ),0]
+           3      2   1     2      3     
+Type: List(Expression(Integer))
+\end{verbatim}
+\normalsize
+%
+\subsubsection{\tt jacobianMatrix}
+The function \spadfun{jacobianMatrix} returns a $n\times p-$matrix
+valued function which gives the Jacobian matrix at each point in
+the cell.
+\begin{lstlisting}
+jacobianMatrix(B)
+ 
+
+theMap(CMAP;jacobianMatrix;$M;9!0,655)
+Type: (List(Expression(Integer)) -> Matrix(Expression(Integer)))
+
+\end{lstlisting}
+When applied to a point of the $3-$cell we get
+\begin{verbatim}
+jacobianMatrix(B) Y
+\end{verbatim}
+\begin{displaymath}
+\left[
+\begin{array}{ccc}
+{{\cos 
+\left(
+{{y \sb {3}}} 
+\right)}
+\  {\sin 
+\left(
+{{y \sb {2}}} 
+\right)}}
+& {{y \sb {1}} \  {\cos 
+\left(
+{{y \sb {2}}} 
+\right)}
+\  {\cos 
+\left(
+{{y \sb {3}}} 
+\right)}}
+& -{{y \sb {1}} \  {\sin 
+\left(
+{{y \sb {2}}} 
+\right)}
+\  {\sin 
+\left(
+{{y \sb {3}}} 
+\right)}}
+\\ 
+{{\sin 
+\left(
+{{y \sb {2}}} 
+\right)}
+\  {\sin 
+\left(
+{{y \sb {3}}} 
+\right)}}
+& {{y \sb {1}} \  {\cos 
+\left(
+{{y \sb {2}}} 
+\right)}
+\  {\sin 
+\left(
+{{y \sb {3}}} 
+\right)}}
+& {{y \sb {1}} \  {\cos 
+\left(
+{{y \sb {3}}} 
+\right)}
+\  {\sin 
+\left(
+{{y \sb {2}}} 
+\right)}}
+\\ 
+{\cos 
+\left(
+{{y \sb {2}}} 
+\right)}
+& -{{y \sb {1}} \  {\sin 
+\left(
+{{y \sb {2}}} 
+\right)}}
+& 0 
+\end{array}
+\right]
+\end{displaymath}
+%
+\type{Type: Matrix(Expression(Integer))} \\
+%
+Taking the determinant
+\begin{verbatim}
+simplify determinant %
+\end{verbatim} 
+\begin{displaymath}
+{{{y \sb {1}}} \sp {2}} \  {\sin 
+\left(
+{{y \sb {2}}} 
+\right)}
+\end{displaymath}
+we obtain the expected result when recalling $y_1=r$ and $y_2=\theta$.
+%
+\subsubsection{\tt tangentSpace, normalSpace}
+These two functions compute the tangent and normal space at each point
+respectively. Again, the return value is a function with domain a 
+cell and the range is a list of vectors which span the spaces. Better
+names might be {\em tangentBundle} and {\em normalBundle}, however,  
+there should be no confusion as neither of the nomenclature is really 
+satisfactory.
+We will just apply the resulting maps and get by out example:
+\begin{lstlisting}
+tangentSpace(B) Y
+normalSpace(B) Y
+\end{lstlisting}
+\scriptsize
+\begin{verbatim}
+   [[cos(y )sin(y ),sin(y )sin(y ),cos(y )],
+          3      2       2      3       2
+    [y cos(y )cos(y ),y cos(y )sin(y ),- y sin(y )],
+      1     2      3   1     2      3     1     2
+    [- y sin(y )sin(y ),y cos(y )sin(y ),0]]
+        1     2      3   1     3      2
+
+Type: List(Vector(Expression(Integer)))
+
+
+    []  -- normal space is empty here
+
+Type: List(Vector(Expression(Integer)))      
+\end{verbatim}
+\normalsize
+\subsubsection{\tt normalField}
+The function {\tt normalField} computes the unit normal at each point
+of a hypersurface (that is $p=n-1$). The return value is as usual 
+a map that can be applied to a cell point. Since our example has
+$p=n$ we cannot use this function, that is a message tells us:
+\begin{verbatim}
+normalField(B) 
+ 
+   >> Error detected within library code:
+   Not a hypersurface
+\end{verbatim} 
+We will provide an example later.
+%
+\subsubsection{\tt metricTensor}
+The metric tensor $g$ of a $p-$surface is computed by using the
+(Euclidean) scalar product of the ambient space: 
+$g_{ij}=\langle g_i,g_j\rangle$ where the $g_i$ are the tangent
+vectors.
+Let us compute the determinant of $g$ for our example $3-$surface
+$B$:
+\begin{lstlisting}
+simplify determinant (metricTensor(B) Y)
+\end{lstlisting}
+\begin{displaymath}
+-{{{{y \sb {1}}} \sp {4}} \  {{{\cos 
+\left(
+{{y \sb {2}}} 
+\right)}}
+\sp {2}}}+{{{y \sb {1}}} \sp {4}} 
+\end{displaymath}
+\type{Type: Expression(Integer)} \\
+Recall that the volume form is defined by 
+$\sqrt{g}\, dy_1\wedge dy_2\wedge dy_3$, thus we obtain for $B$:
+\begin{displaymath}
+  \eta_B = y_1^2 \, \sin(y_2)\ dy_1\wedge dy_2\wedge dy_3.
+\end{displaymath}
+%
+\subsubsection{\tt christoffelSymbols}
+The {\em Christoffel symbols} of the second type are defined as
+follows:
+\begin{displaymath}
+\Gamma ^{i}{}_{kl}=
+{\tfrac {1}{2}}g^{im}\left({\frac {\partial g_{mk}}{\partial x^{l}}}+
+{\frac {\partial g_{ml}}{\partial x^{k}}}-{\frac {\partial g_{kl}}
+{\partial x^{m}}}\right)={\tfrac {1}{2}}g^{im}(g_{mk,l}+g_{ml,k}-
+g_{kl,m})
+\end{displaymath}
+and are computed by \spadfun{christoffelSymbols} using this formula.
+\footnote{\tiny\tt en.wikipedia.org\/wiki/Christoffel\_symbols,\\
+math.stackexchange.com/questions/1985964/christoffel-symbols-for-spherical-polar-coordinates}
+The returned value is a list in $i$ of matrices with elements of $k,l$.
+\begin{lstlisting}
+christoffelSymbols(B) Y
+\end{lstlisting}
+\begin{displaymath}
+\scriptscriptstyle
+\left[
+{\left[ 
+\begin{smallmatrix}
+0 & 0 & 0 \\ 
+0 & -{y \sb {1}} & 0 \\ 
+0 & 0 & {{{y \sb {1}} \  {{{\cos 
+\left(
+{{y \sb {2}}} 
+\right)}}
+\sp {2}}} -{y \sb {1}}} 
+\end{smallmatrix}
+\right]},
+\: {\left[ 
+\begin{smallmatrix}
+0 & {\frac{1}{y \sb {1}}} & 0 \\ 
+{\frac{1}{y \sb {1}}} & 0 & 0 \\ 
+0 & 0 & -{{\cos 
+\left(
+{{y \sb {2}}} 
+\right)}
+\  {\sin 
+\left(
+{{y \sb {2}}} 
+\right)}}
+\end{smallmatrix}
+\right]},
+\: {\left[ 
+\begin{smallmatrix}
+0 & 0 & {\frac{1}{y \sb {1}}} \\ 
+0 & 0 & {\frac{\cos 
+\left(
+{{y \sb {2}}} 
+\right)}
+{\sin 
+\left(
+{{y \sb {2}}} 
+\right)}}
+\\ 
+{\frac{1}{y \sb {1}}} & {\frac{\cos 
+\left(
+{{y \sb {2}}} 
+\right)}
+{\sin 
+\left(
+{{y \sb {2}}} 
+\right)}}
+& 0 
+\end{smallmatrix}
+\right]}
+\right]
+\end{displaymath}
+Sometimes it is necessary to {\bf simplify} the resulting expressions, 
+especially when trigonometric functions are involved. The list of 
+matrices above has been simplified using the following method:
+\begin{lstlisting}
+TM ==> TranscendentalManipulations(INT,EXPR INT) 
+C:=christoffelSymbols(B) Y
+[map(simplify$TM,C.j) for j in 1..3]
+\end{lstlisting}
+The function {\em simplify} will replace $\sin(x)^2+\cos(x)^2$ by
+$1$ for example.
+\subsection{Domain: {\tt SurfaceComplex (SCMPLX)}}
+The constructor function \spadfun{construct} is just the same as
+\spadfun{cellMap} but its return value is of type {\tt SurfaceComplex}
+instead of {\tt CellMap}. It is also possible to coerce and retract
+between the two types.
+Let us make an example where it is best seen how it goes. The cell map
+$I$ embeds its domain $[0,1]\times[0,1]$ into three space:
+\scriptsize
+\begin{verbatim}
+(1) -> I:=cellMap([0..1,0..1],z+->[z.1,z.2,0])$CellMap(INT,3)
+
+   (1)  |[0..1,0..1] -> [$ ,$ ,0]|
+                          1  2
+                                            Type: CellMap(Integer,3)
+(2) -> IC:=I::SurfaceComplex(INT,3)
+
+   (2)  |[0..1,0..1] -> [$ ,$ ,0]|
+                          1  2
+                                            Type: SurfaceComplex(Integer,3)
+(3) -> bdry IC
+
+   (3)
+     - |[0..1] -> [$ ,1,0]| + |[0..1] -> [$ ,0,0]| - |[0..1] -> [0,$ ,0]|
+                    1                      1                        1
+   + 
+     |[0..1] -> [1,$ ,0]|
+                    1
+                                            Type: SurfaceComplex(Integer,3)
+(4) -> bdry %
+
+   (4)  0
+                                            Type: SurfaceComplex(Integer,3)
+\end{verbatim}
+\normalsize
+The boundary of $I_C$ comprises four cell maps with integer coefficients
+indicating the orientation so that $\partial\circ\partial=0$. 
+\subsubsection{\tt bdry}
+The boundary operator \spadfun{bdry} computes the quantity $\partial T$
+as defined in the previous section. Note, however, that the result should
+not be confused with the topological or geometric boundary. First
+of all we ware dealing with mappings (not sets) and second the cell
+maps $\Phi$ need not be $1-1$ on the whole (compact) cell. Yet this
+does not matter because $p-$dimensional integration in $n-$space is
+blind with respect to lower dimensional $k-$surfaces and due to 
+cancellations as well.
+As in the case of Schwartz distributions, each DeRham current has
+a support {\tt spt} which in case of taking boundaries may or may not
+coincide with the topological one (this will depend on the mapping
+of course). To illustrate this we will do example $10.32$ in \cite{PMA}:
+
+Let $Q=\{u,v: 0\leq u \leq\pi,0\leq v \leq 2\pi\}$ be a $2-$cell and
+\begin{displaymath}
+\Sigma(u,v) = (\sin u \cos v,\sin u \sin v, \cos u).
+\end{displaymath}
+Then $\Sigma$ is a $2-$surface in three space, whose range is the unit
+sphere $\mathcal{S}^2$. We all know that $\partial\mathcal{S}^2=0$ in
+the topological sense, but let us now write down $\partial\Sigma$:
+\begin{displaymath}
+\partial\Sigma = \Sigma(\partial Q) = \gamma_1+\gamma_2+\gamma_3+\gamma_4
+\end{displaymath}
+where
+\begin{eqnarray*}
+\gamma_1(u) &=& \Sigma(u,0) = (\sin u,0,\cos u) \\
+\gamma_2(v) &=& \Sigma(\pi,v) = (0,0,-1) \\
+\gamma_3(u) &=& \Sigma(\pi-u,2\,\pi) = (\sin u,0,-\cos u) \\
+\gamma_4(v) &=& \Sigma(0,2\,\pi-v)=(0,0,1)
+\end{eqnarray*}
+Rudin describes this in geographic terms as follows:
+\begin{verse}
+$\partial\Sigma$ starts at the north pole $N$, runs to the
+south pole $S$ along a meridian, pauses at $S$, returns to $N$ along the 
+same meridian, and finally pauses at $N$. The two passages along the 
+meridian are in opposite directions. The corresponding two line integrals 
+therefore cancel each other. In Exercise $32$ there is also one curve 
+which occurs twice in the boundary, but without cancellation.)
+\end{verse}
+So it is obvious that we must have $\partial\Sigma = 0$ since the
+constant maps $\gamma_2$ and $\gamma_4$ have zero Jacobians and will
+not contribute to integration over one forms. The other two mappings,
+$\gamma_1$ and $\gamma_3$ are opposite and will cancel.
+
+Next let us do the same in FriCAS.
+\begin{lstlisting}
+R ==> Integer
+X ==> Expression R
+
+-- 2-cell [0,pi]x[0,2*pi]
+Q:=[0::X..%pi,0..2*%pi]
+
+-- F mapping [Z.1,Z.2] -> [x,y,z]
+F:List X -> List X
+F:=Z+->[sin(Z.1)*cos(Z.2),sin(Z.1)*sin(Z.2),cos(Z.1)]
+
+S:=cellMap(Q,F)$CellMap(R,3)
+\end{lstlisting}
+First we compute the faces of the cell map $S$,
+\scriptsize
+\begin{verbatim}
+faces S
+
+   [[|[0..(2%pi)] -> [0,0,1]|,|[0..(2%pi)] -> [0,0,- 1]|],
+    [|[0..%pi] -> [sin($ ),0,cos($ )]|,|[0..%pi] -> [sin($ ),0,cos($ )]|]]
+                        1         1                       1         1
+                                      Type: List(List(CellMap(Integer,3)))
+                                     
+\end{verbatim}
+\normalsize
+where we recognize the $\gamma$'s without direction. Now we compute the
+actual boundary, obtaining:
+\scriptsize
+\begin{verbatim}
+bdry(S::SCMPLX(R,3))
+
+     - |[0..((2%pi))] -> [0,0,1]| + |[0..(2%pi)] -> [0,0,- 1]|
+                                      
+                                      Type: SurfaceComplex(Integer,3)
+                                     
+\end{verbatim}
+\normalsize
+which is obviously not $0$, actually it is the south pole minus the
+north pole. However, the integral over any $1-$form is zero of course,
+so that $\partial\Sigma=0$ by definition. It is clear how to resolve
+this puzzle at once: the one dimensional content of a point is zero,
+so the meaning of $\partial\Sigma=0$ always is with respect to a 
+measure (in this sense our $\tt bdry\ S$ is equivalent to $0$). Note
+that we use the Riemann integral here and Jordan content, while
+geometric measure theory is mostly based on Hausdorff measure
+(see \cite{GMT}). The reason for this degeneracy is also found in the
+the vanishing of the determinant of the metric $g$ at the
+values $0$ and $2\pi$.
+\subsubsection{Example: Solid Torus}
+In order to get a feeling how to deal with the elements of {\tt SCMPLX},
+sometimes also known as affine chains, we will try to verify example
+$10.47$ in \cite{PMA}.
+Let $0<a<b$ be fixed and let $K$ be the $3-$cell determined by 
+$0\leq t\leq a$,\,$0\leq u\leq 2\pi$ and $0\leq v\leq 2\pi$.The
+equations
+\begin{eqnarray*}
+x &=& t \cos u \\
+y &=& (b+t \sin u) \cos v \\
+z &=& (b+t \sin u) \sin v
+\end{eqnarray*}
+describe a mapping $\Psi$ into three space which is $1-1$ in the interior
+of $K$, such that $\Psi(K)$ is a solid torus. Its Jacobian is claimed to
+be
+\begin{displaymath}
+  J_\Psi = \frac{\partial(x,y,z)}{\partial(t,u,v)}=t(b+t\sin u)
+\end{displaymath}.
+Next the $2-$chain $\Phi=\partial\Psi$ is considered (details see loc. cit.),
+and it is claimed that $\Phi$ is simply the $2-$surface obtained by setting
+$t=a$ in the equations above, with parameter cell $[0,2\pi]\times[0,2\pi]$
+(modulo a circle, which does not contribute to the integrals).
+Moreover, the normal to $\Phi$ at $(u,v)\in D$ should be the vector
+\begin{displaymath}
+   N(u,v) = a(b+a\sin u) \mathbf{n}(u,v)
+\end{displaymath}
+where $\mathbf{n}(u,v)=(\cos u, \sin u \cos v, \sin u \sin v)$.
+
+Now the following sequence of commands will verify these claims
+step by step.
+\begin{lstlisting}
+)clear all
+R ==> Integer
+X ==> Expression R
+
+-- 3-cell [0,a]x[0,2*pi]x[0,2*%pi]
+Q:=[0..a::X,0..2*%pi,0..2*%pi]
+
+-- F mapping [Z.1,Z.2] -> [x,y,z]
+F:List X -> List X
+F:=Z+->[Z.1*cos(Z.2),(b+Z.1*sin(Z.2))*cos(Z.3),
+         (b+Z.1*sin(Z.2))*sin(Z.3)]
+
+T:=cellMap(Q,F)$CellMap(R,3)
+
+J:=jacobianMatrix(T) [t,u,v]
+
+simplify determinant(J)   -- t^2 sin(u) + b t
+
+S:= bdry(T::SCMPLX(R,3))  -- boundary = circle + claimed map
+
+S2:=nthFactor(S,2)        -- get the mapping
+
+nf:=normalField(S2) [u,v]  
+dot(nf,nf) -- equals 1
+
+-- sometimes one has to simplify trig. expressions
+nf:=vector [simplify s for s in nf::List X]
+
+ts:=tangentSpace(S2) [u,v]
+nc:=cross(ts.1,ts.2) -- cross product of tangent vectors
+
+r1:=simplify dot(nc,nf)
+simplify (denominator(r1)^2) -- equals 1 => a^2 sin(u) + a 
+\end{lstlisting}
+%
+\iffalse
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tikzpicture}
+\begin{axis}[
+    title=Exmple using the mesh parameter,
+    hide axis,
+    colormap/cool,
+]
+\addplot3[
+    mesh,
+    samples=50,
+    domain=-8:8,
+]
+{sin(deg(sqrt(x^2+y^2)))/sqrt(x^2+y^2)};
+\addlegendentry{$\frac{sin(r)}{r}$}
+\end{axis}
+\end{tikzpicture}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fi
+%
+%
 \begin{thebibliography}{1}
 %
-\bibitem{COL73} Collins G.E, {\em Computer algebra of polynomials and rational 
-functions.}, Amer. Math. Monthly, 80, (1973), p. 725-755.
-%
-\bibitem{ACM82} Arnon D.S, Collins G.E, McCallum S., {\em Cylindrical Algebraic
-Decomposition I: The Basic Algorithm}, Computer Science Technical Reports,
-1982, \#82-427, Purdue University. \\
-Url: {\small {\tt http://docs.lib.purdue.edu/}} 
+\bibitem{PMA} Walter Rudin,
+  {\em Principles of Mathematical Analysis},
+  International series in pure and applied mathematics,
+  1976, McGraw-Hill.
+\bibitem{GIT} Hassler Whitney. {\em Geometric Integration Theory},
+  Princeton Mathematical Series, No. 21. Literary Licensing, LLC.
+\bibitem{GMT} Herbert Federer. {\em Geometric Measure Theory}. Springer,        
+  Reprint of the 1st ed. Berlin, Heidelberg, New York 1969 edition.
+\bibitem{JH} Jenny Harrison, {\em Operator Calculus of Differential
+  Chains and Differential Forms}, to appear in the Journal of Geometric
+  Analysis, 2013. \\
+  Url:\ {\small {\tt math.berkeley.edu/\textasciitilde harrison}}
+\bibitem{ST} Singer, I. M., and Thorpe, J. A.{\em Lecture Notes on 
+  Elementary Topology and Geometry}, Scott, Foresman and Company. 
+\bibitem{SPV} Spivak, M. {\em Calculus on Manifolds}, W. A. Benjamin, 
+  Inc., New York, 1965. 
 \end{thebibliography}
 %
 \end{document}

@@ -1,3 +1,4 @@
+-- \ifx
 )co ../dform/devel/src/dform
 )co ../scmplx/scmplx
 )co jetgeom
@@ -112,3 +113,16 @@ vf:=pullBack(H,dU.1*dU.2*dU.3)$N
 
 simplify leadingCoefficient(vf)  -- cmp. Rudin Example 10.47 (SCMPLX)
 
+
+pullBack(H,u*1$DERU)$N
+pullBack(H,v*1$DERU)$N
+pullBack(H,w*1$DERU)$N
+pullBack(H,u*v*w*1$DERU)$N
+
+
+
+
+
+)if false
+\fi
+)endif

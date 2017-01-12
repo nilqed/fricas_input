@@ -1,3 +1,310 @@
+\iffalse
+)abbrev domain CMAP CellMap
+++
+CellMap(R,n) : Exports == Implementation where
+
+  R: Join(Ring,Comparable)
+  n: NonNegativeInteger
+  
+  X   ==> Expression R
+  DP  ==> DirectProduct
+  OF  ==> OutputForm
+  NNI ==> NonNegativeInteger
+  MAP ==> List X -> List X
+  DOM ==> List(Segment X)
+  
+
+  Exports == Join(CoercibleTo OF,SetCategory,Evalable X) with
+  
+    _= : (%,%) -> Boolean
+      ++ f1=f2 checks if two given cell maps are equal, that is if they have
+      ++ the same domain D and the same mapping from D into X^n.
+    cellMap : (DOM,MAP) -> %
+      ++ cellMap(D,f) is the constructor. Usually one has to specify the
+      ++ dimension of the target space. For example, let Q=[a..b,c..d], then
+      ++ cellMap(Q,Z+->[sin(Z.1),cos(Z.2),Z.1*Z.2])$CMAP(INT,3) defines a
+      ++ 2-surface in Expression(Integer)^3.
+    getDom : % -> DOM
+      ++ getDom(f) extracts the domain of f.
+    getMap : % -> MAP
+      ++ getMap(f) extracts the map of f.
+    faces  : % -> List List(%)
+      ++ faces(f) returns the faces of f, that means the images of the boundary
+      ++ of the domain. Note: the returned list contains pairs of faces 
+      ++ corresponding to the endpoints of intervals.
+    coords : (Symbol,PositiveInteger) -> List X
+      ++ coords(s,m) provides a sample of coordinates s[1],..,s[m] as a list.
+    coordSymbols : (Symbol,PositiveInteger) -> List Symbol
+      ++ coordSymbols(s,m) provides a sample of coordinates s[1],..,s[m] as a
+      ++ list of symbols.
+    jacobianMatrix : % -> (List X -> Matrix X)
+      ++ jacobianMatrix(f) returns the Jacobian matrix as a matrix valued
+      ++ function defined on the same cell as the cellMap.
+    tangentSpace : % -> (List(X) -> List(Vector X))
+      ++ tangentSpace(f) returns a mapping which applied to a point gives
+      ++ a list of vectors spanning the tangent space at that point.
+      ++ A better name might probably be: tangentBundle.
+    normalSpace : % -> (List(X) -> List(Vector X))
+      ++ normalSpace(f) is the complement of tangentSpace(f).
+    normalField : % -> (List(X) -> Vector(X))
+      ++ normalField(f) returns a vector valued mapping which applied to
+      ++ a point of the domain cell returns the corresponding unit normal
+      ++ at the corresponding surface point.
+    metricTensor : % ->(List(X) -> Matrix(X))
+      ++ metricTensor(f) returns the metric tensor of the p-surface f as
+      ++ a matrix valued function, providing the metric at each point. The
+      ++ metric is calculated by the Euclidean dot product of the tangent
+      ++ vectors (living in the ambient space).
+    christoffelSymbols : % -> (List(X) -> List(Matrix X))
+      ++ christoffelSymbols(f) returns all Christoffel symbols of
+      ++ the second kind as a function returning a list of matrices. 
+      ++ G^i_{k,l} can be accessed by the i-th element of the list 
+      ++ followed by choosing the row k, column l of the returned 
+      ++ matrix.
+    elt : (%,List X) -> List X
+      ++ elt(f,x) is the same as (getMap f) x.
+    elt : (%,"dom") -> DOM
+      ++ S.dom is the same as getDom S.
+    elt : (%,"map") -> MAP
+      ++ S.map is the same as getMap S.
+    coerce : % -> OutputForm
+      ++ coerce(f) gives the output representation.
+
+
+
+  Implementation ==  add 
+    
+    Rep := Record(d:DOM,f:MAP)
+
+
+    (x:% = y:%):Boolean == 
+      l:NNI:=min(#(x.d),#(y.d))
+      v:List X
+      for j in 1..l repeat
+        s:X:=subscript('z,[j::OF])::X
+        v:=concat(v,s::X)
+      x.d =y.d and (x.f) v = (y.f) v => true
+      false
+
+
+    cellMap(dd:DOM,ff:MAP):% == 
+      #dd > n => error concat("#DOM > ",string n)
+      v:List X:=[1::X for j in 1..#dd]
+      ~test(#ff(v)=n) => error concat("#Range ~= ", string n) 
+      construct(dd,ff)
+
+
+    faceLoHi(x:%,i:NNI,lo:Boolean):% ==
+      l:NNI:=#(x.d)
+      v:List X
+      for j in 1..l repeat
+        if j=i then
+          if lo then
+            s:X:=lo(x.d.i)
+          else
+            s:X:=hi(x.d.i)
+        else
+          if j>i then
+            s:X:=subscript('%,[(j-1)::OF])::X
+          else
+            s:X:=subscript('%,[j::OF])::X
+        v:=concat(v,s::X)
+      vv:=delete(v,i..i)
+      dd:List(Segment X):=delete(x.d,i..i)
+      ff:MAP:=vv+->(x.f) concat(concat([vv.k for k in 1..i-1],v.i),[vv.k for k in i..#vv])
+      cellMap(dd,ff)
+      
+     
+    faces(x:%):List List(%) ==
+      l:NNI:=#(x.d)
+      [[faceLoHi(x,j,true), faceLoHi(x,j,false)] for j in 1..l]
+        
+        
+    getDom(x) == x.d
+    getMap(x) == x.f
+
+
+    coordSymbols(s:Symbol,m:PositiveInteger):List Symbol == 
+      [subscript(s,[j::OF]) for j in 1..m]
+      
+      
+    coords(s:Symbol,m:PositiveInteger):List X ==
+      xs:=[subscript(s,[j::OF]) for j in 1..m]
+      [coerce(xs.j)$X for j in 1..#xs]
+    
+
+    jacobianMatrix(S:%):List(X) -> Matrix(X) ==
+      --xs:List Symbol:=v:=[subscript('x,[j::OF]) for j in 1..#(getDom S)]
+      --x:List X:=[coerce(xs.j)$X for j in 1..#xs]
+      xs:List Symbol:=coordSymbols('x,#(getDom S)::PositiveInteger)
+      x:List X:=coords('x,#xs::PositiveInteger)
+      F:List X:=(getMap S) x
+      J:Matrix(X):=matrix [[D(ff,u) for u in xs] for ff in F]
+      if Matrix(X) has Join(SetCategory,Evalable(X)) then
+        (y:List X):Matrix(X)+-> eval(J,x,y)
+      else
+        message("Warning: not evalable.")$OutputForm
+        (y:List X):Matrix(X)+-> J
+
+
+    tangentSpace(S:%):List(X) -> List(Vector X) ==
+      k:PositiveInteger:=#(getDom S)::PositiveInteger
+      J:=jacobianMatrix(S)
+      x:List X:=coords('x,k)
+      if Vector(X) has Join(SetCategory,Evalable(X)) then
+        if X has EuclideanDomain then 
+          cs:List(Vector X):=columnSpace(J x)
+          #cs ~= k => error "Jacobian is degenerate."  -- #columnSpace < k
+          (y:List X):List Vector(X)+-> [eval(t,x,y) for t in cs]
+      
+
+    normalSpace(S:%):List(X) -> List(Vector X) ==
+      k:PositiveInteger:=#(getDom S)::PositiveInteger
+      k>=n => (y:List X):List Vector(X)+-> [] 
+      x:List X:=coords('x,k)
+      ts:=tangentSpace(S) x
+      rd:=[vector [0::X for i in 1..n] for j in k+1..n]
+      Q:=append(ts,rd)
+      QR:=[entries(v) for v in Q]
+      M:=(matrix QR)::Matrix(X)
+      if Vector(X) has Join(SetCategory,Evalable(X)) then
+        if X has Join(IntegralDomain,EuclideanDomain) then
+          cs:List(Vector X):=nullSpace(M)
+          (y:List X):List Vector(X)+-> [eval(t,x,y) for t in cs]
+
+
+    normalField(S:%):List(X) -> Vector(X) ==
+      k:PositiveInteger:=#(getDom S)::PositiveInteger
+      k ~= n-1 => error "Not a hypersurface"
+      x:List X:=coords('x,k)
+      cs:=normalSpace(S) x
+      #cs ~= 1 => error "Not a hypersurface"
+      v:=cs.1
+      if R has IntegralDomain then
+        r:X:= sqrt(dot(v,v))
+        r = 0 => error "No normal; zero vector"
+        if Vector(X) has Join(SetCategory,Evalable(X)) then
+          (y:List X):Vector(X)+-> eval((1/r)*v,x,y)
+      
+
+    metricTensor(S:%):List(X) -> Matrix(X) ==
+      k:PositiveInteger:=#(getDom S)::PositiveInteger
+      x:List X:=coords('x,k)
+      ts:=tangentSpace(S) x
+      M:=matrix [[dot(ts.i,ts.j) for j in 1..k] for i in 1..k]
+      if Matrix(X) has Join(SetCategory,Evalable(X)) then
+        (y:List X):Matrix(X)+-> eval(M,x,y)
+
+
+    christoffelSymbols(S:%):List(X) -> List(Matrix X) ==
+      k:PositiveInteger:=#(getDom S)::PositiveInteger
+      x:List X:=coords('x,k)
+      xs:List Symbol:=coordSymbols('x,k)
+      g:Matrix X:=metricTensor(S) x
+      if X has Field then
+        gg:Union(Matrix X,"failed"):=inverse g
+        gg case "failed" => error "Metric tensor not invertible."
+        if gg case Matrix(X) then ig:Matrix X:=gg
+      else
+        error "Expression R should have Field."
+      LG:List Matrix X:=[new(k,k,0)$Matrix(X) for j in 1..k]
+      for i in 1..k repeat
+        for j in 1..k repeat
+          for l in 1..k repeat
+            E:List X:=[ig(i,m)*(D(g(m,j),xs.l)+D(g(m,l),xs.j)-D(g(j,l),xs.m)) for m in 1..k]
+            SE:X:=reduce("+",E)
+            LG.i (j,l) := SE/2::X
+      if Matrix(X) has Join(SetCategory,Evalable(X)) then
+        (y:List X):List(Matrix X)+-> [eval(LG.m,x,y) for m in 1..k]
+      
+      
+
+    elt(S:%,x:List X):List X ==
+      #(getDom S) > #x => error "#arg too small."
+      (getMap S) x
+    
+
+    elt(S,"dom") == getDom S
+    elt(S,"map") == getMap S
+
+    coerce(x) == 
+      v:List X
+      for j in 1..#(x.d) repeat
+        s:X:=subscript('%,[j::OF])::X
+        v:=concat(v,s::X)
+      r:List X:=(x.f) v
+      hconcat ["|",x.d::OF," -> ",r::OF,"|"]
+  
+    
+      
+)abbrev domain SCMPLX SurfaceComplex
+++
+SurfaceComplex(R,n) : Exports == Implementation where
+
+  NNI ==> NonNegativeInteger
+  INT ==> Integer
+  
+  n : NNI
+  R : Join(Ring,Comparable)
+  
+  CMAP ==> CellMap(R,n)
+  CTOF ==> CoercibleTo OutputForm
+  X    ==> Expression R
+  OF   ==> OutputForm
+  MAP  ==> List X -> List X
+  DOM  ==> List(Segment X)
+
+  Exports == Join(AbelianGroup ,CTOF, RetractableTo CMAP) with
+ 
+    bdry : % -> %
+      ++ bdry(S) computes the boundary of the surface complex S.
+    size : % -> NNI
+      ++ size(S) returns the number of "pieces" of the surface complex S.
+    nthCoef : (%,Integer) -> Integer
+      ++ nthCoef(x, n) returns the coefficient of the n^th term of x.
+    nthFactor : (%,Integer) -> CMAP
+      ++ nthFactor(x, n) returns the factor of the n^th term of x.
+    zero? : % -> Boolean 
+      ++ zero?(S) returns true if S is the empty surface complex.
+    _= : (%,%) -> Boolean
+      ++ S=S' checks if the surface complexes S and S' are equal.
+    terms : % -> List(Record(gen: CMAP,exp: Integer))
+      ++ terms(S) returns all terms of S as a record.
+    mapGen : ((CMAP -> CMAP),%) -> %
+      ++ mapGen(f, e1 a1 +...+ en an) returns
+      ++ \spad{e1 f(a1) +...+ en f(an)}.
+    mapCoef : ((Integer -> Integer),%) -> %
+      ++ mapCoef(f, e1 a1 +...+ en an) returns
+      ++ \spad{f(e1) a1 +...+ f(en) an}.
+    construct : (DOM,MAP) -> %
+      ++ construct(d,f) constructs a term (piece) of a k-surface, where
+      ++ d is the domain (a k-cell) and f is a mapping from d to a vector
+      ++ space of dimension n.
+    
+    
+    --coerce : % -> OutputForm
+    
+  Implementation == FreeAbelianGroup(CMAP) add
+
+    Rep:=FreeAbelianGroup(CMAP)
+      
+
+    bdry(c:%):% == 
+      if size(c) = 1 then
+        s:=nthFactor(c,1)
+        l:=faces(s)
+        fs:=[(a.2::Rep-a.1::Rep) for a in l]
+        sgn:=(j:INT):INT+->if even? (j-1) then 1 else -1
+        nthCoef(c,1)*reduce("+",[sgn(j)*fs.j::Rep for j in 1..#fs])
+      else
+        ct:=[(nthCoef(c,j)*nthFactor(c,j))::Rep for j in 1..size(c)]
+        reduce("+",map(bdry,ct))
+        
+ 
+    construct(d:DOM,f:MAP):% == cellMap(d,f)$CMAP::%
+
+)if false
+\fi
 %==============================================================================
 % Documentation (pdflatex this_file.spad
 % Note: ensure that the code above is between \iffalse ... )if false\fi.
@@ -55,7 +362,7 @@ string=[b]'%
   tabsize=3
 }
 \author{Kurt Pagani \\ {\tt nilqed@gmail.com}}
-\date{December 20, 2016}
+\date{December 20,\ 2016}
 \title{SurfaceComplex \\ {\small\tt Domains: CMAP, SCMPLX}}
 %
 \newcommand{\CAD}{{\tt CAD}}
@@ -990,3 +1297,9 @@ simplify (denominator(r1)^2) -- equals 1 => a^2 sin(u) + a
 % -----------------------------------------------------------------------------
 % END DOCUMENTATION
 % -----------------------------------------------------------------------------
+)endif
+
+
+
+
+     
