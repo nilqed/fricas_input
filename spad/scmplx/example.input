@@ -45,7 +45,7 @@ normalSpace(B) Y
 -- normalField(B) Y -> not a Hypersurface
 
 metricTensor(B) Y
-
+christoffelSymbols(B) Y
 --
 bdry(B::SCMPLX(R,3))
 
@@ -113,3 +113,6 @@ nc:=cross(ts.1,ts.2)
 
 r1:=simplify dot(nc,nf)
 simplify (denominator(r1)^2)
+
+--
+G:=christoffelSymbols(S2)[u,v]

@@ -56,6 +56,12 @@ CellMap(R,n) : Exports == Implementation where
       ++ a matrix valued function, providing the metric at each point. The
       ++ metric is calculated by the Euclidean dot product of the tangent
       ++ vectors (living in the ambient space).
+    christoffelSymbols : % -> (List(X) -> List(Matrix X))
+      ++ christoffelSymbols(f) returns all Christoffel symbols of
+      ++ the second kind as a function returning a list of matrices. 
+      ++ G^i_{k,l} can be accessed by the i-th element of the list 
+      ++ followed by choosing the row k, column l of the returned 
+      ++ matrix.
     elt : (%,List X) -> List X
       ++ elt(f,x) is the same as (getMap f) x.
     coerce : % -> OutputForm
@@ -186,6 +192,29 @@ CellMap(R,n) : Exports == Implementation where
       if Matrix(X) has Join(SetCategory,Evalable(X)) then
         (y:List X):Matrix(X)+-> eval(M,x,y)
 
+
+    christoffelSymbols(S:%):List(X) -> List(Matrix X) ==
+      k:PositiveInteger:=#(getDom S)::PositiveInteger
+      x:List X:=coords('x,k)
+      xs:List Symbol:=coordSymbols('x,k)
+      g:Matrix X:=metricTensor(S) x
+      if X has Field then
+        gg:Union(Matrix X,"failed"):=inverse g
+        gg case "failed" => error "Metric tensor not invertible."
+        if gg case Matrix(X) then ig:Matrix X:=gg
+      else
+        error "Expression R should have Field."
+      LG:List Matrix X:=[new(k,k,0)$Matrix(X) for j in 1..k]
+      for i in 1..k repeat
+        for j in 1..k repeat
+          for l in 1..k repeat
+            E:List X:=[ig(i,m)*(D(g(m,j),xs.l)+D(g(m,l),xs.j)-D(g(j,l),xs.m)) for m in 1..k]
+            SE:X:=reduce("+",E)
+            LG.i (j,l) := SE/2::X
+      if Matrix(X) has Join(SetCategory,Evalable(X)) then
+        (y:List X):List(Matrix X)+-> [eval(LG.m,x,y) for m in 1..k]
+      
+      
 
     elt(S:%,x:List X):List X ==
       #(getDom S) > #x => error "#arg too small."

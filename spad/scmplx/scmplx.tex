@@ -1,5 +1,5 @@
 %==============================================================================
-% Documentation (pdflatex --interaction=nonstopmode this_file.spad
+% Documentation (pdflatex this_file.spad
 % Note: ensure that the code above is between \iffalse ... )if false\fi.
 %==============================================================================
 \documentclass[12pt,a4paper]{article}
@@ -75,7 +75,7 @@ string=[b]'%
 \begin{abstract}
 This manual decribes the FriCAS domains {\bf CellMap} and 
 {\bf SurfaceComplex}. These domains provide methods to compute
-various differential geometric objects of so called $p$-surfaces
+various differential geometric properties of so called $p$-surfaces
 in ${\RR n}$, a notion which is used by Walter Rudin in his famous
 {\it Principles of Mathematical Analysis}. 
 \end{abstract}
@@ -669,6 +669,93 @@ $\sqrt{g}\, dy_1\wedge dy_2\wedge dy_3$, thus we obtain for $B$:
   \eta_B = y_1^2 \, \sin(y_2)\ dy_1\wedge dy_2\wedge dy_3.
 \end{displaymath}
 %
+\subsubsection{\tt christoffelSymbols}
+The {\em Christoffel symbols} of the second type are defined as
+follows:
+\begin{displaymath}
+\Gamma ^{i}{}_{kl}=
+{\tfrac {1}{2}}g^{im}\left({\frac {\partial g_{mk}}{\partial x^{l}}}+
+{\frac {\partial g_{ml}}{\partial x^{k}}}-{\frac {\partial g_{kl}}
+{\partial x^{m}}}\right)={\tfrac {1}{2}}g^{im}(g_{mk,l}+g_{ml,k}-
+g_{kl,m})
+\end{displaymath}
+and are computed by \spadfun{christoffelSymbols} using this formula.
+\footnote{\tiny\tt en.wikipedia.org\/wiki/Christoffel\_symbols,\\
+math.stackexchange.com/questions/1985964/christoffel-symbols-for-spherical-polar-coordinates}
+The returned value is a list in $i$ of matrices with elements of $k,l$.
+\begin{lstlisting}
+christoffelSymbols(B) Y
+\end{lstlisting}
+\begin{displaymath}
+{\scriptscriptstyle
+\left[
+{\left[ 
+\begin{array}{ccc}
+0 & 0 & 0 \\ 
+0 & -{y \sb {1}} & 0 \\ 
+0 & 0 & -{{{y \sb {1}} \  {{{\sin 
+\left(
+{{y \sb {2}}} 
+\right)}}
+\sp {2}}} \over {{{{\sin 
+\left(
+{{y \sb {2}}} 
+\right)}}
+\sp {2}}+{{{\cos 
+\left(
+{{y \sb {2}}} 
+\right)}}
+\sp {2}}}} 
+\end{array}
+\right]},
+\: {\left[ 
+\begin{array}{ccc}
+0 & {1 \over {y \sb {1}}} & 0 \\ 
+{1 \over {y \sb {1}}} & 0 & 0 \\ 
+0 & 0 & -{{{\cos 
+\left(
+{{y \sb {2}}} 
+\right)}
+\  {\sin 
+\left(
+{{y \sb {2}}} 
+\right)}}
+\over {{{{\sin 
+\left(
+{{y \sb {2}}} 
+\right)}}
+\sp {2}}+{{{\cos 
+\left(
+{{y \sb {2}}} 
+\right)}}
+\sp {2}}}} 
+\end{array}
+\right]} ,   
+\: {\left[ 
+\begin{array}{ccc}
+0 & 0 & {1 \over {y \sb {1}}} \\ 
+0 & 0 & {{\cos 
+\left(
+{{y \sb {2}}} 
+\right)}
+\over {\sin 
+\left(
+{{y \sb {2}}} 
+\right)}}
+\\ 
+{1 \over {y \sb {1}}} & {{\cos 
+\left(
+{{y \sb {2}}} 
+\right)}
+\over {\sin 
+\left(
+{{y \sb {2}}} 
+\right)}}
+& 0 
+\end{array}
+\right]}
+\right] }
+\end{displaymath}
 \subsection{Domain: {\tt SurfaceComplex (SCMPLX)}}
 The constructor function \spadfun{construct} is just the same as
 \spadfun{cellMap} but its return value is of type {\tt SurfaceComplex}
