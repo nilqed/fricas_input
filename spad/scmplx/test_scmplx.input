@@ -22,7 +22,7 @@ testsuite "scmplx"
 testcase  "all"
 ------------------
 
-N:=27 -- number of tests
+N:=38 -- number of tests
 res:List(Boolean):=[false for j in 1..N] -- Result list
 
 
@@ -310,7 +310,7 @@ bdry(S::SCMPLX(R,3))
 -- =============
 -- Example 10.47
 -- =============
-
+)clear prop b
 R ==> Integer
 X ==> Expression R
 
@@ -325,7 +325,12 @@ T:=cellMap(Q,F)$CellMap(R,3)
 
 J:=jacobianMatrix(T) [t,u,v]
 
+res.28 := test(J=matrix[[cos(u),-t*sin(u),0],_
+                  [cos(v)*sin(u),t*cos(u)*cos(v),(-t*sin(u)-b)*sin(v)],_
+                  [sin(u)*sin(v),t*cos(u)*sin(v),t*sin(u)*cos(v)+b*cos(v)]])
+
 simplify determinant(J)
+res.29 := test(simplify determinant(J) = t^2*sin(u)+b*t)
 
 S:= bdry(T::SCMPLX(R,3))
 
@@ -335,17 +340,56 @@ nf:=normalField(S2) [u,v]
 dot(nf,nf)
 nf:=vector [simplify s for s in nf::List X]
 
+res.30 := test(simplify dot(nf,nf) = 1) 
+
 ts:=tangentSpace(S2) [u,v]
+
+res.31 := test(simplify dot(ts.1,ts.1) = a^2)
+res.32 := test(simplify dot(ts.2,ts.2)=simplify ((a*sin(u)+b)^2)) 
+-- compare lhs with unsimplifed rhs (=> false)
+
 nc:=cross(ts.1,ts.2)
 
+res.33 := test([simplify s for s in cross(nc,nf)::List X]=[0,0,0])
+-- nf parallel to nc ; nf is normalized, nc not because ts.j are not
+-- normal vectors!
+
 r1:=simplify dot(nc,nf)
+
+res.34 := test(normalize r1 = normalize sqrt(dot(nc,nc)))
+-- sometimes one has to normalize lhs and rhs to show equality.
+-- Compare: test(r1 = simplify sqrt(dot(nc,nc)))
+-- Since ||nf||=1 and nf||nc => dot(nc,nf)=||nc|| 
+
 simplify (denominator(r1)^2)
+res.35 := test( simplify (denominator(r1)^2) = 1)
+
 
 --
 G:=christoffelSymbols(S2)[u,v]
 
+-- we have to simplify
+TM ==> TranscendentalManipulations(INT,EXPR INT) 
+C:=christoffelSymbols(B) [r,t]
+CS:=[map(simplify$TM,C.j) for j in 1..3]
+
+-- Compare (note order).
+-- http://math.stackexchange.com/questions/1985964/_
+--  christoffel-symbols-for-spherical-polar-coordinates
+CS1:=matrix [[0,0,0],[0,-r,0],[0,0,r*cos(t)^2-r]]
+CS2:=matrix [[0,1/r,0],[1/r,0,0],[0,0,-cos(t)*sin(t)]]
+CS3:=matrix [[0,0,1/r],[0,0,cos(t)/sin(t)],[1/r,cos(t)/sin(t),0]]
+
+res.36 := test(CS = [CS1,CS2,CS3])
+
 S2.map
 S2.dom
+
+-- elts
+res.37 := test(getMap S2 = S2.map)
+res.38 := test(getDom S2 = S2.dom)
+
+
 
 
 -------------
