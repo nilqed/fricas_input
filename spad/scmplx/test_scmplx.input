@@ -1,0 +1,364 @@
+-- =====================================
+-- CMAP, SCMPLX tests (file scmplx.spad)
+-- =====================================
+-- Requires:
+-- .... CEllMap (scmplx.spad).
+-- .... SurfaceComplex (scmplx.spad).
+-- Version 1.1: 09-ARP-2016
+-- Version 1.2: 17-DEC-2016
+--
+-- FriCAS Computer Algebra System
+-- Version: FriCAS 1.3.0
+-- Timestamp: Don Sep 29 21:26:01 CEST 2016
+
+)set break resume
+)expose UnittestCount UnittestAux Unittest
+
+)co scmplx
+)expose CMAP, SCMPLX
+
+------------------
+testsuite "scmplx"
+testcase  "all"
+------------------
+
+N:=27 -- number of tests
+res:List(Boolean):=[false for j in 1..N] -- Result list
+
+
+R ==> EXPR INT
+OF ==> OutputForm
+
+-- Cell map
+R2 ==> CellMap(INT,2)
+R3 ==> CellMap(INT,3)
+R4 ==> CellMap(INT,4)
+
+Q2 := [0..1,0..1::R]
+Q3 := concat(Q2,[0..1::R])
+
+
+----------------------------------------------------------------
+-- https://en.wikipedia.org/wiki/Jacobian_matrix_and_determinant
+----------------------------------------------------------------
+-- Example 1
+F1:=cellMap(Q2,X+->[X.1^2*X.2,5*X.1+sin(X.2)])$R2
+J:=jacobianMatrix(F1)
+x:=coords('x,2)$R2
+J x
+determinant(J x)
+
+res.1 := test(J x = matrix [[2*x.1*x.2,x.1^2],[5,cos(x.2)]])
+res.2 := test(determinant(J x) = 2*x.1*x.2*cos(x.2)-5*x.1^2)  
+
+
+-- Example 2
+F2:=cellMap(Q2,X+->[X.1*cos(X.2),X.1*sin(X.2)])$R2
+J:=jacobianMatrix(F2)
+x:=[r::R,phi::R]
+(getMap F2) x
+J x
+determinant(J x)
+
+res.3 := test( J x = matrix [[cos(x.2),-x.1*sin(x.2)],[sin(x.2),x.1*cos(x.2)]])
+res.4 := test( normalize determinant(J x) = x.1)
+
+
+-- Example 3
+F3:=cellMap(Q3,Z+->[Z.1*sin(Z.2)*cos(Z.3),Z.1*sin(Z.2)*sin(Z.3),Z.1*cos(Z.2)])$R3
+J:=jacobianMatrix(F3)
+z:=[r::R,th::R,phi::R]
+(getMap F3) z
+J z
+determinant(J z)
+
+M:=[[sin(z.2)*cos(z.3),z.1*cos(z.2)*cos(z.3),-z.1*sin(z.2)*sin(z.3)],_
+    [sin(z.2)*sin(z.3),z.1*cos(z.2)*sin(z.3),z.1*sin(z.2)*cos(z.3)],_
+    [cos(z.2),-z.1*sin(z.2),0]]
+
+res.5 := test( J z = matrix M)
+res.6 := test( simplify determinant(J z) = z.1^2*sin(z.2) )
+
+
+-- Example 4
+F4:=cellMap(Q3,X+->[X.1,5*X.3,4*X.2^2-2*X.3,X.3*sin(X.1)])$R4
+J:=jacobianMatrix(F4)
+x:=coords('x,4)$R4
+J x
+nullSpace (J x)
+rank (J x)
+T:=tangentSpace(F4)$R4
+ts:=T x
+NS:=normalSpace(F4)$R4
+ns:=NS x
+[dot(ts.j,ns.1) for j in 1..#Q3] -- [0,0,0] 
+nf:=normalField(F4)$R4
+dot(nf x,nf x)  -- 1
+
+
+res.7:=test(J x = matrix [[1,0,0],[0,0,5],[0,8*x.2,-2],[x.3*cos(x.1),0,sin(x.1)]])
+res.8:=test( rank (J x) = 3)
+res.9:=test( J x = transpose matrix (T x))
+
+-- Example 5
+F5:=cellMap(Q3,X+->[5*X.2,4*X.1^2-2*sin(X.2*X.3),X.2*X.3])$R3
+J:=jacobianMatrix(F5)
+x:=coords('x,3)$R3
+J x
+determinant (J x)
+
+M:=[[0,5,0],[8*x.1,-2*x.3*cos(x.2*x.3),-2*x.2*cos(x.2*x.3)],[0,x.3,x.2]]
+T:=tangentSpace(F5)$R3
+
+res.10:=test(J x = matrix M)
+res.11:=test(determinant (J x) = -40*x.1*x.2)
+res.12:=test( J x = transpose matrix (T x))
+
+--------------------------------------------------------------------
+
+-- Cell map
+g:=cellMap([a::R..b,c..d],Z+->[Z.1,Z.2,Z.2])$CellMap(INT,3)
+f:=cellMap([a::R..b,c..d,0..1],Z+->[Z.1,Z.2,Z.2+Z.1])$CellMap(INT,3)
+
+-- Chain Complex
+F:=f::SurfaceComplex(INT,3)
+G:=g::SurfaceComplex(INT,3)
+2*F+G
+
+res.13 := test(f x = [x.1,x.2,x.1+x.2])
+
+-- Direct method w/o cellMap
+H:=construct([a..b,c..d,e..s],Z+->[Z.1,Z.2,Z.3,1])$SurfaceComplex(INT,4)
+
+-- number of terms
+res.14 := test(size H = 1)
+
+b ==> bdry
+
+-- boundary of H
+b H
+res.15 := test(size (b H) = 6)
+
+-- boundary of boundary => zero
+zero? (b b H)
+res.16 := test(b b H = 0$SurfaceComplex(INT,4))
+
+-- elt
+f x
+g x
+f(g x)
+g(f x)
+
+-- retract to cell map
+H4:=H::R4 -- embedding of RR^3 into RR^4
+
+jacobianMatrix(H4) x
+tangentSpace(H4) x
+normalSpace(H4) x
+normalField(H4) x
+
+--
+S2map:List(R)->List(R):=z+->[cos(z.1)*cos(z.2),sin(z.1)*cos(z.2),sin(z.2)]
+S2p:=construct([0..2*%pi::R,0..%pi::R/2],S2map)$SurfaceComplex(INT,3)
+S2m:=construct([0..2*%pi::R,0..-%pi::R/2],S2map)$SurfaceComplex(INT,3)
+
+S2r:=construct([0..-2*%pi::R,0..-%pi::R/2],S2map)$SurfaceComplex(INT,3)
+
+--p gnuplot> splot [0:2*pi] [0:pi] cos(u)*cos(v),cos(v)*sin(u),sin(v)
+--r gnuplot> splot [0:-2*pi] [0:-pi] cos(u)*cos(v),cos(v)*sin(u),sin(v)
+
+S2:=S2p-S2m
+b S2 -- southPole - northPole
+b b S2 -- 0
+
+-- list of cmaps in boundary S2
+lbs2:=[nthFactor(b S2,j)$SCMPLX(INT,3) for j in 1..2]
+lbs2.1 x -- apply on x -> north
+lbs2.2 x -- apply on x -> south
+
+res.17 := test(lbs2.1 = cellMap([0..2*%pi],w+->[0,0,1])$CMAP(INT,3))
+--
+
+CMS2p:=S2p::R3
+CMS2m:=S2m::R3
+
+jacobianMatrix(CMS2p) x
+jacobianMatrix(CMS2m) x
+
+ts2p:=tangentSpace(CMS2p) x
+ts2m:=tangentSpace(CMS2m) x
+
+ns2p:=normalField(CMS2p) x
+ns2m:=normalField(CMS2m) x
+
+res.18 := test([dot(ts2p.j,ns2p) for j in 1..2] = [0,0])
+res.19 := test([dot(ts2m.j,ns2m) for j in 1..2] = [0,0])
+
+res.20 := test(dot(ns2p,ns2p) = 1)
+res.21 := test(dot(ns2p,ns2m) = 1)
+
+-- Float
+
+RR2 ==> CellMap(Float,2)
+RQ2 ==> [0..1,0..1::Float]
+RF1:=cellMap(RQ2,X+->[X.1^2*X.2,5*X.1+sin(X.2)])$RR2
+RJ:=jacobianMatrix(RF1)
+rx:=coords('x,2)$RR2
+J rx
+
+res.22:=test( determinant(RJ rx) = 2.0*rx.1 * rx.2 * cos(rx.2) - 5.0*rx.1^2)
+
+--
+
+q:=coords('q,4)$R4
+metricTensor(F1) q
+metricTensor(F2) q
+metricTensor(F3) q
+
+
+SG:=metricTensor(CMS2p) q  -- simp/normalize
+
+res.23 := test(simplify determinant(SG) = cos(q.2)^2) 
+
+-------------
+)clear values F F2
+-- R is the ring, X the field
+R ==> Integer
+X ==> Expression R
+
+-- 3-cell [0,1]x[0,pi]x[0,2*pi]
+Q:=[0..1::X,0..%pi,0..2*%pi]
+
+-- F mapping [Z.1,Z.2,Z.3] -> [x,y,z]
+F:List X -> List X
+F:=Z+->[Z.1*sin(Z.2)*cos(Z.3),Z.1*sin(Z.2)*sin(Z.3),Z.1*cos(Z.2)]
+
+-- B is the unit ball in X^3
+B := cellMap(Q,F)$CellMap(R,3)
+
+-- Apply B to a point (coordinates in X^3)
+B [r,th,phi::X]
+
+-- the faces of B: 2-cells
+faces B
+
+res.24 := test(#(faces B) = 3)
+
+-- coords, coordSymbols
+M ==> CellMap(R,3)
+
+Y:=coords('y,3)$M
+YS:=coordSymbols('y,3)$M
+
+Z := B Y
+
+[D(Z.j,YS.j) for j in 1..3]
+
+--
+jacobianMatrix(B)
+
+jMBY:=jacobianMatrix(B) Y
+
+res.25 := test(simplify determinant jMBY = Y.1^2*sin(Y.2))
+
+
+
+--
+tangentSpace(B) Y
+normalSpace(B) Y
+
+-- normalField(B) Y -> not a Hypersurface
+
+metricTensor(B) Y
+christoffelSymbols(B) Y
+--
+bdry(B::SCMPLX(R,3))
+
+-- splot [0:pi] [0:2*pi] cos(v)*sin(u),sin(u)*sin(v),cos(u) , 0,0,u , 0,0,-u
+
+-- ===================
+-- EXAMPLE 10.32 (PMA)
+-- ===================
+
+-- 2-cell [0,pi]x[0,2*pi]
+Q2:=[0::X..%pi,0..2*%pi]
+
+-- F2 mapping [Z.1,Z.2] -> [x,y,z]
+F2:List X -> List X
+F2:=Z+->[sin(Z.1)*cos(Z.2),sin(Z.1)*sin(Z.2),cos(Z.1)]
+
+S:=cellMap(Q2,F2)$CellMap(R,3)
+S Y -- Y may be reused since it is big enough
+
+jacobianMatrix(S) Y
+tangentSpace(S) Y
+normalSpace(S) Y
+normalField(S) Y
+g:=metricTensor(S) Y
+
+res.26 := test(simplify determinant g = 1 - cos(Y.1)^2)
+
+faces S
+res.27 := test(#(faces S) = 2)
+
+bdry(S::SCMPLX(R,3))
+
+--
+-- added spivak and thorpe/singer to bibliography
+--
+
+-- =============
+-- Example 10.47
+-- =============
+
+R ==> Integer
+X ==> Expression R
+
+-- 3-cell [0,a]x[0,2*pi]x[0,2*%pi]
+Q:=[0..a::X,0..2*%pi,0..2*%pi]
+
+-- F mapping [Z.1,Z.2] -> [x,y,z]
+F:List X -> List X
+F:=Z+->[Z.1*cos(Z.2),(b+Z.1*sin(Z.2))*cos(Z.3),(b+Z.1*sin(Z.2))*sin(Z.3)]
+
+T:=cellMap(Q,F)$CellMap(R,3)
+
+J:=jacobianMatrix(T) [t,u,v]
+
+simplify determinant(J)
+
+S:= bdry(T::SCMPLX(R,3))
+
+S2:=nthFactor(S,2)
+
+nf:=normalField(S2) [u,v]
+dot(nf,nf)
+nf:=vector [simplify s for s in nf::List X]
+
+ts:=tangentSpace(S2) [u,v]
+nc:=cross(ts.1,ts.2)
+
+r1:=simplify dot(nc,nf)
+simplify (denominator(r1)^2)
+
+--
+G:=christoffelSymbols(S2)[u,v]
+
+S2.map
+S2.dom
+
+
+-------------
+-- Results --
+-------------
+)version
+)lisp (lisp-implementation-type)
+)lisp (lisp-implementation-version)
+
+res
+reduce(_and,res)
+
+-- dummy statistics
+[testEquals("res." string(j),"true") for j in 1..N];
+statistics()
+

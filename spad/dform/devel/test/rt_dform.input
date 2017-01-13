@@ -1,0 +1,77 @@
+-- regression tests for package DifferentialForms (DFORM): dform.spad
+
+)set break resume
+)expose UnittestCount UnittestAux Unittest
+
+)co ../src/dform 
+)expose DFORM
+
+-----------------
+testsuite "dform"
+-----------------
+
+testcase "basics"
+
+n:=7 -- dim of base space (n>=2 !), may change in course
+N:=91 -- number of tests
+
+O ==> OutputForm
+
+-- HodgeStar package for DERHAM(R,v)
+R:=Integer  -- Ring
+v:=[subscript(x,[j::OutputForm]) for j in 1..n] -- (x_1,..,x_n)
+M:=DFORM(R,v)
+
+-- basis 1-forms and coordinate vector
+dx:=baseForms()$M     -- [dx[1],...,dx[n]]
+x:=coordVector()$M    -- [x[1],...,x[n]]
+xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+
+
+-- operator, vector field, scalar field, symbol
+a:=operator 'a         -- operator
+b:=vectorField(b)$M    -- generic vector field [b1(x1..xn),...,bn(x1..xn)]
+c:=vectorField(c)$M
+P:=scalarField(P)$M    -- scalar field P(x1,..,xn)
+
+
+-- (pseudo-) random form & zeroForm
+rd:=reduce(_*,[dx.j for j in 1..random(n)$NNI+1])
+nf:=zeroForm(nf)$M
+
+-- metric   
+g:=diagonalMatrix([1 for i in 1..n])$SquareMatrix(n,EXPR R)  -- Euclidean
+h:=diagonalMatrix(c)$SquareMatrix(n,EXPR R)
+
+-- vector field
+vf:=vector b
+ 
+
+-- Result list  
+lhs:List(Any):=new(N,0) 
+rhs:List(Any):=new(N,0)
+
+
+lhs.1 := dx.1
+rhs.1 := d(x.1*one()$M)
+testEquals("lhs.1","rhs.1")
+
+lhs.2 := #dx
+rhs.2 := n
+testEquals("lhs.2","rhs.2")
+
+lhs.3 := #x
+rhs.3 := n
+testEquals("lhs.3","rhs.3")
+
+lhs.4 := a x
+rhs.4 := a(x)
+testEquals("lhs.4","rhs.4")
+
+lhs.5 := #b
+rhs.5 := n
+testEquals("lhs.5","rhs.5")
+
+
+
+statistics()

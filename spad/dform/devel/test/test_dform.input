@@ -11,12 +11,20 @@
 -- Version: FriCAS 1.3.0
 -- Timestamp: Don Sep 29 21:26:01 CEST 2016
 
+)set break resume
+)expose UnittestCount UnittestAux Unittest
+
+)co ../src/dform 
+)expose DFORM
+
+-----------------
+testsuite "dform"
+testcase  "all"
+-----------------
 
 -----------
 -- Setup --
 -----------
-
-)clear all
 
 n:=7 -- dim of base space (n>=2 !), may change in course
 N:=91 -- number of tests
@@ -270,3 +278,7 @@ res.91 := test(d(vf*dx)*hodgeStar(eta,d(vf*dx))$M=_
 
 res
 reduce(_and,res)
+
+-- dummy statistics
+[testEquals("res." string(j),"true") for j in 1..N];
+statistics()
