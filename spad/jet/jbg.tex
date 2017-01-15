@@ -114,8 +114,212 @@ that is we will speak of a $n$-th order jet bundle $M^{(n)}$ if
  M^{(n)} = X \times \left( U\times U_1\times\ldots\times U_n  \right)
 \end{displaymath}  
 where the $U_j$ are the jet (Euclidean) spaces. We will just write $M$
-for $M^{(0)}$. 
+for $M^{(0)}$.
+\subsection{FriCAS JET} 
+JET in FriCAS is a sophisticated series of domains and packages written
+by Joachim Schue and Werner M. Seiler (\cite{wms:aci},\cite{wms:axiom},
+\cite{wms:diss},\cite{wms:jet}). Everything is contained in the
+source file {\tt jet.spad} ($7000$+ loc). At the moment JET comprises
+the following types or packages:
+\begin{itemize}
+\item[1] \spadfun{CartanKuranishi} is a package for the completion of a 
+given differential equation to an involutive equation. Procedures for 
+Cartan characters and Hilbert polynomial are also provided. Based on the 
+{\em Cartan-Kuranishi} theorem as it is used in formal theory.
+%
+\item[2] \spadfun{DistributedJetBundlePolynomial} implements polynomials 
+in a distributed representation. The unknows come from a finite list of 
+jet variables. The implementation is basically a copy of the one of 
+{\em GeneralDistributedMultivariatePolynomial}. 
+%
+\item[3] \spadfun{IndexedJetBundle} provides the standard implementation 
+for a jet bundle with a given number of dependent and independent 
+variables where the variables are given as symbols with upper bounds 
+on the indexes (that's why the prefix {\it Indexed}. Otherwise it is
+the same as \spadfun{JetBundle}.
+%
+\item[4] \spadfun{JetBundle} implements a jet bundle of arbitrary order 
+with given names for the independent and dependent variables. 
+It supports only repeated index notation.
+%
+\item[5] \spadfun{JetBundleBaseFunctionCategory} defines the category of 
+functions (local sections) of the base space of a jet bundle, i.e. 
+functions depending only on the independent variables. Such a category 
+is needed e.g. for the representation of solutions.
+%
+\item[6] \spadfun{JetBundleCategory} provides basic data structures and 
+procedures for jet bundles. Nearly all necessary functions are implemented 
+already here. Only the representation and functions which direct access 
+to it must be implemented in a domain. Two notations of derivatives are 
+supported. Default is multi-index notation, where the i-th entry of the 
+index denotes the number of differentiations taken with respect to $x^i$. 
+In repeated index notation each entry $i$ in the index denotes a 
+differentiation with respect to $x^i$. The choice affects, however, 
+only in- and output. Internally, multi-index notation is used throughout.
+%
+\item[7] \spadfun{JetBundleExpression} defines expressions over a jet 
+bundle based on Expression Integer. It allows all kind of algebraic 
+operations. simplify is implemented using Groebner bases in polynomials 
+over kernels. Thus it might not work correctly for general expressions. 
+This also affects dimension.
+%
+\item[8] \spadfun{JetBundleFunctionCategory} defines the category of 
+functions (local sections) over a jet bundle. The formal derivative is 
+defined already here. It uses the Jacobi matrix of the functions. The 
+columns of the matrices are enumerated by jet variables. Thus they are 
+represented as a Record of the matrix and a list of the jet variables. 
+Several simplification routines are implemented already here.
+%
+\item[9] \spadfun{JetBundleLinearFunction} implements linear functions 
+over a jet bundle. The coefficients are functions of the independent 
+variables only.
+%
+\item[10] \spadfun{JetBundlePolynomial} implements polynomial sections 
+over a jet bundle. The order is not fixed, thus jet variables of any 
+order can appear.
+%
+\item[11] \spadfun{JetBundleSymAna} is only necessary to have a valid 
+return type for some procedures in SymmetryAnalysis. It is essentially 
+identical with JetBundle but computes its parameters in a more 
+complicated way.
+%
+\item[12] \spadfun{JetBundleXExpression} implements arbitrary functions in 
+a jet bundle which depend only on the independent variables $x$. Otherwise 
+it is identical with {\tt JetBundleExpression}. Such a domain is needed 
+for {\tt JetLinearFunction}.
+%
+\item[13] \spadfun{JetCoordinateTransformation} implements changes of 
+local coordinates. Given are the changes of the coordinates of the base 
+space, i.e. the independent and dependent variables. The transformations 
+of the derivatives are computed via the chain rule. $Y (W)$ contains 
+expressions for the old variables in terms of the new ones.
+%
+\item[14] \spadfun{JetDifferential} implements differentials (one-forms) 
+over a jet bundle.The differentials operate on {\tt JetVectorField}.
+%
+\item[15] \spadfun{JetDifferentialEquation} provides the basic data 
+structures and procedures for differential equations as needed in the 
+geometric theory. Differential equation means here always a submanifold 
+in the jet bundle. The concrete equations which define this submanifold 
+are called system. In an object of the type JetDifferentialEquation much 
+more than only the system is stored. $D$ denotes the class of functions 
+allowed as equations. It is assumed that the simplify procedure of $D$ 
+returns only independent equations and a system with symbol in row 
+echelon form.
+%
+\item[16] \spadfun{JetGroebner} provides a procedure to compute 
+{\em Groebner} bases for arbitrary domains of jet polynomials. 
+Two internal procedures transform to and from 
+DistributedJetBundlePolynomial where the actual computation is done. 
+The argument LJV contains all jet variables effectively occurring in 
+the polynomials. The ordering is determined by the ordering in $P$.
+%
+\item[17] \spadfun{JetLazyFunction} takes as argument a domain in 
+JetBundleFunctionCategory and returns another domain in the same 
+category. This domain has basically the same properties as the argument 
+domain, but there is a lazy evaluation mechanism for derivatives. 
+This means that differentiations are not immediately performed. 
+Instead a pointer is established to the function to be differentiated. 
+Only when the exact value of the derivative is needed, the differentiation 
+is executed. Special care is taken for leading derivatives and jet 
+variables to avoid as much as possible the need to evaluate expressions. 
+This entails that the result of {\em jetVariables} may contain spurious 
+variables. 
+Furthermore many functions in {\em JetLazyFunction} destructively change 
+their arguments. This affects, however, only their internal representation, 
+not the value obtained after full evaluation.
+%
+\item[18] \spadfun{JetVectorField} implements vector fields over the 
+jet bundle $JB$ with coefficients from $D$. The fields operate on functions 
+from $D$.
+%
+\item[19] \spadfun{LUDecomposition} contains procedures to solve linear 
+systems of equations or to compute inverses using a {\tt LU} decomposition.
+%
+\item[20] \spadfun{SparseEchelonMatrix} implements sparse matrices whose 
+columns are enumerated by the {\tt OrderedSet} and whose entries belong 
+to a {\tt Gcd} domain. The basic operation of this domain is the computation
+of an row echelon form. The used algorithm tries to maintain the sparsity 
+and is especially adapted to matrices who are already close to a row 
+echelon form.
+%
+\item[21] \spadfun{SymmetryAnalysis} provides procedures for the symmetry 
+analysis of differential equations over a given jet bundle. 
+Currently there exist only some procedures to set up the determining 
+system for the symmetry generators of {\em Lie} point symmetries.
+\end{itemize}
+The exported functions and how all plays together is best documented
+in \cite{wms:axiom}. There you will also find comprehensive 
+implementation notes as well as some examples.
+\subsection{Motivation}
+Let us recall the following domains/packages and their functionality:
+\begin{itemize}
+\item[1] \spadfun{DeRhamComplex} provides differential forms as a
+graded ring in a given set of variables:
+\begin{displaymath}
+  \mathtt{DeRhamComplex(R,[x_1,\ldots,x_n])} =
+      \bigoplus_{p=0}^n \Lambda^p([x_1,\ldots,x_n])
+\end{displaymath}
+where $x_j\in \mathtt{Expression(R)}$, $R$ a ring, meaning that the
+coefficients are from {\tt Expression R}.
+%
+\item[2] \spadfun{DifferentialForms} is a package extending 
+{\tt DeRhamComplex} by {\em Riemannian metrics} $g$ and
+the connected standard operations like {\em Hodge star} $\star_g$,
+$\delta_g$, $\Delta_g$, $i_X$, $\mathcal{L}_X$ and 
+$\langle\cdot,\cdot\rangle_g$.
+%
+\item[3] \spadfun{CellMap} and \spadfun{SurfaceComplex} are domains
+which loosely spoken will provide parametric surface patches and
+their formal sums (free group with integer coefficients):
+\begin{displaymath}
+  \mathtt{SurfaceComplex(R,n)} =
+      \mathbb{Z}\cdot\bigoplus_{p=0}^n \Sigma^p([\$_1,\ldots,\$_n])  
+\end{displaymath}
+where $\Sigma_p$ is the collection of $p-$cells, that is mappings
+from a $p-$cell into $n-$space.
 
+Consequently we can define the boundary operator $\partial$ such 
+that $T(d\varphi)=\partial T(\varphi)$ holds, where $T$ is an
+element of SurfaceComplex and $\varphi$ one of DeRhamComplex.
+\end{itemize}
+But note that the code of these domains is unrelated, that is
+both can be used independently. So we are in need of a package
+or domain which brings them together in order to utilize their 
+mutual duality.
+
+A second point is the need of computing {\em pull backs} of
+differential forms and - closely related - of integration of
+forms over {\em affine chains}. To achieve this we have
+to incorporate two (usually) different spaces of differential
+forms.
+
+Eventually, the following quotations from \cite{wms:axiom} together
+with the remarks above induced the usage of {\tt JetBundle}
+instead of creating a new domain:
+%
+\begin{verse}
+\ldots
+The implementation of both is somewhat rudimentary, as we hope that some
+day {\tt AXIOM} will contain a reasonable environment for differential 
+geometric calculations and then it should be used instead of some 
+special domains like the two mentioned. 
+\ldots
+The implementation of the differential geometric domains  {\tt VectorField} 
+(abbreviated by {\tt VF}) and {\tt Differential (DIFF)} are fairly primitive. 
+They should be considered as a temporary hack, until AXIOM contains 
+a better environment for differential geometric calculations.
+\ldots
+\end{verse}  
+%
+We may interpret {\tt JetBundle} in the first place as a local
+coordinate patch (chart) with independent variables $x$ and
+dependent ones $u$. Then we will be able to pull forms in $u-$
+space back to $x$-space. In other words we will only use a 
+zero order jet bundle for the moment. In a second step the
+interplay might be extended to higher order bundles such that
+the deficiencies mentioned in the above quotes may be mitigated.
+%
 \section{Appendix}
 The following is a verbatim inclusion of the extended abstract of
 W.M.\,Seiler's paper.
@@ -201,7 +405,8 @@ J.~Sch\"u, W.M. Seiler, and J.~Calmet.
 W.M. Seiler.
 \newblock Applying {AXIOM} to partial differential equations.
 \newblock Internal Report 95-17, Universit\"at Karlsruhe, Fakult\"at f\"ur
-  Informatik, 1995.
+  Informatik, 1995. Available from:
+\newblock {\tt http://citeseerx.ist.psu.edu}
 
 \bibitem{wms:diss}
 W.M. Seiler.

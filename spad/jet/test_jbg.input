@@ -1,8 +1,36 @@
--- \ifx
+-- =========================
+-- JBG tests (file jbg.spad)
+-- =========================
+-- Requires:
+-- .... CellMap (scmplx.spad).
+-- .... SurfaceComplex (scmplx.spad).
+-- .... DifferentialForms (dform.spad)
+-- .... Fricas 1.3+, or DeRhamComplex patch
+-- Version 1.1: 09-ARP-2016
+-- Version 1.2: 17-DEC-2016
+--
+-- FriCAS Computer Algebra System
+-- Version: FriCAS 1.3.0
+-- Timestamp: Don Sep 29 21:26:01 CEST 2016
+
+)set break resume
+)expose UnittestCount UnittestAux Unittest
+
 )co ../dform/devel/src/dform
 )co ../scmplx/scmplx
 )co jbg
+)expose CMAP, SCMPLX, DFORM, JBG
 )sh JBG
+
+------------------
+testsuite "jbg"
+testcase  "all"
+------------------
+
+N:=38 -- number of tests
+res:List(Boolean):=[false for j in 1..N] -- Result list
+
+
 
 M ==> JBG([x,y],[u,v,w])
 
@@ -121,8 +149,17 @@ pullBack(H,u*v*w*1$DERU)$N
 
 
 
+-------------
+-- Results --
+-------------
+)version
+)lisp (lisp-implementation-type)
+)lisp (lisp-implementation-version)
 
+res
+reduce(_and,res)
 
-)if false
-\fi
-)endif
+-- dummy statistics
+[testEquals("res." string(j),"true") for j in 1..N];
+statistics()
+
