@@ -14,6 +14,7 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
 
   R   ==> Expression Integer
   LS  ==> List Symbol
+  LB  ==> List Boolean
   PI  ==> PositiveInteger 
   NNI ==> NonNegativeInteger
 
@@ -101,6 +102,13 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
       #eqs ~= #us => error "#Equations must match #u"
       lhs:List JBX:= [lhs eq for eq in eqs]
       rhs:List JBX:= [rhs eq for eq in eqs]
+      X:List JBX:=indVars()
+      U:List JBX:=depVars()
+      chk1:LB:=concat([[freeOf?(s,U.j)$JBX for s in rhs] for j in 1..#U])
+      not reduce(_and,chk1) => error "Found dependent vars on rhs."
+      sU:Set(JBX):=set(U)
+      slhs:Set(JBX):=set(lhs)
+      --not subset?(sU,slhs) => error "Incomplete dependencies."
       sys:List JBX:= [lhs.j-rhs.j for j in 1..#us]
       makeSystem(sys)$JDE
 

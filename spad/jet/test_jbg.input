@@ -16,8 +16,9 @@
 )set break resume
 )expose UnittestCount UnittestAux Unittest
 
-)co ../dform/devel/src/dform
-)co ../scmplx/scmplx
+--)co ../dform/devel/src/dform
+--)co ../scmplx/scmplx
+)lib CMAP SCMPLX DFORM
 )co jbg
 )expose CMAP, SCMPLX, DFORM, JBG
 )sh JBG
@@ -27,7 +28,7 @@ testsuite "jbg"
 testcase  "all"
 ------------------
 
-N:=38 -- number of tests
+N:=1 -- number of tests
 res:List(Boolean):=[false for j in 1..N] -- Result list
 
 
@@ -124,28 +125,28 @@ H0:List R -> List R
 H0:=Z+->[Z.1*cos(Z.2),(b+Z.1*sin(Z.2))*cos(Z.3),(b+Z.1*sin(Z.2))*sin(Z.3)]
 H:=cellMap(Q,H0)$CellMap(INT,3)
 
-N ==> JBG([x,y,z],[u,v,w])
+M2 ==> JBG([x,y,z],[u,v,w])
 
-dX:=indForms()$N
-dU:=depForms()$N
+dX:=indForms()$M2
+dU:=depForms()$M2
 
-X:=indVars()$N
-U:=depVars()$N
+X:=indVars()$M2
+U:=depVars()$M2
 
-XS:=indSymbols()$N
-US:=depSymbols()$N
+XS:=indSymbols()$M2
+US:=depSymbols()$M2
 
-pullBack(H,1$DERU)$N
+pullBack(H,1$DERU)$M2
 
-vf:=pullBack(H,dU.1*dU.2*dU.3)$N
+vf:=pullBack(H,dU.1*dU.2*dU.3)$M2
 
 simplify leadingCoefficient(vf)  -- cmp. Rudin Example 10.47 (SCMPLX)
 
 
-pullBack(H,u*1$DERU)$N
-pullBack(H,v*1$DERU)$N
-pullBack(H,w*1$DERU)$N
-pullBack(H,u*v*w*1$DERU)$N
+pullBack(H,u*1$DERU)$M2
+pullBack(H,v*1$DERU)$M2
+pullBack(H,w*1$DERU)$M2
+pullBack(H,u*v*w*1$DERU)$M2
 
 
 -- makeSection
@@ -154,12 +155,17 @@ eq1:=U.1=sin(X.2)
 eq2:=U.2=cos(X.2-X.1)
 eq3:=U.3=(X.3-X.1)^2
 
-S1 := makeSection [eq1,eq2,eq3]
+eqs:=[eq1,eq2,eq3]
+
+-- S1 := makeSection [eq1,eq2,eq3]
+S1 := makeSection(eqs)
+
+lhsm2:List JBX:= [lhs eq for eq in eqs]
 
 jacobiMatrix S1
 retract S1
 
-freeOf?(lhs(eq1),U.1)$N
+freeOf?(lhs(eq1),U.1)$JBX
 
 -- M
 XM:=indVars()$M
