@@ -148,6 +148,37 @@ pullBack(H,w*1$DERU)$N
 pullBack(H,u*v*w*1$DERU)$N
 
 
+-- makeSection
+
+eq1:=U.1=sin(X.2)
+eq2:=U.2=cos(X.2-X.1)
+eq3:=U.3=(X.3-X.1)^2
+
+S1 := makeSection [eq1,eq2,eq3]
+
+jacobiMatrix S1
+retract S1
+
+freeOf?(lhs(eq1),U.1)$N
+
+-- M
+XM:=indVars()$M
+UM:=depVars()$M
+
+eq1:=UM.1=XM.1
+eq2:=UM.2=XM.2
+eq3:=UM.3=exp(-XM.1^2-XM.2^2)
+
+S2 := makeSection [eq1,eq2,eq3]
+
+jacobiMatrix S2  -- note that u part is (-)
+retract S2
+prolong S2
+order S2
+
+-- JetDifferential
+dX.1 -- DeRhamComplex(Integer,[x,y,z])
+(dX.1)$JD -- JetDifferential(JetBundle([x,y,z], ...
 
 -------------
 -- Results --

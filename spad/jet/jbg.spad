@@ -22,6 +22,7 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
  
   JB   ==> JetBundle(xs,us)
   JBX  ==> JetBundleExpression JB
+  JDE  ==> JetDifferentialEquation(JB,JBX)
   
   JBC  ==> JetBundleCategory
   JBFC ==> JetBundleFunctionCategory(JB)
@@ -47,6 +48,13 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
     depForms : () -> List DRCU
     
     pullBack : (CellMap(Integer,#us),DRCU) -> DRCX
+      ++ pullBack(S,w) computes the pull back of the differential
+      ++ form w by the cell map S.
+    
+    makeSection : List Equation JBX -> JDE
+      ++ makeGraph(eqs) creates a 0-th order system provided that 
+      ++ the equations are of the form u=f(x), i.e. G_u(x)=(x,f(x))
+      ++ is a function graph.
     --coerce : % -> OutputForm
 	
 	
@@ -86,10 +94,15 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
         nc:R:=subst(lc,[X.j = Y.j for j in 1..#X])
         nf:=nf+nc*nbt
         w:=reductum(w)
-      -- subst
-      --indForms().1
       nf
       
+
+    makeSection(eqs:List Equation JBX):JDE ==
+      #eqs ~= #us => error "#Equations must match #u"
+      lhs:List JBX:= [lhs eq for eq in eqs]
+      rhs:List JBX:= [rhs eq for eq in eqs]
+      sys:List JBX:= [lhs.j-rhs.j for j in 1..#us]
+      makeSystem(sys)$JDE
 
 )if false
 \fi
