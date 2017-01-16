@@ -1,0 +1,45 @@
+)lib CMAP SCMPLX DFORM
+)co jbg
+
+
+M ==> JBG([x,y,z],[u,v,w])
+
+getBundle()$M
+getBundleX()$M
+
+JVF ==> JetVectorField(getBundle()$M,getBundleX()$M)
+dfu:=diffU$JVF
+dfu 1
+dfu 2
+
+dX:=indForms()$M
+dU:=depForms()$M
+
+X:=indVars()$M
+U:=depVars()$M
+
+XS:=indSymbols()$M
+US:=depSymbols()$M
+
+-- makeSection
+
+eq1:=U.1=sin(X.2)
+eq2:=U.2=cos(X.2-X.1)
+eq3:=U.3=(X.3-X.1)^2
+
+eqs:=[eq1,eq2,eq3]
+
+-- S1 := makeSection [eq1,eq2,eq3]
+S := makeSection(eqs)$M     
+
+J:=jacobiMatrix S
+
+J1:=J.1::Matrix(JetBundleExpression(JetBundle([x,y,z],[u,v,w])))
+H2J1:=horizSplit(J1,2)
+JAC:=-H2J1.2
+determinant JAC
+
+retract S
+prolong S  -- 0->1 order, pS.SDe -> JD .> display
+
+freeOf?(lhs(eq1),U.1)

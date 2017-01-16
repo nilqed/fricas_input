@@ -24,6 +24,9 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
   JB   ==> JetBundle(xs,us)
   JBX  ==> JetBundleExpression JB
   JDE  ==> JetDifferentialEquation(JB,JBX)
+  JVF  ==> JetVectorField(JB,JBX)
+  JDF  ==> JetDifferential(JB,JBX)
+  
   
   JBC  ==> JetBundleCategory
   JBFC ==> JetBundleFunctionCategory(JB)
@@ -48,6 +51,10 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
     indForms : () -> List DRCX
     depForms : () -> List DRCU
     
+    getBundle  : () -> Type
+    getBundleX : () -> Type
+    
+    
     pullBack : (CellMap(Integer,#us),DRCU) -> DRCX
       ++ pullBack(S,w) computes the pull back of the differential
       ++ form w by the cell map S.
@@ -59,7 +66,7 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
     --coerce : % -> OutputForm
 	
 	
-  Implementation == JB add         
+  Implementation == JBX add         
         
     ivars() == [coerce(s)$R for s in xs]
     dvars() == [coerce(s)$R for s in us]
@@ -72,6 +79,9 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
 
     indForms() == baseForms()$DFX
     depForms() == baseForms()$DFU
+
+    getBundle()  == JB
+    getBundleX() == JBX
 
 
     pullBack(S:CellMap(Integer,#us),w:DRCU):DRCX ==
@@ -100,16 +110,16 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
 
     makeSection(eqs:List Equation JBX):JDE ==
       #eqs ~= #us => error "#Equations must match #u"
-      lhs:List JBX:= [lhs eq for eq in eqs]
-      rhs:List JBX:= [rhs eq for eq in eqs]
+      lh:List JBX:= [lhs eq for eq in eqs]
+      rh:List JBX:= [rhs eq for eq in eqs]
       X:List JBX:=indVars()
       U:List JBX:=depVars()
-      chk1:LB:=concat([[freeOf?(s,U.j)$JBX for s in rhs] for j in 1..#U])
+      chk1:LB:=concat([[freeOf?(s,U.j)$JBX for s in rh] for j in 1..#U])
       not reduce(_and,chk1) => error "Found dependent vars on rhs."
       sU:Set(JBX):=set(U)
-      slhs:Set(JBX):=set(lhs)
-      --not subset?(sU,slhs) => error "Incomplete dependencies."
-      sys:List JBX:= [lhs.j-rhs.j for j in 1..#us]
+      slh:Set(JBX):=set(lh)
+      not subset?(sU,slh) => error "Incomplete dependencies."     
+      sys:List JBX:= [lh.j-rh.j for j in 1..#us]
       makeSystem(sys)$JDE
 
 )if false

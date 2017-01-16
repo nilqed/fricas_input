@@ -134,7 +134,7 @@ X:=indVars()$M2
 U:=depVars()$M2
 
 XS:=indSymbols()$M2
-US:=depSymbols()$M2
+US:=depSymbols()$M2   
 
 pullBack(H,1$DERU)$M2
 
@@ -158,9 +158,12 @@ eq3:=U.3=(X.3-X.1)^2
 eqs:=[eq1,eq2,eq3]
 
 -- S1 := makeSection [eq1,eq2,eq3]
-S1 := makeSection(eqs)
+S1 := makeSection(eqs)$M2     
 
 lhsm2:List JBX:= [lhs eq for eq in eqs]
+sU:Set(JBX):=set(U)
+slhs:Set(JBX):=set(lhsm2)
+subset?(sU,slhs)
 
 jacobiMatrix S1
 retract S1
