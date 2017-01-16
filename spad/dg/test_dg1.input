@@ -1,0 +1,163 @@
+-- =========================
+-- DG1 tests (file dg1.spad)
+-- =========================
+-- Requires:
+-- .... CellMap (scmplx.spad).
+-- .... SurfaceComplex (scmplx.spad).
+-- .... DifferentialForms (dform.spad)
+-- .... Fricas 1.3+, or DeRhamComplex patch
+-- Version 1.1: 09-ARP-2016
+-- Version 1.2: 17-DEC-2016
+--
+-- FriCAS Computer Algebra System
+-- Version: FriCAS 1.3.0
+-- Timestamp: Don Sep 29 21:26:01 CEST 2016
+
+)set break resume
+)expose UnittestCount UnittestAux Unittest
+
+--)co ../dform/devel/src/dform
+--)co ../scmplx/scmplx
+)lib CMAP SCMPLX DFORM
+)co dg1
+)expose CMAP, SCMPLX, DFORM
+)sh DG1
+
+------------------
+testsuite "dg1"
+testcase  "all"
+------------------
+
+N:=1 -- number of tests
+res:List(Boolean):=[false for j in 1..N] -- Result list
+
+
+
+M ==> DG1([x,y],[u,v,w])
+
+dX:=indForms()$M
+dU:=depForms()$M
+
+X:=indVars()$M
+U:=depVars()$M
+
+XS:=indSymbols()$M
+US:=depSymbols()$M
+
+--
+a:=operator 'a
+f1:=a(U.1,U.2)*dU.1
+d f1 
+res.1 := test (d f1 = - D(a(U.1,U.2),US.2)*dU.1*dU.2)
+
+
+F:=cellMap([0..1,0..1],q+->[q.2,-q.1,sin(q.1*q.2)])$CellMap(INT,3)
+Y:=F indVars()$M --
+pullBack(F,dU.1)$M
+
+DERX==>DERHAM(INT,indSymbols()$M)
+DERU==>DERHAM(INT,depSymbols()$M)
+1$DERX
+[d (s*1$DERX) for s in Y]
+
+f:=a(u,v)*dU.1*dU.3
+lf:=leadingBasisTerm(f)
+lc:=leadingCoefficient(f)
+abt:=atomizeBasisTerm(lf)
+bf:=baseForms()$DFORM(INT,depVars()$M)
+[position(x,bf) for x in abt] 
+
+pullBack(F,f)$M --  - y a(y,- x)cos(x y)dx dy
+
+pullBack(F,dU.1*dU.2*dU.3)$M -- 0
+pullBack(F,dU.1*dU.2)$M -- dx dy
+pullBack(F,dU.1*dU.3)$M -- - y cos(x y)dx dy
+
+pullBack(F,dU.1+f*tan((depVars()$M).2))$M
+
+-- todo: empty list
+-- pullBack(F,1$DERU)$M -- >> Error detected within library code:
+-- reducing over an empty list needs the 3 argument form
+-- !done!
+pullBack(F,1$DERU)$M
+pullBack(F,a(u)*1$DERU)$M
+pullBack(F,a(u,v)*1$DERU)$M
+pullBack(F,a(u,v,w)*1$DERU)$M
+pullBack(F,0$DERU)$M
+
+G:=cellMap([0..1,0..1],q+->[q.1^2,q.2^2,1])$CellMap(INT,3)
+pullBack(G,dU.1*dU.2)$M -- 4x y dx dy
+
+-------------------------------------------------------------------------
+R==>EXPR INT
+)clear value a
+-- 3-cell [0,a]x[0,2*pi]x[0,2*%pi]
+Q:=[0..a::R,0..2*%pi,0..2*%pi]
+
+-- H mapping [Z.1,Z.2,Z.3H] -> [x,y,z]
+H0:List R -> List R
+H0:=Z+->[Z.1*cos(Z.2),(b+Z.1*sin(Z.2))*cos(Z.3),(b+Z.1*sin(Z.2))*sin(Z.3)]
+H:=cellMap(Q,H0)$CellMap(INT,3)
+
+M2 ==> DG1([x,y,z],[u,v,w])
+
+dX:=indForms()$M2
+dU:=depForms()$M2
+
+X:=indVars()$M2
+U:=depVars()$M2
+
+XS:=indSymbols()$M2
+US:=depSymbols()$M2   
+
+pullBack(H,1$DERU)$M2
+
+vf:=pullBack(H,dU.1*dU.2*dU.3)$M2
+
+simplify leadingCoefficient(vf)  -- cmp. Rudin Example 10.47 (SCMPLX)
+
+
+pullBack(H,u*1$DERU)$M2
+pullBack(H,v*1$DERU)$M2
+pullBack(H,w*1$DERU)$M2
+pullBack(H,u*v*w*1$DERU)$M2
+
+----------------------------------------------------------------------------
+-- F:R3 --> R2, (x,y,z) |-> (x²+y*z,exp(x*y*z))
+-- cannot use cellMap because p>n
+N1 ==> DG1([x,y,z],[u,v])
+X:=indVars()$N1
+U:=depVars()$N1
+dX:=indForms()$N1
+dU:=depForms()$N1
+exN1:=pullBack([U.1=X.1^2+X.2*X.3,U.2=exp(X.1*X.2*X.3)], U.1*U.2^3*dU.1*dU.2)$N1
+--expected
+rN1:=exp(4*X.1*X.2*X.3)*(X.1^2+X.2*X.3)*((2*X.1^2*X.3-X.2*X.3^2)*dX.1*dX.2+_
+    (2*X.1^2*X.2-X.2^2*X.3)*dX.1*dX.3)
+
+-- we claim that exN1 = rN1
+-- test -> false, but we can simplify:
+D:=exN1-rN1
+test(simplify coefficient(D,dX.1*dX.2) = 0)
+test(simplify coefficient(D,dX.1*dX.3) = 0)
+
+
+T:BOP:=operator 'T
+pullBack([U.1=X.1,U.2=T(X.1,X.2,X.3)], dU.2)$N1
+exN1:=pullBack([U.1=X.1,U.2=T(X.1*X.2*X.3)], dU.2)$N1
+
+
+-------------
+-- Results --
+-------------
+)version
+)lisp (lisp-implementation-type)
+)lisp (lisp-implementation-version)
+
+res
+reduce(_and,res)
+
+-- dummy statistics
+[testEquals("res." string(j),"true") for j in 1..N];
+statistics()
+

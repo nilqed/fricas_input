@@ -51,14 +51,22 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
     indForms : () -> List DRCX
     depForms : () -> List DRCU
     
-    getBundle  : () -> Type
-    getBundleX : () -> Type
+    getJB  : () -> Type
+    getJBX : () -> Type
+    getJDE : () -> Type
+    getJVF : () -> Type
+    getJDF : () -> Type
     
     
     pullBack : (CellMap(Integer,#us),DRCU) -> DRCX
       ++ pullBack(S,w) computes the pull back of the differential
       ++ form w by the cell map S.
-    
+
+    pullBack : (JDE,DRCU) -> DRCX
+      ++ pullBack(S,w) computes the pull back of the differential
+      ++ form w by the 0-section of an instance of JetDifferentialEquation
+      ++ which necessarily must be of order 0 as well.
+
     makeSection : List Equation JBX -> JDE
       ++ makeGraph(eqs) creates a 0-th order system provided that 
       ++ the equations are of the form u=f(x), i.e. G_u(x)=(x,f(x))
@@ -80,9 +88,11 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
     indForms() == baseForms()$DFX
     depForms() == baseForms()$DFU
 
-    getBundle()  == JB
-    getBundleX() == JBX
-
+    getJB()  == JB
+    getJBX() == JBX
+    getJDE() == JDE
+    getJVF() == JVF
+    getJDF() == JDF
 
     pullBack(S:CellMap(Integer,#us),w:DRCU):DRCX ==
       k:=#getDom(S)
@@ -108,6 +118,11 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
       nf
       
 
+    pullBack(de:JDE, w:DRCU):DRCX ==
+      order de ~= 0 => error "Zero order system required."
+      eqs:List JBX:=retract(de)$JDE
+      0$DRCX -- dummy
+
     makeSection(eqs:List Equation JBX):JDE ==
       #eqs ~= #us => error "#Equations must match #u"
       lh:List JBX:= [lhs eq for eq in eqs]
@@ -121,6 +136,9 @@ JetBundleGeometry(xs,us) : Exports == Implementation where
       not subset?(sU,slh) => error "Incomplete dependencies."     
       sys:List JBX:= [lh.j-rh.j for j in 1..#us]
       makeSystem(sys)$JDE
+
+
+
 
 )if false
 \fi

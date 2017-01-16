@@ -1,0 +1,126 @@
+\iffalse
+)lisp (setq |$inclAssertions| nil)
+)abbrev package DG1 DifferentialGeometry1
+++ Author: Kurt Pagani
+++ Date Created: Sun Jan 01 23:25:52 CET 2017
+++ License: FriCAS/BSD
+++ Required: FriCAS 1.3+ or DeRhamComplex patch.
+++   DeRhamComplex, DifferentialForms, SurfaceComplex
+++   CellMap
+++ References: 
+++ Description:
+++
+DifferentialGeometry1(xs,us) : Exports == Implementation where
+
+  R   ==> Expression Integer
+  LS  ==> List Symbol
+  LB  ==> List Boolean
+  PI  ==> PositiveInteger 
+  NNI ==> NonNegativeInteger
+
+  xs: LS
+  us: LS
+  
+  DRCX ==> DeRhamComplex(Integer,xs)
+  DRCU ==> DeRhamComplex(Integer,us)
+  
+  DFX  ==> DifferentialForms(Integer,xs)
+  DFU  ==> DifferentialForms(Integer,us)
+ 
+  Exports ==  with
+    
+    indVars : () -> List R
+    depVars : () -> List R
+    
+    indSymbols : () -> LS
+    depSymbols : () -> LS
+
+    indForms : () -> List DRCX
+    depForms : () -> List DRCU
+    
+    
+    pullBack : (CellMap(Integer,#us),DRCU) -> DRCX
+      ++ pullBack(S,w) computes the pull back of the differential
+      ++ form w by the cell map S.
+
+    pullBack : (List Equation R,DRCU) -> DRCX
+      ++ pullBack(S,w) computes the pull back of the differential
+      ++ form w by the section given as a list of equations of 
+      ++ the form U=f(X).
+
+    --coerce : % -> OutputForm
+	
+	
+  Implementation ==  add         
+        
+    indVars() == [coerce(s)$R for s in xs]
+    depVars() == [coerce(s)$R for s in us]
+    
+    indSymbols() == xs
+    depSymbols() == us
+
+    indForms() == baseForms()$DFX
+    depForms() == baseForms()$DFU
+
+    pullBack(S:CellMap(Integer,#us),w:DRCU):DRCX ==
+      k:=#getDom(S)
+      k ~= #xs => error "Domain does not match."
+      Y:= S indVars() 
+      U:= depVars()
+      DY:List DRCX:= [d(s*1$DRCX)$DFX for s in Y] -- new forms
+      bf:=baseForms()$DFU
+      nf:=0$DRCX
+      while w ~= 0$DRCU repeat
+        lf:=leadingBasisTerm(w)
+        lc:=leadingCoefficient(w)
+        abt:=atomizeBasisTerm(lf)$DFU
+        if abt ~= [] then
+          pos:=[position(x,bf) for x in abt]
+          yl:List DRCX:=[DY.j for j in pos]
+          nbt:DRCX:=reduce("*",yl)
+        else
+          nbt:DRCX:=1$DRCX
+        nc:R:=subst(lc,[U.j = Y.j for j in 1..#U])
+        nf:=nf+nc*nbt
+        w:=reductum(w)
+      nf
+         
+    pullBack(eqs:List Equation R, w:DRCU):DRCX ==
+      #eqs ~= #us => error "#Equations must match #u"
+      lh:List R:= [lhs eq for eq in eqs]
+      rh:List R:= [rhs eq for eq in eqs]
+      X:List R:=indVars()
+      U:List R:=depVars()
+      chk1:LB:=concat([[freeOf?(s,U.j)$R for s in rh] for j in 1..#U])
+      not reduce(_and,chk1) => error "Found dependent vars on rhs."
+      sU:Set(R):=set(U)
+      slh:Set(R):=set(lh)
+      not subset?(sU,slh) => error "Incomplete dependencies."
+      Y:List R:=rh
+      DY:List DRCX:= [d(s*1$DRCX)$DFX for s in Y] -- new forms
+      bf:=baseForms()$DFU
+      nf:=0$DRCX
+      while w ~= 0$DRCU repeat
+        lf:=leadingBasisTerm(w)
+        lc:=leadingCoefficient(w)
+        abt:=atomizeBasisTerm(lf)$DFU
+        if abt ~= [] then
+          pos:=[position(x,bf) for x in abt]
+          yl:List DRCX:=[DY.j for j in pos]
+          nbt:DRCX:=reduce("*",yl)
+        else
+          nbt:DRCX:=1$DRCX
+        nc:R:=subst(lc,[U.j = Y.j for j in 1..#U])
+        nf:=nf+nc*nbt
+        w:=reductum(w)
+      nf
+      --0$DRCX -- dummy
+
+    
+     
+
+
+)if false
+\fi
+TeX ...
+)endif
