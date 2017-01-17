@@ -16,8 +16,8 @@
 )set break resume
 )expose UnittestCount UnittestAux Unittest
 
---)co ../dform/devel/src/dform
---)co ../scmplx/scmplx
+--)co ../dform/devel/src/dform -- enable once if necessary
+--)co ../scmplx/scmplx         --
 )lib CMAP SCMPLX DFORM
 )co dg1
 )expose CMAP, SCMPLX, DFORM
@@ -87,6 +87,9 @@ pullBack(F,0$DERU)$M
 
 G:=cellMap([0..1,0..1],q+->[q.1^2,q.2^2,1])$CellMap(INT,3)
 pullBack(G,dU.1*dU.2)$M -- 4x y dx dy
+
+multipleIntegral(x*y::R,['x,'y::Symbol],[1..2,3..4::R])$M
+IG:=integrate(dU.1*dU.2,G)$M
 
 -------------------------------------------------------------------------
 R==>EXPR INT
