@@ -1,0 +1,178 @@
+)lib CMAP SCMPLX DFORM
+)co dg1                               
+
+-- verified examples                  
+-- http://www.maplesoft.com/support/help/Maple/view.aspx?path=
+-- DifferentialGeometry/Pullback
+
+-- Example 1
+
+M ==> DG1([x,y],[u,v,w])
+C ==> CellMap(Integer,3)
+
+Y:=depVars()$M
+dY:=depForms()$M
+
+Phi1:=cellMap([0..1,0..1],q+->[q.1+2*q.2,3*q.1+4*q.2,5*q.1+6*q.2])$C
+
+w1:=Y.2*dY.1+Y.3*dY.2+Y.1*dY.3
+
+th1:=pullBack(Phi1,w1)$M --  (44y + 32x)dy + (32y + 23x)dx
+
+-- todo: eval, simplify
+
+-- Example 2
+[pullBack(Phi1,s)$M for s in [dY.1,dY.2]]
+
+-- Example 3
+)clear all
+
+M ==> DG1([r,t,p],[x,y,z])
+C ==> CellMap(Integer,3)
+
+X:=indVars()$M
+Y:=depVars()$M
+dY:=depForms()$M
+
+f2:=(Y.1^2+Y.2^2+Y.3^2)*1$typeOf(dY.1)
+
+w2:=Y.3*dY.1*dY.2 - Y.2*dY.1*dY.3 + Y.1 * dY.2*dY.3
+
+Phi2:=Phi1:=cellMap([0..1,0..1],q+->[X.1*cos(X.2)*sin(X.3),X.1*sin(X.2)*sin(X.3),X.1*cos(X.3)])$C
+
+pullBack([Y.1=X.1*cos(X.2)*sin(X.3),Y.2=X.1*sin(X.2)*sin(X.3),Y.3=X.1*cos(X.3)],f2)$M
+simplify(retract %) -- r^2
+
+pullBack([Y.1=X.1*cos(X.2)*sin(X.3),Y.2=X.1*sin(X.2)*sin(X.3),Y.3=X.1*cos(X.3)],w2)$M
+simplify leadingCoefficient(%) -- -r^3*sin(p) dt dp 
+
+)if false
+-- Example 1
+
+M ==> DG1([x,y],[u,v,w])
+
+                                                                   Type: Void
+C ==> CellMap(Integer,3)
+
+                                                                   Type: Void
+
+Y:=depVars()$M
+
+
+   (3)  [u,v,w]
+                                              Type: List(Expression(Integer))
+dY:=depForms()$M
+
+
+   (4)  [du,dv,dw]
+                                   Type: List(DeRhamComplex(Integer,[u,v,w]))
+
+Phi1:=cellMap([0..1,0..1],q+->[q.1+2*q.2,3*q.1+4*q.2,5*q.1+6*q.2])$C
+
+
+   (5)  |[0..1,0..1] -> [2$  + $ ,4$  + 3$ ,6$  + 5$ ]|
+                           2    1   2     1   2     1
+                                                     Type: CellMap(Integer,3)
+
+w1:=Y.2*dY.1+Y.3*dY.2+Y.1*dY.3
+
+
+   (6)  u dw + w dv + v du
+                                         Type: DeRhamComplex(Integer,[u,v,w])
+
+th1:=pullBack(Phi1,w1)$M --  (44y + 32x)dy + (32y + 23x)dx
+
+
+   (7)  (44y + 32x)dy + (32y + 23x)dx
+                                           Type: DeRhamComplex(Integer,[x,y])
+
+-- todo: eval, simplify
+
+-- Example 2
+[pullBack(Phi1,s)$M for s in [dY.1,dY.2]]
+
+
+   (8)  [2dy + dx,4dy + 3dx]
+                                     Type: List(DeRhamComplex(Integer,[x,y]))
+
+-- Example 3
+)clear all
+
+   All user variables and function definitions have been cleared.
+
+M ==> DG1([r,t,p],[x,y,z])
+
+                                                                   Type: Void
+C ==> CellMap(Integer,3)
+
+                                                                   Type: Void
+
+X:=indVars()$M
+
+
+   (3)  [r,t,p]
+                                              Type: List(Expression(Integer))
+Y:=depVars()$M
+
+
+   (4)  [x,y,z]
+                                              Type: List(Expression(Integer))
+dY:=depForms()$M
+
+
+   (5)  [dx,dy,dz]
+                                   Type: List(DeRhamComplex(Integer,[x,y,z]))
+
+f2:=(Y.1^2+Y.2^2+Y.3^2)*1$typeOf(dY.1)
+
+
+         2    2    2
+   (6)  z  + y  + x
+                                         Type: DeRhamComplex(Integer,[x,y,z])
+
+w2:=Y.3*dY.1*dY.2 - Y.2*dY.1*dY.3 + Y.1 * dY.2*dY.3
+
+
+   (7)  x dy dz - y dx dz + z dx dy
+                                         Type: DeRhamComplex(Integer,[x,y,z])
+
+Phi2:=Phi1:=cellMap([0..1,0..1],q+->[X.1*cos(X.2)*sin(X.3),X.1*sin(X.2)*sin(X.3),X.1*cos(X.3)])$C
+
+
+   (8)  |[0..1,0..1] -> [r cos(t)sin(p),r sin(p)sin(t),r cos(p)]|
+                                                     Type: CellMap(Integer,3)
+
+pullBack([Y.1=X.1*cos(X.2)*sin(X.3),Y.2=X.1*sin(X.2)*sin(X.3),Y.3=X.1*cos(X.3)],f2)$M
+
+
+         2      2      2    2      2      2    2      2
+   (9)  r sin(p) sin(t)  + r cos(t) sin(p)  + r cos(p)
+                                         Type: DeRhamComplex(Integer,[r,t,p])
+simplify(retract %) -- r^2
+
+
+          2
+   (10)  r
+                                                    Type: Expression(Integer)
+
+pullBack([Y.1=X.1*cos(X.2)*sin(X.3),Y.2=X.1*sin(X.2)*sin(X.3),Y.3=X.1*cos(X.3)],w2)$M
+
+
+   (11)
+           3      3    3      2             2    3      2      3
+       (- r sin(p)  - r cos(p) sin(p))sin(t)  - r cos(t) sin(p)
+     +
+          3      2      2
+       - r cos(p) cos(t) sin(p)
+  *
+     dt dp
+                                         Type: DeRhamComplex(Integer,[r,t,p])
+simplify leadingCoefficient(%) -- -r^3*sin(p) dt dp
+
+
+            3
+   (12)  - r sin(p)
+                                                    Type: Expression(Integer)
+(13) ->
+)endif
+           
