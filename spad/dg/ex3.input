@@ -1,0 +1,29 @@
+)lib CMAP SCMPLX DFORM
+)co dg1                               
+
+-- verified examples
+
+-- http://www.math.uiuc.edu/~kapovich/423-15/pullback.pdf
+-- Example 0.5
+
+-- F:R3 --> R2, (x,y,z) |-> (x²+y*z,exp(x*y*z))
+-- cannot use cellMap because p>n
+M ==> DG1([x,y,z],[u,v])
+X:=indVars()$M
+U:=depVars()$M
+dX:=indForms()$M
+dU:=depForms()$M
+
+v:=pullBack([U.1=X.1^2+X.2*X.3,U.2=exp(X.1*X.2*X.3)], U.1*U.2^3*dU.1*dU.2)$M
+
+--expected
+ve:=exp(4*X.1*X.2*X.3)*(X.1^2+X.2*X.3)*((2*X.1^2*X.3-X.2*X.3^2)*dX.1*dX.2+_
+    (2*X.1^2*X.2-X.2^2*X.3)*dX.1*dX.3)
+
+-- we claim that v = ve
+-- test -> false, but we can simplify:
+D:=v-ve
+test(simplify coefficient(D,dX.1*dX.2) = 0)
+test(simplify coefficient(D,dX.1*dX.3) = 0)
+
+
