@@ -1,5 +1,6 @@
 )co jdf
 JB:=JetBundle([x,y],[u,v])
+--JB:=IndexedJetBundle('x,'u,'p,3,5)
 D:=JBX JB
 JDF1:= JDF1:=JDIFF(JB,D)
 dx:=dX(1)$JDF1
@@ -10,8 +11,13 @@ dx::JDFF
 generators()$JDFF
 
 
-d(X(2)$JB)$JDFF -- dy
-d(U(1)$JB)$JDFF -- du
+dy:=d(X(2)$JB)$JDFF -- dy
+du:=d(U(1)$JB)$JDFF -- du
+dv:=d(U(2)$JB)$JDFF -- dv
 
+w:=dv*dy*du
 
+degree w
+d w
 
+w+dy+du*dv

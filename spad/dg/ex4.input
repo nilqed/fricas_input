@@ -1,0 +1,22 @@
+)lib CMAP SCMPLX DFORM
+)co dg1                               
+
+-- verified examples
+
+-- https://www.maplesoft.com/support/help/Maple/
+-- view.aspx?path=DifferentialGeometry/IntegrateForm 
+-- Example 2
+
+
+M ==> DG1([t],[x,y,z])
+CM ==> CellMap(INT,3)
+[t]:=indVars()$M
+[x,y,z]:=depVars()$M
+[dt]:=indForms()$M
+[dx,dy,dz]:=depForms()$M
+
+Phi:=cellMap([0..%pi],q+->[sin(q.1)*cos(q.1),sin(q.1)*cos(q.1),exp(q.1)])$CM
+om:=y^2*dx + z^2*dy + x*y*z*dz
+
+integrate(om,Phi)$M  -- -3/10 + 3/10 * exp(2*%pi) 
+

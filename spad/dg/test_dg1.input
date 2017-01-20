@@ -150,6 +150,31 @@ pullBack([U.1=X.1,U.2=T(X.1,X.2,X.3)], dU.2)$N1
 exN1:=pullBack([U.1=X.1,U.2=T(X.1*X.2*X.3)], dU.2)$N1
 
 
+---
+
+N2 ==> DG1([x,y],[u,v,w])
+X:=indVars()$N2
+U:=depVars()$N2
+dX:=indForms()$N2
+dU:=depForms()$N2
+SC:=F::SCMPLX(INT,3) + 2*G::SCMPLX(INT,3)
+terms(SC)
+bSC:=bdry SC
+terms bSC
+
+pullBack(F,dU.1*dU.2)$N2  -- dx dx
+pullBack(G,dU.1*dU.2)$N2  -- 4 x y dx dy
+pullBack(SC,dU.1*dU.2)$N2  -- 2 G + F -> (8 x y + 1) dx dy
+
+N3 ==> DG1([x],[u,v,w])
+pullBack(bdry SC, U.1*dU.2)$N3 --> (4 x + 1) dx
+
+
+-- Green's theorem
+integrate(U.1*dU.2,bdry SC)$N3 -- =3
+integrate(d(U.1*dU.2), SC)$N2 -- =3    
+
+
 -------------
 -- Results --
 -------------

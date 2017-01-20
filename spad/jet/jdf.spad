@@ -24,8 +24,15 @@ JetDifferentialForm(JB : JBC, D : JBFC JB) : Exports == Implementation where
     coerce : % -> OUT
     
     generators : () -> List %
+    exteriorDifferential : % -> %
+    degree : % -> NNI
     
     d : JB -> %
+    d : %  -> %
+    
+    _* : (%,%) -> %
+    _+ : (%,%) -> %
+    
   
   Implementation ==> add
   
@@ -39,11 +46,19 @@ JetDifferentialForm(JB : JBC, D : JBFC JB) : Exports == Implementation where
     Rep:=DeRhamComplex(Integer, listVars)
     
     generators():List % == [generator(j)$Rep for j in 1..p+q]
+    exteriorDifferential(w:%):% == exteriorDifferential(w)$Rep
     
     d(jb : JB) : % == 
       j:Integer:=position(jb::R,allVars)
       generators().j
+      
+    d(w:%):% == exteriorDifferential(w)$Rep
+
+    (w1:% * w2:%):% == _*(w1,w2)$Rep
+    (w1:% + w2:%):% == _+(w1,w2)$Rep
     
+    degree(w:%):NNI == degree(w)$Rep
+
     coerce(w:JDIFF):% ==
       c:List D:=coefficients(w)$JDIFF
       d:List JB:=differentials(w)$JDIFF

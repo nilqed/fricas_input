@@ -14,7 +14,9 @@
 ++   of forms by cell maps and associated differential geometric quantities.
 ++   The first list of symbols denotes the independent variables whereas the
 ++   the second list denotes the dependent variables, i.e. U=f(X). It is
-++   similar to zero sections in JetBundle.
+++   similar to zero sections in JetBundle (locally a function graph).
+++ Documentation: 
+++   pdflatex dg1.spad  (this file, 2x) => pdf file.
 ++
 DifferentialGeometry1(xs,us) : Exports == Implementation where
 
@@ -85,6 +87,10 @@ DifferentialGeometry1(xs,us) : Exports == Implementation where
     pullBack : (CellMap(Integer,#us),DRCU) -> DRCX
       ++ pullBack(S,w) computes the pull back of the differential
       ++ form w by the cell map S.
+      
+    pullBack : (SurfaceComplex(Integer,#us),DRCU) -> DRCX
+      ++ pullBack(S,w) computes the pull back of the differential
+      ++ form w by all cellMaps in a surface complex.
 
     pullBack : (List Equation R,DRCU) -> DRCX
       ++ pullBack(S,w) computes the pull back of the differential
@@ -94,6 +100,10 @@ DifferentialGeometry1(xs,us) : Exports == Implementation where
     integrate : (DRCU, CellMap(Integer,#us)) -> R
 	  ++ integrate(w,S) computes the integral of a differential form
 	  ++ w over a cell map S.
+	  
+    integrate : (DRCU, SurfaceComplex(Integer,#us)) -> R
+	  ++ integrate(w,S) computes the integral of a differential form
+	  ++ w over a surface complex SC.
 	  
     multipleIntegral : (R,List Symbol,List Segment R) -> R
 	  ++ multipleIntegral(f,[x1...],[0..1,...]) computes the integral
@@ -171,6 +181,16 @@ DifferentialGeometry1(xs,us) : Exports == Implementation where
       nf
 
 
+    pullBack(S:SurfaceComplex(Integer,#us),w:DRCU):DRCX ==
+      n:=#us
+      RC:=Record(gen: CellMap(Integer,n),exp: Integer)
+      t:List(RC):=terms(S)$SurfaceComplex(Integer,n)
+      r:DRCX:=0$DRCX
+      for s in t repeat
+        r:=r + s.exp * pullBack(s.gen,w)
+      r
+        
+
     multipleIntegral(c:R,d:List Symbol,b:List Segment R):R ==
       #d ~= #b => error "number of vars and bindings must match."
       I:R:=0$R
@@ -197,6 +217,15 @@ DifferentialGeometry1(xs,us) : Exports == Implementation where
       multipleIntegral(c,xs,getDom S)
       --0$R -- dummy  
      
+
+    integrate(w:DRCU, S:SurfaceComplex(Integer,#us)):R ==
+      n:=#us
+      RC:=Record(gen: CellMap(Integer,n),exp: Integer)
+      t:List(RC):=terms(S)$SurfaceComplex(Integer,n)
+      r:R:=0$R
+      for s in t repeat
+        r:=r + s.exp * integrate(w,s.gen)
+      r
 
 
 )if false
