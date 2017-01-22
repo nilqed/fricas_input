@@ -1,0 +1,27 @@
+)lib CMAP SCMPLX DFORM
+)co dg1                               
+
+-- verified examples
+
+-- https://www.maplesoft.com/support/help/Maple/
+-- view.aspx?path=DifferentialGeometry/IntegrateForm 
+-- Example 1
+
+
+M ==> DG1([u,v],[x,y])
+[x,y]:=depVars()$M
+[dx,dy]:=depForms()$M
+
+om:=(x^2+3*x*y)*dx*dy 
+
+multipleIntegral(leadingCoefficient(om),['x,'y],[0..1-y,0..1])$M  --  5/24
+
+
+-- ok, but not user friendly ...
+
+
+-- Example 3.9 / Manifolds and Differential Forms, Reyer Sjamaar
+-- URL: http://www.math.cornell.edu/~sjamaar
+[u,v]:=indVars()$M
+[du,dv]:=indForms()$M
+pullBack([x=u^3*v,y=log(u+v)],dx*dy)$M  -- ok

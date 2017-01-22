@@ -1,0 +1,386 @@
+%==============================================================================
+% Documentation (pdflatex this_file.spad
+% Note: ensure that the code above is between \iffalse ... )if false\fi.
+%==============================================================================
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{epstopdf}
+\usepackage{pgfplots}
+%
+\pgfplotsset{width=10cm,compat=1.9}
+%
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\definecolor{orange}{rgb}{1.0,0.44,0}
+%
+\lstdefinelanguage{SPAD}
+{keywords={if,then,else,for,in,repeat},
+keywords=[2]{Fraction, Integer, Polynomial, Expression, Float, 
+             DoubleFloat, SurfaceComplex, CellMap, 
+             List},
+keywords=[3]{cellMap, bdry, tangentSpace, normalSpace, normalField,
+             metricTensor, jacobianMatrix, faces, coords, coordSymbols,
+             pullBack, integrate, multipleIntegral,DG1},
+keywordstyle=[2]\color{red},
+keywordstyle=[3]\color{orange},
+sensitive=true,%
+alsoletter={\$},%
+comment=[l]{--},%
+string=[b]",%
+string=[b]'%
+}
+
+\lstset{frame=tb,
+  language=SPAD,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+\author{Kurt Pagani \\ {\tt nilqed@gmail.com}}
+\date{December 20, 2016}
+\title{DifferentialGeometry1 \\ {\small\tt Domain: DG1}}
+%
+\newcommand{\CAD}{{\tt CAD}}
+\newcommand{\QE}{{\tt QE}}
+\newcommand{\RR}[1]{\mathbb{R}^{#1}}
+\newcommand{\QQ}[1]{\mathbb{Q}^{#1}}
+\newcommand{\ZZ}[1]{\mathbb{Z}^{#1}}
+\newcommand{\KK}[1]{\mathbb{K}^{#1}}
+\newcommand{\spadfun}[1]{\textcolor{magenta}{\tt #1}}
+\newcommand{\spadbold}[1]{{\tt\bf #1}}
+\newcommand{\type}[1]{\textcolor{blue}{\tt\tiny #1}}
+\newtheorem{definition}{Definition}
+%
+\begin{document}
+\maketitle
+%
+\begin{abstract}
+This manual describes the FriCAS package {\bf DifferentialGeometry1}.
+This package combines differential forms and cell mappings to provide 
+methods which compute {\bf pull backs}, {\bf integrals} as well as
+some other quantities of differential forms living on a surface 
+complex.
+\end{abstract}
+%
+\tableofcontents
+\section{Introduction}
+Initially, it was planned to build this package by reusing
+{\tt JET} (included in FriCAS), a sophisticated series of domains and 
+packages written by Joachim Schue and Werner M. Seiler (\cite{wms:aci},
+\cite{wms:axiom},\cite{wms:diss},\cite{wms:jet}). Actually, most of
+the functionality of this package has already been implemented in
+a new package {\tt JetBundleGeometry} when we recognized that jet
+bundles in FriCAS are much more powerful than just serving as a 
+helper package for local coordinate patches. Continuing the process
+would have us led to unfortunate dependencies on cell mappings and
+other domains, so to make it difficult to use higher order jet bundles
+in connection with differential forms. Consequently we extracted 
+everything useful into this package. Because parts of the manual
+also had been written the reader will certainly recognize this
+here and there, although we tried to remove most unrelated topics.
+The package {\tt JetBundleGeometry} will be based on a new domain,
+{\tt JetDifferentialForm}\footnote{work in progress} and will only 
+depend on {\tt JET}. The rest of this section may be skipped, however, 
+it is assumed the reader is acquainted with the manuals of 
+{\tt DifferentialForm} and {\tt SurfaceComplex}. 
+
+Recall that a bundle is a triple $(M,X,\pi)$, where $M,X$ are manifolds
+and $\pi:M\rightarrow X$ is the projection, i.e. a continuous surjective
+mapping from the total space ($M$) to the base space ($X$). A bundle is 
+called trivial if $M$ is homeomorphic to $X\times U$, where
+$U$ denotes another manifold, called the fibre. A locally trivial bundle
+is called a fibre bundle, which is what we here are concerned with.
+We will use the following nomenclature: 
+\begin{displaymath}
+   x=(x_1,\ldots,x_p), \ \ u=(u^1,\ldots,u^n)
+\end{displaymath}
+where $x$ are the (local) coordinates of the base manifold $X$ and $u$
+the the ones on the fibre $U$. Locally the projection takes the form
+\begin{displaymath}
+ \pi:\begin{cases} 
+      & X\times U \\
+      & (x,u) \mapsto x.
+   \end{cases}
+\end{displaymath}
+A section of the fibre bundle then has the form
+\begin{displaymath}
+ \Phi_f:\begin{cases} 
+      & X\times U \\
+      & x \mapsto (x,f(x)).
+\end{cases}
+\end{displaymath}
+such that $\pi\circ \Phi_f = \mathcal{I}d$.
+A jet bundle now may be considered as an iteration of that construction,
+that is we will speak of a $n$-th order jet bundle $M^{(n)}$ if
+\begin{displaymath}
+ M^{(n)} = X \times \left( U\times U_1\times\ldots\times U_n  \right)
+\end{displaymath}  
+where the $U_j$ are the jet (Euclidean) spaces. We will just write $M$
+for $M^{(0)}$.
+%
+\subsection{Motivation}
+Let us recall the following domains/packages and their functionality:
+\begin{itemize}
+\item[1] \spadfun{DeRhamComplex} provides differential forms as a
+graded ring in a given set of variables:
+\begin{displaymath}
+  \mathtt{DeRhamComplex(R,[x_1,\ldots,x_n])} =
+      \bigoplus_{p=0}^n \Lambda^p([x_1,\ldots,x_n])
+\end{displaymath}
+where $x_j\in \mathtt{Expression(R)}$, $R$ a ring, meaning that the
+coefficients are from {\tt Expression R}.
+%
+\item[2] \spadfun{DifferentialForms} is a package extending 
+{\tt DeRhamComplex} by {\em Riemannian metrics} $g$ and
+the connected standard operations like {\em Hodge star} $\star_g$,
+$\delta_g$, $\Delta_g$, $i_X$, $\mathcal{L}_X$ and 
+$\langle\cdot,\cdot\rangle_g$.
+%
+\item[3] \spadfun{CellMap} and \spadfun{SurfaceComplex} are domains
+which loosely spoken will provide parametric surface patches and
+their formal sums (free group with integer coefficients):
+\begin{displaymath}
+  \mathtt{SurfaceComplex(R,n)} =
+      \mathbb{Z}\cdot\bigoplus_{p=0}^n \Sigma^p([\$_1,\ldots,\$_n])  
+\end{displaymath}
+where $\Sigma_p$ is the collection of $p-$cells, that is mappings
+from a $p-$cell into $n-$space.
+
+Consequently we can define the boundary operator $\partial$ such 
+that $T(d\varphi)=\partial T(\varphi)$ holds, where $T$ is an
+element of SurfaceComplex and $\varphi$ one of DeRhamComplex.
+\end{itemize}
+But note that the code of these domains is unrelated, that is
+both can be used independently. So we are in need of a package
+or domain which brings them together in order to utilize their 
+mutual duality.
+
+A second point is the need of computing {\em pull backs} of
+differential forms and - closely related - of integration of
+forms over {\em affine chains}. To achieve this we have
+to incorporate two (usually) different spaces of differential
+forms.
+
+Eventually, the following quotations from \cite{wms:axiom} together
+with the remarks above induced the usage of {\tt JetBundle}
+instead of creating a new domain:
+%
+\begin{verse}
+\ldots
+The implementation of both is somewhat rudimentary, as we hope that some
+day {\tt AXIOM} will contain a reasonable environment for differential 
+geometric calculations and then it should be used instead of some 
+special domains like the two mentioned. 
+\ldots
+The implementation of the differential geometric domains  {\tt VectorField} 
+(abbreviated by {\tt VF}) and {\tt Differential (DIFF)} are fairly primitive. 
+They should be considered as a temporary hack, until AXIOM contains 
+a better environment for differential geometric calculations.
+\ldots
+\end{verse}  
+%
+We may interpret {\tt JetBundle} in the first place as a local
+coordinate patch (chart) with independent variables $x$ and
+dependent ones $u$. Then we will be able to pull forms in $u-$
+space back to $x$-space. In other words we will only use a 
+zero order jet bundle for the moment. In a second step the
+interplay might be extended to higher order bundles such that
+the deficiencies mentioned in the above quotes may be mitigated.
+%
+\section{Theory}
+For the general theory about pulling back - and integration of
+differential forms we refer to one of the excellent books, e.g.
+(\cite{FLAN},\cite{SPV},\cite{MTAA},\cite{CART}), cited in the 
+bibliography.
+We recall two important facts about pulling back differential
+forms $\alpha,\beta$ by smooth maps $f$:
+\begin {eqnarray*}
+   f^\star (\alpha\wedge\beta) &=& f^\star\alpha\wedge f^\star\beta,\\
+   d\, f^\star\alpha &=& f^\star (d\,\alpha). 
+\end {eqnarray*} 
+The implementation of \spadfun{pullBack} is based on this.
+Furthermore, we have for $f:Q \rightarrow M$ the identity
+\begin{displaymath}
+   \int_{M} \omega = \int_Q f^\star \omega,
+\end{displaymath}
+on which \spadfun{integrate} is based on. Usually $Q$ is a 
+$p-$cell and $M$ a $p-$surface (or surface complex). In other
+words, $f$ is {\tt S.map} and $Q$ is {\tt S.dom} when $S$ is
+of type {\tt CellMap}.
+Since we have the restriction {\tt \#(S.dom)}$\leq n$, where $n$
+is the dimension of the range of {\tt S.map}, the mapping $f$
+may also be described by a set of equations (see further below).
+This essentially is all we need to compute most of the usual
+differential quantities that occur in connection with local and
+global surface theories. As remarked in the introduction, this
+package will only serve as a simple link between the domain of
+affine chains {\tt SurfaceComplex} and the domain of co-chains
+{\tt DeRhamComplex}. More sophisticated methods will be 
+implemented in the forthcoming package {\tt JetBundleGeometry}. 
+%
+\subsection{Local Coordinates}
+To set up the package we have to provide two lists of symbols
+which will denote the dependent- and the independent coordinates, for
+example
+\begin{lstlisting}
+M ==> DG1([x,y],[u,v,w])
+\end{lstlisting}
+means that $u,v,w$ are {\em dependent} coordinates, that is functions
+of the {\em independent} coordinates $x,y$. Note that $M$ is just
+a package selector without any information how this dependencies
+are defined. However, $M$ will provide two spaces of differential
+forms, namely
+\begin{lstlisting}
+DeRhamComplex(Integer,[x,y])    -- e.g. a(x,y) dx dy
+DeRhamComplex(Integer,[u,v,w])  -- e.g. b(u,v,w) du dv.
+\end{lstlisting}
+When we - for instance - think of a parametric surface 
+\begin{displaymath}
+   (x,y) \mapsto (u(x,y),v(x,y),w(x,y))
+\end{displaymath} 
+we immediately see how the pull back of the $2-$form $b(u,v,w)\,du\wedge dv$
+to the parameter domain looks like:
+\begin{displaymath}
+  b(u(x,y),v(x,y),w(x,y)) du(x,y)\wedge dv(x,y),
+\end{displaymath}  
+where $du(x,y)\wedge dv(x,y)$ expands to
+\begin{displaymath}
+ (u_x dx + u_y dy)\wedge (v_x dx + v_y dy) = (u_x v_y - v_x u_y) dx\wedge dy
+\end{displaymath}
+of course. 
+%
+\subsection{$p-$Surfaces}
+Recall that a $p-$surface is a mapping from a compact cell $Q$ of
+dimension $p$ into $n-$space, where we always assume $p\leq n$.
+Staying with the parametric surface picture above, we have $p=2$,
+and $n=3$, and we may speak of a $2-$surface. Since $p=n-1$ it 
+actually is a hyper-surface but this is in no way a must. Usually
+$n$ is chosen as big as necessary in order to obtain an 
+{\em embedding} of the (generalized) surface. Remembering {\em Nash's}
+embedding theorem, we can (almost) always isometrically embed a Riemannian 
+manifold into Euclidean space if $n$ is sufficiently big.
+
+Back to the example, if we want to integrate our form over the $2-$surface,
+we will specify a cell mapping of type $\tt CellMap(Integer,3)$ as
+follows:
+\begin{lstlisting}
+CM3 ==>  CellMap(Integer,3)
+Q:=[a..b,c..d]  -- 2-cell
+S:=cellMap(Q,q+->[F(q.1,q.2),G(q.1,q.2),H(q.1,q.2)])$CM3
+\end{lstlisting}
+We see that $S$ is formulated independent of the coordinates in $M$,
+only if we apply $S$ to $(x,y)$, we will get the connection between
+the variables $u,v,w$ and $x,y$. Now we have 
+\begin{displaymath}
+   \int_{S(Q)} b(u,v,w)\,du\wedge dv = \int_{Q} S^{\star}(b(u,v,w)\,du\wedge dv)
+\end{displaymath}
+or, using the results above,
+\begin{displaymath}
+   = \int_{Q} b(u(x,y),v(x,y),w(x,y))  (u_x v_y - v_x u_y) dx\wedge dy
+\end{displaymath}
+what reduces to an ordinary double integral over the cell $Q$:
+\begin{displaymath}
+\int_c^d \int_a^b b(u(x,y),v(x,y),w(x,y))  (u_x v_y - v_x u_y) dx dy.
+\end{displaymath}
+This is just how these integrals over cell maps are computed:
+\begin{lstlisting}
+  integrate(b(u,v,w)*du*dv,S)$M
+\end{lstlisting}
+
+
+\section{Appendix}
+%
+\begin{thebibliography}{1}
+%
+\bibitem{ST} Singer, I. M., and Thorpe, J. A.{\em Lecture Notes on 
+  Elementary Topology and Geometry}, Scott, Foresman and Company. 
+
+\bibitem{SPV} Spivak, M. {\em Calculus on Manifolds}, W. A. Benjamin, 
+  Inc., New York, 1965. 
+
+\bibitem{MTAA} Ralph Abraham, Jerrold E.Marsden and Tudor Ratiu.Manifolds, 
+       {\em Tensor Analysis, and Applications}. Springer,
+       Auflage: 2nd Corrected ed. 1988. Corr. 2nd printing 1993 edition.
+%       
+\bibitem{CART} Henri Cartan. {\em Differential Forms}. Dover Pubn Inc.
+%
+\bibitem{GMT} Herbert Federer. {\em Geometric Measure Theory}. Springer, 
+       Reprint of the 1st ed. Berlin, Heidelberg, New York 1969 edition.
+%
+\bibitem{FLAN} Harley Flanders, {\em Differential Forms with Applications to 
+       the Physical Sciences}. Dover Pubn Inc, Revised. edition.
+%
+\bibitem{QYBEQ} L. A. Lambe and D. E. Radford. {\em Introduction to the 
+       Quantum Yang-Baxter Equation and Quantum Groups:An Algebraic Approach}.
+       Springer, 1997 edition.
+%
+\bibitem{PMA} Walter Rudin and RudinWalter.{\em Principles of Mathematical
+       Analysis}. McGraw Hill Book Co, Revised. edition.
+%
+\bibitem{GIT} Hassler Whitney. {\em Geometric Integration Theory}, 
+       Princeton Mathematical Series, No. 21. Literary Licensing, LLC.
+
+
+\bibitem{wms:aci}
+J.~Sch\"u, W.M. Seiler, and J.~Calmet.
+\newblock Algorithmic methods for {L}ie pseudogroups.
+\newblock In N.~Ibragimov, M.~Torrisi, and A.~Valenti, editors, {\em Proc.
+  Modern Group Analysis: Advanced Analytical and Computational Methods in
+  Mathematical Physics}, pages 337--344, Acireale (Italy), 1992. Kluwer,
+  Dordrecht~1993.
+
+\bibitem{wms:axiom}
+W.M. Seiler.
+\newblock Applying {AXIOM} to partial differential equations.
+\newblock Internal Report 95-17, Universit\"at Karlsruhe, Fakult\"at f\"ur
+  Informatik, 1995. Available from:
+\newblock {\tt http://citeseerx.ist.psu.edu}
+
+\bibitem{wms:diss}
+W.M. Seiler.
+\newblock {\em Analysis and Application of the Formal Theory of Partial
+  Differential Equations}.
+\newblock PhD thesis, School of Physics and Materials, Lancaster University,
+  1994.
+
+\bibitem{wms:mcm}
+W.M. Seiler.
+\newblock Involution and symmetry reductions.
+\newblock Preprint~1995.
+
+\bibitem{wms:con1}
+W.M. Seiler and R.W. Tucker.
+\newblock Involution and constrained dynamics~{I}: The {D}irac approach.
+\newblock {\em J.\ Phys.~A}, to appear, 1995.
+
+\bibitem{wms:jet}
+W.M. Seiler and  Jacques Calmet
+\newblock {\em JET - An AXIOM Environment for Geometric Computations 
+     with Differential Equations}
+Electronic Proc. IMACS Conference on Applications of Computer Algebra, 
+Albuquerque 1995, M. Wester, S. Steinberg, M. Jahn (eds.)
+\end{thebibliography}
+%
+\end{document}
+% -----------------------------------------------------------------------------
+% END DOCUMENTATION
+% -----------------------------------------------------------------------------
