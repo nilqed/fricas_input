@@ -23,16 +23,223 @@
 )expose CMAP, SCMPLX, DFORM
 )sh DG1
 
-------------------
+---------------
 testsuite "dg1"
-testcase  "all"
-------------------
+---------------
+-- ex1
+-- ex2
+-- ex2.3
+-- ex3
+-- ex4
+-- ex5
+-- ex6
+-- misc
 
-N:=1 -- number of tests
-res:List(Boolean):=[false for j in 1..N] -- Result list
+---------------
+testcase  "ex1"
+---------------
+
+M ==> DG1([r,t],[x,y])
+C ==> CellMap(Integer,2)
+
+-- https://www.mathi.uni-heidelberg.de/~lee/Stehpan_Sven.pdf
+-- Example 2.11
+f:=cellMap([0..R,0..2*%pi],q+->[q.1*cos(q.2),q.1*sin(q.2)])$C
+
+X:=indVars()$M
+Y:=depVars()$M
+dX:=indForms()$M
+dY:=depForms()$M
+
+w:=1/(Y.1^2+Y.2^2)*(-Y.2*dY.1+Y.1*dY.2)
+
+r1:=pullBack(f,w)$M -- dt
+testEquals("r1","dX.2")
+
+f X --> polar coords
+
+r2:=integrate(dY.1*dY.2,f)$M -- R^2*%pi = area of disk with radius R.
+testEquals("r2","R^2*%pi")
+ 
+r3:=pullBack(f,dY.1*dY.2)$M -- r dr dt
+r3:=simplify(leadingCoefficient(r3))*leadingBasisTerm(r3)
+testEquals("r3","X.1*dX.1*dX.2")
+
+-- http://www.math.pitt.edu/~sph/1540/1540-notes14.pdf
+-- Example 4
+g:=cellMap([0..1,0..1],q+->[2*q.1+3*q.2,27*q.2^3])$C
+r4:=integrate(dY.1*dY.2,g)$M -- 54
+testEquals("r4","54")
+
+--
+h:=cellMap([0..1,0..1],q+->[q.1^2-q.2^2,2*q.1*q.2])$C
+r5:=pullBack(h,dY.1*dY.2)$M -- 4(t^2+r^2)dr dt
+testEquals("r5","4*(X.1^2+X.2^2)*dX.1*dX.2")
+
+---------------
+testcase  "ex2"
+---------------
+-- verified examples                  
+-- http://www.maplesoft.com/support/help/Maple/view.aspx?path=
+-- DifferentialGeometry/Pullback
+
+-- Example 1
+
+M ==> DG1([x,y],[u,v,w])
+C ==> CellMap(Integer,3)
+
+Y:=depVars()$M
+X:=indVars()$M
+dY:=depForms()$M
+dX:=indForms()$M
+
+Phi1:=cellMap([0..1,0..1],q+->[q.1+2*q.2,3*q.1+4*q.2,5*q.1+6*q.2])$C
+
+w1:=Y.2*dY.1+Y.3*dY.2+Y.1*dY.3
+
+th1:=pullBack(Phi1,w1)$M --  (44y + 32x)dy + (32y + 23x)dx
+testEquals("th1","(44*X.2+32*X.1)*dX.2+(32*X.2+23*X.1)*dX.1")
+
+-- todo: eval, simplify
+
+-- Example 2
+r:=[pullBack(Phi1,s)$M for s in [dY.1,dY.2]]
+testEquals("r","[2*dX.2+dX.1,4*dX.2+3*dX.1]")
+
+---------------
+testcase  "ex2.3"
+---------------
+M ==> DG1([r,t,p],[x,y,z])
+C ==> CellMap(Integer,3)
+
+X:=indVars()$M
+Y:=depVars()$M
+dX:=indForms()$M
+dY:=depForms()$M
+
+f2:=(Y.1^2+Y.2^2+Y.3^2)*1$typeOf(dY.1)
+
+w2:=Y.3*dY.1*dY.2 - Y.2*dY.1*dY.3 + Y.1 * dY.2*dY.3
+
+Phi2:=Phi1:=cellMap([0..1,0..1],q+->[X.1*cos(X.2)*sin(X.3),X.1*sin(X.2)*sin(X.3),X.1*cos(X.3)])$C
+
+r1:=pullBack([Y.1=X.1*cos(X.2)*sin(X.3),Y.2=X.1*sin(X.2)*sin(X.3),Y.3=X.1*cos(X.3)],f2)$M
+r2:=simplify(retract r1) -- r^2
+testEquals("r2","X.1^2")
+
+r3:=pullBack([Y.1=X.1*cos(X.2)*sin(X.3),Y.2=X.1*sin(X.2)*sin(X.3),Y.3=X.1*cos(X.3)],w2)$M
+r4:=simplify leadingCoefficient(r3) -- -r^3*sin(p) dt dp 
+testEquals("r4*leadingBasisTerm(r3)","-X.1^3*sin(X.3)*dX.2*dX.3")
 
 
+---------------
+testcase  "ex3"
+---------------
+-- verified examples
+-- http://www.math.uiuc.edu/~kapovich/423-15/pullback.pdf
+-- Example 0.5
 
+-- F:R3 --> R2, (x,y,z) |-> (x²+y*z,exp(x*y*z))
+-- cannot use cellMap because p>n
+M ==> DG1([x,y,z],[u,v])
+X:=indVars()$M
+U:=depVars()$M
+dX:=indForms()$M
+dU:=depForms()$M
+
+v:=pullBack([U.1=X.1^2+X.2*X.3,U.2=exp(X.1*X.2*X.3)], U.1*U.2^3*dU.1*dU.2)$M
+
+--expected
+ve:=exp(4*X.1*X.2*X.3)*(X.1^2+X.2*X.3)*((2*X.1^2*X.3-X.2*X.3^2)*dX.1*dX.2+_
+    (2*X.1^2*X.2-X.2^2*X.3)*dX.1*dX.3)
+
+-- we claim that v = ve
+-- test -> false, but we can simplify:
+D:=v-ve
+testEquals("simplify coefficient(D,dX.1*dX.2)","0")
+testEquals("simplify coefficient(D,dX.1*dX.3)","0")
+
+
+---------------
+testcase  "ex4"
+---------------
+-- verified examples
+-- https://www.maplesoft.com/support/help/Maple/
+-- view.aspx?path=DifferentialGeometry/IntegrateForm 
+-- Example 2
+
+
+M ==> DG1([t],[x,y,z])
+CM ==> CellMap(INT,3)
+[t]:=indVars()$M
+[x,y,z]:=depVars()$M
+[dt]:=indForms()$M
+[dx,dy,dz]:=depForms()$M
+
+Phi:=cellMap([0..%pi],q+->[sin(q.1)*cos(q.1),sin(q.1)*cos(q.1),exp(q.1)])$CM
+om:=y^2*dx + z^2*dy + x*y*z*dz
+
+r:=integrate(om,Phi)$M  -- -3/10 + 3/10 * exp(2*%pi) 
+testEquals("r","-(3/10) + (3/10) * exp(%pi)^2")
+
+
+---------------
+testcase  "ex5"
+---------------
+-- verified examples
+-- https://www.maplesoft.com/support/help/Maple/
+-- view.aspx?path=DifferentialGeometry/IntegrateForm 
+-- Example 3
+-- Note: w in first line of text is not the same as effectively used !!
+-- wrote a 
+
+M ==> DG1([t,p],[x,y,z])
+CM ==> CellMap(INT,3)
+[t,p]:=indVars()$M
+[x,y,z]:=depVars()$M
+[dt,dp]:=indForms()$M
+[dx,dy,dz]:=depForms()$M
+
+Phi:=cellMap([0..2*%pi,0..%pi],q+->[cos(q.1)*sin(q.2),2*sin(q.1)*sin(q.2),3*cos(q.2)])$CM
+om:=-3*y^2*z*dx*dy + x*z^2*dy*dz - x^2*y*dx*dz
+
+r:=integrate(om,Phi)$M  --  16/5 * %pi
+testEquals("r","16/5 * %pi")
+
+---------------
+testcase  "ex6"
+---------------
+-- verified examples
+-- https://www.maplesoft.com/support/help/Maple/
+-- view.aspx?path=DifferentialGeometry/IntegrateForm 
+-- Example 1
+
+M ==> DG1([u,v],[x,y])
+[x,y]:=depVars()$M
+[dx,dy]:=depForms()$M
+
+U:=indVars()$M
+dU:=indForms()$M
+
+om:=(x^2+3*x*y)*dx*dy 
+
+r1:=multipleIntegral(leadingCoefficient(om),['x,'y],[0..1-y,0..1])$M  --  5/24
+testEquals("r1","5/24")
+
+-- ok, but not user friendly ...
+
+
+-- Example 3.9 / Manifolds and Differential Forms, Reyer Sjamaar
+-- URL: http://www.math.cornell.edu/~sjamaar
+[u,v]:=indVars()$M
+[du,dv]:=indForms()$M
+r2:=pullBack([x=u^3*v,y=log(u+v)],dx*dy)$M  -- ok
+
+testEquals("r2","(3*U.1^2*U.2-U.1^3)/(U.1+U.2)*dU.1*dU.2")
+
+----------------
+testcase  "misc"
+----------------
 M ==> DG1([x,y],[u,v,w])
 
 dX:=indForms()$M
@@ -48,12 +255,13 @@ US:=depSymbols()$M
 a:=operator 'a
 f1:=a(U.1,U.2)*dU.1
 d f1 
-res.1 := test (d f1 = - D(a(U.1,U.2),US.2)*dU.1*dU.2)
+testEquals("d f1","- D(a(U.1,U.2),US.2)*dU.1*dU.2")
 
 
 F:=cellMap([0..1,0..1],q+->[q.2,-q.1,sin(q.1*q.2)])$CellMap(INT,3)
 Y:=F indVars()$M --
-pullBack(F,dU.1)$M
+r1:=pullBack(F,dU.1)$M
+testEquals("r1","dX.2")
 
 DERX==>DERHAM(INT,indSymbols()$M)
 DERU==>DERHAM(INT,depSymbols()$M)
@@ -67,112 +275,45 @@ abt:=atomizeBasisTerm(lf)
 bf:=baseForms()$DFORM(INT,depVars()$M)
 [position(x,bf) for x in abt] 
 
-pullBack(F,f)$M --  - y a(y,- x)cos(x y)dx dy
+r2:=pullBack(F,f)$M --  - y a(y,- x)cos(x y)dx dy
+testEquals("r2","-X.2*a(X.2,-X.1)*cos(X.1*X.2)*dX.1*dX.2")
 
-pullBack(F,dU.1*dU.2*dU.3)$M -- 0
-pullBack(F,dU.1*dU.2)$M -- dx dy
-pullBack(F,dU.1*dU.3)$M -- - y cos(x y)dx dy
+r3:=pullBack(F,dU.1*dU.2*dU.3)$M -- 0
+r4:=pullBack(F,dU.1*dU.2)$M -- dx dy
+r5:=pullBack(F,dU.1*dU.3)$M -- - y cos(x y)dx dy
 
-pullBack(F,dU.1+f*tan((depVars()$M).2))$M
+testEquals("r3","0")
+testEquals("r4","dX.1*dX.2")
+testEquals("r5","-X.2*cos(X.1*X.2)*dX.1*dX.2")
 
--- todo: empty list
--- pullBack(F,1$DERU)$M -- >> Error detected within library code:
--- reducing over an empty list needs the 3 argument form
--- !done!
-pullBack(F,1$DERU)$M
-pullBack(F,a(u)*1$DERU)$M
-pullBack(F,a(u,v)*1$DERU)$M
-pullBack(F,a(u,v,w)*1$DERU)$M
-pullBack(F,0$DERU)$M
+r6:=pullBack(F,dU.1+f*tan((depVars()$M).2))$M
+e6:=dX.2-X.2*a(X.2,-X.1)*cos(X.1*X.2)*tan(-X.1)*dX.1*dX.2
+testEquals("simplify leadingCoefficient(r6-e6)","0")
+
+r7:=pullBack(F,1$DERU)$M
+r8:=pullBack(F,a(u)*1$DERU)$M
+r9:=pullBack(F,a(u,v)*1$DERU)$M
+r10:=pullBack(F,a(u,v,w)*1$DERU)$M
+r11:=pullBack(F,0$DERU)$M
+
+testEquals("r7","1")
+testEquals("r8","a(X.2)")
+testEquals("r9","a(X.2,-X.1)")
+testEquals("r10","a(X.2,-X.1,sin(X.1*X.2))")
+testEquals("r11","0")
+
+
 
 G:=cellMap([0..1,0..1],q+->[q.1^2,q.2^2,1])$CellMap(INT,3)
-pullBack(G,dU.1*dU.2)$M -- 4x y dx dy
+r12:=pullBack(G,dU.1*dU.2)$M -- 4x y dx dy
+testEquals("r12","4*X.1*X.2*dX.1*dX.2")
 
-multipleIntegral(x*y::R,['x,'y::Symbol],[1..2,3..4::R])$M
-IG:=integrate(dU.1*dU.2,G)$M
-
--------------------------------------------------------------------------
 R==>EXPR INT
-)clear value a
--- 3-cell [0,a]x[0,2*pi]x[0,2*%pi]
-Q:=[0..a::R,0..2*%pi,0..2*%pi]
+MI:=multipleIntegral(x*y::R,['x,'y::Symbol],[1..2,3..4::R])$M -- 21/4
+IG:=integrate(dU.1*dU.2,G)$M -- 1
 
--- H mapping [Z.1,Z.2,Z.3H] -> [x,y,z]
-H0:List R -> List R
-H0:=Z+->[Z.1*cos(Z.2),(b+Z.1*sin(Z.2))*cos(Z.3),(b+Z.1*sin(Z.2))*sin(Z.3)]
-H:=cellMap(Q,H0)$CellMap(INT,3)
-
-M2 ==> DG1([x,y,z],[u,v,w])
-
-dX:=indForms()$M2
-dU:=depForms()$M2
-
-X:=indVars()$M2
-U:=depVars()$M2
-
-XS:=indSymbols()$M2
-US:=depSymbols()$M2   
-
-pullBack(H,1$DERU)$M2
-
-vf:=pullBack(H,dU.1*dU.2*dU.3)$M2
-
-simplify leadingCoefficient(vf)  -- cmp. Rudin Example 10.47 (SCMPLX)
-
-
-pullBack(H,u*1$DERU)$M2
-pullBack(H,v*1$DERU)$M2
-pullBack(H,w*1$DERU)$M2
-pullBack(H,u*v*w*1$DERU)$M2
-
-----------------------------------------------------------------------------
--- F:R3 --> R2, (x,y,z) |-> (x²+y*z,exp(x*y*z))
--- cannot use cellMap because p>n
-N1 ==> DG1([x,y,z],[u,v])
-X:=indVars()$N1
-U:=depVars()$N1
-dX:=indForms()$N1
-dU:=depForms()$N1
-exN1:=pullBack([U.1=X.1^2+X.2*X.3,U.2=exp(X.1*X.2*X.3)], U.1*U.2^3*dU.1*dU.2)$N1
---expected
-rN1:=exp(4*X.1*X.2*X.3)*(X.1^2+X.2*X.3)*((2*X.1^2*X.3-X.2*X.3^2)*dX.1*dX.2+_
-    (2*X.1^2*X.2-X.2^2*X.3)*dX.1*dX.3)
-
--- we claim that exN1 = rN1
--- test -> false, but we can simplify:
-D:=exN1-rN1
-test(simplify coefficient(D,dX.1*dX.2) = 0)
-test(simplify coefficient(D,dX.1*dX.3) = 0)
-
-
-T:BOP:=operator 'T
-pullBack([U.1=X.1,U.2=T(X.1,X.2,X.3)], dU.2)$N1
-exN1:=pullBack([U.1=X.1,U.2=T(X.1*X.2*X.3)], dU.2)$N1
-
-
----
-
-N2 ==> DG1([x,y],[u,v,w])
-X:=indVars()$N2
-U:=depVars()$N2
-dX:=indForms()$N2
-dU:=depForms()$N2
-SC:=F::SCMPLX(INT,3) + 2*G::SCMPLX(INT,3)
-terms(SC)
-bSC:=bdry SC
-terms bSC
-
-pullBack(F,dU.1*dU.2)$N2  -- dx dx
-pullBack(G,dU.1*dU.2)$N2  -- 4 x y dx dy
-pullBack(SC,dU.1*dU.2)$N2  -- 2 G + F -> (8 x y + 1) dx dy
-
-N3 ==> DG1([x],[u,v,w])
-pullBack(bdry SC, U.1*dU.2)$N3 --> (4 x + 1) dx
-
-
--- Green's theorem
-integrate(U.1*dU.2,bdry SC)$N3 -- =3
-integrate(d(U.1*dU.2), SC)$N2 -- =3    
+testEquals("MI","21/4")
+testEquals("IG","1")
 
 
 -------------
@@ -182,10 +323,6 @@ integrate(d(U.1*dU.2), SC)$N2 -- =3
 )lisp (lisp-implementation-type)
 )lisp (lisp-implementation-version)
 
-res
-reduce(_and,res)
 
--- dummy statistics
-[testEquals("res." string(j),"true") for j in 1..N];
 statistics()
 

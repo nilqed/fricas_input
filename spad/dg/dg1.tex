@@ -493,6 +493,28 @@ The function \spadfun{pullBack} is overloaded as follows:
       -- form w by the section given as a list of equations of 
       -- the form U=f(X).
 \end{lstlisting}
+\scriptsize
+\begin{verbatim}
+Phi1:=cellMap([0..1,0..1],q+->[q.1+2*q.2,3*q.1+4*q.2,5*q.1+6*q.2])$CM3
+ 
+
+   (1)  |[0..1,0..1] -> [2$  + $ ,4$  + 3$ ,6$  + 5$ ]|
+                           2    1   2     1   2     1
+Type: CellMap(Integer,3)
+
+w1:=Y.2*dY.1+Y.3*dY.2+Y.1*dY.3
+ 
+
+   (2)  u dw + w dv + v du
+Type: DeRhamComplex(Integer,[u,v,w])
+
+pullBack(Phi1,w1)$M 
+ 
+
+   (3)  (44y + 32x)dy + (32y + 23x)dx
+Type: DeRhamComplex(Integer,[x,y])
+\end{verbatim}
+\normalsize
 %
 \subsection{Integration of a form: {\tt integrate}}
 \begin{lstlisting}
@@ -504,6 +526,38 @@ The function \spadfun{pullBack} is overloaded as follows:
 	  -- integrate(w,SC) computes the integral of a differential form
 	  -- w over a surface complex SC.
 \end{lstlisting}
+\scriptsize
+\begin{verbatim}
+Q:=[0..2*%pi,0..%pi]
+ 
+
+   (1)  [0..(2%pi),0..%pi]
+Type: List(Segment(Pi))
+
+Phi:=cellMap(Q,q+->[cos(q.1)*sin(q.2),2*sin(q.1)*sin(q.2),3*cos(q.2)])$CM3
+ 
+
+   (2)  |[0..(2%pi),0..%pi] -> [cos($ )sin($ ),2sin($ )sin($ ),3cos($ )]|
+                                     1      2        1      2        2
+Type: CellMap(Integer,3)
+
+om:=-3*v^2*w*du*dv + u*w^2*dv*dw - u^2*v*du*dw
+ 
+
+           2         2            2
+   (3)  u w dv dw - u v du dw - 3v w du dv
+Type: DeRhamComplex(Integer,[u,v,w])
+
+integrate(om,Phi)$M  
+ 
+
+          16%pi
+   (4)    -----
+            5
+                                                    
+Type: Expression(Integer)
+\end{verbatim}
+\normalsize
 %
 %
 %
