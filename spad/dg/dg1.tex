@@ -17,7 +17,7 @@
 %
 \pgfplotsset{width=10cm,compat=1.9}
 %
-\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{dkgreen}{rgb}{0,0.2,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 \definecolor{orange}{rgb}{1.0,0.44,0}
@@ -25,11 +25,13 @@
 \lstdefinelanguage{SPAD}
 {keywords={if,then,else,for,in,repeat},
 keywords=[2]{Fraction, Integer, Polynomial, Expression, Float, 
-             DoubleFloat, SurfaceComplex, CellMap, 
-             List},
+             DoubleFloat, SurfaceComplex, CellMap, Type,  
+             List, Equation},
 keywords=[3]{cellMap, bdry, tangentSpace, normalSpace, normalField,
              metricTensor, jacobianMatrix, faces, coords, coordSymbols,
-             pullBack, integrate, multipleIntegral,DG1},
+             pullBack, integrate, multipleIntegral,DG1, indVars,
+             depVars, indSymbols, depSymbols, indForms, depForms,
+             getDFU, getDFX, getDRCU, getDRCX, getTypes},
 keywordstyle=[2]\color{red},
 keywordstyle=[3]\color{orange},
 sensitive=true,%
@@ -305,8 +307,206 @@ This is just how these integrals over cell maps are computed:
 \begin{lstlisting}
   integrate(b(u,v,w)*du*dv,S)$M
 \end{lstlisting}
+%
+\subsection{SurfaceComplex}
+Most if not all operations extend to type {\tt SurfaceComplex} by
+linearity. It is, however, the responsibility of the user to ensure
+that the results make sense. One has to bear in mind that a differential
+forms in FriCAS need not be homogeneous and the same holds for the free
+abelian group of cell mappings. As a warning example recall 
+the {\em M\"obius band} in $\RR 3$ which is probably the simplest
+instance of a non-orientable surface.  
+%
+\section{Exported Functions}
+We will provide an example to each function. For this reason let us reuse
+$M$ form the last section and define a new constructor $N$: 
+\begin{lstlisting}
+M ==> DG1([x,y],[u,v,w])
+N ==> DG1([x[0],x[1],x[2]],[y[1],y[2],y[3],y[4])
+\end{lstlisting}
+Furthermore, we will denote by $XS$ and $YS$ the lists of symbols
+given to {\tt DG1}, e.g. {\tt XS=[x,y]} in case of $M$, and by
+$X$ and $Y$ the corresponding lists of variables.
+%
+\subsection{Independent Variables: {\tt indVars()}}
+To get the list of independent variables of {\tt DG1(...)} call
+\begin{lstlisting}
+indVars()$DG1(XS,US) => X
+\end{lstlisting} 
+\scriptsize
+\begin{verbatim}
+(1) -> indVars()$N
 
+   (1)  [x ,x ,x ]
+          0  1  2
+Type: List(Expression(Integer)) 
 
+(2) -> indVars()$M
+
+   (2)  [x,y]
+Type: List(Expression(Integer))
+\end{verbatim} 
+\normalsize
+%
+\subsection{Dependent Variables: {\tt depVars()}}
+To get the list of dependent variables of {\tt DG1(...)} call
+\begin{lstlisting}
+depVars()$DG1(XS,US) => U
+\end{lstlisting} 
+\scriptsize
+\begin{verbatim}
+(1) -> depVars()$N
+
+   (1)  [y ,y ,y ,y ]
+          1  2  3  4
+Type: List(Expression(Integer)) 
+
+(2) -> depVars()$M
+
+   (2)  [u,v,w]
+Type: List(Expression(Integer))
+\end{verbatim} 
+\normalsize
+%
+\subsection{In-/Dependent Symbols: {\tt indSymbols, depSymbols}}
+The symbol lists can be recovered are frequently necessary when
+differentiating, i.e. when using the operator \spadbold{D}.
+\begin{lstlisting}
+indSymbols()$DG1(XS,US) => XS
+depSymbols()$DG1(XS,US) => US
+\end{lstlisting}
+\scriptsize
+\begin{verbatim}
+(1) -> depSymbols()$M
+
+   (1)  [u,v,w]
+Type: List(Symbol)
+
+(2) -> indSymbols()$N
+
+   (2)  [x ,x ,x ]
+          0  1  2
+Type: List(Symbol)
+\end{verbatim}
+\normalsize
+%
+\subsection{In-/Dependent $1-$Forms: {\tt indForms, depForms}}
+To obtain the lists of dependent or independent one forms$1-$ forms:
+\begin{lstlisting}
+indForms()$DG1(XS,US) => dX
+depForms()$DG1(XS,US) => dU
+\end{lstlisting}
+\scriptsize
+\begin{verbatim}
+(1) -> depForms()$M
+
+   (1)  [du,dv,dw]
+Type: List(DeRhamComplex(Integer,[u,v,w]))
+
+(2) -> depForms()$N
+
+   (2)  [dy ,dy ,dy ,dy ]
+           1   2   3   4
+Type: List(DeRhamComplex(Integer,[y[1],y[2],y[3],y[4]]))
+\end{verbatim}
+\normalsize
+%
+\subsection{Types involved: {\tt getTypes()}}
+This function returns a list of all form and surface types created 
+in the package. This might be useful/convenient to define 
+corresponding macros.
+\begin{lstlisting}
+getTypes()$DG1(XS,US) => [DERHAM(INT,XS),DERHAM(INT,US),
+                          DFORM(INT,XS), DFORM(INT,US)]
+\end{lstlisting}
+\scriptsize
+\begin{verbatim}
+(1) -> t:=getTypes()$M
+
+ LISP output:
+(UNPRINTABLE UNPRINTABLE UNPRINTABLE UNPRINTABLE)
+Type: List(Type)
+
+-- #t = 4
+
+(2) -> t.1
+
+   (2)  DeRhamComplex(Integer,[x,y])
+Type: Type 
+
+(2) -> t.4
+
+   (2)  DifferentialForms(Integer,[u,v,w])
+Type: Type
+\end{verbatim}
+\normalsize
+%
+\subsection{Get Types by Name: {\tt getDxxx}}
+Each of the types of \spadfun{getType} can also be retrieved
+as follows:
+\begin{lstlisting}
+    getDRCX : () -> Type
+      -- returns the asscoiated DeRhamComplex in the 
+      -- independent variables indVars(), 
+      -- i.e DeRhamComplex(Integer,XS).
+      
+    getDRCU : () -> Type
+      -- returns the asscoiated DeRhamComplex in the 
+      -- dependent variables depVars(), 
+      -- i.e DeRhamComplex(Integer,US).   
+      
+    getDFX  : () -> Type    
+      -- returns the asscoiated DifferentialForms package in 
+      -- the independent variables indVars(), 
+      -- i.e DifferentialForms(Integer,XS).
+      
+    getDFU  : () -> Type
+      -- returns the asscoiated DifferentialForms package in 
+      -- the dependent variables depVars(), 
+      -- i.e DifferentialForms(Integer,US).
+\end{lstlisting}
+\scriptsize
+\begin{verbatim}
+(1) -> DFU ==> getDFU()$N
+Type: Void
+
+(2) -> DFU
+
+   (2)  DifferentialForms(Integer,[y[1],y[2],y[3],y[4]])
+Type: Type
+\end{verbatim}
+\normalsize
+%
+\subsection{Pull back of a form: {\tt pullBack}}
+The function \spadfun{pullBack} is overloaded as follows:
+\begin{lstlisting}
+    pullBack : (CellMap(Integer,#us),DRCU) -> DRCX
+      -- pullBack(S,w) computes the pull back of the differential
+      -- form w by the cell map S.
+      
+    pullBack : (SurfaceComplex(Integer,#us),DRCU) -> DRCX
+      -- pullBack(S,w) computes the pull back of the differential
+      -- form w by all cellMaps in a surface complex.
+
+    pullBack : (List Equation R,DRCU) -> DRCX
+      -- pullBack(S,w) computes the pull back of the differential
+      -- form w by the section given as a list of equations of 
+      -- the form U=f(X).
+\end{lstlisting}
+%
+\subsection{Integration of a form: {\tt integrate}}
+\begin{lstlisting}
+    integrate : (DRCU, CellMap(Integer,#us)) -> R
+	  -- integrate(w,S) computes the integral of a differential form
+	  -- w over a cell map S.
+	  
+    integrate : (DRCU, SurfaceComplex(Integer,#us)) -> R
+	  -- integrate(w,SC) computes the integral of a differential form
+	  -- w over a surface complex SC.
+\end{lstlisting}
+%
+%
+%
 \section{Appendix}
 %
 \begin{thebibliography}{1}
