@@ -1,0 +1,284 @@
+-- =======================================
+-- DFORM tests (package DifferentialForms)
+-- =======================================
+-- Requires:
+-- .... DeRhamComplex (src/derham.spad) or FriCAS 1.3 or later.
+-- .... DifferentialForms (dform.spad).
+-- Version 1.1: 09-ARP-2016
+-- Version 1.2: 17-DEC-2016
+--
+-- FriCAS Computer Algebra System
+-- Version: FriCAS 1.3.0
+-- Timestamp: Don Sep 29 21:26:01 CEST 2016
+
+)set break resume
+)expose UnittestCount UnittestAux Unittest
+
+
+)expose DFORM
+
+-----------------
+testsuite "dform"
+testcase  "all"
+-----------------
+
+-----------
+-- Setup --
+-----------
+
+n:=7 -- dim of base space (n>=2 !), may change in course
+N:=91 -- number of tests
+
+O ==> OutputForm
+
+-- HodgeStar package for DERHAM(R,v)
+R:=Integer  -- Ring
+v:=[subscript(x,[j::OutputForm]) for j in 1..n] -- (x_1,..,x_n)
+M:=DFORM(R,v)
+
+-- basis 1-forms and coordinate vector
+dx:=baseForms()$M     -- [dx[1],...,dx[n]]
+x:=coordVector()$M    -- [x[1],...,x[n]]
+xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+
+
+-- operator, vector field, scalar field, symbol
+a:=operator 'a         -- operator
+b:=vectorField(b)$M    -- generic vector field [b1(x1..xn),...,bn(x1..xn)]
+c:=vectorField(c)$M
+P:=scalarField(P)$M    -- scalar field P(x1,..,xn)
+
+
+-- (pseudo-) random form & zeroForm
+rd:=reduce(_*,[dx.j for j in 1..random(n)$NNI+1])
+nf:=zeroForm(nf)$M
+
+-- metric
+g:=diagonalMatrix([1 for i in 1..n])$SquareMatrix(n,EXPR R)  -- Euclidean
+h:=diagonalMatrix(c)$SquareMatrix(n,EXPR R)
+
+-- vector field
+vf:=vector b
+ 
+
+-- Result list  
+res:List(Boolean):=[false for j in 1..N] 
+
+-- 
+res.1 := test (dx.1=d(x.1*one()$M))
+res.2 := test (#dx = n)
+res.3 := test (#x = n)
+res.4 := test (a x = a(x))
+res.5 := test (#b = n)
+
+-- null Form (i.e. degree 0)
+res.6 := test (zeroForm('a)$M = a(x)*one()$M)
+res.7 := test (d zeroForm('a)$M = reduce(_+,[D(a(x),xs.i)*dx.i for i in 1..n]))
+
+-- products (à la Flanders, vector forms)
+res.8 := test ( x*dx = reduce(_+,[x.i*dx.i for i in 1..n]))
+res.9 := test ( dx * dx = 0)
+res.10 := test ( (x*dx)*dx = -dx*(x*dx))
+
+-- (co-)vector field
+res.11 := test (vectorField(W)$M * dx = dx * vectorField(W)$M)
+res.12 := test (typeOf(vectorField(S)$M)::O=List(Expression(R))::O)
+res.13 := test (typeOf(covectorField(K)$M)::O=List(DERHAM(R,v))::O)
+res.14 := test (typeOf(vectorField(W)$M * covectorField(K)$M)::O=DERHAM(R,v)::O)
+
+
+-- dot products w.r.t. g
+res.15 := reduce(_and,[test ( dot(g,dx.j,dx.j)$M = 1) for j in 1..n])
+res.16 := reduce(_and,[test ( dot(g,dx.j,dx.(j+1))$M = 0) for j in 1..n-1])
+res.17 := reduce(_and,[test ( dot(g,dx.1*dx.j,dx.1*dx.j)$M = 1) for j in 2..n])
+
+res.18 := reduce(_and,[test ( dot(h,dx.j,dx.j)$M = 1/c.j) for j in 1..n])
+res.19 := reduce(_and,[test ( dot(h,dx.j,dx.(j+1))$M = 0) for j in 1..n-1])
+res.20 := reduce(_and,[test ( dot(h,dx.1*dx.j,dx.1*dx.j)$M = 1/(c.1*c.j)) _
+                                  for j in 2..n])
+
+
+-- Hodge star
+res.21 := test (one()$M*hodgeStar(g,1)$M = dot(g,1,1)$M * volumeForm(g)$M)
+res.22 := test (rd*hodgeStar(g,rd)$M = dot(g,rd,rd)$M * volumeForm(g)$M)
+res.23 := test (degree(hodgeStar(g,dx.n)$M) = n-1)
+
+res.24 := test (one()$M*hodgeStar(h,1)$M = dot(h,1,1)$M * volumeForm(h)$M)
+res.25 := test (rd*hodgeStar(h,rd)$M = dot(h,rd,rd)$M * volumeForm(h)$M)
+res.26 := test (degree(hodgeStar(h,dx.n)$M) = n-1)
+
+-- Projections
+res.27 := test (proj(0,nf+b*dx+d(b*dx))$M = nf)
+res.28 := test (proj(1,nf+b*dx+d(b*dx))$M = b*dx)
+res.29 := test (proj(2,nf+b*dx+d(b*dx))$M = d(b*dx))
+res.30 := test (proj(n,volumeForm(g)$M)$M = volumeForm(g)$M)
+res.31 := test (proj(random(n)$NNI,volumeForm(g)$M)$M = 0)
+
+
+-- Interior product
+res.32 := test (interiorProduct(vf,dx.1)$M = b.1)
+res.33 := test (interiorProduct(vf,dx.n)$M = b.n)
+res.34 := test (d interiorProduct(vf, volumeForm(g)$M)$M =  _
+                 reduce(_+,[D(b.j,xs.j) for j in 1..n])*volumeForm(g)$M)
+
+
+
+-- Lie derivative
+res.35 := test ( d interiorProduct(vf,b*dx)$M + _
+                interiorProduct(vf,d(b*dx))$M = lieDerivative(vf,b*dx)$M)
+
+
+
+-- Version 1.2
+)clear values n R v M x xs dx a b c p g h P vf 
+
+n:=4 -- dim of base space (n>=2 !)
+
+O ==> OutputForm
+
+-- HodgeStar package for DERHAM(R,v)
+R:=Integer  -- Ring
+v:=[subscript(x,[j::OutputForm]) for j in 1..n] -- (x_1,..,x_n)
+M:=DFORM(R,v)
+
+-- basis 1-forms and coordinate vector
+dx:=baseForms()$M     -- [dx[1],...,dx[n]]
+x:=coordVector()$M    -- [x[1],...,x[n]]
+xs:=coordSymbols()$M  -- as above but as List Symbol (for differentiate, D)
+
+
+-- operator, vector field, scalar field, symbol
+a:=operator 'a         -- operator
+b:=vectorField(b)$M    -- generic vector field [b1(x1..xn),...,bn(x1..xn)]
+c:=vectorField(c)$M
+P:=scalarField(P)$M -- scalar field P(x1,..,xn)
+
+-- metric
+g:=diagonalMatrix([1 for i in 1..n])$SquareMatrix(n,EXPR R)  -- Euclidean
+h:=diagonalMatrix(c)$SquareMatrix(n,EXPR R)
+eta:=diagonalMatrix(concat(1,[-1 for i in 2..n]))$SquareMatrix(n,EXPR R)
+
+-- vector field
+vf:=vector b
+
+-- macros
+dV(g) ==> volumeForm(g)$M
+i(X,w) ==> interiorProduct(X,w)$M
+L(X,w) ==> lieDerivative(X,w)$M
+** w ==> hodgeStar(g,w)$M
+
+---
+
+w:=x.1*dx.2-x.2*dx.1
+res.36 := test(d w = 2*dx.1*dx.2)
+res.37 := test(w*w = zero()$M)
+res.38 := test(i(vf,w) = x.1*b.2-x.2*b.1)
+res.39 := test(L(vf,w) = d i(vf,w) + i(vf,d w))
+res.40 := test(d i(vf,w) + i(vf,d w) - L(vf,w) = zero()$M)
+res.41 := test(dot(g,w,w)$M = x.1^2+x.2^2)
+-- div(b) dV
+res.41 := test(d i(vf,dV(g)) = reduce(_+,[D(b.j,xs.j) for j in 1..n])*dV(g))
+res.42 := test(d (P*one()$M) = reduce(_+,[D(P,xs.j)*dx.j for j in 1..n])) 
+res.43 := test(i(vf,d (P*one()$M))= reduce(_+,[D(P,xs.j)*b.j for j in 1..n])*one()$M)
+res.44 := test(1/dot(g,w,w)$M*w =  w*(1/(x.1^2+x.2^2)))
+res.45 := test(d (1/dot(g,w,w)$M*w) = zero()$M)
+
+---
+s:=zeroForm('s)$M
+res.46 := test(d s =  totalDifferential(retract s)$DeRhamComplex(Integer,v))
+res.47 := test(d s =  totalDifferential(retract s)$typeOf(s))
+res.48 := test(d (** s) = 0$typeOf(s))
+res.49 := test(dot(g,** ( d s),w*dx.2*dx.3)$M = x.2*D(retract s, xs.4)) 
+res.50 := test(d (** ( d s)) = reduce(_+,[D(retract s,xs.j,2) for j in 1..n])*dV(g))
+
+r:=sin(x.1*x.2)*one()$M
+
+res.51 := test(d r = x.1*cos(x.1*x.2)*dx.2+x.2*cos(x.1*x.2)*dx.1) 
+res.52 := test(d (** ( d r)) = -(x.1^2+x.2^2)*sin(x.1*x.2)*dV(g))
+
+res.53 := test(** (d (** ( d r))) = -(x.1^2+x.2^2)*sin(x.1*x.2)) 
+res.53 := test(** (d (** ( d r)))::EXPR INT = retract (** (d (** ( d r))))) 
+res.54 := test(eval(** (d (** ( d r)))::EXPR INT,xs.1=%pi) = (-%pi^2-x.2^2)*sin(%pi*x.2))
+res.55 := test(eval(eval(** (d (** ( d r)))::EXPR INT,xs.1=%pi) ,xs.2=%pi)=-2*%pi^2*sin(%pi^2))
+
+a(P)*one()$M
+-- chain diff
+res.56 := test(d (a(P)*one()$M) =  eval(D(a(t),'t),t=P)*d (P*one()$M)) 
+
+res.57 := test(** invHodgeStar(g,w)$M = w)
+res.58 := test(invHodgeStar(g,** w)$M = w)
+res.59 := test(** invHodgeStar(g,** w + dx.1)$M = ** w + dx.1)
+res.60 := test( ** dV(g) = invHodgeStar(g,dV(g))$M)
+res.61 := test(** dV(h) ~= invHodgeStar(h,dV(g))$M)
+res.62 := test( dot(h,w,w)$M = (c.2*x.2^2+c.1*x.1^2)/(c.1*c.2))
+
+res.63 := test( s(g)$M = 1)
+res.64 := test( s(eta)$M = -1)
+res.65 := test( s(h)$M = 's? )
+
+-- https://en.wikipedia.org/wiki/Hodge_dual
+-- Four dimensions
+
+res.66 := test( hodgeStar(eta,dx.1)$M = dx.2*dx.3*dx.4)
+res.67 := test( hodgeStar(eta,dx.2)$M = dx.1*dx.3*dx.4)
+res.68 := test( hodgeStar(eta,dx.3)$M = dx.1*dx.4*dx.2)
+res.69 := test( hodgeStar(eta,dx.4)$M = dx.1*dx.2*dx.3)
+res.70 := test( hodgeStar(eta,dx.1*dx.2)$M = dx.4*dx.3)
+res.71 := test( hodgeStar(eta,dx.1*dx.3)$M = dx.2*dx.4)
+res.72 := test( hodgeStar(eta,dx.1*dx.4)$M = dx.3*dx.2) 
+res.73 := test( hodgeStar(eta,dx.2*dx.3)$M = dx.1*dx.4)
+res.74 := test( hodgeStar(eta,dx.2*dx.4)$M = dx.3*dx.1)
+res.75 := test( hodgeStar(eta,dx.3*dx.4)$M = dx.1*dx.2)
+
+
+-- codifferential: (delta=(-)^degree(x)*invHodgeStar(g, d hodgeStar(g,x))
+res.76 := test(codifferential(g,s*dx.1)$M = -D(retract s,xs.1)*one()$M)
+res.77 := test(codifferential(g,P*dx.2)$M = -D(P,xs.2)*one()$M)
+res.78 := test(codifferential(g,s*P*dx.1*dx.2)$M = _
+    (-P*D(retract s,xs.1)-s*D(P,xs.1))*dx.2+_
+    (P*D(retract s,xs.2)+s*D(P,xs.2))*dx.1)
+res.79 := test(codifferential(g,P*w)$M = x.2*D(P,xs.1)*one()$M -_
+     x.1*D(P,xs.2)*one()$M)
+res.80 := test(codifferential(g,P*w)$M = _
+    (-1)^degree(w)*invHodgeStar(g, d hodgeStar(g,P*w)$M)$M)
+res.81 := test(codifferential(eta,P*w)$M = _
+    (-1)^degree(w)*invHodgeStar(eta, d hodgeStar(eta,P*w)$M)$M)
+res.82 := test(codifferential(h,P*w)$M = _
+    (-1)^degree(w)*invHodgeStar(h, d hodgeStar(h,P*w)$M)$M)
+res.83 := test(codifferential(h,P*w*dx.3)$M = _
+    (-1)^degree(w*dx.3)*invHodgeStar(h, d hodgeStar(h,P*w*dx.3)$M)$M)
+
+-- the codifferential \delta is (sort of) the adjoint to the differential.
+-- This doesn’t quite hold, but we can show that it does hold “up to homology”.
+-- We can calculate their difference times the canonical volume form:
+res.84 := test((dot(g,d w, dx.1*dx.2)$M -_
+    dot(g,w,codifferential(g,dx.1*dx.2)$M)$M)*dV(g)=
+    d (w*hodgeStar(g,dx.1*dx.2)$M))
+res.85 := test((dot(eta,d w, dx.1*dx.2)$M -_
+    dot(eta,w,codifferential(eta,dx.1*dx.2)$M)$M)*dV(eta)=
+    d (w*hodgeStar(eta,dx.1*dx.2)$M))
+
+res.86 := test(hodgeLaplacian(g,w*(** w))$M = -4 * dV(g))
+res.87 := test(hodgeLaplacian(eta,w*(hodgeStar(eta,w)$M))$M = 4 * dV(eta)) 
+res.88 := test(hodgeLaplacian(h,w*(hodgeStar(h,w)$M))$M =_
+    d codifferential(h,w*hodgeStar(h,w)$M)$M)
+    
+res.89 := test(d(vf*dx) *  (** d(vf*dx))=dot(g,d(vf*dx),d(vf*dx))$M*dV(g))
+-- next is inequality because ** = hodgeStar w.r.t to metric g!
+res.90 := test(d(vf*dx) *  (** d(vf*dx))~=dot(eta,d(vf*dx),d(vf*dx))$M*dV(eta))
+-- correct is:
+res.91 := test(d(vf*dx)*hodgeStar(eta,d(vf*dx))$M=_
+    dot(eta,d(vf*dx),d(vf*dx))$M*dV(eta))
+-------------
+-- Results --
+-------------
+)version
+)lisp (lisp-implementation-type)
+)lisp (lisp-implementation-version)
+
+res
+reduce(_and,res)
+
+-- dummy statistics
+[testEquals("res." string(j),"true") for j in 1..N];
+statistics()
