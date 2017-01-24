@@ -153,7 +153,7 @@ coefficients are from {\tt Expression R}.
 %
 \item[2] \spadfun{DifferentialForms} is a package extending 
 {\tt DeRhamComplex} by {\em Riemannian metrics} $g$ and
-the connected standard operations like {\em Hodge star} $\star_g$,
+related standard operations like {\em Hodge star} $\star_g$,
 $\delta_g$, $\Delta_g$, $i_X$, $\mathcal{L}_X$ and 
 $\langle\cdot,\cdot\rangle_g$.
 %
@@ -219,7 +219,7 @@ forms $\alpha,\beta$ by smooth maps $f$:
    f^\star (\alpha\wedge\beta) &=& f^\star\alpha\wedge f^\star\beta,\\
    d\, f^\star\alpha &=& f^\star (d\,\alpha). 
 \end {eqnarray*} 
-The implementation of \spadfun{pullBack} is based on this.
+The implementation of \spadfun{pullBack} is just based on these facts.
 Furthermore, we have for $f:Q \rightarrow M$ the identity
 \begin{displaymath}
    \int_{M} \omega = \int_Q f^\star \omega,
@@ -311,7 +311,7 @@ This is just how these integrals over cell maps are computed:
 \subsection{SurfaceComplex}
 Most if not all operations extend to type {\tt SurfaceComplex} by
 linearity. It is, however, the responsibility of the user to ensure
-that the results make sense. One has to bear in mind that a differential
+that the results make sense. One has to bear in mind that differential
 forms in FriCAS need not be homogeneous and the same holds for the free
 abelian group of cell mappings. As a warning example recall 
 the {\em M\"obius band} in $\RR 3$ which is probably the simplest

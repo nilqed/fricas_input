@@ -410,17 +410,29 @@ terms(SC)
 bSC:=bdry SC
 terms bSC
 
-pullBack(F,dU.1*dU.2)$N2  -- dx dx
-pullBack(G,dU.1*dU.2)$N2  -- 4 x y dx dy
-pullBack(SC,dU.1*dU.2)$N2  -- 2 G + F -> (8 x y + 1) dx dy
+r1:=pullBack(F,dU.1*dU.2)$N2  -- dx dx
+testEquals("r1","dX.1*dX.2")
+
+r2:=pullBack(G,dU.1*dU.2)$N2  -- 4 x y dx dy
+testEquals("r2","4*X.1*X.2*dX.1*dX.2")
+
+r3:=pullBack(SC,dU.1*dU.2)$N2  -- 2 G + F -> (8 x y + 1) dx dy
+testEquals("r3","(8*X.1*X.2+1)*dX.1*dX.2")
 
 N3 ==> DG1([x],[u,v,w])
-pullBack(bdry SC, U.1*dU.2)$N3 --> (4 x + 1) dx
-
+XX:=indVars()$N3
+UU:=depVars()$N3
+dXX:=indForms()$N3
+dUU:=depForms()$N3
+r4:=pullBack(bdry SC, UU.1*dUU.2)$N3 --> (4 x + 1) dx
+testEquals("r4","(4*XX.1+1)*dXX.1")
 
 -- Green's theorem
-integrate(U.1*dU.2,bdry SC)$N3 -- =3
-integrate(d(U.1*dU.2), SC)$N2 -- =3    
+r5:=integrate(UU.1*dUU.2,bdry SC)$N3 -- =3
+r6:=integrate(d(U.1*dU.2), SC)$N2 -- =3    
+
+testEquals("r5","3")
+testEquals("r6","3")
 
 
 -- Examples dg1.tex
@@ -436,7 +448,8 @@ Q:=[0..2*%pi,0..%pi]
 Phi:=cellMap(Q,q+->[cos(q.1)*sin(q.2),2*sin(q.1)*sin(q.2),3*cos(q.2)])$CM3
 om:=-3*v^2*w*du*dv + u*w^2*dv*dw - u^2*v*du*dw
 
-integrate(om,Phi)$M  --  16/5 * %pi
+r7:=integrate(om,Phi)$M  --  16/5 * %pi
+testEquals("r7","16/5*%pi")
 
 -----------------
 testcase  "misc5"
@@ -453,7 +466,8 @@ Q:=[0..1,0..1,0..1]
 Phi:=cellMap(Q,q+->[q.1,q.2,q.3,1])$CM4
 om:=dU.1*dU.2*dU.3
 
-integrate(om,Phi)$N4 
+r8:=integrate(om,Phi)$N4 
+testEquals("r8","1")
 
 -------------
 -- Results --
