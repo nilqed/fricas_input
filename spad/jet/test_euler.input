@@ -1,0 +1,58 @@
+)clear all
+-- Euler system
+jb := IJB('x, 'u, 'p, 4, 3)
+jbe := JBE jb
+de := JDE(jb, jbe)
+ck := CKP(jb, jbe)
+
+eq1 : jbe := P(1, [4]) + U(1)*P(1, [1]) + U(2)*P(1, [2]) + U(3)*P(1, [3])
+eq2 : jbe := P(2, [4]) + U(1)*P(2, [1]) + U(2)*P(2, [2]) + U(3)*P(2, [3])
+eq3 : jbe := P(3, [4]) + U(1)*P(3, [1]) + U(2)*P(3, [2]) + U(3)*P(3, [3])
+eq4 : jbe := P(1, [1]) + P(2, [2]) + P(3, [3])
+euler : de := makeSystem [eq1, eq2, eq3, eq4]
+
+setOutMode(4)$ck
+setRedMode(1)$ck
+-- setSimpMode(1)$ck
+complete(euler)$ck
+
+----
+variables(1)$jb
+dimS(1)$jb
+type ((variables(1)$jb).1)$jb
+dU(2)$JDIFF(jb,jbe)
+dP(1,[1,2])$JDIFF(jb,jbe)
+
+syms1:=[name s for s in variables(1)$jb]
+
+M1==>DERHAM(INT,syms1)
+[generator(j)$M1 for j in 1..#syms1]
+
+syms3:=[name s for s in variables(3)$jb]
+M3==>DERHAM(INT,syms3)
+dF:=[generator(j)$M3 for j in 1..#syms3]
+
+#dF -- 109
+W:=U(1)$jb*dF.100*dF.2+P(2,[1,2,3])$jb*dF.99*dF.12
+exteriorDifferential W
+
+-----
+)co ../dform/devel/src/dform
+DF1==>DFORM(INT,syms1)
+DF3==>DFORM(INT,syms3)
+
+leadingCoefficient(W)$M3
+bt:=leadingBasisTerm(W)$M3
+atomizeBasisTerm(bt)$DF3
+
+(P(1,[1,2,3])$jbe)^5
+
+
+---
+
+--- symbols? horrible type prints in DERHAM
+sl:=last(syms3)
+name sl
+scripted? sl
+scripts(sl)
+
