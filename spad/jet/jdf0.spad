@@ -4,11 +4,7 @@
 ++   over the jet bundle \spad{JB} with coefficients from \spad{D}.
 ++   The differentials operate on \spad{JetVectorField(JB, D)}.
 
-JetDifferentialForm(JB,D,n) : Exports == Implementation where
-
-  JB : JetBundleCategory
-  D  : JetBundleFunctionCategory JB
-  n  : NonNegativeInteger
+JetDifferentialForm(JB : JBC, D : JBFC JB) : Exports == Implementation where
 
   PI   ==> PositiveInteger
   NNI  ==> NonNegativeInteger
@@ -17,27 +13,21 @@ JetDifferentialForm(JB,D,n) : Exports == Implementation where
   R    ==> Expression Integer
   JBC  ==> JetBundleCategory
   JBFC ==> JetBundleFunctionCategory
+  VF   ==> JetVectorField(JB, D)
   OUT  ==> OutputForm
   
   JDIFF ==> JetDifferential(JB,D)
-  VF    ==> JetVectorField(JB, D)
-  JBE   ==> JetBundleExpression JB
-  JBXE  ==> JetBundleXExpression JB
 
   Exports ==> Join(JBC,JBFC(JB),Module(D)) with
   
     coerce : JDIFF -> %
-    coerce : JB -> %
-    coerce : D -> %
     coerce : % -> OUT
     
-    indVars : () -> List JB
-    depVars : () -> List JB
     generators : () -> List %
     exteriorDifferential : % -> %
     degree : % -> NNI
-    getDeRhamComplex : () -> Type
     
+    d : JB -> %
     d : %  -> %
     
     _* : (%,%) -> %
@@ -45,23 +35,22 @@ JetDifferentialForm(JB,D,n) : Exports == Implementation where
     
   
   Implementation ==> add
-
-    indVars() == [X(j::PI)$JB for j in 1..numIndVar()]
-    depVars() == [U(j::PI)$JB for j in 1..numDepVar()]
-
-    symVars(m:NNI):List Symbol ==
-      if m=0 then
-        [name(s)$JB for s in concat(indVars(),depVars())]
-      else
-        [name(s)$JB for s in variables(m)$JB]
-      
-    lv:List Symbol:=symVars(n)
-    Rep:=DeRhamComplex(Integer, lv)
-
-    getDeRhamComplex() == Rep
-    generators():List % == [generator(j)$Rep for j in 1..#lv]
+  
+    p:NNI:=numDepVar()$JB
+    q:NNI:=numIndVar()$JB
+    depVars:List R:=[X(qcoerce k)$JB::R for k in 1..p]
+    indVars:List R:=[U(qcoerce k)$JB::R for k in 1..q]
+    allVars:List R:= concat(depVars,indVars)
+    listVars:List Symbol:=[symbol(v::OUT)$OutputFormTools for v in allVars]
+    
+    Rep:=DeRhamComplex(Integer, listVars)
+    
+    generators():List % == [generator(j)$Rep for j in 1..p+q]
     exteriorDifferential(w:%):% == exteriorDifferential(w)$Rep
-
+    
+    d(jb : JB) : % == 
+      j:Integer:=position(jb::R,allVars)
+      generators().j
       
     d(w:%):% == exteriorDifferential(w)$Rep
 
@@ -72,11 +61,8 @@ JetDifferentialForm(JB,D,n) : Exports == Implementation where
 
     coerce(w:JDIFF):% ==
       c:List D:=coefficients(w)$JDIFF
-      d:List JB:=differentials(w)$JDIFF      
+      d:List JB:=differentials(w)$JDIFF
+      
       0$Rep
       
-    coerce(v:JB):% == 
-      r:R:=coerce(v)$JB 
-      r * 1$Rep      
-      
-    coerce(w:%):OUT == coerce(w)$Rep   
+    coerce(w:%):OUT == coerce(w)$Rep      

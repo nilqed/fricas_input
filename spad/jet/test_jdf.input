@@ -1,0 +1,23 @@
+)clear all
+)co jdf
+jb := IJB('x, 'u, 'p, 4, 3)
+jbe := JBE jb
+
+J0:=JDF(jb,jbe,0)
+J1:=JDF(jb,jbe,1)
+
+macro J(n) == JDF(jb,jbe,n)
+
+dG:=generators()$J1
+
+dG.19*dG.12*dG.3
+dG.1+dG.2*dG.12
+
+indVars()$J1
+depVars()$J1
+
+depVars()$J(0)
+#generators()$J(2)
+T:=generators()$J(2)
+reduce(_*,T)
+d %
