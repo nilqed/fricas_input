@@ -17,16 +17,21 @@ JetDifferentialForm(JB,D,n) : Exports == Implementation where
   R    ==> Expression Integer
   JBC  ==> JetBundleCategory
   JBFC ==> JetBundleFunctionCategory
+  LALR ==> LeftAlgebra R
+  RTOR ==> RetractableTo R
   OUT  ==> OutputForm
   
   JDIFF ==> JetDifferential(JB,D)
   VF    ==> JetVectorField(JB, D)
   JBE   ==> JetBundleExpression JB
   JBXE  ==> JetBundleXExpression JB
+  
+  
 
-  Exports ==> Join(JBC,JBFC(JB),Module(D)) with
+  Exports ==> Join(JBC,JBFC(JB),Module(D),LALR,RTOR) with
   
     coerce : JDIFF -> %
+    coerce : JBE -> %
     coerce : JB -> %
     coerce : D -> %
     coerce : % -> OUT
@@ -34,15 +39,21 @@ JetDifferentialForm(JB,D,n) : Exports == Implementation where
     indVars : () -> List JB
     depVars : () -> List JB
     generators : () -> List %
+    variables : () -> List JBE
+    differentials : () -> List %
     exteriorDifferential : % -> %
     degree : % -> NNI
     getDeRhamComplex : () -> Type
     
-    d : %  -> %
+    0 : constant -> %
+    1 : constant -> %
     
     _* : (%,%) -> %
+    _* : (JBE,%) -> %
+    _* : (D,%) -> %
     _+ : (%,%) -> %
     
+    d : %  -> %
   
   Implementation ==> add
 
@@ -60,23 +71,32 @@ JetDifferentialForm(JB,D,n) : Exports == Implementation where
 
     getDeRhamComplex() == Rep
     generators():List % == [generator(j)$Rep for j in 1..#lv]
+    differentials():List %  == generators()
+    variables():List JBE == [coerce(v)$JBE for v in lv] 
     exteriorDifferential(w:%):% == exteriorDifferential(w)$Rep
 
-      
-    d(w:%):% == exteriorDifferential(w)$Rep
+    Zero():% == 0$Rep
+    One():% == 1$Rep
 
     (w1:% * w2:%):% == _*(w1,w2)$Rep
+    (c:JBE * w:%):% == _*(c::R,w)$Rep
+    --(c:D  *  w:%):% == retract(c)$JBE * w
     (w1:% + w2:%):% == _+(w1,w2)$Rep
     
     degree(w:%):NNI == degree(w)$Rep
+    d(w:%):% == exteriorDifferential(w)$Rep
 
     coerce(w:JDIFF):% ==
       c:List D:=coefficients(w)$JDIFF
       d:List JB:=differentials(w)$JDIFF      
       0$Rep
-      
+
+    coerce(v:JBE):% == 
+      r:R:=coerce(v)$JBE 
+      _*(r,1$Rep)$Rep   
+
     coerce(v:JB):% == 
       r:R:=coerce(v)$JB 
-      r * 1$Rep      
+      _*(r,1$Rep)$Rep      
       
     coerce(w:%):OUT == coerce(w)$Rep   
