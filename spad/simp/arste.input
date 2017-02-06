@@ -1,0 +1,28 @@
+-- Automated and readable simplification of trigonometric expressions
+-- Hongguang Fu, Xiuqin Zhong, Zhenbing Zeng
+-- Mathematical and Computer Modelling 44 (2006) 1169–1177
+-- http://www.sciencedirect.com/science/article/pii/S0895717706001609
+-- PDF free
+
+ex1 := 1-(1/4)*sin(2*x)^2-sin(y)^2-cos(x)^4
+simplify ex1  -- expected sin(x+y)*sin(x-y) 
+
+
+ex2 := reduce(_*,[cos(j*%pi/9) for j in 1..4])
+simplify ex2  -- poor, expected 1/16
+
+
+ex3 := tan(7*%pi/18)+tan(5*%pi/18)-sqrt(3)*tan(5*%pi/18)*tan(7*%pi/18)
+simplify ex3  -- poor, expected -sqrt(3)
+
+----
+
+tr1 := rule
+  sec(x) == 1/cos(x)
+  csc(x) == 1/sin(x)
+
+
+
+
+
+

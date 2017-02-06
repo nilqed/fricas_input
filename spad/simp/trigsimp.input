@@ -1,0 +1,38 @@
+)co trigsimp
+
+R ==> Integer
+X ==> Expression R
+  
+RR ==> RewriteRule(R,R,X)
+RS ==> Ruleset(R,R,X)
+  
+PI  ==> PositiveInteger
+NNI ==> NonNegativeInteger
+OUT ==> OutputForm
+  
+PFRM ==> Record(pol:X,vl:List Symbol,ker:List X)
+
+
+f:=sec(x)^4+tan(x)*sin(x)-csc(x)^5*sin(y-4)
+pf:=polynomialForm(f,'t)
+
+MVP:=MultivariatePolynomial(pf.vl, EXPR INT)
+pfm:=(pf.pol)::MVP
+
+mon:=monomials(pfm)
+#mon
+
+--
+
+length(f)$TrigSimp
+
+L(x:X):NNI ==
+  lpf:PFRM:=polynomialForm(x,'t)
+  lpf.vl = [] => 0::NNI
+  LMVP:=MultivariatePolynomial(lpf.vl,X)
+  mvpf:LMVP:=(lpf.pol)::LMVP
+  mon:List(LMVP):=monomials(mvpf)$LMVP
+  #mon
+
+
+
