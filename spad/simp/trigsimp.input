@@ -26,6 +26,7 @@ mon:=monomials(pfm)
 
 length(f)$TrigSimp
 
+)if false
 L(x:X):NNI ==
   lpf:PFRM:=polynomialForm(x,'t)
   lpf.vl = [] => 0::NNI
@@ -33,6 +34,17 @@ L(x:X):NNI ==
   mvpf:LMVP:=(lpf.pol)::LMVP
   mon:List(LMVP):=monomials(mvpf)$LMVP
   #mon
+)endif
+--lv:List MVP:=[subscript('t,[j::OUT])::MVP for j in 1..5]
+--P:=subst(x^2+2*y-z*x,[x=lv.1,y=lv.2,z=lv.3])
+--CP:=coerce(P)$MVP
+tr5:RR := _rule(sin(r)^2,1::X - cos(r)^2)
+tr6:RR := _rule(cos(r)^2,1::X - sin(r)^2)
+tr7:RR := _rule(cos(r)^2,(1::X + cos(2*r))/2::X)
 
+ex1:=sin(a)^4-cos(b)^2+sin(b)^2+2*cos(a)^2
 
+--r0:=_rule(sin(r)^k,(1::X - cos(r)^2)^(k/2::X))
+--r1:=suchThat(r0,['k],l+->(integer?(l.1) and even?(l.1)))
 
+ctr1(ex1) -- ok

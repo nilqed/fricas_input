@@ -16,19 +16,23 @@ TrigSimp() : Exports == Implementation where
   PI  ==> PositiveInteger
   NNI ==> NonNegativeInteger
   OUT ==> OutputForm
+  IRX ==> IntegerRetractions X
   
   PFRM ==> Record(pol:X,vl:List Symbol,ker:List X)
+  SMVP ==> SparseMultivariatePolynomial(R,Kernel(X))
   
   Exports ==  with
     
     polynomialForm : (X,Symbol) -> PFRM
     length : X -> NNI
+    ctr1 : X -> X
     trigSimp : X -> X
 	
 	
   Implementation == X add 
     
     r:X:='r::X  -- do not reuse r!
+    k:X:='k::X
     
     -- TR1, TR2
     tr1:RS := ruleset [rule(sec r,1/cos(r)),rule(csc r,1/sin(r))]
@@ -84,13 +88,37 @@ TrigSimp() : Exports == Implementation where
                        s31,s32,s33,s34]
 
     -- TR5
-    tr5:RR := rule(sin(r)^2,1::X - cos(r)^2)
+    --tr5:RR := rule(sin(r)^2,1::X - cos(r)^2)
+    tr5_r:RR:=_rule(sin(r)^k,(1::X - cos(r)^2)^(k/2::X))
+    
+    tr5_f(l:List X):Boolean ==
+      w:X:=l.1
+      b1:Boolean:=integer?(w)$IRX
+      b2:Boolean:=even?(w)$X
+      b1 and b2
+      
+    tr5:RR:=suchThat(tr5_r,['k],tr5_f)
     
     -- TR6
-    tr6:RR := rule(cos(r)^2,1::X - sin(r)^2)
+    --tr6:RR := rule(cos(r)^2,1::X - sin(r)^2)
+    tr6_r:RR:=_rule(cos(r)^k,(1::X - sin(r)^2)^(k/2::X))
+    tr6:RR:=suchThat(tr6_r,['k],tr5_f)    
     
     -- TR7
     tr7:RR := rule(cos(r)^2,(1::X + cos(2*r))/2::X)
+
+
+    -- CTR1
+    ctr1(x:X):X ==
+      L:NNI:=length(x)
+      L=0 => x
+      F1:X:= tr5 x
+      F2:X:= tr6 x
+      L1:NNI:=length(F1)
+      L2:NNI:=length(F2)
+      (L1<L) and (L1<=L2) => F1
+      (L2<L) and (L2<=L1) => F2
+      x
 
 
     polynomialForm(x:X,sym:Symbol):PFRM == 
@@ -107,9 +135,9 @@ TrigSimp() : Exports == Implementation where
     length(x:X):NNI ==
       pf:PFRM:=polynomialForm(x,'t)
       pf.vl = [] => 0::NNI
-      MVP:=MultivariatePolynomial(pf.vl,X)
-      mvpf:MVP:=(pf.pol)::MVP
-      mon:List(MVP):=monomials(mvpf)$MVP
+      --MVP:=MultivariatePolynomial(pf.vl,X)
+      mvpf:SMVP:=numer(pf.pol)$X
+      mon:List(SMVP):=monomials(mvpf)$SMVP
       #mon
 
 
