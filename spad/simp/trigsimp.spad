@@ -25,13 +25,16 @@ TrigSimp() : Exports == Implementation where
     
     polynomialForm : (X,Symbol) -> PFRM
     length : X -> NNI
+    rules : () -> List Union(RR,RS)
     ctr1 : X -> X
     trigSimp : X -> X
 	
 	
   Implementation == X add 
     
-    r:X:='r::X  -- do not reuse r!
+    r:X:='r::X  -- do not reuse
+    a:X:='a::X
+    b:X:='b::X
     k:X:='k::X
     
     -- TR1, TR2
@@ -105,7 +108,42 @@ TrigSimp() : Exports == Implementation where
     tr6:RR:=suchThat(tr6_r,['k],tr5_f)    
     
     -- TR7
-    tr7:RR := rule(cos(r)^2,(1::X + cos(2*r))/2::X)
+    tr7_r:RR := rule(cos(r)^k,((1::X + cos(2*r))/2::X)^(k/2::X))
+    tr7:RR:=suchThat(tr7_r,['k],tr5_f) 
+
+    -- TR8   
+    tr8:RS := ruleset [rule(sin(a)*cos(b),(sin(a+b)+sin(a-b))/2::X),_
+                       rule(cos(a)*sin(b),(sin(a+b)-sin(a-b))/2::X),_
+                       rule(cos(a)*cos(b),(cos(a+b)+cos(a-b))/2::X),_
+                       rule(sin(a)*sin(b),(cos(a+b)-cos(a-b))/2::X)]
+    
+
+    -- TR9
+    tr9:RS := ruleset _
+      [rule(sin(a)+sin(b),2::X*(sin((a+b)/2::X)*cos((a-b)/2::X))),_
+       rule(sin(a)-sin(b),2::X*(cos((a+b)/2::X)*sin((a-b)/2::X))),_
+       rule(cos(a)+cos(b),2::X*(cos((a+b)/2::X)*cos((a-b)/2::X))),_
+       rule(cos(a)+cos(b),-2::X*(sin((a+b)/2::X)*sin((a-b)/2::X)))]
+
+    -- TR10
+    tr10:RS := ruleset [rule(sin(a+b),sin(a)*cos(b)+cos(a)*sin(b)),_
+                        rule(sin(a-b),sin(a)*cos(b)-cos(a)*sin(b)),_
+                        rule(cos(a+b),cos(a)*cos(b)-sin(a)*sin(b)),_
+                        rule(cos(a-b),cos(a)*cos(b)+sin(a)*sin(b))]
+                                            
+    -- TR11
+    tr11:RS := ruleset [rule(sin(2::X*a),2::X*sin(a)*cos(a)),_
+                        rule(cos(2::X*a),1::X - 2::X*sin(a)^2::X)]
+
+
+    -- TR12
+    tr12:RS := ruleset [rule(tan(a+b), (tan(a)+tan(b))/(1::X-tan(a)*tan(b))),_
+                        rule(tan(a+b), (tan(a)+tan(b))/(1::X-tan(a)*tan(b)))]
+
+
+    -- TR13
+    tr13:RS := ruleset [rule(tan(a)*tan(b),1::X-(tan(a)+tan(b))*cot(a+b)),_
+                        rule(cot(a)*cot(b),1::X+(cot(a)+cot(b))*cot(a+b))]
 
 
     -- CTR1
@@ -120,6 +158,8 @@ TrigSimp() : Exports == Implementation where
       (L2<L) and (L2<=L1) => F2
       x
 
+    rules():List Union(RR,RS) == [tr1,tr2,tr3,tr4,tr5,tr6,tr7,tr8,tr9,_
+                                  tr10,tr11,tr12,tr13]
 
     polynomialForm(x:X,sym:Symbol):PFRM == 
       tf:List Symbol:=['sin,'cos,'tan,'cot,'sec,'csc]
