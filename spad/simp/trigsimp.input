@@ -54,3 +54,29 @@ TR:=rules()$TrigSimp
 (TR.7) (cos(a)^2)
 (TR.7) (cos(a)^4)
 
+--
+
+ex2:=1/2-1/2*cos(2*b)
+ctr2(ex2) -- ok
+
+--
+
+ex3:=sin(a)*(cos(b)-sin(b))+cos(a)*(sin(b)+cos(b))
+ctr3(ex3)
+
+--
+
+ex4:=sqrt(3)/2*cos(a)+1/2*sin(a)
+ctr4(ex4)
+
+
+--
+
+cex1:=1-(1/4)*sin(2*x)^2-sin(y)^2-cos(x)^4
+trigSimp cex1
+
+cex2:= reduce(_*,[cos(j*%pi/9) for j in 1..4])
+trigSimp cex2
+
+cex3 := tan(7*%pi/18)+tan(5*%pi/18)-sqrt(3)*tan(5*%pi/18)*tan(7*%pi/18)
+trigSimp cex3

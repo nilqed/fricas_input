@@ -27,6 +27,9 @@ TrigSimp() : Exports == Implementation where
     length : X -> NNI
     rules : () -> List Union(RR,RS)
     ctr1 : X -> X
+    ctr2 : X -> X
+    ctr3 : X -> X
+    ctr4 : X -> X
     trigSimp : X -> X
 	
 	
@@ -146,6 +149,16 @@ TrigSimp() : Exports == Implementation where
                         rule(cot(a)*cot(b),1::X+(cot(a)+cot(b))*cot(a+b))]
 
 
+    -- Inverse rules (selction as necessary)
+    
+    -- Tr-10
+    itr10:RS := ruleset [rule(sin(a)*cos(b)+cos(a)*sin(b),sin(a+b)),_
+                         rule(sin(a)*cos(b)-cos(a)*sin(b),sin(a-b)),_
+                         rule(cos(a)*cos(b)-sin(a)*sin(b),cos(a+b)),_
+                         rule(cos(a)*cos(b)+sin(a)*sin(b),cos(a-b))]
+                        
+
+
     -- CTR1
     ctr1(x:X):X ==
       L:NNI:=length(x)
@@ -157,6 +170,40 @@ TrigSimp() : Exports == Implementation where
       (L1<L) and (L1<=L2) => F1
       (L2<L) and (L2<=L1) => F2
       x
+
+    -- CTR2
+    ctr2(x:X):X ==
+      L:NNI:=length(x)
+      L=0 => x
+      F1:X:= tr5 tr11 x
+      F2:X:= tr6 tr11 x
+      F3:X:= tr11 x
+      L1:NNI:=length(F1)
+      L2:NNI:=length(F2)
+      L3:NNI:=length(F3)
+      (L1<L3) and (L1<=L2) => F1
+      (L2<L3) and (L2<=L1) => F2
+      F3
+      
+    ctr3(x:X):X ==
+      L:NNI:=length(x)
+      L=0 => x
+      F1:X:= tr8 x
+      F2:X:= itr10 tr8 x
+      L1:NNI:=length(F1)
+      L2:NNI:=length(F2)
+      L2<L => F2
+      L1<L => F1
+      x
+
+    ctr4(x:X):X ==
+      L:NNI:=length(x)
+      L=0 => x
+      F1:X:= itr10 tr4 x
+      L1:NNI:=length(F1)
+      L1<L => F1
+      x
+
 
     rules():List Union(RR,RS) == [tr1,tr2,tr3,tr4,tr5,tr6,tr7,tr8,tr9,_
                                   tr10,tr11,tr12,tr13]
@@ -181,5 +228,21 @@ TrigSimp() : Exports == Implementation where
       #mon
 
 
-    trigSimp(x:X):X == tr5 tr4 tr3 tr1(x)
-   
+    trigSimp0(x:X):X == 
+      F0:X:=tr1(x)
+      --
+      F1:X:= tr2 tr4 tr13 tr4 tr12 tr4 tr3 tr4 tr1 x
+      --
+      F2:X:= tr4 tr3 tr10 tr4 tr3 tr11 tr5 tr7 tr11 tr4 ctr4 tr9 tr9 tr4 ctr2 tr9 ctr1 ctr3 F1
+      
+    trigSimp(x:X):X ==
+      L:NNI:=length(x)
+      L=0 => x
+      -- stage 1
+      F1:X:= tr11 tr3 tr4 tr10 tr3 tr4 tr2 tr4 tr13 tr4 tr12 tr4 tr3 tr4 tr1 x
+      -- stage 2    
+      F2:X:= tr4 tr11 tr7 tr5 F1
+      -- stage 3
+      F3:X:= ctr4 tr9 tr9 tr4 ctr2 tr9 ctr1 ctr3 F2
+      --
+      F3
