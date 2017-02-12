@@ -1,0 +1,288 @@
+-- from github: Bill Page
+-- https://github.com/billpage/fricas/blob/symbolic-expressions/src/algebra/sexpr.spad
+-- https://github.com/billpage/fricas/commit/933c5bb2f514d85249c87a0965ba4d6a144f01b8
+
+-- left and right identities
+
+--RID has IDAX
+--LID has IDAX
+-- ID has IDAX
+-- ID has IDAX
+-- ID has IDAX
+
+)set break resume
+)expose UnittestCount UnittestAux Unittest
+
+-- temp/devel
+)co sexpr 
+-- remove later
+
+)expose ALTAX- ALTAX ALT AND ASSAX- ASSAX ASSAX+ ASSAXS ASS ASS+ ASSS 
+)expose AXIOM- AXIOM CANAX- CANAX CAN COMAX1 COMAX2 COMAX3 COMAX- COMAX 
+)expose COMAX+ COM+ COMS DBLAX- DBLAX DBL DISAX- DISAX DIS DIVAX- DIVAX 
+)expose DIV IDAX ID INVAX- INVAX INV LIDAX- LIDAX LID 
+)expose RIDAX- RIDAX RID SEXPR SINF SQAX- SQAX SQ SYMB SYMCAT SYMPKG1 
+
+
+-----------------
+testsuite "SEXPR"
+-----------------
+-- ex1
+-- ex2
+-- ex3
+-- ex4
+
+
+---------------
+testcase  "ex1"
+---------------
+
+SI0 ==> Symbolic(Integer,None)
+X   ==> Expression Integer
+
+-- no automatic simplifications
+s:SI0 := 1+1+1
+eins:=1::SI0
+testEquals("s","eins+eins+eins")
+
+ss:=simplify s
+testEquals("ss","3::SI0")
+
+sx:=s::Expression Integer
+testEquals("sx","3::X")
+
+sr:=retract s
+equal?(s=3)
+test(s=3)
+testEquals(sr,"3::PositiveInteger")
+
+---------------
+testcase  "ex2"
+---------------
+SI0 ==> Symbolic(Integer,None)
+SEI ==> SymbolicExpression Integer
+X   ==> Expression Integer
+
+-- many automatic simplifications
+(x,y,z):SymbolicExpression Integer
+x::Expression Integer
+x+x = 2*x
+test %
+testEquals("x+x","2*x")
+
+x-x = 0
+test %
+testEquals("x-x","0")
+
+x+y = y+x
+test %
+testEquals("x+y","y+x")
+
+x+(y+z)= (x+y)+z
+test %
+testEquals("x+(y+z)","(x+y)+z")
+
+x*x = x^2
+test %
+testEquals("x*x","x^2")
+
+x/x = 1
+test %
+testEquals("x/x","1")
+
+x*(1/x) = 1
+test %
+testEquals("x*(1/x)","1")
+
+x*y = y*x
+test %
+testEquals("x*y","y*x")
+
+x+1/y
+simplify %
+x*(y*z)= (x*y)*z
+test %
+testEquals("x*(y*z)","(x*y)*z")
+
+x*(y+z) = x*y + x*z
+test %
+testEquals("x*(y+z)","x*y + x*z")
+
+smaller?(x*x,x*y)
+testEquals("smaller?(x*x,x*y)","true")
+
+smaller?(x*y,y*y)
+testEquals("smaller?(x*y,y*y)","false")
+
+xxxy:=x*x+x*y
+yy:=y*y
+smaller?(xxxy,yy)
+testEquals("smaller?(xxxy,yy)","false")
+
+
+x*x+x*y+y*y
+x^2+2*x*y+y^2
+factor(x^2+2*x*y+y^2)
+testEquals("factor(x^2+2*x*y+y^2)","paren(y+x)^2") -- ?
+
+
+expand((x+y)/z)
+testEquals("expand((x+y)/z)","(x/z)+(y/z)")
+
+expand(x*(y+z))
+testEquals("expand(x*(y+z))","x*y+x*z")
+
+--
+exp(x+1) = %e*exp(x)
+test map(simplify, %)
+testEquals("map(simplify,exp(x+1) = exp(1)*exp(x))","true")
+
+nthRoot(x, y)
+nthRoot(x,2)=sqrt(x)
+test %
+testEquals("nthRoot(x,2)=sqrt(x)","true")
+
+(nthRoot(x,2)=sqrt(x))@Boolean
+testEquals("(nthRoot(x,2)=sqrt(x))@Boolean","true")
+
+
+--
+variables(sin(x*y)+2*z)
+testEquals("variables(sin(x*y)+2*z)","[x,y,z]")
+
+kernels(sin(x*y)+2*z)
+testEquals("kernels(sin(x*y)+2*z)","[z,sin(x*y)]")
+
+
+-- automatic boxing of sub-expressions
+numer((1/x+1)/y*x+x^2/y)
+testEquals("numer((1/x+1)/y*x+x^2/y)","(1/x+1)/y*x+x^2/y")
+
+denom((1/x+1)/y*x+x^2/y)
+testEquals("denom((1/x+1)/y*x+x^2/y)","1")
+
+-- Symbolic Trig
+smaller?(cos(y), sin(x))
+testEquals("smaller?(cos(y), sin(x))","false")
+
+smaller?(sin(x),cos(y))
+testEquals("smaller?(sin(x),cos(y))","true")
+                
+cos(y)*sin(x)
+sin(x)+cos(x)+tan(x)
+asin(x)+acos(x)+atan(x)
+
+sin(x)^2 + cos(x)^2 = 1
+test map(simplify,%)
+testEquals("map(simplify,sin(x)^2 + cos(x)^2 = 1)","true")
+
+---------------
+testcase  "ex3"
+---------------
+SI0 ==> Symbolic(Integer,None)
+SEI ==> SymbolicExpression Integer
+X   ==> Expression Integer
+
+
+(x,y):SEI
+(x+y)^2
+r0:=(x+y)^2
+--r0::InputForm
+rs := simplify r0
+testEquals("rs","y^2+2*x*y+x^2")
+
+factor rs
+testEquals("factor rs","paren(y+x)^2")
+
+convert(r)$SEI
+testEquals("dom convert(r)$SEI","dom(1::InputForm)")
+
+coerce(r)$SEI
+testEquals("dom coerce(r)$SEI","dom(1::OutputForm)")
+
+-- Wrong result !!
+sum(x,'x=1..10)
+
+s10:=reduce(+,[n::SEXPR INT for n in 1..10])
+testEquals("s10","55")
+testEquals("dom s10","dom x")
+
+
+(x+y)^x
+exp(-x)
+-x
+exp(-x)::InputForm
+f:=operator 'f
+f(x)
+f(0$SEXPR INT)
+f(0$EXPR INT)
+D(x^2,'x)
+simplify %
+
+testEquals("simplify D(x^2,'x)","2*x")
+
+x^n
+-- Known problems
+-- 1) need to handle %diff operator
+--D(x^n,'x)
+--D(p^n,'p)
+--
+
+---------------
+testcase  "ex4"
+---------------
+SI0 ==> Symbolic(Integer,None)
+SEI ==> SymbolicExpression Integer
+X   ==> Expression Integer
+
+--(x,y,z,a,q,w,x3,r3):SymbolicExpression Integer
+(x,y,z):SymbolicExpression Integer
+
+-- Rewrite Rules
+-- Interpreter bug: to ensure proper types need _rule(x,y) instead of rule x==y
+--
+ru1:=_rule(x,y)
+ru1(z)
+ru2:=_rule(x+1,y)
+ru2(z+1)
+ru3:=_rule(cos(x), z)
+ru3 cos(x)+sin(y)
+ru3 cos(x)*sin(y)
+--
+t1 := cos(x)*sin(y) - cos(y)*sin(x)
+t2 := - sin(x)*sin(y) + cos(x)*cos(y)
+
+)set mess time on
+expr := tan(q)*tan(w) + t1*cos(x3) + t2*w*cos(a) + r3*t1*t2 + 5
+)set mess time off
+
+rs:=_rule(cos(x)*sin(y)-sin(x)*cos(y), sin(y-x))
+rc:=_rule(cos(x)*cos(y)-sin(x)*sin(y), cos(x+y))
+
+rs t1
+testEquals("rs t1","sin(y-x)")
+    
+rs t2
+testEquals("rs t2","-sin(x)*sin(y)+cos(x)*cos(y)")
+
+rc t1
+testEquals("rc t1","cos(x)*sin(y)-cos(y)*sin(x)")
+
+
+rc t2
+testEquals("rc t2","cos(y+x)")
+
+)set mess time on
+rc rs expr
+)set mess time off
+--testEquals("rc rs expr","")
+
+-------------
+-- Results --
+-------------
+)version
+)lisp (lisp-implementation-type)
+)lisp (lisp-implementation-version)
+
+
+statistics()
