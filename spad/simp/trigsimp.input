@@ -104,3 +104,30 @@ trigSimp(sin(x)/cos(x))
 f:=sin(x)*cos(y)-x*tan(r)+sec(y-4)
 g:=f+x*sin(x)+2-5*sin(y)/8*(8/9)
 
+-- single rules
+rr:=rules()
+irr:=irules()
+
+(irr.1) ((rr.10) cos(x+y)/cos(x))
+
+(rr.11) (sin(2)^a*cos(1)^(-a))
+
+trigSimp(a*cos(x)*cos(y) + a*sin(x)*sin(y)) -- wrong a*cos(x-y) expected
+
+(irr.1)(a*cos(x)*cos(y) + a*sin(x)*sin(y)) 
+
+
+expr1:=((15*sin(2*x) + 19*sin(x + y) + 17*sin(x + z) + 19*cos(x - z) +_
+25)*(20*sin(2*x) + 15*sin(x + y) + sin(y + z) + 14*cos(x - z) +_
+14*cos(y - z))*(9*sin(2*y) + 12*sin(y + z) + 10*cos(x - y) + 2*cos(y -_
+z) + 18))
+
+expr2 := (sin(x)^2*cos(y)*cos(z) + sin(x)*sin(y)*cos(x)*cos(z) +_
+sin(x)*sin(z)*cos(x)*cos(y) + sin(y)*sin(z)*cos(x)^2 + sin(y)*sin(z) +_
+cos(y)*cos(z))
+
+-- 3*cos(y - z)/2 - cos(2*x + y + z)/2 expected
+
+trigSimp(expr2 -(3*cos(y - z)/2 - cos(2*x + y + z)/2))  -- 0 ok :)
+
+expr3:= sin(x)*sin(z)*cos(x)*cos(y) + sin(x)*sin(y)*cos(x)*cos(z)

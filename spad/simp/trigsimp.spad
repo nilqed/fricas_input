@@ -3,8 +3,12 @@
 ++ Date Created: Mon Feb 06 18:56:20 CET 2017
 ++ License: BSD
 ++ References:
-++ Description:
-++
+++ Description: 
+++ Automated and readable simplification of trigonometric expressions
+++ http://www.sciencedirect.com/science/article/pii/S0895717706001609
+++ Hongguang Fua, Xiuqin Zhonga, Zhenbing Zengb
+++ Journal Mathematical and Computer Modelling: An International Journal 
+++ archive, Volume 44 Issue 11-12, December, 2006, Pages 1169-1177 
 TrigSimp() : Exports == Implementation where
   
   R ==> Integer
@@ -28,10 +32,12 @@ TrigSimp() : Exports == Implementation where
     length0 : X -> NNI
     length : X -> NNI
     rules : () -> List Union(RR,RS)
+    irules : () -> List Union(RR,RS)
     ctr1 : X -> X
     ctr2 : X -> X
     ctr3 : X -> X
     ctr4 : X -> X
+    appRL : (List Union(RR,RS),X,Integer) -> X
     trigSimp : X -> X
 
 	
@@ -40,6 +46,7 @@ TrigSimp() : Exports == Implementation where
     r:X:='r::X  -- do not reuse
     a:X:='a::X
     b:X:='b::X
+    c:X:='c::X
     k:X:='k::X
     
     -- TR1, TR2
@@ -116,19 +123,19 @@ TrigSimp() : Exports == Implementation where
     tr7_r:RR := rule(cos(r)^k,((1::X + cos(2*r))/2::X)^(k/2::X))
     tr7:RR:=suchThat(tr7_r,['k],tr5_f) 
 
-    -- TR8   
+    -- TR8
     tr8:RS := ruleset [rule(sin(a)*cos(b),(sin(a+b)+sin(a-b))/2::X),_
                        rule(cos(a)*sin(b),(sin(a+b)-sin(a-b))/2::X),_
-                       rule(cos(a)*cos(b),(cos(a+b)+cos(a-b))/2::X),_
-                       rule(sin(a)*sin(b),(cos(a+b)-cos(a-b))/2::X)]
+                       rule(cos(a)*cos(b),(cos(a-b)+cos(a+b))/2::X),_
+                       rule(sin(a)*sin(b),(cos(a-b)-cos(a+b))/2::X)]
     
 
     -- TR9
     tr9:RS := ruleset _
-      [rule(sin(a)+sin(b),2::X*(sin((a+b)/2::X)*cos((a-b)/2::X))),_
-       rule(sin(a)-sin(b),2::X*(cos((a+b)/2::X)*sin((a-b)/2::X))),_
-       rule(cos(a)+cos(b),2::X*(cos((a+b)/2::X)*cos((a-b)/2::X))),_
-       rule(cos(a)+cos(b),-2::X*(sin((a+b)/2::X)*sin((a-b)/2::X)))]
+      [rule(c*sin(a)+c*sin(b),2::X*c*(sin((a+b)/2::X)*cos((a-b)/2::X))),_
+       rule(c*sin(a)-c*sin(b),2::X*c*(cos((a+b)/2::X)*sin((a-b)/2::X))),_
+       rule(c*cos(a)+c*cos(b),2::X*c*(cos((a+b)/2::X)*cos((a-b)/2::X))),_
+       rule(c*cos(a)+c*cos(b),-2::X*c*(sin((a+b)/2::X)*sin((a-b)/2::X)))]
 
     -- TR10
     tr10:RS := ruleset [rule(sin(a+b),sin(a)*cos(b)+cos(a)*sin(b)),_
@@ -143,7 +150,7 @@ TrigSimp() : Exports == Implementation where
 
     -- TR12
     tr12:RS := ruleset [rule(tan(a+b), (tan(a)+tan(b))/(1::X-tan(a)*tan(b))),_
-                        rule(tan(a+b), (tan(a)+tan(b))/(1::X-tan(a)*tan(b)))]
+                        rule(tan(a-b), (tan(a)-tan(b))/(1::X+tan(a)*tan(b)))]
 
 
     -- TR13
@@ -154,10 +161,10 @@ TrigSimp() : Exports == Implementation where
     -- Inverse rules (selction as necessary)
     
     -- Tr-10
-    itr10:RS := ruleset [rule(sin(a)*cos(b)+cos(a)*sin(b),sin(a+b)),_
-                         rule(sin(a)*cos(b)-cos(a)*sin(b),sin(a-b)),_
-                         rule(cos(a)*cos(b)-sin(a)*sin(b),cos(a+b)),_
-                         rule(cos(a)*cos(b)+sin(a)*sin(b),cos(a-b))]
+    itr10:RS := ruleset [rule(c*sin(a)*cos(b)+c*cos(a)*sin(b),c*sin(a+b)),_
+                         rule(c*sin(a)*cos(b)-c*cos(a)*sin(b),c*sin(a-b)),_
+                         rule(c*cos(a)*cos(b)-c*sin(a)*sin(b),c*cos(a+b)),_
+                         rule(c*cos(a)*cos(b)+c*sin(a)*sin(b),c*cos(a-b))]
                         
 
 
@@ -209,6 +216,8 @@ TrigSimp() : Exports == Implementation where
 
     rules():List Union(RR,RS) == [tr1,tr2,tr3,tr4,tr5,tr6,tr7,tr8,tr9,_
                                   tr10,tr11,tr12,tr13]
+                                  
+    irules():List Union(RR,RS) == [itr10]
 
     polynomialForm(x:X,sym:Symbol):PFRM == 
       tf:List Symbol:=['sin,'cos,'tan,'cot,'sec,'csc]
@@ -276,12 +285,17 @@ TrigSimp() : Exports == Implementation where
     stage1:=[tr11,tr3,tr4,tr10,tr3,tr4,tr2,tr4,tr13,tr4,tr12,tr4,tr3,tr4,tr1]
     stage2:=[tr4,tr11,tr7,tr5]
     
-    appRL(rl:List Union(RR,RS),x0:X):X ==
+    appRL(rl:List Union(RR,RS),x0:X,dmax:Integer):X ==
+      l0:NNI:=length(x0)
       lr:List Union(RR,RS):=reverse rl
       y:X:=x0
+      z:X
       for f in lr repeat
         if (f case RR) or (f case RS) then 
-          y:X:=f(y)
+          z:X:=f(y)
+          if (dmax<0) or (abs(length(z)-l0)<= dmax) then
+            y:=z
+            
       y
       
 
@@ -290,11 +304,12 @@ TrigSimp() : Exports == Implementation where
       L=0 => x
       -- stage 1
       --F1:X:= tr11 tr3 tr4 tr10 tr3 tr4 tr2 tr4 tr13 tr4 tr12 tr4 tr3 tr4 tr1 x
-      F1:X:=appRL(stage1,x)
+      F1:X:=appRL(stage1,x,-1)
       -- stage 2    
       --F2:X:= tr4 tr11 tr7 tr5 F1
-      F2:X:=appRL(stage2,x)
+      F2:X:=appRL(stage2,F1,3)
       -- stage 3
       F3:X:= ctr4 tr9 tr9 tr4 ctr2 tr9 ctr1 ctr3 F2
-      --
+      -- todo: min(L,L1,L2,L3)
+      -- https://en.wikipedia.org/wiki/Morrie%27s_law
       F3
