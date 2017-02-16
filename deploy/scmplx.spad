@@ -227,13 +227,15 @@ CellMap(R,n) : Exports == Implementation where
     elt(S,"dom") == getDom S
     elt(S,"map") == getMap S
 
-    coerce(x) == 
+    coerce(x:%):OF == 
       v:List X
       for j in 1..#(x.d) repeat
         s:X:=subscript('%,[j::OF])::X
         v:=concat(v,s::X)
       r:List X:=(x.f) v
-      hconcat ["|",x.d::OF," -> ",r::OF,"|"]
+      sep:OF:=coerce("|")$String@OF
+      arr:OF:=coerce(" -> ")$String@OF
+      hconcat [sep,x.d::OF,arr,r::OF,sep]
   
     
       
@@ -289,16 +291,18 @@ SurfaceComplex(R,n) : Exports == Implementation where
     Rep:=FreeAbelianGroup(CMAP)
       
 
-    bdry(c:%):% == 
+    bdry(c:%):% ==
+      c=0$Rep => c
       if size(c) = 1 then
         s:=nthFactor(c,1)
-        l:=faces(s)
-        fs:=[(a.2::Rep-a.1::Rep) for a in l]
-        sgn:=(j:INT):INT+->if even? (j-1) then 1 else -1
-        nthCoef(c,1)*reduce("+",[sgn(j)*fs.j::Rep for j in 1..#fs])
+        l:List List CMAP:=faces(s)
+        fs:List %:=[(a.2::Rep - a.1::Rep) for a in l]
+        sgn:=(j:INT):INT+->if even?(j-1) then 1 else -1
+        ll:List %:=[sgn(k)*(fs.k) for k in 1..#fs]
+        nthCoef(c,1)*reduce(_+,ll)
       else
         ct:=[(nthCoef(c,j)*nthFactor(c,j))::Rep for j in 1..size(c)]
-        reduce("+",map(bdry,ct))
+        reduce(_+,map(bdry,ct))
         
  
     construct(d:DOM,f:MAP):% == cellMap(d,f)$CMAP::%
