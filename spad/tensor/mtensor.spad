@@ -1,0 +1,20 @@
+)abbrev domain MTP MultipleTensorProduct
+++
+MultipleTensorProduct(R,L) : Exports == Implementation where
+  
+  R : CommutativeRing
+  L : List Module R
+  
+  Exports == Join(CoercibleTo OutputForm) with
+    
+    tensor : L -> %
+    --coerce : % -> OutputForm
+	
+	
+  Implementation ==  add 
+
+    Rep := L
+    
+    tensor(x:L) == x
+    
+   

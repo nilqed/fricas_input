@@ -136,16 +136,32 @@ TensorProduct(R : CommutativeRing, B1 : OrderedSet, B2 : OrderedSet, _
                         for t in listOfTerms tensor(t1a*t2a, t1b*t2b) repeat
                             res := cons(t, res)
                 construct res
-            
+
 
         coerce(x : %) : OutputForm ==
             zero? x => (0$R) ::OutputForm
             le : List OutputForm := nil
             rec : TERM
             for rec in reverse listOfTerms x repeat
-              a:B1:=(first rec k)
-              b:B2:=(second rec k)
-              ko : OutputForm := tensor(a::OutputForm, b::OutputForm)
+              a:Any:=(first rec k) pretend Any
+              b:Any:=(second rec k) pretend Any
+              la:List(OutputForm):=[]
+              lb:List(OutputForm):=[]
+              --
+              T:SExpression:=dom(a)$Any
+              P:SExpression:=convert('Product)$SExpression
+              while test(car T = P) repeat                 
+                la:=concat(la,first(a)::OutputForm)
+                a:=second(a) pretend Any
+                T:SExpression:=dom(a)$Any
+              la:=concat(la,a::OutputForm)
+              --
+              while car(dom b)='Product::SExpression repeat                 
+                lb:=concat(lb,first(b)::OutputForm)
+                b:=second(b)
+              lb:=concat(lb,a::OutputForm) 
+              --             
+              ko : OutputForm := tensor(reduce(tensor,la),reduce(tensor,lb))
               rec.c = 1 => le := cons(ko, le)
               le := cons(rec.c :: OutputForm * ko, le)
             reduce("+", le)

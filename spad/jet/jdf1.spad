@@ -1,0 +1,102 @@
+)abbrev domain JDF JetDifferentialForm
+++ Description:
+++  \spad{JetDifferential(JB, D)} implements differentials (one-forms)
+++   over the jet bundle \spad{JB} with coefficients from \spad{D}.
+++   The differentials operate on \spad{JetVectorField(JB, D)}.
+
+JetDifferentialForm(JB,D,n) : Exports == Implementation where
+
+  JB : JetBundleCategory
+  D  : JetBundleFunctionCategory JB
+  n  : NonNegativeInteger
+
+  PI   ==> PositiveInteger
+  NNI  ==> NonNegativeInteger
+  L    ==> List
+  B    ==> Boolean
+  R    ==> Expression Integer
+  JBC  ==> JetBundleCategory
+  JBFC ==> JetBundleFunctionCategory
+  LALR ==> LeftAlgebra R
+  RTOR ==> RetractableTo R
+  OUT  ==> OutputForm
+  
+  JDIFF ==> JetDifferential(JB,D)
+  VF    ==> JetVectorField(JB, D)
+  JBE   ==> JetBundleExpression JB
+  JBXE  ==> JetBundleXExpression JB
+  
+  
+
+  Exports ==> Join(JBC,JBFC(JB),Module(D),LALR,RTOR) with
+  
+    coerce : JDIFF -> %
+    coerce : JBE -> %
+    coerce : JB -> %
+    coerce : D -> %
+    coerce : % -> OUT
+    
+    indVars : () -> List JB
+    depVars : () -> List JB
+    generators : () -> List %
+    variables : () -> List JBE
+    differentials : () -> List %
+    exteriorDifferential : % -> %
+    degree : % -> NNI
+    getDeRhamComplex : () -> Type
+    
+    0 : constant -> %
+    1 : constant -> %
+    
+    _* : (%,%) -> %
+    _* : (JBE,%) -> %
+    _* : (D,%) -> %
+    _+ : (%,%) -> %
+    
+    d : %  -> %
+  
+  Implementation ==> add
+
+    indVars() == [X(j::PI)$JB for j in 1..numIndVar()]
+    depVars() == [U(j::PI)$JB for j in 1..numDepVar()]
+
+    symVars(m:NNI):List Symbol ==
+      if m=0 then
+        [name(s)$JB for s in concat(indVars(),depVars())]
+      else
+        [name(s)$JB for s in variables(m)$JB]
+      
+    lv:List Symbol:=symVars(n)
+    Rep:=DeRhamComplex(Integer, lv)
+
+    getDeRhamComplex() == Rep
+    generators():List % == [generator(j)$Rep for j in 1..#lv]
+    differentials():List %  == generators()
+    variables():List JBE == [coerce(v)$JBE for v in lv] 
+    exteriorDifferential(w:%):% == exteriorDifferential(w)$Rep
+
+    Zero():% == 0$Rep
+    One():% == 1$Rep
+
+    (w1:% * w2:%):% == _*(w1,w2)$Rep
+    (c:JBE * w:%):% == _*(c::R,w)$Rep
+    --(c:D  *  w:%):% == retract(c)$JBE * w
+    (w1:% + w2:%):% == _+(w1,w2)$Rep
+    
+    degree(w:%):NNI == degree(w)$Rep
+    d(w:%):% == exteriorDifferential(w)$Rep
+
+    coerce(w:JDIFF):% ==
+      c:List D:=coefficients(w)$JDIFF
+      d:List JB:=differentials(w)$JDIFF      
+      0$Rep
+
+    coerce(v:JBE):% == 
+      r:R:=coerce(v)$JBE 
+      _*(r,1$Rep)$Rep   
+
+    coerce(v:JB):% == 
+      r:R:=coerce(v)$JB 
+      _*(r,1$Rep)$Rep      
+      
+    coerce(w:%):OUT == coerce(w)$Rep   

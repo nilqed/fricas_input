@@ -1,0 +1,66 @@
+)clear all
+)co jdf
+jb := IJB('x, 'u, 'p, 4, 3)
+jbe := JBE jb     
+
+J0:=JDF(jb,jbe,0)
+J1:=JDF(jb,jbe,1)
+
+macro J(n) == JDF(jb,jbe,n)
+
+dG:=generators()$J1
+
+dG.19*dG.12*dG.3
+dG.1+dG.2*dG.12
+
+indVars()$J1
+depVars()$J1
+
+depVars()$J(0)
+#generators()$J(2)
+T:=generators()$J(2)
+reduce(_*,T)
+d %
+
+weight((depVars()$J(1)).1)
+
+jb2 := JetBundle(['x,'y,'z,'t],['u,'v,'w])
+macro J2(n) == JDF(jb2,JBE jb2,n)
+generators()$J2(0)
+generators()$J2(1)
+
+-- variables(10)$jb2
+-- >> Error detected within library code:
+-- Can have at most 9 scripts of each kind
+-- **** but works for IJB !
+
+X1:=variables()$J1
+X0:=variables()$J0
+
+--X1.1*dG.12
+
+--x1:=X1.1::J1
+
+-- todo: sin(X1.1 = 0 ??? but X1.2 ... not
+
+V:=variables(1)$jb
+D(sin(V.1::jbe),name(V.1))
+
+
+-- new
+
+ )show JDF
+ jb := IJB('x, 'u, 'p, 4, 3)
+ jbe := JBE jb
+ JDF0==>JDF(jb,jbe,0)
+ df:=[generator(j)$JDF0 for j in 1..7]
+  X:=indVars()$JASYM(jb,jbe,0)
+ sin(X.1)$jbe
+  paren((X.1)::jbe)^6*df.2
+   exteriorDifferential %
+   (X.1)::jbe^6*df.1
+ 
+   a:BOP:=operator 'a
+  a(X.1::jbe,X.2::jbe)   -- conv to jbe necessary, jb not enough!
+  a(X.1::jbe,X.2::jbe)::JDF0
+   exteriorDifferential % -- ok
