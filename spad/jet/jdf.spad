@@ -22,7 +22,6 @@ JetAntiSymm(JB,R,n) : Exports == Implementation where
       leadingCoefficient : %           -> R
         ++ leadingCoefficient(p) returns the leading
         ++ coefficient of antisymmetric polynomial p.
---    leadingSupport       : %           -> EAB
       leadingBasisTerm     : %           -> %
         ++ leadingBasisTerm(p) returns the leading
         ++ basis term of antisymmetric polynomial p.
@@ -52,8 +51,15 @@ JetAntiSymm(JB,R,n) : Exports == Implementation where
         ++  map(f, p) changes each coefficient of p by the
         ++  application of f.
       indVars : () -> List JB
+        ++  indVars() returns a list of all independent variables (x) of
+        ++  the jet bundle JB.
       depVars : () -> List JB
+        ++  depVars() returns a list of all dependent variables (u) of
+        ++  the jet bundle JB.        
       symVars : NNI -> List Symbol
+        ++  symVars() returns a list of all variable symbols of order n
+        ++  of the jet bundle JB (u,x,p).
+ 
 
 
 --    1 corresponds to the empty monomial Nul = [0, ..., 0]
@@ -214,8 +220,8 @@ JetDifferentialForm(JB,R,n) : Exports == Implementation where
   R    : JetBundleFunctionCategory JB
   n    : NonNegativeInteger
   
-  --CoefRing :  Join(Ring, Comparable)
-  ASY     ==> JetAntiSymm(JB,R,n)
+  JASYM   ==> JetAntiSymm(JB,R,n)
+  JD      ==> JetDifferential(JB,R)
   DIFRING ==> DifferentialRing
   LALG    ==> LeftAlgebra
   FMR     ==> FreeMod(R, EAB)
@@ -261,16 +267,19 @@ JetDifferentialForm(JB,R,n) : Exports == Implementation where
         ++  exteriorDifferential(df) returns the exterior
         ++  derivative (gradient, curl, divergence, ...) of
         ++  the differential form df.
+      coerce : JD -> %
+        ++  coerce(df) converts the jet differential df to a one form.
 
-  Implementation == ASY add
-      Rep := ASY
+  Implementation == JASYM add
+  
+      Rep := JASYM
 
-      listIndVar:List Symbol:=symVars(n)$ASY
+      listIndVar:List Symbol:=symVars(n)$JASYM
 
       dim := #listIndVar
 
       totalDifferential(f) ==
-        divs := [differentiate(f, listIndVar.i)*generator(i)$ASY for i in 1..dim]
+        divs := [differentiate(f, listIndVar.i)*generator(i)$JASYM for i in 1..dim]
         reduce("+",divs)
 
       termDiff : (R, %) -> %
@@ -291,29 +300,28 @@ JetDifferentialForm(JB,R,n) : Exports == Implementation where
       displayList : EAB -> O
       displayList(x) : O ==
         le : L I := exponents(x)$EAB
---      reduce(_*, [(lv.i)::O for i in 1..dim | le.i = 1])$L(O)
---        reduce(_*, [(lv.i)::O for i in 1..dim | one?(le.i)])$L(O)
         reduce(_*, [(lv.i)::O for i in 1..dim | ((le.i) = 1)])$L(O)
 
       makeTerm : (R, EAB) -> O
       makeTerm(r, x) ==
       -- we know that r ~= 0
         x = Nul(dim)$EAB  => r::O
---        one? r => displayList(x)
         (r = 1) => displayList(x)
---      r = 1 => displayList(x)
         r::O * displayList(x)
 
       terms : % -> List Record(k : EAB, c : R)
-      terms(a) ==
-        -- it is the case that there are at least two terms in a
-        a pretend List Record(k : EAB, c : R)
+      terms(a) == a pretend List Record(k : EAB, c : R)
 
       coerce(a) : O ==
-        a           = 0$Rep => 0$I::O
+        a = 0$Rep => 0$I::O
         ta := terms a
---      reductum(a) = 0$Rep => makeTerm(leadingCoefficient a, a.first.k)
         null ta.rest => makeTerm(ta.first.c, ta.first.k)
         reduce(_+, [makeTerm(t.c, t.k) for t in ta])$L(O)
   
-
+      coerce(df:JD):% ==
+        dd:List JB:= differentials(df)$JD
+        cc:List R := coefficients(df)$JD
+        m:NNI:=#dd
+        m=0 => 0$Rep
+        fs:List %:=[cc.j*exteriorDifferential(coerce(dd.j)@Rep) for j in 1..m]
+        reduce(_+,fs)

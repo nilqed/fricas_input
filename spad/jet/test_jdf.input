@@ -17,7 +17,26 @@ exteriorDifferential % -- ok
 
 exteriorDifferential (sin(X.1)$jbe::JDF0)
 
-d ==> exteriorDifferential
-d(X.4*df.2*df.3)
+dd ==> exteriorDifferential
+dd(X.4*df.2*df.3)
 
+JD ==> JetDifferential(jb,jbe)
+V:=variables(1)$jb
+f1:=d(V.1)$JD
+f2:=5*d(V.2)$JD
 
+coefficient(f1,V.1) -- 1
+coefficient(f1,V.2) -- 0
+coefficient(f2,V.2) -- 5
+
+differentials(f2+f1+d(V.12)$JD)$JD -- [x1,x2,p^2_2]
+
+coefficients(f1+f2+d(V.12)$JD)$JD -- [1,5,1] -- useful when combined with with above
+
+cos(V.1)$jbe * 1$JDF0
+dd %
+
+symVars(0)$JASYM(jb,jbe,0)
+symVars(1)$JASYM(jb,jbe,0)
+
+-- convert JD to JDF and vice versa if possible 
