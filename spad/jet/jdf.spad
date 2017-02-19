@@ -323,5 +323,5 @@ JetDifferentialForm(JB,R,n) : Exports == Implementation where
         cc:List R := coefficients(df)$JD
         m:NNI:=#dd
         m=0 => 0$Rep
-        fs:List %:=[cc.j*exteriorDifferential(coerce(dd.j)@Rep) for j in 1..m]
+        fs:List %:=[cc.j*totalDifferential(dd.j::R) for j in 1..m]
         reduce(_+,fs)
