@@ -48,3 +48,10 @@ qq:=V.4*f1+V.5*f2
 qq::JDF0
 
 --^^^ ok, up to order (reversed) 
+-- reverse ta in coerce -> ok
+
+leadingBasisTerm (qq::JDF0)
+-- reverse better?
+
+D1:=diff(X.1)$JetVectorField(jb,jbe)
+eval(D1,X.1)

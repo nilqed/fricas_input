@@ -214,6 +214,10 @@ JetAntiSymm(JB,R,n) : Exports == Implementation where
 
 )abbrev domain JDF JetDifferentialForm
 ++ Description:
+++ Changes: 
+++   * reverse ta in coerce (natural order)
+++   * new: coerce JetDifferential to JetDifferentialForm 
+++
 JetDifferentialForm(JB,R,n) : Exports == Implementation where
 
   JB   : JetBundleCategory
@@ -314,7 +318,7 @@ JetDifferentialForm(JB,R,n) : Exports == Implementation where
 
       coerce(a) : O ==
         a = 0$Rep => 0$I::O
-        ta := terms a
+        ta := reverse terms a
         null ta.rest => makeTerm(ta.first.c, ta.first.k)
         reduce(_+, [makeTerm(t.c, t.k) for t in ta])$L(O)
   

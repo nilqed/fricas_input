@@ -131,3 +131,13 @@ cos(y)*cos(z))
 trigSimp(expr2 -(3*cos(y - z)/2 - cos(2*x + y + z)/2))  -- 0 ok :)
 
 expr3:= sin(x)*sin(z)*cos(x)*cos(y) + sin(x)*sin(y)*cos(x)*cos(z)
+
+
+
+--
+
+t1 := cos(x)*sin(y) - cos(y)*sin(x) 
+t2 := - sin(x)*sin(y) + cos(x)*cos(y)
+expr := tan(q)*tan(w) + t1*cos(x3) + t2*w*cos(a) + r3*t1*t2 + 5 
+
+trigSimp expr
