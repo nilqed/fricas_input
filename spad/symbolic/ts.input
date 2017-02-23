@@ -1,0 +1,39 @@
+)r sexpr
+)co trigsimp
+
+R ==> Integer
+X ==> SymbolicExpression R
+
+ex1:X:=sin(a)^4-cos(b)^2+sin(b)^2+2*cos(a)^2
+ex2:X:=1/2-1/2*cos(2*b)
+ex3:X:=sin(a)*(cos(b)-sin(b))+cos(a)*(sin(b)+cos(b))
+ex4:X:=sqrt(3)/2*cos(a)+1/2*sin(a)
+
+cex1:X:=1-(1/4)*sin(2*x)^2-sin(y)^2-cos(x)^4
+cex2:X:= reduce(_*,[cos(j*%pi/9) for j in 1..4])
+cex3:X:= tan(7*%pi/18)+tan(5*%pi/18)-sqrt(3)*tan(5*%pi/18)*tan(7*%pi/18)
+
+ctr1(ex1)
+ctr2(ex2)
+ctr3(ex3)
+ctr4(ex4)
+
+trigSimp cex1 -- sin(x+y)*sin(x-y)
+trigSimp cex2 -- 1/16
+trigSimp cex3 -- -sqrt(3)
+
+-- sympy
+trigSimp(sin(50)^2+cos(50)^2+sin(%pi/6))  -- 3/2
+trigSimp(sin(x)^4-cos(y)^2+sin(y)^2+2*cos(x)^2) -- 2*sqrt(2)*sin(x+%pi/3)
+
+-- single rules
+rr:=rules()
+irr:=irules()
+
+(irr.1) ((rr.10) cos(x+y)/cos(x))
+
+(rr.11) (sin(2)^a*cos(1)^(-a))
+
+trigSimp(a*cos(x)*cos(y) + a*sin(x)*sin(y)) -- wrong a*cos(x-y) expected
+
+(irr.1)(a*cos(x)*cos(y) + a*sin(x)*sin(y)) 

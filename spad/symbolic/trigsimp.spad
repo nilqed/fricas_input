@@ -1,0 +1,315 @@
+)abbrev package TRGSMP TrigSimp
+++ Author: Kurt Pagani
+++ Date Created: Mon Feb 06 18:56:20 CET 2017
+++ License: BSD
+++ References:
+++ Description: 
+++ Automated and readable simplification of trigonometric expressions
+++ http://www.sciencedirect.com/science/article/pii/S0895717706001609
+++ Hongguang Fua, Xiuqin Zhonga, Zhenbing Zengb
+++ Journal Mathematical and Computer Modelling: An International Journal 
+++ archive, Volume 44 Issue 11-12, December, 2006, Pages 1169-1177 
+TrigSimp() : Exports == Implementation where
+  
+  R ==> Integer
+  X ==> SymbolicExpression R
+  
+  RR ==> RewriteRule(R,R,X)
+  RS ==> Ruleset(R,R,X)
+  
+  PI  ==> PositiveInteger
+  NNI ==> NonNegativeInteger
+  OUT ==> OutputForm
+  IRX ==> IntegerRetractions X 
+  
+  PFRM ==> Record(pol:X,vl:List Symbol,ker:List X)
+  SMVP ==> SparseMultivariatePolynomial(R,Kernel(X))
+  
+  Exports ==  with
+    
+    polynomialForm : (X,Symbol) -> PFRM
+    isTrigAtom : X -> Boolean
+    length0 : X -> NNI
+    length : X -> NNI
+    rules : () -> List Union(RR,RS)
+    irules : () -> List Union(RR,RS)
+    ctr1 : X -> X
+    ctr2 : X -> X
+    ctr3 : X -> X
+    ctr4 : X -> X
+    appRL : (List Union(RR,RS),X,Integer) -> X
+    trigSimp : X -> X
+
+	
+  Implementation == X add 
+    
+    r:X:='r::X  -- do not reuse
+    a:X:='a::X
+    b:X:='b::X
+    c:X:='c::X
+    k:X:='k::X
+    
+    -- TR1, TR2
+    tr1:RS := ruleset [rule(sec r,1/cos(r)),rule(csc r,1/sin(r))]
+    tr2:RS := ruleset [rule(tan r,sin(r)/cos(r)),rule(cot r,cos(r)/sin(r))] 
+
+    -- TR3 [table 1]
+    r11:RR:=rule(sin(-r),-sin(r))
+    r12:RR:=rule(cos(-r),cos(r))
+    r13:RR:=rule(tan(-r),-tan(r))
+    r14:RR:=rule(cot(-r),-cot(r))
+    
+    r21:RR:=rule(sin(pi()-r),sin(r))
+    r22:RR:=rule(cos(pi()-r),-cos(r))
+    r23:RR:=rule(tan(pi()-r),-tan(r))
+    r24:RR:=rule(cot(pi()-r),-cot(r))    
+
+    r31:RR:=rule(sin(pi()+r),-sin(r))
+    r32:RR:=rule(cos(pi()+r),-cos(r))
+    r33:RR:=rule(tan(pi()+r),tan(r))
+    r34:RR:=rule(cot(pi()+r),cot(r)) 
+
+    r41:RR:=rule(sin(2*pi()-r),-sin(r))
+    r42:RR:=rule(cos(2*pi()-r),cos(r))
+    r43:RR:=rule(tan(2*pi()-r),-tan(r))
+    r44:RR:=rule(cot(2*pi()-r),-cot(r)) 
+    
+    -- todo: r5m
+
+    tr3:RS := ruleset [r11,r12,r13,r14,r21,r22,r23,r24,r31,r32,r33,r34,_
+                       r41,r42,r43,r44]
+
+
+    -- TR4 [table 2]
+    s11:RR:=rule(sin(0),0)
+    s12:RR:=rule(sin(pi()/6::X),1/2::X)
+    s13:RR:=rule(sin(pi()/4::X),sqrt(2::X)/2::X)
+    s14:RR:=rule(sin(pi()/3::X),sqrt(3::X)/2::X)
+    s15:RR:=rule(sin(pi()/2::X),1::X)
+    
+    s21:RR:=rule(cos(0),1)
+    s22:RR:=rule(cos(pi()/6::X),sqrt(3::X)/2::X)
+    s23:RR:=rule(cos(pi()/4::X),sqrt(2::X)/2::X)
+    s24:RR:=rule(cos(pi()/3::X),1::X/2::X)
+    s25:RR:=rule(cos(pi()/2::X),0::X)
+    
+    s31:RR:=rule(tan(0),0)
+    s32:RR:=rule(tan(pi()/6::X),sqrt(3::X)/2::X)
+    s33:RR:=rule(tan(pi()/4::X),1::X)
+    s34:RR:=rule(tan(pi()/3::X),sqrt(3::X))
+    --s35:RR:=rule(tan(pi()/2::X),plusInfinity())
+    
+    tr4:RS := ruleset [s11,s12,s13,s14,s15,s21,s22,s23,s24,s25,_
+                       s31,s32,s33,s34]
+
+    -- TR5
+    --tr5:RR := rule(sin(r)^2,1::X - cos(r)^2)
+    tr5_r:RR:=_rule(sin(r)^k,(1::X - cos(r)^2)^(k/2::X))
+    
+    tr5_f(l:List X):Boolean ==
+      w:X:=l.1
+      b1:Boolean:=integer?(w)$IRX
+      b2:Boolean:=even?(w)$X
+      b1 and b2
+      
+    tr5:RR:=suchThat(tr5_r,['k],tr5_f)
+    
+    -- TR6
+    --tr6:RR := rule(cos(r)^2,1::X - sin(r)^2)
+    tr6_r:RR:=_rule(cos(r)^k,(1::X - sin(r)^2)^(k/2::X))
+    tr6:RR:=suchThat(tr6_r,['k],tr5_f)    
+    
+    -- TR7
+    tr7_r:RR := rule(cos(r)^k,((1::X + cos(2*r))/2::X)^(k/2::X))
+    tr7:RR:=suchThat(tr7_r,['k],tr5_f) 
+
+    -- TR8
+    tr8:RS := ruleset [rule(sin(a)*cos(b),(sin(a+b)+sin(a-b))/2::X),_
+                       rule(cos(a)*sin(b),(sin(a+b)-sin(a-b))/2::X),_
+                       rule(cos(a)*cos(b),(cos(a-b)+cos(a+b))/2::X),_
+                       rule(sin(a)*sin(b),(cos(a-b)-cos(a+b))/2::X)]
+    
+
+    -- TR9
+    tr9:RS := ruleset _
+      [rule(c*sin(a)+c*sin(b),2::X*c*(sin((a+b)/2::X)*cos((a-b)/2::X))),_
+       rule(c*sin(a)-c*sin(b),2::X*c*(cos((a+b)/2::X)*sin((a-b)/2::X))),_
+       rule(c*cos(a)+c*cos(b),2::X*c*(cos((a+b)/2::X)*cos((a-b)/2::X))),_
+       rule(c*cos(a)+c*cos(b),-2::X*c*(sin((a+b)/2::X)*sin((a-b)/2::X)))]
+
+    -- TR10
+    tr10:RS := ruleset [rule(sin(a+b),sin(a)*cos(b)+cos(a)*sin(b)),_
+                        rule(sin(a-b),sin(a)*cos(b)-cos(a)*sin(b)),_
+                        rule(cos(a+b),cos(a)*cos(b)-sin(a)*sin(b)),_
+                        rule(cos(a-b),cos(a)*cos(b)+sin(a)*sin(b))]
+                                            
+    -- TR11
+    tr11:RS := ruleset [rule(sin(2::X*a),2::X*sin(a)*cos(a)),_
+                        rule(cos(2::X*a),1::X - 2::X*sin(a)^2::X)]
+
+
+    -- TR12
+    tr12:RS := ruleset [rule(tan(a+b), (tan(a)+tan(b))/(1::X-tan(a)*tan(b))),_
+                        rule(tan(a-b), (tan(a)-tan(b))/(1::X+tan(a)*tan(b)))]
+
+
+    -- TR13
+    tr13:RS := ruleset [rule(tan(a)*tan(b),1::X-(tan(a)+tan(b))*cot(a+b)),_
+                        rule(cot(a)*cot(b),1::X+(cot(a)+cot(b))*cot(a+b))]
+
+
+    -- Inverse rules (selction as necessary)
+    
+    -- Tr-10
+    itr10:RS := ruleset [rule(c*sin(a)*cos(b)+c*cos(a)*sin(b),c*sin(a+b)),_
+                         rule(c*sin(a)*cos(b)-c*cos(a)*sin(b),c*sin(a-b)),_
+                         rule(c*cos(a)*cos(b)-c*sin(a)*sin(b),c*cos(a+b)),_
+                         rule(c*cos(a)*cos(b)+c*sin(a)*sin(b),c*cos(a-b))]
+                        
+
+
+    -- CTR1
+    ctr1(x:X):X ==
+      L:NNI:=length(x)
+      L=0 => x
+      F1:X:= tr5 x
+      F2:X:= tr6 x
+      L1:NNI:=length(F1)
+      L2:NNI:=length(F2)
+      (L1<L) and (L1<=L2) => F1
+      (L2<L) and (L2<=L1) => F2
+      x
+
+    -- CTR2
+    ctr2(x:X):X ==
+      L:NNI:=length(x)
+      L=0 => x
+      F1:X:= tr5 tr11 x
+      F2:X:= tr6 tr11 x
+      F3:X:= tr11 x
+      L1:NNI:=length(F1)
+      L2:NNI:=length(F2)
+      L3:NNI:=length(F3)
+      (L1<L3) and (L1<=L2) => F1
+      (L2<L3) and (L2<=L1) => F2
+      F3
+      
+    ctr3(x:X):X ==
+      L:NNI:=length(x)
+      L=0 => x
+      F1:X:= tr8 x
+      F2:X:= itr10 tr8 x
+      L1:NNI:=length(F1)
+      L2:NNI:=length(F2)
+      L2<L => F2
+      L1<L => F1
+      x
+
+    ctr4(x:X):X ==
+      L:NNI:=length(x)
+      L=0 => x
+      F1:X:= itr10 tr4 x
+      L1:NNI:=length(F1)
+      L1<L => F1
+      x
+
+
+    rules():List Union(RR,RS) == [tr1,tr2,tr3,tr4,tr5,tr6,tr7,tr8,tr9,_
+                                  tr10,tr11,tr12,tr13]
+                                  
+    irules():List Union(RR,RS) == [itr10]
+
+    polynomialForm(x:X,sym:Symbol):PFRM == 
+      tf:List Symbol:=['sin,'cos,'tan,'cot,'sec,'csc]
+      k:List Kernel(X):=kernels(x)
+      kp:List X:=[s::X for s in k | member?(name s,tf)]
+      n:NNI:=#kp
+      lv:List X:=[subscript(sym,[j::OUT])::X for j in 1..n]
+      xp:X:=x
+      for j in 1..n repeat
+        xp:=subst(xp,kp.j = lv.j)
+      [xp,[subscript(sym,[j::OUT]) for j in 1..n],kp]
+
+
+    length0(x:X):NNI ==
+      pf:PFRM:=polynomialForm(x,'t)
+      pf.vl = [] => 0::NNI
+      --MVP:=MultivariatePolynomial(pf.vl,X)
+      mvpf:SMVP:=numer(pf.pol)$X
+      mon:List(SMVP):=monomials(mvpf)$SMVP
+      #mon
+
+
+    isTrigAtom(x:X):Boolean ==
+      pt:Union(List X,"failed"):=isPlus(x)$X
+      not pt case "failed" => false
+      tf:List Symbol:=['sin,'cos,'tan,'cot,'sec,'csc]
+      k:List Kernel(X):=kernels(x)
+      kp:List X:=[s::X for s in k | member?(name s,tf)]
+      n:NNI:=#kp
+      n > 0 => true
+      false
+      
+
+    length(f:X):NNI ==
+      x:X:=numerator(f)
+      y:X:=denominator(f)
+      isTrigAtom(y) => 1
+      pt:Union(List X,"failed"):=isPlus(x)$X
+      pt case "failed" => 1
+      ptx:=pt::List(X)
+      m:NNI:=#ptx
+      pta:List(X):=[s::X for s in ptx | isTrigAtom(s)]
+      n:NNI:=#pta
+      n = m => n
+      n+1
+      
+    FREC ==> Record(i:X,o:X,li:NNI,lo:NNI)
+    fire(tr:Union(RR,RS),x:X,str:String):FREC ==
+      lx:NNI:=length(x)
+      if (tr case RR) or (tr case RS) then y:X:=tr(x)
+      if #str > 0 then output(str)$OutputPackage
+      [x,y,lx,length(y)]$FREC
+      
+)if false
+    trigSimp0(x:X):X == 
+      F0:X:=tr1(x)
+      --
+      F1:X:= tr2 tr4 tr13 tr4 tr12 tr4 tr3 tr4 tr1 x
+      --
+      F2:X:= tr4 tr3 tr10 tr4 tr3 tr11 tr5 tr7 tr11 tr4 ctr4 tr9 tr9 tr4 ctr2 tr9 ctr1 ctr3 F1
+)endif
+
+    stage1:List Union(RR,RS)
+    stage2:List Union(RR,RS)
+    stage1:=[tr11,tr3,tr4,tr10,tr3,tr4,tr2,tr4,tr13,tr4,tr12,tr4,tr3,tr4,tr1]
+    stage2:=[tr4,tr11,tr7,tr5]
+    
+    appRL(rl:List Union(RR,RS),x0:X,dmax:Integer):X ==
+      l0:NNI:=length(x0)
+      lr:List Union(RR,RS):=reverse rl
+      y:X:=x0
+      z:X
+      for f in lr repeat
+        if (f case RR) or (f case RS) then 
+          z:X:=f(y)
+          if (dmax<0) or (abs(length(z)-l0)<= dmax) then
+            y:=z
+            
+      y
+      
+
+    trigSimp(x:X):X ==
+      L:NNI:=length(x)
+      L=0 => x
+      -- stage 1
+      --F1:X:= tr11 tr3 tr4 tr10 tr3 tr4 tr2 tr4 tr13 tr4 tr12 tr4 tr3 tr4 tr1 x
+      F1:X:=appRL(stage1,x,-1)
+      -- stage 2    
+      --F2:X:= tr4 tr11 tr7 tr5 F1
+      F2:X:=appRL(stage2,F1,3)
+      -- stage 3
+      F3:X:= ctr4 tr9 tr9 tr4 ctr2 tr9 ctr1 ctr3 F2
+      -- todo: min(L,L1,L2,L3)
+      -- https://en.wikipedia.org/wiki/Morrie%27s_law
+      F3
