@@ -1,0 +1,95 @@
+--- view3D.spad	2017-02-24 22:02:11.628033060 +0100
++++ view3D+.spad	2017-02-24 21:35:15.909053865 +0100
+@@ -52,6 +52,8 @@
+   SPACE3 ==> ThreeSpace(SF)
+   DROP ==> DrawOption
+   COORDSYS ==> CoordinateSystems(SF)
++  DRAWFE ==> DrawFrontend()
++  FET ==> Table(Symbol,String)
+ 
+     -- the below macros correspond to the ones in include/actions.h
+   ROTATE       ==> 0$I  -- rotate      in actions.h
+@@ -370,7 +372,13 @@
+     key                   :  %                                       -> I
+       ++ key(v) returns the process ID number of the given three-dimensional
+       ++ viewport, v, which is of domain \spadtype{ThreeDimensionalViewport}.
+---    print                 :  %                                       -> Void
++    setFrontend3D  : (FET) -> FET
++      ++ Sets the frontend according to the values in the FET table.
++    getFrontend3D  : () -> FET
++      ++ Gets the FET table of the current frontend.
++    makeFrontend3D : (%, FET) -> Void
++      ++ Make frontend according to the values in the FET table.
++
+ 
+   Implementation ==> add
+     import from Color()
+@@ -385,6 +393,7 @@
+     import from DrawOptionFunctions0
+     import from COORDSYS
+     import from Set(PositiveInteger)
++    import from DRAWFE
+ 
+     Rep := Record (key : I, fun : I, _
+                    title : S, moveTo : XYNN, size : XYP, viewpoint : V, colors : H, flags : FLAG, _
+@@ -406,6 +415,22 @@
+     defaultDeltaX : Reference(SF) := ref 0
+     defaultDeltaY : Reference(SF) := ref 0
+ 
++    frontend:FET:=table()
++    frontend.'type:="viewman"
++    frontend.'output:=""
++    frontend.'display:=""
++    
++--%Local Functions
++
++    setFrontend3D(fe:FET):FET ==
++      frontend:=copy(fe)
++      
++    getFrontend3D():FET == frontend
++
++    makeFrontend3D(v:%, fe:FET):Void ==
++      s1:SPACE3:=subspace(v)
++      opts:List DROP:=options(v)
++      createDraw3D(s1,opts,fe)
+ 
+ --%Local Functions
+     checkViewport (viewport : %) : B ==
+@@ -477,19 +502,34 @@
+ 
+     makeViewport3D0 : % -> %
+ 
+-    makeViewport3D viewport == makeViewport3D0 copy(viewport::Rep)
++
++    makeViewport3D viewport ==
++      if frontend.'type = "vieman" then 
++        makeViewport3D0 copy(viewport::Rep)
++      else
++        makeFrontend3D(viewport, getFrontend3D())
++        viewport
+ 
+     makeViewport3D(space : SPACE3, Title : S) : % ==
+       v := viewport3D()
+       v.space3D := space
+       v.optionsField := [title(Title)]
+-      makeViewport3D0 v
++      if frontend.'type = "vieman" then
++        makeViewport3D0(v)
++      else
++        makeFrontend3D(v, getFrontend3D())
++        v
+ 
+     makeViewport3D(space : SPACE3, opts : L DROP) : % ==
+       v := viewport3D()
+       v.space3D := space
+       v.optionsField := opts
+-      makeViewport3D0 v
++      if frontend.'type = "vieman" then
++        makeViewport3D0(v)
++      else
++        makeFrontend3D(v, getFrontend3D())
++        v   
++
+ 
+     makeViewport3D0 viewport ==
+       doOptions viewport --local function to extract and assign optional arguments for 3D viewports

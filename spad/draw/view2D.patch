@@ -1,0 +1,85 @@
+--- view2D.spad	2017-02-24 22:02:07.220111268 +0100
++++ view2D+.spad	2017-02-24 21:26:45.730139440 +0100
+@@ -443,6 +443,8 @@
+   GU   ==> Union(G,"undefined")
+   DROP ==> DrawOption
+   POINT ==> Point(SF)
++  DRAWFE ==> DrawFrontend()
++  FET    ==> Table(Symbol,String) 
+ 
+   TRANSLATE2D     ==> 0$I
+   SCALE2D         ==> 1$I
+@@ -666,6 +668,12 @@
+       ++ coerce(v) returns the given two-dimensional viewport, v, which
+       ++ is of domain \spadtype{TwoDimensionalViewport} as output of
+       ++ the domain \spadtype{OutputForm}.
++    setFrontend2D : FET -> FET
++      ++ Sets the frontend according to the values in the FET table. 
++    getFrontend2D : () -> FET
++      ++ Gets the FET table of the current frontend.
++    makeFrontend2D  : (%, FET) -> Void
++      ++ Makes the frontend according to the values in the FET table.
+ 
+   Implementation ==> add
+ 
+@@ -675,6 +683,7 @@
+     import from ViewDefaultsPackage()
+     import from DrawOptionFunctions0
+     import from POINT
++    import from DRAWFE
+ 
+     Rep := Record (key : I, graphsField : V GU, graphStatesField : V GS, _
+                    title : STR, moveTo : XYNN, size : XYP, flags : FLAG, optionsField : L DROP)
+@@ -687,6 +696,23 @@
+                       yes]
+ 
+ 
++    frontend:FET:=table()
++    frontend.'type:="viewman"
++    frontend.'output:=""
++    frontend.'display:=""
++
++    --% Local Functions
++    setFrontend2D(fe:FET):FET ==
++      frontend:=copy(fe)
++      
++    getFrontend2D():FET == frontend
++
++    makeFrontend2D(v:%, fe:FET):Void ==
++      g1:G:=getGraph(v,1)
++      opts:L DROP:=options(v)
++      createDraw2D(g1,opts,fe)
++
++
+      --% Local Functions
+     checkViewport (viewport : %) : B ==
+         -- checks to see if this viewport still exists
+@@ -805,13 +831,25 @@
+ 
+     makeViewport2D0 : % -> %
+ 
+-    makeViewport2D(g : G, opts : L DROP) ==
++    
++    makeViewport2D(g : G, opts : L DROP):% == 
+       viewport               := viewport2D()
+       viewport.graphsField.1 := g
+       viewport.optionsField := opts
+-      makeViewport2D0 viewport
++      if frontend.'type = "vieman" then
++        makeViewport2D0(viewport)
++      else
++        makeFrontend2D(viewport, getFrontend2D())
++        viewport
++    
++      
++    makeViewport2D viewport == 
++      if frontend.'type = "vieman" then 
++        makeViewport2D0 copy(viewport::Rep)
++      else
++        makeFrontend2D(viewport, getFrontend2D())
++        viewport
+ 
+-    makeViewport2D viewport == makeViewport2D0 copy(viewport::Rep)
+ 
+     send_graphs(vg : V GU) : Void ==
+         for i in 1..#vg repeat

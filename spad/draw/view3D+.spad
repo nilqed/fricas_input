@@ -372,7 +372,6 @@ ThreeDimensionalViewport() : Exports == Implementation where
     key                   :  %                                       -> I
       ++ key(v) returns the process ID number of the given three-dimensional
       ++ viewport, v, which is of domain \spadtype{ThreeDimensionalViewport}.
---    print                 :  %                                       -> Void
     setFrontend3D  : (FET) -> FET
       ++ Sets the frontend according to the values in the FET table.
     getFrontend3D  : () -> FET
@@ -416,7 +415,6 @@ ThreeDimensionalViewport() : Exports == Implementation where
     defaultDeltaX : Reference(SF) := ref 0
     defaultDeltaY : Reference(SF) := ref 0
 
-    
     frontend:FET:=table()
     frontend.'type:="viewman"
     frontend.'output:=""
@@ -434,6 +432,7 @@ ThreeDimensionalViewport() : Exports == Implementation where
       opts:List DROP:=options(v)
       createDraw3D(s1,opts,fe)
 
+--%Local Functions
     checkViewport (viewport : %) : B ==
         -- checks to see if this viewport still exists
         -- by sending the key to the viewport manager and
@@ -503,6 +502,7 @@ ThreeDimensionalViewport() : Exports == Implementation where
 
     makeViewport3D0 : % -> %
 
+
     makeViewport3D viewport ==
       if frontend.'type = "vieman" then 
         makeViewport3D0 copy(viewport::Rep)
@@ -528,11 +528,12 @@ ThreeDimensionalViewport() : Exports == Implementation where
         makeViewport3D0(v)
       else
         makeFrontend3D(v, getFrontend3D())
-        v      
+        v   
+
 
     makeViewport3D0 viewport ==
       doOptions viewport --local function to extract and assign optional arguments for 3D viewports
-      sayBrightly(["   Transmitting data..."::E]$List(E))$Lisp
+      sayBrightly([message("   Transmitting data...")$E]$List(E))$Lisp
       transform := coord(viewport.optionsField, cartesian$COORDSYS)$DrawOptionFunctions0
       check(viewport.space3D)
       lpts := lp(viewport.space3D)
@@ -831,9 +832,9 @@ ThreeDimensionalViewport() : Exports == Implementation where
     coerce viewport ==
       (key(viewport) = 0$I) =>
         hconcat
-          ["Closed or Undefined ThreeDimensionalViewport: "::E,
+          [message("Closed or Undefined ThreeDimensionalViewport: "),
            (viewport.title)::E]
-      hconcat ["ThreeDimensionalViewport: "::E, (viewport.title)::E]
+      hconcat [message("ThreeDimensionalViewport: "), (viewport.title)::E]
 
     key viewport == viewport.key
 
@@ -911,8 +912,9 @@ ThreeDimensionalViewport() : Exports == Implementation where
           m := minIndex(avail := viewWriteAvailable())
           for aTypeOfFile in thingsToWrite repeat
             if (writeTypeInt:= position(upperCase aTypeOfFile, avail)-m) < 0 then
-              sayBrightly(["  > "::E,(concat(aTypeOfFile, _
-                " is not a valid file type for writing a 3D viewport"))::E]$List(E))$Lisp
+              sayBrightly([message("  > ")$E, (concat(aTypeOfFile, _
+                " is not a valid file type for writing a 3D viewport"))::E
+                       ]$List(E))$Lisp
             else
               sendI(VIEW, writeTypeInt + 1$I)
           sendI(VIEW, 0$I)     -- no more types of things to write
