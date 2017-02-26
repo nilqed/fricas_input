@@ -1,0 +1,41 @@
+)abbrev package PGFP PGFPlot
+++ Author: Kurt Pagani
+++ Date Created: Sat Feb 25 21:56:55 CET 2017
+++ License: FriCAS/BSD
+++ References:
+++   http://mirror.unl.edu/ctan/graphics/pgf/contrib/pgfplots/doc/pgfplots.pdf
+++   http://mirror.utexas.edu/ctan/graphics/pgf/base/doc/pgfmanual.pdf
+++   https://www.sharelatex.com/learn/Pgfplots_package
+++   http://pgfplots.sourceforge.net/
+++ Description:
+++
+PGFPlot() : Exports == Implementation where
+
+  STR  ==> String
+  TXT  ==> TextFile
+  FNM  ==> FileName
+  LSTR ==> List String
+  ADDP ==> Record(kind: STR, opts:LSTR, data: STR)
+  POBJ ==> Record(fn:TXT, axis:LSTR, plots:List ADDP)
+  --optional type declarations, e.g.
+  --PINT   ==> Polynomial(Integer)
+  --SBPINT ==> SegmentBinding(PINT)
+  
+  Exports ==  with
+
+    new : FNM -> POBJ
+
+	
+	
+  Implementation ==  add 
+    
+    new(s:FNM):POBJ ==
+      f:TXT:=open(s,"output")
+      a:LSTR:=[]
+      p:List ADDP:=[]
+      [f,a,p]@POBJ
+   
+   
+-- Idea
+-- p:=new()$PGFP
+-- p.addplot(x^2+2*x+1)
