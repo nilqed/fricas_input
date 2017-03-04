@@ -1,0 +1,32 @@
+)abbrev domain FRMX FormalExpression
+++ Author: Kurt Pagani
+++ Date Created: Sat Mar 04 22:07:36 CET 2017
+++ License: BSD
+++ References:
+++ Description:
+++
+FormalExpression() : Exports == Implementation where
+  
+  CTOF ==> CoercibleTo OutputForm
+  CTIN ==> CoercibleTo InputForm
+  CVST ==> ConvertibleTo String
+  
+  IN ==> InputForm
+  OF ==> OutputForm
+  
+  Exports == Join(CTOF,CTIN,CVST,Field) with
+    
+    var : Symbol -> %
+    overbar : % -> %
+    coerce : % -> InputForm
+	
+	
+  Implementation == OutputForm add 
+
+    Rep := OF 
+    
+    var(s:Symbol):% == outputForm(s)@Rep
+    
+    coerce(x:%):IN == x pretend InputForm
+    
+    

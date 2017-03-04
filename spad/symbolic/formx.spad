@@ -21,16 +21,6 @@ SymbolicPackage() : Exports == Implementation where
    
     var : Symbol -> OUT
 
-    atom? : OUT -> Boolean
-
-    assign? : OUT -> Boolean
-    assignLHS : OUT -> OUT
-    assignRHS : OUT -> OUT
-
-    binomial? : OUT -> Boolean
-    binomialHi : OUT -> OUT
-    binomialLo : OUT -> OUT
-	
 	
   Implementation ==  OutputForm add 
    
@@ -38,25 +28,5 @@ SymbolicPackage() : Exports == Implementation where
     coerce(x:INP):OUT == x pretend OUT
    
     var(s:Symbol):OUT == s::OUT
-    -- binomial(var 'm,var 'n)
     
-    atom?(x:OUT):Boolean == atom? (coerce x)
-    
-    checkOP(x:OUT,s:Symbol):Boolean ==
-      test((coerce x).1 = convert(s)$Symbol)  
-
-    assign?(x:OUT):Boolean == checkOP(x,'LET)
-    
-    assignLHS(x:OUT):OUT ==
-
-    binomial?(x:OUT):Boolean == checkOP(x,'BINOMIAL) 
-      
-    binomialHi(x:OUT):OUT == 
-      binomial? x => coerce((coerce x).2)
-      error "Not a binomial."
-      
-    binomialLo(x:OUT):OUT == 
-      binomial? x => coerce((coerce x).3)
-      error "Not a binomial."
-      
-    
+ 
