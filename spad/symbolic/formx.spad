@@ -18,15 +18,42 @@ SymbolicPackage() : Exports == Implementation where
     
     coerce : OUT -> INP
     coerce : INP -> OUT
-   
+    
+    _# : OUT -> Integer
+    atom? : OUT -> Boolean
+    
     var : Symbol -> OUT
+    
+    car : OUT -> OUT
+    cdr : OUT -> OUT
+    
+    destruct : OUT -> List OUT
+    flatten  : OUT -> OUT
+    
+    declare : (OUT,SExpression) -> Symbol
 
 	
-  Implementation ==  OutputForm add 
+  Implementation == OutputForm add 
    
     coerce(x:OUT):INP == x pretend INP
     coerce(x:INP):OUT == x pretend OUT
-   
+
+    _#(x:OUT):Integer == #(x::INP)
+    atom?(x:OUT):Boolean == atom?(x::INP)
+
     var(s:Symbol):OUT == s::OUT
     
+    car(x:OUT):OUT == car(x::INP)::OUT
+    cdr(x:OUT):OUT == cdr(x::INP)::OUT
+    
+    destruct(x:OUT):List OUT == 
+      d:List INP:=destruct(x::INP)
+      [t::OUT for t in d]
+      
+    flatten(x:OUT):OUT == flatten(x::INP)::OUT
+    
+    declare(x:OUT,T:SExpression):Symbol ==
+      s:Symbol:=symbol(x::INP)
+      declare(s,T)$Lisp
+      s
  
