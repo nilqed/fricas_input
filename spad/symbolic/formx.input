@@ -16,3 +16,38 @@ flatten A
 
 declare(q,dom(2))
 declare(p,dom(1::EXPR INT))
+
+a0:=declare(a,dom(1::EXPR INT))::OF
+b0:=declare(b,dom(1::EXPR INT))::OF
+interpret(a0+b0^a0)$INFORM
+
+q:=9
+Q:=x+y-z^q
+QQ:=Q::IF
+xx:=car cdr car cdr QQ
+qq:=unparse QQ
+interpretString(qq)$TemplateUtilities
+
+systemCommand("clear value x y z")$MoreSystemCommands
+interpretString(qq)$TemplateUtilities
+
+l:=1/(2+3::OF)
+interpret(l)$INFORM
+
+lz:=1::OF+D(z^p,z,3)
+
+
+-- principle
+
+S:=w^r+e::OF  -- one is OF -> OutputForm
+destruct S
+up:=unparse (S::IF)
+interpretString(up)$TemplateUtilities
+interpret(S)$INFORM
+
+tr:=sin(t)::OF*cos(z-%pi)
+destruct tr
+destruct (car cdr tr)
+interpret(tr)$INFORM
+
+--subst(x+y^z+r::OF,[x=u::OF,y=t,z=5::OF])
