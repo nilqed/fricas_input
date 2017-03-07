@@ -51,3 +51,13 @@ destruct (car cdr tr)
 interpret(tr)$INFORM
 
 --subst(x+y^z+r::OF,[x=u::OF,y=t,z=5::OF])
+
+t1:=a::OF+b
+t2:=a::OF*b
+t3:=t1+t2
+
+commute t1
+commute t2
+commute t3
+
+

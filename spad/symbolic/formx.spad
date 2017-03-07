@@ -31,6 +31,8 @@ SymbolicPackage() : Exports == Implementation where
     flatten  : OUT -> OUT
     
     declare : (OUT,SExpression) -> Symbol
+    
+    commute : OUT -> OUT
 
 	
   Implementation == OutputForm add 
@@ -57,3 +59,11 @@ SymbolicPackage() : Exports == Implementation where
       declare(s,T)$Lisp
       s
  
+    --
+    commute(x:OUT):OUT ==
+      #x <= 2 => x
+      l:=destruct x
+      l.1 = outputForm("+"::Symbol) => l.3 + l.2
+      l.1 = outputForm("*"::Symbol) => l.3 * l.2
+      x
+      
