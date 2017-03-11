@@ -1,0 +1,13 @@
+)abbrev domain PDIM PhysicalDimension 
+++
+Length(s:Symbol) : Exports == Implementation where
+    
+    Exports == Join(PhysicalDimension,CoercibleTo OutputForm) with
+      %m : Fraction Integer -> %  
+    Implementation == add
+      %m(q)==length()
+
+
+G==>FreeGroup(OVAR [m,kg,s])
+...
+factors a
