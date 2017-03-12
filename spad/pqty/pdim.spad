@@ -1,13 +1,26 @@
-)abbrev domain PDIM PhysicalDimension 
-++
-Length(s:Symbol) : Exports == Implementation where
-    
-    Exports == Join(PhysicalDimension,CoercibleTo OutputForm) with
-      %m : Fraction Integer -> %  
-    Implementation == add
-      %m(q)==length()
+)abbrev category PUNIT PhysicalUnit
+PhysicalUnit() : Category == with   
+    "*"  : (%,%) -> %
+    "/"  : (%,%) -> %
+    "^"  : (%,Integer) -> %
+    "="  : (%,%) -> Boolean
+    dim  : % -> OutputForm
+    one  : %
+    coerce : % -> OutputForm
+
+)abbrev domain SI SIunit 
+SIunit() : Exports == Implementation where
+    OVAR ==> OrderedVariableList
+    BASU ==> OVAR ['m,'kg,'s] 
+    Exports == Join(PhysicalUnit,CoercibleTo OutputForm) with
+      baseSymbols : List Symbol
+      baseUnits : List % 
+    Implementation == FreeGroup(BASU) add
+      Rep:=FreeGroup(BASU)
+      baseSymbols() == [convert(x)@Symbol for x in enumerate$BASU]
+      baseUnits() == [x::% for x in enumerate$BASU]
+      
 
 
-G==>FreeGroup(OVAR [m,kg,s])
-...
-factors a
+
+--factors a
