@@ -4,9 +4,10 @@ PhysicalUnit() : Category == with
     "/"  : (%,%) -> %
     "^"  : (%,Integer) -> %
     "="  : (%,%) -> Boolean
-    dim  : % -> OutputForm
+    dim  : % -> List Integer
     one  : %
     coerce : % -> OutputForm
+
 
 )abbrev domain PUSYS PhysicalUnitSystem 
 PhysicalUnitSystem(u:List Symbol) : Exports == Implementation where
@@ -20,17 +21,21 @@ PhysicalUnitSystem(u:List Symbol) : Exports == Implementation where
       factors : % ->  List Record(gen: BASU,exp: Integer)
     Implementation == FreeGroup(BASU) add
       Rep:=FreeAbelianGroup(BASU) 
-      x * y == (x+y) --pretend Rep
-      x / y == (x-y) --pretend Rep
-      x ^ n == (n*x) --pretend Rep
+      x * y == (x+y) 
+      x / y == (x-y)
+      x ^ n == (n*x) 
       one() == 0$Rep
       baseSymbols() == [convert(x)@Symbol for x in enumerate$BASU]
       baseUnits() == [x::% for x in enumerate$BASU]
-      --factors(x) == terms(x)
+      dim(x) ==
+        d:=[0@Integer for j in 1..#u]
+        bs:=baseSymbols()
+        for r in factors(x) repeat
+          k:=position(r.gen,bs)
+          d.k:=r.exp
+        d
       
         
-      
-
-
-
---factors a
+-- SI:=PUSYS(['m,'kg,'s])
+-- u:=baseUnits()$SI
+-- 
