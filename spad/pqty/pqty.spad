@@ -9,36 +9,33 @@ PhysicalUnit() : Category == with
     coerce : % -> OutputForm
 
 
-)abbrev domain SI SIunit 
 SIunit : Exports == Implementation where
 
-    X  ==> Expression Integer
-    Q  ==> Fraction Integer
-    
-    VI  ==> Vector Q
+    EI  ==> Expression Integer
+    VI  ==> Vector Integer
     LS  ==> List Symbol
-    LEI ==> List X
+    LEI ==> List EI
     LVI ==> List VI
 
     
     Exports == Join(PhysicalUnit,CoercibleTo OutputForm) with
-
-       ----------------------------
+      
+        ----------------------------
         -- (de)-construct an SI unit  
         ----------------------------
-        mksi: List(Q) -> %
-        si2l: % -> List(Q)
-
+        mksi: List(Integer) -> %
+        si2l: % -> List(Integer)
+        
         -----------------------------------------------------------------
         -- constructor for each base unit: e.g. %m(2)=m^2 -> square meter
         -----------------------------------------------------------------
-        %m   :  Q -> %
-        %kg  :  Q -> %  
-        %s   :  Q -> %
-        %A   :  Q -> %
-        %K   :  Q -> %  
-        %mol :  Q -> % 
-        %cd  :  Q -> %        
+        %m   :  Integer -> %
+        %kg  :  Integer -> %  
+        %s   :  Integer -> %
+        %A   :  Integer -> %
+        %K   :  Integer -> %  
+        %mol :  Integer -> % 
+        %cd  :  Integer -> %     
         
         -------------------
         -- SI derived units
@@ -49,7 +46,7 @@ SIunit : Exports == Implementation where
         ----------------
         -- Buckingham Pi 
         ----------------
-        buck : Table(Symbol,%) -> List(X)
+        buck : Table(Symbol,%) -> List(Expression(Integer))
            
 
 
@@ -58,34 +55,34 @@ SIunit : Exports == Implementation where
         ---------------------------------------      
         -- Represent as 1-Array [0,0,0,0,0,0,0]
         ---------------------------------------    
-        Rep := OneDimensionalArray(Q)
-
+        Rep := OneDimensionalArray(Integer)
+        
         ---------------------------------
         -- Implementation of constructors
         ---------------------------------
         
         mksi(l) == 
-          r:Rep:=new(7,0$Q)$Rep       
+          r:Rep:=new(7,0$Integer)$Rep       
           for i in 1..7 repeat r.i := l(i)
           r
           
         si2l(r) ==
-          l:List(Q):=[0,0,0,0,0,0,0]
+          l:List(Integer):=[0,0,0,0,0,0,0]
           for i in 1..7 repeat l(i) := r.i
           l
 
         x * y ==
-          z:Rep:=new(7,0$Q)$Rep
+          z:Rep:=new(7,0$Integer)$Rep
           for i in 1..7 repeat z.i := x.i + y.i
           z
           
         x / y ==
-          z:Rep:=new(7,0$Q)$Rep
+          z:Rep:=new(7,0$Integer)$Rep
           for i in 1..7 repeat z.i := x.i - y.i
           z
                     
         x ^ n ==
-          z:Rep:=new(7,0$Q)$Rep
+          z:Rep:=new(7,0$Integer)$Rep
           for i in 1..7 repeat z.i := x.i * n
           z
          
@@ -114,48 +111,69 @@ SIunit : Exports == Implementation where
         -- Base unit constructors (implementation)
         ------------------------------------------ 
                     
-        %m(n:Q) ==
+        %m(n:Integer) ==
           mksi([n,0,0,0,0,0,0]) 
 
-        %kg(n:Q) ==
+        %kg(n:Integer) ==
           mksi([0,n,0,0,0,0,0]) 
           
-        %s(n:Q) ==
+        %s(n:Integer) ==
           mksi([0,0,n,0,0,0,0])          
 
-        %A(n:Q) ==
+        %A(n:Integer) ==
           mksi([0,0,0,n,0,0,0]) 
 
-        %K(n:Q) ==
+        %K(n:Integer) ==
           mksi([0,0,0,0,n,0,0]) 
           
-        %mol(n:Q) ==
+        %mol(n:Integer) ==
           mksi([0,0,0,0,0,n,0])
           
-        %cd(n:Q) ==
+        %cd(n:Integer) ==
           mksi([0,0,0,0,0,0,n])                   
        
-        one() ==
+        %one() ==
           mksi([0,0,0,0,0,0,0])  
           
           
+        SIderived(s:String):% ==
+          s = "hertz"     => %s(-1)
+          s = "newton"    => %kg(1)*%m(1)*%s(-2)
+          s = "pascal"    => %kg(1)*%m(-1)*%s(-2)
+          s = "joule"     => %kg(1)*%m(2)*%s(-2)
+          s = "watt"      => %kg(1)*%m(2)*%s(-3)
+          s = "coulomb"   => %s(1)*%A(1)
+          s = "volt"      => %kg(1)*%m(2)*%s(-3)*%A(-1)
+          s = "farad"     => %kg(-1)*%m(-2)*%s(4)*%A(2)
+          s = "ohm"       => %kg(1)*%m(2)*%s(-3)*%A(2)
+          s = "siemens"   => %kg(-1)*%m(-2)*%s(3)*%A(2)
+          s = "weber"     => %kg(1)*%m(2)*%s(-2)*%A(-1)
+          s = "tesla"     => %kg(1)*%s(-2)*%A(-1)
+          s = "henry"     => %kg(1)*%m(2)*%s(-2)*%A(-2)
+          s = "lumen"     => %cd(1)
+          s = "lux"       => %m(-2)*%cd(1)
+          s = "becquerel" => %s(-1)
+          s = "gray"      => %m(2)*%s(-2)
+          s = "sievert"   => %m(2)*%s(-2)
+          s = "katal"     => %s(-1)*%mol(1)
+          error "Expected string name of a derived SI unit."
 
         
         -- Helper function
-        mkxpr(s:LS,v:VI):X == 
-          r:X:=1
-          for j in 1..#s repeat r:=r*(s.j)::X^(v.j)
+        mkxpr(s:LS,v:VI):EI == 
+          r:EI:=1
+          for j in 1..#s repeat r:=r*(s.j)::EI^(v.j)
           r
           
 
         -- Buckingham Pi
-        buck(t:Table(Symbol,%)):List X ==
-          M:Matrix(Q):=matrix [si2l(t.x) for x in keys(t)]
+        buck(t:Table(Symbol,%)):LEI ==
+          M:Matrix(Integer):=matrix [si2l(t.x) for x in keys(t)]
           ns:LVI:=nullSpace transpose(M)
-          r:List X:=[]
+          r:LEI:=[]
           for j in 1..#ns repeat r:=append(r,[mkxpr(keys(t),ns.j)])
           r
 
 
 
--- End of SIunit --        
+-- End of SIunit -- 
