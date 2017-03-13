@@ -20,10 +20,11 @@ PhysicalUnitSystem(u:List Symbol) : Exports == Implementation where
       baseUnits : List %
       factors : % ->  List Record(gen: BASU,exp: Integer)
     Implementation == FreeGroup(BASU) add
-      Rep:=FreeAbelianGroup(BASU) 
-      x * y == (x+y) 
-      x / y == (x-y)
-      x ^ n == (n*x) 
+      Rep:=FreeAbelianGroup(BASU)
+      sort: % -> %
+      x * y == sort(x+y) 
+      x / y == sort(x-y)
+      x ^ n == sort(n*x) 
       one() == 0$Rep
       baseSymbols() == [convert(x)@Symbol for x in enumerate$BASU]
       baseUnits() == [x::% for x in enumerate$BASU]
@@ -35,8 +36,26 @@ PhysicalUnitSystem(u:List Symbol) : Exports == Implementation where
           k:=position(g,enumerate$BASU)$List(BASU)
           d.k:=r.exp
         d
+
+      x = y == test(dim x = dim y)
       
-        
+      coerce0(x:%):OutputForm ==
+        size x = 0 => outputForm(1)
+        d:=dim(x)
+        b:=baseSymbols()
+        y:List OutputForm:=[]
+        for j in 1..#d repeat
+          if d.j=1 then y:=concat(y,outputForm(b.j))
+          else
+            if d.j~=0 then y:=concat(y,outputForm(b.j)^outputForm(d.j))
+        blankSeparate y 
+
+      sort(x:%):% ==
+        R==>Record(gen: BASU,exp: Integer)
+        f:=(a:R,b:R):Boolean+->(test(a.gen>b.gen))
+        sort(f,factors x) pretend Rep 
+
+
 -- SI:=PUSYS(['m,'kg,'s])
 -- u:=baseUnits()$SI
--- 
+-- coerce0 works as coerce, if sort then not necess.
