@@ -29,9 +29,10 @@ PhysicalUnitSystem(u:List Symbol) : Exports == Implementation where
       baseUnits() == [x::% for x in enumerate$BASU]
       dim(x) ==
         d:=[0@Integer for j in 1..#u]
-        bs:=baseSymbols()
-        for r in factors(x) repeat
-          k:=position(r.gen,bs)
+        lr:List(Record(gen:BASU,exp:Integer)):=factors(x)
+        for r in lr repeat
+          g:BASU:=r.gen
+          k:=position(g,enumerate$BASU)$List(BASU)
           d.k:=r.exp
         d
       
