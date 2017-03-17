@@ -1,0 +1,2462 @@
+% !! DO NOT MODIFY THIS FILE BY HAND !! Created by spool2tex.awk.
+
+% Copyright (c) 1991-2002, The Numerical ALgorithms Group Ltd.
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are
+% met:
+%
+%     - Redistributions of source code must retain the above copyright
+%       notice, this list of conditions and the following disclaimer.
+%
+%     - Redistributions in binary form must reproduce the above copyright
+%       notice, this list of conditions and the following disclaimer in
+%       the documentation and/or other materials provided with the
+%       distribution.
+%
+%     - Neither the name of The Numerical ALgorithms Group Ltd. nor the
+%       names of its contributors may be used to endorse or promote products
+%       derived from this software without specific prior written permission.
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+% IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+% TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+% PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+% OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+% EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+% PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES-- LOSS OF USE, DATA, OR
+% PROFITS-- OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+% LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+% NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+% SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+% *********************************************************************
+\head{chapter}{Introduction to the \Language{} Interactive Language}{ugLang}
+% *********************************************************************
+
+In this chapter we look at some of the basic components of the
+\Language{} language that you can use interactively.
+We show how to create a \spadgloss{block} of expressions,
+how to form loops and list iterations, how to modify the sequential
+evaluation of a block and how to use {\tt if-then-else} to
+evaluate parts of your program conditionally.
+We suggest you first read the boxed material in each section and then
+proceed to a more thorough reading of the chapter.
+
+% *********************************************************************
+\head{section}{Immediate and Delayed Assignments}{ugLangAssign}
+% *********************************************************************
+
+A \spadgloss{variable} in \Language{} refers to a value.
+A variable has a name beginning with an uppercase or lowercase alphabetic
+character, \spadSyntax{%}, or \spadSyntax{!}.
+Successive characters (if any) can be any of the above, digits, or
+\spadSyntax{?}.
+Case is distinguished.
+The following are all examples of valid, distinct variable names:
+\begin{verbatim}
+a             tooBig?    a1B2c3%!?
+A             %j         numberOfPoints
+beta6         %J         numberofpoints
+\end{verbatim}
+
+The \spadSyntax{:=} operator is the immediate \spadgloss{assignment}
+operator.
+\index{assignment!immediate}
+Use it to associate a value with a variable.
+\index{immediate assignment}
+
+\beginImportant
+The syntax for immediate assignment for a single variable is
+\begin{center}
+{\it variable} \spad{:=} {\it expression}
+\end{center}
+The value returned by an immediate assignment is the value of {\it expression}.
+\endImportant
+
+\begin{xtc}
+\begin{xtccomment}
+The right-hand side of the expression is evaluated,
+yielding \spad{1}.  This value is then assigned to \spad{a}.
+\end{xtccomment}
+\begin{spadsrc}
+a := 1 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The right-hand side of the expression is evaluated,
+yielding \spad{1}.  This value is then assigned to \spad{b}.
+Thus \spad{a} and \spad{b} both have the value \spad{1} after the sequence
+of assignments.
+\end{xtccomment}
+\begin{spadsrc}
+b := a 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+What is the value of \spad{b} if \spad{a} is
+assigned the value \spad{2}?
+\end{xtccomment}
+\begin{spadsrc}
+a := 2 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+2%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+As you see, the value of \spad{b} is left unchanged.
+\end{xtccomment}
+\begin{spadsrc}
+b 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+This is what we mean when we say this kind of assignment is
+{\it immediate};
+\spad{b} has no dependency on \spad{a} after the initial assignment.
+This is the usual notion of assignment found in programming
+languages such as C,
+\index{C language!assignment}
+PASCAL
+\index{PASCAL!assignment}
+and FORTRAN.
+\index{FORTRAN!assignment}
+
+\Language{} provides delayed assignment with \spadSyntax{==}.
+\index{assignment!delayed}
+This implements a
+\index{delayed assignment}
+delayed evaluation of the right-hand side and dependency
+checking.
+
+\beginImportant
+The syntax for delayed assignment is
+\begin{center}
+{\it variable} \spad{==} {\it expression}
+\end{center}
+The value returned by a delayed assignment is \void{}.
+\endImportant
+
+\begin{xtc}
+\begin{xtccomment}
+Using \spad{a} and \spad{b} as above, these are the corresponding delayed
+assignments.
+\end{xtccomment}
+\begin{spadsrc}
+a == 1 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+b == a 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The right-hand side of each delayed assignment
+is left unevaluated until the
+variables on the left-hand sides are evaluated.
+Therefore this evaluation and \ldots
+\end{xtccomment}
+\begin{spadsrc}
+a 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling body of rule a to compute value of type PositiveInteger 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+this evaluation seem the same as before.
+\end{xtccomment}
+\begin{spadsrc}
+b 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling body of rule b to compute value of type PositiveInteger 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+If we change \spad{a} to \spad{2}
+\end{xtccomment}
+\begin{spadsrc}
+a == 2 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiled code for a has been cleared.
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiled code for b has been cleared.
+\end{MessageOutput}
+\begin{MessageOutput}
+   1 old definition(s) deleted for function or rule a 
+\end{MessageOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+then
+\spad{a} evaluates to \spad{2}, as expected, but
+\end{xtccomment}
+\begin{spadsrc}
+a 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling body of rule a to compute value of type PositiveInteger 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+2%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+the value of \spad{b} reflects the change to \spad{a}.
+\end{xtccomment}
+\begin{spadsrc}
+b 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling body of rule b to compute value of type PositiveInteger 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+2%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+It is possible to set several variables at the same time
+\index{assignment!multiple immediate}
+by using
+\index{multiple immediate assignment}
+a \spadgloss{tuple} of variables and a tuple of expressions.\footnote{A
+\spadgloss{tuple} is a collection of things separated by commas, often
+surrounded by parentheses.}
+
+% ----------------------------------------------------------------------
+\beginImportant
+The syntax for multiple immediate assignments is
+\begin{center}
+{\tt ( \subscriptIt{var}{1}, \subscriptIt{var}{2}, \ldots, \subscriptIt{var}{N} ) := ( \subscriptIt{expr}{1}, \subscriptIt{expr}{2}, \ldots, \subscriptIt{expr}{N} ) }
+\end{center}
+The value returned by an immediate assignment is the value of
+\subscriptIt{expr}{N}.
+\endImportant
+% ----------------------------------------------------------------------
+
+\begin{xtc}
+\begin{xtccomment}
+This sets \spad{x} to \spad{1} and \spad{y} to \spad{2}.
+\end{xtccomment}
+\begin{spadsrc}
+(x,y) := (1,2) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+2%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+Multiple immediate assigments are parallel in the sense that the
+expressions on the right are all evaluated before any assignments
+on the left are made.
+However, the order of evaluation of these expressions is undefined.
+\begin{xtc}
+\begin{xtccomment}
+You can use multiple immediate assignment to swap the
+values held by variables.
+\end{xtccomment}
+\begin{spadsrc}
+(x,y) := (y,x) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{13}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\spad{x} has the previous value of \spad{y}.
+\end{xtccomment}
+\begin{spadsrc}
+x 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{14}
+2%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\spad{y} has the previous value of \spad{x}.
+\end{xtccomment}
+\begin{spadsrc}
+y 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{15}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+There is no syntactic form for multiple delayed assignments.
+See the discussion in
+\spadref{ugUserDelay}
+about how \Language{} differentiates between delayed assignments and
+user functions of no arguments.
+
+% *********************************************************************
+\head{section}{Blocks}{ugLangBlocks}
+% *********************************************************************
+
+%%
+%% We should handle tabs in pile correctly but so far we do not.
+%%
+
+A \spadgloss{block} is a sequence of expressions evaluated
+in the order that they appear, except as modified by control expressions
+such as \spad{break},
+\spadkey{break}
+\spad{return},
+\spadkey{return}
+\spad{iterate} and
+\spadkey{iterate}
+\spad{if-then-else} constructions.
+The value of a block is the value of the expression last evaluated
+in the block.
+
+To leave a block early, use \spadSyntax{=>}.
+For example, \spad{i < 0 => x}.
+The expression before the \spadSyntax{=>} must evaluate to
+\spad{true} or \spad{false}.
+The expression following the \spadSyntax{=>} is the return value
+for the block.
+
+A block can be constructed in two ways:
+\begin{enumerate}
+\item the expressions can be separated by semicolons
+and the resulting expression surrounded by parentheses, and
+\item the expressions can be written on succeeding lines with each line
+indented the same number of spaces (which must be greater than zero).
+\index{indentation}
+A block entered in this form is
+called a \spadgloss{pile}.
+\end{enumerate}
+Only the first form is available if you are entering expressions
+directly to \Language{}.
+Both forms are available in {\bf .input} files.
+
+\beginImportant
+The syntax for a simple block of expressions entered interactively is
+\begin{center}
+{\tt ( \subscriptIt{expression}{1}; \subscriptIt{expression}{2}; \ldots; \subscriptIt{expression}{N} )}
+\end{center}
+The value returned by a block is the value of an
+\spadSyntax{=>} expression, or \subscriptIt{expression}{N}
+if no \spadSyntax{=>} is encountered.
+\endImportant
+
+In {\bf .input} files, blocks can also be written using
+\spadglossSee{piles}{pile}.
+The examples throughout this book are assumed to come from {\bf .input} files.
+
+\begin{xtc}
+\begin{xtccomment}
+In this example, we assign a rational number to \spad{a} using a block
+consisting of three expressions.
+This block is written as a pile.
+Each expression in the pile has the same indentation, in this case two
+spaces to the right of the first line.
+\end{xtccomment}
+\begin{spadsrc}
+a :=
+  i := gcd(234,672)
+  i := 3*i^5 - i + 1
+  1 / i
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\frac{1}{23323}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here is the same block written on one line.
+This is how you are required to enter it at the input prompt.
+\end{xtccomment}
+\begin{spadsrc}
+a := (i := gcd(234,672); i := 3*i^5 - i + 1; 1 / i)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\frac{1}{23323}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Blocks can be used to put several expressions on one line.
+The value returned is that of the last expression.
+\end{xtccomment}
+\begin{spadsrc}
+(a := 1; b := 2; c := 3; [a,b,c]) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\BRACKET{1\COMMA 2\COMMA 3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(PositiveInteger)}
+\end{xtc}
+
+\Language{} gives you two ways of writing a block and the
+preferred way in an {\bf .input} file is to use a pile.
+\index{file!input}
+Roughly speaking, a pile is
+a block whose constituent expressions are indented the same amount.
+You begin a pile by starting a new line for the first expression,
+indenting it to the right of the previous line.
+You then enter the second expression on a new line, vertically aligning
+it with the first line. And so on.
+If you need to enter an inner pile, further indent its lines to the right
+of the outer pile.
+\Language{} knows where a pile ends.
+It ends when a subsequent line is indented to the left of the pile or
+the end of the file.
+
+\begin{xtc}
+\begin{xtccomment}
+Blocks can be used to perform several steps before an assignment
+(immediate or delayed) is made.
+\end{xtccomment}
+\begin{spadsrc}
+d :=
+   c := a^2 + b^2
+   sqrt(c * 1.3)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\STRING{2.549509756796392415}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Blocks can be used in the arguments to functions.
+(Here \spad{h} is assigned \spad{2.1 + 3.5}.)
+\end{xtccomment}
+\begin{spadsrc}
+h := 2.1 +
+   1.0
+   3.5
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\STRING{5.6}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here the second argument to \spadfun{eval} is \spad{x = z}, where
+the value of \spad{z} is computed in the first line of the block
+starting on the second line.
+\end{xtccomment}
+\begin{spadsrc}
+eval(x^2 - x*y^2,
+     z := %pi/2.0 - exp(4.1)
+     x = z
+   )
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\STRING{58.769491270567072878}\TIMES \SUPER{\SYMBOL{y}}{2}+\STRING{%
+3453.853104201259382}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Float)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Blocks can be used in the clauses of \spad{if-then-else}
+expressions (see \spadref{ugLangIf}).
+\end{xtccomment}
+\begin{spadsrc}
+if h > 3.1 then 1.0 else (z := cos(h); max(z,0.5)) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\STRING{1.0}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is the pile version of the last block.
+\end{xtccomment}
+\begin{spadsrc}
+if h > 3.1 then
+    1.0
+  else
+    z := cos(h)
+    max(z,0.5)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+\STRING{1.0}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Blocks can be nested.
+\end{xtccomment}
+\begin{spadsrc}
+a := (b := factorial(12); c := (d := eulerPhi(22); factorial(d));b+c)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+482630400%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is the pile version of the last block.
+\end{xtccomment}
+\begin{spadsrc}
+a :=
+  b := factorial(12)
+  c :=
+    d := eulerPhi(22)
+    factorial(d)
+  b+c
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+482630400%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+\begin{xtc}
+\begin{xtccomment}
+Since \spad{c + d} does equal \spad{3628855}, \spad{a} has the value
+of \spad{c} and the last line is never evaluated.
+\end{xtccomment}
+\begin{spadsrc}
+a :=
+  c := factorial 10
+  d := fibonacci 10
+  c + d = 3628855 => c
+  d
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+3628800%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{if-then-else}{ugLangIf}
+% *********************************************************************
+
+Like many other programming languages, \Language{} uses the three
+% Remark: following strangeness with \spadkey is because \spadkey
+% only creates an index term. Multiple sequential index macros without
+% intervening text cause starnge spaces in the text.
+keywords \spadkey{if} \spad{if, then} \spadkey{then} and \spad{else}
+\spadkey{else} to form
+\index{conditional}
+conditional expressions.
+The \spad{else} part of the conditional is optional.
+The expression between the \spad{if} and \spad{then} keywords
+is a
+\spadgloss{predicate}: an expression that evaluates to or is convertible to
+either {\tt true} or {\tt false}, that is,
+a \spadtype{Boolean}.
+\exptypeindex{Boolean}
+
+% ----------------------------------------------------------------------
+\beginImportant
+The syntax for conditional expressions is
+\begin{center}
+{\tt if {\it predicate} then \subscriptIt{expression}{1} else \subscriptIt{expression}{2}}
+\end{center}
+where the \spad{else} \subscriptIt{\it expression}{2} part is optional.
+The value returned from a conditional expression is
+\subscriptIt{\it expression}{1} if the predicate evaluates to \spad{true}
+and \subscriptIt{\it expression}{2} otherwise.
+If no \spad{else} clause is given, the value is always \void{}.
+\endImportant
+% ----------------------------------------------------------------------
+
+An \spad{if-then-else} expression always returns a value.
+If the
+\spad{else} clause is missing then the entire expression returns
+\void{}.
+If both clauses are present, the type of the value returned by \spad{if}
+is obtained by resolving the types of the values of the two clauses.
+See \spadref{ugTypesResolve}
+for more information.
+
+The predicate must evaluate to, or be convertible to, an object of type
+\spadtype{Boolean}: {\tt true} or {\tt false}.
+By default, the equal sign \spadopFrom{=}{Equation} creates
+\index{equation}
+an equation.
+
+\begin{xtc}
+\begin{xtccomment}
+This is an equation.
+\exptypeindex{Equation}
+In particular, it is an object of type \spadtype{Equation Polynomial Integer}.
+\end{xtccomment}
+\begin{spadsrc}
+x + 1 = y
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\SYMBOL{x}+1=\SYMBOL{y}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Equation(Polynomial(Integer))}
+\end{xtc}
+However, for predicates in \spad{if} expressions, \Language{}
+\index{equality testing}
+places a default target type of \spadtype{Boolean} on the
+predicate and equality testing is performed.
+Thus you need not qualify the \spadSyntax{=} in any way.
+In other contexts you may need to tell \Language{} that you want
+to test for equality rather than create an equation.
+In those cases, use \spadSyntax{@} and a target type of
+\spadtype{Boolean}.
+See \spadref{ugTypesPkgCall} for more information.
+
+The compound symbol meaning ``not equal'' in \Language{} is
+\index{inequality testing}
+\spadop{~=}.
+This can be used directly without a package call or a target specification.
+The expression
+\spad{a ~= b} is directly translated into
+\spad{not (a = b)}.
+
+Many other functions have return values of type \spadtype{Boolean}.
+These include \spadop{<}, \spadop{<=}, \spadop{>},
+\spadop{>=}, \spadop{~=} and \spad{member?}.
+By convention, operations with names ending in \spadSyntax{?}
+return \spadtype{Boolean} values.
+
+The usual rules for piles are suspended for conditional expressions.
+In {\bf .input} files, the \spad{then} and
+\spad{else} keywords can begin in the same column as the corresponding
+\spad{if} but may also appear to the right.
+Each of the following styles of writing \spad{if-then-else}
+expressions is acceptable:
+\begin{verbatim}
+if i>0 then output("positive") else output("nonpositive")
+
+if i > 0 then output("positive")
+  else output("nonpositive")
+
+if i > 0 then output("positive")
+else output("nonpositive")
+
+if i > 0
+then output("positive")
+else output("nonpositive")
+
+if i > 0
+  then output("positive")
+  else output("nonpositive")
+\end{verbatim}
+
+A block can follow the \spad{then} or \spad{else} keywords.
+In the following two assignments to \spad{a}, the \spad{then} and \spad{else}
+clauses each are followed by two-line piles.
+The value returned in each is the value of the second line.
+
+\begin{verbatim}
+a :=
+  if i > 0 then
+    j := sin(i * pi())
+    exp(j + 1/j)
+  else
+    j := cos(i * 0.5 * pi())
+    log(abs(j)^5 + 1)
+
+a :=
+  if i > 0
+    then
+      j := sin(i * pi())
+      exp(j + 1/j)
+    else
+      j := cos(i * 0.5 * pi())
+      log(abs(j)^5 + 1)
+\end{verbatim}
+These are both equivalent to the following:
+\begin{verbatim}
+a :=
+  if i > 0 then (j := sin(i * pi()); exp(j + 1/j))
+  else (j := cos(i * 0.5 * pi()); log(abs(j)^5 + 1))
+\end{verbatim}
+
+% *********************************************************************
+\head{section}{Loops}{ugLangLoops}
+% *********************************************************************
+
+A \spadgloss{loop} is an expression that contains another expression,
+\index{loop}
+called the {\it loop body}, which is to be evaluated zero or more
+\index{loop!body}
+times.
+All loops contain the \spad{repeat} keyword and return \void{}.
+Loops can contain inner loops to any depth.
+
+\beginImportant
+The most basic loop is of the form
+\begin{center}
+\spad{repeat} {\it loopBody}
+\end{center}
+Unless {\it loopBody} contains a \spad{break} or \spad{return} expression,
+the loop repeats forever.
+The value returned by the loop is \void{}.
+\endImportant
+
+% *********************************************************************
+\head{subsection}{Compiling vs. Interpreting Loops}{ugLangLoopsCompInt}
+% *********************************************************************
+
+\Language{} tries to determine completely the type of every
+object in a loop and then to translate the loop body to LISP or even to
+machine code.
+This translation is called \spadglossSee{compilation}{compiler}.
+
+If \Language{} decides that it cannot compile the loop, it issues a
+\index{loop!compilation}
+message stating the problem and then the following message:
+%
+\begin{center}
+{\bf We will attempt to step through and interpret the code.}
+\end{center}
+%
+It is still possible that \Language{} can evaluate the loop but in
+\spadgloss{interpret-code mode}.
+See \spadref{ugUserCompInt} where this is discussed in terms
+\index{panic!avoiding}
+of compiling versus interpreting functions.
+
+% *********************************************************************
+\head{subsection}{return in Loops}{ugLangLoopsReturn}
+% *********************************************************************
+
+A \spad{return} expression is used to exit a function with
+\index{loop!leaving via return}
+a particular value.
+In particular, if a \spad{return} is in a loop within the
+\spadkey{return}
+function, the loop is terminated whenever the \spad{return}
+is evaluated.
+%> This is a bug! The compiler should never accept allow
+%> Void to be the return type of a function when it has to use
+%> resolve to determine it.
+\begin{xtc}
+\begin{xtccomment}
+Suppose we start with this.
+\end{xtccomment}
+\begin{spadsrc}
+f() ==
+  i := 1
+  repeat
+    if factorial(i) > 1000 then return i
+    i := i + 1
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+When \spad{factorial(i)} is big enough, control passes from
+inside the loop all the way outside the function, returning the
+value of \spad{i} (or so we think).
+\end{xtccomment}
+\begin{spadsrc}
+f() 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function f with type () -> Void 
+\end{MessageOutput}
+\end{xtc}
+
+What went wrong?
+Isn't it obvious that this function should return an integer?
+Well, \Language{} makes no attempt to analyze the structure of a
+loop to determine if it always returns a value because, in
+general, this is impossible.
+So \Language{} has this simple rule: the type of the function is
+determined by the type of its body, in this case a block.
+The normal value of a block is the value of its last expression,
+in this case, a loop.
+And the value of every loop is \void{}!
+So the return type of \userfun{f} is \spadtype{Void}.
+
+There are two ways to fix this.
+The best way is for you to tell \Language{} what the return type
+of \spad{f} is.
+You do this by giving \spad{f} a declaration \spad{f: () -> Integer}
+prior to calling for its value.
+This tells \Language{}: ``trust me---an integer is returned.''
+We'll explain more about this in the next chapter.
+Another clumsy way is to add a dummy expression as follows.
+
+\begin{xtc}
+\begin{xtccomment}
+Since we want an integer, let's stick in a dummy final expression that is
+an integer and will never be evaluated.
+\end{xtccomment}
+\begin{spadsrc}
+f() ==
+  i := 1
+  repeat
+    if factorial(i) > 1000 then return i
+    i := i + 1
+  0
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiled code for f has been cleared.
+\end{MessageOutput}
+\begin{MessageOutput}
+   1 old definition(s) deleted for function or rule f 
+\end{MessageOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+When we try \userfun{f} again we get what we wanted.
+See
+\spadref{ugUserBlocks}
+for more information.
+\end{xtccomment}
+\begin{spadsrc}
+f() 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function f with type () -> NonNegativeInteger 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+7%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{break in Loops}{ugLangLoopsBreak}
+% *********************************************************************
+
+The \spad{break} keyword is often more useful
+\spadkey{break}
+in terminating
+\index{loop!leaving via break}
+a loop.
+%>  and more in keeping with the ideas of structured programming.
+A \spad{break} causes control to transfer to the expression
+immediately following the loop.
+As loops always return \void{},
+you cannot return a value with \spad{break}.
+That is, \spad{break} takes no argument.
+
+\begin{xtc}
+\begin{xtccomment}
+This example is a modification of the last example in
+the previous section.
+Instead of using \spad{return}, we'll use \spad{break}.
+\end{xtccomment}
+\begin{spadsrc}
+f() ==
+  i := 1
+  repeat
+    if factorial(i) > 1000 then break
+    i := i + 1
+  i
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The loop terminates when \spad{factorial(i)} gets big enough,
+the last line of the function evaluates to the corresponding ``good''
+value of \spad{i}, and the function terminates, returning that value.
+\end{xtccomment}
+\begin{spadsrc}
+f() 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function f with type () -> PositiveInteger 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+7%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can only use \spad{break} to terminate the evaluation of one loop.
+Let's consider a loop within a loop, that is, a loop with a nested loop.
+First, we initialize two counter variables.
+\end{xtccomment}
+\begin{spadsrc}
+(i,j) := (1, 1) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Nested loops must have multiple \spad{break}
+\index{loop!nested}
+expressions at the appropriate nesting level.
+How would you rewrite this so \spad{(i + j) > 10} is only evaluated once?
+\end{xtccomment}
+\begin{spadsrc}
+repeat
+  repeat
+    if (i + j) > 10 then break
+    j := j + 1
+  if (i + j) > 10 then break
+  i := i + 1
+\end{spadsrc}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{break vs. {\tt =>} in Loop Bodies}{ugLangLoopsBreakVs}
+% *********************************************************************
+
+Compare the following two loops:
+
+\begin{verbatim}
+i := 1                            i := 1
+repeat                            repeat
+  i := i + 1                        i := i + 1
+  i > 3 => i                        if i > 3 then break
+  output(i)                         output(i)
+\end{verbatim}
+
+In the example on the left, the values
+\mathOrSpad{2} and \mathOrSpad{3} for \spad{i} are displayed
+but then the \spadSyntax{=>} does not allow control to reach the call to
+\spadfunFrom{output}{OutputForm} again.
+The loop will not terminate
+until you run out of space or interrupt the execution.
+The variable \spad{i} will continue to be incremented because
+the \spadSyntax{=>} only means to leave the {\it block,} not the loop.
+
+In the example on the right,
+upon reaching \mathOrSpad{4}, the \spad{break} will be
+executed, and both the block and the loop will terminate.
+This is one of the reasons why both \spadSyntax{=>} and \spad{break} are
+provided.
+Using a \spad{while} clause (see below) with the \spadSyntax{=>}
+\spadkey{while}
+lets you simulate the action of \spad{break}.
+
+% *********************************************************************
+\head{subsection}{More Examples of break}{ugLangLoopsBreakMore}
+% *********************************************************************
+
+Here we give four examples of \spad{repeat} loops that
+terminate when a value exceeds a given bound.
+
+\vskip 1pc
+\begin{xtc}
+\begin{xtccomment}
+First, initialize \spad{i} as the loop counter.
+\end{xtccomment}
+\begin{spadsrc}
+i := 0 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+0%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{NonNegativeInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here is the first loop.
+When the square of \spad{i} exceeds \spad{100}, the loop terminates.
+\end{xtccomment}
+\begin{spadsrc}
+repeat
+  i := i + 1
+  if i^2 > 100 then break
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Upon completion, \spad{i} should have the value \spad{11}.
+\end{xtccomment}
+\begin{spadsrc}
+i 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+11%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{NonNegativeInteger}
+\end{xtc}
+%
+%
+\begin{xtc}
+\begin{xtccomment}
+Do the same thing except use \spadSyntax{=>} instead
+an \spad{if-then} expression.
+\end{xtccomment}
+\begin{spadsrc}
+i := 0 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+0%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{NonNegativeInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+repeat
+  i := i + 1
+  i^2 > 100 => break
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+i 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+11%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{NonNegativeInteger}
+\end{xtc}
+%
+%
+\begin{xtc}
+\begin{xtccomment}
+As a third example, we use a simple loop to compute \spad{n!}.
+\end{xtccomment}
+\begin{spadsrc}
+(n, i, f) := (100, 1, 1) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Use \spad{i} as the iteration variable and \spad{f}
+to compute the factorial.
+\end{xtccomment}
+\begin{spadsrc}
+repeat
+  if i > n then break
+  f := f * i
+  i := i + 1
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Look at the value of \spad{f}.
+\end{xtccomment}
+\begin{spadsrc}
+f 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+93326215443944152681 69923885626670049071 59682643816214685929 63895217599993229915 60894146397615651828 62536979208272237582 51185210916864000000 000000000000000000%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+%
+%
+\begin{xtc}
+\begin{xtccomment}
+Finally, we show an example of nested loops.
+First define a four by four matrix.
+\end{xtccomment}
+\begin{spadsrc}
+m := matrix [[21,37,53,14], [8,-24,22,-16], [2,10,15,14], [26,33,55,-13]] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\begin{MATRIX}{4}21&37&53&14\\8&-{24}&22&-{16}\\2&10&15&14\\26&33&55&-{13}%
+\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Next, set row counter \spad{r} and column counter \spad{c} to
+\mathOrSpad{1}.
+Note: if we were writing a function, these would all be local
+variables rather than global workspace variables.
+\end{xtccomment}
+\begin{spadsrc}
+(r, c) := (1, 1) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Also, let \spad{lastrow} and
+\spad{lastcol} be the final row and column index.
+\end{xtccomment}
+\begin{spadsrc}
+(lastrow, lastcol) := (nrows(m), ncols(m)) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+4%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+Scan the rows looking for the first negative element.
+We remark that you can reformulate this example in a better, more
+concise form by using a \spad{for} clause with \spad{repeat}.
+See
+\spadref{ugLangLoopsForIn}
+for more information.
+\end{xtccomment}
+\begin{spadsrc}
+repeat
+  if r > lastrow then break
+  c := 1
+  repeat
+    if c > lastcol then break
+    if elt(m,r,c) < 0 then
+      output [r, c, elt(m,r,c)]
+      r := lastrow
+      break     -- don't look any further
+    c := c + 1
+  r := r + 1
+\end{spadsrc}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{iterate in Loops}{ugLangLoopsIterate}
+% *********************************************************************
+
+\Language{} provides an \spad{iterate} expression that
+\spadkey{iterate}
+skips over the remainder of a loop body and starts the next loop iteration.
+\begin{xtc}
+\begin{xtccomment}
+We first initialize a counter.
+\end{xtccomment}
+\begin{spadsrc}
+i := 0 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+0%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{NonNegativeInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Display the even integers from \spad{2} to \spad{5}.
+\end{xtccomment}
+\begin{spadsrc}
+repeat
+  i := i + 1
+  if i > 5 then break
+  if odd?(i) then iterate
+  output(i)
+\end{spadsrc}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{while Loops}{ugLangLoopsWhile}
+% *********************************************************************
+
+The \spad{repeat} in a loop can be modified by adding one or
+more \spad{while} clauses.
+\spadkey{while}
+Each clause contains a \spadgloss{predicate}
+immediately following the \spad{while} keyword.
+The predicate is tested {\it before}
+the evaluation of the body of the loop.
+The loop body is evaluated whenever the predicates in a \spad{while}
+clause are all \spad{true}.
+
+\beginImportant
+The syntax for a simple loop using \spad{while} is
+\begin{center}
+\spad{while} {\it predicate} \spad{repeat} {\it loopBody}
+\end{center}
+The {\it predicate} is evaluated before {\it loopBody} is evaluated.
+A \spad{while} loop terminates immediately when {\it predicate}
+evaluates to \spad{false} or when a \spad{break} or \spad{return}
+expression is evaluated in {\it loopBody}.
+The value returned by the loop is \void{}.
+\endImportant
+
+\begin{xtc}
+\begin{xtccomment}
+Here is a simple example of using \spad{while} in a loop.
+We first initialize the counter.
+\end{xtccomment}
+\begin{spadsrc}
+i := 1 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The steps involved in computing this example are
+(1) set \spad{i} to \spad{1}, (2) test the condition \spad{i < 1} and
+determine that it is not true, and (3) do not evaluate the
+loop body and therefore do not display \spad{"hello"}.
+\end{xtccomment}
+\begin{spadsrc}
+while i < 1 repeat
+  output "hello"
+  i := i + 1
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+If you have multiple predicates to be tested use the
+logical \spad{and} operation to separate them.
+\Language{} evaluates these predicates from left to right.
+\end{xtccomment}
+\begin{spadsrc}
+(x, y) := (1, 1) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+while x < 4 and y < 10 repeat
+  output [x,y]
+  x := x + 1
+  y := y + 2
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+A \spad{break} expression can be included in a loop body to terminate a
+loop even if the predicate in any \spad{while} clauses are not \spad{false}.
+\end{xtccomment}
+\begin{spadsrc}
+(x, y) := (1, 1) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This loop has multiple \spad{while} clauses and the loop terminates
+before any one of their conditions evaluates to \spad{false}.
+\end{xtccomment}
+\begin{spadsrc}
+while x < 4 while y < 10 repeat
+  if x + y > 7 then break
+  output [x,y]
+  x := x + 1
+  y := y + 2
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here's a different version of the nested loops that looked
+for the first negative element in a matrix.
+\end{xtccomment}
+\begin{spadsrc}
+m := matrix [[21,37,53,14], [8,-24,22,-16], [2,10,15,14], [26,33,55,-13]] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\begin{MATRIX}{4}21&37&53&14\\8&-{24}&22&-{16}\\2&10&15&14\\26&33&55&-{13}%
+\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Initialized the row index to \spad{1} and
+get the number of rows and columns.
+If we were writing a function, these would all be
+local variables.
+\end{xtccomment}
+\begin{spadsrc}
+r := 1 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+(lastrow, lastcol) := (nrows(m), ncols(m)) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+4%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+Scan the rows looking for the first negative element.
+\end{xtccomment}
+\begin{spadsrc}
+while r <= lastrow repeat
+  c := 1  -- index of first column
+  while c <= lastcol repeat
+    if elt(m,r,c) < 0 then
+      output [r, c, elt(m,r,c)]
+      r := lastrow
+      break     -- don't look any further
+    c := c + 1
+  r := r + 1
+\end{spadsrc}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{for Loops}{ugLangLoopsForIn}
+% *********************************************************************
+
+\Language{} provides the \spad{for}
+\spadkey{for}
+and \spad{in}
+\spadkey{in}
+keywords in \spad{repeat} loops,
+allowing you to iterate across all
+\index{iteration}
+elements of a list, or to have a variable take on integral values
+from a lower bound to an upper bound.
+We shall refer to these modifying clauses of \spad{repeat} loops as
+\spad{for} clauses.
+These clauses can be present in addition to \spad{while} clauses.
+As with all other types of \spad{repeat} loops, \spad{break} can
+\spadkey{break}
+be used to prematurely terminate the evaluation of the loop.
+
+\beginImportant
+The syntax for a simple loop using \spad{for} is
+\begin{center}
+\spad{for} {\it iterator} \spad{repeat} {\it loopBody}
+\end{center}
+The {\it iterator} has several forms.
+Each form has an end test which is evaluated
+before {\it loopBody} is evaluated.
+A \spad{for} loop terminates immediately when the end test
+succeeds (evaluates to \spad{true}) or when a \spad{break} or \spad{return}
+expression is evaluated in {\it loopBody}.
+The value returned by the loop is \void{}.
+\endImportant
+
+% *********************************************************************
+\head{subsection}{for i in n..m repeat}{ugLangLoopsForInNM}
+% *********************************************************************
+
+If \spad{for}
+\spadkey{for}
+is followed by a variable name, the \spad{in}
+\spadkey{in}
+keyword and then an integer segment of the form \spad{n..m},
+\index{segment}
+the end test for this loop is the predicate \spad{i > m}.
+The body of the loop is evaluated \spad{m-n+1} times if this
+number is greater than 0.
+If this number is less than or equal to 0, the loop body is not evaluated
+at all.
+
+The variable \spad{i} has the value
+\spad{n, n+1, ..., m} for successive iterations
+of the loop body.
+The loop variable is a \spadgloss{local variable}
+within the loop body: its value is not available outside the loop body
+and its value and type within the loop body completely mask any outer
+definition of a variable with the same name.
+
+%
+\begin{xtc}
+\begin{xtccomment}
+This loop prints the values of
+${10}^3$, ${11}^3$, and $12^3$:
+\end{xtccomment}
+\begin{spadsrc}
+for i in 10..12 repeat output(i^3)
+\end{spadsrc}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+Here is a sample list.
+\end{xtccomment}
+\begin{spadsrc}
+a := [1,2,3] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\BRACKET{1\COMMA 2\COMMA 3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(PositiveInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Iterate across this list, using \spadSyntax{.} to access the elements of a list and
+the \spadop{#} operation to count its elements.
+\end{xtccomment}
+\begin{spadsrc}
+for i in 1..#a repeat output(a.i) 
+\end{spadsrc}
+\end{xtc}
+%
+This type of iteration is applicable to anything that uses \spadSyntax{.}.
+You can also use it with functions that use indices to extract elements.
+%
+\begin{xtc}
+\begin{xtccomment}
+Define \spad{m} to be a matrix.
+\end{xtccomment}
+\begin{spadsrc}
+m := matrix [[1,2],[4,3],[9,0]] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\begin{MATRIX}{2}1&2\\4&3\\9&0\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(NonNegativeInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Display the rows of \spad{m}.
+\end{xtccomment}
+\begin{spadsrc}
+for i in 1..nrows(m) repeat output row(m,i) 
+\end{spadsrc}
+\end{xtc}
+%
+You can use \spad{iterate} with \spad{for}-loops.
+\spadkey{iterate}
+\begin{xtc}
+\begin{xtccomment}
+Display the even integers in a segment.
+\end{xtccomment}
+\begin{spadsrc}
+for i in 1..5 repeat
+  if odd?(i) then iterate
+  output(i)
+\end{spadsrc}
+\end{xtc}
+
+See \xmpref{Segment} for more information about segments.
+
+% *********************************************************************
+\head{subsection}{for i in n..m by s repeat}{ugLangLoopsForInNMS}
+% *********************************************************************
+
+By default, the difference between values taken on by a variable in loops
+such as \spad{for i in n..m repeat ...} is \mathOrSpad{1}.
+It is possible to supply another, possibly negative, step value by using
+the \spad{by}
+\spadkey{by}
+keyword along with \spad{for} and \spad{in}.
+Like the upper and lower bounds, the step value following the
+\spad{by} keyword must be an integer.
+Note that the loop
+\spad{for i in 1..2 by 0 repeat output(i)}
+will not terminate by itself, as the step value does not change the index
+from its initial value of \mathOrSpad{1}.
+
+\begin{xtc}
+\begin{xtccomment}
+This expression displays the odd integers between two bounds.
+\end{xtccomment}
+\begin{spadsrc}
+for i in 1..5 by 2 repeat output(i)
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Use this to display the numbers in reverse order.
+\end{xtccomment}
+\begin{spadsrc}
+for i in 5..1 by -2 repeat output(i)
+\end{spadsrc}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{for i in n.. repeat}{ugLangLoopsForInN}
+% *********************************************************************
+
+If the value after the \spadSyntax{..}
+is omitted, the loop has no end test.
+A potentially infinite loop is thus created.
+The variable is given the successive values \spad{n, n+1, n+2, ...}
+and the loop is terminated only if a \spad{break} or \spad{return}
+expression is evaluated in the loop body.
+However you may also add some other modifying clause on the
+\spad{repeat} (for example, a \spad{while} clause) to stop the loop.
+
+\begin{xtc}
+\begin{xtccomment}
+This loop displays the integers greater than or equal to \spad{15}
+and less than the first prime greater than \spad{15}.
+\end{xtccomment}
+\begin{spadsrc}
+for i in 15.. while not prime?(i) repeat output(i)
+\end{spadsrc}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{for x in l repeat}{ugLangLoopsForInXL}
+% *********************************************************************
+
+Another variant of the \spad{for} loop has the form:
+\begin{center}
+{\it \spad{for} x \spad{in} list \spad{repeat} loopBody}
+\end{center}
+This form is used when you want to iterate directly over the
+elements of a list.
+In this form of the \spad{for} loop, the variable
+\spad{x} takes on the value of each successive element in \spad{l}.
+The end test is most simply stated in English: ``are there no more
+\spad{x} in \spad{l}?''
+
+\begin{xtc}
+\begin{xtccomment}
+If \spad{l} is this list,
+\end{xtccomment}
+\begin{spadsrc}
+l := [0,-5,3] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\BRACKET{0\COMMA -{5}\COMMA 3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+display all elements of \spad{l}, one per line.
+\end{xtccomment}
+\begin{spadsrc}
+for x in l repeat output(x) 
+\end{spadsrc}
+\end{xtc}
+
+Since the list constructing expression \spad{expand [n..m]}
+creates the list
+\spad{[n, n+1, ..., m]}\footnote{This list is empty if \spad{n > m}.},
+ you might be tempted to think that the loops
+\begin{verbatim}
+for i in n..m repeat output(i)
+\end{verbatim}
+and
+\begin{verbatim}
+for x in expand [n..m] repeat output(x)
+\end{verbatim}
+are equivalent.
+The second form first creates the list
+\spad{expand [n..m]} (no matter how large it might be) and
+then does the iteration.
+The first form potentially runs in much less space, as the index variable
+\spad{i} is simply incremented once per loop and the list is not actually
+created.
+Using the first form is much more efficient.
+%
+\begin{xtc}
+\begin{xtccomment}
+Of course, sometimes you really want to iterate across a specific list.
+This displays each of the factors of \spad{2400000}.
+\end{xtccomment}
+\begin{spadsrc}
+for f in factors(factor(2400000)) repeat output(f)
+\end{spadsrc}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{``Such that'' Predicates}{ugLangLoopsForInPred}
+% *********************************************************************
+
+A \spad{for} loop can be followed by a \spadSyntax{|} and then a
+predicate.
+The predicate qualifies the use of the values from the iterator following
+the \spad{for}.
+Think of the vertical bar
+\spadSyntax{|} as the phrase ``such that.''
+\begin{xtc}
+\begin{xtccomment}
+This loop expression
+prints out the integers \spad{n} in the given segment
+such that \spad{n} is odd.
+\end{xtccomment}
+\begin{spadsrc}
+for n in 0..4 | odd? n repeat output n
+\end{spadsrc}
+\end{xtc}
+
+\beginImportant
+A \spad{for} loop can also be written
+\begin{center}
+\spad{for} {\it iterator} \spad{|} {\it predicate}  \spad{repeat} {\it loopBody}
+\end{center}
+which is equivalent to:
+\begin{center}
+\spad{for} {\it iterator} \spad{repeat if}
+{\it predicate} \spad{then} {\it loopBody} \spad{else} \spad{iterate}
+\end{center}
+\endImportant
+
+The predicate need not refer only to the variable in the \spad{for} clause:
+any variable in an outer scope can be part of the predicate.
+\begin{xtc}
+\begin{xtccomment}
+In this example, the predicate on the inner \spad{for} loop uses
+\spad{i} from the outer loop and the \spad{j} from the \spad{for}
+\index{iteration!nested}
+clause that it directly modifies.
+\end{xtccomment}
+\begin{spadsrc}
+for i in 1..50 repeat
+  for j in 1..50 | factorial(i+j) < 25 repeat
+    output [i,j]
+\end{spadsrc}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{Parallel Iteration}{ugLangLoopsPar}
+% *********************************************************************
+
+The last example of
+the previous section
+gives an example of
+\spadgloss{nested iteration}: a loop is contained
+\index{iteration!nested}
+in another loop.
+\index{iteration!parallel}
+Sometimes you want to iterate across two lists in parallel, or perhaps
+you want to traverse a list while incrementing a variable.
+
+\beginImportant
+The general syntax of a repeat loop is
+\begin{center}
+{\tt \subscriptIt{iterator}{1} \subscriptIt{iterator}{2} \ldots \subscriptIt{iterator}{N} repeat {\it loopBody}}
+\end{center}
+where each {\it iterator} is either a \spad{for} or a \spad{while} clause.
+The loop terminates immediately when the end test of any {\it iterator}
+succeeds or when a \spad{break} or \spad{return} expression is evaluated
+in {\it loopBody}.
+The value returned by the loop is \void{}.
+\endImportant
+
+\begin{xtc}
+\begin{xtccomment}
+Here we write a loop to iterate across
+two lists, computing the sum of the pairwise product
+of elements. Here is the first list.
+\end{xtccomment}
+\begin{spadsrc}
+l := [1,3,5,7] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\BRACKET{1\COMMA 3\COMMA 5\COMMA 7}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(PositiveInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+And the second.
+\end{xtccomment}
+\begin{spadsrc}
+m := [100,200] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\BRACKET{100\COMMA 200}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(PositiveInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The initial value of the sum counter.
+\end{xtccomment}
+\begin{spadsrc}
+sum := 0 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+0%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{NonNegativeInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The last two elements of \spad{l} are not used in the calculation
+because \spad{m} has two fewer elements than \spad{l}.
+\end{xtccomment}
+\begin{spadsrc}
+for x in l for y in m repeat
+    sum := sum + x*y
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Display the ``dot product.''
+\end{xtccomment}
+\begin{spadsrc}
+sum 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+700%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{NonNegativeInteger}
+\end{xtc}
+
+\begin{xtc}
+\begin{xtccomment}
+Next, we write a loop to compute the sum of the products of the loop elements with
+their positions in the loop.
+\end{xtccomment}
+\begin{spadsrc}
+l := [2,3,5,7,11,13,17,19,23,29,31,37] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\BRACKET{2\COMMA 3\COMMA 5\COMMA 7\COMMA 11\COMMA 13\COMMA 17\COMMA 19\COMMA %
+23\COMMA 29\COMMA 31\COMMA 37}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(PositiveInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The initial sum.
+\end{xtccomment}
+\begin{spadsrc}
+sum := 0 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+0%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{NonNegativeInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here looping stops when the list \spad{l} is exhausted, even though
+the \spad{for i in 0..} specifies no terminating condition.
+\end{xtccomment}
+\begin{spadsrc}
+for i in 0.. for x in l repeat sum := i * x 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Display this weighted sum.
+\end{xtccomment}
+\begin{spadsrc}
+sum 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+407%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{NonNegativeInteger}
+\end{xtc}
+
+When \spadSyntax{|} is used to qualify any of the \spad{for} clauses in a
+parallel iteration, the variables in the predicates can be from an outer
+scope or from a \spad{for} clause in or to the left of a modified clause.
+
+This is correct:
+% output from following is too long to show
+\begin{verbatim}
+for i in 1..10 repeat
+  for j in 200..300 | odd? (i+j) repeat
+    output [i,j]
+\end{verbatim}
+This is not correct since the variable \spad{j} has not been
+defined outside the inner loop.
+\begin{verbatim}
+for i in 1..10 | odd? (i+j) repeat  -- wrong, j not defined
+  for j in 200..300 repeat
+    output [i,j]
+\end{verbatim}
+
+%>% *********************************************************************
+%>\head{subsection}{Mixing Loop Modifiers}{ugLangLoopsMix}
+%>% *********************************************************************
+
+\begin{xtc}
+\begin{xtccomment}
+This example shows that it is possible to mix several of the
+\index{loop!mixing modifiers}
+forms of \spad{repeat} modifying clauses on a loop.
+\end{xtccomment}
+\begin{spadsrc}
+for i in 1..10
+    for j in 151..160 | odd? j
+      while i + j < 160 repeat
+        output [i,j]
+\end{spadsrc}
+\end{xtc}
+%
+Here are useful rules for composing loop expressions:
+\begin{enumerate}
+\item \spad{while} predicates can only refer to variables that
+are global (or in an outer scope)
+or that are defined in \spad{for} clauses to the left of the
+predicate.
+\item A ``such that'' predicate (something following \spadSyntax{|})
+must directly follow a \spad{for} clause and can only refer to
+variables that are global (or in an outer scope)
+or defined in the modified \spad{for} clause
+or any \spad{for} clause to the left.
+\end{enumerate}
+
+% *********************************************************************
+\head{section}{Creating Lists and Streams with Iterators}{ugLangIts}
+% *********************************************************************
+
+All of what we did for loops in \spadref{ugLangLoops}
+\index{iteration}
+can be transformed into expressions that create lists
+\index{list!created by iterator}
+and streams.
+\index{stream!created by iterator}
+The \spad{repeat,} \spad{break} or \spad{iterate} words are not used but
+all the other ideas carry over.
+Before we give you the general rule, here are some examples which
+give you the idea.
+
+\begin{xtc}
+\begin{xtccomment}
+This creates a simple list of the integers from \spad{1} to \spad{10}.
+\end{xtccomment}
+\begin{spadsrc}
+mylist := [i for i in 1..10] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\BRACKET{1\COMMA 2\COMMA 3\COMMA 4\COMMA 5\COMMA 6\COMMA 7\COMMA 8\COMMA 9%
+\COMMA 10}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(PositiveInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Create a stream of the integers greater than or equal to \spad{1}.
+\end{xtccomment}
+\begin{spadsrc}
+mystream := [i for i in 1..] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\BRACKET{1\COMMA 2\COMMA 3\COMMA 4\COMMA 5\COMMA 6\COMMA 7\COMMA \STRING{...}%
+}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(PositiveInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is a list of the prime integers between \spad{1} and \spad{10},
+inclusive.
+\end{xtccomment}
+\begin{spadsrc}
+[i for i in 1..10 | prime? i]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\BRACKET{2\COMMA 3\COMMA 5\COMMA 7}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(PositiveInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is a stream of the prime integers greater than or equal to \spad{1}.
+\end{xtccomment}
+\begin{spadsrc}
+[i for i in 1..   | prime? i]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\BRACKET{2\COMMA 3\COMMA 5\COMMA 7\COMMA 11\COMMA 13\COMMA 17\COMMA \STRING{%
+...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(PositiveInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is a list of the integers between \spad{1} and \spad{10},
+inclusive, whose squares are less than \spad{700}.
+\end{xtccomment}
+\begin{spadsrc}
+[i for i in 1..10 while i*i < 700]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\BRACKET{1\COMMA 2\COMMA 3\COMMA 4\COMMA 5\COMMA 6\COMMA 7\COMMA 8\COMMA 9%
+\COMMA 10}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(PositiveInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is a stream of the integers greater than or equal to \spad{1}
+whose squares are less than \spad{700}.
+\end{xtccomment}
+\begin{spadsrc}
+[i for i in 1..   while i*i < 700]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\BRACKET{1\COMMA 2\COMMA 3\COMMA 4\COMMA 5\COMMA 6\COMMA 7\COMMA \STRING{...}%
+}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(PositiveInteger)}
+\end{xtc}
+
+Got the idea?
+Here is the general rule.
+\index{collection}
+
+\beginImportant
+The general syntax of a collection is
+\begin{center}
+{\tt [ {\it collectExpression} \subscriptIt{iterator}{1}  \subscriptIt{iterator}{2}  \ldots  \subscriptIt{iterator}{N} ]}
+\end{center}
+where each \subscriptIt{iterator}{i} is either a \spad{for} or a
+\spad{while} clause.
+The loop terminates immediately when the end test of any
+\subscriptIt{iterator}{i} succeeds or when a \spad{return} expression is
+evaluated in {\it collectExpression}.
+The value returned by the collection is either a list or a stream of
+elements, one for each iteration of the {\it collectExpression}.
+\endImportant
+
+Be careful when you use \spad{while}
+\index{stream!using while @{using {\tt while}}}
+to create a stream.
+By default, \Language{} tries to compute and display the first ten elements
+of a stream.
+If the \spad{while} condition is not satisfied quickly, \Language{}
+can spend a long (possibly infinite) time trying to compute
+\index{stream!number of elements computed}
+the elements.
+Use \spadsys{)set streams calculate} to change the default
+to something else.
+\syscmdindex{set streams calculate}
+This also affects the number of terms computed and displayed for power
+series.
+For the purposes of this book, we have used this system
+command to display fewer than ten terms.
+\begin{xtc}
+\begin{xtccomment}
+Use nested iterators to create lists of
+\index{iteration!nested}
+lists which can then be given as an argument to \spadfun{matrix}.
+\end{xtccomment}
+\begin{spadsrc}
+matrix [[x^i+j for i in 1..3] for j in 10..12]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\begin{MATRIX}{3}\SYMBOL{x}+10&\SUPER{\SYMBOL{x}}{2}+10&\SUPER{\SYMBOL{x}}{3}%
++10\\\SYMBOL{x}+11&\SUPER{\SYMBOL{x}}{2}+11&\SUPER{\SYMBOL{x}}{3}+11\\\SYMBOL%
+{x}+12&\SUPER{\SYMBOL{x}}{2}+12&\SUPER{\SYMBOL{x}}{3}+12\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Polynomial(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can also create lists of streams, streams of lists and
+streams of streams.
+Here is a stream of streams.
+\end{xtccomment}
+\begin{spadsrc}
+[[i/j for i in j+1..] for j in 1..]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+\BRACKET{\BRACKET{2\COMMA 3\COMMA 4\COMMA 5\COMMA 6\COMMA 7\COMMA 8\COMMA %
+\STRING{...}}\COMMA \BRACKET{\frac{3}{2}\COMMA 2\COMMA \frac{5}{2}\COMMA 3%
+\COMMA \frac{7}{2}\COMMA 4\COMMA \frac{9}{2}\COMMA \STRING{...}}\COMMA %
+\BRACKET{\frac{4}{3}\COMMA \frac{5}{3}\COMMA 2\COMMA \frac{7}{3}\COMMA \frac{%
+8}{3}\COMMA 3\COMMA \frac{10}{3}\COMMA \STRING{...}}\COMMA \BRACKET{\frac{5}{%
+4}\COMMA \frac{3}{2}\COMMA \frac{7}{4}\COMMA 2\COMMA \frac{9}{4}\COMMA \frac{%
+5}{2}\COMMA \frac{11}{4}\COMMA \STRING{...}}\COMMA \BRACKET{\frac{6}{5}%
+\COMMA \frac{7}{5}\COMMA \frac{8}{5}\COMMA \frac{9}{5}\COMMA 2\COMMA \frac{11%
+}{5}\COMMA \frac{12}{5}\COMMA \STRING{...}}\COMMA \BRACKET{\frac{7}{6}\COMMA %
+\frac{4}{3}\COMMA \frac{3}{2}\COMMA \frac{5}{3}\COMMA \frac{11}{6}\COMMA 2%
+\COMMA \frac{13}{6}\COMMA \STRING{...}}\COMMA \BRACKET{\frac{8}{7}\COMMA %
+\frac{9}{7}\COMMA \frac{10}{7}\COMMA \frac{11}{7}\COMMA \frac{12}{7}\COMMA %
+\frac{13}{7}\COMMA 2\COMMA \STRING{...}}\COMMA \STRING{...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(Stream(Fraction(Integer)))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can use parallel iteration across lists and streams to create
+\index{iteration!parallel}
+new lists.
+\end{xtccomment}
+\begin{spadsrc}
+[i/j for i in 3.. by 10 for j in 2..]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\BRACKET{\frac{3}{2}\COMMA \frac{13}{3}\COMMA \frac{23}{4}\COMMA \frac{33}{5}%
+\COMMA \frac{43}{6}\COMMA \frac{53}{7}\COMMA \frac{63}{8}\COMMA \STRING{...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Iteration stops if the end of a list or stream is reached.
+\end{xtccomment}
+\begin{spadsrc}
+[i^j for i in 1..7 for j in 2.. ]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\BRACKET{1\COMMA 8\COMMA 81\COMMA 1024\COMMA 15625\COMMA 279936\COMMA 5764801%
+}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(Integer)}
+\end{xtc}
+%\xtc{
+%or a while condition fails.
+%}{
+%\spadcommand{[i^j for i in 1..  for j in 2.. while i + j < 5 ]}
+%}
+\begin{xtc}
+\begin{xtccomment}
+As with loops, you can combine these modifiers to make very
+complicated conditions.
+\end{xtccomment}
+\begin{spadsrc}
+[[[i,j] for i in 10..15 | prime? i] for j in 17..22 | j = squareFreePart j]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+\BRACKET{\BRACKET{\BRACKET{11\COMMA 17}\COMMA \BRACKET{13\COMMA 17}}\COMMA %
+\BRACKET{\BRACKET{11\COMMA 19}\COMMA \BRACKET{13\COMMA 19}}\COMMA \BRACKET{%
+\BRACKET{11\COMMA 21}\COMMA \BRACKET{13\COMMA 21}}\COMMA \BRACKET{\BRACKET{11%
+\COMMA 22}\COMMA \BRACKET{13\COMMA 22}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(List(List(PositiveInteger)))}
+\end{xtc}
+
+See \xmpref{List} and \xmpref{Stream} for more information on creating and
+manipulating lists and streams, respectively.
+
+% *********************************************************************
+\head{section}{An Example: Streams of Primes}{ugLangStreamsPrimes}
+% *********************************************************************
+
+We conclude this chapter with an example of the creation and manipulation
+of infinite streams of prime integers.
+This might be useful for experiments with numbers or other applications
+where you are using sequences of primes over and over again.
+As for all streams, the stream of primes is only computed as far out as you
+need.
+Once computed, however, all the primes up to that point are saved for
+future reference.
+
+Two useful operations provided by the \Language{} library are
+\spadfunFrom{prime?}{IntegerPrimesPackage} and
+\spadfunFrom{nextPrime}{IntegerPrimesPackage}.
+A straight-forward way to create a stream of
+prime numbers is to start with the stream of positive integers \spad{[2,..]} and
+filter out those that are prime.
+\begin{xtc}
+\begin{xtccomment}
+Create a stream of primes.
+\end{xtccomment}
+\begin{spadsrc}
+primes : Stream Integer := [i for i in 2.. | prime? i]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\BRACKET{2\COMMA 3\COMMA 5\COMMA 7\COMMA 11\COMMA 13\COMMA 17\COMMA \STRING{%
+...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(Integer)}
+\end{xtc}
+A more elegant way, however, is to use the \spadfunFrom{stream}{Stream}
+operation from \spadtype{Stream}.
+Given an initial value \spad{a} and a function \spad{f},
+\spadfunFrom{stream}{Stream}
+constructs the stream \spad{[a, f(a), f(f(a)), ...]}.
+This function gives you the quickest method of getting the stream of primes.
+\begin{xtc}
+\begin{xtccomment}
+This is how you use
+\spadfunFrom{stream}{Stream} to
+generate an infinite stream of primes.
+\end{xtccomment}
+\begin{spadsrc}
+primes := stream(nextPrime,2)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\BRACKET{2\COMMA 3\COMMA 5\COMMA 7\COMMA 11\COMMA 13\COMMA 17\COMMA \STRING{%
+...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(Integer)}
+\end{xtc}
+% decl seems necessary
+\begin{xtc}
+\begin{xtccomment}
+Once the stream is generated, you might only be interested in
+primes starting at a particular value.
+\end{xtccomment}
+\begin{spadsrc}
+smallPrimes := [p for p in primes | p > 1000] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\BRACKET{1009\COMMA 1013\COMMA 1019\COMMA 1021\COMMA 1031\COMMA 1033\COMMA %
+1039\COMMA \STRING{...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here are the first 11 primes greater than 1000.
+\end{xtccomment}
+\begin{spadsrc}
+[p for p in smallPrimes for i in 1..11] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\BRACKET{1009\COMMA 1013\COMMA 1019\COMMA 1021\COMMA 1031\COMMA 1033\COMMA %
+1039\COMMA \STRING{...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here is a stream of primes between 1000 and 1200.
+\end{xtccomment}
+\begin{spadsrc}
+[p for p in smallPrimes while p < 1200] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\BRACKET{1009\COMMA 1013\COMMA 1019\COMMA 1021\COMMA 1031\COMMA 1033\COMMA %
+1039\COMMA \STRING{...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+To get these expanded into a finite stream,
+you call \spadfunFrom{complete}{Stream} on the stream.
+\end{xtccomment}
+\begin{spadsrc}
+complete %
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\BRACKET{1009\COMMA 1013\COMMA 1019\COMMA 1021\COMMA 1031\COMMA 1033\COMMA %
+1039\COMMA \STRING{...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Twin primes are consecutive odd number pairs which are prime.
+Here is the stream of twin primes.
+\end{xtccomment}
+\begin{spadsrc}
+twinPrimes := [[p,p+2] for p in primes | prime?(p + 2)]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\BRACKET{\BRACKET{3\COMMA 5}\COMMA \BRACKET{5\COMMA 7}\COMMA \BRACKET{11%
+\COMMA 13}\COMMA \BRACKET{17\COMMA 19}\COMMA \BRACKET{29\COMMA 31}\COMMA %
+\BRACKET{41\COMMA 43}\COMMA \BRACKET{59\COMMA 61}\COMMA \STRING{...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(List(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Since we already have the primes computed we can
+avoid the call to \spadfunFrom{prime?}{IntegerPrimesPackage}
+by using a double iteration.
+This time we'll just generate a stream of the first of the twin primes.
+\end{xtccomment}
+\begin{spadsrc}
+firstOfTwins:= [p for p in primes for q in rest primes | q=p+2]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+\BRACKET{3\COMMA 5\COMMA 11\COMMA 17\COMMA 29\COMMA 41\COMMA 59\COMMA \STRING%
+{...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(Integer)}
+\end{xtc}
+
+Let's try to compute the infinite stream of triplet primes,
+the set of primes \spad{p} such that \spad{[p,p+2,p+4]}
+are primes. For example, \spad{[3,5,7]} is a triple prime.
+We could do this by a triple \spad{for} iteration.
+A more economical way is to use \userfun{firstOfTwins}.
+This time however, put a semicolon at the end of the line.
+
+\begin{xtc}
+\begin{xtccomment}
+Put a semicolon at the end so that no
+elements are computed.
+\end{xtccomment}
+\begin{spadsrc}
+firstTriplets := [p for p in firstOfTwins for q in rest firstOfTwins | q = p+2];
+\end{spadsrc}
+\formatResultType{Stream(Integer)}
+\end{xtc}
+
+What happened?
+As you know, by default
+\Language{} displays the first ten
+elements of a stream when you first display it.
+And, therefore, it needs to compute them!
+If you want {\it no} elements computed, just terminate the expression by a
+semicolon (\spadSyntax{;}).\footnote{
+Why does this happen? The semi-colon prevents the display of the
+result of evaluating the expression.
+Since no stream elements are needed for display (or anything else, so far),
+none are computed.
+}
+
+\begin{xtc}
+\begin{xtccomment}
+Compute the first triplet prime.
+\end{xtccomment}
+\begin{spadsrc}
+firstTriplets.1
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+3%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+If you want to compute another, just ask for it.
+But wait a second!
+Given three consecutive odd integers, one of them must be divisible
+by 3. Thus there is only one triplet prime.
+But suppose that you did not know this and wanted to know what was the
+tenth triplet prime.
+\begin{verbatim}
+firstTriples.10
+\end{verbatim}
+To compute the tenth triplet prime, \Language{} first must compute the second,
+the third, and so on.
+But since there isn't even a second triplet prime, \Language{} will
+compute forever.
+Nonetheless, this effort can produce a useful result.
+After waiting a bit, hit
+\fbox{\bf Ctrl}--\fbox{\bf c}.
+The system responds as follows.
+\begin{verbatim}
+   >> System error:
+   Console interrupt.
+   You are being returned to the top level of
+   the interpreter.
+\end{verbatim}
+Let's say that you want to know how many primes have been computed.
+Issue
+\begin{verbatim}
+numberOfComputedEntries primes
+\end{verbatim}
+and, for this discussion, let's say that the result is \spad{2045.}
+\begin{xtc}
+\begin{xtccomment}
+How big is the \eth{2045} prime?
+\end{xtccomment}
+\begin{spadsrc}
+primes.2045
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+17837%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+What you have learned is that there are no triplet primes between 5 and
+17837.
+Although this result is well known (some might even say trivial), there
+are many experiments you could make where the result is not known.
+What you see here is a paradigm for testing of hypotheses.
+Here our hypothesis could have been: ``there is more than one triplet
+prime.''
+We have tested this hypothesis for 17837 cases.
+With streams, you can let your machine run, interrupt it to see how far
+it has progressed,
+then start it up and let it continue from where it left off.
+
+%> RDJ note to RSS:
+%> Expressions not statements or lines--
+%>   By an expression I mean any syntactically correct program fragment.
+%>   Everything in AXIOM is an expression since every fragment has a value and a type.
+%>   In most languages including LISP, a "statement" is different from an expression:
+%>   it is executed for side-effect only and an error is incurred if you assign it a value.
+%>   This "gimmick" takes care of incomplete expressions such as "if x > 0 then y" in blocks.
+%>   In LISP, "u := (if x > 0 then y)" is illegal but in AXIOM it is legal.
+%>   Also, in AXIOM the value of a repeat loop is void even though you might be
+%>   be able to prove that it always returns a valid value (you have an example of this)!
+%>   This will be considered a bug not a feature. But it is how things stand.
+%>   In any case---this point should be in a box somewhere since it is key
+%>   to a user's understanding to the language. I am not sure where. You only
+%>   gain an appreciation for it after are awhile in chapter 5.

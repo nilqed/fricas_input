@@ -1,0 +1,577 @@
+% !! DO NOT MODIFY THIS FILE BY HAND !! Created by spool2tex.awk.
+\head{chapter}{Introduction to \Language{}}{ugNewIntro}
+
+Welcome to the world of \Language{}.
+We call \Language{} a scientific computation system:
+a self-contained toolbox designed to meet
+your scientific programming needs,
+from symbolics, to numerics, to graphics.
+
+This introduction is a quick overview of what \Language{} offers.
+
+\head{section}{Symbolic computation}{ugNewIntroSymbolic}
+
+\Language{} provides a wide range of
+simple commands for
+symbolic mathematical problem solving.
+Do you need to solve an equation,
+to expand a series,
+or to obtain an integral?
+If so, just ask \Language{} to do it.
+
+%
+\begin{xtc}
+\begin{xtccomment}
+Integrate $\frac{1}{(x^3 \  {(a+b x)}^{1/3})}$ with
+respect to \smath{x}.
+\end{xtccomment}
+\begin{spadsrc}
+integrate(1/(x^3 * (a+b*x)^(1/3)),x)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\frac{-{2\TIMES \SUPER{\SYMBOL{b}}{2}\TIMES \SUPER{\SYMBOL{x}}{2}\TIMES \sqrt%
+{3}\TIMES \log{\PAREN{\nthroot{\SYMBOL{a}}{3}\TIMES \SUPER{\nthroot{\SYMBOL{b%
+}\TIMES \SYMBOL{x}+\SYMBOL{a}}{3}}{2}+\SUPER{\nthroot{\SYMBOL{a}}{3}}{2}%
+\TIMES \nthroot{\SYMBOL{b}\TIMES \SYMBOL{x}+\SYMBOL{a}}{3}+\SYMBOL{a}}}}+4%
+\TIMES \SUPER{\SYMBOL{b}}{2}\TIMES \SUPER{\SYMBOL{x}}{2}\TIMES \sqrt{3}%
+\TIMES \log{\PAREN{\SUPER{\nthroot{\SYMBOL{a}}{3}}{2}\TIMES \nthroot{\SYMBOL{%
+b}\TIMES \SYMBOL{x}+\SYMBOL{a}}{3}-{\SYMBOL{a}}}}+12\TIMES \SUPER{\SYMBOL{b}%
+}{2}\TIMES \SUPER{\SYMBOL{x}}{2}\TIMES \arctan{\PAREN{\frac{2\TIMES \sqrt{3}%
+\TIMES \SUPER{\nthroot{\SYMBOL{a}}{3}}{2}\TIMES \nthroot{\SYMBOL{b}\TIMES %
+\SYMBOL{x}+\SYMBOL{a}}{3}+\SYMBOL{a}\TIMES \sqrt{3}}{3\TIMES \SYMBOL{a}}}}+%
+\PAREN{12\TIMES \SYMBOL{b}\TIMES \SYMBOL{x}-{9\TIMES \SYMBOL{a}}}\TIMES \sqrt%
+{3}\TIMES \nthroot{\SYMBOL{a}}{3}\TIMES \SUPER{\nthroot{\SYMBOL{b}\TIMES %
+\SYMBOL{x}+\SYMBOL{a}}{3}}{2}}{18\TIMES \SUPER{\SYMBOL{a}}{2}\TIMES \SUPER{%
+\SYMBOL{x}}{2}\TIMES \sqrt{3}\TIMES \nthroot{\SYMBOL{a}}{3}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Expression(Integer), ...)}
+\end{xtc}
+
+\Language{} provides state-of-the-art algebraic machinery to
+handle your most advanced symbolic problems.
+For example, \Language{}'s integrator gives you the answer
+when an answer exists.
+If one does not, it provides a proof that
+there is no answer.
+Integration is just one of a multitude of symbolic operations that
+\Language{} provides.
+
+\head{section}{Numeric computation}{ugNewIntroNumeric}
+
+\Language{} has a numerical library that includes operations for
+linear algebra, solution of equations, and special functions.
+For many of these operations, you can select any number of
+floating point digits to be carried out in the computation.
+
+%
+\begin{xtc}
+\begin{xtccomment}
+Solve $x^{49}-49x^4+9$ to
+49 digits of accuracy.
+\end{xtccomment}
+\begin{spadsrc}
+solve(x^49-49*x^4+9 = 0,1.e-49)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\BRACKET{\SYMBOL{x}=-{\STRING{0.65465367069042711367}}\COMMA \SYMBOL{x}=%
+\STRING{1.0869213956538595085}\COMMA \SYMBOL{x}=\STRING{%
+0.65465367072552717397}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Equation(Polynomial(Float)))}
+\end{xtc}
+
+The output of a computation can be converted to FORTRAN to be used
+in a later numerical computation.
+Besides floating point numbers, \Language{} provides literally
+dozens of kinds of numbers to compute with.
+These range from various kinds of integers, to fractions, complex
+numbers, quaternions, continued fractions, and to numbers represented
+with an arbitrary base.
+
+%
+\begin{xtc}
+\begin{xtccomment}
+What is \spad{10} to
+the \eth{100} power in base \spad{32}?
+\end{xtccomment}
+\begin{spadsrc}
+radix(10^100,32)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+4\STRING{I}9\STRING{L}\STRING{K}\STRING{I}\STRING{P}9\STRING{G}\STRING{R}%
+\STRING{S}\STRING{T}\STRING{C}5\STRING{I}\STRING{F}164\STRING{P}\STRING{O}5%
+\STRING{V}72\STRING{M}\STRING{E}827226\STRING{J}\STRING{S}\STRING{L}\STRING{A%
+}\STRING{P}462585\STRING{Q}7\STRING{H}00000000000000000000%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{RadixExpansion(32)}
+\end{xtc}
+
+
+\head{section}{Graphics}{ugNewIntroGraphics}
+
+You may often want to visualize a symbolic formula or draw
+a graph from a set of numerical values.
+To do this, you can call upon the \Language{}
+graphics capability.
+
+\begin{psXtc}
+\begin{xtccomment}
+Draw $J_0(\sqrt{x^2+y^2})$ for
+$-20 \leq x,y \leq 20$.
+\end{xtccomment}
+\begin{spadsrc}
+draw(5*besselJ(0,sqrt(x^2+y^2)), x=-20..20, y=-20..20)
+\end{spadsrc}
+\epsffile[0 0 295 295]{bessintr.ps}
+\end{psXtc}
+
+Graphs in \Language{} are interactive objects you can manipulate with
+your mouse.
+Just click on the graph, and a control panel pops up.
+Using this mouse and the control panel, you can translate,
+rotate, zoom,
+change the coloring, lighting, shading, and
+perspective on the picture.
+You can also generate a PostScript copy of your graph to produce
+hard-copy output.
+
+\head{section}{\HyperName{}}{ugNewIntroFriCAS}
+
+\HyperName{} presents you windows on the world of \Language{}, offering
+on-line help,
+examples, tutorials, a browser, and reference material.
+\HyperName{} gives you on-line access to this book in a ``hypertext'' format.
+Words that appear in a different font
+(for example, \spadtype{Matrix}, \spadfun{factor}, and
+\spadgloss{category}) are generally mouse-active; if you click on one
+with your mouse, \HyperName{} shows you a new window for that word.
+
+As another example of a \HyperName{} facility,
+suppose that you want to compute the roots of
+$x^{49} - 49x^4 + 9$ to \smath{49} digits (as in our previous example)
+and you don't know how to tell \Language{} to do this.
+The ``basic command'' facility of \HyperName{} leads the way.
+Through the series of \HyperName{} windows shown in Figure \ref{fig-intro-br}
+and the specified mouse clicks, you and \HyperName{}
+generate the correct command to issue to compute the answer.
+
+
+\begin{figure}[thb]
+\vspace*{5.10in}
+\caption{Computing the roots of $x^{49}-49x^4+9.$}\label{fig-intro-br}
+\vskip .5\baselineskip
+\end{figure}
+
+\head{section}{Interactive Programming}{ugNewIntroInteractive}
+
+\Language{}'s interactive programming language lets you
+define your own functions.
+A simple example of a user-defined function is one
+that computes the successive Legendre polynomials.
+\Language{} lets you define these polynomials in a piece-wise way.
+
+%
+\begin{xtc}
+\begin{xtccomment}
+The first Legendre polynomial.
+\end{xtccomment}
+\begin{spadsrc}
+p(0) == 1
+\end{spadsrc}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+The second Legendre polynomial.
+\end{xtccomment}
+\begin{spadsrc}
+p(1) == x
+\end{spadsrc}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+The \eth{n} Legendre polynomial for $(n > 1)$.
+\end{xtccomment}
+\begin{spadsrc}
+p(n) == ((2*n-1)*x*p(n-1) - (n-1) * p(n-2))/n
+\end{spadsrc}
+\end{xtc}
+
+In addition to letting you define simple functions like this,
+the interactive language can be used
+to create entire application packages.
+All the graphs in the \Gallery{} section
+in the center of the book, for example,
+were created by programs written in the interactive language.
+
+The above definitions for \spad{p} do no computation---they simply
+tell \Language{} how to compute \spad{p(k)} for some positive
+integer \spad{k}.
+To actually get a value of a Legendre polynomial, you ask for it.
+\index{Legendre polynomials}
+
+%
+\begin{xtc}
+\begin{xtccomment}
+What is the tenth Legendre polynomial?
+\end{xtccomment}
+\begin{spadsrc}
+p(10)
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function p with type Integer -> Polynomial(Fraction(
+      Integer)) 
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function p as a recurrence relation.
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\frac{46189}{256}\TIMES \SUPER{\SYMBOL{x}}{10}-{\frac{109395}{256}\TIMES %
+\SUPER{\SYMBOL{x}}{8}}+\frac{45045}{128}\TIMES \SUPER{\SYMBOL{x}}{6}-{\frac{%
+15015}{128}\TIMES \SUPER{\SYMBOL{x}}{4}}+\frac{3465}{256}\TIMES \SUPER{%
+\SYMBOL{x}}{2}-{\frac{63}{256}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Fraction(Integer))}
+\end{xtc}
+
+\Language{} applies the above pieces for
+\spad{p} to obtain the value of \spad{p(10)}.
+But it does more:
+it creates an optimized, compiled function for \spad{p}.
+The function is formed by putting the pieces together into
+a single piece of code.
+By {\it compiled}, we mean that the function is translated into
+basic machine-code.
+By {\it optimized}, we mean that certain transformations are
+performed on that code to make it run faster.
+For \spad{p}, \Language{} actually translates the original definition
+that is recursive (one that calls itself)
+to one that is iterative (one that consists of a simple loop).
+
+%
+\begin{xtc}
+\begin{xtccomment}
+What is the coefficient of \smath{x^{90}} in \spad{p(90)}?
+\end{xtccomment}
+\begin{spadsrc}
+coefficient(p(90),x,90)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\frac{56882655420520178222 23458237426581853561 497449095175}{%
+77371252455336267181 195264}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Fraction(Integer))}
+\end{xtc}
+
+In general, a user function is type-analyzed and compiled on first use.
+Later, if you use it with a different kind of object, the function
+is recompiled if necessary.
+
+\head{section}{Data Structures}{ugNewIntroData}
+
+A variety of data structures are available for interactive use.
+These include strings, lists, vectors, sets, multisets, and hash
+tables.
+A particularly useful structure for interactive use is the
+infinite stream:
+
+%
+\begin{xtc}
+\begin{xtccomment}
+Create the infinite stream of derivatives of Legendre
+polynomials
+\end{xtccomment}
+\begin{spadsrc}
+[D(p(i),x) for i in 1..]
+\end{spadsrc}
+\begin{MessageOutput}
+   There are no library operations named p 
+      Use HyperDoc Browse or issue
+                                 )what op p
+      to learn if there is any operation containing " p " in its name.
+\end{MessageOutput}
+\begin{MessageOutput}
+   Cannot find a definition or applicable library operation named p 
+      with argument type(s) 
+                               PositiveInteger
+      
+      Perhaps you should use "@" to indicate the required return type, 
+      or "$" to specify which version of the function you need.
+\end{MessageOutput}
+\begin{MessageOutput}
+   FriCAS will attempt to step through and interpret the code.
+\end{MessageOutput}
+\begin{MessageOutput}
+   Interpret-Code mode is not supported for stream bodies.
+\end{MessageOutput}
+\end{xtc}
+
+Streams display only a few of their initial elements.
+Otherwise, they are ``lazy'': they
+only compute elements when you ask for them.
+
+Data structures are an important component for building
+application software. Advanced users can
+represent data for applications in optimal fashion.
+In all, \Language{} offers
+over forty kinds of aggregate data structures, ranging
+from mutable structures (such as cyclic lists and flexible arrays) to
+storage efficient structures (such as bit vectors).
+As an example, streams are used as the internal data structure
+for power series.
+
+%
+\begin{xtc}
+\begin{xtccomment}
+What is the series expansion
+of $\log(\cot(x))$
+about $x=\pi/2$?
+\end{xtccomment}
+\begin{spadsrc}
+series(log(cot(x)),x = %pi/2)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\log{\PAREN{\frac{-{2\TIMES \SYMBOL{x}}+\pi }{2}}}+\frac{1}{3}\TIMES \SUPER{%
+\PAREN{\SYMBOL{x}-{\frac{\pi }{2}}}}{2}+\frac{7}{90}\TIMES \SUPER{\PAREN{%
+\SYMBOL{x}-{\frac{\pi }{2}}}}{4}+\frac{62}{2835}\TIMES \SUPER{\PAREN{\SYMBOL{%
+x}-{\frac{\pi }{2}}}}{6}+\FUN{O}\PAREN{\SUPER{\PAREN{\SYMBOL{x}-{\frac{\pi }{%
+2}}}}{8}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{GeneralUnivariatePowerSeries(Expression(Integer), x, \%pi/2)}
+\end{xtc}
+
+Series and streams make no attempt to compute {\it all} their elements!
+Rather, they stand ready to deliver elements on demand.
+
+%
+\begin{xtc}
+\begin{xtccomment}
+What is the coefficient of the \eth{50}
+term of this series?
+\end{xtccomment}
+\begin{spadsrc}
+coefficient(%,50)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\frac{44590788901016030052 44724230085655096564 4}{%
+71314692864386691115 84090881309360354581 359130859375}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+
+\head{section}{Mathematical Structures}{ugNewIntroMathematical}
+
+\Language{} also has many kinds of mathematical structures.
+These range from simple ones (like polynomials and matrices) to
+more esoteric ones (like ideals and Clifford algebras).
+Most structures allow the construction of arbitrarily complicated
+``types.''
+
+%
+\begin{xtc}
+\begin{xtccomment}
+Even a simple input expression can
+result in a type with several levels.
+\end{xtccomment}
+\begin{spadsrc}
+matrix [[x + %i,0], [1,-2]]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\begin{MATRIX}{2}\SYMBOL{x}+\ImaginaryI &0\\1&-{2}\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Polynomial(Complex(Integer)))}
+\end{xtc}
+
+The \Language{} interpreter builds types in response to user
+input.
+Often, the type of the result is changed in order to be applicable
+to an operation.
+
+%
+\begin{xtc}
+\begin{xtccomment}
+The inverse operation requires that elements of the above matrices
+are fractions.
+\end{xtccomment}
+\begin{spadsrc}
+inverse(%)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\begin{MATRIX}{2}\frac{1}{\SYMBOL{x}+\ImaginaryI }&0\\\frac{1}{2\TIMES %
+\SYMBOL{x}+2\TIMES \ImaginaryI }&-{\frac{1}{2}}\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Matrix(Fraction(Polynomial(Complex(Integer)))), ...)}
+\end{xtc}
+
+\head{section}{Pattern Matching}{ugNewIntroPattern}
+
+A convenient facility for symbolic computation is ``pattern
+matching.''
+Suppose you have a trigonometric expression and you want to
+transform it to some equivalent form.
+Use a \spad{rule} command to describe the transformation rules you
+\spadkey{rule}
+need.
+Then give the rules a name and apply that name as a function to
+your trigonometric expression.
+
+%
+\begin{xtc}
+\begin{xtccomment}
+Introduce two rewrite rules.
+\end{xtccomment}
+\begin{spadsrc}
+sinCosExpandRules := rule
+  sin(x+y) == sin(x)*cos(y) + sin(y)*cos(x)
+  cos(x+y) == cos(x)*cos(y) - sin(x)*sin(y)
+  sin(2*x) == 2*sin(x)*cos(x)
+  cos(2*x) == cos(x)^2 - sin(x)^2
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\BRACE{\sin{\PAREN{\SYMBOL{y}+\SYMBOL{x}}}\SYMBOL{\ ==\ }\cos{\SYMBOL{x}}%
+\TIMES \sin{\SYMBOL{y}}+\cos{\SYMBOL{y}}\TIMES \sin{\SYMBOL{x}}\COMMA \cos{%
+\PAREN{\SYMBOL{y}+\SYMBOL{x}}}\SYMBOL{\ ==\ }-{\sin{\SYMBOL{x}}\TIMES \sin{%
+\SYMBOL{y}}}+\cos{\SYMBOL{x}}\TIMES \cos{\SYMBOL{y}}\COMMA \sin{\PAREN{2%
+\TIMES \SYMBOL{x}}}\SYMBOL{\ ==\ }2\TIMES \cos{\SYMBOL{x}}\TIMES \sin{\SYMBOL%
+{x}}\COMMA \cos{\PAREN{2\TIMES \SYMBOL{x}}}\SYMBOL{\ ==\ }-{\SUPER{\PAREN{%
+\sin{\SYMBOL{x}}}}{2}}+\SUPER{\PAREN{\cos{\SYMBOL{x}}}}{2}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Ruleset(Integer, Integer, Expression(Integer))}
+\end{xtc}
+
+%
+\begin{xtc}
+\begin{xtccomment}
+Apply the rules to a simple trigonometric expression.
+\end{xtccomment}
+\begin{spadsrc}
+sinCosExpandRules(sin(a+2*b+c))
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\PAREN{-{\cos{\SYMBOL{a}}\TIMES \SUPER{\PAREN{\sin{\SYMBOL{b}}}}{2}}-{2%
+\TIMES \cos{\SYMBOL{b}}\TIMES \sin{\SYMBOL{a}}\TIMES \sin{\SYMBOL{b}}}+\cos{%
+\SYMBOL{a}}\TIMES \SUPER{\PAREN{\cos{\SYMBOL{b}}}}{2}}\TIMES \sin{\SYMBOL{c}}%
+-{\cos{\SYMBOL{c}}\TIMES \sin{\SYMBOL{a}}\TIMES \SUPER{\PAREN{\sin{\SYMBOL{b}%
+}}}{2}}+2\TIMES \cos{\SYMBOL{a}}\TIMES \cos{\SYMBOL{b}}\TIMES \cos{\SYMBOL{c}%
+}\TIMES \sin{\SYMBOL{b}}+\SUPER{\PAREN{\cos{\SYMBOL{b}}}}{2}\TIMES \cos{%
+\SYMBOL{c}}\TIMES \sin{\SYMBOL{a}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+
+Using input files, you can create your own library of
+transformation rules relevant to your applications, then
+selectively apply the rules you need.
+
+\head{section}{Polymorphic Algorithms}{ugNewIntroPolymorphic}
+
+All components of the \Language{} algebra library are written in
+the \Language{} library language.
+This language is similar to the interactive language
+except for protocols that authors are obliged to follow.
+The library language permits you to write ``polymorphic
+algorithms,'' algorithms defined to work in
+their most natural settings and over a variety of types.
+
+%
+\begin{xtc}
+\begin{xtccomment}
+Define a system of polynomial equations \spad{S}.
+\end{xtccomment}
+\begin{spadsrc}
+S := [3*x^3 + y + 1 = 0,y^2 = 4]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\BRACKET{\SYMBOL{y}+3\TIMES \SUPER{\SYMBOL{x}}{3}+1=0\COMMA \SUPER{\SYMBOL{y}%
+}{2}=4}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Equation(Polynomial(Integer)))}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+Solve the system \spad{S} using rational number arithmetic and
+30 digits of accuracy.
+\end{xtccomment}
+\begin{spadsrc}
+solve(S,1/10^30)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\BRACKET{\BRACKET{\SYMBOL{y}=-{2}\COMMA \SYMBOL{x}=\frac{%
+57602201066248085349 435651342568509}{83076749736557242056 487941267521536}}%
+\COMMA \BRACKET{\SYMBOL{y}=2\COMMA \SYMBOL{x}=-{\frac{%
+18707220957835557353 00716585876842265159 59365500929}{%
+18707220957835557353 00716585876842265159 59365500928}}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(List(Equation(Polynomial(Fraction(Integer)))))}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+Solve \spad{S} with the solutions expressed in radicals.
+\end{xtccomment}
+\begin{spadsrc}
+radicalSolve(S)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\BRACKET{\BRACKET{\SYMBOL{y}=2\COMMA \SYMBOL{x}=-{1}}\COMMA \BRACKET{\SYMBOL{%
+y}=2\COMMA \SYMBOL{x}=\frac{-{\sqrt{-{3}}}+1}{2}}\COMMA \BRACKET{\SYMBOL{y}=2%
+\COMMA \SYMBOL{x}=\frac{\sqrt{-{3}}+1}{2}}\COMMA \BRACKET{\SYMBOL{y}=-{2}%
+\COMMA \SYMBOL{x}=\frac{1}{\nthroot{3}{3}}}\COMMA \BRACKET{\SYMBOL{y}=-{2}%
+\COMMA \SYMBOL{x}=\frac{\sqrt{-{1}}\TIMES \sqrt{3}-{1}}{2\TIMES \nthroot{3}{3%
+}}}\COMMA \BRACKET{\SYMBOL{y}=-{2}\COMMA \SYMBOL{x}=\frac{-{\sqrt{-{1}}%
+\TIMES \sqrt{3}}-{1}}{2\TIMES \nthroot{3}{3}}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(List(Equation(Expression(Integer))))}
+\end{xtc}
+
+While these solutions look very different, the results were
+produced by the same internal algorithm!
+The internal algorithm actually works with equations over any ``field.''
+Examples of fields are the rational numbers, floating point
+numbers, rational functions, power series, and general expressions
+involving radicals.
+
+\head{section}{Extensibility}{ugNewIntroExtensibility}
+
+Users and system developers alike can augment the \Language{}
+library, all using one common language.
+Library code, like interpreter code, is compiled into machine
+binary code for run-time efficiency.
+
+Using this language, you can create new computational types and
+new algorithmic packages.
+All library code is polymorphic, described in terms of a database
+of algebraic properties.
+By following the language protocols, there is an automatic,
+guaranteed interaction between your code and that of colleagues
+and system implementers.

@@ -1,0 +1,3299 @@
+% !! DO NOT MODIFY THIS FILE BY HAND !! Created by spool2tex.awk.
+
+% Copyright (c) 1991-2002, The Numerical ALgorithms Group Ltd.
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are
+% met:
+%
+%     - Redistributions of source code must retain the above copyright
+%       notice, this list of conditions and the following disclaimer.
+%
+%     - Redistributions in binary form must reproduce the above copyright
+%       notice, this list of conditions and the following disclaimer in
+%       the documentation and/or other materials provided with the
+%       distribution.
+%
+%     - Neither the name of The Numerical ALgorithms Group Ltd. nor the
+%       names of its contributors may be used to endorse or promote products
+%       derived from this software without specific prior written permission.
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+% IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+% TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+% PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+% OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+% EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+% PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES-- LOSS OF USE, DATA, OR
+% PROFITS-- OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+% LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+% NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+% SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+% *********************************************************************
+\head{chapter}{Using Types and Modes}{ugTypes}
+% *********************************************************************
+
+In this chapter we look at the key notion of \spadgloss{type} and its
+generalization \spadgloss{mode}.
+We show that every \Language{} object has a type that
+determines what you can do with the object.
+In particular, we explain how to use types to call specific functions
+from particular parts of the library and how types and modes can be used
+to create new objects from old.
+We also look at \pspadtype{Record} and \pspadtype{Union} types and
+the special type \spadtype{Any}.
+Finally, we give you an idea of how \Language{} manipulates types and
+modes internally to resolve ambiguities.
+
+% *********************************************************************
+\head{section}{The Basic Idea}{ugTypesBasic}
+% *********************************************************************
+
+The \Language{} world deals with many kinds of objects.
+There are mathematical objects such as numbers and polynomials,
+data structure objects such as lists and arrays, and graphics
+objects such as points and graphic images.
+Functions are objects too.
+
+\Language{} organizes objects using the notion of \spadglossSee{domain of
+computation}{domain}, or simply \spadgloss{domain}.
+Each domain denotes a class of objects.
+The class of objects it denotes is usually given by the name of the
+domain: \spadtype{Integer} for the integers, \spadtype{Float} for
+floating-point numbers, and so on.
+The convention is that the first letter of a domain name is capitalized.
+Similarly, the domain \spadtype{Polynomial(Integer)} denotes ``polynomials
+with integer coefficients.''
+Also, \spadtype{Matrix(Float)} denotes ``matrices with floating-point
+entries.''
+
+Every basic \Language{} object belongs to a unique domain.
+The integer \spad{3} belongs to the domain \spadtype{Integer} and
+the polynomial \spad{x + 3} belongs to the domain
+\spadtype{Polynomial(Integer)}.
+The domain of an object is also called its \spadgloss{type}.
+Thus we speak of ``the type \spadtype{Integer}''
+and ``the type \spadtype{Polynomial(Integer)}.''
+
+\begin{xtc}
+\begin{xtccomment}
+After an \Language{} computation, the type is displayed toward the
+right-hand side of the page (or screen).
+\end{xtccomment}
+\begin{spadsrc}
+-3
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+-{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Integer}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here we create a rational number but it looks like the last result.
+The type however tells you it is different.
+You cannot identify the type of an object by how \Language{}
+displays the object.
+\end{xtccomment}
+\begin{spadsrc}
+-3/1
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+-{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+When a computation produces a result of a simpler type, \Language{} leaves
+the type unsimplified.
+Thus no information is lost.
+\end{xtccomment}
+\begin{spadsrc}
+x + 3 - x 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+3%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This seldom matters since \Language{} retracts the answer to the
+simpler type if it is necessary.
+\end{xtccomment}
+\begin{spadsrc}
+factorial(%) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+6%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+When you issue a positive number, the type \spadtype{PositiveInteger} is
+printed.
+Surely, \spad{3} also has type \spadtype{Integer}!
+The curious reader may now have two questions.
+First, is the type of an object not unique?
+Second, how is \spadtype{PositiveInteger} related to \spadtype{Integer}?
+Read on!
+\end{xtccomment}
+\begin{spadsrc}
+3
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+3%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+Any domain can be refined to a \spadgloss{subdomain} by a membership
+\spadgloss{predicate}.\footnote{A predicate is a function that,
+when applied to an object of the domain, returns either
+\spad{true} or \spad{false}.}
+For example, the domain \spadtype{Integer} can be refined to the
+subdomain \spadtype{PositiveInteger}, the set of integers
+\spad{x} such that \spad{x > 0}, by giving the \Language{}
+predicate \spad{x +-> x > 0}.
+Similarly, \Language{} can define subdomains such as ``the
+subdomain of diagonal matrices,'' ``the subdomain of lists of length
+two,'' ``the subdomain of monic irreducible polynomials in
+\spad{x},'' and so on.
+Trivially, any domain is a subdomain of itself.
+
+While an object belongs to a unique domain, it can belong to any
+number of subdomains.
+Any subdomain of the domain of an object can be used as the
+{\it type} of that object.
+The type of \spad{3} is indeed both \spadtype{Integer} and
+\spadtype{PositiveInteger} as well as any other subdomain of
+integer whose predicate is satisfied, such as ``the prime
+integers,'' ``the odd positive integers between 3 and 17,'' and so
+on.
+
+% *********************************************************************
+\head{subsection}{Domain Constructors}{ugTypesBasicDomainCons}
+% *********************************************************************
+
+In \Language{}, domains are objects.
+You can create them, pass them to functions, and, as we'll see later, test
+them for certain properties.
+
+In \Language{}, you ask for a value of a function by applying its name
+to a set of arguments.
+
+\begin{xtc}
+\begin{xtccomment}
+To ask for ``the factorial of 7'' you enter this expression to
+\Language{}.
+This applies the function \spad{factorial} to the value \spad{7}
+to compute the result.
+\end{xtccomment}
+\begin{spadsrc}
+factorial(7)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+5040%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Enter the type \spadtype{Polynomial (Integer)} as an expression to
+\Language{}.
+This looks much like a function call as well.
+It is!
+The result is appropriately stated to be of type
+\spadtype{Domain}, which
+according to our usual convention, denotes the class of all domains.
+\end{xtccomment}
+\begin{spadsrc}
+Polynomial(Integer)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\STRING{Polynomial(Integer)}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Type}
+\end{xtc}
+
+The most basic operation involving domains is that of building a new
+domain from a given one.
+To create the domain of ``polynomials over the integers,'' \Language{}
+applies the function \spadtype{Polynomial} to the domain
+\spadtype{Integer}.
+A function like \spadtype{Polynomial} is called a \spadgloss{domain
+constructor} or,
+\index{constructor!domain}
+more simply, a
+\spadgloss{constructor}.
+A domain constructor is a function that creates a domain.
+An argument to a domain constructor can be another domain or, in general,
+an arbitrary kind of object.
+\spadtype{Polynomial} takes a single domain argument while
+\spadtype{SquareMatrix} takes a positive integer as an argument
+to give its dimension and
+a domain argument to give the type of its components.
+
+What kinds of domains can you use as the argument to
+\spadtype{Polynomial} or \spadtype{SquareMatrix} or
+\spadtype{List}?
+Well, the first two are mathematical in nature.
+You want to be able to perform algebraic operations like
+\spadop{+} and \spadop{*} on polynomials and square matrices,
+and operations such as \spadfun{determinant} on square matrices.
+So you want to allow polynomials of integers {\it and} polynomials
+of square matrices with complex number coefficients and, in
+general, anything that ``makes sense.'' At the same time, you
+don't want \Language{} to be able to build nonsense domains such
+as ``polynomials of strings!''
+
+In contrast to algebraic structures, data structures can hold any
+kind of object.
+Operations on lists such as \spadfunFrom{insert}{List},
+\spadfunFrom{delete}{List}, and \spadfunFrom{concat}{List} just
+manipulate the list itself without changing or operating on its
+elements.
+Thus you can build \spadtype{List} over almost any datatype,
+including itself.
+\begin{xtc}
+\begin{xtccomment}
+Create a complicated algebraic domain.
+\end{xtccomment}
+\begin{spadsrc}
+List (List (Matrix (Polynomial (Complex (Fraction (Integer))))))
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\STRING{List(List(Matrix(Polynomial(Complex(Fraction(Integer))))))}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Type}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Try to create a meaningless domain.
+\end{xtccomment}
+\begin{spadsrc}
+Polynomial(String)
+\end{spadsrc}
+\begin{MessageOutput}
+   Polynomial(String) is not a valid type.
+\end{MessageOutput}
+\end{xtc}
+Evidently from our last example, \Language{} has some mechanism
+that tells what a constructor can use as an argument.
+This brings us to the notion of \spadgloss{category}.
+As domains are objects, they too have a domain.
+The domain of a domain is a category.
+A category is simply a type whose members are domains.
+
+A common algebraic category is \spadtype{Ring}, the class of all domains
+that are ``rings.''
+A ring is an algebraic structure with constants \spad{0} and \spad{1} and
+operations \spadopFrom{+}{Ring}, \spadopFrom{-}{Ring}, and
+\spadopFrom{*}{Ring}.
+These operations are assumed ``closed'' with respect to the domain,
+meaning that they take two objects of the domain and produce a result
+object also in the domain.
+The operations are understood to satisfy certain ``axioms,'' certain
+mathematical principles providing the algebraic foundation for rings.
+For example, the {\it additive inverse axiom} for rings states:
+\begin{center}
+Every element \spad{x} has an additive inverse \spad{y} such
+that \spad{x + y = 0}.
+\end{center}
+The prototypical example of a domain that is a ring is the integers.
+Keep them in mind whenever we mention \spadtype{Ring}.
+
+Many algebraic domain constructors such as \spadtype{Complex},
+\spadtype{Polynomial}, \spadtype{Fraction}, take rings as
+arguments and return rings as values.
+You can use the infix operator ``\spad{has}''
+\spadkey{has}
+to ask a domain if it belongs to a particular category.
+
+\begin{xtc}
+\begin{xtccomment}
+All numerical types are rings.
+Domain constructor \spadtype{Polynomial} builds ``the ring of polynomials
+over any other ring.''
+\end{xtccomment}
+\begin{spadsrc}
+Polynomial(Integer) has Ring
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\STRING{true}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Boolean}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Constructor \spadtype{List} never produces a ring.
+\end{xtccomment}
+\begin{spadsrc}
+List(Integer) has Ring
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\STRING{false}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Boolean}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The constructor \spadtype{Matrix(R)} builds ``the domain of all matrices
+over the ring \spad{R}.'' This domain is never a ring since the operations
+\spadSyntax{+}, \spadSyntax{-}, and \spadSyntax{*} on matrices of arbitrary
+shapes are undefined.
+\end{xtccomment}
+\begin{spadsrc}
+Matrix(Integer) has Ring
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\STRING{false}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Boolean}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Thus you can never build polynomials over matrices.
+\end{xtccomment}
+\begin{spadsrc}
+Polynomial(Matrix(Integer))
+\end{spadsrc}
+\begin{MessageOutput}
+   Polynomial(Matrix(Integer)) is not a valid type.
+\end{MessageOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Use \spadtype{SquareMatrix(n,R)} instead.
+For any positive integer \spad{n}, it builds ``the ring of \spad{n} by
+\spad{n} matrices over \spad{R}.''
+\end{xtccomment}
+\begin{spadsrc}
+Polynomial(SquareMatrix(7,Complex(Integer)))
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\STRING{Polynomial(SquareMatrix(7,Complex(Integer)))}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Type}
+\end{xtc}
+
+Another common category is \spadtype{Field}, the class of all fields.
+\index{field}
+A field is a ring with additional operations.
+For example, a field has commutative multiplication and
+a closed operation \spadopFrom{/}{Field} for the
+division of two elements.
+\spadtype{Integer} is not a field since, for example, \spad{3/2} does not
+have an integer result.
+The prototypical example of a field is the rational numbers, that is, the
+domain \spadtype{Fraction(Integer)}.
+In general, the constructor \spadtype{Fraction} takes a ring as an
+argument and returns a field.\footnote{Actually,
+the argument domain must have some additional
+properties so as to belong to category \spadtype{IntegralDomain}.}
+Other domain constructors, such as \spadtype{Complex}, build fields only if
+their argument domain is a field.
+
+\begin{xtc}
+\begin{xtccomment}
+The complex integers (often called the ``Gaussian integers'') do not form
+a field.
+\end{xtccomment}
+\begin{spadsrc}
+Complex(Integer) has Field
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+\STRING{false}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Boolean}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+But fractions of complex integers do.
+\end{xtccomment}
+\begin{spadsrc}
+Fraction(Complex(Integer)) has Field
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\STRING{true}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Boolean}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The algebraically equivalent domain of complex rational numbers is a field
+since domain constructor \spadtype{Complex} produces a field whenever its
+argument is a field.
+\end{xtccomment}
+\begin{spadsrc}
+Complex(Fraction(Integer)) has Field
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\STRING{true}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Boolean}
+\end{xtc}
+
+The most basic category is \spadtype{Type}.
+\exptypeindex{Type}
+It denotes the class of all domains and
+subdomains.\footnote{\spadtype{Type} does not denote the class of
+all types.
+The type of all categories is \spadtype{Category}.
+The type of \spadtype{Type} itself is undefined.}
+Domain constructor \spadtype{List} is able to build ``lists of
+elements from domain \spad{D}'' for arbitrary \spad{D} simply by
+requiring that \spad{D} belong to category \spadtype{Type}.
+
+Now, you may ask, what exactly is a category?
+\index{category}
+Like domains, categories can be defined in the \Language{} language.
+A category is defined by three components:
+%
+\begin{enumerate}
+\item a name (for example, \spadtype{Ring}),
+used to refer to the class of domains that the category represents;
+\item a set of operations, used to refer to the operations that
+the domains of this class support
+(for example, \spadop{+}, \spadop{-}, and \spadop{*} for rings); and
+\item an optional list of other categories that this category extends.
+\end{enumerate}
+%
+This last component is a new idea.
+And it is key to the design of \Language{}!
+Because categories can extend one another, they form hierarchies.
+Detailed charts showing the category hierarchies in \Language{} are
+displayed in the endpages of this book.
+There you see that all categories are extensions of \spadtype{Type} and that
+\spadtype{Field} is an extension of \spadtype{Ring}.
+
+The operations supported by the domains of a category are called the
+\spadglossSee{exports}{export} of that category because these are the
+operations made available for system-wide use.
+The exports of a domain of a given category are not only the ones
+explicitly mentioned by the category.
+Since a category extends other categories, the operations of these other
+categories---and all categories these other categories extend---are also
+exported by the domains.
+
+For example, polynomial domains belong to \spadtype{PolynomialCategory}.
+This category explicitly mentions some twenty-nine
+operations on polynomials, but it
+extends eleven other categories (including \spadtype{Ring}).
+As a result, the current system has over one hundred operations on polynomials.
+
+If a domain belongs to a category that extends, say, \spadtype{Ring}, it
+is convenient to say that the domain exports \spadtype{Ring}.
+The name of the category thus provides a convenient shorthand for the list
+of operations exported by the category.
+Rather than listing operations such as \spadopFrom{+}{Ring} and
+\spadopFrom{*}{Ring} of \spadtype{Ring} each time they are needed, the
+definition of a type simply asserts that it exports category
+\spadtype{Ring}.
+
+The category name, however, is more than a shorthand.
+The name \spadtype{Ring}, in fact, implies that the operations exported by
+rings are required to satisfy a set of ``axioms'' associated with the name
+\spadtype{Ring}.\footnote{This subtle
+but important feature distinguishes \Language{} from
+other abstract datatype designs.}
+
+Why is it not correct to assume that some type is a ring if it exports all
+of the operations of \spadtype{Ring}?
+Here is why.
+Some languages such as {\bf APL}
+\index{APL}
+denote the \spadtype{Boolean} constants \spad{true} and
+\spad{false} by the integers \spad{1} and \spad{0}
+respectively, then use \spadop{+} and \spadop{*} to denote the
+logical operators \spadfun{or} and \spadfun{and}.
+But with these definitions
+\spadtype{Boolean} is not a ring since the additive inverse
+axiom is violated.\footnote{There is no inverse element \spad{a}
+such that \spad{1 + a = 0}, or, in the usual terms:
+\spad{true or a = false}.}
+This alternative definition of \spadtype{Boolean} can be easily
+and correctly implemented in \Language{}, since
+\spadtype{Boolean} simply does not assert that it is of category
+\spadtype{Ring}.
+This prevents the system from building meaningless domains such as
+\spadtype{Polynomial(Boolean)} and then wrongfully applying
+algorithms that presume that the ring axioms hold.
+
+
+Enough on categories. To learn more about them, see
+\chapref{ugCategories}.
+We now return to our discussion of domains.
+
+Domains \spadgloss{export} a set of operations to make them
+available for system-wide use.
+\spadtype{Integer}, for example, exports the operations
+\spadopFrom{+}{Integer} and \spadopFrom{=}{Integer} given by
+the \spadglossSee{signatures}{signature}
+\spadopFrom{+}{Integer}: \spad{(Integer,Integer)->Integer} and
+\spadopFrom{=}{Integer}: \spad{(Integer,Integer)->Boolean},
+respectively.
+Each of these operations takes two \spadtype{Integer} arguments.
+The \spadopFrom{+}{Integer} operation also returns an \spadtype{Integer} but
+\spadopFrom{=}{Integer} returns a \spadtype{Boolean}: \spad{true} or
+\spad{false}.
+The operations exported by a domain usually manipulate objects of
+the domain---but not always.
+
+The operations of a domain may actually take as arguments, and return as
+values, objects from any domain.
+For example, \spadtype{Fraction (Integer)} exports the operations
+\spadopFrom{/}{Fraction}: \spad{(Integer,Integer)->Fraction(Integer)}
+and \spadfunFrom{characteristic}{Fraction}:
+\spad{->NonNegativeInteger}.
+
+Suppose all operations of a domain take as arguments and return
+as values, only objects from {\it other} domains.
+\index{package}
+This kind of domain
+\index{constructor!package}
+is what \Language{} calls a \spadgloss{package}.
+
+A package does not designate a class of objects at all.
+Rather, a package is just a collection of operations.
+Actually the bulk of the \Language{} library of algorithms consists
+of packages.
+The facilities for factorization; integration; solution of linear,
+polynomial, and differential equations; computation of limits; and so
+on, are all defined in packages.
+Domains needed by algorithms can be passed to a package as arguments or
+used by name if they are not ``variable.''
+Packages are useful for defining operations that convert objects of one
+type to another, particularly when these types have different
+parameterizations.
+As an example, the package \spadtype{PolynomialFunction2(R,S)} defines
+operations that convert polynomials over a domain \spad{R} to polynomials
+over \spad{S}.
+To convert an object from \spadtype{Polynomial(Integer)} to
+\spadtype{Polynomial(Float)}, \Language{} builds the package
+\spadtype{PolynomialFunctions2(Integer,Float)} in order to create the
+required conversion function.
+(This happens ``behind the scenes'' for you: see \spadref{ugTypesConvert}
+for details on how to convert objects.)
+
+\Language{} categories, domains and packages and all their contained
+functions are written in the \Language{} programming language and have
+been compiled into machine code.
+This is what comprises the \Language{} \spadgloss{library}.
+In the rest of this book we show you how to use these domains and
+their functions and how to write your own functions.
+
+% *********************************************************************
+\head{section}{Writing Types and Modes}{ugTypesWriting}
+% *********************************************************************
+%
+
+We have already seen in
+the last section
+several examples of types.
+Most of these examples had either no arguments (for example,
+\spadtype{Integer}) or one argument (for example,
+\spadtype{Polynomial (Integer)}).
+In this section we give details about writing arbitrary types.
+We then define \spadglossSee{modes}{mode} and discuss how to write
+them.
+We conclude the section with a discussion on constructor
+abbreviations.
+
+\begin{xtc}
+\begin{xtccomment}
+When might you need to write a type or mode?
+You need to do so when you declare variables.
+\end{xtccomment}
+\begin{spadsrc}
+a : PositiveInteger
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You need to do so when you declare functions
+(\spadref{ugTypesDeclare}),
+\end{xtccomment}
+\begin{spadsrc}
+f : Integer -> String
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You need to do so when you convert an object from one type to another
+(\spadref{ugTypesConvert}).
+\end{xtccomment}
+\begin{spadsrc}
+factor(2 :: Complex(Integer))
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+-{\ImaginaryI \TIMES \SUPER{\PAREN{1+\ImaginaryI }}{2}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Factored(Complex(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+(2 = 3)$Integer
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\STRING{false}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Boolean}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You need to do so when you give computation target type information
+(\spadref{ugTypesPkgCall}).
+\end{xtccomment}
+\begin{spadsrc}
+(2 = 3)@Boolean
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\STRING{false}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Boolean}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{Types with No Arguments}{ugTypesWritingZero}
+% *********************************************************************
+
+A constructor with no arguments can be written either
+\index{type!using parentheses}
+with or without
+\index{parentheses!using with types}
+trailing opening and closing parentheses (\spadSyntax{()}).
+\begin{center}
+\begin{tabular}{ccc}
+\spadtype{Boolean()} is the same as \spadtype{Boolean} & \quad &
+\spadtype{Integer()} is the same as \spadtype{Integer} \\
+\spadtype{String()} is the same as \spadtype{String} & \quad &
+\spadtype{Void()} is the same as \spadtype{Void} \\
+\end{tabular}
+\end{center}
+and so on.
+It is customary to omit the parentheses.
+
+% *********************************************************************
+\head{subsection}{Types with One Argument}{ugTypesWritingOne}
+% *********************************************************************
+
+A constructor with one argument can frequently be
+\index{type!using parentheses}
+written with no
+\index{parentheses!using with types}
+parentheses.
+Types nest from right to left so that
+\spadtype{Complex Fraction Polynomial Integer} is the same as
+\spadtype{Complex (Fraction (Polynomial (Integer)))}.
+You need to use parentheses to force the application of a constructor
+to the correct argument, but you need not use any more than is
+necessary to remove ambiguities.
+
+Here are some guidelines for using parentheses (they are possibly slightly
+more restrictive than they need to be).
+\begin{xtc}
+\begin{xtccomment}
+If the argument is an expression like \spad{2 + 3}
+then you must enclose the argument in parentheses.
+\end{xtccomment}
+\begin{spadsrc}
+e : PrimeField(2 + 3)
+\end{spadsrc}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+If the type is to be used with package calling
+then you must enclose the argument in parentheses.
+\end{xtccomment}
+\begin{spadsrc}
+content(2)$Polynomial(Integer)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+2%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Integer}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Alternatively, you can write the type without parentheses
+then enclose the whole type expression with parentheses.
+\end{xtccomment}
+\begin{spadsrc}
+content(2)$(Polynomial Complex Fraction Integer)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+2%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Complex(Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+If you supply computation target type information
+(\spadref{ugTypesPkgCall})
+then you should enclose the argument in parentheses.
+\end{xtccomment}
+\begin{spadsrc}
+(2/3)@Fraction(Polynomial(Integer))
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\frac{2}{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Polynomial(Integer))}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+If the type itself has parentheses around it and we are
+not in the case of the first example above,
+then the parentheses can usually be omitted.
+\end{xtccomment}
+\begin{spadsrc}
+(2/3)@Fraction(Polynomial Integer)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\frac{2}{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Polynomial(Integer))}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+If the type is used in a declaration and the argument is a single-word
+type, integer or symbol,
+then the parentheses can usually be omitted.
+\end{xtccomment}
+\begin{spadsrc}
+(d,f,g) : Complex Polynomial Integer
+\end{spadsrc}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{Types with More Than One Argument}{ugTypesWritingMore}
+% *********************************************************************
+
+If a constructor
+\index{type!using parentheses}
+has more than
+\index{parentheses!using with types}
+one argument, you must use parentheses.
+Some examples are
+\begin{center}
+\spadtype{UnivariatePolynomial(x, Float)} \\
+\spadtype{MultivariatePolynomial([z,w,r], Complex Float)} \\
+\spadtype{SquareMatrix(3, Integer)} \\
+\spadtype{FactoredFunctions2(Integer,Fraction Integer)}
+\end{center}
+
+% *********************************************************************
+\head{subsection}{Modes}{ugTypesWritingModes}
+% *********************************************************************
+
+A \spadgloss{mode} is a type that possibly is a
+question mark (\spadSyntax{?}) or contains one in an argument
+position.
+For example, the following are all modes.
+\begin{center}
+\begin{tabular}{ccc}
+\spadtype{?} & \quad &
+\spadtype{Polynomial ?} \\
+\spadtype{Matrix Polynomial ?} & \quad &
+\spadtype{SquareMatrix(3,?)} \\
+\spadtype{Integer} & \quad &
+\spadtype{OneDimensionalArray(Float)}
+\end{tabular}
+\end{center}
+
+As is evident from these examples, a mode is a type with a
+part that is not specified (indicated by a question mark).
+Only one \spadSyntax{?} is allowed per mode and it must appear in the
+most deeply nested argument that is a type. Thus
+\nonLibAxiomType{?(Integer)},
+\nonLibAxiomType{Matrix(? (Polynomial))},
+\nonLibAxiomType{SquareMatrix(?, Integer)} and
+\nonLibAxiomType{SquareMatrix(?, ?)} are all invalid.
+The question mark must take the place of a domain, not data (for example,
+the integer that is the dimension of a square matrix).
+This rules out, for example, the two \spadtype{SquareMatrix}
+expressions.
+
+Modes can be used for declarations
+(\spadref{ugTypesDeclare})
+and conversions
+(\spadref{ugTypesConvert}).
+However, you cannot use a mode for package calling or giving target
+type information.
+
+% *********************************************************************
+\head{subsection}{Abbreviations}{ugTypesWritingAbbr}
+% *********************************************************************
+
+Every constructor has an abbreviation that
+\index{abbreviation!constructor}
+you can freely
+\index{constructor!abbreviation}
+substitute for the constructor name.
+In some cases, the abbreviation is nothing more than the
+capitalized version of the constructor name.
+
+\beginImportant
+Aside from allowing types to be written more concisely,
+abbreviations are used by \Language{} to name various system
+files for constructors (such as library filenames, test input
+files and example files).
+Here are some common abbreviations.
+\begin{center}
+\begin{tabular}{ll}
+\small\spadtype{COMPLEX}   abbreviates \spadtype{Complex}             &
+\small\spadtype{DFLOAT}    abbreviates \spadtype{DoubleFloat}         \\
+\small\spadtype{EXPR}      abbreviates \spadtype{Expression}          &
+\small\spadtype{FLOAT}     abbreviates \spadtype{Float}               \\
+\small\spadtype{FRAC}      abbreviates \spadtype{Fraction}            &
+\small\spadtype{INT}       abbreviates \spadtype{Integer}             \\
+\small\spadtype{MATRIX}    abbreviates \spadtype{Matrix}              &
+\small\spadtype{NNI}       abbreviates \spadtype{NonNegativeInteger}  \\
+\small\spadtype{PI}        abbreviates \spadtype{PositiveInteger}     &
+\small\spadtype{POLY}      abbreviates \spadtype{Polynomial}          \\
+\small\spadtype{STRING}    abbreviates \spadtype{String}              &
+\small\spadtype{UP}        abbreviates \spadtype{UnivariatePolynomial}\\
+\end{tabular}
+\end{center}
+\endImportant
+
+You can combine both full constructor names and abbreviations
+in a type expression.
+Here are some types using abbreviations.
+\begin{center}
+\spadtype{POLY INT} is the same as \spadtype{Polynomial(INT)} \\
+\spadtype{POLY(Integer)} is the same as \spadtype{Polynomial(Integer)} \\
+\spadtype{POLY(Integer)} is the same as \spadtype{Polynomial(INT)} \\
+\spadtype{FRAC(COMPLEX(INT))} is the same as \spadtype{Fraction Complex Integer} \\
+\spadtype{FRAC(COMPLEX(INT))} is the same as \spadtype{FRAC(Complex Integer)} \\
+\end{center}
+
+There are several ways of finding the names of constructors and
+their abbreviations.
+For a specific constructor, use \spadsys{)abbreviation query}.
+\syscmdindex{abbreviation}
+You can also use the \spadsys{)what} system command to see the names
+and abbreviations of constructors.
+\syscmdindex{what}
+For more information about \spadsys{)what}, see
+\spadref{ugSysCmdwhat}.
+\begin{xtc}
+\begin{xtccomment}
+\spadsys{)abbreviation query} can be
+abbreviated (no pun intended) to \spadsys{)abb q}.
+\end{xtccomment}
+\begin{spadsrc}
+)abb q Integer
+\end{spadsrc}
+\begin{SysCmdOutput}
+   INT abbreviates domain Integer 
+\end{SysCmdOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The \spadsys{)abbreviation query} command lists
+the constructor name if you give the abbreviation.
+Issue \spadsys{)abb q} if you want to see the names and abbreviations
+of all \Language{} constructors.
+\end{xtccomment}
+\begin{spadsrc}
+)abb q DMP
+\end{spadsrc}
+\begin{SysCmdOutput}
+   DMP abbreviates domain DistributedMultivariatePolynomial 
+\end{SysCmdOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Issue this to see all packages whose names contain the string ``ode''.
+\syscmdindex{what packages}
+\end{xtccomment}
+\begin{spadsrc}
+)what packages ode
+\end{spadsrc}
+\begin{SysCmdOutput}
+-------------------------------- Packages ---------------------------------
+
+Packages with names matching patterns:
+     ode 
+
+ COMPCODE compCode                     EXPRODE  ExpressionSpaceODESolver
+ FCPAK1   FortranCodePackage1          FCTOOL   FortranCodeTools
+ GRAY     GrayCode                     LODEEF   ElementaryFunctionLODESolver
+ NODE1    NonLinearFirstOrderODESolver  ODECONST ConstantLODE
+ ODEEF    ElementaryFunctionODESolver  ODEINT   ODEIntegration
+ ODEPAL   PureAlgebraicLODE            ODERAT   RationalLODE
+ ODERED   ReduceLODE                   ODESYS   SystemODESolver
+ ODETOOLS ODETools
+ UTSODE   UnivariateTaylorSeriesODESolver
+ UTSODETL UTSodetools
+\end{SysCmdOutput}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Declarations}{ugTypesDeclare}
+% *********************************************************************
+%
+A \spadgloss{declaration} is an expression used
+to restrict the type of values that can be assigned to variables.
+A colon (\spadSyntax{:}) is always used after a variable or
+list of variables to be declared.
+
+\beginImportant
+For a single variable, the syntax for declaration is
+\begin{center}
+{\it variableName \spad{:} typeOrMode}
+\end{center}
+For multiple variables, the syntax is
+\begin{center}
+{\tt (\subscriptIt{variableName}{1}, \subscriptIt{variableName}{2}, \ldots \subscriptIt{variableName}{N}): {\it typeOrMode}}
+\end{center}
+\endImportant
+
+You can always combine a declaration with an assignment.
+When you do, it is equivalent to first giving a declaration statement,
+then giving an assignment.
+For more information on assignment, see
+\spadref{ugIntroAssign} and
+\spadref{ugLangAssign}.
+To see how to declare your own functions, see
+\spadref{ugUserDeclare}.
+
+\begin{xtc}
+\begin{xtccomment}
+This declares one variable to have a type.
+\end{xtccomment}
+\begin{spadsrc}
+a : Integer 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This declares several variables to have a type.
+\end{xtccomment}
+\begin{spadsrc}
+(b,c) : Integer 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\spad{a, b} and \spad{c} can only hold integer values.
+\end{xtccomment}
+\begin{spadsrc}
+a := 45 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+45%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Integer}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+If a value cannot be converted to a declared type,
+an error message is displayed.
+\end{xtccomment}
+\begin{spadsrc}
+b := 4/5 
+\end{spadsrc}
+\begin{MessageOutput}
+   Cannot convert right-hand side of assignment
+   4
+   -
+   5
+
+      to an object of the type Integer of the left-hand side.
+\end{MessageOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This declares a variable with a mode.
+\end{xtccomment}
+\begin{spadsrc}
+n : Complex ? 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This declares several variables with a mode.
+\end{xtccomment}
+\begin{spadsrc}
+(p,q,r) : Matrix Polynomial ? 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This complex object has integer real and imaginary parts.
+\end{xtccomment}
+\begin{spadsrc}
+n := -36 + 9 * %i 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+-{36}+9\TIMES \ImaginaryI %
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Complex(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This complex object has fractional symbolic real and imaginary parts.
+\end{xtccomment}
+\begin{spadsrc}
+n := complex(4/(x + y),y/x) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\frac{4}{\SYMBOL{y}+\SYMBOL{x}}+\frac{\SYMBOL{y}}{\SYMBOL{x}}\TIMES %
+\ImaginaryI %
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Complex(Fraction(Polynomial(Integer)))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This matrix has entries that are polynomials with integer
+coefficients.
+\end{xtccomment}
+\begin{spadsrc}
+p := [[1,2],[3,4],[5,6]] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+\begin{MATRIX}{2}1&2\\3&4\\5&6\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Polynomial(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This matrix has a single entry that is a polynomial with
+rational number coefficients.
+\end{xtccomment}
+\begin{spadsrc}
+q := [[x - 2/3]] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\begin{MATRIX}{1}\SYMBOL{x}-{\frac{2}{3}}\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Polynomial(Fraction(Integer)))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This matrix has entries that are polynomials with complex integer
+coefficients.
+\end{xtccomment}
+\begin{spadsrc}
+r := [[1-%i*x,7*y+4*%i]] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\begin{MATRIX}{2}-{\ImaginaryI \TIMES \SYMBOL{x}}+1&7\TIMES \SYMBOL{y}+4%
+\TIMES \ImaginaryI \end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Polynomial(Complex(Integer)))}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+Note the difference between this and the next example.
+This is a complex object with polynomial real and imaginary parts.
+\end{xtccomment}
+\begin{spadsrc}
+f : COMPLEX POLY ? := (x + y*%i)^2
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+-{\SUPER{\SYMBOL{y}}{2}}+\SUPER{\SYMBOL{x}}{2}+2\TIMES \SYMBOL{x}\TIMES %
+\SYMBOL{y}\TIMES \ImaginaryI %
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Complex(Polynomial(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is a polynomial with complex integer coefficients.
+The objects are convertible from one to the other.
+See \spadref{ugTypesConvert} for more information.
+\end{xtccomment}
+\begin{spadsrc}
+g : POLY COMPLEX ? := (x + y*%i)^2
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+-{\SUPER{\SYMBOL{y}}{2}}+2\TIMES \ImaginaryI \TIMES \SYMBOL{x}\TIMES \SYMBOL{%
+y}+\SUPER{\SYMBOL{x}}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Complex(Integer))}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Records}{ugTypesRecords}
+% *********************************************************************
+%
+A \pspadtype{Record} is an object composed of one or more other objects,
+\index{Record@\protect\nonLibAxiomType{Record}}
+each of which is referenced
+\index{selector!record}
+with
+\index{record!selector}
+a \spadgloss{selector}.
+Components can all belong to the same type or each can have a different type.
+
+% ----------------------------------------------------------------------
+\beginImportant
+The syntax for writing a \pspadtype{Record} type is
+\begin{center}
+{\tt Record(\subscriptIt{selector}{1}:\subscriptIt{type}{1}, \subscriptIt{selector}{2}:\subscriptIt{type}{2}, \ldots, \subscriptIt{selector}{N}:\subscriptIt{type}{N})}
+\end{center}
+You must be careful if a selector has the same name as a variable in the
+workspace.
+If this occurs, precede the selector name by a single
+\index{quote}
+quote.
+\endImportant
+% ----------------------------------------------------------------------
+
+Record components are implicitly ordered.
+All the components of a record can
+be set at once by assigning the record a
+bracketed \spadgloss{tuple} of values of the proper length
+(for example, \spad{r : Record(a: Integer, b: String) := [1, "two"]}).
+To access a component of a record \spad{r},
+write the name \spad{r}, followed by a period, followed by a selector.
+
+%
+\begin{xtc}
+\begin{xtccomment}
+The object returned by this computation is a record with two components: a
+\spad{quotient} part and a \spad{remainder} part.
+\end{xtccomment}
+\begin{spadsrc}
+u := divide(5,2) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\BRACKET{\SYMBOL{quotient}=2\COMMA \SYMBOL{remainder}=1}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Record(quotient: Integer, remainder: Integer)}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+This is the quotient part.
+\end{xtccomment}
+\begin{spadsrc}
+u.quotient 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+2%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is the remainder part.
+\end{xtccomment}
+\begin{spadsrc}
+u.remainder 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+You can use selector expressions on the left-hand side of an assignment
+to change destructively the components of a record.
+\end{xtccomment}
+\begin{spadsrc}
+u.quotient := 8978 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+8978%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The selected component \spad{quotient} has the value \spad{8978},
+which is what is returned by the assignment.
+Check that the value of \spad{u} was modified.
+\end{xtccomment}
+\begin{spadsrc}
+u 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\BRACKET{\SYMBOL{quotient}=8978\COMMA \SYMBOL{remainder}=1}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Record(quotient: Integer, remainder: Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Selectors are evaluated.
+Thus you can use variables that evaluate to selectors instead of the
+selectors themselves.
+\end{xtccomment}
+\begin{spadsrc}
+s := 'quotient 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\SYMBOL{quotient}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Variable(quotient)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Be careful!
+A selector could have the same name as a variable in the workspace.
+If this occurs, precede the selector name by a single quote, as in
+\spad{u.'quotient}.
+\index{selector!quoting}
+\end{xtccomment}
+\begin{spadsrc}
+divide(5,2).s 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+2%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here we declare that the value of \spad{bd}
+has two components: a string,
+to be accessed via \spad{name}, and an integer,
+to be accessed via \spad{birthdayMonth}.
+\end{xtccomment}
+\begin{spadsrc}
+bd : Record(name : String, birthdayMonth : Integer) 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You must initially set the value of the entire \pspadtype{Record}
+at once.
+\end{xtccomment}
+\begin{spadsrc}
+bd := ["Judith", 3] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\BRACKET{\SYMBOL{name}=\STRING{"Judith"}\COMMA \SYMBOL{birthdayMonth}=3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Record(name: String, birthdayMonth: Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Once set, you can change any of the individual components.
+\end{xtccomment}
+\begin{spadsrc}
+bd.name := "Katie" 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\STRING{"Katie"}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{String}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Records may be nested and the selector names can be shared at
+different levels.
+\end{xtccomment}
+\begin{spadsrc}
+r : Record(a : Record(b: Integer, c: Integer), b: Integer) 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The record \spad{r} has a \spad{b} selector at two different levels.
+Here is an initial value for \spad{r}.
+\end{xtccomment}
+\begin{spadsrc}
+r := [[1,2],3] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+\BRACKET{\SYMBOL{a}=\BRACKET{\SYMBOL{b}=1\COMMA \SYMBOL{c}=2}\COMMA \SYMBOL{b%
+}=3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Record(a: Record(b: Integer, c: Integer), b: Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This extracts the \spad{b} component from the \spad{a} component of \spad{r}.
+\end{xtccomment}
+\begin{spadsrc}
+r.a.b 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{13}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This extracts the \spad{b} component from \spad{r}.
+\end{xtccomment}
+\begin{spadsrc}
+r.b 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{14}
+3%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+You can also use spaces or parentheses to refer to \pspadtype{Record}
+components.
+This is the same as \spad{r.a}.
+\end{xtccomment}
+\begin{spadsrc}
+r(a) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{15}
+\BRACKET{\SYMBOL{b}=1\COMMA \SYMBOL{c}=2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Record(b: Integer, c: Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is the same as \spad{r.b}.
+\end{xtccomment}
+\begin{spadsrc}
+r b 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{16}
+3%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is the same as \spad{r.b := 10}.
+\end{xtccomment}
+\begin{spadsrc}
+r(b) := 10 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{17}
+10%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Look at \spad{r} to make sure it was modified.
+\end{xtccomment}
+\begin{spadsrc}
+r 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{18}
+\BRACKET{\SYMBOL{a}=\BRACKET{\SYMBOL{b}=1\COMMA \SYMBOL{c}=2}\COMMA \SYMBOL{b%
+}=10}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Record(a: Record(b: Integer, c: Integer), b: Integer)}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Unions}{ugTypesUnions}
+% *********************************************************************
+%
+Type \pspadtype{Union} is used for objects that
+can be of any of a specific finite set of types.
+\index{Union@\protect\nonLibAxiomType{Union}}
+Two versions of unions are available,
+one with selectors (like records) and one without.
+\index{union}
+
+% *********************************************************************
+\head{subsection}{Unions Without Selectors}{ugTypesUnionsWOSel}
+% *********************************************************************
+
+The declaration \spad{x : Union(Integer, String, Float)}
+states that \spad{x} can have values that are integers,
+strings or ``big'' floats.
+If, for example, the \pspadtype{Union} object is an integer, the object is
+said to belong to the \spadtype{Integer} {\it branch}
+of the \pspadtype{Union}.\footnote{
+Note that we are being a bit careless with the language here.
+Technically, the type of \spad{x} is always
+\pspadtype{Union(Integer, String, Float)}.
+If it belongs to the \spadtype{Integer} branch, \spad{x}
+may be converted to an object of type \spadtype{Integer}.}
+
+% ----------------------------------------------------------------------
+\beginImportant
+The syntax for writing a \pspadtype{Union} type without selectors is
+\begin{center}
+{\tt Union(\subscriptIt{type}{1}, \subscriptIt{type}{2}, \ldots, \subscriptIt{type}{N})}
+\end{center}
+The types in a union without selectors must be distinct.
+\endImportant
+% ----------------------------------------------------------------------
+
+It is possible to create unions like
+\pspadtype{Union(Integer, PositiveInteger)} but they are
+difficult to work with because of the overlap in the branch
+types.
+See below for the rules \Language{} uses for converting something
+into a union object.
+
+The \spad{case} infix
+\spadkey{case}
+operator returns a \spadtype{Boolean}
+and can be used to determine the branch in which an object lies.
+
+\begin{xtc}
+\begin{xtccomment}
+This function displays a message stating in which
+branch of the \pspadtype{Union} the object (defined as \spad{x}
+above) lies.
+\end{xtccomment}
+\begin{spadsrc}
+sayBranch(x : Union(Integer,String,Float)) : Void  ==
+  output
+    x case Integer => "Integer branch"
+    x case String  => "String branch"
+    "Float branch"
+\end{spadsrc}
+\begin{MessageOutput}
+   Function declaration sayBranch : Union(Integer,String,Float) -> Void
+      has been added to workspace.
+\end{MessageOutput}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+This tries \userfun{sayBranch} with an integer.
+\end{xtccomment}
+\begin{spadsrc}
+sayBranch 1 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function sayBranch with type Union(Integer,String,Float)
+       -> Void 
+\end{MessageOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This tries \userfun{sayBranch} with a string.
+\end{xtccomment}
+\begin{spadsrc}
+sayBranch "hello" 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This tries \userfun{sayBranch} with a floating-point number.
+\end{xtccomment}
+\begin{spadsrc}
+sayBranch 2.718281828 
+\end{spadsrc}
+\end{xtc}
+%
+
+There are two things of interest about this particular
+example to which we would like to draw your attention.
+\begin{enumerate}
+%
+\item \Language{} normally converts a result to the target value
+before passing it to the function.
+If we left the declaration information out of this function definition
+then the \spad{sayBranch} call would have been attempted with an
+\spadtype{Integer} rather than a \pspadtype{Union}, and an error would have
+resulted.
+%
+\item The types in a \pspadtype{Union} are searched in the order given.
+So if the type were given as
+
+\noindent
+{\small\spad{sayBranch(x: Union(String,Integer,Float,Any)): Void}}
+
+\noindent
+then the result would have been ``String branch'' because there
+is a conversion from \spadtype{Integer} to \spadtype{String}.
+\end{enumerate}
+
+Sometimes \pspadtype{Union} types can have extremely
+long names.
+\Language{} therefore abbreviates the names of unions by printing
+the type of the branch first within the \pspadtype{Union} and then
+eliding the remaining types with an ellipsis (\spadSyntax{...}).
+
+\begin{xtc}
+\begin{xtccomment}
+Here the \spadtype{Integer} branch is displayed first.
+Use \spadSyntax{::} to create a \pspadtype{Union} object from an object.
+\end{xtccomment}
+\begin{spadsrc}
+78 :: Union(Integer,String)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+78%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Integer, ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here the \spadtype{String} branch is displayed first.
+\end{xtccomment}
+\begin{spadsrc}
+s := "string" :: Union(Integer,String) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\STRING{"string"}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(String, ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Use \spad{typeOf} to see the full and actual \pspadtype{Union} type.
+\spadkey{typeOf}
+\end{xtccomment}
+\begin{spadsrc}
+typeOf s
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\STRING{Union(Integer,String)}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Type}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+A common operation that returns a union is \spadfunFrom{exquo}{Integer}
+which returns the ``exact quotient'' if the quotient is exact,...
+\end{xtccomment}
+\begin{spadsrc}
+three := exquo(6,2) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+3%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Integer, ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+and \spad{"failed"} if the quotient is not exact.
+\end{xtccomment}
+\begin{spadsrc}
+exquo(5,2)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\STRING{"failed"}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union("failed", ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+A union with a \spad{"failed"} is frequently used to indicate the failure
+or lack of applicability of an object.
+As another example, assign an integer a variable \spad{r} declared to be a
+rational number.
+\end{xtccomment}
+\begin{spadsrc}
+r: FRAC INT := 3 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+3%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The operation \spadfunFrom{retractIfCan}{Fraction} tries to retract the
+fraction to the underlying domain \spadtype{Integer}.
+It produces a union object.
+Here it succeeds.
+\end{xtccomment}
+\begin{spadsrc}
+retractIfCan(r) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+3%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Integer, ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Assign it a rational number.
+\end{xtccomment}
+\begin{spadsrc}
+r := 3/2 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+\frac{3}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here the retraction fails.
+\end{xtccomment}
+\begin{spadsrc}
+retractIfCan(r) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{13}
+\STRING{"failed"}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union("failed", ...)}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{Unions With Selectors}{ugTypesUnionsWSel}
+% *********************************************************************
+
+Like records (\spadref{ugTypesRecords}),
+you can write \pspadtype{Union} types
+\index{selector!union}
+with selectors.
+\index{union!selector}
+
+% ----------------------------------------------------------------------
+\beginImportant
+The syntax for writing a \pspadtype{Union} type with selectors is
+\begin{center}
+{\tt Union(\subscriptIt{selector}{1}:\subscriptIt{type}{1}, \subscriptIt{selector}{2}:\subscriptIt{type}{2}, \ldots, \subscriptIt{selector}{N}:\subscriptIt{type}{N})}
+\end{center}
+You must be careful if a selector has the same name as a variable in the
+workspace.
+If this occurs, precede the selector name by a single
+\index{quote}
+quote.
+\index{selector!quoting}
+It is an error to use a selector that does not correspond to the branch of
+the \pspadtype{Union} in which the element actually lies.
+\endImportant
+% ----------------------------------------------------------------------
+
+Be sure to understand the difference between records and unions
+with selectors.
+\index{union!difference from record}
+Records can have more than one component and the selectors are
+used to refer to the components.
+\index{record!difference from union}
+Unions always have one component but the type of that one
+component can vary.
+An object of type \pspadtype{Record(a: Integer, b: Float, c: String)}
+contains an integer {\it and} a float  {\it and} a
+string.
+An object of type \pspadtype{Union(a: Integer, b: Float, c: String)}
+contains an integer {\it or} a float  {\it or} a
+string.
+
+Here is a version of the \userfun{sayBranch} function (cf.
+\spadref{ugTypesUnionsWOSel}) that works with a union with selectors.
+It displays a message stating in which branch of the \pspadtype{Union} the
+object lies.
+\begin{verbatim}
+sayBranch(x:Union(i:Integer,s:String,f:Float)):Void==
+  output
+    x case i => "Integer branch"
+    x case s  => "String branch"
+    "Float branch"
+\end{verbatim}
+Note that \spad{case} uses the selector name as its right-hand argument.
+\spadkey{case}
+If you accidentally use the branch type on the right-hand side of
+\spad{case}, \spad{false} will be returned.
+
+\begin{xtc}
+\begin{xtccomment}
+Declare variable \spad{u} to have a union type with selectors.
+\end{xtccomment}
+\begin{spadsrc}
+u : Union(i : Integer, s : String) 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Give an initial value to \spad{u}.
+\end{xtccomment}
+\begin{spadsrc}
+u := "good morning" 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\STRING{"good\ morning"}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(s: String, ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Use \spad{case} to determine in which
+branch of a \pspadtype{Union} an object lies.
+\end{xtccomment}
+\begin{spadsrc}
+u case i 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\STRING{false}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Boolean}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+u case s 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\STRING{true}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Boolean}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+To access the element in a particular branch, use the selector.
+\end{xtccomment}
+\begin{spadsrc}
+u.s 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\STRING{"good\ morning"}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{String}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{The ``Any'' Domain}{ugTypesAnyNone}
+% *********************************************************************
+
+With the exception of objects of type \pspadtype{Record}, all \Language{}
+data structures are homogenous, that is, they hold objects all of the same
+type.
+\exptypeindex{Any}
+If you need to get around this, you can use type \spadtype{Any}.
+Using \spadtype{Any}, for example, you can create lists whose
+elements are integers, rational numbers, strings, and even other lists.
+
+\begin{xtc}
+\begin{xtccomment}
+Declare \spad{u} to have type \spadtype{Any}.
+\end{xtccomment}
+\begin{spadsrc}
+u: Any
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Assign a list of mixed type values to \spad{u}
+\end{xtccomment}
+\begin{spadsrc}
+u := [1, 7.2, 3/2, x^2, "wally"]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\BRACKET{1\COMMA \STRING{7.2}\COMMA \frac{3}{2}\COMMA \SUPER{\SYMBOL{x}}{2}%
+\COMMA \STRING{"wally"}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Any)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+When we ask for the elements, \Language{} displays these types.
+\end{xtccomment}
+\begin{spadsrc}
+u.1 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Actually, these objects belong to \spadtype{Any} but \Language{}
+automatically converts them to their natural types for you.
+\end{xtccomment}
+\begin{spadsrc}
+u.3 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\frac{3}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Since type \spadtype{Any} can be anything,
+it can only belong to type \spadtype{Type}.
+Therefore it cannot be used in algebraic domains.
+\end{xtccomment}
+\begin{spadsrc}
+v : Matrix(Any)
+\end{spadsrc}
+\begin{MessageOutput}
+   Matrix(Any) is not a valid type.
+\end{MessageOutput}
+\end{xtc}
+
+Perhaps you are wondering how \Language{} internally represents
+objects of type \spadtype{Any}.
+An object of type \spadtype{Any} consists not only a data part
+representing its normal value, but also a type part (a {\it badge}) giving
+\index{badge}
+its type.
+For example, the value \spad{1} of type \spadtype{PositiveInteger} as an
+object of type \spadtype{Any} internally looks like
+\spad{[1,PositiveInteger()]}.
+
+%When should you use \spadtype{Any} instead of a \pspadtype{Union} type?
+%Can you plan ahead?
+%For a \pspadtype{Union}, you must know in advance exactly which types you
+%are
+%\index{union!vs. Any@{vs. \protect\nonLibAxiomType{Any}}}
+%going to allow.
+%For \spadtype{Any}, anything that comes along can be accommodated.
+
+% *********************************************************************
+\head{section}{Conversion}{ugTypesConvert}
+% *********************************************************************
+%
+\beginImportant
+\spadglossSee{Conversion}{conversion}
+is the process of changing an object of one type
+into an object of another type.
+The syntax for conversion is:
+\begin{center}
+{\it object} {\tt ::} {\it newType}
+\end{center}
+\endImportant
+
+\begin{xtc}
+\begin{xtccomment}
+By default, \spad{3} has the type \spadtype{PositiveInteger}.
+\end{xtccomment}
+\begin{spadsrc}
+3
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+3%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+We can change this into an object of type \spadtype{Fraction Integer}
+by using \spadSyntax{::}.
+\end{xtccomment}
+\begin{spadsrc}
+3 :: Fraction Integer
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+3%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+
+A \spadgloss{coercion} is a special kind of conversion that \Language{} is
+allowed to do automatically when you enter an expression.
+Coercions are usually somewhat safer than more general conversions.
+The \Language{} library contains operations called
+\spadfun{coerce} and \spadfun{convert}.
+Only the \spadfun{coerce} operations can be used by the
+interpreter to change an object into an object of another type unless
+you explicitly use a \spadSyntax{::}.
+
+By now you will be quite familiar with what types and modes look like.
+It is useful to think of a type or mode as a pattern
+for what you want the result to be.
+\begin{xtc}
+\begin{xtccomment}
+Let's start with a square matrix of polynomials with complex rational number
+coefficients.
+\exptypeindex{SquareMatrix}
+\end{xtccomment}
+\begin{spadsrc}
+m : SquareMatrix(2,POLY COMPLEX FRAC INT) 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+m := matrix [[x-3/4*%i,z*y^2+1/2],[3/7*%i*y^4 - x,12-%i*9/5]] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\begin{MATRIX}{2}\SYMBOL{x}-{\frac{3}{4}\TIMES \ImaginaryI }&\SUPER{\SYMBOL{y%
+}}{2}\TIMES \SYMBOL{z}+\frac{1}{2}\\\frac{3}{7}\TIMES \ImaginaryI \TIMES %
+\SUPER{\SYMBOL{y}}{4}-{\SYMBOL{x}}&12-{\frac{9}{5}\TIMES \ImaginaryI }%
+\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{SquareMatrix(2, Polynomial(Complex(Fraction(Integer))))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+We first want to interchange the \spadtype{Complex} and
+\spadtype{Fraction} layers.
+We do the conversion by doing the interchange in the type expression.
+\end{xtccomment}
+\begin{spadsrc}
+m1 := m :: SquareMatrix(2,POLY FRAC COMPLEX INT) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\begin{MATRIX}{2}\SYMBOL{x}-{\frac{3\TIMES \ImaginaryI }{4}}&\SUPER{\SYMBOL{y%
+}}{2}\TIMES \SYMBOL{z}+\frac{1}{2}\\\frac{3\TIMES \ImaginaryI }{7}\TIMES %
+\SUPER{\SYMBOL{y}}{4}-{\SYMBOL{x}}&\frac{60-{9\TIMES \ImaginaryI }}{5}%
+\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{SquareMatrix(2, Polynomial(Fraction(Complex(Integer))))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Interchange the \spadtype{Polynomial} and the
+\spadtype{Fraction} levels.
+\end{xtccomment}
+\begin{spadsrc}
+m2 := m1 :: SquareMatrix(2,FRAC POLY COMPLEX INT) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\begin{MATRIX}{2}\frac{4\TIMES \SYMBOL{x}-{3\TIMES \ImaginaryI }}{4}&\frac{2%
+\TIMES \SUPER{\SYMBOL{y}}{2}\TIMES \SYMBOL{z}+1}{2}\\\frac{3\TIMES %
+\ImaginaryI \TIMES \SUPER{\SYMBOL{y}}{4}-{7\TIMES \SYMBOL{x}}}{7}&\frac{60-{9%
+\TIMES \ImaginaryI }}{5}\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{SquareMatrix(2, Fraction(Polynomial(Complex(Integer))))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Interchange the \spadtype{Polynomial} and the
+\spadtype{Complex} levels.
+\end{xtccomment}
+\begin{spadsrc}
+m3 := m2 :: SquareMatrix(2,FRAC COMPLEX POLY INT) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\begin{MATRIX}{2}\frac{4\TIMES \SYMBOL{x}-{3\TIMES \ImaginaryI }}{4}&\frac{2%
+\TIMES \SUPER{\SYMBOL{y}}{2}\TIMES \SYMBOL{z}+1}{2}\\\frac{-{7\TIMES \SYMBOL{%
+x}}+3\TIMES \SUPER{\SYMBOL{y}}{4}\TIMES \ImaginaryI }{7}&\frac{60-{9\TIMES %
+\ImaginaryI }}{5}\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{SquareMatrix(2, Fraction(Complex(Polynomial(Integer))))}
+\end{xtc}
+
+All the entries have changed types, although in comparing the
+last two results only the entry in the lower left corner looks different.
+We did all the intermediate steps to show you what \Language{} can do.
+
+\begin{xtc}
+\begin{xtccomment}
+In fact, we could have combined all these into one conversion.
+\end{xtccomment}
+\begin{spadsrc}
+m :: SquareMatrix(2,FRAC COMPLEX POLY INT) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+\begin{MATRIX}{2}\frac{4\TIMES \SYMBOL{x}-{3\TIMES \ImaginaryI }}{4}&\frac{2%
+\TIMES \SUPER{\SYMBOL{y}}{2}\TIMES \SYMBOL{z}+1}{2}\\\frac{-{7\TIMES \SYMBOL{%
+x}}+3\TIMES \SUPER{\SYMBOL{y}}{4}\TIMES \ImaginaryI }{7}&\frac{60-{9\TIMES %
+\ImaginaryI }}{5}\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{SquareMatrix(2, Fraction(Complex(Polynomial(Integer))))}
+\end{xtc}
+
+There are times when \Language{} is not be able to do the conversion
+in one step.
+You may need to break up the transformation into several conversions
+in order to get an object of the desired type.
+
+We cannot move either \spadtype{Fraction} or \spadtype{Complex}
+above (or to the left of, depending on how you look at it)
+\spadtype{SquareMatrix} because each of these levels requires that its
+argument type have commutative multiplication, whereas
+\spadtype{SquareMatrix} does not.\footnote{\spadtype{Fraction} requires
+that its argument belong to the category \spadtype{IntegralDomain} and
+\index{category}
+\spadtype{Complex} requires that its argument belong to
+\spadtype{CommutativeRing}. See
+\spadref{ugTypesBasic}
+for a brief discussion of categories.}
+The \spadtype{Integer} level did not move anywhere
+because it does not allow any arguments.
+We also did not move the \spadtype{SquareMatrix} part anywhere, but
+we could have.
+\begin{xtc}
+\begin{xtccomment}
+Recall that \spad{m} looks like this.
+\end{xtccomment}
+\begin{spadsrc}
+m 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\begin{MATRIX}{2}\SYMBOL{x}-{\frac{3}{4}\TIMES \ImaginaryI }&\SUPER{\SYMBOL{y%
+}}{2}\TIMES \SYMBOL{z}+\frac{1}{2}\\\frac{3}{7}\TIMES \ImaginaryI \TIMES %
+\SUPER{\SYMBOL{y}}{4}-{\SYMBOL{x}}&12-{\frac{9}{5}\TIMES \ImaginaryI }%
+\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{SquareMatrix(2, Polynomial(Complex(Fraction(Integer))))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+If we want a polynomial with matrix coefficients rather than a matrix
+with polynomial entries, we can just do the conversion.
+\end{xtccomment}
+\begin{spadsrc}
+m :: POLY SquareMatrix(2,COMPLEX FRAC INT) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\begin{MATRIX}{2}0&1\\0&0\end{MATRIX}\TIMES \SUPER{\SYMBOL{y}}{2}\TIMES %
+\SYMBOL{z}+\begin{MATRIX}{2}0&0\\\frac{3}{7}\TIMES \ImaginaryI &0\end{MATRIX}%
+\TIMES \SUPER{\SYMBOL{y}}{4}+\begin{MATRIX}{2}1&0\\-{1}&0\end{MATRIX}\TIMES %
+\SYMBOL{x}+\begin{MATRIX}{2}-{\frac{3}{4}\TIMES \ImaginaryI }&\frac{1}{2}\\0&%
+12-{\frac{9}{5}\TIMES \ImaginaryI }\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(SquareMatrix(2, Complex(Fraction(Integer))))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+We have not yet used modes for any conversions.
+Modes are a great shorthand for indicating the type of the
+object you want.
+Instead of using the long type expression in the
+last example, we could have simply said this.
+\end{xtccomment}
+\begin{spadsrc}
+m :: POLY ? 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+\begin{MATRIX}{2}0&1\\0&0\end{MATRIX}\TIMES \SUPER{\SYMBOL{y}}{2}\TIMES %
+\SYMBOL{z}+\begin{MATRIX}{2}0&0\\\frac{3}{7}\TIMES \ImaginaryI &0\end{MATRIX}%
+\TIMES \SUPER{\SYMBOL{y}}{4}+\begin{MATRIX}{2}1&0\\-{1}&0\end{MATRIX}\TIMES %
+\SYMBOL{x}+\begin{MATRIX}{2}-{\frac{3}{4}\TIMES \ImaginaryI }&\frac{1}{2}\\0&%
+12-{\frac{9}{5}\TIMES \ImaginaryI }\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(SquareMatrix(2, Complex(Fraction(Integer))))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+We can also indicate more structure if we want the entries
+of the matrices to be fractions.
+\end{xtccomment}
+\begin{spadsrc}
+m :: POLY SquareMatrix(2,FRAC ?) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+\begin{MATRIX}{2}0&1\\0&0\end{MATRIX}\TIMES \SUPER{\SYMBOL{y}}{2}\TIMES %
+\SYMBOL{z}+\begin{MATRIX}{2}0&0\\\frac{3\TIMES \ImaginaryI }{7}&0\end{MATRIX}%
+\TIMES \SUPER{\SYMBOL{y}}{4}+\begin{MATRIX}{2}1&0\\-{1}&0\end{MATRIX}\TIMES %
+\SYMBOL{x}+\begin{MATRIX}{2}-{\frac{3\TIMES \ImaginaryI }{4}}&\frac{1}{2}\\0&%
+\frac{60-{9\TIMES \ImaginaryI }}{5}\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(SquareMatrix(2, Fraction(Complex(Integer))))}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Subdomains Again}{ugTypesSubdomains}
+% *********************************************************************
+
+A \spadgloss{subdomain} \spad{S} of a domain \spad{D} is a domain
+consisting of
+\begin{enumerate}
+\item those elements of \spad{D} that satisfy some
+\spadgloss{predicate} (that is, a test that returns \spad{true} or
+\spad{false}) and
+\item a subset of the operations of \spad{D}.
+\end{enumerate}
+Every domain is a subdomain of itself, trivially satisfying the
+membership test: \spad{true}.
+
+Currently, there are only two system-defined subdomains in \Language{} that receive
+substantial use.
+\spadtype{PositiveInteger} and
+\spadtype{NonNegativeInteger} are subdomains of \spadtype{Integer}.
+An element \spad{x} of \spadtype{NonNegativeInteger} is an integer
+that is greater than or equal to zero, that is, satisfies
+\spad{x >= 0.}
+An element \spad{x} of \spadtype{PositiveInteger} is a nonnegative integer
+that is, in fact, greater than zero, that is, satisfies \spad{x > 0.}
+Not all operations from \spadtype{Integer} are available for these
+subdomains.
+For example, negation and subtraction are not provided since the subdomains
+are not closed under those operations.
+When you use an integer in an expression, \Language{} assigns to it the
+type that is the most specific subdomain whose predicate is satisfied.
+\begin{xtc}
+\begin{xtccomment}
+This is a positive integer.
+\end{xtccomment}
+\begin{spadsrc}
+5
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+5%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is a nonnegative integer.
+\end{xtccomment}
+\begin{spadsrc}
+0
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+0%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{NonNegativeInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is neither of the above.
+\end{xtccomment}
+\begin{spadsrc}
+-5
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+-{5}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Integer}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Furthermore, unless you are assigning an integer to a declared variable
+or using a conversion, any integer result has as type the most
+specific subdomain.
+\end{xtccomment}
+\begin{spadsrc}
+(-2) - (-3)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+0 :: Integer
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+0%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Integer}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+x : NonNegativeInteger := 5
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+5%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{NonNegativeInteger}
+\end{xtc}
+
+When necessary, \Language{} converts an integer object into one belonging
+to a less specific subdomain.
+For example, in \spad{3-2}, the arguments to \spadopFrom{-}{Integer} are both
+elements of \spadtype{PositiveInteger}, but this type does not provide
+a subtraction operation.
+Neither does \spadtype{NonNegativeInteger}, so \spad{3} and \spad{2}
+are viewed as elements of \spadtype{Integer}, where their difference
+can be calculated.
+The result is \spad{1}, which \Language{} then automatically assigns
+the type \spadtype{PositiveInteger}.
+
+\begin{xtc}
+\begin{xtccomment}
+Certain operations are very sensitive to the subdomains to which their
+arguments belong.
+This is an element of \spadtype{PositiveInteger}.
+\end{xtccomment}
+\begin{spadsrc}
+2 ^ 2
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+4%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is an element of \spadtype{Fraction Integer}.
+\end{xtccomment}
+\begin{spadsrc}
+2 ^ (-2)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+\frac{1}{4}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+It makes sense then that this
+is a list of elements of \spadtype{PositiveInteger}.
+\end{xtccomment}
+\begin{spadsrc}
+[10^i for i in 2..5]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\BRACKET{100\COMMA 1000\COMMA 10000\COMMA 100000}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(PositiveInteger)}
+\end{xtc}
+What should the type of \spad{[10^(i-1) for i in 2..5]} be?
+On one hand, \spad{i-1} is always an integer greater than zero
+as \spad{i} ranges from \spad{2} to \spad{5} and so \spad{10^i}
+is also always a positive integer.
+On the other, \spad{i-1} is a very simple function of \spad{i}.
+\Language{} does not try to analyze every such function over the
+index's range of values to determine whether it is always positive
+or nowhere negative.
+For an arbitrary \Language{} function, this analysis is not possible.
+
+\begin{xtc}
+\begin{xtccomment}
+So, to be consistent no such analysis is done and we get this.
+\end{xtccomment}
+\begin{spadsrc}
+[10^(i-1) for i in 2..5]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\BRACKET{10\COMMA 100\COMMA 1000\COMMA 10000}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+To get a list of elements of \spadtype{PositiveInteger} instead, you
+have two choices.
+You can use a conversion.
+\end{xtccomment}
+\begin{spadsrc}
+[10^((i-1) :: PI) for i in 2..5]
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function G755 with type Integer -> Boolean 
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function G757 with type NonNegativeInteger -> Boolean 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+\BRACKET{10\COMMA 100\COMMA 1000\COMMA 10000}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(PositiveInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Or you can use \spad{pretend}.
+\spadkey{pretend}
+\end{xtccomment}
+\begin{spadsrc}
+[10^((i-1) pretend PI) for i in 2..5]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+\BRACKET{10\COMMA 100\COMMA 1000\COMMA 10000}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(PositiveInteger)}
+\end{xtc}
+
+The operation \spad{pretend} is used to defeat the \Language{}
+type system.
+The expression \spad{object pretend D} means ``make a new object
+(without copying) of type \spad{D} from \spad{object}.''
+If \spad{object} were an integer and you told \Language{}
+to pretend it was a list, you would probably see a message about a
+fatal error being caught and memory possibly being damaged.
+Lists do not have the same internal representation as integers!
+
+You use \spad{pretend} at your peril.
+\index{peril}
+
+\begin{xtc}
+\begin{xtccomment}
+Use \spad{pretend} with great care!
+\Language{} trusts you that the value is of the specified type.
+\end{xtccomment}
+\begin{spadsrc}
+(2/3) pretend Complex Integer
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{13}
+2+3\TIMES \ImaginaryI %
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Complex(Integer)}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Package Calling and Target Types}{ugTypesPkgCall}
+% *********************************************************************
+
+\Language{} works hard to figure out what you mean by an
+expression without your having to qualify it with type
+information.
+Nevertheless, there are times when you need to help it along by
+providing hints (or even orders!) to get \Language{} to do what
+you want.
+
+We saw in \spadref{ugTypesDeclare} that declarations using types
+and modes control the type of the results produced.
+For example, we can either produce a complex object with
+polynomial real and imaginary parts or a polynomial with complex
+integer coefficients, depending on the declaration.
+
+\spadglossSee{Package calling}{package call} is how you tell
+\Language{} to use a particular function from a particular part of
+the library.
+
+\begin{xtc}
+\begin{xtccomment}
+Use the \spadopFrom{/}{Fraction} from \spadtype{Fraction Integer}
+to create a fraction of two integers.
+\end{xtccomment}
+\begin{spadsrc}
+2/3
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\frac{2}{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+If we wanted a floating point number, we can say ``use the
+\spadopFrom{/}{Float} in \spadtype{Float}.''
+\end{xtccomment}
+\begin{spadsrc}
+(2/3)$Float
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\STRING{0.66666666666666666667}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Perhaps we actually wanted a fraction of complex integers.
+\end{xtccomment}
+\begin{spadsrc}
+(2/3)$Fraction(Complex Integer)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\frac{2}{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Complex(Integer))}
+\end{xtc}
+
+In each case, \Language{} used the indicated operations, sometimes
+first needing to convert the two integers into objects of an
+appropriate type.
+In these examples, \spadopFrom{/}{Fraction} is written as an
+infix operator.
+
+\beginImportant
+To use package calling with an infix operator, use the
+following syntax:
+\begin{center}
+{\tt ( \subscriptIt{arg}{1} {\it op} \subscriptIt{arg}{1} )\${\it type} }
+\end{center}
+\endImportant
+
+We used, for example, \spad{(2/3)$Float}.
+The expression \spad{2 + 3 + 4} is equivalent to \spad{(2+3) + 4.}
+Therefore in the expression
+\spad{(2 + 3 + 4)$Float} the second
+\spadop{+} comes from the \spadtype{Float} domain.
+Can you guess whether the first \spadop{+} comes from
+\spadtype{Integer} or \spadtype{Float}?\footnote{\spadtype{Float},
+because the package call causes \Language{} to convert
+\spad{(2 + 3)} and \spad{4} to type \spadtype{Float}.
+Before the sum is converted, it is given a target type (see below) of
+\spadtype{Float} by \Language{} and then evaluated.
+The target type causes the \spadop{+} from \spadtype{Float} to be used.}
+
+\beginImportant
+For an operator written before its arguments, you must use
+parentheses around the arguments (even if there is only one),
+and follow the closing parenthesis by a \spadSyntax{$}
+and then the type.
+\begin{center}
+{\tt {\it fun} ( \subscriptIt{arg}{1}, \subscriptIt{arg}{1}, \ldots, \subscriptIt{arg}{N} )\${\it type}}
+\end{center}
+\endImportant
+
+For example, to call the ``minimum'' function from \spadtype{DoubleFloat}
+on two integers, you could write \spad{min(4,89)$DoubleFloat}.
+Another use of package calling is to tell \Language{} to use a library
+function rather than a function you defined.
+We discuss this in \spadref{ugUserUse}.
+
+Sometimes rather than specifying where an operation comes from, you just
+want to say what type the result should be.
+We say that you provide
+\index{type!target}
+a
+\spadglossSee{target type}{target} for the expression.
+\index{target type}
+Instead of using a \spadSyntax{$}, use a \spadSyntax{@} to specify
+the requested target type.
+Otherwise, the syntax is the same.
+Note that giving a target type is not the same as explicitly doing a
+conversion.
+The first says ``try to pick operations so that the result has
+such-and-such a type.''
+The second says ``compute the result and then convert to an object of
+such-and-such a type.''
+
+\begin{xtc}
+\begin{xtccomment}
+Sometimes it makes sense, as in this expression,
+to say ``choose the operations in this expression so that
+the final result is a \spadtype{Float}.''
+\end{xtccomment}
+\begin{spadsrc}
+(2/3)@Float
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\STRING{0.66666666666666666667}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+
+Here we used \spadSyntax{@} to say that the target type of the
+left-hand side was \spadtype{Float}.
+In this simple case, there was no real difference
+between using \spadSyntax{$} and \spadSyntax{@}.
+You can see the difference if you try the following.
+\begin{xtc}
+\begin{xtccomment}
+This says to try to choose \spadop{+} so that the result is
+a string.
+\Language{} cannot do this.
+\end{xtccomment}
+\begin{spadsrc}
+(2 + 3)@String
+\end{spadsrc}
+\begin{MessageOutput}
+   An expression involving @ String actually evaluated to one of type 
+      PositiveInteger . Perhaps you should use :: String .
+\end{MessageOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This says to get the \spadop{+} from \spadtype{String} and apply
+it to the two integers.
+\Language{} also cannot do this because there is no \spadop{+}
+exported by \spadtype{String}.
+\end{xtccomment}
+\begin{spadsrc}
+(2 + 3)$String
+\end{spadsrc}
+\begin{MessageOutput}
+   The function + is not implemented in String .
+\end{MessageOutput}
+\end{xtc}
+(By the way, the operation \spadfunFrom{concat}{String} or juxtaposition
+is used to concatenate two strings.)
+\exptypeindex{String}
+
+When we have more than one operation in an expression, the
+difference is even more evident.
+The following two expressions show that \Language{} uses the
+target type to create different objects.
+The \spadop{+}, \spadop{*} and \spadop{^} operations are all
+chosen so that an object of the correct final type is created.
+
+\begin{xtc}
+\begin{xtccomment}
+This says that the operations should be chosen so
+that the result is a \spadtype{Complex} object.
+\end{xtccomment}
+\begin{spadsrc}
+((x + y * %i)^2)@(Complex Polynomial Integer)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+-{\SUPER{\SYMBOL{y}}{2}}+\SUPER{\SYMBOL{x}}{2}+2\TIMES \SYMBOL{x}\TIMES %
+\SYMBOL{y}\TIMES \ImaginaryI %
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Complex(Polynomial(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This says that the operations should be chosen so
+that the result is a \spadtype{Polynomial} object.
+\end{xtccomment}
+\begin{spadsrc}
+((x + y * %i)^2)@(Polynomial Complex Integer)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+-{\SUPER{\SYMBOL{y}}{2}}+2\TIMES \ImaginaryI \TIMES \SYMBOL{x}\TIMES \SYMBOL{%
+y}+\SUPER{\SYMBOL{x}}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Complex(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+What do you think might happen if we left off all
+target type and package call information in this last example?
+\end{xtccomment}
+\begin{spadsrc}
+(x + y * %i)^2 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+-{\SUPER{\SYMBOL{y}}{2}}+2\TIMES \ImaginaryI \TIMES \SYMBOL{x}\TIMES \SYMBOL{%
+y}+\SUPER{\SYMBOL{x}}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Complex(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+We can convert it to \spadtype{Complex} as an afterthought.
+But this is more work than just saying making what we want in the first
+place.
+\end{xtccomment}
+\begin{spadsrc}
+% :: Complex ? 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+-{\SUPER{\SYMBOL{y}}{2}}+\SUPER{\SYMBOL{x}}{2}+2\TIMES \SYMBOL{x}\TIMES %
+\SYMBOL{y}\TIMES \ImaginaryI %
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Complex(Polynomial(Integer))}
+\end{xtc}
+
+Finally, another use of package calling is to qualify fully an
+operation that is passed as an argument to a function.
+
+\begin{xtc}
+\begin{xtccomment}
+Start with a small matrix of integers.
+\end{xtccomment}
+\begin{spadsrc}
+h := matrix [[8,6],[-4,9]] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\begin{MATRIX}{2}8&6\\-{4}&9\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Integer)}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+We want to produce a new matrix that has for entries the multiplicative
+inverses of the entries of \spad{h}.
+One way to do this is by calling
+\spadfunFrom{map}{MatrixCategoryFunctions2} with the
+\spadfunFrom{inv}{Fraction} function from \spadtype{Fraction (Integer)}.
+\end{xtccomment}
+\begin{spadsrc}
+map(inv$Fraction(Integer),h) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\begin{MATRIX}{2}\frac{1}{8}&\frac{1}{6}\\-{\frac{1}{4}}&\frac{1}{9}%
+\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+We could have been a bit less verbose and used abbreviations.
+\end{xtccomment}
+\begin{spadsrc}
+map(inv$FRAC(INT),h) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+\begin{MATRIX}{2}\frac{1}{8}&\frac{1}{6}\\-{\frac{1}{4}}&\frac{1}{9}%
+\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Fraction(Integer))}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+As it turns out, \Language{} is smart enough to know what we mean
+anyway.
+We can just say this.
+\end{xtccomment}
+\begin{spadsrc}
+map(inv,h) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+\begin{MATRIX}{2}\frac{1}{8}&\frac{1}{6}\\-{\frac{1}{4}}&\frac{1}{9}%
+\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Fraction(Integer))}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Resolving Types}{ugTypesResolve}
+% *********************************************************************
+
+In this section we briefly describe an internal process by which
+\index{resolve}
+\Language{} determines a type to which two objects of possibly
+different types can be converted.
+We do this to give you further insight into how \Language{} takes
+your input, analyzes it, and produces a result.
+
+What happens when you enter \spad{x + 1} to \Language{}?
+Let's look at what you get from the two terms of this expression.
+
+\begin{xtc}
+\begin{xtccomment}
+This is a symbolic object whose type indicates the name.
+\end{xtccomment}
+\begin{spadsrc}
+x
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\SYMBOL{x}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Variable(x)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is a positive integer.
+\end{xtccomment}
+\begin{spadsrc}
+1
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+There are no operations in \spadtype{PositiveInteger} that add
+positive integers to objects of type \spadtype{Variable(x)} nor
+are there any in \spadtype{Variable(x)}.
+Before it can add the two parts, \Language{} must come up with
+a common type to which both \spad{x} and \spad{1} can be
+converted.
+We say that \Language{} must {\it resolve} the two types
+into a common type.
+In this example, the common type is \spadtype{Polynomial(Integer)}.
+
+\begin{xtc}
+\begin{xtccomment}
+Once this is determined, both parts are converted into polynomials,
+and the addition operation from \spadtype{Polynomial(Integer)} is used to
+get the answer.
+\end{xtccomment}
+\begin{spadsrc}
+x + 1
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\SYMBOL{x}+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\Language{} can always resolve two types: if nothing resembling
+the original types can be found, then \spadtype{Any} is be used.
+\exptypeindex{Any}
+This is fine and useful in some cases.
+\end{xtccomment}
+\begin{spadsrc}
+["string",3.14159]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\BRACKET{\STRING{"string"}\COMMA \STRING{3.14159}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Any)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+In other cases objects of type \spadtype{Any} can't be used
+by the operations you specified.
+\end{xtccomment}
+\begin{spadsrc}
+"string" + 3.14159
+\end{spadsrc}
+\begin{MessageOutput}
+   There are 14 exposed and 9 unexposed library operations named + 
+      having 2 argument(s) but none was determined to be applicable. 
+      Use HyperDoc Browse, or issue
+                                )display op +
+      to learn more about the available operations. Perhaps 
+      package-calling the operation or using coercions on the arguments
+      will allow you to apply the operation.
+\end{MessageOutput}
+\begin{MessageOutput}
+   Cannot find a definition or applicable library operation named + 
+      with argument type(s) 
+                                   String
+                                    Float
+      
+      Perhaps you should use "@" to indicate the required return type, 
+      or "$" to specify which version of the function you need.
+\end{MessageOutput}
+\end{xtc}
+Although this example was contrived, your expressions may need
+to be qualified slightly to help \Language{} resolve the
+types involved.
+You may need to declare a few variables, do some package calling,
+provide some target type information or do some explicit
+conversions.
+
+We suggest that you just enter the expression you want evaluated and
+see what \Language{} does.
+We think you will be impressed with its ability to ``do what I
+mean.''
+If \Language{} is still being obtuse, give it some hints.
+As you work with \Language{}, you will learn where it needs a
+little help to analyze quickly and perform your computations.
+
+% *********************************************************************
+\head{section}{Exposing Domains and Packages}{ugTypesExpose}
+% *********************************************************************
+
+In this section we discuss how \Language{} makes some operations
+available to you while hiding others that are meant to be used by
+developers or only in rare cases.
+If you are a new user of \Language{}, it is likely that everything
+you need is available by default and you may want
+to skip over this section on first reading.
+
+Every
+\index{constructor!exposed}
+domain and package in the \Language{} library
+\index{constructor!hidden}
+is
+\index{exposed!constructor}
+either
+\spadglossSee{exposed}{expose} (meaning that you can use its operations without doing
+anything special) or it is {\it hidden} (meaning you have to either
+package call
+(see \spadref{ugTypesPkgCall})
+the operations it contains or explicitly expose it to use the
+operations).
+The initial exposure status for a constructor is set in the
+file {\bf exposed.lsp} (see the {\it Installer's Note}
+\index{exposed.lsp @{\bf exposed.lsp}}
+for \Language{}
+\index{file!exposed.lsp @{\bf exposed.lsp}}
+if you need to know the location of this file).
+Constructors are collected together in
+\index{group!exposure}
+{\it exposure groups}.
+\index{exposure!group}
+Categories are all in the exposure group ``categories'' and the
+bulk of the basic set of packages and domains that are exposed
+are in the exposure group ``basic.''
+Here is an abbreviated sample of the file (without the Lisp parentheses):
+\begin{verbatim}
+basic
+        AlgebraicNumber                          AN
+        AlgebraGivenByStructuralConstants        ALGSC
+        Any                                      ANY
+        AnyFunctions1                            ANY1
+        BinaryExpansion                          BINARY
+        Boolean                                  BOOLEAN
+        CardinalNumber                           CARD
+        CartesianTensor                          CARTEN
+        Character                                CHAR
+        CharacterClass                           CCLASS
+        CliffordAlgebra                          CLIF
+        Color                                    COLOR
+        Complex                                  COMPLEX
+        ContinuedFraction                        CONTFRAC
+        DecimalExpansion                         DECIMAL
+        ...
+\end{verbatim}
+\begin{verbatim}
+categories
+        AbelianGroup                             ABELGRP
+        AbelianMonoid                            ABELMON
+        AbelianMonoidRing                        AMR
+        AbelianSemiGroup                         ABELSG
+        Aggregate                                AGG
+        Algebra                                  ALGEBRA
+        AlgebraicallyClosedField                 ACF
+        AlgebraicallyClosedFunctionSpace         ACFS
+        ArcHyperbolicFunctionCategory            AHYP
+        ...
+\end{verbatim}
+For each constructor in a group, the full name and the abbreviation
+is given.
+There are other groups in {\bf exposed.lsp} but initially only the
+constructors in exposure groups ``basic'' and ``categories'' are exposed.
+
+As an interactive user of \Language{}, you do not need to modify
+this file.
+Instead, use \spadsys{)set expose} to expose, hide or query the exposure
+status of an individual constructor or exposure group.
+\syscmdindex{set expose}
+The reason for having exposure groups is to be able to expose or hide
+multiple constructors with a single command.
+For example, you might group together into exposure group ``quantum'' a
+number of domains and packages useful for quantum mechanical computations.
+These probably should not be available to every user, but you want an easy
+way to make the whole collection visible to \Language{} when it is looking
+for operations to apply.
+
+If you wanted to hide all the basic constructors available by default, you
+would issue \spadsys{)set expose drop group basic}.
+\syscmdindex{set expose drop group} We do not recommend that you do this.
+If, however, you discover that you have hidden all the basic constructors,
+you should issue \spadsys{)set expose add group basic} to restore your
+default environment.
+\syscmdindex{set expose add group}
+
+It is more likely that you would want to expose or hide individual
+constructors.
+In \spadref{ugUserTriangle} we use several operations from
+\spadtype{OutputForm}, a domain usually hidden.
+To avoid package calling every operation from \spadtype{OutputForm}, we
+expose the domain and let \Language{} conclude that those operations should
+be used.
+Use \spadsys{)set expose add constructor} and \spadsys{)set expose drop
+constructor} to expose and hide a constructor, respectively.
+\syscmdindex{set expose drop constructor}
+You should use the constructor name, not the abbreviation.
+The \spadsys{)set expose} command guides you through these options.
+\syscmdindex{set expose add constructor}
+
+If you expose a previously hidden constructor, \Language{}
+exhibits new behavior (that was your intention) though you might not
+expect the results that you get.
+\spadtype{OutputForm} is, in fact, one of the worst offenders in this
+regard.
+\exptypeindex{OutputForm}
+This domain is meant to be used by other domains for creating a
+structure that \Language{} knows how to display.
+It has functions like \spadopFrom{+}{OutputForm} that form output
+representations rather than do mathematical calculations.
+Because of the order in which \Language{} looks at constructors
+when it is deciding what operation to apply, \spadtype{OutputForm}
+might be used instead of what you expect.
+\begin{xtc}
+\begin{xtccomment}
+This is a polynomial.
+\end{xtccomment}
+\begin{spadsrc}
+x + x
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+2\TIMES \SYMBOL{x}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Expose \spadtype{OutputForm}.
+\end{xtccomment}
+\begin{spadsrc}
+)set expose add constructor OutputForm 
+\end{spadsrc}
+\begin{SysCmdOutput}
+   OutputForm is now explicitly exposed in frame initial 
+\end{SysCmdOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is what we get when \spadtype{OutputForm} is automatically
+available.
+\end{xtccomment}
+\begin{spadsrc}
+x + x 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\SYMBOL{x}+\SYMBOL{x}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{OutputForm}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Hide \spadtype{OutputForm} so we don't run into problems
+with any later examples!
+\end{xtccomment}
+\begin{spadsrc}
+)set expose drop constructor OutputForm 
+\end{spadsrc}
+\begin{SysCmdOutput}
+   OutputForm is now explicitly hidden in frame initial 
+\end{SysCmdOutput}
+\end{xtc}
+
+Finally, exposure is done on a frame-by-frame basis.
+A \spadgloss{frame} (see \spadref{ugSysCmdframe})
+\index{frame!exposure and}
+is one of possibly several
+logical \Language{} workspaces within a physical one, each having
+its own environment (for example, variables and function definitions).
+If you have several \Language{} workspace windows on your screen, they
+are all different frames, automatically created for you by \HyperName{}.
+Frames can be manually created, made active and destroyed by the
+\spadsys{)frame} system command.
+\syscmdindex{frame}
+They do not share exposure information, so you need to use
+\spadsys{)set expose} in each one to add or drop constructors from view.
+
+% *********************************************************************
+\head{section}{Commands for Snooping}{ugAvailSnoop}
+% *********************************************************************
+
+To conclude this chapter, we introduce you to some system commands
+that you can use for getting more information about domains,
+packages, categories, and operations.
+The most powerful \Language{} facility for getting information about
+constructors and operations is the \Browse{} component of \HyperName{}.
+This is discussed in \chapref{ugBrowse}.
+
+Use the \spadsys{)what} system command to see lists of system objects
+whose name contain a particular substring (uppercase or lowercase is
+not significant).
+\syscmdindex{what}
+
+\begin{xtc}
+\begin{xtccomment}
+Issue this to see a list of all operations with
+``{\tt complex}'' in their names.
+\syscmdindex{what operation}
+\end{xtccomment}
+\begin{spadsrc}
+)what operation complex
+\end{spadsrc}
+\begin{SysCmdOutput}
+
+Operations whose names satisfy the above pattern(s):
+
+chainComplex                      coChainComplex                    
+complex                           complex?                          
+complexEigenvalues                complexEigenvectors               
+complexElementary                 complexExpand                     
+complexForm                       complexIntegrate                  
+complexLimit                      complexNormalize                  
+complexNumeric                    complexNumericIfCan               
+complexRoots                      complexSolve                      
+complexZeros                      createLowComplexityNormalBasis    
+createLowComplexityTable          cubicalComplex                    
+deltaComplex                      doubleComplex?                    
+drawComplex                       drawComplexVectorField            
+fortranComplex                    fortranDoubleComplex              
+pmComplexintegrate                simplicialComplex                 
+simplicialComplexIfCan            testComplexEquals                 
+testComplexEqualsAux              xftestComplexEquals               
+xftestComplexEqualsAux            
+   
+      To get more information about an operation such as complexForm , 
+      issue the command )display op complexForm 
+\end{SysCmdOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+If you want to see all domains with ``{\tt matrix}'' in their names, issue
+this.
+\syscmdindex{what domain}
+\end{xtccomment}
+\begin{spadsrc}
+)what domain matrix
+\end{spadsrc}
+\begin{SysCmdOutput}
+--------------------------------- Domains ---------------------------------
+
+Domains with names matching patterns:
+     matrix 
+
+ CDFMAT   ComplexDoubleFloatMatrix     DFMAT    DoubleFloatMatrix
+ DHMATRIX DenavitHartenbergMatrix      DPMM     DirectProductMatrixModule
+ IMATRIX  IndexedMatrix                LSQM     LieSquareMatrix
+ M3D      ThreeDimensionalMatrix       MATCAT-  MatrixCategory&
+ MATRIX   Matrix                       RMATCAT- RectangularMatrixCategory&
+ RMATRIX  RectangularMatrix            SEM      SparseEchelonMatrix
+ SMATCAT- SquareMatrixCategory&        SQMATRIX SquareMatrix
+ U16MAT   U16Matrix                    U32MAT   U32Matrix
+ U8MAT    U8Matrix
+\end{SysCmdOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Similarly, if you wish to see all packages whose names contain
+``{\tt gauss}'', enter this.
+\syscmdindex{what packages}
+\end{xtccomment}
+\begin{spadsrc}
+)what package gauss
+\end{spadsrc}
+\begin{SysCmdOutput}
+-------------------------------- Packages ---------------------------------
+
+Packages with names matching patterns:
+     gauss 
+
+ FFFG     FractionFreeFastGaussian
+ FFFGF    FractionFreeFastGaussianFractions
+ GAUSSFAC GaussianFactorizationPackage  UGAUSS   UnitGaussianElimination
+\end{SysCmdOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This command shows all
+the operations that \spadtype{Any} provides.
+Wherever \spadSyntax{$} appears, it means ``\spadtype{Any}''.
+\syscmdindex{show}
+\end{xtccomment}
+\begin{spadsrc}
+)show Any
+\end{spadsrc}
+\begin{SysCmdOutput}
+ Any is a domain constructor
+ Abbreviation for Any is ANY 
+ This constructor is exposed in this frame.
+------------------------------- Operations --------------------------------
+ ?=? : (%,%) -> Boolean                any : (SExpression,None) -> %
+ coerce : % -> OutputForm              dom : % -> SExpression
+ domainOf : % -> OutputForm            hash : % -> SingleInteger
+ latex : % -> String                   obj : % -> None
+ objectOf : % -> OutputForm            ?~=? : (%,%) -> Boolean
+ hashUpdate! : (HashState,%) -> HashState
+ showTypeInOutput : Boolean -> String
+
+\end{SysCmdOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This displays all operations with the name \spadfun{complex}.
+\syscmdindex{display operation}
+\end{xtccomment}
+\begin{spadsrc}
+)display operation complex
+\end{spadsrc}
+\begin{SysCmdOutput}
+
+There is one exposed function called complex :
+   [1] (D1,D1) -> D from D if D has COMPCAT(D1) and D1 has COMRING
+\end{SysCmdOutput}
+\end{xtc}
+Let's analyze this output.
+\begin{xtc}
+\begin{xtccomment}
+First we find out what some of the abbreviations mean.
+\end{xtccomment}
+\begin{spadsrc}
+)abbreviation query COMPCAT
+\end{spadsrc}
+\begin{SysCmdOutput}
+   COMPCAT abbreviates category ComplexCategory 
+\end{SysCmdOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+)abbreviation query COMRING
+\end{spadsrc}
+\begin{SysCmdOutput}
+   COMRING abbreviates category CommutativeRing 
+\end{SysCmdOutput}
+\end{xtc}
+
+So if \spad{D1} is a commutative ring (such as the integers or
+floats) and \spad{D} belongs to
+\spadtype{ComplexCategory D1},
+then there is an operation called \spadfun{complex} that
+takes two elements of \spad{D1} and creates an element of
+\spad{D}.
+The primary example of a constructor implementing domains
+belonging to \spadtype{ComplexCategory} is \spadtype{Complex}.
+See \xmpref{Complex} for more information on that and see
+\spadref{ugUserDeclare} for more information on function types.

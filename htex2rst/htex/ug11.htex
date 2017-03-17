@@ -1,0 +1,799 @@
+
+% Copyright (c) 1991-2002, The Numerical ALgorithms Group Ltd.
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are
+% met:
+%
+%     - Redistributions of source code must retain the above copyright
+%       notice, this list of conditions and the following disclaimer.
+%
+%     - Redistributions in binary form must reproduce the above copyright
+%       notice, this list of conditions and the following disclaimer in
+%       the documentation and/or other materials provided with the
+%       distribution.
+%
+%     - Neither the name of The Numerical ALgorithms Group Ltd. nor the
+%       names of its contributors may be used to endorse or promote products
+%       derived from this software without specific prior written permission.
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+% IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+% TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+% PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+% OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+% EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+% PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES-- LOSS OF USE, DATA, OR
+% PROFITS-- OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+% LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+% NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+% SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+% Here and throughout the book we should use the terminology
+% "type of a function", rather than talking about source and target.
+% This is how the brave new world of SMWATT regards them. A function
+% is just an object that has a mapping type.
+%
+% *********************************************************************
+\head{chapter}{Packages}{ugPackages}
+% *********************************************************************
+
+Packages provide the bulk of
+\index{package}
+\Language{}'s algorithmic library, from numeric packages for computing
+special functions to symbolic facilities for
+\index{constructor!package}
+differential equations, symbolic integration, and limits.
+\index{package!constructor}
+
+In \chapref{ugIntProg}, we developed several useful functions for drawing
+vector fields and complex functions.
+We now show you how you can add these functions to the
+\Language{} library to make them available for general use.
+
+The way we created the functions in \chapref{ugIntProg} is typical of how
+you, as an advanced \Language{} user, may interact with \Language{}.
+You have an application.
+You go to your editor and create an input file defining some
+functions for the application.
+Then you run the file and try the functions.
+Once you get them all to work, you will often want to extend them,
+add new features, perhaps write additional functions.
+
+Eventually, when you have a useful set of functions for your application,
+you may want to add them to your local \Language{} library.
+To do this, you embed these function definitions in a package and add
+that package to the library.
+
+To introduce new packages, categories, and domains into the system,
+you need to use the \Language{} compiler to convert the constructors
+into executable machine code.
+An existing compiler in \Language{} is available on an ``as-is''
+basis.
+A new, faster compiler will be available in version 2.0
+of \Language{}.
+
+\begin{figXmpLines}[caption={The DrawComplex package.},label={fig-pak-cdraw}]
+C      ==> Complex DoubleFloat                       -- All constructors used in a file
+S      ==> Segment DoubleFloat                       -- \quad{}must be spelled out in full
+INT    ==> Integer                                   -- \quad{}unless abbreviated by macros
+DFLOAT ==> DoubleFloat                               -- \quad{}like these at the top of
+VIEW3D ==> ThreeDimensionalViewport                  -- \quad{}a file.
+CURVE  ==> List List Point DFLOAT
+
+)abbrev package DRAWCX DrawComplex                   -- Identify kinds and abbreviations
+DrawComplex(): Exports == Implementation where       -- Type definition begins here.
+
+  Exports == with                                    -- Export part begins.
+    drawComplex: (C -> C,S,S,Boolean) -> VIEW3D      -- Exported Operations
+    drawComplexVectorField: (C -> C,S,S) -> VIEW3D
+    setRealSteps: INT -> INT
+    setImagSteps: INT -> INT
+    setClipValue: DFLOAT-> DFLOAT
+
+  Implementation == add                              -- Implementation part begins.
+    arrowScale : DFLOAT := (0.2)::DFLOAT             -- (relative size) Local variable 1.
+    arrowAngle : DFLOAT := pi()-pi()/(20::DFLOAT)    -- Local variable 2.
+    realSteps  : INT := 11                           -- (real steps) Local variable 3.
+    imagSteps  : INT := 11                           -- (imaginary steps) Local variable 4.
+    clipValue  : DFLOAT  := 10::DFLOAT               -- (maximum vector length) Local variable 5.
+
+    setRealSteps(n) == realSteps := n                -- Exported function definition 1.
+    setImagSteps(n) == imagSteps := n                -- Exported function definition 2.
+    setClipValue(c) == clipValue := c                -- Exported function definition 3.
+
+    clipFun: DFLOAT -> DFLOAT                        -- Clip large magnitudes.
+    clipFun(x) == min(max(x, -clipValue), clipValue) -- Local function definition 1.
+
+    makeArrow: (Point DFLOAT,Point DFLOAT,DFLOAT,DFLOAT) -> CURVE
+    makeArrow(p1, p2, len, arg) == ...               -- Local function definition 2.
+
+    drawComplex(f, realRange, imagRange, arrows?) == ... -- Exported function definition 4.
+\end{figXmpLines}
+
+% *********************************************************************
+\head{section}{Names, Abbreviations, and File Structure}{ugPackagesNames}
+% *********************************************************************
+%
+Each package has a name and an abbreviation.
+For a package of the complex draw functions from \chapref{ugIntProg},
+we choose the name \nonLibAxiomType{DrawComplex}
+and
+\index{abbreviation!constructor}
+abbreviation \nonLibAxiomType{DRAWCX}.\footnote{An abbreviation can be any string
+of
+\index{constructor!abbreviation}
+between two and seven capital letters and digits, beginning with a letter.
+See \spadref{ugTypesWritingAbbr} for more information.}
+To be sure that you have not chosen a name or abbreviation already used by
+the system, issue the system command \spadsys{)show} for both the name and
+the abbreviation.
+\syscmdindex{show}
+
+Once you have named the package and its abbreviation, you can choose any new
+filename you like with extension ``{\bf \spadFileExt{}}'' to hold the
+definition of your package.
+We choose the name {\bf drawpak\spadFileExt{}}.
+If your application involves more than one package, you
+can put them all in the same file.
+\Language{} assumes no relationship between the name of a library file, and
+the name or abbreviation of a package.
+
+Near the top of the ``{\bf \spadFileExt{}}'' file, list all the
+abbreviations for the packages
+using \spadsys{)abbrev}, each command beginning in column one.
+Macros giving names to \Language{} expressions can also be placed near the
+top of the file.
+The macros are only usable from their point of definition until the
+end of the file.
+
+Consider the definition of
+\nonLibAxiomType{DrawComplex} in Figure \ref{fig-pak-cdraw}.
+After the macro
+\index{macro}
+definition
+\begin{verbatim}
+S      ==> Segment DoubleFloat
+\end{verbatim}
+the name
+{\tt S} can be used in the file as a
+shorthand for \spadtype{Segment DoubleFloat}.\footnote{The interpreter also allows
+{\tt macro} for macro definitions.}
+The abbreviation command for the package
+\begin{verbatim}
+)abbrev package DRAWCX DrawComplex
+\end{verbatim}
+is given after the macros (although it could precede them).
+
+% *********************************************************************
+\head{section}{Syntax}{ugPackagesSyntax}
+% *********************************************************************
+%
+The definition of a package has the syntax:
+\begin{center}
+\frenchspacing{\it PackageForm {\tt :} Exports\quad{\tt ==}\quad Implementation}
+\end{center}
+The syntax for defining a package constructor is the same as that
+\index{syntax}
+for defining any function in \Language{}.
+In practice, the definition extends over many lines so that this syntax is
+not practical.
+Also, the type of a package is expressed by the operator \spad{with}
+\spadkey{with}
+followed by an explicit list of operations.
+A preferable way to write the definition of a package is with a \spad{where}
+\spadkey{where}
+expression:
+
+% ----------------------------------------------------------------------
+\beginImportant
+The definition of a package usually has the form: \newline
+{\tt%
+{\it PackageForm} : Exports  ==  Implementation where \newline
+\texht{\hspace*{.75pc}}{\tab{3}} {\it optional type declarations}\newline
+\texht{\hspace*{.75pc}}{\tab{3}} Exports  ==   with \newline
+\texht{\hspace*{2.0pc}}{\tab{6}}   {\it list of exported operations}\newline
+\texht{\hspace*{.75pc}}{\tab{3}} Implementation == add \newline
+\texht{\hspace*{2.0pc}}{\tab{6}}   {\it list of function definitions for exported operations}
+}
+\endImportant
+% ----------------------------------------------------------------------
+
+The \spadtype{DrawComplex} package takes no parameters and exports five
+operations, each a separate item of a \spadgloss{pile}.
+Each operation is described as a \spadgloss{declaration}: a name, followed
+by a colon (\spadSyntax{:}), followed by the type of the operation.
+All operations have types expressed as \spadglossSee{mappings}{mapping} with
+the syntax
+\begin{center}
+{\it
+source\quad{\tt ->}\quad target
+}
+\end{center}
+
+%e *********************************************************************
+\head{section}{Abstract Datatypes}{ugPackagesAbstract}
+% *********************************************************************
+
+A constructor as defined in \Language{} is called an \spadgloss{abstract
+datatype} in the computer science literature.
+Abstract datatypes separate ``specification'' (what operations are
+provided) from ``implementation'' (how the operations are implemented).
+The {\tt Exports} (specification) part of a constructor is said to be ``public'' (it
+provides the user interface to the package) whereas the {\tt Implementation}
+part is ``private'' (information here is effectively hidden---programs
+cannot take advantage of it).
+
+The {\tt Exports} part specifies what operations the package provides to users.
+As an author of a package, you must ensure that
+the {\tt Implementation} part provides a function for each
+operation in the {\tt Exports} part.\footnote{The \spadtype{DrawComplex}
+package enhances the facility
+described in  \chapref{ugIntProgCompFuns} by allowing a
+complex function to have
+arrows emanating from the surface to indicate the direction of the
+complex argument.}
+
+An important difference between interactive programming and the
+use of packages is in the handling of global variables such as
+\spad{realSteps} and \spad{imagSteps}.
+In interactive programming, you simply change the values of
+variables by \spadgloss{assignment}.
+With packages, such variables are local to the package---their
+values can only be set using functions exported by the package.
+In our example package, we provide two functions
+\fakeAxiomFun{setRealSteps} and \fakeAxiomFun{setImagSteps} for
+this purpose.
+
+Another local variable is \spad{clipValue} which can be changed using
+the exported operation \fakeAxiomFun{setClipValue}.
+This value is referenced by the internal function \fakeAxiomFun{clipFun} that
+decides whether to use the computed value of the function at a point or,
+if the magnitude of that value is too large, the
+value assigned to \spad{clipValue} (with the
+appropriate sign).
+
+% *********************************************************************
+\head{section}{Capsules}{ugPackagesCapsules}
+% *********************************************************************
+%
+The part to the right of {\tt add} in the {\tt Implementation}
+\spadkey{add}
+part of the definition is called a \spadgloss{capsule}.
+The purpose of a capsule is:
+\begin{itemize}
+\item to define a function for each exported operation, and
+\item to define a \spadgloss{local environment} for these functions to run.
+\end{itemize}
+
+What is a local environment?
+First, what is an environment?
+\index{environment}
+Think of the capsule as an input file that \Language{} reads from top to
+bottom.
+Think of the input file as having a \spad{)clear all} at the top
+so that initially no variables or functions are defined.
+When this file is read, variables such as \spad{realSteps} and
+\spad{arrowSize} in \nonLibAxiomType{DrawComplex} are set to initial values.
+Also, all the functions defined in the capsule are compiled.
+These include those that are exported (like \spad{drawComplex}), and
+those that are not (like \spad{makeArrow}).
+At the end, you get a set of name-value pairs:
+variable names (like \spad{realSteps} and \spad{arrowSize})
+are paired with assigned values, while
+operation names (like \spad{drawComplex} and \spad{makeArrow})
+are paired with function values.
+
+This set of name-value pairs is called an \spadgloss{environment}.
+Actually, we call this environment the ``initial environment'' of a package:
+it is the environment that exists immediately after the package is
+first built.
+Afterwards, functions of this capsule can
+access or reset a variable in the environment.
+The environment is called {\it local} since any changes to the value of a
+variable in this environment can be seen {\it only} by these functions.
+
+Only the functions from the package can change the variables in the local
+environment.
+When two functions are called successively from a package,
+any changes caused by the first function called
+are seen by the second.
+
+Since the environment is local to the package, its names
+don't get mixed
+up with others in the system or your workspace.
+If you happen to have a variable called \spad{realSteps} in your
+workspace, it does not affect what the
+\nonLibAxiomType{DrawComplex} functions do in any way.
+
+The functions in a package are compiled into machine code.
+Unlike function definitions in input files that may be compiled repeatedly
+as you use them with varying argument types,
+functions in packages have a unique type (generally parameterized by
+the argument parameters of a package) and a unique compilation residing on disk.
+
+The capsule itself is turned into a compiled function.
+This so-called {\it capsule function} is what builds the initial environment
+spoken of above.
+If the package has arguments (see below), then each call to the package
+constructor with a distinct pair of arguments
+builds a distinct package, each with its own local environment.
+
+% *********************************************************************
+\head{section}{Input Files vs. Packages}{ugPackagesInputFiles}
+% *********************************************************************
+%
+A good question at this point would be ``Is writing a package more difficult than
+writing an input file?''
+
+The programs in input files are designed for flexibility and ease-of-use.
+\Language{} can usually work out all of your types as it reads your program
+and does the computations you request.
+Let's say that you define a one-argument function without giving its type.
+When you first apply the function to a value, this
+value is understood by \Language{} as identifying the type for the
+argument parameter.
+Most of the time \Language{} goes through the body of your function and
+figures out the target type that you have in mind.
+\Language{} sometimes fails to get it right.
+Then---and only then---do you need a declaration to tell \Language{} what
+type you want.
+
+Input files are usually written to be read by \Language{}---and by you.
+\index{file!input!vs. package}
+Without suitable documentation and declarations, your input files
+\index{package!vs. input file}
+are likely incomprehensible to a colleague---and to you some
+months later!
+
+Packages are designed for legibility, as well as
+run-time efficiency.
+There are few new concepts you need to learn to write
+packages. Rather, you just have to be explicit about types
+and type conversions.
+The types of all functions are pre-declared so that \Language{}---and the reader---
+knows precisely what types of arguments can be passed to and from
+the functions (certainly you don't want a colleague to guess or to
+have to work this out from context!).
+The types of local variables are also declared.
+Type conversions are explicit, never automatic.\footnote{There
+is one exception to this rule: conversions from a subdomain to a
+domain are automatic.
+After all, the objects both have the domain as a common type.}
+
+In summary, packages are more tedious to write than input files.
+When writing input files, you can casually go ahead, giving some
+facts now, leaving others for later.
+Writing packages requires forethought, care and discipline.
+
+% *********************************************************************
+\head{section}{Compiling Packages}{ugPackagesPackages}
+% *********************************************************************
+%
+
+Once you have defined the package \nonLibAxiomType{DrawComplex},
+you need to compile and test it.
+To compile the package, issue the system command \spadsys{)compile drawpak}.
+\Language{} reads the file {\bf drawpak\spadFileExt{}}
+and compiles its contents into machine binary.
+If all goes well, the file {\bf DRAWCX.NRLIB} is created in your
+local directory for the package.
+To test the package, you must load the package before trying an
+operation.
+
+\nullXtc{
+Compile the package.
+}{
+\spadcommand{)compile drawpak}
+}
+\xtc{
+Expose the package.
+}{
+\spadcommand{)expose DRAWCX \bound{dp}}
+}
+\xtc{
+Use an odd step size to avoid
+a pole at the origin.
+}{
+\spadcommand{setRealSteps 51 \free{dp}\bound{srs}}
+}
+\xtc{
+}{
+\spadcommand{setImagSteps 51 \free{dp}\bound{scs}}
+}
+\xtc{
+Define \userfun{f} to be the Gamma function.
+}{
+\spadcommand{f(z) == Gamma(z) \bound{f}}
+}
+\xtc{
+Clip values of function with magnitude larger than 7.
+}{
+\spadcommand{setClipValue 7}
+}
+\psXtc{
+Draw the \spadfun{Gamma} function.
+}{
+\spadgraph{drawComplex(f,-\%pi..\%pi,-\%pi..\%pi, false) \free{srs scs f}}
+}{
+\epsffile[0 0 300 300]{3Dgamma11.ps}
+}
+
+% *********************************************************************
+\head{section}{Parameters}{ugPackagesParameters}
+% *********************************************************************
+%
+The power of packages becomes evident when packages have parameters.
+Usually these parameters are domains and the exported operations have types
+involving these parameters.
+
+In \chapref{ugTypes}, you learned that categories denote classes of
+domains.
+Although we cover this notion in detail in the next
+chapter, we now give you a sneak preview of its usefulness.
+
+In \spadref{ugUserBlocks}, we defined functions \spad{bubbleSort(m)} and
+\spad{insertionSort(m)} to sort a list of integers.
+If you look at the code for these functions, you see that they may be
+used to sort {\it any} structure \spad{m} with the right properties.
+Also, the functions can be used to sort lists of {\it any} elements---not
+just integers.
+Let us now recall the code for \spad{bubbleSort}.
+
+\begin{verbatim}
+bubbleSort(m) ==
+  n := #m
+  for i in 1..(n-1) repeat
+    for j in n..(i+1) by -1 repeat
+      if m.j < m.(j-1) then swap!(m,j,j-1)
+  m
+\end{verbatim}
+
+What properties of ``lists of integers'' are assumed by the sorting
+algorithm?
+In the first line, the operation \spadop{#} computes the maximum index of
+the list.
+The first obvious property is that \spad{m} must have a finite number of
+elements.
+In \Language{}, this is done
+by your telling \Language{} that \spad{m} has
+the ``attribute'' \spadtype{finiteAggregate}.
+An \spadgloss{attribute} is a property
+that a domain either has or does not have.
+As we show later in \spadref{ugCategoriesAttributes},
+programs can query domains as to the presence or absence of an attribute.
+
+The operation \spadfunX{swap} swaps elements of \spad{m}.
+Using \Browse{}, you find that \spadfunX{swap} requires its
+elements to come from a domain of category
+\spadtype{IndexedAggregate} with attribute
+\spadtype{shallowlyMutable}.
+This attribute means that you can change the internal components
+of \spad{m} without changing its external structure.
+Shallowly-mutable data structures include lists, streams, one- and
+two-dimensional arrays, vectors, and matrices.
+
+The category \spadtype{IndexedAggregate} designates the class of
+aggregates whose elements can be accessed by the notation
+\spad{m.s} for suitable selectors \spad{s}.
+The category \spadtype{IndexedAggregate} takes two arguments:
+\spad{Index}, a domain of selectors for the aggregate, and
+\spad{Entry}, a domain of entries for the aggregate.
+Since the sort functions access elements by integers, we must
+choose \spad{Index = }\spadtype{Integer}.
+The most general class of domains for which \spad{bubbleSort} and
+\spad{insertionSort} are defined are those of
+category \spadtype{IndexedAggregate(Integer,Entry)} with the two
+attributes \spadtype{shallowlyMutable} and
+\spadtype{finiteAggregate}.
+
+Using \Browse{}, you can also discover that \Language{} has many kinds of domains
+with attribute \spadtype{shallowlyMutable}.
+Those of class \spadtype{IndexedAggregate(Integer,Entry)} include
+\spadtype{Bits}, \spadtype{FlexibleArray}, \spadtype{OneDimensionalArray},
+\spadtype{List}, \spadtype{String}, and \spadtype{Vector}, and also
+\spadtype{HashTable} and \spadtype{EqTable} with integer keys.
+Although you may never want to sort all such structures, we
+nonetheless demonstrate \Language{}'s
+ability to do so.
+
+Another requirement is that \nonLibAxiomType{Entry} has an
+operation \spadop{<}.
+One way to get this operation is to assume that
+\nonLibAxiomType{Entry} has category \spadtype{OrderedSet}.
+By definition, will then export a \spadop{<} operation.
+A more general approach is to allow any comparison function
+\spad{f} to be used for sorting.
+This function will be passed as an argument to the sorting
+functions.
+
+Our sorting package then takes two arguments: a domain \spad{S}
+of objects of {\it any} type, and a domain \spad{A}, an aggregate
+of type \spadtype{IndexedAggregate(Integer, S)} with the above
+two attributes.
+Here is its definition using what are close to the original
+definitions of \spad{bubbleSort} and \spad{insertionSort} for
+sorting lists of integers.
+The symbol \spadSyntax{!} is added to the ends of the operation
+names.
+This uniform naming convention is used for \Language{} operation
+names that destructively change one or more of their arguments.
+
+\begin{xmpLines}
+SortPackage(S,A) : Exports == Implementation where
+  S: Object
+  A: IndexedAggregate(Integer,S)
+    with (finiteAggregate; shallowlyMutable)
+
+  Exports == with
+    bubbleSort!: (A,(S,S) -> Boolean) -> A
+    insertionSort!: (A, (S,S) -> Boolean) -> A
+
+  Implementation == add
+    bubbleSort!(m,f) ==
+      n := #m
+      for i in 1..(n-1) repeat
+        for j in n..(i+1) by -1 repeat
+          if f(m.j,m.(j-1)) then swap!(m,j,j-1)
+      m
+    insertionSort!(m,f) ==
+      for i in 2..#m repeat
+        j := i
+        while j > 1 and f(m.j,m.(j-1)) repeat
+          swap!(m,j,j-1)
+          j := (j - 1) pretend PositiveInteger
+      m
+\end{xmpLines}
+
+% *********************************************************************
+\head{section}{Conditionals}{ugPackagesConds}
+% *********************************************************************
+%
+When packages have parameters, you can say that an operation is or is not
+\index{conditional}
+exported depending on the values of those parameters.
+When the domain of objects \spad{S} has an \spadop{<}
+operation, we can supply one-argument versions of
+\spad{bubbleSort} and \spad{insertionSort} which use this operation
+for sorting.
+The presence of the
+operation \spadop{<} is guaranteed when \spad{S} is an ordered set.
+
+\begin{xmpLines}
+Exports == with
+    bubbleSort!: (A,(S,S) -> Boolean) -> A
+    insertionSort!: (A, (S,S) -> Boolean) -> A
+
+    if S has OrderedSet then
+      bubbleSort!: A -> A
+      insertionSort!: A -> A
+\end{xmpLines}
+
+In addition to exporting the one-argument sort operations
+\index{sort!bubble}
+conditionally, we must provide conditional definitions for the
+\index{sort!insertion}
+operations in the {\tt Implementation} part.
+This is easy: just have the one-argument functions call the
+corresponding two-argument functions with the operation
+\spadop{<} from \spad{S}.
+
+\begin{xmpLines}
+  Implementation == add
+       ...
+    if S has OrderedSet then
+      bubbleSort!(m) == bubbleSort!(m,<$S)
+      insertionSort!(m) == insertionSort!(m,<$S)
+\end{xmpLines}
+
+In \spadref{ugUserBlocks}, we give an alternative definition of
+\fakeAxiomFun{bubbleSort} using \spadfunFrom{first}{List} and
+\spadfunFrom{rest}{List} that is more efficient for a list (for
+which access to any element requires traversing the list from its
+first node).
+To implement a more efficient algorithm for lists, we need the
+operation \spadfunX{setelt} which allows us to destructively change
+the \spadfun{first} and \spadfun{rest} of a list.
+Using \Browse{}, you find that these operations come from category
+\spadtype{UnaryRecursiveAggregate}.
+Several aggregate types are unary recursive aggregates including
+those of \spadtype{List} and \spadtype{AssociationList}.
+We provide two different implementations for
+\fakeAxiomFun{bubbleSort!} and \fakeAxiomFun{insertionSort!}: one
+for list-like structures, another for array-like structures.
+
+\begin{xmpLines}
+Implementation == add
+        ...
+    if A has UnaryRecursiveAggregate(S) then
+      bubbleSort!(m,fn) ==
+        empty? m => m
+        l := m
+        while not empty? (r := l.rest) repeat
+           r := bubbleSort! r
+           x := l.first
+           if fn(r.first,x) then
+             l.first := r.first
+             r.first := x
+           l.rest := r
+           l := l.rest
+         m
+       insertionSort!(m,fn) ==
+          ...
+\end{xmpLines}
+
+The ordering of definitions is important.
+The standard definitions come first and
+then the predicate
+\begin{verbatim}
+A has UnaryRecursiveAggregate(S)
+\end{verbatim}
+is evaluated.
+If {\tt true}, the special definitions cover up the standard ones.
+
+Another equivalent way to write the capsule is to use an
+\spad{if-then-else} expression:
+\spadkey{if}
+
+\begin{xmpLines}
+     if A has UnaryRecursiveAggregate(S) then
+        ...
+     else
+        ...
+\end{xmpLines}
+
+% *********************************************************************
+\head{section}{Testing}{ugPackagesCompiling}
+% *********************************************************************
+%
+Once you have written the package, embed it in a file, for example,
+{\bf sortpak\spadFileExt{}}.
+\index{testing}
+Be sure to include an \spad{)abbrev} command at the top of the file:
+\begin{verbatim}
+)abbrev package SORTPAK SortPackage
+\end{verbatim}
+Now compile the file (using \spadsys{)compile sortpak\spadFileExt{}}).
+\xtc{
+Expose the constructor.
+You are then ready to begin testing.
+}{
+\spadcommand{)expose SORTPAK}
+}
+\xtc{
+Define a list.
+}{
+\spadcommand{l := [1,7,4,2,11,-7,3,2]}
+}
+\xtc{
+Since the integers are an ordered set,
+a one-argument operation will do.
+}{
+\spadcommand{bubbleSort!(l)}
+}
+\xtc{
+Re-sort it using ``greater than.''
+}{
+\spadcommand{bubbleSort!(l,(x,y) +-> x > y)}
+}
+\xtc{
+Now sort it again using \spadop{<} on integers.
+}{
+\spadcommand{bubbleSort!(l, <\$Integer)}
+}
+\xtc{
+A string is an aggregate of characters so we can sort them as well.
+}{
+\spadcommand{bubbleSort! "Mathematical Sciences"}
+}
+\xtc{
+Is \spadop{<} defined on booleans?
+}{
+\spadcommand{false < true}
+}
+\xtc{
+Good! Create a bit string representing ten consecutive
+boolean values \spad{true}.
+}{
+\spadcommand{u : Bits := new(10,true)}
+}
+\xtc{
+Set bits 3 through 5 to \spad{false}, then display the result.
+}{
+\spadcommand{u(3..5) := false; u}
+}
+\xtc{
+Now sort these booleans.
+}{
+\spadcommand{bubbleSort! u}
+}
+\xtc{
+Create an ``eq-table'' (see \xmpref{EqTable}), a
+table having integers as keys
+and strings as values.
+}{
+\spadcommand{t : EqTable(Integer,String) := table()}
+}
+\xtc{
+Give the table a first entry.
+}{
+\spadcommand{t.1 := "robert"}
+}
+\xtc{
+And a second.
+}{
+\spadcommand{t.2 := "richard"}
+}
+\xtc{
+What does the table look like?
+}{
+\spadcommand{t}
+}
+\xtc{
+Now sort it.
+}{
+\spadcommand{bubbleSort! t}
+}
+
+% *********************************************************************
+\head{section}{How Packages Work}{ugPackagesHow}
+% *********************************************************************
+%
+Recall that packages as abstract datatypes are compiled independently
+and put into the library.
+The curious reader may ask: ``How is the interpreter able to find an
+operation such as \fakeAxiomFun{bubbleSort!}?
+Also, how is a single compiled function such as \fakeAxiomFun{bubbleSort!} able
+to sort data of different types?''
+
+After the interpreter loads the package \nonLibAxiomType{SortPackage}, the four
+operations from the package become known to the interpreter.
+Each of these operations is expressed as a {\it modemap} in which the type
+\index{modemap}
+of the operation is written in terms of symbolic domains.
+\noOutputXtc{
+}{
+\spadcommand{)expose SORTPAK}
+}
+
+\xtc{
+See the modemaps for \fakeAxiomFun{bubbleSort!}.
+}{
+\spadcommand{)display op bubbleSort!}
+}
+
+What happens if you ask for \spad{bubbleSort!([1,-5,3])}?
+There is a unique modemap for an operation named
+\fakeAxiomFun{bubbleSort!} with one argument.
+Since \spad{[1,-5,3]} is a list of integers, the symbolic domain
+\spad{D1} is defined as \spadtype{List(Integer)}.
+For some operation to apply, it must satisfy the predicate for
+some \spad{D2}.
+What \spad{D2}?
+The third expression of the \spad{and} requires {\tt D1 has
+IndexedAggregate(Integer, D2) with} two attributes.
+So the interpreter searches for an \spadtype{IndexedAggregate}
+among the ancestors of \spadtype{List (Integer)} (see
+\spadref{ugCategoriesHier}).
+It finds one: \spadtype{IndexedAggregate(Integer, Integer)}.
+The interpreter tries defining \spad{D2} as \spadtype{Integer}.
+After substituting for \spad{D1} and \spad{D2}, the predicate
+evaluates to \spad{true}.
+An applicable operation has been found!
+
+Now \Language{} builds the package
+\spadtype{SortPackage(List(Integer), Integer)}.
+According to its definition, this package exports the required
+operation:
+\fakeAxiomFun{bubbleSort!}: \spad{List Integer->List Integer}.
+The interpreter then asks the package for a function implementing
+this operation.
+The package gets all the functions it needs (for example,
+\spadfun{rest} and \spadfunX{swap}) from the appropriate
+domains and then it
+returns a \fakeAxiomFun{bubbleSort!} to the interpreter together with
+the local environment for \fakeAxiomFun{bubbleSort!}.
+The interpreter applies the function to the argument \spad{[1,-5,3]}.
+The \fakeAxiomFun{bubbleSort!} function is executed in its local
+environment and produces the result.
