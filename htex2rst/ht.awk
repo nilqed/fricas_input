@@ -95,7 +95,8 @@ BEGIN           {
                 print $0
                 next
             }
-            line = extractArg(line,2) substr(line,n+1)
+            line = extractArg(line,1) substr(line,n+1) 
+            # 2 -> 1, i.e. \texht{T}{H} into T
             if (p != 1) {line = pref line}
             p = index(line,cmd)
         }

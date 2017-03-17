@@ -38,10 +38,7 @@
 \usepackage{tensor}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newenvironment{fricasmath}[1]%
-  {\def\arg{#1}%
-   \ifx\arg\empty \def\BEGIN{\begin{dmath}[compact]}%
-            \else \def\BEGIN{\begin{dmath}[compact,number={#1}]}%
-   \fi
+  {\newcommand{\BRACKET}{\embrace{[}{]}}
    \def\EulerE{e}% %e
    \def\ImaginaryI{i}% %i
    \def\csch{\operatorname{csch}}%
@@ -49,7 +46,7 @@
    \def\coloneqq{\mathrel{:\mkern-1.2mu=}}
    \def\embrace##1##2##3{\left##1\relax##3\right##2\relax}%
    \def\BRACE{\embrace{\{}{\}}}
-   \def\BRACKET{\embrace{[}{]}}
+   \newcommand{\BRACKET}{\embrace{[}{]}}
    \def\PAREN{\embrace{(}{)}}
    \def\ZAG##1##2{\frac{\left.{##1}\right|}{\left|{##2}\right.}}%
    \def\QUOTE##1{\texttt{'}##1}%
