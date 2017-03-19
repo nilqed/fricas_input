@@ -1,0 +1,1502 @@
+% !! DO NOT MODIFY THIS FILE BY HAND !! Created by spool2tex.awk.
+
+% Copyright (c) 1991-2002, The Numerical ALgorithms Group Ltd.
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are
+% met:
+%
+%     - Redistributions of source code must retain the above copyright
+%       notice, this list of conditions and the following disclaimer.
+%
+%     - Redistributions in binary form must reproduce the above copyright
+%       notice, this list of conditions and the following disclaimer in
+%       the documentation and/or other materials provided with the
+%       distribution.
+%
+%     - Neither the name of The Numerical ALgorithms Group Ltd. nor the
+%       names of its contributors may be used to endorse or promote products
+%       derived from this software without specific prior written permission.
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+% IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+% TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+% PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+% OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+% EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+% PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES-- LOSS OF USE, DATA, OR
+% PROFITS-- OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+% LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+% NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+% SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+% *********************************************************************
+\head{chapter}{Domains}{ugDomains}
+% *********************************************************************
+
+We finally come to the \spadgloss{domain constructor}.
+A few subtle differences between packages and
+domains turn up some interesting issues.
+We first discuss these differences then
+describe the resulting issues by illustrating a program
+for the \spadtype{QuadraticForm} constructor.
+After a short example of an algebraic constructor,
+\spadtype{CliffordAlgebra}, we show how you use domain constructors to build
+a database query facility.
+
+% *********************************************************************
+\head{section}{Domains vs. Packages}{ugPackagesDoms}
+% *********************************************************************
+%
+Packages are special cases of domains.
+What is the difference between a package and a domain that is not a
+package?  Internally, \Language{} makes no distinction.  However,
+humans think differently about them, so we make the
+following definition: a domain that is not a package
+has the symbol \spadSyntax{%}
+appearing
+somewhere among the types of its exported operations.
+The \spadSyntax{%}
+denotes ``this domain.'' If the \spadSyntax{%}
+appears before the \spadSyntax{->} in the type of a signature, it means
+the operation takes an element from the domain as an argument.
+If it appears after the \spadSyntax{->}, then the operation returns an
+element of the domain.
+
+If no exported operations mention \spadSyntax{%}, then
+evidently there is nothing of interest to do with the objects of the
+domain.
+You might then say that a package is a ``boring'' domain!
+But, as you saw in \chapref{ugPackages}, packages are a very useful
+notion indeed.
+The exported operations of a package depend solely on the parameters
+to the package constructor and other explicit domains.
+
+To summarize, domain constructors are versatile structures that serve two
+distinct practical purposes:
+Those like \spadtype{Polynomial} and \spadtype{List}
+describe classes of computational objects;
+others, like \pspadtype{SortPackage}, describe packages of useful
+operations.
+As in the last chapter, we focus here on the first kind.
+
+% *********************************************************************
+\head{section}{Definitions}{ugDomainsDefs}
+% *********************************************************************
+%
+
+The syntax for defining a domain constructor is the same as for any
+function in \Language{}:
+\begin{center}
+\frenchspacing{\tt {\it DomainForm} : {\it Exports} == {\it Implementation}}
+\end{center}
+As this definition usually extends over many lines, a
+\spad{where} expression is generally used instead.
+\spadkey{where}
+
+% ----------------------------------------------------------------------
+\beginImportant
+A recommended format for the definition of a domain is:\newline
+{\tt%
+{\it DomainForm} : Exports  ==  Implementation where \newline
+\hspace*{.75pc} {\it optional type declarations} \newline
+\hspace*{.75pc} Exports  ==  [{\it Category Assertions}] with \newline
+\hspace*{2.0pc}   {\it list of exported operations} \newline
+\hspace*{.75pc} Implementation  ==  [{\it Add Domain}] add \newline
+\hspace*{2.0pc}   [Rep := {\it Representation}] \newline
+\hspace*{2.0pc}   {\it list of function definitions for exported operations}
+}
+
+Note: The brackets {\tt [ ]} here denote optionality.
+\endImportant
+% ----------------------------------------------------------------------
+
+A complete domain constructor definition for
+\spadtype{QuadraticForm} is shown in Figure \ref{fig-quadform}.
+Interestingly, this little domain illustrates all the new
+concepts you need to learn.
+
+\begin{figXmpLines}[caption={The \textspadtype{QuadraticForm} domain.},label={fig-quadform}]
+)abbrev domain QFORM QuadraticForm
+
+++ Description:
+++   This domain provides modest support for
+++   quadratic forms.
+QuadraticForm(n, K): Exports == Implementation where
+    n: PositiveInteger
+    K: Field
+
+    Exports == AbelianGroup with                         -- The exports.
+      quadraticForm: SquareMatrix(n,K) -> %              -- The export \spadfun{quadraticForm}.
+        ++ \spad{quadraticForm(m)} creates a quadratic
+        ++ quadratic form from a symmetric,
+        ++ square matrix \spad{m}.
+      matrix: % -> SquareMatrix(n,K)                     -- The export \spadfun{matrix}.
+        ++ \spad{matrix(qf)} creates a square matrix
+        ++ from the quadratic form \spad{qf}.
+      elt: (%, DirectProduct(n,K)) -> K                  -- The export \spadfun{elt}.
+        ++ \spad{qf(v)} evaluates the quadratic form
+        ++ \spad{qf} on the vector \spad{v},
+        ++ producing a scalar.
+
+    Implementation == SquareMatrix(n,K) add              -- The definitions of the exports
+      Rep := SquareMatrix(n,K)                           -- The ``representation.''
+      quadraticForm m ==                                 -- The definition of
+        not symmetric? m => error                        -- \spadfun{quadraticForm}.
+          "quadraticForm requires a symmetric matrix"
+        m :: %
+      matrix q == q :: Rep                               -- The definition of \spadfun{matrix}.
+      elt(q,v) == dot(v, (matrix q * v))                 -- The definition of \spadfun{elt}.
+\end{figXmpLines}
+
+A domain constructor can take any number and type of parameters.
+\spadtype{QuadraticForm} takes a positive integer \spad{n} and a field
+\spad{K} as arguments.
+Like a package, a domain has a set of explicit exports and an
+implementation described by a capsule.
+Domain constructors are documented in the same way as package constructors.
+
+Domain \spadtype{QuadraticForm(n, K)}, for a given positive integer
+\spad{n} and domain \spad{K}, explicitly exports three operations:
+%
+\begin{itemize}
+\item\spad{quadraticForm(A)} creates a quadratic form from a matrix
+\spad{A}.
+\item\spad{matrix(q)} returns the matrix \spad{A} used to create
+the quadratic form \spad{q}.
+\item\spad{q.v} computes the scalar $v^TAv$
+for a given vector \spad{v}.
+\end{itemize}
+
+Compared with the corresponding syntax given for the definition of a
+package, you see that a domain constructor has three optional parts to
+its definition: {\it Category Assertions}, {\it Add Domain}, and
+{\it Representation}.
+
+% *********************************************************************
+\head{section}{Category Assertions}{ugDomainsAssertions}
+% *********************************************************************
+%
+
+The {\it Category Assertions} part of your domain constructor
+definition lists those categories of which all domains created by
+the constructor are unconditionally members.
+The word ``unconditionally'' means that membership in a category
+does not depend on the values of the parameters to the domain
+constructor.
+This part thus defines the link between the domains and the
+category hierarchies given on the inside covers of this book.
+As described in \spadref{ugCategoriesCorrectness}, it is this link
+that makes it possible for you to pass objects of the domains as
+arguments to other operations in \Language{}.
+
+Every \spadtype{QuadraticForm} domain is declared
+to be unconditionally a member of category \spadtype{AbelianGroup}.
+An abelian group is a collection of elements closed under
+addition.
+Every object {\it x} of an abelian group has an additive inverse
+{\it y} such that $x + y = 0$.
+The exports of an abelian group include \spad{0},
+\spadop{+}, \spadop{-}, and scalar multiplication by an integer.
+After asserting that \spadtype{QuadraticForm} domains are abelian
+groups, it is possible to pass quadratic forms to algorithms that
+only assume arguments to have these abelian group
+properties.
+
+In \spadref{ugCategoriesConditionals}, you saw that
+\spadtype{Fraction(R)}, a member of
+\spadtype{QuotientFieldCategory(R)},
+is a member of \spadtype{OrderedSet} if \spad{R}
+is a member of \spadtype{OrderedSet}.
+Likewise, from the {\tt Exports} part of the definition of
+\spadtype{ModMonic(R, S)},
+\begin{verbatim}
+UnivariatePolynomialCategory(R) with
+  if R has Finite then Finite
+     ...
+\end{verbatim}
+you see that \spadtype{ModMonic(R, S)} is a member of
+\spadtype{Finite} is \spad{R} is.
+
+The {\tt Exports} part of a domain definition is
+the same kind of
+expression that can appear to the right of an
+\spadSyntax{==} in a category definition.
+If a domain constructor is unconditionally a member of two or more
+categories, a \spad{Join} form is used.
+\spadkey{Join}
+The {\tt Exports} part of the definition of
+\spadtype{FlexibleArray(S)} reads, for example:
+\begin{verbatim}
+Join(ExtensibleLinearAggregate(S),
+     OneDimensionalArrayAggregate(S)) with...
+\end{verbatim}
+
+% *********************************************************************
+\head{section}{A Demo}{ugDomainsDemo}
+% *********************************************************************
+%
+Before looking at the {\it Implementation} part of \spadtype{QuadraticForm},
+let's try some examples.
+
+\vskip 2pc
+\begin{xtc}
+\begin{xtccomment}
+Build a domain \spad{QF}.
+\end{xtccomment}
+\begin{spadsrc}
+QF := QuadraticForm(2,Fraction Integer)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\STRING{QuadraticForm(2,Fraction(Integer))}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Type}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Define a matrix to be used to construct
+a quadratic form.
+\end{xtccomment}
+\begin{spadsrc}
+A := matrix [[-1,1/2],[1/2,1]]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\begin{MATRIX}{2}-{1}&\frac{1}{2}\\\frac{1}{2}&1\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Construct the quadratic form.
+A package call \spad{$QF} is necessary since there
+are other \spadtype{QuadraticForm} domains.
+\end{xtccomment}
+\begin{spadsrc}
+q : QF := quadraticForm(A)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\begin{MATRIX}{2}-{1}&\frac{1}{2}\\\frac{1}{2}&1\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{QuadraticForm(2, Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Looks like a matrix. Try computing
+the number of rows.
+\Language{} won't let you.
+\end{xtccomment}
+\begin{spadsrc}
+nrows q
+\end{spadsrc}
+\begin{MessageOutput}
+   There are 2 exposed and 1 unexposed library operations named nrows 
+      having 1 argument(s) but none was determined to be applicable. 
+      Use HyperDoc Browse, or issue
+                              )display op nrows
+      to learn more about the available operations. Perhaps 
+      package-calling the operation or using coercions on the arguments
+      will allow you to apply the operation.
+\end{MessageOutput}
+\begin{MessageOutput}
+   Cannot find a definition or applicable library operation named nrows
+      with argument type(s) 
+                     QuadraticForm(2,Fraction(Integer))
+      
+      Perhaps you should use "@" to indicate the required return type, 
+      or "$" to specify which version of the function you need.
+\end{MessageOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Create a direct product element \spad{v}.
+A package call is again necessary, but \Language{}
+understands your list as denoting a vector.
+\end{xtccomment}
+\begin{spadsrc}
+v := directProduct([2,-1])$DirectProduct(2,Fraction Integer)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\BRACKET{2\COMMA -{1}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{DirectProduct(2, Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Compute the product $v^TAv$.
+\end{xtccomment}
+\begin{spadsrc}
+q.v
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+-{5}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+What is 3 times \spad{q} minus \spad{q} plus \spad{q}?
+\end{xtccomment}
+\begin{spadsrc}
+3*q-q+q
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\begin{MATRIX}{2}-{3}&\frac{3}{2}\\\frac{3}{2}&3\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{QuadraticForm(2, Fraction(Integer))}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Browse}{ugDomainsBrowse}
+% *********************************************************************
+
+The \Browse{} facility of \HyperName{} is useful for
+investigating
+the properties of domains, packages, and categories.
+From the main \HyperName{} menu, move your mouse to {\bf Browse} and
+click on the left mouse button.
+This brings up the \Browse{} first page.
+Now, with your mouse pointer somewhere in this window, enter the
+string ``quadraticform'' into the input area (all lower case
+letters will do).
+Move your mouse to {\bf Constructors} and click.
+Up comes a page describing \spadtype{QuadraticForm}
+that includes a part labeled by ``{\it
+Description:}''.
+You also see the types for arguments \spad{n} and \spad{K}
+displayed as well as the fact that \spadtype{QuadraticForm}
+returns an \spadtype{AbelianGroup}.
+
+Select {\bf Operations} to get a list of operations for
+\spadtype{QuadraticForm}.
+You can select an operation by clicking on it
+to get an individual page with information about that operation.
+Or you can select the buttons along the bottom to see alternative
+views or get additional information on the operations.
+Eventually, use
+\UpButton{}
+to return to the first page on
+\spadtype{QuadraticForm}.
+
+You can go and experiment a bit by selecting {\bf Field} and {\bf n}
+with your mouse.  Going back to {\bf Operations} you will see
+that {\bf Implementations} view now works (it is disabled if
+some domain parameter is unspecified).
+Then return to the page on \spadtype{QuadraticForm}.
+
+At the bottom the \spadtype{QuadraticForm} page has buttons
+for {\bf Parents}, {\bf Ancestors}, and others.
+Clicking on {\bf Parents}, you see that \spadtype{QuadraticForm}
+has \spadtype{AbelianGroup} and \spadtype{ConvertibleTo} as
+parents (note that \spadtype{QuadraticForm} distributed
+with \Language{} is richer then the demo version presented
+before).
+
+% *********************************************************************
+\head{section}{Representation}{ugDomainsRep}
+% *********************************************************************
+%
+The {\tt Implementation} part of an \Language{} capsule for a
+domain constructor uses the special variable \spad{Rep} to
+\index{Rep @ {\tt Rep}}
+identify the lower level data type used to represent the objects
+\index{representation!of a domain}
+of the domain.
+\index{domain!representation}
+The \spad{Rep} for quadratic forms is \spadtype{SquareMatrix(n, K)}.
+This means that all objects of the domain are required to be
+\spad{n} by \spad{n} matrices with elements from \spadtype{K}.
+
+The code for \spadfun{quadraticForm} in Figure \ref{fig-quadform}
+on page \pageref{fig-quadform}
+checks that the matrix is symmetric and then converts it to
+\spadSyntax{%}, which means, as usual, ``this domain.'' Such explicit
+conversions \index{conversion} are generally required by the
+compiler.
+Aside from checking that the matrix is symmetric, the code for
+this function essentially does nothing.
+The \spad{m :: %} on line 28 coerces \spad{m} to a
+quadratic form.
+In fact, the quadratic form you created in step (3) of
+\spadref{ugDomainsDemo} is just the matrix you passed it in
+disguise!
+Without seeing this definition, you would not know that.
+Nor can you take advantage of this fact now that you do know!
+When we try in the next step of \spadref{ugDomainsDemo} to regard
+\spad{q} as a matrix by asking for \spadfun{nrows}, the number of
+its rows, \Language{} gives you an error message saying, in
+effect, ``Good try, but this won't work!''
+
+The definition for the \spadfunFrom{matrix}{QuadraticForm}
+function could hardly be simpler:
+it just returns its argument after explicitly
+\spadglossSee{coercing}{coerce} its argument to a matrix.
+Since the argument is already a matrix, this coercion does no computation.
+
+Within the context of a capsule, an object of \spadSyntax{%} is
+regarded both as a quadratic form {\it and} as a
+matrix.\footnote{In case each of \textspadsyntax{\%} and \spad{Rep}
+have the same named operation available,
+the one from \textspadsyntax{\%} takes precedence.
+Thus, if you want the one from \textspadsyntax{Rep}, you must
+package call it using a \textspadsyntax{\$Rep} suffix.}
+This makes the definition of \spad{q.v} easy---it
+just calls the \spadfunFrom{dot}{DirectProduct} product from
+\spadtype{DirectProduct} to perform the indicated operation.
+
+% *********************************************************************
+\head{section}{Multiple Representations}{ugDomainsMultipleReps}
+% *********************************************************************
+%
+
+To write functions that implement the operations of a domain, you
+want to choose the most computationally efficient
+data structure to represent the elements of your domain.
+
+A classic problem in computer algebra is the optimal choice for an
+internal representation of polynomials.
+If you create a polynomial, say \mathOrSpad{3x^2+ 5}, how
+does \Language{} hold this value internally?
+There are many ways.
+\Language{} has nearly a dozen different representations of
+polynomials, one to suit almost any purpose.
+Algorithms for solving polynomial equations work most
+efficiently with polynomials represented one way, whereas those for
+factoring polynomials are most efficient using another.
+One often-used representation is a list of terms, each term
+consisting of exponent-coefficient records written in the order
+of decreasing exponents.
+For example, the polynomial \mathOrSpad{3x^2+5} is
+%>> I changed the k's in next line to e's as I thought that was
+%>> clearer.
+represented by the list \spad{[[e:2, c:3], [e:0, c:5]]}.
+
+What is the optimal data structure for a matrix?
+It depends on the application.
+For large sparse matrices, a linked-list structure of records
+holding only the non-zero elements may be optimal.
+If the elements can be defined by a simple formula
+\mathOrSpad{f(i,j)}, then a compiled function for
+\spad{f} may be optimal.
+Some programmers prefer to represent ordinary matrices as vectors
+of vectors.
+Others prefer to represent matrices by one big linear array where
+elements are accessed with linearly computable indexes.
+
+While all these simultaneous structures tend to be confusing,
+\Language{} provides a helpful organizational tool for such a purpose:
+categories.
+\spadtype{PolynomialCategory}, for example, provides a uniform user
+interface across all polynomial types.
+Each kind of polynomial implements functions for
+all these operations, each in its own way.
+If you use only the top-level operations in
+\spadtype{PolynomialCategory} you usually do not care what kind
+of polynomial implementation is used.
+
+%>> I've often thought, though, that it would be nice to be
+%>> be able to use conditionals for representations.
+Within a given domain, however, you define (at most) one
+representation.\footnote{You can make that representation a
+\pspadtype{Union} type, however.
+See \spadref{ugTypesUnions} for examples of unions.}
+If you want to have multiple representations (that is, several
+domains, each with its own representation), use a category to
+describe the {\tt Exports}, then define separate domains for each
+representation.
+
+% *********************************************************************
+\head{section}{Add Domain}{ugDomainsAddDomain}
+% *********************************************************************
+%
+
+The capsule part of {\tt Implementation} defines functions that
+implement the operations exported by the domain---usually only
+some of the operations.
+In our demo in \spadref{ugDomainsDemo}, we asked for the value of
+\spad{3*q-q+q}.
+Where do the operations \spadop{*}, \spadop{+}, and
+\spadop{-} come from?
+There is no definition for them in the capsule!
+
+The {\tt Implementation} part of a definition can
+\index{domain!add}
+optionally specify an ``add-domain'' to the left of an {\tt add}
+\spadkey{add}
+(for \spadtype{QuadraticForm}, defines
+\spadtype{SquareMatrix(n,K)} is the add-domain).
+The meaning of an add-domain is simply this: if the capsule part
+of the {\tt Implementation} does not supply a function for an
+operation, \Language{} goes to the add-domain to find the
+function.
+So do \spadopFrom{*}{QuadraticForm}, \spadopFrom{+}{QuadraticForm}
+and \spadopFrom{-}{QuadraticForm} come from
+\spadtype{SquareMatrix(n,K)}?
+%Read on!
+
+%*********************************************************************
+\head{section}{Defaults}{ugDomainsDefaults}
+% *********************************************************************
+%
+In \chapref{ugPackages}, we saw that categories can provide
+default implementations for their operations.
+How and when are they used?
+When \Language{} finds that
+\spadtype{QuadraticForm(2, Fraction Integer)}
+does not implement the operations \spadop{*},
+\spadop{+}, and \spadop{-}, it goes to
+\spadtype{SquareMatrix(2,Fraction Integer)} to find it.
+As it turns out, \spadtype{SquareMatrix(2, Fraction Integer)} does
+not implement {\it any} of these operations!
+
+What does \Language{} do then?
+Here is its overall strategy.
+First, \Language{} looks for a function in the capsule for the domain.
+If it is not there, \Language{} looks in the add-domain for the
+operation.
+If that fails, \Language{} searches the add-domain of the add-domain,
+and so on.
+If all those fail, it then searches the default packages for the
+categories of which the domain is a member.
+In the case of \spadtype{QuadraticForm}, it searches
+\spadtype{AbelianGroup}, then its parents, grandparents, and
+so on.
+If this fails, it then searches the default packages of the
+add-domain.
+Whenever a function is found, the search stops immediately and the
+function is returned.
+When all fails, the system calls \spadfun{error} to report this
+unfortunate news to you.
+To find out the actual order of constructors searched for
+\spadtype{QuadraticForm}, consult \Browse{}: from the
+\spadtype{QuadraticForm}, and click on {\bf Search Path}.
+
+Let's apply this search strategy for our example \spad{3*q-q+q}.
+The scalar multiplication comes first.
+\Language{} finds a default implementation in
+\spadtype{AbelianGroup&}.
+Remember from \spadref{ugCategoriesDefaults} that
+\spadtype{SemiGroup} provides a default definition for
+\mathOrSpad{x^n} by repeated squaring?
+\spadtype{AbelianGroup} similarly provides a definition for
+\mathOrSpad{n*x} by repeated doubling.
+
+But the search of the defaults for \spadtype{QuadraticForm} fails
+to find any \spadop{+} or \spadop{*} in the default packages for
+the ancestors of \spadtype{QuadraticForm}.
+So it now searches among those for \spadtype{SquareMatrix}.
+Category \spadtype{MatrixCategory}, which provides a uniform interface
+for all matrix domains,
+is a grandparent of \spadtype{SquareMatrix} and
+has a capsule defining many functions for matrices, including
+matrix addition, subtraction, and scalar multiplication.
+The default package \spadtype{MatrixCategory&} is where the
+functions for \spadopFrom{+}{QuadraticForm} and
+\spadopFrom{-}{QuadraticForm} come from.
+
+You can use \Browse{} to discover where the operations for
+\spadtype{QuadraticForm} are implemented.
+First, get the page describing \spadtype{QuadraticForm}.
+With your mouse somewhere in this window, type a ``2'', press the
+\fbox{\bf Tab} key, and then enter ``Fraction
+Integer'' to indicate that you want the domain
+\spadtype{QuadraticForm(2, Fraction Integer)}.
+Now click on {\bf Operations} to get a table of operations and on
+\spadop{*} to get a page describing the \spadop{*} operation.
+Finally, click on {\bf implementation} at the bottom.
+
+% *********************************************************************
+\head{section}{Origins}{ugDomainsOrigins}
+% *********************************************************************
+%
+
+Aside from the notion of where an operation is implemented,
+\index{operation!origin}
+a useful notion is  the {\it origin} or ``home'' of an operation.
+When an operation (such as
+\spadfunFrom{quadraticForm}{QuadraticForm}) is explicitly exported by
+a domain (such as \spadtype{QuadraticForm}), you can say that the
+origin of that operation is that domain.
+If an operation is not explicitly exported from a domain, it is inherited
+from, and has as origin, the (closest) category that explicitly exports it.
+The operations \spadopFrom{+}{AbelianMonoid} and
+\spadopFrom{-}{AbelianMonoid} of \spadtype{QuadraticForm},
+for example, are inherited from \spadtype{AbelianMonoid}.
+As it turns out, \spadtype{AbelianMonoid} is the origin of virtually every
+\spadop{+} operation in \Language{}!
+
+Again, you can use \Browse{} to discover the origins of
+operations.
+From the \Browse{} page on \spadtype{QuadraticForm}, click on {\bf
+Operations}, then on {\bf origins} at the bottom of the page.
+
+The origin of the operation is the {\it only} place where on-line
+documentation is given.
+However, you can re-export an operation to give it special
+documentation.
+Suppose you have just invented the world's fastest algorithm for
+inverting matrices using a particular internal representation for
+matrices.
+If your matrix domain just declares that it exports
+\spadtype{MatrixCategory}, it exports the \spadfun{inverse}
+operation, but the documentation the user gets from \Browse{} is
+the standard one from \spadtype{MatrixCategory}.
+To give your version of \spadfun{inverse} the attention it
+deserves, simply export the operation explicitly with new
+documentation.
+This redundancy gives \spadfun{inverse} a new origin and tells
+\Browse{} to present your new documentation.
+
+% *********************************************************************
+\head{section}{Short Forms}{ugDomainsShortForms}
+% *********************************************************************
+%
+In \Language{}, a domain could be defined using only an add-domain
+and no capsule.
+Although we talk about rational numbers as quotients of integers,
+there is no type \pspadtype{RationalNumber} in \Language{}.
+To create such a type, you could compile the following
+``short-form'' definition:
+
+\begin{xmpLines}
+RationalNumber() == Fraction(Integer)
+\end{xmpLines}
+
+The {\tt Exports} part of this definition is missing and is taken
+to be equivalent to that of \spadtype{Fraction(Integer)}.
+Because of the add-domain philosophy, you get precisely
+what you want.
+The effect is to create a little stub of a domain.
+When a user asks to add two rational numbers, \Language{} would
+ask \pspadtype{RationalNumber} for a function implementing this
+\spadop{+}.
+Since the domain has no capsule, the domain then immediately
+sends its request to \spadtype{Fraction (Integer)}.
+
+The short form definition for domains is used to
+define such domains as \spadtype{MultivariatePolynomial}:
+\exptypeindex{MultivariatePolynomial}
+
+\begin{xmpLines}
+MultivariatePolynomial(vl: List Symbol, R: Ring) ==
+   SparseMultivariatePolynomial(R,
+      OrderedVariableList vl)
+\end{xmpLines}
+
+%% *********************************************************************
+\head{section}{Example 1: Clifford Algebra}{ugDomainsClifford}
+% *********************************************************************
+%
+
+Now that we have \spadtype{QuadraticForm} available,
+let's put it to use.
+Given some quadratic form \smath{Q} described by an
+\smath{n} by \smath{n} matrix over a field \smath{K}, the domain
+\spadtype{CliffordAlgebra(n, K, Q)} defines a vector space of
+dimension \mathOrSpad{2^n} over \smath{K}.
+This is an interesting domain since complex numbers, quaternions,
+exterior algebras and spin algebras are all examples of Clifford
+algebras.
+
+The basic idea is this:
+the quadratic form \spad{Q} defines a basis
+$e_1,e_2\ldots,e_n$ for the
+vector space \mathOrSpad{K^n}---the direct product of \spad{K}
+with itself \spad{n} times.
+From this, the Clifford algebra generates a basis of
+\mathOrSpad{2^n} elements given by all the possible products
+of the $e_i$ in order without duplicates, that is,
+1,
+$e_1$,
+$e_2$,
+$e_1e_2$,
+$e_3$,
+$e_1e_3$,
+$e_2e_3$,
+$e_1e_2,e_3$,
+and so on.
+
+The algebra is defined by the relations
+$$
+\begin{array}{lclc}
+e_i \  e_i & = & Q(e_i) \\
+e_i \  e_j & = & -e_j \  e_i & \hbox{for } i \neq j
+\end{array}
+$$
+
+Now look at the snapshot of its definition given in Figure
+\ref{fig-clifalg}.
+Lines 9-10 show part of the definitions of the {\tt Exports}.
+A Clifford algebra over a field \spad{K} is asserted to be a ring,
+an algebra over \spad{K}, and a vector space over \spad{K}.
+Its explicit exports include
+\spad{e(n),} which returns the \eth{n} unit element.
+
+\begin{figXmpLines}[caption={Part of the \textspadtype{CliffordAlgebra} domain.},label={fig-clifalg}]
+NNI ==> NonNegativeInteger
+PI  ==> PositiveInteger
+
+CliffordAlgebra(n,K,q): Exports == Implementation where
+    n: PI
+    K: Field
+    q: QuadraticForm(n, K)
+
+    Exports == Join(Ring,Algebra(K),VectorSpace(K)) with
+      e: PI -> %
+          ...
+
+    Implementation == add
+      Qeelist :=
+        [q.unitVector(i::PI) for i in 1..n]
+      dim     :=  2^n
+      Rep     := PrimitiveArray K
+      New ==> new(dim, 0$K)$Rep
+      x + y ==
+        z := New
+        for i in 0..dim-1 repeat z.i := x.i + y.i
+        z
+      addMonomProd: (K, NNI, K, NNI, %) -> %
+      addMonomProd(c1, b1, c2, b2, z) ==  ...
+      x * y ==
+        z := New
+        for ix in 0..dim-1 repeat
+          if x.ix ~= 0 then for iy in 0..dim-1 repeat
+            if y.iy ~= 0
+            then addMonomProd(x.ix,ix,y.iy,iy,z)
+          z
+           ...
+\end{figXmpLines}
+
+The {\tt Implementation} part begins by defining a local variable
+\spad{Qeelist} to hold the list of all \spad{q.v} where \spad{v}
+runs over the unit vectors from 1 to the dimension \spad{n}.
+Another local variable \spad{dim} is set to \mathOrSpad{2^n},
+computed once and for all.
+The representation for the domain is
+\spadtype{PrimitiveArray(K)},
+which is a basic array of elements from domain \spad{K}.
+Line 18 defines \spad{New} as shorthand for the more lengthy
+expression \spad{new(dim, 0$K)$Rep}, which computes a primitive
+array of length \mathOrSpad{2^n} filled with \spad{0}'s from
+domain \spad{K}.
+
+Lines 19-22 define the sum of two elements \spad{x} and \spad{y}
+straightforwardly.
+First, a new array of all \spad{0}'s is created, then filled with
+the sum of the corresponding elements.
+Indexing for primitive arrays starts at 0.
+The definition of the product of \spad{x} and \spad{y} first requires
+the definition of a local function \userfun{addMonomProd}.
+\Language{} knows it is local since it is not an exported function.
+The types of all local functions must be declared.
+
+For a demonstration of \spadtype{CliffordAlgebra}, see
+\xmpref{CliffordAlgebra}.
+
+% *********************************************************************
+\head{section}{Example 2: Building A Query Facility}{ugDomsinsDatabase}
+% *********************************************************************
+%
+We now turn to an entirely different kind of application,
+building a query language for a database.
+
+Here is the practical problem to solve.
+The \Browse{} facility of \Language{} has a
+database for all operations and constructors which is
+stored on disk and accessed by \HyperName{}.
+For our purposes here, we regard each line of this file as having
+eight fields:
+{\tt class, name, type, nargs, exposed, kind, origin,} and {\tt condition.}
+Here is an example entry:
+
+\begin{verbatim}
+o`determinant`$->R`1`x`d`Matrix(R)`has(R,commutative("*"))
+\end{verbatim}
+
+In English, the entry means:
+\begin{quotation}\raggedright
+The operation \spadfun{determinant}: \spad{% -> R}
+with {\it 1} argument, is
+{\it exposed} and is exported by {\it domain} \spadtype{Matrix(R)}
+if {\tt R has commutative("*")}.
+\end{quotation}
+
+Our task is to create a little query language that allows us
+to get useful information from this database.
+
+% *********************************************************************
+\head{subsection}{A Little Query Language}{ugDomainsQueryLanguage}
+% *********************************************************************
+
+First we design a simple language for accessing information from
+the database.
+We have the following simple model in mind for its design.
+Think of the database as a box of index cards.
+There is only one search operation---it
+takes the name of a field and a predicate
+\index{predicate}
+(a boolean-valued function) defined on the fields of the
+index cards.
+When applied, the search operation goes through the entire box
+selecting only those index cards for which the predicate is true.
+The result of a search is a new box of index cards.
+This process can be repeated again and again.
+
+The predicates all have a particularly simple form: {\it symbol}
+{\tt =} {\it pattern}, where {\it symbol} designates one of the
+fields, and {\it pattern} is a ``search string''---a string
+that may contain a ``{\tt *}'' as a
+wildcard.
+Wildcards match any substring, including the empty string.
+Thus the pattern {\tt "*ma*t"} matches
+{\tt "mat", "doormat"} and {\tt "smart".}
+
+To illustrate how queries are given, we give you a sneak preview
+of the facility we are about to create.
+
+\begin{xtc}
+\begin{xtccomment}
+Extract the database of all \Language{} operations.
+\end{xtccomment}
+\begin{spadsrc}
+ops := getDatabase("o")
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+8002%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Database(IndexCard)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+How many exposed three-argument \spadfun{map} operations involving streams?
+\end{xtccomment}
+\begin{spadsrc}
+ops.(name="map").(nargs="3").(type="*Stream*")
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+3%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Database(IndexCard)}
+\end{xtc}
+
+As usual, the arguments of \spadfun{elt} (\spadSyntax{.})
+associate to the left.
+The first \spadfun{elt} produces the set of all operations with
+name {\tt map}.
+The second \spadfun{elt} produces the set of all map operations
+with three arguments.
+The third \spadfun{elt} produces the set of all three-argument map
+operations having a type mentioning \spadtype{Stream}.
+
+Another thing we'd like to do is to extract one field from each of
+the index cards in the box and look at the result.
+Here is an example of that kind of request.
+
+\begin{xtc}
+\begin{xtccomment}
+What constructors explicitly export a \spadfun{determinant} operation?
+\end{xtccomment}
+\begin{spadsrc}
+elt(elt(elt(elt(ops,name="determinant"),origin),sort),unique)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\BRACKET{\STRING{"InnerMatrixLinearAlgebraFunctions"}\COMMA \STRING{%
+"MatrixCategory"}\COMMA \STRING{"MatrixLinearAlgebraFunctions"}\COMMA \STRING%
+{"SquareMatrixCategory"}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{DataList(String)}
+\end{xtc}
+
+The first \spadfun{elt} produces the set of all index cards with
+name {\tt determinant}.
+The second \spadfun{elt} extracts the {\tt origin} component from
+each index card. Each origin component
+is the name of a constructor which directly
+exports the operation represented by the index card.
+Extracting a component from each index card produces what we call
+a {\it datalist}.
+The third \spadfun{elt}, {\tt sort}, causes the datalist of
+origins to be sorted in alphabetic
+order.
+The fourth, {\tt unique}, causes duplicates to be removed.
+
+Before giving you a more extensive demo of this facility,
+we now build the necessary domains and packages to implement it.
+%We will introduce a few of our minor conveniences.
+
+% *********************************************************************
+\head{subsection}{The Database Constructor}{ugDomainsDatabaseConstructor}
+% *********************************************************************
+
+We work from the top down. First, we define a database,
+our box of index cards, as an abstract datatype.
+For sake of illustration and generality,
+we assume that an index card is some type \spad{S}, and
+that a database is a box of objects of type \spad{S}.
+Here is the \Language{} program defining the \pspadtype{Database}
+domain.
+
+\begin{xmpLines}
+PI ==> PositiveInteger
+Database(S): Exports == Implementation where
+  S: Object with
+    elt: (%, Symbol) -> String
+    display: % -> Void
+    fullDisplay: % -> Void
+
+  Exports == with
+    elt: (%,QueryEquation) -> %                          -- Select by an equation.
+    elt: (%, Symbol) -> DataList String                  -- Select by a field name.
+    "+": (%,%) -> %                                      -- Combine two databases.
+    "-": (%,%) -> %                                      -- Subtract one from another.
+    display: % -> Void                                   -- A brief database display.
+    fullDisplay: % -> Void                               -- A full database display.
+    fullDisplay: (%,PI,PI) -> Void                       -- A selective display.
+    coerce: % -> OutputForm                              -- Display a database.
+  Implementation == add
+      ...
+\end{xmpLines}
+
+The domain constructor takes a parameter \spad{S}, which
+stands for the class of index cards.
+We describe an index card later.
+Here think of an index card as a string which has
+the eight fields mentioned above.
+
+First, we tell \Language{} what operations we are going to require
+from index cards.
+We need an \spadfun{elt} to extract the contents of a field
+(such as {\tt name} and {\tt type}) as a string.
+For example,
+\spad{c.name} returns a string that is the content of the
+\spad{name} field on the index card \spad{c}.
+We need to display an index card in two ways:
+\pspadfun{display} shows only the name and type of an
+operation;
+\pspadfun{fullDisplay} displays all fields.
+The display operations return no useful information and thus have
+return type \spadtype{Void}.
+
+Next, we tell \Language{} what operations the user can apply
+to the database.
+This part defines our little query language.
+The most important operation is
+{\frenchspacing\tt db . field = pattern} which
+returns a new database, consisting of all index
+cards of {\tt db} such that the \spad{field} part of the index
+card is matched by the string pattern called \spad{pattern}.
+The expression {\tt field = pattern} is an object of type
+\spadtype{QueryEquation} (defined in the next section).
+
+Another \spadfun{elt} is needed to produce a \pspadtype{DataList}
+object.
+Operation \spadop{+} is to merge two databases together;
+\spadop{-} is used to subtract away common entries in a second
+database from an initial database.
+There are three display functions.
+The \pspadfun{fullDisplay} function has two versions: one
+that prints all the records, the other that prints only a fixed
+number of records.
+A \spadfun{coerce} to \spadtype{OutputForm} creates a display
+object.
+
+The {\tt Implementation} part of \spadtype{Database} is straightforward.
+\begin{xmpLines}
+  Implementation == add
+    s: Symbol
+    Rep := List S
+    elt(db,equation) == ...
+    elt(db,key) == [x.key for x in db]::DataList(String)
+    display(db) ==  for x in db repeat display x
+    fullDisplay(db) == for x in db repeat fullDisplay x
+    fullDisplay(db, n, m) == for x in db for i in 1..m
+      repeat
+        if i >= n then fullDisplay x
+    x+y == removeDuplicates! merge(x,y)
+    x-y == mergeDifference(copy(x::Rep),
+                           y::Rep)$MergeThing(S)
+    coerce(db): OutputForm == (#db):: OutputForm
+\end{xmpLines}
+
+The database is represented by a list of elements of \spad{S} (index cards).
+We leave the definition of the first \spadfun{elt} operation
+(on line 4) until the next section.
+The second \spadfun{elt} collects all the strings with field name
+{\it key} into a list.
+The \spadfun{display} function and first \spadfun{fullDisplay} function
+simply call the corresponding functions from \spad{S}.
+The second \spadfun{fullDisplay} function provides an efficient way of
+printing out a portion of a large list.
+The \spadop{+} is defined by using the existing
+\spadfunFrom{merge}{List} operation defined on lists, then
+removing duplicates from the result.
+The \spadop{-} operation requires writing a corresponding
+subtraction operation.
+A package \spadtype{MergeThing} (not shown) provides this.
+
+The \spadfun{coerce} function converts the database to an
+\spadtype{OutputForm} by computing the number of index cards.
+This is a good example of the independence of
+the representation of an \Language{} object from how it presents
+itself to the user. We usually do not want to look at a database---but
+do care how many ``hits'' we get for a given query.
+So we define the output representation of a database to be simply
+the number of index cards our query finds.
+% *********************************************************************
+\head{subsection}{Query Equations}{ugDomainsQueryEquations}
+% *********************************************************************
+
+The predicate for our search is given by an object of type
+\pspadtype{QueryEquation}.
+\Language{} does not have such an object yet so we
+have to invent it.
+
+\begin{xmpLines}
+QueryEquation(): Exports == Implementation where
+  Exports == with
+    equation: (Symbol, String) -> %
+    variable: % -> Symbol
+    value:    % -> String
+
+  Implementation == add
+    Rep := Record(var:Symbol, val:String)
+    equation(x, s) == [x, s]
+    variable q == q.var
+    value    q == q.val
+\end{xmpLines}
+
+\Language{} converts an input expression of the form
+\spad{a = b} to \spad{equation(a, b)}.
+Our equations always have a symbol on the left and a string
+on the right.
+The {\tt Exports} part thus specifies an operation
+\spadfun{equation} to create a query equation, and
+\pspadfun{variable} and \pspadfun{value} to select the left- and
+right-hand sides.
+The {\tt Implementation} part uses \pspadtype{Record} for a
+space-efficient representation of an equation.
+
+Here is the missing definition for the \spadfun{elt} function of
+\pspadtype{Database} in the last section:
+
+\begin{xmpLines}
+    elt(db,eq) ==
+      field  := variable eq
+      value := value eq
+      [x for x in db | matches?(value,x.field)]
+\end{xmpLines}
+
+Recall that a database is represented by a list.
+Line 4 simply runs over that list collecting all elements
+such that the pattern (that is, \spad{value})
+matches the selected field of the element.
+
+% *********************************************************************
+\head{subsection}{DataLists}{ugDomainsDataLists}
+% *********************************************************************
+
+Type \pspadtype{DataList} is a new type invented to hold the result
+of selecting one field from each of the index cards in the box.
+It is useful to make datalists extensions of lists---lists that
+have special \spadfun{elt} operations defined on them for
+sorting and removing duplicates.
+
+\begin{xmpLines}
+DataList(S:OrderedSet) : Exports == Implementation where
+  Exports == ListAggregate(S) with
+    elt: (%,"unique") -> %
+    elt: (%,"sort") -> %
+    elt: (%,"count") -> NonNegativeInteger
+    coerce: List S -> %
+
+  Implementation ==  List(S) add
+    Rep := List S
+    elt(x,"unique") == removeDuplicates(x)
+    elt(x,"sort") == sort(x)
+    elt(x,"count") == #x
+    coerce(x:List S) == x :: %
+\end{xmpLines}
+
+The {\tt Exports} part asserts that datalists belong to the
+category \spadtype{ListAggregate}.
+Therefore, you can use all the usual list operations on datalists,
+such as \spadfunFrom{first}{List}, \spadfunFrom{rest}{List}, and
+\spadfunFrom{concat}{List}.
+In addition, datalists have four explicit operations.
+Besides the three \spadfun{elt} operations, there is a
+\spadfun{coerce} operation that creates datalists from lists.
+
+The {\tt Implementation} part needs only to define four functions.
+All the rest are obtained from \spadtype{List(S)}.
+
+% *********************************************************************
+\head{subsection}{Index Cards}{ugDomainsDatabase}
+% *********************************************************************
+
+An index card comes from a file as one long string.
+We define functions that extract substrings from the long
+string.
+Each field has a name that
+is passed as a second argument to \spadfun{elt}.
+
+\begin{xmpLines}
+IndexCard() == Implementation where
+  Exports == with
+    elt: (%, Symbol) -> String
+    display: % -> Void
+    fullDisplay: % -> Void
+    coerce: String -> %
+  Implementation == String add ...
+\end{xmpLines}
+
+We leave the {\tt Implementation} part to the reader.
+All operations involve straightforward string manipulations.
+
+% *********************************************************************
+\head{subsection}{Creating a Database}{ugDomainsCreating}
+% *********************************************************************
+
+We must not forget one important operation: one that builds the database in the
+first place!
+We'll name it \pspadfun{getDatabase} and put it in a package.
+This function is implemented by calling the \Lisp{} function
+\spad{getBrowseDatabase(s)} to get appropriate information from
+\Browse{}.
+This operation takes a string indicating which lines you
+want from the database: \spad{"o"} gives you all operation
+lines, and \spad{"k"}, all constructor lines.
+Similarly, \spad{"c"}, \spad{"d"}, and \spad{"p"} give
+you all category, domain and package lines respectively.
+%
+\begin{xmpLines}
+OperationsQuery(): Exports == Implementation where
+  Exports == with
+    getDatabase: String -> Database(IndexCard)
+
+  Implementation == add
+    getDatabase(s) == getBrowseDatabase(s)$Lisp
+\end{xmpLines}
+
+We do not bother creating a special name for databases of index
+cards.
+\pspadtype{Database (IndexCard)} will do.
+Notice that we used the package \pspadtype{OperationsQuery} to
+create, in effect,
+a new kind of domain: \pspadtype{Database(IndexCard)}.
+
+% *********************************************************************
+\head{subsection}{Putting It All Together}{ugDomainsPutting}
+% *********************************************************************
+
+To create the database facility, you put all these constructors
+into one file.\footnote{You could use separate files, but we
+are putting them all together because, organizationally, that is
+the logical thing to do.}
+At the top of the file put \spadsys{)abbrev} commands, giving the
+constructor abbreviations you created.
+
+\begin{xmpLines}
+)abbrev domain  ICARD   IndexCard
+)abbrev domain  QEQUAT  QueryEquation
+)abbrev domain  MTHING  MergeThing
+)abbrev domain  DLIST   DataList
+)abbrev domain  DBASE   Database
+)abbrev package OPQUERY OperationsQuery
+\end{xmpLines}
+
+With all this in {\bf alql.spad}, for example, compile it using
+\syscmdindex{compile}
+\begin{verbatim}
+)compile alql
+\end{verbatim}
+and then load each of the constructors:
+\begin{verbatim}
+)load ICARD QEQUAT MTHING DLIST DBASE OPQUERY
+\end{verbatim}
+\syscmdindex{load}
+You are ready to try some sample queries.
+
+% *********************************************************************
+\head{subsection}{Example Queries}{ugDomainsExamples}
+% *********************************************************************
+
+Our first set of queries give some statistics on constructors in
+the current \Language{} system.
+
+\begin{xtc}
+\begin{xtccomment}
+How many constructors does \Language{} have?
+\end{xtccomment}
+\begin{spadsrc}
+ks := getDatabase "k"
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+1212%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Database(IndexCard)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Break this down into the number of categories, domains, and packages.
+\end{xtccomment}
+\begin{spadsrc}
+[ks.(kind=k) for k in ["c","d","p"]]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\BRACKET{264\COMMA 413\COMMA 535}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Database(IndexCard))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+What are all the domain constructors that take 5 parameters?
+\end{xtccomment}
+\begin{spadsrc}
+elt(ks.(kind="d").(nargs="5"),name)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\BRACKET{\STRING{"FractionalIdealAsModule"}\COMMA \STRING{"IndexedJetBundle"}%
+\COMMA \STRING{"InnerIndexedTwoDimensionalArray"}\COMMA \STRING{%
+"ModularField"}\COMMA \STRING{"ModularRing"}\COMMA \STRING{%
+"RadicalFunctionField"}\COMMA \STRING{"ResidueRing"}\COMMA \STRING{%
+"TensorProduct"}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{DataList(String)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+How many constructors have ``Matrix'' in their name?
+\end{xtccomment}
+\begin{spadsrc}
+mk := ks.(name="*Matrix*")
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+34%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Database(IndexCard)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+What are the names of those that are domains?
+\end{xtccomment}
+\begin{spadsrc}
+elt(mk.(kind="d"),name)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\BRACKET{\STRING{"ComplexDoubleFloatMatrix"}\COMMA \STRING{%
+"DenavitHartenbergMatrix"}\COMMA \STRING{"DirectProductMatrixModule"}\COMMA %
+\STRING{"DoubleFloatMatrix"}\COMMA \STRING{"IndexedMatrix"}\COMMA \STRING{%
+"LieSquareMatrix"}\COMMA \STRING{"Matrix"}\COMMA \STRING{"RectangularMatrix"}%
+\COMMA \STRING{"SparseEchelonMatrix"}\COMMA \STRING{"SquareMatrix"}\COMMA %
+\STRING{"ThreeDimensionalMatrix"}\COMMA \STRING{"U16Matrix"}\COMMA \STRING{%
+"U32Matrix"}\COMMA \STRING{"U8Matrix"}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{DataList(String)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+How many operations are there in the library?
+\end{xtccomment}
+\begin{spadsrc}
+o := getDatabase "o"
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+8002%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Database(IndexCard)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Break this down into categories, domains, and packages.
+\end{xtccomment}
+\begin{spadsrc}
+[o.(kind=k) for k in ["c","d","p"]]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\BRACKET{2011\COMMA 2791\COMMA 3200}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Database(IndexCard))}
+\end{xtc}
+
+The query language is helpful in getting information about a
+particular operation you might like to apply.
+While this information can be obtained with
+\Browse{}, the use of the query database gives you data that you
+can manipulate in the workspace.
+
+\begin{xtc}
+\begin{xtccomment}
+How many operations have ``eigen'' in the name?
+\end{xtccomment}
+\begin{spadsrc}
+eigens := o.(name="*eigen*")
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+9%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Database(IndexCard)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+What are their names?
+\end{xtccomment}
+\begin{spadsrc}
+elt(eigens,name)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\BRACKET{\STRING{"eigenMatrix"}\COMMA \STRING{"eigenvalues"}\COMMA \STRING{%
+"eigenvalues"}\COMMA \STRING{"eigenvalues"}\COMMA \STRING{"eigenvector"}%
+\COMMA \STRING{"eigenvector"}\COMMA \STRING{"eigenvectors"}\COMMA \STRING{%
+"eigenvectors"}\COMMA \STRING{"eigenvectors"}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{DataList(String)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Where do they come from?
+\end{xtccomment}
+\begin{spadsrc}
+elt(elt(elt(eigens,origin),sort),unique) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\BRACKET{\STRING{"EigenPackage"}\COMMA \STRING{"InnerEigenPackage"}\COMMA %
+\STRING{"RadicalEigenPackage"}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{DataList(String)}
+\end{xtc}
+
+The operations \spadop{+} and \spadop{-} are useful for
+constructing small databases and combining them.
+However, remember that the only matching you can do is string
+matching.
+Thus a pattern such as {\tt "*Matrix*"} on the type field
+matches
+any type containing \spadtype{Matrix}, \spadtype{MatrixCategory},
+\spadtype{SquareMatrix}, and so on.
+
+\begin{xtc}
+\begin{xtccomment}
+How many operations mention ``Matrix'' in their type?
+\end{xtccomment}
+\begin{spadsrc}
+tm := o.(type="*Matrix*")
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+329%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Database(IndexCard)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+How many operations come from constructors with ``Matrix'' in
+their name?
+\end{xtccomment}
+\begin{spadsrc}
+fm := o.(origin="*Matrix*")
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+245%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Database(IndexCard)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+How many operations are in \spad{fm} but not in \spad{tm}?
+\end{xtccomment}
+\begin{spadsrc}
+fm-tm 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{13}
+204%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Database(IndexCard)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Display the operations that both mention ``Matrix'' in their type
+and come from a constructor having ``Matrix'' in their name.
+\end{xtccomment}
+\begin{spadsrc}
+fullDisplay(fm-%) 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+How many operations involve matrices?
+\end{xtccomment}
+\begin{spadsrc}
+m := tm+fm 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{15}
+525%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Database(IndexCard)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Display 4 of them.
+\end{xtccomment}
+\begin{spadsrc}
+fullDisplay(m, 202, 205) 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+How many distinct names of operations involving matrices are there?
+\end{xtccomment}
+\begin{spadsrc}
+elt(elt(elt(m,name),unique),count) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{17}
+284%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}

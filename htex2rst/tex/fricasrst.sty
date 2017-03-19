@@ -1,0 +1,44 @@
+\newcommand{\Language}{{FriCAS}}
+
+\newcommand{\formatResultType}[1]{#1}
+
+
+
+
+
+
+% math
+
+\newcommand{\EulerE}{e}% %e
+\newcommand{\ImaginaryI}{i}% %i
+\newcommand{\csch}{\operatorname{csch}}%
+\newcommand{\erf}{\operatorname{erf}}%
+\newcommand{\coloneqq}{\mathrel{:\mkern-1.2mu=}}
+\newcommand{\embrace}[3]{\left #1 \relax #3 \right #2 \relax}%
+\newcommand{\BRACE}{\embrace{\{}{\}}}
+\newcommand{\BRACKET}{\embrace{\lbrack}{\rbrack}}
+\newcommand{\PAREN}{\embrace{(}{)}}
+\newcommand{\ZAG}[2]{\frac{\left.{#1}\right|}{\left|{#2}\right.}}%
+\newcommand{\QUOTE}[1]{\texttt{'}#1}%
+\newcommand{\BOX}[1]{\fbox{\ensuremath{#1}}}%
+\newcommand{\SEGMENTi}[1]{{#1}..}%
+\newcommand{\SEGMENTii}[2]{{##1}..{##2}}%
+\newcommand{\SUB}[2]{{#1}_{#2}}%
+\newcommand{\SUPER}[2]{{#1}^{#2}}%
+\newcommand{\SLASH}[2]{\left.#1\vphantom{{#1}{#2}}\right/ #2}%
+\newcommand{\PRIME}[2]{{#1}^{#2}}%
+\newcommand{\OVERLABEL}[1]{\FUN{OVERLABEL}(#1)}%
+\newcommand{\REM}[2]{{#1}\mathbin{\mathrm{rem}}{#2}}%
+\newcommand{\QUO}[2]{{#1}\mathbin{\mathrm{quo}}{#2}}%
+\newcommand{\EXQUO}[2]{{#1}\mathbin{\mathrm{exquo}}{#2}}%
+\newcommand{\nthroot}[2]{\sqrt[#2]{#1}}%
+\newcommand{\EQUATNUM}[2]{(#1)\qquad #2}%
+\newcommand{\COMMA}{,\linebreak[2]\:}% allow breaks in lists and sets
+\newcommand{\SEMICOLON}{;\:}%
+\newcommand{\TIMES}{\:}%
+\newcommand{\theMap}[1]{\FUN{TheMap}(\FUN{#1})}%
+\newcommand{\ALTSUPERSUB}[2]{\tensor*{#1}{*#2}}%
+\newcommand{\SCRIPTS}[5]{\tensor*[^{#4}_{#5}]{#1}{_{#2}^{#3}}}%
+\newcommand{\FUN}[1]{{\operatorname{#1}}}%
+\newcommand{\STRING}[1]{\texttt{#1}}%
+\newcommand{\SYMBOL}[2]{{#1}}%

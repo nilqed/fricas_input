@@ -307,7 +307,7 @@ polynomials
                                PositiveInteger
       
       Perhaps you should use "@" to indicate the required return type, 
-      or "\$" to specify which version of the function you need.
+      or "$" to specify which version of the function you need.
 \end{MessageOutput}
 \begin{MessageOutput}
    FriCAS will attempt to step through and interpret the code.
@@ -447,7 +447,7 @@ sinCosExpandRules := rule
   cos(2*x) == cos(x)^2 - sin(x)^2
 \end{spadsrc}
 \begin{TeXOutput}
-$$%\begin{fricasmath}{1}
+\begin{fricasmath}{1}
 \BRACE{\sin{\PAREN{\SYMBOL{y}+\SYMBOL{x}}}\SYMBOL{\ ==\ }\cos{\SYMBOL{x}}%
 \TIMES \sin{\SYMBOL{y}}+\cos{\SYMBOL{y}}\TIMES \sin{\SYMBOL{x}}\COMMA \cos{%
 \PAREN{\SYMBOL{y}+\SYMBOL{x}}}\SYMBOL{\ ==\ }-{\sin{\SYMBOL{x}}\TIMES \sin{%
@@ -455,7 +455,7 @@ $$%\begin{fricasmath}{1}
 \TIMES \SYMBOL{x}}}\SYMBOL{\ ==\ }2\TIMES \cos{\SYMBOL{x}}\TIMES \sin{\SYMBOL%
 {x}}\COMMA \cos{\PAREN{2\TIMES \SYMBOL{x}}}\SYMBOL{\ ==\ }-{\SUPER{\PAREN{%
 \sin{\SYMBOL{x}}}}{2}}+\SUPER{\PAREN{\cos{\SYMBOL{x}}}}{2}}%
-$$%\end{fricasmath}
+\end{fricasmath}
 \end{TeXOutput}
 \formatResultType{Ruleset(Integer, Integer, Expression(Integer))}
 \end{xtc}

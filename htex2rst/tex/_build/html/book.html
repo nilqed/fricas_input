@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>BOOK &#8212; book 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="book 1.0 documentation" href="index.html" />
+    <link rel="prev" title="Welcome to book’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="book">
+<h1>BOOK<a class="headerlink" href="#book" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>This is an attempt to make the content of the Axiom book (by Jenks
+and Sutor) available again in order to describe the FriCAS project
+(which is a fork of the original Axiom code). The following material
+is mainly taken from the original Axiom book, but is partly tailored
+to new developments in FriCAS.</p>
+<p><strong>WARNING: This is work-in-progress! There might be errors and even
+false statements.</strong></p>
+<p>Plan is as follows:</p>
+<ol class="arabic simple">
+<li>Make LaTeX compilation work and include (generated) pictures and
+generated output of algebra commands.</li>
+<li>Simplify and remove redundant LaTeX commands.</li>
+<li>Build on modern advanced latex packages.</li>
+<li>Generate indices and hyperrefs.</li>
+</ol>
+<p>All of the above will be done by taking care of still generating the
+same <code class="docutils literal"><span class="pre">.ht</span></code> files although the technicalities might look different.
+The contents of the files (no matter how wrong it actually is) will
+only be changed marginally. Rewriting of the contents will only
+happen after the technical part of producing the PDF file has been
+finished.</p>
+<p>Ralf Hemmecke</p>
+</div></blockquote>
+<p>Welcome to the world of FriCAS. We call FriCAS a scientific computation
+system: a self-contained toolbox designed to meet your scientific
+programming needs, from symbolics, to numerics, to graphics.</p>
+<p>This introduction is a quick overview of what FriCAS offers.</p>
+<p>FriCAS provides a wide range of simple commands for symbolic
+mathematical problem solving. Do you need to solve an equation, to
+expand a series, or to obtain an integral? If so, just ask FriCAS to do
+it.</p>
+<p>Integrate <span class="math">\(\frac{1}{(x^3 \  {(a+b x)}^{1/3})}\)</span> with respect to .</p>
+<p>integrate(1/(x^3 * (a+b*x)^(1/3)),x)</p>
+<div class="math">
+\[\frac{-{2{\:}{{{{b}}^{2}}{\:}{{{{x}}^{2}}{\:}\sqrt{3}{\:}\log{{{\left ( \relax } \right ) \relax}{{\sqrt[3]{{{a}}}{\:}{{{\sqrt[3]{{{b}} {{x}}{{a}}}}^{2}}+{{{\sqrt[3]{{{a}}}}^{2}}{\:}{\sqrt[3]{{{b}} {{x}}{{a}}}+{{a}}}}+4{\:}{{{{b}}^{2}}{\:}{{{{x}}^{2}}{\:}\sqrt{3}{\:}\log{{{\left ( \relax } \right ) \relax}{{{{\sqrt[3]{{{a}}}}^{2}}{\:}{\sqrt[3]{{{b}} {{x}}{{a}}}-{{{a}}}}+12{\:}{{{{b}}^{2}}{\:}{{{{x}}^{2}}{\:}\arctan{{{\left ( \relax } \right ) \relax}{\frac{2{\:}\sqrt{3}{\:}{{{\sqrt[3]{{{a}}}}^{2}}{\:}{\sqrt[3]{{{b}} {{x}}{{a}}}+{{a}} \sqrt{3}}{3{\:}{{a}}}}+{{\left ( \relax } \right ) \relax}{12{\:}{{b}} {{x}}{9{\:}{{a}}}{\:}\sqrt{3}{\:}{\sqrt[3]{{{a}}}{\:}{{{\sqrt[3]{{{b}} {{x}}{{a}}}}^{2}}}{18{\:}{{{{a}}^{2}}{\:}{{{{x}}^{2}}{\:}\sqrt{3}{\:}{\sqrt[3]{{{a}}}}\]</div>
+<p>Union(Expression(Integer), ...)</p>
+<p>FriCAS provides state-of-the-art algebraic machinery to handle your most
+advanced symbolic problems. For example, FriCAS’s integrator gives you
+the answer when an answer exists. If one does not, it provides a proof
+that there is no answer. Integration is just one of a multitude of
+symbolic operations that FriCAS provides.</p>
+<p>FriCAS has a numerical library that includes operations for linear
+algebra, solution of equations, and special functions. For many of these
+operations, you can select any number of floating point digits to be
+carried out in the computation.</p>
+<p>Solve <span class="math">\(x^{49}-49x^4+9\)</span> to 49 digits of accuracy.</p>
+<p>solve(x^49-49*x^4+9 = 0,1.e-49)</p>
+<div class="math">
+\[{{\left \lbrack \relax } \right \rbrack \relax}{{{x}}-{{\texttt{0.65465367069042711367}}}{,\linebreak[2]\:}{{x}}{\texttt{1.0869213956538595085}}{,\linebreak[2]\:}{{x}}{\texttt{0.65465367072552717397}}}\]</div>
+<p>List(Equation(Polynomial(Float)))</p>
+<p>The output of a computation can be converted to FORTRAN to be used in a
+later numerical computation. Besides floating point numbers, FriCAS
+provides literally dozens of kinds of numbers to compute with. These
+range from various kinds of integers, to fractions, complex numbers,
+quaternions, continued fractions, and to numbers represented with an
+arbitrary base.</p>
+<p>What is to the power in base ?</p>
+<p>radix(10^100,32)</p>
+<div class="math">
+\[4{\texttt{I}}9{\texttt{L}}{\texttt{K}}{\texttt{I}}{\texttt{P}}9{\texttt{G}}{\texttt{R}}{\texttt{S}}{\texttt{T}}{\texttt{C}}5{\texttt{I}}{\texttt{F}}164{\texttt{P}}{\texttt{O}}5{\texttt{V}}72{\texttt{M}}{\texttt{E}}827226{\texttt{J}}{\texttt{S}}{\texttt{L}}{\texttt{A}}{\texttt{P}}462585{\texttt{Q}}7{\texttt{H}}00000000000000000000\]</div>
+<p>RadixExpansion(32)</p>
+<p>You may often want to visualize a symbolic formula or draw a graph from
+a set of numerical values. To do this, you can call upon the FriCAS
+graphics capability.</p>
+<p>Draw <span class="math">\(J_0(\sqrt{x^2+y^2})\)</span> for <span class="math">\(-20 \leq x,y \leq 20\)</span>.</p>
+<p>draw(5*besselJ(0,sqrt(x^2+y^2)), x=-20..20, y=-20..20)</p>
+<p>Graphs in FriCAS are interactive objects you can manipulate with your
+mouse. Just click on the graph, and a control panel pops up. Using this
+mouse and the control panel, you can translate, rotate, zoom, change the
+coloring, lighting, shading, and perspective on the picture. You can
+also generate a PostScript copy of your graph to produce hard-copy
+output.</p>
+<p>presents you windows on the world of FriCAS, offering on-line help,
+examples, tutorials, a browser, and reference material. gives you
+on-line access to this book in a “hypertext” format. Words that appear
+in a different font (for example, , , and ) are generally mouse-active;
+if you click on one with your mouse, shows you a new window for that
+word.</p>
+<p>As another example of a facility, suppose that you want to compute the
+roots of <span class="math">\(x^{49} - 49x^4 + 9\)</span> to digits (as in our previous
+example) and you don’t know how to tell FriCAS to do this. The “basic
+command” facility of leads the way. Through the series of windows shown
+in Figure [fig-intro-br] and the specified mouse clicks, you and
+generate the correct command to issue to compute the answer.</p>
+<p>.5</p>
+<p>FriCAS’s interactive programming language lets you define your own
+functions. A simple example of a user-defined function is one that
+computes the successive Legendre polynomials. FriCAS lets you define
+these polynomials in a piece-wise way.</p>
+<p>The first Legendre polynomial.</p>
+<p>p(0) == 1</p>
+<p>The second Legendre polynomial.</p>
+<p>p(1) == x</p>
+<p>The Legendre polynomial for <span class="math">\((n &gt; 1)\)</span>.</p>
+<p>p(n) == ((2*n-1)*x*p(n-1) - (n-1) * p(n-2))/n</p>
+<p>In addition to letting you define simple functions like this, the
+interactive language can be used to create entire application packages.
+All the graphs in the section in the center of the book, for example,
+were created by programs written in the interactive language.</p>
+<p>The above definitions for do no computation—they simply tell FriCAS how
+to compute for some positive integer . To actually get a value of a
+Legendre polynomial, you ask for it.</p>
+<p>What is the tenth Legendre polynomial?</p>
+<p>p(10)</p>
+<p>Compiling function p with type Integer -&gt; Polynomial(Fraction( Integer))</p>
+<p>Compiling function p as a recurrence relation.</p>
+<div class="math">
+\[\frac{46189}{256}{\:}{{{{x}}^{10}}-{\frac{109395}{256}{\:}{{{{x}}^{8}}}+\frac{45045}{128}{\:}{{{{x}}^{6}}-{\frac{15015}{128}{\:}{{{{x}}^{4}}}+\frac{3465}{256}{\:}{{{{x}}^{2}}-{\frac{63}{256}}\]</div>
+<p>Polynomial(Fraction(Integer))</p>
+<p>FriCAS applies the above pieces for to obtain the value of . But it does
+more: it creates an optimized, compiled function for . The function is
+formed by putting the pieces together into a single piece of code. By
+<em>compiled</em>, we mean that the function is translated into basic
+machine-code. By <em>optimized</em>, we mean that certain transformations are
+performed on that code to make it run faster. For , FriCAS actually
+translates the original definition that is recursive (one that calls
+itself) to one that is iterative (one that consists of a simple loop).</p>
+<p>What is the coefficient of in ?</p>
+<p>coefficient(p(90),x,90)</p>
+<div class="math">
+\[\frac{56882655420520178222 23458237426581853561 497449095175}{77371252455336267181 195264}\]</div>
+<p>Polynomial(Fraction(Integer))</p>
+<p>In general, a user function is type-analyzed and compiled on first use.
+Later, if you use it with a different kind of object, the function is
+recompiled if necessary.</p>
+<p>A variety of data structures are available for interactive use. These
+include strings, lists, vectors, sets, multisets, and hash tables. A
+particularly useful structure for interactive use is the infinite
+stream:</p>
+<p>Create the infinite stream of derivatives of Legendre polynomials</p>
+<p>[D(p(i),x) for i in 1..]</p>
+<p>There are no library operations named p Use HyperDoc Browse or issue
+)what op p to learn if there is any operation containing “ p ” in its
+name.</p>
+<p>Cannot find a definition or applicable library operation named p with
+argument type(s) PositiveInteger</p>
+<p>Perhaps you should use “&#64;” to indicate the required return type, or “$”
+to specify which version of the function you need.</p>
+<p>FriCAS will attempt to step through and interpret the code.</p>
+<p>Interpret-Code mode is not supported for stream bodies.</p>
+<p>Streams display only a few of their initial elements. Otherwise, they
+are “lazy”: they only compute elements when you ask for them.</p>
+<p>Data structures are an important component for building application
+software. Advanced users can represent data for applications in optimal
+fashion. In all, FriCAS offers over forty kinds of aggregate data
+structures, ranging from mutable structures (such as cyclic lists and
+flexible arrays) to storage efficient structures (such as bit vectors).
+As an example, streams are used as the internal data structure for power
+series.</p>
+<p>What is the series expansion of <span class="math">\(\log(\cot(x))\)</span> about
+<span class="math">\(x=\pi/2\)</span>?</p>
+<p>series(log(cot(x)),x =</p>
+<div class="math">
+\[\log{{{\left ( \relax } \right ) \relax}{\frac{-{2{\:}{{x}}+\pi }{2}}}+\frac{1}{3}{\:}{{{{\left ( \relax } \right ) \relax}{{{x}}{\frac{\pi }{2}}}}^{2}}+\frac{7}{90}{\:}{{{{\left ( \relax } \right ) \relax}{{{x}}{\frac{\pi }{2}}}}^{4}}+\frac{62}{2835}{\:}{{{{\left ( \relax } \right ) \relax}{{{x}}{\frac{\pi }{2}}}}^{6}}+{{\operatorname{O}}}{{\left ( \relax } \right ) \relax}{{{{{\left ( \relax } \right ) \relax}{{{x}}{\frac{\pi }{2}}}}^{8}}}\]</div>
+<p>GeneralUnivariatePowerSeries(Expression(Integer), x, %pi/2)</p>
+<p>Series and streams make no attempt to compute <em>all</em> their elements!
+Rather, they stand ready to deliver elements on demand.</p>
+<p>What is the coefficient of the term of this series?</p>
+<p>coefficient(</p>
+<div class="math">
+\[\frac{44590788901016030052 44724230085655096564 4}{71314692864386691115 84090881309360354581 359130859375}\]</div>
+<p>Expression(Integer)</p>
+<p>FriCAS also has many kinds of mathematical structures. These range from
+simple ones (like polynomials and matrices) to more esoteric ones (like
+ideals and Clifford algebras). Most structures allow the construction of
+arbitrarily complicated “types.”</p>
+<p>Even a simple input expression can result in a type with several levels.</p>
+<p>matrix [[x +</p>
+<div class="math">
+\[\begin{split}\begin{MATRIX}{2}{{x}}{i}&amp;0\\1&amp;-{2}\end{MATRIX}\end{split}\]</div>
+<p>Matrix(Polynomial(Complex(Integer)))</p>
+<p>The FriCAS interpreter builds types in response to user input. Often,
+the type of the result is changed in order to be applicable to an
+operation.</p>
+<p>The inverse operation requires that elements of the above matrices are
+fractions.</p>
+<p>inverse(</p>
+<div class="math">
+\[\begin{split}\begin{MATRIX}{2}\frac{1}{{{x}}{i}}&amp;0\\\frac{1}{2{\:}{{x}}2{\:}{i}}&amp;-{\frac{1}{2}}\end{MATRIX}\end{split}\]</div>
+<p>Union(Matrix(Fraction(Polynomial(Complex(Integer)))), ...)</p>
+<p>A convenient facility for symbolic computation is “pattern matching.”
+Suppose you have a trigonometric expression and you want to transform it
+to some equivalent form. Use a command to describe the transformation
+rules you need. Then give the rules a name and apply that name as a
+function to your trigonometric expression.</p>
+<p>Introduce two rewrite rules.</p>
+<p>sinCosExpandRules := rule sin(x+y) == sin(x)*cos(y) + sin(y)*cos(x)
+cos(x+y) == cos(x)*cos(y) - sin(x)*sin(y) sin(2*x) ==
+2*sin(x)*cos(x) cos(2*x) == cos(x)^2 - sin(x)^2</p>
+<div class="math">
+\[{{\left \{}{\} \relax { \right } \relax}\sin{{{\left ( \relax } \right ) \relax}{{{y}}{{x}}}{{\ ==\ }}{{{x}}{\:}\sin{{{y}}+\cos{{{y}}{\:}\sin{{{x}}{,\linebreak[2]\:}\cos{{{\left ( \relax } \right ) \relax}{{{y}}{{x}}}{{\ ==\ }}{\sin{{{x}}{\:}\sin{{{y}}}+\cos{{{x}}{\:}\cos{{{y}}{,\linebreak[2]\:}\sin{{{\left ( \relax } \right ) \relax}{2{\:}{{x}}}{{\ ==\ }}{\:}\cos{{{x}}{\:}\sin{{{x}}{,\linebreak[2]\:}\cos{{{\left ( \relax } \right ) \relax}{2{\:}{{x}}}{{\ ==\ }}{{{{{\left ( \relax } \right ) \relax}{\sin{{{x}}}}^{2}}}+{{{{\left ( \relax } \right ) \relax}{\cos{{{x}}}}^{2}}}\]</div>
+<p>Ruleset(Integer, Integer, Expression(Integer))</p>
+<p>Apply the rules to a simple trigonometric expression.</p>
+<p>sinCosExpandRules(sin(a+2*b+c))</p>
+<div class="math">
+\[{{\left ( \relax } \right ) \relax}{-{\cos{{{a}}{\:}{{{{\left ( \relax } \right ) \relax}{\sin{{{b}}}}^{2}}}-{2{\:}\cos{{{b}}{\:}\sin{{{a}}{\:}\sin{{{b}}}+\cos{{{a}}{\:}{{{{\left ( \relax } \right ) \relax}{\cos{{{b}}}}^{2}}}{\:}\sin{{{c}}-{\cos{{{c}}{\:}\sin{{{a}}{\:}{{{{\left ( \relax } \right ) \relax}{\sin{{{b}}}}^{2}}}+2{\:}\cos{{{a}}{\:}\cos{{{b}}{\:}\cos{{{c}}{\:}\sin{{{b}}+{{{{\left ( \relax } \right ) \relax}{\cos{{{b}}}}^{2}}{\:}\cos{{{c}}{\:}\sin{{{a}}\]</div>
+<p>Expression(Integer)</p>
+<p>Using input files, you can create your own library of transformation
+rules relevant to your applications, then selectively apply the rules
+you need.</p>
+<p>All components of the FriCAS algebra library are written in the FriCAS
+library language. This language is similar to the interactive language
+except for protocols that authors are obliged to follow. The library
+language permits you to write “polymorphic algorithms,” algorithms
+defined to work in their most natural settings and over a variety of
+types.</p>
+<p>Define a system of polynomial equations .</p>
+<p>S := [3*x^3 + y + 1 = 0,y^2 = 4]</p>
+<div class="math">
+\[{{\left \lbrack \relax } \right \rbrack \relax}{{{y}}3{\:}{{{{x}}^{3}}+1=0{,\linebreak[2]\:}{{{{y}}^{2}}=4}\]</div>
+<p>List(Equation(Polynomial(Integer)))</p>
+<p>Solve the system using rational number arithmetic and 30 digits of
+accuracy.</p>
+<p>solve(S,1/10^30)</p>
+<div class="math">
+\[{{\left \lbrack \relax } \right \rbrack \relax}{{{\left \lbrack \relax } \right \rbrack \relax}{{{y}}-{2}{,\linebreak[2]\:}{{x}}\frac{57602201066248085349 435651342568509}{83076749736557242056 487941267521536}}{,\linebreak[2]\:}{{\left \lbrack \relax } \right \rbrack \relax}{{{y}}2{,\linebreak[2]\:}{{x}}-{\frac{18707220957835557353 00716585876842265159 59365500929}{18707220957835557353 00716585876842265159 59365500928}}}}\]</div>
+<p>List(List(Equation(Polynomial(Fraction(Integer)))))</p>
+<p>Solve with the solutions expressed in radicals.</p>
+<p>radicalSolve(S)</p>
+<div class="math">
+\[{{\left \lbrack \relax } \right \rbrack \relax}{{{\left \lbrack \relax } \right \rbrack \relax}{{{y}}2{,\linebreak[2]\:}{{x}}-{1}}{,\linebreak[2]\:}{{\left \lbrack \relax } \right \rbrack \relax}{{{y}}2{,\linebreak[2]\:}{{x}}\frac{-{\sqrt{-{3}}}+1}{2}}{,\linebreak[2]\:}{{\left \lbrack \relax } \right \rbrack \relax}{{{y}}2{,\linebreak[2]\:}{{x}}\frac{\sqrt{-{3}}+1}{2}}{,\linebreak[2]\:}{{\left \lbrack \relax } \right \rbrack \relax}{{{y}}-{2}{,\linebreak[2]\:}{{x}}\frac{1}{{\sqrt[3]{3}}}}{,\linebreak[2]\:}{{\left \lbrack \relax } \right \rbrack \relax}{{{y}}-{2}{,\linebreak[2]\:}{{x}}\frac{\sqrt{-{1}}{\:}\sqrt{3}-{1}}{2{\:}{\sqrt[3]{3}}}}{,\linebreak[2]\:}{{\left \lbrack \relax } \right \rbrack \relax}{{{y}}-{2}{,\linebreak[2]\:}{{x}}\frac{-{\sqrt{-{1}}{\:}\sqrt{3}}-{1}}{2{\:}{\sqrt[3]{3}}}}}\]</div>
+<p>List(List(Equation(Expression(Integer))))</p>
+<p>While these solutions look very different, the results were produced by
+the same internal algorithm! The internal algorithm actually works with
+equations over any “field.” Examples of fields are the rational numbers,
+floating point numbers, rational functions, power series, and general
+expressions involving radicals.</p>
+<p>Users and system developers alike can augment the FriCAS library, all
+using one common language. Library code, like interpreter code, is
+compiled into machine binary code for run-time efficiency.</p>
+<p>Using this language, you can create new computational types and new
+algorithmic packages. All library code is polymorphic, described in
+terms of a database of algebraic properties. By following the language
+protocols, there is an automatic, guaranteed interaction between your
+code and that of colleagues and system implementers.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to book&#8217;s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/book.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, fricas.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/book.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,1325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  
+  "http://www.w3.org/TR/html4/loose.dtd">  
+<html > 
+<head><title></title> 
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
+<meta name="generator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<meta name="originator" content="TeX4ht (http://www.cse.ohio-state.edu/~gurari/TeX4ht/)"> 
+<!-- html --> 
+<meta name="src" content="book.tex"> 
+<meta name="date" content="2017-03-19 21:49:00"> 
+<link rel="stylesheet" type="text/css" href="book.css"> 
+</head><body 
+>
+     <div class="quote">
+     <!--l. 26--><p class="noindent" ><span 
+class="cmr-12x-x-120">This is an attempt to make the content of the Axiom book (by</span>
+     <span 
+class="cmr-12x-x-120">Jenks and Sutor) available again in order to describe the FriCAS</span>
+     <span 
+class="cmr-12x-x-120">project (which is a fork of the original Axiom code). The following</span>
+     <span 
+class="cmr-12x-x-120">material is mainly taken from the original Axiom book, but is</span>
+     <span 
+class="cmr-12x-x-120">partly tailored to new developments in FriCAS.</span>
+     <!--l. 35--><p class="noindent" ><span 
+class="cmbx-12x-x-120">WARNING: This is work-in-progress! There might be</span>
+     <span 
+class="cmbx-12x-x-120">errors and even false statements.</span>
+     <!--l. 37--><p class="noindent" ><span 
+class="cmr-12x-x-120">Plan is as follows:</span>
+    <ol  class="enumerate1" >
+    <li 
+  class="enumerate" id="x1-3x1"><span 
+class="cmr-12x-x-120">Make  LaTeX  compilation  work  and  include  (generated)</span>
+    <span 
+class="cmr-12x-x-120">pictures and generated output of algebra commands.</span>
+    </li>
+    <li 
+  class="enumerate" id="x1-5x2"><span 
+class="cmr-12x-x-120">Simplify and remove redundant </span><span class="LATEX"><span 
+class="cmr-12x-x-120">L</span><span class="A"><span 
+class="cmr-12x-x-120">A</span></span><span class="TEX"><span 
+class="cmr-12x-x-120">T</span><span 
+class="E"><span 
+class="cmr-12x-x-120">E</span></span><span 
+class="cmr-12x-x-120">X</span></span></span> <span 
+class="cmr-12x-x-120">commands.</span>
+    </li>
+    <li 
+  class="enumerate" id="x1-7x3"><span 
+class="cmr-12x-x-120">Build on modern advanced latex packages.</span>
+    </li>
+    <li 
+  class="enumerate" id="x1-9x4"><span 
+class="cmr-12x-x-120">Generate indices and hyperrefs.</span></li></ol>
+     <!--l. 46--><p class="noindent" ><span 
+class="cmr-12x-x-120">All of the above will be done by taking care of still generating the</span>
+     <span 
+class="cmr-12x-x-120">same </span><span 
+class="cmtt-12x-x-120">.ht </span><span 
+class="cmr-12x-x-120">files although the technicalities might look different. The</span>
+     <span 
+class="cmr-12x-x-120">contents of the files (no matter how wrong it actually is) will only be</span>
+     <span 
+class="cmr-12x-x-120">changed marginally. Rewriting of the contents will only happen</span>
+     <span 
+class="cmr-12x-x-120">after the technical part of producing the PDF file has been</span>
+     <span 
+class="cmr-12x-x-120">finished.</span>
+     <!--l. 53--><p class="noindent" >                                                                              <span 
+class="cmr-12x-x-120">Ralf</span>
+     <span 
+class="cmr-12x-x-120">Hemmecke</span></div>
+                                                                                     
+
+                                                                                     
+                                                                                     
+
+                                                                                     
+<!--l. 59--><p class="noindent" >
+                                                                                     
+
+                                                                                     
+<h2 class="likechapterHead"><a 
+ id="x1-1000"></a>Contents</h2> <div class="tableofcontents">
+<span class="chapterToc" >0 <a 
+href="#x1-20000" id="QQ2-1-2">Introduction to FriCAS</a></span>
+<br />&#x00A0;<span class="sectionToc" >0.1 <a 
+href="#x1-30000.1" id="QQ2-1-3">Symbolic computation</a></span>
+<br />&#x00A0;<span class="sectionToc" >0.2 <a 
+href="#x1-40000.2" id="QQ2-1-4">Numeric computation</a></span>
+<br />&#x00A0;<span class="sectionToc" >0.3 <a 
+href="#x1-50000.3" id="QQ2-1-5">Graphics</a></span>
+<br />&#x00A0;<span class="sectionToc" >0.4 <a 
+href="#x1-60000.4" id="QQ2-1-6">HyperDoc</a></span>
+<br />&#x00A0;<span class="sectionToc" >0.5 <a 
+href="#x1-70000.5" id="QQ2-1-7">Interactive Programming</a></span>
+<br />&#x00A0;<span class="sectionToc" >0.6 <a 
+href="#x1-80000.6" id="QQ2-1-8">Data Structures</a></span>
+<br />&#x00A0;<span class="sectionToc" >0.7 <a 
+href="#x1-90000.7" id="QQ2-1-9">Mathematical Structures</a></span>
+<br />&#x00A0;<span class="sectionToc" >0.8 <a 
+href="#x1-100000.8" id="QQ2-1-10">Pattern Matching</a></span>
+<br />&#x00A0;<span class="sectionToc" >0.9 <a 
+href="#x1-110000.9" id="QQ2-1-11">Polymorphic Algorithms</a></span>
+</div>
+                                                                                     
+
+                                                                                     
+                                                                                     
+
+                                                                                     
+<h2 class="chapterHead"><span class="titlemark">Chapter&#x00A0;0</span><br /><a 
+ id="x1-20000"></a>Introduction to FriCAS</h2>
+<!--l. 4--><p class="noindent" >Welcome to the world of FriCAS. We call FriCAS a scientific computation system: a self-contained
+toolbox designed to meet your scientific programming needs, from symbolics, to numerics, to
+graphics.
+<!--l. 10--><p class="noindent" >This introduction is a quick overview of what FriCAS offers.
+<h3 class="sectionHead"><span class="titlemark">0.1   </span> <a 
+ id="x1-30000.1"></a>Symbolic computation</h3>
+<!--l. 14--><p class="noindent" >FriCAS provides a wide range of simple commands for symbolic mathematical problem solving. Do you need
+to solve an equation, to expand a series, or to obtain an integral? If so, just ask FriCAS to do
+it.
+<!--l. 25--><p class="noindent" >Integrate <img 
+src="book0x.png" alt="(x3 (a1+bx)1&#x2215;3)" > with respect to <span 
+class="cmmi-10">x</span>.
+<div class="center" 
+>
+<!--l. 28--><p class="noindent" >
+<div class="tabular"> <table id="TBL-1" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-1-1g"><col 
+id="TBL-1-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-1-1-1"  
+class="td11"><!--l. 28--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-1-2-1"  
+class="td11">
+<!--l. 28--><p class="noindent" >&#x210F; integrate(1/(x&#x02C6;3 * (a+b*x)&#x02C6;(1/3)),x)                                                                     </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-1-3-1"  
+class="td11"><!--l. 30--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-1-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-1-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 31--><p class="noindent" >
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox3"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book1x.png" alt="   2 2&radic;-   (3&radic;- 3&radic;-----2  3&radic;-2&radic;3-----   )    22&radic; -  ( 3&radic;-2 3&radic;----   )     2 2     ( 2&radic;3&radic;3a2 3&radic;bx+-a+a&radic;3)            &radic;-3&radic; -3&radic;-----2
+&minus;2b x  3log  a  bx+ a +  a   bx+ a+ a + 4bx   3log   a  bx +a &minus; a + 12b x arctan  -------3a-------- +(12bx&minus; 9a) 3  a bx+ a
+-------------------------------------------------------18a2x2&radic;3-3&radic;a-------------------------------------------------------
+" class="math-display" ></center></td></tr></table>
+<!--l. 47--><p class="nopar" >
+                                                                                     </span></div>-
+                                                                                     
+
+                                                                                     
+<!--l. 49--><p class="noindent" >Union(Expression(Integer), ...)
+<!--l. 52--><p class="noindent" >FriCAS provides state-of-the-art algebraic machinery to handle your most advanced symbolic problems. For
+example, FriCAS&#8217;s integrator gives you the answer when an answer exists. If one does not, it provides a proof
+that there is no answer. Integration is just one of a multitude of symbolic operations that FriCAS
+provides.
+<!--l. 61--><p class="noindent" >
+<h3 class="sectionHead"><span class="titlemark">0.2   </span> <a 
+ id="x1-40000.2"></a>Numeric computation</h3>
+<!--l. 63--><p class="noindent" >FriCAS has a numerical library that includes operations for linear algebra, solution of equations, and special
+functions. For many of these operations, you can select any number of floating point digits to be carried out in
+the computation.
+<!--l. 71--><p class="noindent" >Solve <span 
+class="cmmi-10">x</span><sup><span 
+class="cmr-7">49</span></sup> <span 
+class="cmsy-10">&minus; </span>49<span 
+class="cmmi-10">x</span><sup><span 
+class="cmr-7">4</span></sup> + 9 to 49 digits of accuracy.
+<div class="center" 
+>
+<!--l. 74--><p class="noindent" >
+<div class="tabular"> <table id="TBL-2" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-2-1g"><col 
+id="TBL-2-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-2-1-1"  
+class="td11"><!--l. 74--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-2-2-1"  
+class="td11">
+<!--l. 74--><p class="noindent" >&#x210F; solve(x&#x02C6;49-49*x&#x02C6;4+9 = 0,1.e-49)                                                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-2-3-1"  
+class="td11"><!--l. 76--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-2-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-2-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 77--><p class="noindent" >
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox6"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book2x.png" alt="[x = &minus;0.65465367069042711367,x= 1.0869213956538595085,x =0.65465367072552717397]
+" class="math-display" ></center></td></tr></table>
+<!--l. 82--><p class="nopar" >
+                                                                                     </span></div>-
+                                                                                     
+
+                                                                                     
+<!--l. 84--><p class="noindent" >List(Equation(Polynomial(Float)))
+<!--l. 87--><p class="noindent" >The output of a computation can be converted to FORTRAN to be used in a later numerical computation.
+Besides floating point numbers, FriCAS provides literally dozens of kinds of numbers to compute with. These
+range from various kinds of integers, to fractions, complex numbers, quaternions, continued fractions, and to
+numbers represented with an arbitrary base.
+<!--l. 98--><p class="noindent" >What is <span class="lstinline"><span 
+class="cmtt-10">10</span></span> to the 100<span 
+class="cmr-9">th</span> power in base <span class="lstinline"><span 
+class="cmtt-10">32</span></span>?
+<div class="center" 
+>
+<!--l. 101--><p class="noindent" >
+<div class="tabular"> <table id="TBL-3" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-3-1g"><col 
+id="TBL-3-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-3-1-1"  
+class="td11"><!--l. 101--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-3-2-1"  
+class="td11">
+<!--l. 101--><p class="noindent" >&#x210F; radix(10&#x02C6;100,32)                                                                                                 </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-3-3-1"  
+class="td11"><!--l. 103--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-3-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-3-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 104--><p class="noindent" >
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox9"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book3x.png" alt="4I9LKIP 9GRST C5IF 164P O5V72ME827226JSLAP  462585Q7H00000000000000000000
+" class="math-display" ></center></td></tr></table>
+<!--l. 110--><p class="nopar" >
+                                                                                     </span></div>-
+<!--l. 112--><p class="noindent" >RadixExpansion(32)
+<!--l. 116--><p class="noindent" >
+<h3 class="sectionHead"><span class="titlemark">0.3   </span> <a 
+ id="x1-50000.3"></a>Graphics</h3>
+                                                                                     
+
+                                                                                     
+<!--l. 118--><p class="noindent" >You may often want to visualize a symbolic formula or draw a graph from a set of numerical values. To do
+this, you can call upon the FriCAS graphics capability.
+<!--l. 125--><p class="noindent" >Draw <span 
+class="cmmi-10">J</span><sub><span 
+class="cmr-7">0</span></sub>(<img 
+src="book4x.png" alt="&#x2218; -------
+  x2 + y2"  class="sqrt" >) for <span 
+class="cmsy-10">&minus;</span>20 <span 
+class="cmsy-10">&le; </span><span 
+class="cmmi-10">x,y </span><span 
+class="cmsy-10">&le; </span>20.
+<div class="center" 
+>
+<!--l. 128--><p class="noindent" >
+<div class="tabular"> <table id="TBL-4" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-4-1g"><col 
+id="TBL-4-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-4-1-1"  
+class="td11"><!--l. 128--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-4-2-1"  
+class="td11">
+<!--l. 128--><p class="noindent" >&#x210F; draw(5*besselJ(0,sqrt(x&#x02C6;2+y&#x02C6;2)), x=-20..20, y=-20..20)                                             </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-4-3-1"  
+class="td11"><!--l. 130--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-4-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-4-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<div class="center" 
+>
+<!--l. 131--><p class="noindent" >
+<!--l. 131--><p class="noindent" ><img 
+src="book5x.png" alt="bessintr.ps" ></div>
+<!--l. 134--><p class="noindent" >Graphs in FriCAS are interactive objects you can manipulate with your mouse. Just click on the graph, and a
+control panel pops up. Using this mouse and the control panel, you can translate, rotate, zoom, change the
+coloring, lighting, shading, and perspective on the picture. You can also generate a PostScript copy of your
+graph to produce hard-copy output.
+<!--l. 144--><p class="noindent" >
+<h3 class="sectionHead"><span class="titlemark">0.4   </span> <a 
+ id="x1-60000.4"></a>HyperDoc</h3>
+<!--l. 146--><p class="noindent" >HyperDoc presents you windows on the world of FriCAS, offering on-line help, examples, tutorials, a browser,
+and reference material. HyperDoc gives you on-line access to this book in a &#8220;hypertext&#8221; format.
+Words that appear in a different font (for example, <span id="textcolor10"><span 
+class="cmbx-10">Matrix</span></span><a 
+ id="dx1-6001"></a>, <span id="textcolor11"><span 
+class="cmss-10">factor</span></span><a 
+ id="dx1-6002"></a>, and <a 
+ id="dx1-6003"></a><span 
+class="cmti-10">category</span>) are generally
+mouse-active; if you click on one with your mouse, HyperDoc shows you a new window for that
+word.
+<!--l. 155--><p class="noindent" >As another example of a HyperDoc facility, suppose that you want to compute the roots of <span 
+class="cmmi-10">x</span><sup><span 
+class="cmr-7">49</span></sup> <span 
+class="cmsy-10">&minus; </span>49<span 
+class="cmmi-10">x</span><sup><span 
+class="cmr-7">4</span></sup> + 9 to
+49 digits (as in our previous example) and you don&#8217;t know how to tell FriCAS to do this. The &#8220;basic
+                                                                                     
+
+                                                                                     
+command&#8221; facility of HyperDoc leads the way. Through the series of HyperDoc windows shown in Figure <a 
+href="#x1-60000.4">0.4<!--tex4ht:ref: fig-intro-br --></a>
+and the specified mouse clicks, you and HyperDoc generate the correct command to issue to compute the
+answer.
+<!--l. 165--><p class="noindent" ><hr class="figure"><div class="figure" 
+>
+                                                                                     
+
+                                                                                     
+                                                                                     
+
+                                                                                     
+<!--l. 167--><p class="noindent" >Computing the roots of <span 
+class="cmmi-10">x</span><sup><span 
+class="cmr-7">49</span></sup> <span 
+class="cmsy-10">&minus; </span>49<span 
+class="cmmi-10">x</span><sup><span 
+class="cmr-7">4</span></sup> + 9<span 
+class="cmmi-10">.</span>
+                                                                                     
+
+                                                                                     
+<!--l. 169--><p class="noindent" ></div><hr class="endfigure">
+<h3 class="sectionHead"><span class="titlemark">0.5   </span> <a 
+ id="x1-70000.5"></a>Interactive Programming</h3>
+<!--l. 173--><p class="noindent" >FriCAS&#8217;s interactive programming language lets you define your own functions. A simple example of a
+user-defined function is one that computes the successive Legendre polynomials. FriCAS lets you define these
+polynomials in a piece-wise way.
+<!--l. 182--><p class="noindent" >The first Legendre polynomial.
+<div class="center" 
+>
+<!--l. 184--><p class="noindent" >
+<div class="tabular"> <table id="TBL-5" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-5-1g"><col 
+id="TBL-5-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-5-1-1"  
+class="td11"><!--l. 184--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-5-2-1"  
+class="td11">
+<!--l. 184--><p class="noindent" >&#x210F; p(0) == 1                                                                                                         </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-5-3-1"  
+class="td11"><!--l. 186--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-5-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-5-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 191--><p class="noindent" >The second Legendre polynomial.
+<div class="center" 
+>
+<!--l. 193--><p class="noindent" >
+<div class="tabular"> <table id="TBL-6" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-6-1g"><col 
+id="TBL-6-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-6-1-1"  
+class="td11"><!--l. 193--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-6-2-1"  
+class="td11">
+<!--l. 193--><p class="noindent" >&#x210F; p(1) == x                                                                                                         </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-6-3-1"  
+class="td11"><!--l. 195--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-6-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-6-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 200--><p class="noindent" >The <span 
+class="cmmi-10">n</span><span 
+class="cmr-9">th</span> Legendre polynomial for (<span 
+class="cmmi-10">n &#x003E; </span>1).
+<div class="center" 
+>
+<!--l. 202--><p class="noindent" >
+<div class="tabular"> <table id="TBL-7" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-7-1g"><col 
+id="TBL-7-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-7-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-7-1-1"  
+class="td11"><!--l. 202--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-7-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-7-2-1"  
+class="td11">
+<!--l. 202--><p class="noindent" >&#x210F; p(n) == ((2*n-1)*x*p(n-1) - (n-1) * p(n-2))/n                                                         </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-7-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-7-3-1"  
+class="td11"><!--l. 204--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-7-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-7-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 207--><p class="noindent" >In addition to letting you define simple functions like this, the interactive language can be used to create
+entire application packages. All the graphs in the FriCAS Images section in the center of the book, for
+example, were created by programs written in the interactive language.
+<!--l. 214--><p class="noindent" >The above definitions for <span class="lstinline"><span 
+class="cmtt-10">p</span></span> do no computation&#8212;they simply tell FriCAS how to compute <span class="lstinline"><span 
+class="cmtt-10">p</span><span 
+class="cmtt-10">(</span><span 
+class="cmtt-10">k</span><span 
+class="cmtt-10">)</span></span>
+                                                                                     
+
+                                                                                     
+for some positive integer <span class="lstinline"><span 
+class="cmtt-10">k</span></span>. To actually get a value of a Legendre polynomial, you ask for it.
+<a 
+ id="dx1-7001"></a>
+<!--l. 223--><p class="noindent" >What is the tenth Legendre polynomial?
+<div class="center" 
+>
+<!--l. 225--><p class="noindent" >
+<div class="tabular"> <table id="TBL-8" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-8-1g"><col 
+id="TBL-8-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-8-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-8-1-1"  
+class="td11"><!--l. 225--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-8-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-8-2-1"  
+class="td11">
+<!--l. 225--><p class="noindent" >&#x210F; p(10)                                                                                                               </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-8-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-8-3-1"  
+class="td11"><!--l. 227--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-8-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-8-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 228--><pre class="listings"><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-7002r1"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">Compiling</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">function</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">p</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">with</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">type</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">Integer</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">-&#x003E;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">Polynomial</span><span 
+class="cmtt-8">(</span><span 
+class="cmtt-8">Fraction</span><span 
+class="cmtt-8">(</span><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-7003r2"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">Integer</span><span 
+class="cmtt-8">))</span>
+<span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-7004r3"></a></span></pre>
+<!--l. 232--><pre class="listings"><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-7005r1"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">Compiling</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">function</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">p</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">as</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">a</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">recurrence</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">relation</span><span 
+class="cmtt-8">.</span>
+<span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-7006r2"></a></span></pre>
+<!--l. 235--><p class="noindent" >
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox14"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book6x.png" alt="46189     109395     45045    15015    3465     63
+-256-x10&minus; -256-x8 + 128-x6&minus; -128-x4+ -256-x2&minus; 256
+" class="math-display" ></center></td></tr></table>
+<!--l. 241--><p class="nopar" >
+                                                                                     </span></div>-
+<!--l. 243--><p class="noindent" >Polynomial(Fraction(Integer))
+<!--l. 246--><p class="noindent" >FriCAS applies the above pieces for <span class="lstinline"><span 
+class="cmtt-10">p</span></span> to obtain the value of <span class="lstinline"><span 
+class="cmtt-10">p</span><span 
+class="cmtt-10">(10)</span></span>. But it does more: it creates an optimized,
+compiled function for <span class="lstinline"><span 
+class="cmtt-10">p</span></span>. The function is formed by putting the pieces together into a single piece of code. By
+<span 
+class="cmti-10">compiled</span>, we mean that the function is translated into basic machine-code. By <span 
+class="cmti-10">optimized</span>, we mean that
+certain transformations are performed on that code to make it run faster. For <span class="lstinline"><span 
+class="cmtt-10">p</span></span>, FriCAS actually translates
+the original definition that is recursive (one that calls itself) to one that is iterative (one that consists of a
+simple loop).
+                                                                                     
+
+                                                                                     
+<!--l. 263--><p class="noindent" >What is the coefficient of <span 
+class="cmmi-10">x</span><sup><span 
+class="cmr-7">90</span></sup> in <span class="lstinline"><span 
+class="cmtt-10">p</span><span 
+class="cmtt-10">(90)</span></span>?
+<div class="center" 
+>
+<!--l. 265--><p class="noindent" >
+<div class="tabular"> <table id="TBL-9" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-9-1g"><col 
+id="TBL-9-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-9-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-9-1-1"  
+class="td11"><!--l. 265--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-9-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-9-2-1"  
+class="td11">
+<!--l. 265--><p class="noindent" >&#x210F; coefficient(p(90),x,90)                                                                                          </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-9-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-9-3-1"  
+class="td11"><!--l. 267--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-9-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-9-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 268--><p class="noindent" >
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox17"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book7x.png" alt="5688265542052017822223458237426581853561497449095175
+            77371252455336267181195264
+" class="math-display" ></center></td></tr></table>
+<!--l. 272--><p class="nopar" >
+                                                                                     </span></div>-
+<!--l. 274--><p class="noindent" >Polynomial(Fraction(Integer))
+<!--l. 277--><p class="noindent" >In general, a user function is type-analyzed and compiled on first use. Later, if you use it with a different kind
+of object, the function is recompiled if necessary.
+<!--l. 281--><p class="noindent" >
+<h3 class="sectionHead"><span class="titlemark">0.6   </span> <a 
+ id="x1-80000.6"></a>Data Structures</h3>
+<!--l. 283--><p class="noindent" >A variety of data structures are available for interactive use. These include strings, lists, vectors,
+sets, multisets, and hash tables. A particularly useful structure for interactive use is the infinite
+stream:
+                                                                                     
+
+                                                                                     
+<!--l. 292--><p class="noindent" >Create the infinite stream of derivatives of Legendre polynomials
+<div class="center" 
+>
+<!--l. 295--><p class="noindent" >
+<div class="tabular"> <table id="TBL-10" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-10-1g"><col 
+id="TBL-10-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-10-1-1"  
+class="td11"><!--l. 295--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-10-2-1"  
+class="td11">
+<!--l. 295--><p class="noindent" >&#x210F; [D(p(i),x) for i in 1..]                                                                                           </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-10-3-1"  
+class="td11"><!--l. 297--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-10-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-10-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 298--><pre class="listings"><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8001r1"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">There</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">are</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">no</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">library</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">operations</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">named</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">p</span><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8002r2"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">Use</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">HyperDoc</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">Browse</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">or</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">issue</span><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8003r3"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">)</span><span 
+class="cmtt-8">what</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">op</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">p</span><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8004r4"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">to</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">learn</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">if</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">there</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">is</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">any</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">operation</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">containing</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">"</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">p</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">"</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">in</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">its</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">name</span><span 
+class="cmtt-8">.</span>
+<span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8005r5"></a></span></pre>
+<!--l. 304--><pre class="listings"><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8006r1"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">Cannot</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">find</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">a</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">definition</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">or</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">applicable</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">library</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">operation</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">named</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">p</span><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8007r2"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">with</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">argument</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">type</span><span 
+class="cmtt-8">(</span><span 
+class="cmtt-8">s</span><span 
+class="cmtt-8">)</span><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8008r3"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">PositiveInteger</span><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8009r4"></a></span><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8010r5"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">Perhaps</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">you</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">should</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">use</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">"</span><span 
+class="cmtt-8">@</span><span 
+class="cmtt-8">"</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">to</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">indicate</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">the</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">required</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">return</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">type</span><span 
+class="cmtt-8">,</span><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8011r6"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">or</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">"</span><span 
+class="cmtt-8">$</span><span 
+class="cmtt-8">"</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">to</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">specify</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">which</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">version</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">of</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">the</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">function</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">you</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">need</span><span 
+class="cmtt-8">.</span>
+<span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8012r7"></a></span></pre>
+<!--l. 312--><pre class="listings"><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8013r1"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">FriCAS</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">will</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">attempt</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">to</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">step</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">through</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">and</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">interpret</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">the</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">code</span><span 
+class="cmtt-8">.</span>
+<span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8014r2"></a></span></pre>
+<!--l. 315--><pre class="listings"><span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8015r1"></a></span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">Interpret</span><span 
+class="cmtt-8">-</span><span 
+class="cmtt-8">Code</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">mode</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">is</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">not</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">supported</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">for</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">stream</span><span 
+class="cmtt-8">&#x00A0;</span><span 
+class="cmtt-8">bodies</span><span 
+class="cmtt-8">.</span>
+<span 
+class="cmtt-8">&#x00A0;</span><br /><span class="label"><a 
+ id="x1-8016r2"></a></span></pre>
+<!--l. 320--><p class="noindent" >Streams display only a few of their initial elements. Otherwise, they are &#8220;lazy&#8221;: they only compute elements
+when you ask for them.
+<!--l. 324--><p class="noindent" >Data structures are an important component for building application software. Advanced users can represent
+data for applications in optimal fashion. In all, FriCAS offers over forty kinds of aggregate data structures,
+ranging from mutable structures (such as cyclic lists and flexible arrays) to storage efficient structures
+(such as bit vectors). As an example, streams are used as the internal data structure for power
+series.
+<!--l. 337--><p class="noindent" >What is the series expansion of log(cot(<span 
+class="cmmi-10">x</span>)) about <span 
+class="cmmi-10">x </span>= <span 
+class="cmmi-10">&pi;&#x2215;</span>2?
+<div class="center" 
+>
+<!--l. 341--><p class="noindent" >
+<div class="tabular"> <table id="TBL-11" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-11-1g"><col 
+id="TBL-11-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-11-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-11-1-1"  
+class="td11"><!--l. 341--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-11-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-11-2-1"  
+class="td11">
+<!--l. 341--><p class="noindent" >&#x210F; series(log(cot(x)),x =                                                                                          </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-11-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-11-3-1"  
+class="td11"><!--l. 343--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-11-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-11-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 344--><p class="noindent" >
+                                                                                     
+
+                                                                                     
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox22"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book8x.png" alt="  ( &minus;2x+-&pi;)   1(    &pi;)2  -7(   &pi;-)4  -62-(   &pi;)6    ((    &pi;)8)
+log    2     + 3 x &minus; 2  + 90 x&minus;  2  + 2835 x&minus; 2   +O    x&minus; 2
+" class="math-display" ></center></td></tr></table>
+<!--l. 351--><p class="nopar" >
+                                                                                     </span></div>-
+<!--l. 353--><p class="noindent" >GeneralUnivariatePowerSeries(Expression(Integer), x, %pi/2)
+<!--l. 356--><p class="noindent" >Series and streams make no attempt to compute <span 
+class="cmti-10">all </span>their elements! Rather, they stand ready to deliver
+elements on demand.
+<!--l. 362--><p class="noindent" >What is the coefficient of the 50<span 
+class="cmr-9">th</span> term of this series?
+<div class="center" 
+>
+<!--l. 365--><p class="noindent" >
+<div class="tabular"> <table id="TBL-12" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-12-1g"><col 
+id="TBL-12-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-12-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-12-1-1"  
+class="td11"><!--l. 365--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-12-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-12-2-1"  
+class="td11">
+<!--l. 365--><p class="noindent" >&#x210F; coefficient(                                                                                                        </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-12-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-12-3-1"  
+class="td11"><!--l. 367--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-12-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-12-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 368--><p class="noindent" >
+                                                                                     
+
+                                                                                     
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox26"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book9x.png" alt="-----44590788901016030052447242300856550965644-----
+7131469286438669111584090881309360354581359130859375
+                                                                                     </span></div>
+                                                                                     
+
+                                                                                     
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox28">" class="math-display" ></center></td></tr></table>
+<!--l. 372--><p class="nopar" >
+                                                                                     </span></div>-
+<!--l. 374--><p class="noindent" >Expression(Integer)
+<!--l. 377--><p class="noindent" >
+<h3 class="sectionHead"><span class="titlemark">0.7   </span> <a 
+ id="x1-90000.7"></a>Mathematical Structures</h3>
+<!--l. 379--><p class="noindent" >FriCAS also has many kinds of mathematical structures. These range from simple ones (like polynomials and
+matrices) to more esoteric ones (like ideals and Clifford algebras). Most structures allow the construction of
+arbitrarily complicated &#8220;types.&#8221;
+<!--l. 388--><p class="noindent" >Even a simple input expression can result in a type with several levels.
+<div class="center" 
+>
+<!--l. 391--><p class="noindent" >
+<div class="tabular"> <table id="TBL-13" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-13-1g"><col 
+id="TBL-13-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-13-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-13-1-1"  
+class="td11"><!--l. 391--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-13-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-13-2-1"  
+class="td11">
+<!--l. 391--><p class="noindent" >&#x210F; matrix [[x +                                                                                                      </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-13-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-13-3-1"  
+class="td11"><!--l. 393--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-13-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-13-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 394--><p class="noindent" >
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox31"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book10x.png" alt="2x +i01&minus; 2
+" class="math-display" ></center></td></tr></table>
+<!--l. 397--><p class="nopar" >
+                                                                                     </span></div>-
+                                                                                     
+
+                                                                                     
+<!--l. 399--><p class="noindent" >Matrix(Polynomial(Complex(Integer)))
+<!--l. 402--><p class="noindent" >The FriCAS interpreter builds types in response to user input. Often, the type of the result is changed in
+order to be applicable to an operation.
+<!--l. 410--><p class="noindent" >The inverse operation requires that elements of the above matrices are fractions.
+<div class="center" 
+>
+<!--l. 413--><p class="noindent" >
+<div class="tabular"> <table id="TBL-14" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-14-1g"><col 
+id="TBL-14-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-14-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-14-1-1"  
+class="td11"><!--l. 413--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-14-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-14-2-1"  
+class="td11">
+<!--l. 413--><p class="noindent" >&#x210F; inverse(                                                                                                            </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-14-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-14-3-1"  
+class="td11"><!--l. 415--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-14-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-14-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 416--><p class="noindent" >
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox34"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book11x.png" alt="2--1-0 --1---&minus; 1
+ x + i 2x + 2i   2
+" class="math-display" ></center></td></tr></table>
+<!--l. 420--><p class="nopar" >
+                                                                                     </span></div>-
+<!--l. 422--><p class="noindent" >Union(Matrix(Fraction(Polynomial(Complex(Integer)))), ...)
+<!--l. 425--><p class="noindent" >
+                                                                                     
+
+                                                                                     
+<h3 class="sectionHead"><span class="titlemark">0.8   </span> <a 
+ id="x1-100000.8"></a>Pattern Matching</h3>
+<!--l. 427--><p class="noindent" >A convenient facility for symbolic computation is &#8220;pattern matching.&#8221; Suppose you have a trigonometric
+expression and you want to transform it to some equivalent form. Use a <span class="lstinline"><span 
+class="cmtt-10">rule</span></span> command to describe the
+transformation rules you <a 
+ id="dx1-10001"></a>need. Then give the rules a name and apply that name as a function to your
+trigonometric expression.
+<!--l. 440--><p class="noindent" >Introduce two rewrite rules.
+<div class="center" 
+>
+<!--l. 442--><p class="noindent" >
+<div class="tabular"> <table id="TBL-15" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-15-1g"><col 
+id="TBL-15-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-15-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-15-1-1"  
+class="td11"><!--l. 442--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-15-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-15-2-1"  
+class="td11">
+<!--l. 442--><p class="noindent" >&#x210F;  sinCosExpandRules  :=  rule  sin(x+y)  ==  sin(x)*cos(y)  +  sin(y)*cos(x)  cos(x+y)  ==
+cos(x)*cos(y) - sin(x)*sin(y) sin(2*x) == 2*sin(x)*cos(x) cos(2*x) == cos(x)&#x02C6;2 - sin(x)&#x02C6;2   </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-15-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-15-3-1"  
+class="td11"><!--l. 448--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-15-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-15-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 449--><p class="noindent" >
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox37"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book12x.png" alt="{                                                                                                           }
+ sin(y+ x) == cosxsiny +cosysin x, cos(y+ x) == &minus; sinx siny+ cosxcosy, sin(2x) == 2 cosx sinx, cos(2x) == &minus; (sinx)2+ (cosx)2
+" class="math-display" ></center></td></tr></table>
+<!--l. 458--><p class="nopar" >
+                                                                                     </span></div>-
+<!--l. 460--><p class="noindent" >Ruleset(Integer, Integer, Expression(Integer))
+<!--l. 466--><p class="noindent" >Apply the rules to a simple trigonometric expression.
+<div class="center" 
+>
+                                                                                     
+
+                                                                                     
+<!--l. 468--><p class="noindent" >
+<div class="tabular"> <table id="TBL-16" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-16-1g"><col 
+id="TBL-16-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-16-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-16-1-1"  
+class="td11"><!--l. 468--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-16-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-16-2-1"  
+class="td11">
+<!--l. 468--><p class="noindent" >&#x210F; sinCosExpandRules(sin(a+2*b+c))                                                                        </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-16-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-16-3-1"  
+class="td11"><!--l. 470--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-16-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-16-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 471--><p class="noindent" >
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox40"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book13x.png" alt="(&minus;cosa(sin b)2&minus; 2cosbsina sinb+ cosa(cosb)2) sinc&minus;coscsina(sinb)2+2cosacosbcoscsinb+(cosb)2coscsina
+" class="math-display" ></center></td></tr></table>
+<!--l. 480--><p class="nopar" >
+                                                                                     </span></div>-
+<!--l. 482--><p class="noindent" >Expression(Integer)
+<!--l. 485--><p class="noindent" >Using input files, you can create your own library of transformation rules relevant to your applications, then
+selectively apply the rules you need.
+<!--l. 489--><p class="noindent" >
+<h3 class="sectionHead"><span class="titlemark">0.9   </span> <a 
+ id="x1-110000.9"></a>Polymorphic Algorithms</h3>
+<!--l. 491--><p class="noindent" >All components of the FriCAS algebra library are written in the FriCAS library language. This language is
+similar to the interactive language except for protocols that authors are obliged to follow. The library
+language permits you to write &#8220;polymorphic algorithms,&#8221; algorithms defined to work in their most natural
+settings and over a variety of types.
+<!--l. 502--><p class="noindent" >Define a system of polynomial equations <span class="lstinline"><span 
+class="cmtt-10">S</span></span>.
+                                                                                     
+
+                                                                                     
+<div class="center" 
+>
+<!--l. 504--><p class="noindent" >
+<div class="tabular"> <table id="TBL-17" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-17-1g"><col 
+id="TBL-17-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-17-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-17-1-1"  
+class="td11"><!--l. 504--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-17-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-17-2-1"  
+class="td11">
+<!--l. 504--><p class="noindent" >&#x210F; S := [3*x&#x02C6;3 + y + 1 = 0,y&#x02C6;2 = 4]                                                                          </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-17-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-17-3-1"  
+class="td11"><!--l. 506--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-17-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-17-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 507--><p class="noindent" >
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox43"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book14x.png" alt="[                  ]
+ y+ 3x3+ 1= 0,y2 = 4
+" class="math-display" ></center></td></tr></table>
+<!--l. 511--><p class="nopar" >
+                                                                                     </span></div>-
+<!--l. 513--><p class="noindent" >List(Equation(Polynomial(Integer)))
+Solve the system <span class="lstinline"><span 
+class="cmtt-10">S</span></span> using rational number arithmetic and 30 digits of accuracy.
+<div class="center" 
+>
+<!--l. 521--><p class="noindent" >
+<div class="tabular"> <table id="TBL-18" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-18-1g"><col 
+id="TBL-18-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-18-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-18-1-1"  
+class="td11"><!--l. 521--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-18-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-18-2-1"  
+class="td11">
+<!--l. 521--><p class="noindent" >&#x210F; solve(S,1/10&#x02C6;30)                                                                                                 </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-18-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-18-3-1"  
+class="td11"><!--l. 523--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-18-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-18-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 524--><p class="noindent" >
+                                                                                     
+
+                                                                                     
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox46"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book15x.png" alt="[[                                         ] [                                                       ]]
+           57602201066248085349435651342568509              187072209578355573530071658587684226515959365500929
+  y = &minus;2,x= 83076749736557242056487941267521536 , y = 2,x= &minus; 187072209578355573530071658587684226515959365500928
+" class="math-display" ></center></td></tr></table>
+<!--l. 531--><p class="nopar" >
+                                                                                     </span></div>-
+<!--l. 533--><p class="noindent" >List(List(Equation(Polynomial(Fraction(Integer)))))
+Solve <span class="lstinline"><span 
+class="cmtt-10">S</span></span> with the solutions expressed in radicals.
+<div class="center" 
+>
+<!--l. 540--><p class="noindent" >
+<div class="tabular"> <table id="TBL-19" class="tabular" 
+cellspacing="0" cellpadding="0" rules="groups" 
+><colgroup id="TBL-19-1g"><col 
+id="TBL-19-1"></colgroup><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-19-1-"><td  style="white-space:wrap; text-align:left;" id="TBL-19-1-1"  
+class="td11"><!--l. 540--><p class="noindent" >                                                                            </td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-19-2-"><td  style="white-space:wrap; text-align:left;" id="TBL-19-2-1"  
+class="td11">
+<!--l. 540--><p class="noindent" >&#x210F; radicalSolve(S)                                                                                                   </td>
+</tr><tr  
+ style="vertical-align:baseline;" id="TBL-19-3-"><td  style="white-space:wrap; text-align:left;" id="TBL-19-3-1"  
+class="td11"><!--l. 542--><p class="noindent" >                                                                             </td>
+</tr><tr 
+class="hline"><td><hr></td></tr><tr  
+ style="vertical-align:baseline;" id="TBL-19-4-"><td  style="white-space:wrap; text-align:left;" id="TBL-19-4-1"  
+class="td11">                                                                             </td>
+</tr></table></div></div>
+<!--l. 543--><p class="noindent" >
+<div  
+class="centerline"><span 
+class="colorbox" id="colorbox50"><table 
+class="equation-star"><tr><td>
+<center class="math-display" >
+<img 
+src="book16x.png" alt="[             [        &minus;&radic; &minus;3+ 1]  [        &radic; &minus;3+ 1] [           1 ] [          &radic; &minus;1&radic;3 &minus; 1] [          &minus;&radic;&minus;-1&radic;3&minus; 1]]
+ [y =2,x =&minus; 1], y = 2,x = ----2---- , y = 2,x=---2--- , y = &minus;2,x= &radic;33- , y =&minus; 2,x = ---23&radic;3---- , y = &minus;2,x= ---23&radic;3-----
+" class="math-display" ></center></td></tr></table>                                                                                     </span></div>
+                                                                                     
+
+

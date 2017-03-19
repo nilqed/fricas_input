@@ -44,7 +44,7 @@
 \newcommand{\csch}{\operatorname{csch}}%
 \newcommand{\erf}{\operatorname{erf}}%
 \newcommand{\coloneqq}{\mathrel{:\mkern-1.2mu=}}
-%\newcommand{\embrace}[3]{\left #1 \relax #3 \right #2 \relax}%
+\newcommand{\embrace}[3]{\left #1 \relax #3 \right #2 \relax}%
 \newcommand{\BRACE}{\embrace{\{}{\}}}
 \newcommand{\BRACKET}{\embrace{[}{]}}
 \newcommand{\PAREN}{\embrace{(}{)}}
@@ -70,9 +70,10 @@
 \newcommand{\ALTSUPERSUB}[2]{\tensor*{#1}{*#2}}%
 \newcommand{\SCRIPTS}[5]{\tensor*[^{#4}_{#5}]{#1}{_{#2}^{#3}}}%
 
+\newenvironment{fricasmath}[1]%
+{\begin{equation*}}
+{\end{equation*}}
 
-%\newcommand{\begin{fricasmath}}{$$}
-%\newcommand{\end{fricasmath}}{$$}
 
 % \newenvironment{fricasmath}[1]%
   % {\newcommand{\BRACKET}{\embrace{[}{]}}

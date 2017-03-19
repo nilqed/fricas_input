@@ -129,7 +129,7 @@
   #1}
 
 \catcode`\$=12\relax % other
-\NewDocumentCommand{\spadname}{m >{\SplitArgument{1}{$}} v}{%$
+\NewDocumentCommand{\spadname}{m >{\SplitArgument{1}{\$}} v}{%$
   \csname format#1\endcsname#2}
 \catcode`\$=3\relax % math shift
 

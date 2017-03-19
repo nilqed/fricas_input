@@ -29,7 +29,7 @@ respect to \smath{x}.
 integrate(1/(x^3 * (a+b*x)^(1/3)),x)
 \end{spadsrc}
 \begin{TeXOutput}
-\begin{fricasmath}{1}
+$$
 \frac{-{2\TIMES \SUPER{\SYMBOL{b}}{2}\TIMES \SUPER{\SYMBOL{x}}{2}\TIMES \sqrt%
 {3}\TIMES \log{\PAREN{\nthroot{\SYMBOL{a}}{3}\TIMES \SUPER{\nthroot{\SYMBOL{b%
 }\TIMES \SYMBOL{x}+\SYMBOL{a}}{3}}{2}+\SUPER{\nthroot{\SYMBOL{a}}{3}}{2}%
@@ -44,7 +44,7 @@ b}\TIMES \SYMBOL{x}+\SYMBOL{a}}{3}-{\SYMBOL{a}}}}+12\TIMES \SUPER{\SYMBOL{b}%
 {3}\TIMES \nthroot{\SYMBOL{a}}{3}\TIMES \SUPER{\nthroot{\SYMBOL{b}\TIMES %
 \SYMBOL{x}+\SYMBOL{a}}{3}}{2}}{18\TIMES \SUPER{\SYMBOL{a}}{2}\TIMES \SUPER{%
 \SYMBOL{x}}{2}\TIMES \sqrt{3}\TIMES \nthroot{\SYMBOL{a}}{3}}%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{Union(Expression(Integer), ...)}
 \end{xtc}
@@ -75,11 +75,11 @@ Solve $x^{49}-49x^4+9$ to
 solve(x^49-49*x^4+9 = 0,1.e-49)
 \end{spadsrc}
 \begin{TeXOutput}
-\begin{fricasmath}{1}
+$$
 \BRACKET{\SYMBOL{x}=-{\STRING{0.65465367069042711367}}\COMMA \SYMBOL{x}=%
 \STRING{1.0869213956538595085}\COMMA \SYMBOL{x}=\STRING{%
 0.65465367072552717397}}%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{List(Equation(Polynomial(Float)))}
 \end{xtc}
@@ -102,12 +102,12 @@ the \eth{100} power in base \spad{32}?
 radix(10^100,32)
 \end{spadsrc}
 \begin{TeXOutput}
-\begin{fricasmath}{2}
+$$
 4\STRING{I}9\STRING{L}\STRING{K}\STRING{I}\STRING{P}9\STRING{G}\STRING{R}%
 \STRING{S}\STRING{T}\STRING{C}5\STRING{I}\STRING{F}164\STRING{P}\STRING{O}5%
 \STRING{V}72\STRING{M}\STRING{E}827226\STRING{J}\STRING{S}\STRING{L}\STRING{A%
 }\STRING{P}462585\STRING{Q}7\STRING{H}00000000000000000000%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{RadixExpansion(32)}
 \end{xtc}
@@ -233,12 +233,12 @@ p(10)
    Compiling function p as a recurrence relation.
 \end{MessageOutput}
 \begin{TeXOutput}
-\begin{fricasmath}{4}
+$$
 \frac{46189}{256}\TIMES \SUPER{\SYMBOL{x}}{10}-{\frac{109395}{256}\TIMES %
 \SUPER{\SYMBOL{x}}{8}}+\frac{45045}{128}\TIMES \SUPER{\SYMBOL{x}}{6}-{\frac{%
 15015}{128}\TIMES \SUPER{\SYMBOL{x}}{4}}+\frac{3465}{256}\TIMES \SUPER{%
 \SYMBOL{x}}{2}-{\frac{63}{256}}%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{Polynomial(Fraction(Integer))}
 \end{xtc}
@@ -266,10 +266,10 @@ What is the coefficient of \smath{x^{90}} in \spad{p(90)}?
 coefficient(p(90),x,90)
 \end{spadsrc}
 \begin{TeXOutput}
-\begin{fricasmath}{5}
+$$
 \frac{56882655420520178222 23458237426581853561 497449095175}{%
 77371252455336267181 195264}%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{Polynomial(Fraction(Integer))}
 \end{xtc}
@@ -342,13 +342,13 @@ about $x=\pi/2$?
 series(log(cot(x)),x = %pi/2)
 \end{spadsrc}
 \begin{TeXOutput}
-\begin{fricasmath}{1}
+$$
 \log{\PAREN{\frac{-{2\TIMES \SYMBOL{x}}+\pi }{2}}}+\frac{1}{3}\TIMES \SUPER{%
 \PAREN{\SYMBOL{x}-{\frac{\pi }{2}}}}{2}+\frac{7}{90}\TIMES \SUPER{\PAREN{%
 \SYMBOL{x}-{\frac{\pi }{2}}}}{4}+\frac{62}{2835}\TIMES \SUPER{\PAREN{\SYMBOL{%
 x}-{\frac{\pi }{2}}}}{6}+\FUN{O}\PAREN{\SUPER{\PAREN{\SYMBOL{x}-{\frac{\pi }{%
 2}}}}{8}}%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{GeneralUnivariatePowerSeries(Expression(Integer), x, \%pi/2)}
 \end{xtc}
@@ -366,10 +366,10 @@ term of this series?
 coefficient(%,50)
 \end{spadsrc}
 \begin{TeXOutput}
-\begin{fricasmath}{2}
+$$
 \frac{44590788901016030052 44724230085655096564 4}{%
 71314692864386691115 84090881309360354581 359130859375}%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{Expression(Integer)}
 \end{xtc}
@@ -392,9 +392,9 @@ result in a type with several levels.
 matrix [[x + %i,0], [1,-2]]
 \end{spadsrc}
 \begin{TeXOutput}
-\begin{fricasmath}{1}
+$$
 \begin{MATRIX}{2}\SYMBOL{x}+\ImaginaryI &0\\1&-{2}\end{MATRIX}%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{Matrix(Polynomial(Complex(Integer)))}
 \end{xtc}
@@ -414,10 +414,10 @@ are fractions.
 inverse(%)
 \end{spadsrc}
 \begin{TeXOutput}
-\begin{fricasmath}{2}
+$$
 \begin{MATRIX}{2}\frac{1}{\SYMBOL{x}+\ImaginaryI }&0\\\frac{1}{2\TIMES %
 \SYMBOL{x}+2\TIMES \ImaginaryI }&-{\frac{1}{2}}\end{MATRIX}%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{Union(Matrix(Fraction(Polynomial(Complex(Integer)))), ...)}
 \end{xtc}
@@ -469,7 +469,7 @@ Apply the rules to a simple trigonometric expression.
 sinCosExpandRules(sin(a+2*b+c))
 \end{spadsrc}
 \begin{TeXOutput}
-\begin{fricasmath}{2}
+$$
 \PAREN{-{\cos{\SYMBOL{a}}\TIMES \SUPER{\PAREN{\sin{\SYMBOL{b}}}}{2}}-{2%
 \TIMES \cos{\SYMBOL{b}}\TIMES \sin{\SYMBOL{a}}\TIMES \sin{\SYMBOL{b}}}+\cos{%
 \SYMBOL{a}}\TIMES \SUPER{\PAREN{\cos{\SYMBOL{b}}}}{2}}\TIMES \sin{\SYMBOL{c}}%
@@ -477,7 +477,7 @@ sinCosExpandRules(sin(a+2*b+c))
 }}}{2}}+2\TIMES \cos{\SYMBOL{a}}\TIMES \cos{\SYMBOL{b}}\TIMES \cos{\SYMBOL{c}%
 }\TIMES \sin{\SYMBOL{b}}+\SUPER{\PAREN{\cos{\SYMBOL{b}}}}{2}\TIMES \cos{%
 \SYMBOL{c}}\TIMES \sin{\SYMBOL{a}}%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{Expression(Integer)}
 \end{xtc}
@@ -505,10 +505,10 @@ Define a system of polynomial equations \spad{S}.
 S := [3*x^3 + y + 1 = 0,y^2 = 4]
 \end{spadsrc}
 \begin{TeXOutput}
-\begin{fricasmath}{1}
+$$
 \BRACKET{\SYMBOL{y}+3\TIMES \SUPER{\SYMBOL{x}}{3}+1=0\COMMA \SUPER{\SYMBOL{y}%
 }{2}=4}%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{List(Equation(Polynomial(Integer)))}
 \end{xtc}
@@ -522,13 +522,13 @@ Solve the system \spad{S} using rational number arithmetic and
 solve(S,1/10^30)
 \end{spadsrc}
 \begin{TeXOutput}
-\begin{fricasmath}{2}
+$$
 \BRACKET{\BRACKET{\SYMBOL{y}=-{2}\COMMA \SYMBOL{x}=\frac{%
 57602201066248085349 435651342568509}{83076749736557242056 487941267521536}}%
 \COMMA \BRACKET{\SYMBOL{y}=2\COMMA \SYMBOL{x}=-{\frac{%
 18707220957835557353 00716585876842265159 59365500929}{%
 18707220957835557353 00716585876842265159 59365500928}}}}%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{List(List(Equation(Polynomial(Fraction(Integer)))))}
 \end{xtc}
@@ -541,7 +541,7 @@ Solve \spad{S} with the solutions expressed in radicals.
 radicalSolve(S)
 \end{spadsrc}
 \begin{TeXOutput}
-\begin{fricasmath}{3}
+$$
 \BRACKET{\BRACKET{\SYMBOL{y}=2\COMMA \SYMBOL{x}=-{1}}\COMMA \BRACKET{\SYMBOL{%
 y}=2\COMMA \SYMBOL{x}=\frac{-{\sqrt{-{3}}}+1}{2}}\COMMA \BRACKET{\SYMBOL{y}=2%
 \COMMA \SYMBOL{x}=\frac{\sqrt{-{3}}+1}{2}}\COMMA \BRACKET{\SYMBOL{y}=-{2}%
@@ -549,7 +549,7 @@ y}=2\COMMA \SYMBOL{x}=\frac{-{\sqrt{-{3}}}+1}{2}}\COMMA \BRACKET{\SYMBOL{y}=2%
 \COMMA \SYMBOL{x}=\frac{\sqrt{-{1}}\TIMES \sqrt{3}-{1}}{2\TIMES \nthroot{3}{3%
 }}}\COMMA \BRACKET{\SYMBOL{y}=-{2}\COMMA \SYMBOL{x}=\frac{-{\sqrt{-{1}}%
 \TIMES \sqrt{3}}-{1}}{2\TIMES \nthroot{3}{3}}}}%
-\end{fricasmath}
+$$
 \end{TeXOutput}
 \formatResultType{List(List(Equation(Expression(Integer))))}
 \end{xtc}

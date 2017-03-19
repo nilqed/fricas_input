@@ -1,0 +1,4371 @@
+% !! DO NOT MODIFY THIS FILE BY HAND !! Created by spool2tex.awk.
+
+% Copyright (c) 1991-2002, The Numerical ALgorithms Group Ltd.
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are
+% met:
+%
+%     - Redistributions of source code must retain the above copyright
+%       notice, this list of conditions and the following disclaimer.
+%
+%     - Redistributions in binary form must reproduce the above copyright
+%       notice, this list of conditions and the following disclaimer in
+%       the documentation and/or other materials provided with the
+%       distribution.
+%
+%     - Neither the name of The Numerical ALgorithms Group Ltd. nor the
+%       names of its contributors may be used to endorse or promote products
+%       derived from this software without specific prior written permission.
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+% IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+% TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+% PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+% OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+% EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+% PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES-- LOSS OF USE, DATA, OR
+% PROFITS-- OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+% LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+% NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+% SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+% *********************************************************************
+\head{chapter}{An Overview of \Language{}}{ugIntro}
+% *********************************************************************
+
+Welcome to the \Language{} environment for interactive computation
+and problem solving.
+Consider this chapter a brief, whirlwind tour of the \Language{}
+world.
+We introduce you to \Language{}'s graphics and the \Language{}
+language.
+Then we give a sampling of the large variety of facilities
+in the \Language{} system, ranging from the various kinds of
+numbers, to data types (like lists, arrays, and sets) and
+mathematical objects (like matrices, integrals, and differential
+equations).
+We conclude with the discussion of system commands and an
+interactive ``undo.''
+
+Before embarking on the tour, we need to brief those readers
+working interactively with \Language{} on some details.
+Others can skip right immediately to
+\spadref{ugIntroTypo}.
+
+% *********************************************************************
+\head{section}{Starting Up and Winding Down}{ugIntroStart}
+% *********************************************************************
+%
+
+You need to know how to start the \Language{} system and how to stop it.
+We assume that \Language{} has been correctly installed on your
+machine (as described in another \Language{} document).
+
+To begin using \Language{}, issue the command {\bf axiom} to the
+\index{starting @{starting \Language{}}}
+operating system shell.
+\index{axiom @{\bf axiom}}
+There is a brief pause, some start-up messages, and then one
+or more windows appear.
+
+If you are not running \Language{} under the X Window System, there is
+only one window (the console).
+At the lower left of the screen there is a prompt that
+\index{prompt}
+looks like
+\begin{verbatim}
+(1) ->
+\end{verbatim}
+%%--> do you want to talk about equation numbers on the right, etc.
+When you want to enter input to \Language{}, you do so on the same line
+after the prompt.
+The ``1'' in ``(1)'' is the computation step number and is incremented
+\index{step number}
+after you enter \Language{} statements.
+Note, however, that a system command
+such as \spadsys{)clear all}
+may change the step number in other ways.
+We talk about step numbers more when we discuss system commands
+and the workspace history facility.
+
+If you are running \Language{} under the X Window System, there may be two
+\index{X Window System}
+windows: the console window (as just described) and the \HyperName{}
+main menu.
+\index{Hyper @{\HyperName{}}}
+\HyperName{} is a multiple-window hypertext system that lets you
+\index{window}
+view \Language{} documentation and examples on-line,
+execute \Language{} expressions, and generate graphics.
+If you are in a graphical windowing environment,
+it is usually started automatically when \Language{} begins.
+If it is not running, issue \spadsys{)hd} to start it.
+We discuss the basics of \HyperName{} in \chapref{ugHyper}.
+\syscmdindex{hd}
+
+To interrupt an \Language{} computation, hold down the
+\index{interrupt}
+\fbox{\bf Ctrl} (control) key and press
+\fbox{\bf c}.
+This  brings you back to the \Language{} prompt.
+
+\beginImportant
+To exit from \Language{},  move to the console window,
+\index{stopping @{stopping \Language{}}}
+type \spadsys{)quit}
+\index{exiting @{exiting \Language{}}}
+at the input prompt and press the \fbox{\bf Enter} key.
+\syscmdindex{quit}
+You will probably be prompted with the following message:
+\begin{center}
+Please enter {\bf y} or {\bf yes} if you really want to leave the \\
+interactive environment and return to the operating system
+\end{center}
+You should respond {\bf yes}, for example, to exit \Language{}.
+\endImportant
+
+We are purposely vague in describing exactly what your screen
+looks like or what messages \Language{} displays.
+\Language{} runs on a number of different machines, operating
+systems and window environments, and these differences all affect
+the physical look of the system.
+You can also change the way that \Language{} behaves via
+\spadgloss{system commands} described later in this chapter and in
+\appxref{ugSysCmd}.
+System commands are special commands, like \spadsys{)set}, that begin
+with a closing parenthesis and are used to change your
+environment.
+For example, you can set a system variable so that you are not
+prompted for confirmation when you want to leave \Language{}.
+
+% *********************************************************************
+\head{subsection}{\Clef{}}{ugAvailCLEF}
+% *********************************************************************
+%
+If you are using \Language{} under the X Window System, the
+\index{Clef@{\Clef{}}}
+\index{command line editor}
+\Clef{} command line editor is probably available and installed.
+With this editor you can recall previous lines with the up and
+down arrow keys.
+
+To move forward and backward on a line, use the right and
+left arrows.
+You can use the
+\fbox{\bf Insert}
+key to toggle insert mode on or off.
+When you are in insert mode,
+the cursor appears as a large block and if you type
+anything, the characters are inserted into the line without
+deleting the previous ones.
+
+If you press the
+\fbox{\bf Home}
+key, the cursor moves to the beginning of the line and if you press the
+\fbox{\bf End}
+key, the cursor moves to the end of the line.
+Pressing
+\fbox{\bf Ctrl}--\fbox{\bf End}
+deletes all the text from the cursor to the end of the line.
+
+\Clef{} also provides \Language{} operation name completion for
+\index{operation name completion}
+a limited set of operations.
+If you enter a few letters and then press the
+\fbox{\bf Tab} key,
+\Clef{} tries to use those letters as the prefix of an \Language{}
+operation name.
+If a name appears and it is not what you want, press
+\fbox{\bf Tab} again
+to see another name.
+
+You are ready to begin your journey into the world of \Language{}.
+Proceed to the first stop.
+
+% *********************************************************************
+\head{section}{Typographic Conventions}{ugIntroTypo}
+% *********************************************************************
+
+In this book we have followed these typographical conventions:
+\begin{itemize}
+%
+\item Categories, domains and packages are displayed in
+a sans-serif typeface:
+\spadtype{Ring}, \spadtype{Integer}, \spadtype{DiophantineSolutionPackage}.
+%
+\item Prefix operators, infix operators, and punctuation symbols in the \Language{}
+language are displayed in the text like this:
+\spadop{+}, \spadSyntax{$}, \spadSyntax{+->}.
+%
+\item \Language{} expressions or expression fragments are displayed in
+a mon\-o\-space typeface:
+\spad{inc(x) == x + 1}.
+%
+\item For clarity of presentation, \TeX{} is often
+used to format expressions: $g(x)=x^2+1.$
+%
+\item Function names and \HyperName{} button names
+are displayed in the text in
+a bold typeface:
+\spadfun{factor}, \spadfun{integrate},  {\bf Lighting}.
+%
+\item Italics are used for emphasis and for words defined in the
+glossary: \spadgloss{category}.
+\end{itemize}
+
+This book contains over 2500 examples of \Language{} input and output.
+All examples were run though \Language{} and their output was
+created in \TeX{} form for this book by the \Language{}
+\spadtype{TexFormat} package.
+We have deleted system messages from the example output if those
+messages are not important for the discussions in which the examples
+appear.
+
+% *********************************************************************
+\head{section}{The \Language{} Language}{ugIntroExpressions}
+% *********************************************************************
+%
+
+The \Language{} language is a rich language for performing
+interactive computations and for building components of the
+\Language{} library.
+Here we present only some basic aspects of the language that you
+need to know for the rest of this chapter.
+Our discussion here is intentionally informal, with details
+unveiled on an ``as needed'' basis.
+For more information on a particular construct, we suggest you
+consult the index at the back of the book.
+
+% *********************************************************************
+\head{subsection}{Arithmetic Expressions}{ugIntroArithmetic}
+% *********************************************************************
+
+For arithmetic expressions, use the \spadop{+} and \spadop{-}
+\spadglossSee{operators}{operator} as in mathematics.
+Use \spadop{*} for multiplication, and \spadop{^} for
+exponentiation.
+To create a fraction, use \spadop{/}.
+When an expression contains several operators, those of highest
+\spadgloss{precedence} are evaluated first.
+For arithmetic operators, \spadop{^} has highest precedence,
+\spadop{*} and \spadop{/} have the next highest
+precedence, and \spadop{+} and \spadop{-} have the lowest
+precedence.
+
+\begin{xtc}
+\begin{xtccomment}
+\Language{} puts implicit parentheses around operations of higher
+precedence, and groups those of equal precedence from left to right.
+\end{xtccomment}
+\begin{spadsrc}
+1 + 2 - 3 / 4 * 3 ^ 2 - 1
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+-{\frac{19}{4}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The above expression is equivalent to this.
+\end{xtccomment}
+\begin{spadsrc}
+((1 + 2) - ((3 / 4) * (3 ^ 2))) - 1
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+-{\frac{19}{4}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+If an expression contains subexpressions enclosed in parentheses,
+the parenthesized subexpressions are evaluated first (from left to
+right, from inside out).
+\end{xtccomment}
+\begin{spadsrc}
+1 + 2 - 3/ (4 * 3 ^ (2 - 1))
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\frac{11}{4}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{Previous Results}{ugIntroPrevious}
+% *********************************************************************
+
+Use the percent sign (\spadSyntax{%}) to refer to the last
+result.
+\index{result!previous}
+Also, use \spadSyntax{%%} to refer to previous results.
+\index{percentpercent@{\%\%}}
+\spad{%%(-1)} is equivalent to \spadSyntax{%},
+\spad{%%(-2)} returns the next to the last result, and so on.
+\spad{%%(1)} returns the result from step number 1,
+\spad{%%(2)} returns the result from step number 2, and so on.
+\spad{%%(0)} is not defined.
+
+\begin{xtc}
+\begin{xtccomment}
+This is ten to the tenth power.
+\end{xtccomment}
+\begin{spadsrc}
+10 ^ 10 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+10000000000%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is the last result minus one.
+\end{xtccomment}
+\begin{spadsrc}
+% - 1 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+9999999999%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is the last result.
+\end{xtccomment}
+\begin{spadsrc}
+%%(-1) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+9999999999%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is the result from step number 1.
+\end{xtccomment}
+\begin{spadsrc}
+%%(1) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+10000000000%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{Some Types}{ugIntroTypes}
+% *********************************************************************
+
+Everything in \Language{} has a type.
+The type determines what operations you can perform on an object and
+how the object can be used.
+An entire chapter of this book (\chapref{ugTypes}) is dedicated to
+the interactive use of types.
+Several of the final chapters discuss how types are built and how
+they are organized in the \Language{} library.
+
+\begin{xtc}
+\begin{xtccomment}
+Positive integers are given type \spadtype{PositiveInteger}.
+\end{xtccomment}
+\begin{spadsrc}
+8
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+8%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Negative ones are given type \spadtype{Integer}.
+This fine distinction is helpful to the
+\Language{} interpreter.
+\end{xtccomment}
+\begin{spadsrc}
+-8
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+-{8}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Integer}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here a positive integer exponent gives a polynomial result.
+\end{xtccomment}
+\begin{spadsrc}
+x^8
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\SUPER{\SYMBOL{x}}{8}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here a negative integer exponent produces a fraction.
+\end{xtccomment}
+\begin{spadsrc}
+x^(-8)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\frac{1}{\SUPER{\SYMBOL{x}}{8}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Polynomial(Integer))}
+\end{xtc}
+
+% *********************************************************************
+\head{subsection}{Symbols, Variables, Assignments, and Declarations}{ugIntroAssign}
+% *********************************************************************
+
+A \spadgloss{symbol} is a literal used for the input of things like
+the ``variables'' in polynomials and power series.
+
+\begin{xtc}
+\begin{xtccomment}
+We use the three symbols \spad{x}, \spad{y}, and \spad{z} in
+entering this polynomial.
+\end{xtccomment}
+\begin{spadsrc}
+(x - y*z)^2
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\SUPER{\SYMBOL{y}}{2}\TIMES \SUPER{\SYMBOL{z}}{2}-{2\TIMES \SYMBOL{x}\TIMES %
+\SYMBOL{y}\TIMES \SYMBOL{z}}+\SUPER{\SYMBOL{x}}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Integer)}
+\end{xtc}
+A symbol has a name beginning with an uppercase or lowercase alphabetic
+\index{symbol!naming}
+character, \spadSyntax{%}, or \spadSyntax{!}.
+Successive characters (if any) can be any of the above, digits, or
+\spadSyntax{?}.
+Case is distinguished: the symbol \spad{points} is different
+from the symbol \spad{Points}.
+
+A symbol can also be used in \Language{} as a \spadgloss{variable}.
+A variable refers to a value.
+To \spadglossSee{assign}{assignment}
+a value to a variable,
+\index{variable!naming}
+the operator \spadSyntax{:=}
+\index{assignment}
+is used.\footnote{\Language{} actually has two forms of assignment:
+{\it immediate} assignment, as discussed here,
+and {\it delayed assignment}. See \spadref{ugLangAssign} for details.}
+A variable initially has no restrictions on the kinds of
+\index{declaration}
+values to which it can refer.
+
+\begin{xtc}
+\begin{xtccomment}
+This assignment gives the value \spad{4} (an integer) to
+a variable named \spad{x}.
+\end{xtccomment}
+\begin{spadsrc}
+x := 4
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+4%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This gives the value \spad{z + 3/5} (a polynomial)  to \spad{x}.
+\end{xtccomment}
+\begin{spadsrc}
+x := z + 3/5
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\SYMBOL{z}+\frac{3}{5}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+To restrict the types of objects that can be assigned to a variable,
+use a \spadgloss{declaration}
+\end{xtccomment}
+\begin{spadsrc}
+y : Integer 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+After a variable is declared to be of some type, only values
+of that type can be assigned to that variable.
+\end{xtccomment}
+\begin{spadsrc}
+y := 89
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+89%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Integer}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The declaration for \spad{y} forces values assigned to \spad{y} to
+be converted to integer values.
+\end{xtccomment}
+\begin{spadsrc}
+y := sin %pi
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+0%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Integer}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+If no such conversion is possible,
+\Language{} refuses to assign a value to \spad{y}.
+\end{xtccomment}
+\begin{spadsrc}
+y := 2/3
+\end{spadsrc}
+\begin{MessageOutput}
+   Cannot convert right-hand side of assignment
+   2
+   -
+   3
+
+      to an object of the type Integer of the left-hand side.
+\end{MessageOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+A type declaration can also be given together with an assignment.
+The declaration can assist \Language{} in choosing the correct
+operations to apply.
+\end{xtccomment}
+\begin{spadsrc}
+f : Float := 2/3
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\STRING{0.66666666666666666667}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+
+Any number of expressions can be given on input line.
+Just separate them by semicolons.
+Only the result of evaluating the last expression is displayed.
+
+\begin{xtc}
+\begin{xtccomment}
+These two expressions have the same effect as
+the previous single expression.
+\end{xtccomment}
+\begin{spadsrc}
+f : Float; f := 2/3 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+\STRING{0.66666666666666666667}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+
+The type of a symbol is either \spadtype{Symbol}
+\exptypeindex{Symbol}
+or \spadtype{Variable}({\it name}) where {\it name} is the name
+of the symbol.
+
+\begin{xtc}
+\begin{xtccomment}
+By default, the interpreter
+\exptypeindex{Variable}
+gives this symbol the type \spadtype{Variable(q)}.
+\end{xtccomment}
+\begin{spadsrc}
+q
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\SYMBOL{q}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Variable(q)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+When multiple symbols are involved, \spadtype{Symbol} is used.
+\end{xtccomment}
+\begin{spadsrc}
+[q, r]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\BRACKET{\SYMBOL{q}\COMMA \SYMBOL{r}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(OrderedVariableList([q, r]))}
+\end{xtc}
+
+\begin{xtc}
+\begin{xtccomment}
+What happens when you try to use a symbol that is the name of a variable?
+\end{xtccomment}
+\begin{spadsrc}
+f 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+\STRING{0.66666666666666666667}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Use a single quote (\spadSyntax{'}) before
+\index{quote}
+the name to get the symbol.
+\end{xtccomment}
+\begin{spadsrc}
+'f
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+\SYMBOL{f}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Variable(f)}
+\end{xtc}
+
+Quoting a name creates a symbol by
+preventing evaluation of the name as a variable.
+Experience will teach you when you are most likely going to need to use
+a quote.
+We try to point out the location of such trouble spots.
+
+% *********************************************************************
+\head{subsection}{Conversion}{ugIntroConversion}
+% *********************************************************************
+
+Objects of one type can usually be ``converted'' to objects of several
+other types.
+To \spadglossSee{convert}{conversion}
+an object to a new type, use the \spadSyntax{::} infix
+operator.\footnote{Conversion is discussed in detail in \spadref{ugTypesConvert}.}
+For example, to display an object, it is necessary to
+convert the object to type \spadtype{OutputForm}.
+
+\begin{xtc}
+\begin{xtccomment}
+This produces a polynomial with rational number coefficients.
+\end{xtccomment}
+\begin{spadsrc}
+p := r^2 + 2/3 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\SUPER{\SYMBOL{r}}{2}+\frac{2}{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Create a quotient of polynomials with integer coefficients
+by using \spadSyntax{::}.
+\end{xtccomment}
+\begin{spadsrc}
+p :: Fraction Polynomial Integer 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\frac{3\TIMES \SUPER{\SYMBOL{r}}{2}+2}{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Polynomial(Integer))}
+\end{xtc}
+
+Some conversions can be performed automatically when
+\Language{} tries to evaluate your input.
+Others conversions must be explicitly requested.
+
+% *********************************************************************
+\head{subsection}{Calling Functions}{ugIntroCallFun}
+% *********************************************************************
+
+As we saw earlier, when you want to add or subtract two values,
+you place the arithmetic operator \spadop{+}
+or \spadop{-} between the two
+\spadglossSee{arguments}{argument} denoting the values.
+To use most other \Language{} operations, however, you use another syntax:
+\index{function!calling}
+write the name
+of the operation first, then an open parenthesis, then each of the
+arguments separated by commas, and, finally, a closing parenthesis.
+If the operation takes only one argument and the argument is a number
+or a symbol, you can omit the parentheses.
+
+\begin{xtc}
+\begin{xtccomment}
+This calls the operation \spadfun{factor} with the single
+integer argument \spad{120}.
+\end{xtccomment}
+\begin{spadsrc}
+factor(120)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\SUPER{2}{3}\TIMES 3\TIMES 5%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Factored(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is a call to \spadfun{divide} with the two integer arguments
+\spad{125} and \spad{7}.
+\end{xtccomment}
+\begin{spadsrc}
+divide(125,7)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\BRACKET{\SYMBOL{quotient}=17\COMMA \SYMBOL{remainder}=6}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Record(quotient: Integer, remainder: Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This calls \spadfun{quatern} with four floating-point arguments.
+\end{xtccomment}
+\begin{spadsrc}
+quatern(3.4,5.6,2.9,0.1)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\STRING{3.4}+\STRING{5.6}\TIMES \SYMBOL{i}+\STRING{2.9}\TIMES \SYMBOL{j}+%
+\STRING{0.1}\TIMES \SYMBOL{k}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Quaternion(Float)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is the same as \spad{factorial(10)}.
+\end{xtccomment}
+\begin{spadsrc}
+factorial 10
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+3628800%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+An operations that returns a \spadtype{Boolean} value (that is,
+\spad{true} or \spad{false}) frequently has a name suffixed with
+a question mark (``?'').  For example, the \spadfun{even?}
+operation returns \spad{true} if its integer argument is an even
+number, \spad{false} otherwise.
+
+An operation that can be destructive on one or more arguments
+usually has a name ending in a exclamation point (``!'').
+This actually means that it is {\it allowed} to update its
+arguments but it is not {\it required} to do so. For example,
+the underlying representation of a collection type may not allow
+the very last element to removed and so an empty object may be
+returned instead. Therefore, it is important that you use the
+object returned by the operation and not rely on a physical
+change having occurred within the object. Usually, destructive
+operations are provided for efficiency reasons.
+
+% *********************************************************************
+\head{subsection}{Some Predefined Macros}{ugIntroMacros}
+% *********************************************************************
+
+\Language{} provides several \spadglossSee{macros}{macro}
+for your convenience.\footnote{See \spadref{ugUserMacros}
+for a discussion on how to write your own macros.}
+Macros are names
+\index{macro!predefined}
+(or forms) that expand to larger expressions for commonly used values.
+
+\begin{center}
+\begin{tabular}{ll}
+\spadgloss{\%i}             &  The square root of -1. \\
+\spadgloss{\%e}             &  The base of the natural logarithm. \\
+\spadgloss{\%pi}            &  $\pi$. \\
+\spadgloss{\%infinity}      &  $\infty$. \\
+\spadgloss{\%plusInfinity}  &  $+\infty$. \\
+\spadgloss{\%minusInfinity} &  $-\infty$.
+\end{tabular}
+\end{center}
+\index{\%i}
+\index{\%e}
+\index{\%pi}
+\index{pi@{$\pi$ (= \%pi)}}
+\index{\%infinity}
+\index{infinity@{$\infty$ (= \%infinity)}}
+\index{\%plusInfinity}
+\index{\%minusInfinity}
+
+%To display all the macros (along with anything you have
+%defined in the workspace), issue the system command \spadsys{)display all}.
+
+% *********************************************************************
+\head{subsection}{Long Lines}{ugIntroLong}
+% *********************************************************************
+
+When you enter \Language{} expressions from your keyboard, there
+will be times when they are too long to fit on one line.
+\Language{} does not care how long your lines are, so you can let
+them continue from the right margin to the left side of the
+next line.
+
+Alternatively, you may want to enter several shorter lines and
+have \Language{} glue them together.
+To get this glue, put an underscore (\_) at the end of
+each line you wish to continue.
+\begin{verbatim}
+2_
++_
+3
+\end{verbatim}
+is the same as if you had entered
+\begin{verbatim}
+2+3
+\end{verbatim}
+
+If you are putting your \Language{} statements in an input file
+(see \spadref{ugInOutIn}),
+you can use indentation to indicate the structure of your program.
+(see \spadref{ugLangBlocks}).
+
+% *********************************************************************
+\head{subsection}{Comments}{ugIntroComments}
+% *********************************************************************
+
+Comment statements begin with two consecutive hyphens or two
+consecutive plus signs and continue until the end of the line.
+
+\begin{xtc}
+\begin{xtccomment}
+The comment beginning with {\tt --} is ignored by \Language{}.
+\end{xtccomment}
+\begin{spadsrc}
+2 + 3   -- this is rather simple, no?
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+5%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+There is no way to write long multi-line comments
+other than starting each line with \spadSyntax{--} or
+\spadSyntax{++}.
+
+% *********************************************************************
+\head{section}{Graphics}{ugIntroGraphics}
+% *********************************************************************
+%
+
+\Language{} has a two- and three-dimensional drawing and rendering
+\index{graphics}
+package that allows you to draw, shade, color, rotate, translate, map,
+clip, scale and combine graphic output of \Language{} computations.
+The graphics interface is capable of plotting functions of one or more
+variables and plotting parametric surfaces.
+Once the graphics figure appears in a window,
+move your mouse to the window and click.
+A control panel appears immediately  and allows you to
+interactively transform the object.
+
+\begin{psXtc}
+\begin{xtccomment}
+This is an example of \Language{}'s two-dimensional plotting.
+From the 2D Control Panel you can rescale the plot, turn axes and units
+on and off and save the image, among other things.
+This PostScript image was produced by clicking on the
+\fbox{\bf PS} 2D Control Panel button.
+\end{xtccomment}
+\begin{spadsrc}
+draw(cos(5*t/8), t=0..16*%pi, coordinates==polar)
+\end{spadsrc}
+% window was 256 x 256
+\epsffile[72 72 300 300]{rose-1.ps}
+\end{psXtc}
+
+\begin{psXtc}
+\begin{xtccomment}
+This is an example of \Language{}'s three-dimensional plotting.
+It is a monochrome graph of the complex arctangent
+function.
+The image displayed was rotated and had the ``shade'' and ``outline''
+display options set from the 3D Control Panel.
+The PostScript output was produced by clicking on the
+\fbox{\bf save} 3D Control Panel button and then
+clicking on the \fbox{\bf PS} button.
+See \spadref{ugProblemNumeric} for more details and examples
+of \Language{}'s numeric and graphics capabilities.
+\end{xtccomment}
+\begin{spadsrc}
+draw((x,y) +-> real atan complex(x,y), -%pi..%pi, -%pi..%pi, colorFunction == (x,y) +-> argument atan complex(x,y))
+\end{spadsrc}
+% window was 256 x 256
+\epsffile[72 72 285 285]{atan-1.ps}
+\end{psXtc}
+
+An exhibit of \Gallery{} is given in the
+center section of this book.
+For a description of the commands and programs that
+produced these figures, see \appxref{ugAppGraphics}.
+PostScript
+\index{PostScript}
+output is available so that \Language{} images can be
+printed.\footnote{PostScript is a trademark of Adobe Systems Incorporated,
+registered in the United States.}
+See \chapref{ugGraph} for more examples and details about using
+\Language{}'s graphics facilities.
+
+% *********************************************************************
+\head{section}{Numbers}{ugIntroNumbers}
+% *********************************************************************
+%
+
+\Language{} distinguishes very carefully between different kinds
+of numbers, how they are represented and what their properties
+are.
+Here are a sampling of some of these kinds of numbers and some
+things you can do with them.
+
+\begin{xtc}
+\begin{xtccomment}
+Integer arithmetic is always exact.
+\end{xtccomment}
+\begin{spadsrc}
+11^13 * 13^11 * 17^7 - 19^5 * 23^3
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+25387751112538918594 666224484237298%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Integers can be represented in factored form.
+\end{xtccomment}
+\begin{spadsrc}
+factor 643238070748569023720594412551704344145570763243 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\SUPER{11}{13}\TIMES \SUPER{13}{11}\TIMES \SUPER{17}{7}\TIMES \SUPER{19}{5}%
+\TIMES \SUPER{23}{3}\TIMES \SUPER{29}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Factored(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Results stay factored when you do arithmetic.
+Note that the \spad{12} is automatically factored for you.
+\end{xtccomment}
+\begin{spadsrc}
+% * 12 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\SUPER{2}{2}\TIMES 3\TIMES \SUPER{11}{13}\TIMES \SUPER{13}{11}\TIMES \SUPER{%
+17}{7}\TIMES \SUPER{19}{5}\TIMES \SUPER{23}{3}\TIMES \SUPER{29}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Factored(Integer)}
+\end{xtc}
+\index{radix}
+\begin{xtc}
+\begin{xtccomment}
+Integers can also be displayed to bases other than 10.
+This is an integer in base 11.
+\end{xtccomment}
+\begin{spadsrc}
+radix(25937424601,11)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+10000000000%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{RadixExpansion(11)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Roman numerals are also available for those special occasions.
+\index{Roman numerals}
+\end{xtccomment}
+\begin{spadsrc}
+roman(1992)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\SYMBOL{MCMXCII}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{RomanNumeral}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Rational number arithmetic is also exact.
+\end{xtccomment}
+\begin{spadsrc}
+r := 10 + 9/2 + 8/3 + 7/4 + 6/5 + 5/6 + 4/7 + 3/8 + 2/9
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\frac{55739}{2520}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+To factor fractions, you have to
+map \spadfun{factor} onto the numerator and denominator.
+\end{xtccomment}
+\begin{spadsrc}
+map(factor,r) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\frac{139\TIMES 401}{\SUPER{2}{3}\TIMES \SUPER{3}{2}\TIMES 5\TIMES 7}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Fraction(Factored(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Type \spadtype{SingleInteger} refers to machine word-length
+integers.
+\exptypeindex{SingleInteger}
+In English, this expression means ``\spad{11} as a small
+integer''.
+\end{xtccomment}
+\begin{spadsrc}
+11@SingleInteger
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+11%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{SingleInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Machine double-precision floating-point numbers are also
+available for numeric and graphical
+applications.
+\exptypeindex{DoubleFloat}
+\end{xtccomment}
+\begin{spadsrc}
+123.21@DoubleFloat
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\STRING{123.21000000000001}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{DoubleFloat}
+\end{xtc}
+
+The normal floating-point type in \Language{}, \spadtype{Float},
+is a software implementation of floating-point numbers in which
+the exponent and the mantissa may have any number of
+digits.\footnote{See \xmpref{Float} and \xmpref{DoubleFloat} for
+additional information on floating-point types.}
+The types \spadtype{Complex(Float)} and
+\spadtype{Complex(DoubleFloat)} are the corresponding software
+implementations of complex floating-point numbers.
+
+\begin{xtc}
+\begin{xtccomment}
+This is a floating-point approximation to about twenty digits.
+\index{floating point}
+The \spadSyntax{::}
+is used here to change from one kind of object
+(here, a rational number) to another (a floating-point number).
+\end{xtccomment}
+\begin{spadsrc}
+r :: Float 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\STRING{22.118650793650793651}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Use \spadfunFrom{digits}{Float} to change the number of digits in
+the representation.
+This operation returns the previous value so you can reset it
+later.
+\end{xtccomment}
+\begin{spadsrc}
+digits(22) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+20%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+To \spad{22} digits of precision, the number
+$e^{\pi {\sqrt {163.0}}}$
+appears to be an integer.
+\end{xtccomment}
+\begin{spadsrc}
+exp(%pi * sqrt 163.0) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+\STRING{262537412640768744.0}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Increase the precision to forty digits and try again.
+\end{xtccomment}
+\begin{spadsrc}
+digits(40);  exp(%pi * sqrt 163.0) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{13}
+\STRING{262537412640768743.9999999999992500725976}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here are complex numbers with rational numbers as real and
+\index{complex numbers}
+imaginary parts.
+\end{xtccomment}
+\begin{spadsrc}
+(2/3 + %i)^3 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{14}
+-{\frac{46}{27}}+\frac{1}{3}\TIMES \ImaginaryI %
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Complex(Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The standard operations on complex numbers are available.
+\end{xtccomment}
+\begin{spadsrc}
+conjugate % 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{15}
+-{\frac{46}{27}}-{\frac{1}{3}\TIMES \ImaginaryI }%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Complex(Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can factor complex integers.
+\end{xtccomment}
+\begin{spadsrc}
+factor(89 - 23 * %i)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{16}
+-{\PAREN{1+\ImaginaryI }\TIMES \SUPER{\PAREN{2+\ImaginaryI }}{2}\TIMES \SUPER%
+{\PAREN{3+2\TIMES \ImaginaryI }}{2}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Factored(Complex(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Complex numbers with floating point parts are also available.
+\end{xtccomment}
+\begin{spadsrc}
+exp(%pi/4.0 * %i)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{17}
+\STRING{0.7071067811865475244008443621048490392849}+\STRING{%
+0.7071067811865475244008443621048490392848}\TIMES \ImaginaryI %
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Complex(Float)}
+\end{xtc}
+%%--> These are not numbers:
+%\xtc{
+%The real and imaginary parts can be symbolic.
+%}{
+%\spadcommand{complex(u,v) \bound{cuv}}
+%}
+%\xtc{
+%Of course, you can do complex arithmetic with these also.
+%See \xmpref{Complex} for more information.
+%}{
+%\spadcommand{\% ^ 2 \free{cuv}}
+%}
+\begin{xtc}
+\begin{xtccomment}
+Every rational number has an exact representation as a
+repeating decimal expansion
+(see \xmpref{DecimalExpansion}).
+\end{xtccomment}
+\begin{spadsrc}
+decimal(1/352)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{18}
+0\STRING{.}00284\overline{09}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{DecimalExpansion}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+A rational number can also be expressed as a continued fraction (see
+\index{continued fraction}
+\xmpref{ContinuedFraction}).
+\index{fraction!continued}
+\end{xtccomment}
+\begin{spadsrc}
+continuedFraction(6543/210)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{19}
+31+\ZAG{1}{6}+\ZAG{1}{2}+\ZAG{1}{1}+\ZAG{1}{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{ContinuedFraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Also, partial fractions can be used and can be displayed in a
+\index{partial fraction}
+compact \ldots
+\index{fraction!partial}
+\end{xtccomment}
+\begin{spadsrc}
+partialFraction(1,factorial(10)) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{20}
+\frac{159}{\SUPER{2}{8}}-{\frac{23}{\SUPER{3}{4}}}-{\frac{12}{\SUPER{5}{2}}}+%
+\frac{1}{7}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PartialFraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+or expanded format (see \xmpref{PartialFraction}).
+\end{xtccomment}
+\begin{spadsrc}
+padicFraction(%) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{21}
+\frac{1}{2}+\frac{1}{\SUPER{2}{4}}+\frac{1}{\SUPER{2}{5}}+\frac{1}{\SUPER{2}{%
+6}}+\frac{1}{\SUPER{2}{7}}+\frac{1}{\SUPER{2}{8}}-{\frac{2}{\SUPER{3}{2}}}-{%
+\frac{1}{\SUPER{3}{3}}}-{\frac{2}{\SUPER{3}{4}}}-{\frac{2}{5}}-{\frac{2}{%
+\SUPER{5}{2}}}+\frac{1}{7}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PartialFraction(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Like integers, bases (radices) other than ten can be used for rational
+numbers (see \xmpref{RadixExpansion}).
+Here we use base eight.
+\end{xtccomment}
+\begin{spadsrc}
+radix(4/7, 8)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{22}
+0\STRING{.}\overline{4}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{RadixExpansion(8)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Of course, there are complex versions of these as well.
+\Language{} decides to make the result a complex rational number.
+\end{xtccomment}
+\begin{spadsrc}
+% + 2/3*%i
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{23}
+\frac{4}{7}+\frac{2}{3}\TIMES \ImaginaryI %
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Complex(Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can also use \Language{} to manipulate fractional powers.
+\index{radical}
+\end{xtccomment}
+\begin{spadsrc}
+(5 + sqrt 63 + sqrt 847)^(1/3)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{24}
+\nthroot{14\TIMES \sqrt{7}+5}{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{AlgebraicNumber}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can also compute with integers modulo a prime.
+\end{xtccomment}
+\begin{spadsrc}
+x : PrimeField 7 := 5 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{25}
+5%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PrimeField(7)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Arithmetic is then done modulo \mathOrSpad{7}.
+\end{xtccomment}
+\begin{spadsrc}
+x^3 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{26}
+6%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PrimeField(7)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Since \mathOrSpad{7} is prime, you can invert nonzero values.
+\end{xtccomment}
+\begin{spadsrc}
+1/x 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{27}
+3%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PrimeField(7)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can also compute modulo an integer that is not a prime.
+\end{xtccomment}
+\begin{spadsrc}
+y : IntegerMod 6 := 5 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{28}
+5%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{IntegerMod(6)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+All of the usual arithmetic operations are available.
+\end{xtccomment}
+\begin{spadsrc}
+y^3 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{29}
+5%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{IntegerMod(6)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Inversion is not available if the modulus is not a prime
+number.
+Modular arithmetic and prime fields are discussed in
+\spadref{ugxProblemFinitePrime}.
+\end{xtccomment}
+\begin{spadsrc}
+1/y 
+\end{spadsrc}
+\begin{MessageOutput}
+   There are 12 exposed and 12 unexposed library operations named / 
+      having 2 argument(s) but none was determined to be applicable. 
+      Use HyperDoc Browse, or issue
+                                )display op /
+      to learn more about the available operations. Perhaps 
+      package-calling the operation or using coercions on the arguments
+      will allow you to apply the operation.
+\end{MessageOutput}
+\begin{MessageOutput}
+   Cannot find a definition or applicable library operation named / 
+      with argument type(s) 
+                               PositiveInteger
+                                IntegerMod(6)
+      
+      Perhaps you should use "@" to indicate the required return type, 
+      or "$" to specify which version of the function you need.
+\end{MessageOutput}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This defines \spad{a} to be an algebraic number, that is,
+a root of a polynomial equation.
+\end{xtccomment}
+\begin{spadsrc}
+a := rootOf(a^5 + a^3 + a^2 + 3,a) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{30}
+\SYMBOL{a}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Computations with \spad{a} are reduced according
+to the polynomial equation.
+\end{xtccomment}
+\begin{spadsrc}
+(a + 1)^10
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{31}
+-{85\TIMES \SUPER{\SYMBOL{a}}{4}}-{264\TIMES \SUPER{\SYMBOL{a}}{3}}-{378%
+\TIMES \SUPER{\SYMBOL{a}}{2}}-{458\TIMES \SYMBOL{a}}-{287}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Define \spad{b} to be an algebraic number involving \spad{a}.
+\end{xtccomment}
+\begin{spadsrc}
+b := rootOf(b^4 + a,b) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{32}
+\SYMBOL{b}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Do some arithmetic.
+\end{xtccomment}
+\begin{spadsrc}
+2/(b - 1) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{33}
+\frac{2}{\SYMBOL{b}-{1}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+To expand and simplify this, call \spadfun{ratDenom}
+to rationalize the denominator.
+\end{xtccomment}
+\begin{spadsrc}
+ratDenom(%) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{34}
+\PAREN{\SUPER{\SYMBOL{a}}{4}-{\SUPER{\SYMBOL{a}}{3}}+2\TIMES \SUPER{\SYMBOL{a%
+}}{2}-{\SYMBOL{a}}+1}\TIMES \SUPER{\SYMBOL{b}}{3}+\PAREN{\SUPER{\SYMBOL{a}}{4%
+}-{\SUPER{\SYMBOL{a}}{3}}+2\TIMES \SUPER{\SYMBOL{a}}{2}-{\SYMBOL{a}}+1}%
+\TIMES \SUPER{\SYMBOL{b}}{2}+\PAREN{\SUPER{\SYMBOL{a}}{4}-{\SUPER{\SYMBOL{a}%
+}{3}}+2\TIMES \SUPER{\SYMBOL{a}}{2}-{\SYMBOL{a}}+1}\TIMES \SYMBOL{b}+\SUPER{%
+\SYMBOL{a}}{4}-{\SUPER{\SYMBOL{a}}{3}}+2\TIMES \SUPER{\SYMBOL{a}}{2}-{\SYMBOL%
+{a}}+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+If we do this, we should get \spad{b}.
+\end{xtccomment}
+\begin{spadsrc}
+2/%+1 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{35}
+\frac{\PAREN{\SUPER{\SYMBOL{a}}{4}-{\SUPER{\SYMBOL{a}}{3}}+2\TIMES \SUPER{%
+\SYMBOL{a}}{2}-{\SYMBOL{a}}+1}\TIMES \SUPER{\SYMBOL{b}}{3}+\PAREN{\SUPER{%
+\SYMBOL{a}}{4}-{\SUPER{\SYMBOL{a}}{3}}+2\TIMES \SUPER{\SYMBOL{a}}{2}-{\SYMBOL%
+{a}}+1}\TIMES \SUPER{\SYMBOL{b}}{2}+\PAREN{\SUPER{\SYMBOL{a}}{4}-{\SUPER{%
+\SYMBOL{a}}{3}}+2\TIMES \SUPER{\SYMBOL{a}}{2}-{\SYMBOL{a}}+1}\TIMES \SYMBOL{b%
+}+\SUPER{\SYMBOL{a}}{4}-{\SUPER{\SYMBOL{a}}{3}}+2\TIMES \SUPER{\SYMBOL{a}}{2}%
+-{\SYMBOL{a}}+3}{\PAREN{\SUPER{\SYMBOL{a}}{4}-{\SUPER{\SYMBOL{a}}{3}}+2%
+\TIMES \SUPER{\SYMBOL{a}}{2}-{\SYMBOL{a}}+1}\TIMES \SUPER{\SYMBOL{b}}{3}+%
+\PAREN{\SUPER{\SYMBOL{a}}{4}-{\SUPER{\SYMBOL{a}}{3}}+2\TIMES \SUPER{\SYMBOL{a%
+}}{2}-{\SYMBOL{a}}+1}\TIMES \SUPER{\SYMBOL{b}}{2}+\PAREN{\SUPER{\SYMBOL{a}}{4%
+}-{\SUPER{\SYMBOL{a}}{3}}+2\TIMES \SUPER{\SYMBOL{a}}{2}-{\SYMBOL{a}}+1}%
+\TIMES \SYMBOL{b}+\SUPER{\SYMBOL{a}}{4}-{\SUPER{\SYMBOL{a}}{3}}+2\TIMES %
+\SUPER{\SYMBOL{a}}{2}-{\SYMBOL{a}}+1}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+But we need to rationalize the denominator again.
+\end{xtccomment}
+\begin{spadsrc}
+ratDenom(%) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{36}
+\SYMBOL{b}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Types \spadtype{Quaternion} and \spadtype{Octonion} are also available.
+Multiplication of quaternions is non-commutative, as expected.
+\end{xtccomment}
+\begin{spadsrc}
+q:=quatern(1,2,3,4)*quatern(5,6,7,8) - quatern(5,6,7,8)*quatern(1,2,3,4)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{37}
+-{8\TIMES \SYMBOL{i}}+16\TIMES \SYMBOL{j}-{8\TIMES \SYMBOL{k}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Quaternion(Integer)}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Data Structures}{ugIntroCollect}
+% *********************************************************************
+%
+
+\Language{} has a large variety of data structures available.
+Many data structures are particularly useful for interactive
+computation and others are useful for building applications.
+The data structures of \Language{} are organized into
+\spadglossSee{category hierarchies}{hierarchy} as shown on
+the inside back cover.
+
+A \spadgloss{list} is the most commonly used data structure in
+\Language{} for holding objects all of the same
+type.\footnote{Lists are discussed in \xmpref{List} and in
+\spadref{ugLangIts}.}
+The name {\it list} is short for ``linked-list of nodes.'' Each
+node consists of a value (\spadfunFrom{first}{List}) and a link
+(\spadfunFrom{rest}{List}) that
+\spadglossSee{points}{pointer} to the next node, or to a
+distinguished value denoting the empty list.
+To get to, say, the third element, \Language{} starts at the front
+of the list, then traverses across two links to the third node.
+
+\begin{xtc}
+\begin{xtccomment}
+Write a list of elements using
+square brackets with commas separating the elements.
+\end{xtccomment}
+\begin{spadsrc}
+u := [1,-7,11] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\BRACKET{1\COMMA -{7}\COMMA 11}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is the value at the third node.
+Alternatively, you can say \spad{u.3}.
+\end{xtccomment}
+\begin{spadsrc}
+first rest rest u
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+11%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+Many operations are defined on lists, such as:
+\spadfun{empty?}, to test that a list has no elements;
+\spadfun{cons}\spad{(x,l)}, to create a new list with
+\spadfun{first} element \spad{x} and \spadfun{rest} \spad{l};
+\spadfun{reverse}, to create a new list with elements in reverse
+order; and \spadfun{sort}, to arrange elements in order.
+
+An important point about lists is that they are ``mutable'': their
+constituent elements and links can be changed ``in place.''
+To do this, use any of the operations whose names end with the
+character \spadSyntax{!}.
+
+\begin{xtc}
+\begin{xtccomment}
+The operation \spadfunFromX{concat}{List}\spad{(u,v)}
+replaces the last link of the list
+\spad{u} to point to some other list \spad{v}.
+Since \spad{u} refers to the original list,
+this change is seen by \spad{u}.
+\end{xtccomment}
+\begin{spadsrc}
+concat!(u,[9,1,3,-4]); u
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\BRACKET{1\COMMA -{7}\COMMA 11\COMMA 9\COMMA 1\COMMA 3\COMMA -{4}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+A {\it cyclic list} is a list with a ``cycle'':
+\index{list!cyclic}
+a link pointing back to an earlier node of the list.
+\index{cyclic list}
+To create a cycle, first get a node somewhere down
+the list.
+\end{xtccomment}
+\begin{spadsrc}
+lastnode := rest(u,3)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\BRACKET{9\COMMA 1\COMMA 3\COMMA -{4}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Use \spadfunFromX{setrest}{List} to
+change the link emanating from that node to point back to an
+earlier part of the list.
+\end{xtccomment}
+\begin{spadsrc}
+setrest!(lastnode,rest(u,2)); u
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\BRACKET{1\COMMA -{7}\COMMA \overline{11\COMMA 9}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Integer)}
+\end{xtc}
+
+A \spadgloss{stream}
+is a structure that (potentially) has an infinite number of
+distinct elements.\footnote{Streams are discussed in
+\xmpref{Stream} and in \spadref{ugLangIts}.}
+Think of a stream as an ``infinite list'' where elements are
+computed successively.
+
+\begin{xtc}
+\begin{xtccomment}
+Create an infinite stream of factored integers.
+Only a certain number of initial elements are computed
+and displayed.
+\end{xtccomment}
+\begin{spadsrc}
+[factor(i) for i in 2.. by 2] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\BRACKET{2\COMMA \SUPER{2}{2}\COMMA 2\TIMES 3\COMMA \SUPER{2}{3}\COMMA 2%
+\TIMES 5\COMMA \SUPER{2}{2}\TIMES 3\COMMA 2\TIMES 7\COMMA \STRING{...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(Factored(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\Language{} represents streams by a collection of already-computed
+elements together with a function to compute the next element
+``on demand.''
+Asking for the \eth{n} element causes elements \spad{1} through
+\spad{n} to be evaluated.
+\end{xtccomment}
+\begin{spadsrc}
+%.36 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\SUPER{2}{3}\TIMES \SUPER{3}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Factored(Integer)}
+\end{xtc}
+
+Streams can also be finite or cyclic.
+They are implemented by a linked list structure similar to lists
+and have many of the same operations.
+For example, \spadfun{first} and \spadfun{rest} are used to access
+elements and successive nodes of a stream.
+%%> reverse and sort do not exist for streams
+%%Don't try to reverse or sort a stream: the
+%%operation will generally run forever!
+
+A \spadgloss{one-dimensional array} is another data structure used
+to hold objects of the same type.\footnote{See \xmpref{OneDimensionalArray} for
+details.}
+Unlike lists, one-dimensional arrays are inflexible---they are
+\index{array!one-dimensional}
+implemented using a fixed block of storage.
+Their advantage is that they give quick and equal access time to
+any element.
+
+\begin{xtc}
+\begin{xtccomment}
+A simple way to create a one-dimensional array is to apply the
+operation \spadfun{oneDimensionalArray} to a list of elements.
+\end{xtccomment}
+\begin{spadsrc}
+a := oneDimensionalArray [1, -7, 3, 3/2]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+\BRACKET{1\COMMA -{7}\COMMA 3\COMMA \frac{3}{2}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{OneDimensionalArray(Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+One-dimensional arrays are also mutable:
+you can change their constituent elements ``in place.''
+\end{xtccomment}
+\begin{spadsrc}
+a.3 := 11; a
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\BRACKET{1\COMMA -{7}\COMMA 11\COMMA \frac{3}{2}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{OneDimensionalArray(Fraction(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+However, one-dimensional arrays are not flexible structures.
+You cannot destructively \spadfunX{concat} them together.
+\end{xtccomment}
+\begin{spadsrc}
+concat!(a,oneDimensionalArray [1,-2])
+\end{spadsrc}
+\begin{MessageOutput}
+   There are 5 exposed and 0 unexposed library operations named concat!
+      having 2 argument(s) but none was determined to be applicable. 
+      Use HyperDoc Browse, or issue
+                             )display op concat!
+      to learn more about the available operations. Perhaps 
+      package-calling the operation or using coercions on the arguments
+      will allow you to apply the operation.
+\end{MessageOutput}
+\begin{MessageOutput}
+   Cannot find a definition or applicable library operation named 
+      concat! with argument type(s) 
+                   OneDimensionalArray(Fraction(Integer))
+                        OneDimensionalArray(Integer)
+      
+      Perhaps you should use "@" to indicate the required return type, 
+      or "$" to specify which version of the function you need.
+\end{MessageOutput}
+\end{xtc}
+
+Examples of datatypes similar to \spadtype{OneDimensionalArray}
+are: \spadtype{Vector} (vectors are mathematical structures
+implemented by one-dimensional arrays), \spadtype{String} (arrays
+of ``characters,'' represented by byte vectors), and
+\spadtype{Bits} (represented by ``bit vectors'').
+
+\begin{xtc}
+\begin{xtccomment}
+A vector of 32 bits, each representing the \spadtype{Boolean} value \spad{true}.
+\end{xtccomment}
+\begin{spadsrc}
+bits(32,true)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\STRING{"11111111111111111111111111111111"}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Bits}
+\end{xtc}
+
+A \spadgloss{flexible array} is a cross between a list
+\index{array!flexible}
+and a one-dimensional array.\footnote{See \xmpref{FlexibleArray} for
+details.}
+Like a one-dimensional array, a flexible array occupies a fixed
+block of storage.
+Its block of storage, however, has room to expand!
+When it gets full, it grows (a new, larger block of storage is
+allocated); when it has too much room, it contracts.
+
+\begin{xtc}
+\begin{xtccomment}
+Create a flexible array of three elements.
+\end{xtccomment}
+\begin{spadsrc}
+f := flexibleArray [2, 7, -5]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+\BRACKET{2\COMMA 7\COMMA -{5}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{FlexibleArray(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Insert some elements between the second and third elements.
+\end{xtccomment}
+\begin{spadsrc}
+insert!(flexibleArray [11, -3],f,2)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+\BRACKET{2\COMMA 11\COMMA -{3}\COMMA 7\COMMA -{5}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{FlexibleArray(Integer)}
+\end{xtc}
+
+Flexible arrays are used to implement ``heaps.'' A
+\spadgloss{heap} is an example of a data structure called a
+\spadgloss{priority queue}, where elements are ordered with
+respect to one another.\footnote{See \xmpref{Heap} for more details.
+Heaps are also examples of data structures called
+\spadglossSee{bags}{bag}.
+Other bag data structures are \spadtype{Stack}, \spadtype{Queue},
+and \spadtype{Dequeue}.}
+A heap is organized
+so as to optimize insertion and extraction of maximum elements.
+The \spadfunX{extract} operation
+returns the maximum element of the heap, after destructively
+removing that element and
+reorganizing the heap
+so that the next maximum element is ready to be delivered.
+
+\begin{xtc}
+\begin{xtccomment}
+An easy way to create a heap is to apply the
+operation \spadfun{heap} to a list of values.
+\end{xtccomment}
+\begin{spadsrc}
+h := heap [-4,7,11,3,4,-7]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{13}
+\BRACKET{11\COMMA 7\COMMA -{4}\COMMA 3\COMMA 4\COMMA -{7}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Heap(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This loop extracts elements one-at-a-time from \spad{h}
+until the heap is exhausted, returning the elements
+as a list in the order they were extracted.
+\end{xtccomment}
+\begin{spadsrc}
+[extract!(h) while not empty?(h)]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{14}
+\BRACKET{11\COMMA 7\COMMA 4\COMMA 3\COMMA -{4}\COMMA -{7}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Integer)}
+\end{xtc}
+
+A \spadgloss{binary tree} is a ``tree'' with at most two branches
+\index{tree}
+per node: it is either empty, or else is a node consisting of a
+value, and a left and right subtree (again, binary trees).\footnote{Example of binary tree types are
+\spadtype{BinarySearchTree} (see \xmpref{BinarySearchTree},
+\spadtype{PendantTree}, \spadtype{TournamentTree},
+and \spadtype{BalancedBinaryTree} (see \xmpref{BalancedBinaryTree}).}
+
+\begin{xtc}
+\begin{xtccomment}
+A {\it binary search tree} is a binary tree such that,
+\index{tree!binary search}
+for each node, the value of the node is
+\index{binary search tree}
+greater than all values (if any) in the left subtree,
+and less than or equal all values (if any) in the right subtree.
+\end{xtccomment}
+\begin{spadsrc}
+binarySearchTree [5,3,2,9,4,7,11]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{15}
+\BRACKET{\BRACKET{2\COMMA 3\COMMA 4}\COMMA 5\COMMA \BRACKET{7\COMMA 9\COMMA %
+11}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{BinarySearchTree(PositiveInteger)}
+\end{xtc}
+
+\begin{xtc}
+\begin{xtccomment}
+A {\it balanced binary tree} is useful for doing modular computations.
+\index{balanced binary tree}
+Given a list \spad{lm} of moduli,
+\index{tree!balanced binary}
+\spadfun{modTree}\spad{(a,lm)} produces a balanced binary
+tree with the values $a \bmod m$
+at its leaves.
+\end{xtccomment}
+\begin{spadsrc}
+modTree(8,[2,3,5,7])
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{16}
+\BRACKET{0\COMMA 2\COMMA 3\COMMA 1}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Integer)}
+\end{xtc}
+
+A \spadgloss{set} is a collection of elements where duplication
+and order is irrelevant.\footnote{See \xmpref{Set} for more
+details.}
+Sets are always finite and have no corresponding
+structure like streams for infinite collections.
+
+\begin{xtc}
+\begin{xtccomment}
+Create sets by using the \spadfun{set} function.
+\end{xtccomment}
+\begin{spadsrc}
+fs := set[1/3,4/5,-1/3,4/5] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{17}
+\BRACE{-{\frac{1}{3}}\COMMA \frac{1}{3}\COMMA \frac{4}{5}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Set(Fraction(Integer))}
+\end{xtc}
+
+A \spadgloss{multiset}
+is a set that keeps track of the number
+of duplicate values.\footnote{See \xmpref{Multiset} for details.}
+\begin{xtc}
+\begin{xtccomment}
+For all the primes \spad{p} between 2 and 1000, find the
+distribution of $p \bmod 5$.
+\end{xtccomment}
+\begin{spadsrc}
+multiset [x rem 5 for x in primes(2,1000)]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{18}
+\BRACE{47\STRING{:\ }2\COMMA 42\STRING{:\ }3\COMMA 0\COMMA 40\STRING{:\ }1%
+\COMMA 38\STRING{:\ }4}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Multiset(Integer)}
+\end{xtc}
+
+A \spadgloss{table}
+is conceptually a set of ``key--value'' pairs and
+is a generalization of a multiset.\footnote{For examples of tables, see
+\spadtype{AssociationList} (\xmpref{AssociationList}),
+\spadtype{HashTable},
+\spadtype{KeyedAccessFile} (\xmpref{KeyedAccessFile}),
+\spadtype{Library} (\xmpref{Library}),
+\spadtype{SparseTable} (\xmpref{SparseTable}),
+\spadtype{StringTable} (\xmpref{StringTable}),
+and \spadtype{Table} (\xmpref{Table}).}
+The domain \spadtype{Table(Key, Entry)} provides a general-purpose
+type for tables with {\it values} of type \spad{Entry} indexed
+by {\it keys} of type \spad{Key}.
+
+\begin{xtc}
+\begin{xtccomment}
+Compute the above distribution of primes using tables.
+First, let \spad{t} denote an empty table of keys and values,
+each of type \spadtype{Integer}.
+\end{xtccomment}
+\begin{spadsrc}
+t : Table(Integer,Integer) := empty()
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{19}
+\STRING{table}\PAREN{}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Table(Integer, Integer)}
+\end{xtc}
+
+We define a function \userfun{howMany} to return the number
+of values of a given modulus \spad{k} seen so far.
+It calls \spadfun{search}\spad{(k,t)} which returns the number of
+values stored under the key \spad{k} in table \spad{t}, or
+\spad{"failed"} if no such value is yet stored in \spad{t} under
+\spad{k}.
+
+\begin{xtc}
+\begin{xtccomment}
+In English, this says ``Define \spad{howMany(k)} as follows.
+First, let \smath{n} be the value of \spadfun{search}\smath{(k,t)}.
+Then, if \smath{n} has the value \smath{"failed"}, return the value
+\smath{1}; otherwise return \smath{n + 1}.''
+\end{xtccomment}
+\begin{spadsrc}
+howMany(k) == (n:=search(k,t); n case "failed" => 1; n+1)
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Run through the primes to create the table, then print the table.
+The expression \spad{t.m := howMany(m)} updates the value in table \spad{t}
+stored under key \spad{m}.
+\end{xtccomment}
+\begin{spadsrc}
+for p in primes(2,1000) repeat (m:= p rem 5; t.m:= howMany(m)); t
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function howMany with type Integer -> Integer 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{21}
+\STRING{table}\PAREN{4=38,1=40,0=1,3=42,2=47}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Table(Integer, Integer)}
+\end{xtc}
+
+A {\it record}
+is an example of an inhomogeneous collection
+of objects.\footnote{See \spadref{ugTypesRecords} for details.}
+A record consists of a set of named {\it selectors} that
+can be used to access its components.
+\index{Record@{\sf Record}}
+
+\begin{xtc}
+\begin{xtccomment}
+Declare that \spad{daniel} can only be
+assigned a record with two prescribed fields.
+\end{xtccomment}
+\begin{spadsrc}
+daniel : Record(age : Integer, salary : Float) 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Give \spad{daniel} a value, using square brackets to enclose the values of
+the fields.
+\end{xtccomment}
+\begin{spadsrc}
+daniel := [28, 32005.12] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{23}
+\BRACKET{\SYMBOL{age}=28\COMMA \SYMBOL{salary}=\STRING{32005.12}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Record(age: Integer, salary: Float)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Give \spad{daniel} a raise.
+\end{xtccomment}
+\begin{spadsrc}
+daniel.salary := 35000; daniel 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{24}
+\BRACKET{\SYMBOL{age}=28\COMMA \SYMBOL{salary}=\STRING{35000.0}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Record(age: Integer, salary: Float)}
+\end{xtc}
+
+A {\it union}
+is a data structure used when objects
+have multiple types.\footnote{See \spadref{ugTypesUnions} for details.}
+\index{Union@{\sf Union}}
+
+\begin{xtc}
+\begin{xtccomment}
+Let \spad{dog} be either an integer or a string value.
+\end{xtccomment}
+\begin{spadsrc}
+dog: Union(licenseNumber: Integer, name: String)
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Give \spad{dog} a name.
+\end{xtccomment}
+\begin{spadsrc}
+dog := "Whisper"
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{26}
+\STRING{"Whisper"}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(name: String, ...)}
+\end{xtc}
+
+All told, there are over forty different data structures in
+\Language{}.
+Using the domain constructors described in \chapref{ugDomains}, you
+can add your own data structure or extend an existing one.
+Choosing the right data structure for your application may be the key
+to obtaining good performance.
+
+% *********************************************************************
+\head{section}{Expanding to Higher Dimensions}{ugIntroTwoDim}
+% *********************************************************************
+%
+
+To get higher dimensional aggregates, you can create one-dimensional
+aggregates with elements that are themselves
+aggregates, for example, lists of lists, one-dimensional arrays of
+lists of multisets, and so on.
+For applications requiring two-dimensional homogeneous aggregates,
+you will likely find {\it two-dimensional arrays}
+\index{matrix}
+and {\it matrices} most useful.
+\index{array!two-dimensional}
+
+The entries in \spadtype{TwoDimensionalArray} and
+\spadtype{Matrix} objects
+are all the same type, except that those for
+\spadtype{Matrix} must belong to a \spadtype{Ring}.
+You create and access elements in roughly the same way.
+Since matrices have an understood algebraic structure, certain algebraic
+operations are available for matrices but not for arrays.
+Because of this, we limit our discussion here to
+\spadtype{Matrix}, that can be regarded as an extension of
+\spadtype{TwoDimensionalArray}.\footnote{See
+\xmpref{TwoDimensionalArray} for more information about arrays.
+For more information about \Language{}'s linear algebra
+facilities, see \xmpref{Matrix}, \xmpref{Permanent},
+\xmpref{SquareMatrix}, \xmpref{Vector},
+\spadref{ugProblemEigen}%
+\ (computation of eigenvalues and eigenvectors)
+, and
+\spadref{ugProblemLinPolEqn}%
+\ (solution of linear and polynomial equations)
+.}
+
+\begin{xtc}
+\begin{xtccomment}
+You can create a matrix from a list of lists,
+\index{matrix!creating}
+where each of the inner lists represents a row of the matrix.
+\end{xtccomment}
+\begin{spadsrc}
+m := matrix([[1,2], [3,4]]) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\begin{MATRIX}{2}1&2\\3&4\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The ``collections'' construct (see \spadref{ugLangIts}) is
+useful for creating matrices whose entries are given by formulas.
+\index{matrix!Hilbert}
+\end{xtccomment}
+\begin{spadsrc}
+matrix([[1/(i + j - x) for i in 1..4] for j in 1..4]) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\begin{MATRIX}{4}-{\frac{1}{\SYMBOL{x}-{2}}}&-{\frac{1}{\SYMBOL{x}-{3}}}&-{%
+\frac{1}{\SYMBOL{x}-{4}}}&-{\frac{1}{\SYMBOL{x}-{5}}}\\-{\frac{1}{\SYMBOL{x}-%
+{3}}}&-{\frac{1}{\SYMBOL{x}-{4}}}&-{\frac{1}{\SYMBOL{x}-{5}}}&-{\frac{1}{%
+\SYMBOL{x}-{6}}}\\-{\frac{1}{\SYMBOL{x}-{4}}}&-{\frac{1}{\SYMBOL{x}-{5}}}&-{%
+\frac{1}{\SYMBOL{x}-{6}}}&-{\frac{1}{\SYMBOL{x}-{7}}}\\-{\frac{1}{\SYMBOL{x}-%
+{5}}}&-{\frac{1}{\SYMBOL{x}-{6}}}&-{\frac{1}{\SYMBOL{x}-{7}}}&-{\frac{1}{%
+\SYMBOL{x}-{8}}}\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Fraction(Polynomial(Integer)))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Let \spad{vm} denote the three by three Vandermonde matrix.
+\end{xtccomment}
+\begin{spadsrc}
+vm := matrix [[1,1,1], [x,y,z], [x*x,y*y,z*z]] 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\begin{MATRIX}{3}1&1&1\\\SYMBOL{x}&\SYMBOL{y}&\SYMBOL{z}\\\SUPER{\SYMBOL{x}}{%
+2}&\SUPER{\SYMBOL{y}}{2}&\SUPER{\SYMBOL{z}}{2}\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Polynomial(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Use this syntax to extract an entry in the matrix.
+\end{xtccomment}
+\begin{spadsrc}
+vm(3,3) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\SUPER{\SYMBOL{z}}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can also pull out a \spadfun{row} or a \spad{column}.
+\end{xtccomment}
+\begin{spadsrc}
+column(vm,2) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\BRACKET{1\COMMA \SYMBOL{y}\COMMA \SUPER{\SYMBOL{y}}{2}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Vector(Polynomial(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can do arithmetic.
+\end{xtccomment}
+\begin{spadsrc}
+vm * vm 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\begin{MATRIX}{3}\SUPER{\SYMBOL{x}}{2}+\SYMBOL{x}+1&\SUPER{\SYMBOL{y}}{2}+%
+\SYMBOL{y}+1&\SUPER{\SYMBOL{z}}{2}+\SYMBOL{z}+1\\\SUPER{\SYMBOL{x}}{2}\TIMES %
+\SYMBOL{z}+\SYMBOL{x}\TIMES \SYMBOL{y}+\SYMBOL{x}&\SUPER{\SYMBOL{y}}{2}%
+\TIMES \SYMBOL{z}+\SUPER{\SYMBOL{y}}{2}+\SYMBOL{x}&\SUPER{\SYMBOL{z}}{3}+%
+\SYMBOL{y}\TIMES \SYMBOL{z}+\SYMBOL{x}\\\SUPER{\SYMBOL{x}}{2}\TIMES \SUPER{%
+\SYMBOL{z}}{2}+\SYMBOL{x}\TIMES \SUPER{\SYMBOL{y}}{2}+\SUPER{\SYMBOL{x}}{2}&%
+\SUPER{\SYMBOL{y}}{2}\TIMES \SUPER{\SYMBOL{z}}{2}+\SUPER{\SYMBOL{y}}{3}+%
+\SUPER{\SYMBOL{x}}{2}&\SUPER{\SYMBOL{z}}{4}+\SUPER{\SYMBOL{y}}{2}\TIMES %
+\SYMBOL{z}+\SUPER{\SYMBOL{x}}{2}\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(Polynomial(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can perform operations such as
+\spadfun{transpose}, \spadfun{trace}, and \spadfun{determinant}.
+\end{xtccomment}
+\begin{spadsrc}
+factor determinant vm 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\PAREN{\SYMBOL{y}-{\SYMBOL{x}}}\TIMES \PAREN{\SYMBOL{z}-{\SYMBOL{y}}}\TIMES %
+\PAREN{\SYMBOL{z}-{\SYMBOL{x}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Factored(Polynomial(Integer))}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Writing Your Own Functions}{ugIntroYou}
+% *********************************************************************
+%
+
+\Language{} provides you with a very large library of predefined
+operations and objects to compute with.
+You can use the \Language{} library of constructors to create new
+objects dynamically of quite arbitrary complexity.
+For example, you can make lists of matrices of fractions of
+polynomials with complex floating point numbers as coefficients.
+Moreover, the library provides a wealth of operations that allow
+you to create and manipulate these objects.
+
+For many applications,
+you need to interact with the interpreter and write some
+\Language{} programs to tackle your application.
+\Language{} allows you to write functions interactively,
+\index{function}
+thereby effectively extending the system library.
+Here we give a few simple examples, leaving the details to \chapref{ugUser}.
+
+We begin by looking at several ways that you can define the
+``factorial'' function in \Language{}.
+The first way is to give a
+\index{function!piece-wise definition}
+piece-wise definition of the function.
+\index{piece-wise function definition}
+This method is best for a general recurrence
+relation since the pieces are gathered together and compiled into
+an efficient iterative function.
+Furthermore, enough previously computed values are automatically
+saved so that a subsequent call to the function can pick up from
+where it left off.
+
+\begin{xtc}
+\begin{xtccomment}
+Define the value of \userfun{fact} at \spad{0}.
+\end{xtccomment}
+\begin{spadsrc}
+fact(0) == 1 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Define the value of \spad{fact(n)} for general \spad{n}.
+\end{xtccomment}
+\begin{spadsrc}
+fact(n) == n*fact(n-1)
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Ask for the value at \spad{50}.
+The resulting function created by \Language{}
+computes the value by iteration.
+\end{xtccomment}
+\begin{spadsrc}
+fact(50) 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function fact with type Integer -> Integer 
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function fact as a recurrence relation.
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+30414093201713378043 61260816606476884437 76415689605120000000 00000%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+A second definition uses an \spad{if-then-else} and recursion.
+\end{xtccomment}
+\begin{spadsrc}
+fac(n) == if n < 3 then n else n * fac(n - 1) 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This function is less efficient than the previous version since
+each iteration involves a recursive function call.
+\end{xtccomment}
+\begin{spadsrc}
+fac(50) 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function fac with type Integer -> Integer 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+30414093201713378043 61260816606476884437 76415689605120000000 00000%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+A third version directly uses iteration.
+\end{xtccomment}
+\begin{spadsrc}
+fa(n) == (a := 1; for i in 2..n repeat a := a*i; a) 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is the least space-consumptive version.
+\end{xtccomment}
+\begin{spadsrc}
+fa(50) 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function fa with type PositiveInteger -> PositiveInteger 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+30414093201713378043 61260816606476884437 76415689605120000000 00000%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+A final version appears to construct a large list and then reduces over
+it with multiplication.
+\end{xtccomment}
+\begin{spadsrc}
+f(n) == reduce(*,[i for i in 2..n]) 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+In fact, the resulting computation is optimized into an efficient
+iteration loop equivalent to that of the third version.
+\end{xtccomment}
+\begin{spadsrc}
+f(50) 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function f with type PositiveInteger -> PositiveInteger 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+30414093201713378043 61260816606476884437 76415689605120000000 00000%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The library version uses an algorithm that is different from the four
+above because it highly optimizes the recurrence relation definition of
+\spadfun{factorial}.
+\end{xtccomment}
+\begin{spadsrc}
+factorial(50)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+30414093201713378043 61260816606476884437 76415689605120000000 00000%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{PositiveInteger}
+\end{xtc}
+
+You are not limited to one-line functions in \Language{}.
+If you place your function definitions in {\bf .input} files
+\index{file!input}
+(see \spadref{ugInOutIn}), you can have
+multi-line functions that use indentation for grouping.
+
+Given \spad{n} elements, \spadfun{diagonalMatrix} creates an
+\spad{n} by \spad{n} matrix with those elements down the diagonal.
+This function uses a permutation matrix
+that interchanges the \spad{i}th and \spad{j}th rows of a matrix
+by which it is right-multiplied.
+
+\begin{xtc}
+\begin{xtccomment}
+This function definition shows a style of definition that can be used
+in {\bf .input} files.
+Indentation is used to create \spadglossSee{blocks}{block}:
+sequences of expressions that are evaluated in sequence except as
+modified by control statements such as \spad{if-then-else} and \spad{return}.
+\end{xtccomment}
+\begin{spadsrc}
+permMat(n, i, j) ==
+  m := diagonalMatrix
+    [(if i = k or j = k then 0 else 1)
+      for k in 1..n]
+  m(i,j) := 1
+  m(j,i) := 1
+  m
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This creates a four by four matrix that interchanges the second and third
+rows.
+\end{xtccomment}
+\begin{spadsrc}
+p := permMat(4,2,3) 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function permMat with type (PositiveInteger,
+      PositiveInteger,PositiveInteger) -> Matrix(NonNegativeInteger) 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+\begin{MATRIX}{4}1&0&0&0\\0&0&1&0\\0&1&0&0\\0&0&0&1\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(NonNegativeInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Create an example matrix to permute.
+\end{xtccomment}
+\begin{spadsrc}
+m := matrix [[4*i + j for j in 1..4] for i in 0..3]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{13}
+\begin{MATRIX}{4}1&2&3&4\\5&6&7&8\\9&10&11&12\\13&14&15&16\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(NonNegativeInteger)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Interchange the second and third rows of m.
+\end{xtccomment}
+\begin{spadsrc}
+permMat(4,2,3) * m 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{14}
+\begin{MATRIX}{4}1&2&3&4\\9&10&11&12\\5&6&7&8\\13&14&15&16\end{MATRIX}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Matrix(NonNegativeInteger)}
+\end{xtc}
+
+A function can also be passed as an argument to another function,
+which then applies the function or passes it off to some other
+function that does.
+You often have to declare the type of a function that has
+functional arguments.
+
+\begin{xtc}
+\begin{xtccomment}
+This declares \userfun{t} to be a two-argument function that
+returns a \spadtype{Float}.
+The first argument is a function that takes one \spadtype{Float}
+argument and returns a \spadtype{Float}.
+\end{xtccomment}
+\begin{spadsrc}
+t : (Float -> Float, Float) -> Float 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This is the definition of \userfun{t}.
+\end{xtccomment}
+\begin{spadsrc}
+t(fun, x) == fun(x)^2 + sin(x)^2 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+We have not defined a \spadfun{cos} in the workspace. The one from the
+\Language{} library will do.
+\end{xtccomment}
+\begin{spadsrc}
+t(cos, 5.2058) 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function t with type ((Float -> Float),Float) -> Float 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{17}
+\STRING{1.0}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here we define our own (user-defined) function.
+\end{xtccomment}
+\begin{spadsrc}
+cosinv(y) == cos(1/y) 
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Pass this function as an argument to \userfun{t}.
+\end{xtccomment}
+\begin{spadsrc}
+t(cosinv, 5.2058) 
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function cosinv with type Float -> Float 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{19}
+\STRING{1.739223724180051649254147684772932520785}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Float}
+\end{xtc}
+
+\Language{} also has pattern matching capabilities for
+\index{simplification}
+simplification
+\index{pattern matching}
+of expressions and for defining new functions by rules.
+For example, suppose that you want to apply regularly a transformation
+that groups together products of radicals:
+\begin{displaymath}
+\sqrt{a}\:\sqrt{b} \mapsto \sqrt{ab}, \quad
+(\forall a)(\forall b)
+\end{displaymath}
+Note that such a transformation is not generally correct.
+\Language{} never uses it automatically.
+
+\begin{xtc}
+\begin{xtccomment}
+Give this rule the name \userfun{groupSqrt}.
+\end{xtccomment}
+\begin{spadsrc}
+groupSqrt := rule(sqrt(a) * sqrt(b) == sqrt(a*b)) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{20}
+\SYMBOL{\%C}\TIMES \sqrt{\SYMBOL{a}}\TIMES \sqrt{\SYMBOL{b}}\SYMBOL{\ ==\ }%
+\SYMBOL{\%C}\TIMES \sqrt{\SYMBOL{a}\TIMES \SYMBOL{b}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{RewriteRule(Integer, Integer, Expression(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here is a test expression.
+\end{xtccomment}
+\begin{spadsrc}
+a := (sqrt(x) + sqrt(y) + sqrt(z))^4 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{21}
+\PAREN{\PAREN{4\TIMES \SYMBOL{z}+4\TIMES \SYMBOL{y}+12\TIMES \SYMBOL{x}}%
+\TIMES \sqrt{\SYMBOL{y}}+\PAREN{4\TIMES \SYMBOL{z}+12\TIMES \SYMBOL{y}+4%
+\TIMES \SYMBOL{x}}\TIMES \sqrt{\SYMBOL{x}}}\TIMES \sqrt{\SYMBOL{z}}+\PAREN{12%
+\TIMES \SYMBOL{z}+4\TIMES \SYMBOL{y}+4\TIMES \SYMBOL{x}}\TIMES \sqrt{\SYMBOL{%
+x}}\TIMES \sqrt{\SYMBOL{y}}+\SUPER{\SYMBOL{z}}{2}+\PAREN{6\TIMES \SYMBOL{y}+6%
+\TIMES \SYMBOL{x}}\TIMES \SYMBOL{z}+\SUPER{\SYMBOL{y}}{2}+6\TIMES \SYMBOL{x}%
+\TIMES \SYMBOL{y}+\SUPER{\SYMBOL{x}}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The rule
+\userfun{groupSqrt} successfully simplifies the expression.
+\end{xtccomment}
+\begin{spadsrc}
+groupSqrt a 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{22}
+\PAREN{4\TIMES \SYMBOL{z}+4\TIMES \SYMBOL{y}+12\TIMES \SYMBOL{x}}\TIMES \sqrt%
+{\SYMBOL{y}\TIMES \SYMBOL{z}}+\PAREN{4\TIMES \SYMBOL{z}+12\TIMES \SYMBOL{y}+4%
+\TIMES \SYMBOL{x}}\TIMES \sqrt{\SYMBOL{x}\TIMES \SYMBOL{z}}+\PAREN{12\TIMES %
+\SYMBOL{z}+4\TIMES \SYMBOL{y}+4\TIMES \SYMBOL{x}}\TIMES \sqrt{\SYMBOL{x}%
+\TIMES \SYMBOL{y}}+\SUPER{\SYMBOL{z}}{2}+\PAREN{6\TIMES \SYMBOL{y}+6\TIMES %
+\SYMBOL{x}}\TIMES \SYMBOL{z}+\SUPER{\SYMBOL{y}}{2}+6\TIMES \SYMBOL{x}\TIMES %
+\SYMBOL{y}+\SUPER{\SYMBOL{x}}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Polynomials}{ugIntroVariables}
+% *********************************************************************
+%
+
+Polynomials are the commonly used algebraic types in symbolic
+computation.
+\index{polynomial}
+Interactive users of \Language{} generally only see one type
+of polynomial: \spadtype{Polynomial(R)}.
+This type represents polynomials in any number of unspecified
+variables over a particular coefficient domain \spad{R}.
+This type represents its coefficients
+\spadglossSee{sparsely}{sparse}: only terms with non-zero
+coefficients are represented.
+\exptypeindex{Polynomial}
+
+In building applications, many other kinds of polynomial
+representations are useful.
+Polynomials may have one variable or multiple variables, the
+variables can be named or unnamed, the coefficients can be stored
+sparsely or densely.
+So-called ``distributed multivariate polynomials'' store
+polynomials as coefficients paired with vectors of exponents.
+This type is particularly efficient for use in algorithms for
+solving systems of non-linear polynomial equations.
+
+\begin{xtc}
+\begin{xtccomment}
+The polynomial constructor most familiar to the interactive user
+is \spadtype{Polynomial}.
+\end{xtccomment}
+\begin{spadsrc}
+(x^2 - x*y^3 +3*y)^2
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\SUPER{\SYMBOL{x}}{2}\TIMES \SUPER{\SYMBOL{y}}{6}-{6\TIMES \SYMBOL{x}\TIMES %
+\SUPER{\SYMBOL{y}}{4}}-{2\TIMES \SUPER{\SYMBOL{x}}{3}\TIMES \SUPER{\SYMBOL{y}%
+}{3}}+9\TIMES \SUPER{\SYMBOL{y}}{2}+6\TIMES \SUPER{\SYMBOL{x}}{2}\TIMES %
+\SYMBOL{y}+\SUPER{\SYMBOL{x}}{4}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+If you wish to restrict the variables used,
+\spadtype{UnivariatePolynomial}
+provides polynomials in one variable.
+\exptypeindex{UnivariatePolynomial}
+\end{xtccomment}
+\begin{spadsrc}
+p: UP(x,INT) := (3*x-1)^2 * (2*x + 8)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+18\TIMES \SUPER{\SYMBOL{x}}{3}+60\TIMES \SUPER{\SYMBOL{x}}{2}-{46\TIMES %
+\SYMBOL{x}}+8%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{UnivariatePolynomial(x, Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The constructor
+\spadtype{MultivariatePolynomial} provides polynomials in one or more
+specified variables.
+\exptypeindex{MultivariatePolynomial}
+\end{xtccomment}
+\begin{spadsrc}
+m: MPOLY([x,y],INT) := (x^2-x*y^3+3*y)^2 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\SUPER{\SYMBOL{x}}{4}-{2\TIMES \SUPER{\SYMBOL{y}}{3}\TIMES \SUPER{\SYMBOL{x}%
+}{3}}+\PAREN{\SUPER{\SYMBOL{y}}{6}+6\TIMES \SYMBOL{y}}\TIMES \SUPER{\SYMBOL{x%
+}}{2}-{6\TIMES \SUPER{\SYMBOL{y}}{4}\TIMES \SYMBOL{x}}+9\TIMES \SUPER{\SYMBOL%
+{y}}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{MultivariatePolynomial([x, y], Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can change the way the polynomial appears by modifying the variable
+ordering in the explicit list.
+\end{xtccomment}
+\begin{spadsrc}
+m :: MPOLY([y,x],INT) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\SUPER{\SYMBOL{x}}{2}\TIMES \SUPER{\SYMBOL{y}}{6}-{6\TIMES \SYMBOL{x}\TIMES %
+\SUPER{\SYMBOL{y}}{4}}-{2\TIMES \SUPER{\SYMBOL{x}}{3}\TIMES \SUPER{\SYMBOL{y}%
+}{3}}+9\TIMES \SUPER{\SYMBOL{y}}{2}+6\TIMES \SUPER{\SYMBOL{x}}{2}\TIMES %
+\SYMBOL{y}+\SUPER{\SYMBOL{x}}{4}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{MultivariatePolynomial([y, x], Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The constructor
+\spadtype{DistributedMultivariatePolynomial} provides
+polynomials in one or more specified variables with the monomials
+ordered lexicographically.
+\exptypeindex{DistributedMultivariatePolynomial}
+\end{xtccomment}
+\begin{spadsrc}
+m :: DMP([y,x],INT) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\SUPER{\SYMBOL{y}}{6}\TIMES \SUPER{\SYMBOL{x}}{2}-{6\TIMES \SUPER{\SYMBOL{y}%
+}{4}\TIMES \SYMBOL{x}}-{2\TIMES \SUPER{\SYMBOL{y}}{3}\TIMES \SUPER{\SYMBOL{x}%
+}{3}}+9\TIMES \SUPER{\SYMBOL{y}}{2}+6\TIMES \SYMBOL{y}\TIMES \SUPER{\SYMBOL{x%
+}}{2}+\SUPER{\SYMBOL{x}}{4}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{DistributedMultivariatePolynomial([y, x], Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The constructor
+\spadtype{HomogeneousDistributedMultivariatePolynomial} is similar except that
+the monomials are ordered by total order refined by reverse
+lexicographic order.
+\exptypeindex{HomogeneousDistributedMultivariatePolynomial}
+\end{xtccomment}
+\begin{spadsrc}
+m :: HDMP([y,x],INT) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\SUPER{\SYMBOL{y}}{6}\TIMES \SUPER{\SYMBOL{x}}{2}-{2\TIMES \SUPER{\SYMBOL{y}%
+}{3}\TIMES \SUPER{\SYMBOL{x}}{3}}-{6\TIMES \SUPER{\SYMBOL{y}}{4}\TIMES %
+\SYMBOL{x}}+\SUPER{\SYMBOL{x}}{4}+6\TIMES \SYMBOL{y}\TIMES \SUPER{\SYMBOL{x}%
+}{2}+9\TIMES \SUPER{\SYMBOL{y}}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{HomogeneousDistributedMultivariatePolynomial([y, x], Integer)}
+\end{xtc}
+
+More generally, the domain constructor
+\spadtype{GeneralDistributedMultivariatePolynomial} allows the
+user to provide an arbitrary predicate to define his own term ordering.
+\exptypeindex{GeneralDistributedMultivariatePolynomial}
+These last three constructors are typically used in
+Gr\"{o}bner basis
+\index{Groebner basis@{Gr\protect\"{o}bner basis}}
+applications and when a flat (that is, non-recursive) display is
+wanted and the term ordering is critical for controlling the computation.
+
+% *********************************************************************
+\head{section}{Limits}{ugIntroCalcLimits}
+% *********************************************************************
+%
+
+\Language{}'s \spadfun{limit} function is usually used to
+evaluate limits of quotients where the numerator and denominator
+\index{limit}
+both tend to zero or both tend to infinity.
+To find the limit of an expression \spad{f} as a real variable
+\spad{x} tends to a limit value \spad{a}, enter \spad{limit(f, x=a)}.
+Use \spadfun{complexLimit} if the variable is complex.
+Additional information and examples of limits are in
+\spadref{ugProblemLimits}.
+
+\begin{xtc}
+\begin{xtccomment}
+You can take limits of functions with parameters.
+\index{limit!of function with parameters}
+\end{xtccomment}
+\begin{spadsrc}
+g := csc(a*x) / csch(b*x) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\frac{\csc{\PAREN{\SYMBOL{a}\TIMES \SYMBOL{x}}}}{\csch{\PAREN{\SYMBOL{b}%
+\TIMES \SYMBOL{x}}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+As you can see, the limit is expressed in terms of the parameters.
+\end{xtccomment}
+\begin{spadsrc}
+limit(g,x=0) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\frac{\SYMBOL{b}}{\SYMBOL{a}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(OrderedCompletion(Expression(Integer)), ...)}
+\end{xtc}
+%
+\begin{xtc}
+\begin{xtccomment}
+A variable may also approach plus or minus infinity:
+\end{xtccomment}
+\begin{spadsrc}
+h := (1 + k/x)^x 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\SUPER{\PAREN{\frac{\SYMBOL{x}+\SYMBOL{k}}{\SYMBOL{x}}}}{\SYMBOL{x}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Use \spad{%plusInfinity} and \spad{%minusInfinity} to
+denote $\infty$ and $-\infty$.
+\end{xtccomment}
+\begin{spadsrc}
+limit(h,x=%plusInfinity) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\SUPER{\EulerE }{\SYMBOL{k}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(OrderedCompletion(Expression(Integer)), ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+A function can be defined on both sides of a particular value, but
+may tend to different limits as its variable approaches that value from the
+left and from the right.
+\end{xtccomment}
+\begin{spadsrc}
+limit(sqrt(y^2)/y,y = 0)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\BRACKET{\SYMBOL{leftHandLimit}=-{1}\COMMA \SYMBOL{rightHandLimit}=1}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Record(leftHandLimit: Union(OrderedCompletion(Expression(Integer)), "failed"), rightHandLimit: Union(OrderedCompletion(Expression(Integer)), "failed")), ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+As \spad{x} approaches \spad{0} along the real axis, \spad{exp(-1/x^2)}
+tends to \spad{0}.
+\end{xtccomment}
+\begin{spadsrc}
+limit(exp(-1/x^2),x = 0)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+0%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(OrderedCompletion(Expression(Integer)), ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+However, if \spad{x} is allowed to approach \spad{0} along any path in the
+complex plane, the limiting value of \spad{exp(-1/x^2)} depends on the
+path taken because the function has an essential singularity at \spad{x=0}.
+This is reflected in the error message returned by the function.
+\end{xtccomment}
+\begin{spadsrc}
+complexLimit(exp(-1/x^2),x = 0)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\STRING{"failed"}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union("failed", ...)}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Series}{ugIntroSeries}
+% *********************************************************************
+%
+
+\Language{} also provides power series.
+\index{series!power}
+By default, \Language{} tries to compute and display the first ten elements
+of a series.
+Use \spadsys{)set streams calculate} to change the default value
+to something else.
+\syscmdindex{set streams calculate}
+For the purposes of this book, we have used this system command to display
+fewer than ten terms.
+For more information about working with series, see
+\spadref{ugProblemSeries}.
+
+\begin{xtc}
+\begin{xtccomment}
+You can convert a functional expression to a power series by using the
+operation \spadfun{series}.
+In this example,
+\spad{sin(a*x)} is expanded in powers of \spad{(x - 0)},
+that is, in powers of \spad{x}.
+\end{xtccomment}
+\begin{spadsrc}
+series(sin(a*x),x = 0)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\SYMBOL{a}\TIMES \SYMBOL{x}-{\frac{\SUPER{\SYMBOL{a}}{3}}{6}\TIMES \SUPER{%
+\SYMBOL{x}}{3}}+\frac{\SUPER{\SYMBOL{a}}{5}}{120}\TIMES \SUPER{\SYMBOL{x}}{5}%
+-{\frac{\SUPER{\SYMBOL{a}}{7}}{5040}\TIMES \SUPER{\SYMBOL{x}}{7}}+\FUN{O}%
+\PAREN{\SUPER{\SYMBOL{x}}{9}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{UnivariatePuiseuxSeries(Expression(Integer), x, 0)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+This expression expands
+\spad{sin(a*x)} in powers of \spad{(x - %pi/4)}.
+\end{xtccomment}
+\begin{spadsrc}
+series(sin(a*x),x = %pi/4)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\sin{\PAREN{\frac{\SYMBOL{a}\TIMES \pi }{4}}}+\SYMBOL{a}\TIMES \cos{\PAREN{%
+\frac{\SYMBOL{a}\TIMES \pi }{4}}}\TIMES \PAREN{\SYMBOL{x}-{\frac{\pi }{4}}}-{%
+\frac{\SUPER{\SYMBOL{a}}{2}\TIMES \sin{\PAREN{\frac{\SYMBOL{a}\TIMES \pi }{4}%
+}}}{2}\TIMES \SUPER{\PAREN{\SYMBOL{x}-{\frac{\pi }{4}}}}{2}}-{\frac{\SUPER{%
+\SYMBOL{a}}{3}\TIMES \cos{\PAREN{\frac{\SYMBOL{a}\TIMES \pi }{4}}}}{6}\TIMES %
+\SUPER{\PAREN{\SYMBOL{x}-{\frac{\pi }{4}}}}{3}}+\frac{\SUPER{\SYMBOL{a}}{4}%
+\TIMES \sin{\PAREN{\frac{\SYMBOL{a}\TIMES \pi }{4}}}}{24}\TIMES \SUPER{\PAREN%
+{\SYMBOL{x}-{\frac{\pi }{4}}}}{4}+\frac{\SUPER{\SYMBOL{a}}{5}\TIMES \cos{%
+\PAREN{\frac{\SYMBOL{a}\TIMES \pi }{4}}}}{120}\TIMES \SUPER{\PAREN{\SYMBOL{x}%
+-{\frac{\pi }{4}}}}{5}-{\frac{\SUPER{\SYMBOL{a}}{6}\TIMES \sin{\PAREN{\frac{%
+\SYMBOL{a}\TIMES \pi }{4}}}}{720}\TIMES \SUPER{\PAREN{\SYMBOL{x}-{\frac{\pi %
+}{4}}}}{6}}-{\frac{\SUPER{\SYMBOL{a}}{7}\TIMES \cos{\PAREN{\frac{\SYMBOL{a}%
+\TIMES \pi }{4}}}}{5040}\TIMES \SUPER{\PAREN{\SYMBOL{x}-{\frac{\pi }{4}}}}{7}%
+}+\FUN{O}\PAREN{\SUPER{\PAREN{\SYMBOL{x}-{\frac{\pi }{4}}}}{8}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{UnivariatePuiseuxSeries(Expression(Integer), x, \%pi/4)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\Language{} provides
+\index{series!Puiseux}
+{\it Puiseux series:}
+\index{Puiseux series}
+series with rational number exponents.
+The first argument to \spadfun{series} is an in-place function that
+computes the \eth{n} coefficient.
+(Recall that
+the \spadSyntax{+->} is an infix operator meaning ``maps to.'')
+\end{xtccomment}
+\begin{spadsrc}
+series(n +-> (-1)^((3*n - 4)/6)/factorial(n - 1/3),x = 0,4/3..,2)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\SUPER{\SYMBOL{x}}{\frac{4}{3}}-{\frac{1}{6}\TIMES \SUPER{\SYMBOL{x}}{\frac{%
+10}{3}}}+\FUN{O}\PAREN{\SUPER{\SYMBOL{x}}{4}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{UnivariatePuiseuxSeries(Expression(Integer), x, 0)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Once you have created a power series, you can perform arithmetic operations
+on that series.
+We compute the Taylor expansion of \spad{1/(1-x)}.
+\index{series!Taylor}
+\end{xtccomment}
+\begin{spadsrc}
+f := series(1/(1-x),x = 0) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+1+\SYMBOL{x}+\SUPER{\SYMBOL{x}}{2}+\SUPER{\SYMBOL{x}}{3}+\SUPER{\SYMBOL{x}}{4%
+}+\SUPER{\SYMBOL{x}}{5}+\SUPER{\SYMBOL{x}}{6}+\SUPER{\SYMBOL{x}}{7}+\FUN{O}%
+\PAREN{\SUPER{\SYMBOL{x}}{8}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{UnivariatePuiseuxSeries(Expression(Integer), x, 0)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Compute the square of the series.
+\end{xtccomment}
+\begin{spadsrc}
+f ^ 2 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+1+2\TIMES \SYMBOL{x}+3\TIMES \SUPER{\SYMBOL{x}}{2}+4\TIMES \SUPER{\SYMBOL{x}%
+}{3}+5\TIMES \SUPER{\SYMBOL{x}}{4}+6\TIMES \SUPER{\SYMBOL{x}}{5}+7\TIMES %
+\SUPER{\SYMBOL{x}}{6}+8\TIMES \SUPER{\SYMBOL{x}}{7}+\FUN{O}\PAREN{\SUPER{%
+\SYMBOL{x}}{8}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{UnivariatePuiseuxSeries(Expression(Integer), x, 0)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+The usual elementary functions
+(\spadfun{log}, \spadfun{exp}, trigonometric functions, and so on)
+are defined for power series.
+\end{xtccomment}
+\begin{spadsrc}
+f := series(1/(1-x),x = 0) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+1+\SYMBOL{x}+\SUPER{\SYMBOL{x}}{2}+\SUPER{\SYMBOL{x}}{3}+\SUPER{\SYMBOL{x}}{4%
+}+\SUPER{\SYMBOL{x}}{5}+\SUPER{\SYMBOL{x}}{6}+\SUPER{\SYMBOL{x}}{7}+\FUN{O}%
+\PAREN{\SUPER{\SYMBOL{x}}{8}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{UnivariatePuiseuxSeries(Expression(Integer), x, 0)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+g := log(f) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\SYMBOL{x}+\frac{1}{2}\TIMES \SUPER{\SYMBOL{x}}{2}+\frac{1}{3}\TIMES \SUPER{%
+\SYMBOL{x}}{3}+\frac{1}{4}\TIMES \SUPER{\SYMBOL{x}}{4}+\frac{1}{5}\TIMES %
+\SUPER{\SYMBOL{x}}{5}+\frac{1}{6}\TIMES \SUPER{\SYMBOL{x}}{6}+\frac{1}{7}%
+\TIMES \SUPER{\SYMBOL{x}}{7}+\frac{1}{8}\TIMES \SUPER{\SYMBOL{x}}{8}+\FUN{O}%
+\PAREN{\SUPER{\SYMBOL{x}}{9}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{UnivariatePuiseuxSeries(Expression(Integer), x, 0)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+exp(g) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+1+\SYMBOL{x}+\SUPER{\SYMBOL{x}}{2}+\SUPER{\SYMBOL{x}}{3}+\SUPER{\SYMBOL{x}}{4%
+}+\SUPER{\SYMBOL{x}}{5}+\SUPER{\SYMBOL{x}}{6}+\SUPER{\SYMBOL{x}}{7}+\FUN{O}%
+\PAREN{\SUPER{\SYMBOL{x}}{8}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{UnivariatePuiseuxSeries(Expression(Integer), x, 0)}
+\end{xtc}
+% Warning: currently there are (interpreter) problems with converting
+% rational functions and polynomials to power series.
+\begin{xtc}
+\begin{xtccomment}
+Here is a way to obtain numerical approximations of
+\spad{e} from the Taylor series expansion of \spad{exp(x)}.
+First create the desired Taylor expansion.
+\end{xtccomment}
+\begin{spadsrc}
+f := taylor(exp(x)) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+1+\SYMBOL{x}+\frac{1}{2}\TIMES \SUPER{\SYMBOL{x}}{2}+\frac{1}{6}\TIMES \SUPER%
+{\SYMBOL{x}}{3}+\frac{1}{24}\TIMES \SUPER{\SYMBOL{x}}{4}+\frac{1}{120}\TIMES %
+\SUPER{\SYMBOL{x}}{5}+\frac{1}{720}\TIMES \SUPER{\SYMBOL{x}}{6}+\frac{1}{5040%
+}\TIMES \SUPER{\SYMBOL{x}}{7}+\FUN{O}\PAREN{\SUPER{\SYMBOL{x}}{8}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{UnivariateTaylorSeries(Expression(Integer), x, 0)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Evaluate the series at the value \spad{1.0}.
+% Warning: syntax for evaluating power series may change.
+As you see, you get a sequence of partial sums.
+\end{xtccomment}
+\begin{spadsrc}
+eval(f,1.0) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\BRACKET{\STRING{1.0}\COMMA \STRING{2.0}\COMMA \STRING{2.5}\COMMA \STRING{%
+2.666666666666666666666666666666666666667}\COMMA \STRING{%
+2.708333333333333333333333333333333333333}\COMMA \STRING{%
+2.716666666666666666666666666666666666667}\COMMA \STRING{%
+2.718055555555555555555555555555555555556}\COMMA \STRING{...}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Stream(Expression(Float))}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Derivatives}{ugIntroCalcDeriv}
+% *********************************************************************
+%
+Use the \Language{} function \spadfun{D} to differentiate an
+\index{derivative}
+expression.
+\index{differentiation}
+
+\vskip 2pc
+\begin{xtc}
+\begin{xtccomment}
+To find the derivative of an expression \spad{f} with respect to a
+variable \spad{x}, enter \spad{D(f, x)}.
+\end{xtccomment}
+\begin{spadsrc}
+f := exp exp x 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\SUPER{\EulerE }{\SUPER{\EulerE }{\SYMBOL{x}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+D(f, x) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\SUPER{\EulerE }{\SYMBOL{x}}\TIMES \SUPER{\EulerE }{\SUPER{\EulerE }{\SYMBOL{%
+x}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+An optional third argument \spad{n} in \spadfun{D} asks
+\Language{} for the \eth{n} derivative of \spad{f}.
+This finds the fourth derivative of \spad{f} with respect to \spad{x}.
+\end{xtccomment}
+\begin{spadsrc}
+D(f, x, 4) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\PAREN{\SUPER{\PAREN{\SUPER{\EulerE }{\SYMBOL{x}}}}{4}+6\TIMES \SUPER{\PAREN{%
+\SUPER{\EulerE }{\SYMBOL{x}}}}{3}+7\TIMES \SUPER{\PAREN{\SUPER{\EulerE }{%
+\SYMBOL{x}}}}{2}+\SUPER{\EulerE }{\SYMBOL{x}}}\TIMES \SUPER{\EulerE }{\SUPER{%
+\EulerE }{\SYMBOL{x}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can also compute partial derivatives by specifying the order of
+\index{differentiation!partial}
+differentiation.
+\end{xtccomment}
+\begin{spadsrc}
+g := sin(x^2 + y) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\sin{\PAREN{\SYMBOL{y}+\SUPER{\SYMBOL{x}}{2}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+D(g, y) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\cos{\PAREN{\SYMBOL{y}+\SUPER{\SYMBOL{x}}{2}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+D(g, [y, y, x, x]) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+4\TIMES \SUPER{\SYMBOL{x}}{2}\TIMES \sin{\PAREN{\SYMBOL{y}+\SUPER{\SYMBOL{x}%
+}{2}}}-{2\TIMES \cos{\PAREN{\SYMBOL{y}+\SUPER{\SYMBOL{x}}{2}}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+
+\Language{} can manipulate the derivatives (partial and iterated) of
+\index{differentiation!formal}
+expressions involving formal operators.
+All the dependencies must be explicit.
+\begin{xtc}
+\begin{xtccomment}
+This returns \spad{0} since \spad{F} (so far)
+does not explicitly depend on \spad{x}.
+\end{xtccomment}
+\begin{spadsrc}
+D(F,x)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+0%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Integer)}
+\end{xtc}
+Suppose that we have \spad{F} a function of \spad{x},
+\spad{y}, and \spad{z}, where \spad{x} and \spad{y} are themselves
+functions of \spad{z}.
+\begin{xtc}
+\begin{xtccomment}
+Start by declaring that \spad{F}, \spad{x}, and \spad{y}
+are operators.
+\index{operator}
+\end{xtccomment}
+\begin{spadsrc}
+F := operator 'F; x := operator 'x; y := operator 'y
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+\SYMBOL{y}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{BasicOperator}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can use \spad{F}, \spad{x}, and \spad{y} in expressions.
+\end{xtccomment}
+\begin{spadsrc}
+a := F(x z, y z, z^2) + x y(z+1) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\FUN{x}\PAREN{\FUN{y}\PAREN{\SYMBOL{z}+1}}+\FUN{F}\PAREN{\FUN{x}\PAREN{%
+\SYMBOL{z}},\FUN{y}\PAREN{\SYMBOL{z}},\SUPER{\SYMBOL{z}}{2}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Differentiate formally with respect to \spad{z}.
+The formal derivatives appearing in \spad{dadz} are not just formal symbols,
+but do represent the derivatives of \spad{x}, \spad{y}, and \spad{F}.
+\end{xtccomment}
+\begin{spadsrc}
+dadz := D(a, z)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+2\TIMES \SYMBOL{z}\TIMES \SUB{\SYMBOL{F}}{\SYMBOL{,}3}\PAREN{\FUN{x}\PAREN{%
+\SYMBOL{z}},\FUN{y}\PAREN{\SYMBOL{z}},\SUPER{\SYMBOL{z}}{2}}+\PRIME{\SYMBOL{y%
+}}{\STRING{,}}\PAREN{\SYMBOL{z}}\TIMES \SUB{\SYMBOL{F}}{\SYMBOL{,}2}\PAREN{%
+\FUN{x}\PAREN{\SYMBOL{z}},\FUN{y}\PAREN{\SYMBOL{z}},\SUPER{\SYMBOL{z}}{2}}+%
+\PRIME{\SYMBOL{x}}{\STRING{,}}\PAREN{\SYMBOL{z}}\TIMES \SUB{\SYMBOL{F}}{%
+\SYMBOL{,}1}\PAREN{\FUN{x}\PAREN{\SYMBOL{z}},\FUN{y}\PAREN{\SYMBOL{z}},\SUPER%
+{\SYMBOL{z}}{2}}+\PRIME{\SYMBOL{x}}{\STRING{,}}\PAREN{\FUN{y}\PAREN{\SYMBOL{z%
+}+1}}\TIMES \PRIME{\SYMBOL{y}}{\STRING{,}}\PAREN{\SYMBOL{z}+1}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You can evaluate the above for particular functional
+values of \spad{F}, \spad{x}, and \spad{y}.
+If \spad{x(z)} is \spad{exp(z)} and \spad{y(z)} is \spad{log(z+1)}, then
+this evaluates \spad{dadz}.
+\end{xtccomment}
+\begin{spadsrc}
+eval(eval(dadz, 'x, z +-> exp z), 'y, z +-> log(z+1))
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+\frac{\PAREN{2\TIMES \SUPER{\SYMBOL{z}}{2}+2\TIMES \SYMBOL{z}}\TIMES \SUB{%
+\SYMBOL{F}}{\SYMBOL{,}3}\PAREN{\SUPER{\EulerE }{\SYMBOL{z}},\log{\PAREN{%
+\SYMBOL{z}+1}},\SUPER{\SYMBOL{z}}{2}}+\SUB{\SYMBOL{F}}{\SYMBOL{,}2}\PAREN{%
+\SUPER{\EulerE }{\SYMBOL{z}},\log{\PAREN{\SYMBOL{z}+1}},\SUPER{\SYMBOL{z}}{2}%
+}+\PAREN{\SYMBOL{z}+1}\TIMES \SUPER{\EulerE }{\SYMBOL{z}}\TIMES \SUB{\SYMBOL{%
+F}}{\SYMBOL{,}1}\PAREN{\SUPER{\EulerE }{\SYMBOL{z}},\log{\PAREN{\SYMBOL{z}+1}%
+},\SUPER{\SYMBOL{z}}{2}}+\SYMBOL{z}+1}{\SYMBOL{z}+1}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+You obtain the same result by first evaluating \spad{a} and
+then differentiating.
+\end{xtccomment}
+\begin{spadsrc}
+eval(eval(a, 'x, z +-> exp z), 'y, z +-> log(z+1)) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+\FUN{F}\PAREN{\SUPER{\EulerE }{\SYMBOL{z}},\log{\PAREN{\SYMBOL{z}+1}},\SUPER{%
+\SYMBOL{z}}{2}}+\SYMBOL{z}+2%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+D(%, z)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{13}
+\frac{\PAREN{2\TIMES \SUPER{\SYMBOL{z}}{2}+2\TIMES \SYMBOL{z}}\TIMES \SUB{%
+\SYMBOL{F}}{\SYMBOL{,}3}\PAREN{\SUPER{\EulerE }{\SYMBOL{z}},\log{\PAREN{%
+\SYMBOL{z}+1}},\SUPER{\SYMBOL{z}}{2}}+\SUB{\SYMBOL{F}}{\SYMBOL{,}2}\PAREN{%
+\SUPER{\EulerE }{\SYMBOL{z}},\log{\PAREN{\SYMBOL{z}+1}},\SUPER{\SYMBOL{z}}{2}%
+}+\PAREN{\SYMBOL{z}+1}\TIMES \SUPER{\EulerE }{\SYMBOL{z}}\TIMES \SUB{\SYMBOL{%
+F}}{\SYMBOL{,}1}\PAREN{\SUPER{\EulerE }{\SYMBOL{z}},\log{\PAREN{\SYMBOL{z}+1}%
+},\SUPER{\SYMBOL{z}}{2}}+\SYMBOL{z}+1}{\SYMBOL{z}+1}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Integration}{ugIntroIntegrate}
+% *********************************************************************
+%
+
+\Language{} has extensive library facilities for integration.
+\index{integration}
+
+The first example is the integration of a fraction with
+denominator that factors into a quadratic and a quartic
+irreducible polynomial.
+The usual partial fraction approach used by most other computer
+algebra systems either fails or introduces expensive unneeded
+algebraic numbers.
+
+\begin{xtc}
+\begin{xtccomment}
+We use a factorization-free algorithm.
+\end{xtccomment}
+\begin{spadsrc}
+integrate((x^2+2*x+1)/((x+1)^6+1),x)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\frac{\arctan{\PAREN{\SUPER{\SYMBOL{x}}{3}+3\TIMES \SUPER{\SYMBOL{x}}{2}+3%
+\TIMES \SYMBOL{x}+1}}}{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Expression(Integer), ...)}
+\end{xtc}
+
+When real parameters are present, the form of the integral can depend on
+the signs of some expressions.
+
+\begin{xtc}
+\begin{xtccomment}
+Rather than query the user or make sign assumptions, \Language{} returns
+all possible answers.
+\end{xtccomment}
+\begin{spadsrc}
+integrate(1/(x^2 + a),x)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\BRACKET{\frac{\log{\PAREN{\frac{\PAREN{\SUPER{\SYMBOL{x}}{2}-{\SYMBOL{a}}}%
+\TIMES \sqrt{-{\SYMBOL{a}}}+2\TIMES \SYMBOL{a}\TIMES \SYMBOL{x}}{\SUPER{%
+\SYMBOL{x}}{2}+\SYMBOL{a}}}}}{2\TIMES \sqrt{-{\SYMBOL{a}}}}\COMMA \frac{%
+\arctan{\PAREN{\frac{\SYMBOL{x}\TIMES \sqrt{\SYMBOL{a}}}{\SYMBOL{a}}}}}{\sqrt%
+{\SYMBOL{a}}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(List(Expression(Integer)), ...)}
+\end{xtc}
+
+The \spadfun{integrate} operation generally assumes that all
+parameters are real.
+The only exception is when the integrand has complex valued
+quantities.
+
+\begin{xtc}
+\begin{xtccomment}
+If the parameter is complex instead of real, then the notion of sign is
+undefined and there is a unique answer.
+You can request this answer by ``prepending'' the word ``complex'' to the
+command name:
+\end{xtccomment}
+\begin{spadsrc}
+complexIntegrate(1/(x^2 + a),x)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\frac{\sqrt{-{\frac{1}{\SYMBOL{a}}}}\TIMES \log{\PAREN{\SYMBOL{a}\TIMES \sqrt%
+{-{\frac{1}{\SYMBOL{a}}}}+\SYMBOL{x}}}-{\sqrt{-{\frac{1}{\SYMBOL{a}}}}\TIMES %
+\log{\PAREN{-{\SYMBOL{a}\TIMES \sqrt{-{\frac{1}{\SYMBOL{a}}}}}+\SYMBOL{x}}}}%
+}{2}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+
+The following two examples illustrate the limitations of
+table-based approaches.
+The two integrands are very similar, but the answer to one of them
+requires the addition of two new algebraic numbers.
+
+\begin{xtc}
+\begin{xtccomment}
+This one is the easy one.
+The next one looks very similar
+but the answer is much more complicated.
+\end{xtccomment}
+\begin{spadsrc}
+integrate(x^3 / (a+b*x)^(1/3),x)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\frac{\PAREN{120\TIMES \SUPER{\SYMBOL{b}}{3}\TIMES \SUPER{\SYMBOL{x}}{3}-{135%
+\TIMES \SYMBOL{a}\TIMES \SUPER{\SYMBOL{b}}{2}\TIMES \SUPER{\SYMBOL{x}}{2}}+%
+162\TIMES \SUPER{\SYMBOL{a}}{2}\TIMES \SYMBOL{b}\TIMES \SYMBOL{x}-{243\TIMES %
+\SUPER{\SYMBOL{a}}{3}}}\TIMES \SUPER{\nthroot{\SYMBOL{b}\TIMES \SYMBOL{x}+%
+\SYMBOL{a}}{3}}{2}}{440\TIMES \SUPER{\SYMBOL{b}}{4}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Expression(Integer), ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Only an algorithmic approach
+is guaranteed to find what new constants must be added in order to
+find a solution.
+\end{xtccomment}
+\begin{spadsrc}
+integrate(1 / (x^3 * (a+b*x)^(1/3)),x)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\frac{-{2\TIMES \SUPER{\SYMBOL{b}}{2}\TIMES \SUPER{\SYMBOL{x}}{2}\TIMES \sqrt%
+{3}\TIMES \log{\PAREN{\nthroot{\SYMBOL{a}}{3}\TIMES \SUPER{\nthroot{\SYMBOL{b%
+}\TIMES \SYMBOL{x}+\SYMBOL{a}}{3}}{2}+\SUPER{\nthroot{\SYMBOL{a}}{3}}{2}%
+\TIMES \nthroot{\SYMBOL{b}\TIMES \SYMBOL{x}+\SYMBOL{a}}{3}+\SYMBOL{a}}}}+4%
+\TIMES \SUPER{\SYMBOL{b}}{2}\TIMES \SUPER{\SYMBOL{x}}{2}\TIMES \sqrt{3}%
+\TIMES \log{\PAREN{\SUPER{\nthroot{\SYMBOL{a}}{3}}{2}\TIMES \nthroot{\SYMBOL{%
+b}\TIMES \SYMBOL{x}+\SYMBOL{a}}{3}-{\SYMBOL{a}}}}+12\TIMES \SUPER{\SYMBOL{b}%
+}{2}\TIMES \SUPER{\SYMBOL{x}}{2}\TIMES \arctan{\PAREN{\frac{2\TIMES \sqrt{3}%
+\TIMES \SUPER{\nthroot{\SYMBOL{a}}{3}}{2}\TIMES \nthroot{\SYMBOL{b}\TIMES %
+\SYMBOL{x}+\SYMBOL{a}}{3}+\SYMBOL{a}\TIMES \sqrt{3}}{3\TIMES \SYMBOL{a}}}}+%
+\PAREN{12\TIMES \SYMBOL{b}\TIMES \SYMBOL{x}-{9\TIMES \SYMBOL{a}}}\TIMES \sqrt%
+{3}\TIMES \nthroot{\SYMBOL{a}}{3}\TIMES \SUPER{\nthroot{\SYMBOL{b}\TIMES %
+\SYMBOL{x}+\SYMBOL{a}}{3}}{2}}{18\TIMES \SUPER{\SYMBOL{a}}{2}\TIMES \SUPER{%
+\SYMBOL{x}}{2}\TIMES \sqrt{3}\TIMES \nthroot{\SYMBOL{a}}{3}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Expression(Integer), ...)}
+\end{xtc}
+
+Some computer algebra systems use heuristics or table-driven
+approaches to integration.
+When these systems cannot determine the answer to an integration
+problem, they reply ``I don't know.'' \Language{} uses a
+algorithm for integration.
+that conclusively proves that an integral cannot be expressed in
+terms of elementary functions.
+
+\begin{xtc}
+\begin{xtccomment}
+When \Language{} returns an integral sign, it has proved
+that no answer exists as an elementary function.
+\end{xtccomment}
+\begin{spadsrc}
+integrate(log(1 + sqrt(a*x + b)) / x,x)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\int^{\SYMBOL{x}} \frac{\log{\PAREN{\sqrt{\SYMBOL{b}+\SYMBOL{\%D}\TIMES %
+\SYMBOL{a}}+1}}}{\SYMBOL{\%D}}\TIMES \SYMBOL{d}\SYMBOL{\%D}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Expression(Integer), ...)}
+\end{xtc}
+\Language{} can handle complicated mixed functions much beyond what you
+can find in tables.
+\begin{xtc}
+\begin{xtccomment}
+Whenever possible, \Language{} tries to express the answer using the functions
+present in the integrand.
+\end{xtccomment}
+\begin{spadsrc}
+integrate((sinh(1+sqrt(x+b))+2*sqrt(x+b)) / (sqrt(x+b) * (x + cosh(1+sqrt(x + b)))), x)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+2\TIMES \log{\PAREN{\frac{-{2\TIMES \cosh{\PAREN{\sqrt{\SYMBOL{x}+\SYMBOL{b}}%
++1}}}-{2\TIMES \SYMBOL{x}}}{\sinh{\PAREN{\sqrt{\SYMBOL{x}+\SYMBOL{b}}+1}}-{%
+\cosh{\PAREN{\sqrt{\SYMBOL{x}+\SYMBOL{b}}+1}}}}}}-{2\TIMES \sqrt{\SYMBOL{x}+%
+\SYMBOL{b}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Expression(Integer), ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+A strong structure-checking algorithm in \Language{} finds hidden algebraic
+relationships between functions.
+\end{xtccomment}
+\begin{spadsrc}
+integrate(tan(atan(x)/3),x)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+\frac{8\TIMES \log{\PAREN{3\TIMES \SUPER{\PAREN{\tan{\PAREN{\frac{\arctan{%
+\SYMBOL{x}}}{3}}}}}{2}-{1}}}-{3\TIMES \SUPER{\PAREN{\tan{\PAREN{\frac{\arctan%
+{\SYMBOL{x}}}{3}}}}}{2}}+18\TIMES \SYMBOL{x}\TIMES \tan{\PAREN{\frac{\arctan{%
+\SYMBOL{x}}}{3}}}}{18}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Expression(Integer), ...)}
+\end{xtc}
+\noindent
+%%--> Bob---> please make these formulas in this section smaller.
+The discovery of this algebraic relationship is necessary for correct
+integration of this function.
+Here are the details:
+\begin{enumerate}
+\item
+If $x=\tan t$ and
+$g=\tan (t/3)$ then the following
+algebraic relation is true:
+$${g^3-3xg^2-3g+x=0}$$
+\item
+Integrate \spad{g} using this algebraic relation; this produces:
+\begin{displaymath}
+\frac{(24g^2 - 8)\log(3g^2 - 1) + (81x^2 + 24)g^2 + 72xg - 27x^2 - 16}%
+  {54g^2 - 18}
+\end{displaymath}
+\item
+Rationalize the denominator, producing:
+\begin{displaymath}
+\frac{8\log(3g^2-1) - 3g^2 + 18xg + 16}{18}
+\end{displaymath}
+Replace \spad{g} by the initial definition
+$g = \tan(\arctan(x)/3)$
+to produce the final result.
+\end{enumerate}
+
+\begin{xtc}
+\begin{xtccomment}
+This is an example of a mixed function where
+the algebraic layer is over the transcendental one.
+\end{xtccomment}
+\begin{spadsrc}
+integrate((x + 1) / (x*(x + log x) ^ (3/2)), x)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+-{\frac{2\TIMES \sqrt{\log{\SYMBOL{x}}+\SYMBOL{x}}}{\log{\SYMBOL{x}}+\SYMBOL{%
+x}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Expression(Integer), ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+While incomplete for non-elementary functions, \Language{} can
+handle some of them.
+\end{xtccomment}
+\begin{spadsrc}
+integrate(exp(-x^2) * erf(x) / (erf(x)^3 - erf(x)^2 - erf(x) + 1),x)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\frac{\PAREN{\erf{\SYMBOL{x}}-{1}}\TIMES \sqrt{\pi }\TIMES \log{\PAREN{\frac{%
+\erf{\SYMBOL{x}}-{1}}{\erf{\SYMBOL{x}}+1}}}-{2\TIMES \sqrt{\pi }}}{8\TIMES %
+\erf{\SYMBOL{x}}-{8}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Expression(Integer), ...)}
+\end{xtc}
+
+More examples of \Language{}'s integration capabilities are discussed in
+\spadref{ugProblemIntegration}.
+
+% *********************************************************************
+\head{section}{Differential Equations}{ugIntroDiffEqns}
+% *********************************************************************
+%
+The general approach used in integration also carries over to the
+solution of linear differential equations.
+
+\begin{xtc}
+\begin{xtccomment}
+Let's solve some differential equations.
+Let \spad{y} be the unknown function in terms of \spad{x}.
+\end{xtccomment}
+\begin{spadsrc}
+y := operator 'y 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\SYMBOL{y}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{BasicOperator}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here we solve a third order equation with polynomial coefficients.
+\end{xtccomment}
+\begin{spadsrc}
+deq := x^3 * D(y x, x, 3) + x^2 * D(y x, x, 2) - 2 * x * D(y x, x) + 2 * y x = 2 * x^4 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\SUPER{\SYMBOL{x}}{3}\TIMES \PRIME{\SYMBOL{y}}{\STRING{,,,}}\PAREN{\SYMBOL{x}%
+}+\SUPER{\SYMBOL{x}}{2}\TIMES \PRIME{\SYMBOL{y}}{\STRING{,,}}\PAREN{\SYMBOL{x%
+}}-{2\TIMES \SYMBOL{x}\TIMES \PRIME{\SYMBOL{y}}{\STRING{,}}\PAREN{\SYMBOL{x}}%
+}+2\TIMES \FUN{y}\PAREN{\SYMBOL{x}}=2\TIMES \SUPER{\SYMBOL{x}}{4}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Equation(Expression(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+solve(deq, y, x) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\BRACKET{\SYMBOL{particular}=\frac{\SUPER{\SYMBOL{x}}{5}-{10\TIMES \SUPER{%
+\SYMBOL{x}}{3}}+20\TIMES \SUPER{\SYMBOL{x}}{2}+4}{15\TIMES \SYMBOL{x}}\COMMA %
+\SYMBOL{basis}=\BRACKET{\frac{2\TIMES \SUPER{\SYMBOL{x}}{3}-{3\TIMES \SUPER{%
+\SYMBOL{x}}{2}}+1}{\SYMBOL{x}}\COMMA \frac{\SUPER{\SYMBOL{x}}{3}-{1}}{\SYMBOL%
+{x}}\COMMA \frac{\SUPER{\SYMBOL{x}}{3}-{3\TIMES \SUPER{\SYMBOL{x}}{2}}-{1}}{%
+\SYMBOL{x}}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Record(particular: Expression(Integer), basis: List(Expression(Integer))), ...)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here we find all the algebraic function solutions of the equation.
+\end{xtccomment}
+\begin{spadsrc}
+deq := (x^2 + 1) * D(y x, x, 2) + 3 * x * D(y x, x) + y x = 0 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\PAREN{\SUPER{\SYMBOL{x}}{2}+1}\TIMES \PRIME{\SYMBOL{y}}{\STRING{,,}}\PAREN{%
+\SYMBOL{x}}+3\TIMES \SYMBOL{x}\TIMES \PRIME{\SYMBOL{y}}{\STRING{,}}\PAREN{%
+\SYMBOL{x}}+\FUN{y}\PAREN{\SYMBOL{x}}=0%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Equation(Expression(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+solve(deq, y, x) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\BRACKET{\SYMBOL{particular}=0\COMMA \SYMBOL{basis}=\BRACKET{\frac{1}{\sqrt{%
+\SUPER{\SYMBOL{x}}{2}+1}}\COMMA \frac{\log{\PAREN{\sqrt{\SUPER{\SYMBOL{x}}{2}%
++1}-{\SYMBOL{x}}}}}{\sqrt{\SUPER{\SYMBOL{x}}{2}+1}}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Record(particular: Expression(Integer), basis: List(Expression(Integer))), ...)}
+\end{xtc}
+
+Coefficients of differential equations can come from arbitrary
+constant fields.
+For example, coefficients can contain algebraic numbers.
+
+\begin{xtc}
+\begin{xtccomment}
+This example has solutions
+whose logarithmic derivative is an algebraic function of
+degree two.
+\end{xtccomment}
+\begin{spadsrc}
+eq := 2*x^3 * D(y x,x,2) + 3*x^2 * D(y x,x) - 2 * y x
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+2\TIMES \SUPER{\SYMBOL{x}}{3}\TIMES \PRIME{\SYMBOL{y}}{\STRING{,,}}\PAREN{%
+\SYMBOL{x}}+3\TIMES \SUPER{\SYMBOL{x}}{2}\TIMES \PRIME{\SYMBOL{y}}{\STRING{,}%
+}\PAREN{\SYMBOL{x}}-{2\TIMES \FUN{y}\PAREN{\SYMBOL{x}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Expression(Integer)}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+solve(eq,y,x).basis
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{7}
+\BRACKET{\SUPER{\EulerE }{-{\frac{2}{\sqrt{\SYMBOL{x}}}}}\COMMA \SUPER{%
+\EulerE }{\frac{2}{\sqrt{\SYMBOL{x}}}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Expression(Integer))}
+\end{xtc}
+
+\begin{xtc}
+\begin{xtccomment}
+Here's another differential equation to solve.
+\end{xtccomment}
+\begin{spadsrc}
+deq := D(y x, x) = y(x) / (x + y(x) * log y x) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{8}
+\PRIME{\SYMBOL{y}}{\STRING{,}}\PAREN{\SYMBOL{x}}=\frac{\FUN{y}\PAREN{\SYMBOL{%
+x}}}{\FUN{y}\PAREN{\SYMBOL{x}}\TIMES \log{\FUN{y}\PAREN{\SYMBOL{x}}}+\SYMBOL{%
+x}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Equation(Expression(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+solve(deq, y, x) 
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{9}
+\frac{\FUN{y}\PAREN{\SYMBOL{x}}\TIMES \SUPER{\PAREN{\log{\FUN{y}\PAREN{%
+\SYMBOL{x}}}}}{2}-{2\TIMES \SYMBOL{x}}}{2\TIMES \FUN{y}\PAREN{\SYMBOL{x}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Union(Expression(Integer), ...)}
+\end{xtc}
+
+Rather than attempting to get a closed form solution of
+a differential equation, you instead might want to find an
+approximate solution in the form of a series.
+
+\begin{xtc}
+\begin{xtccomment}
+Let's solve a system of nonlinear first order equations and get a
+solution in power series.
+Tell \Language{} that \spad{x} is also an operator.
+\end{xtccomment}
+\begin{spadsrc}
+x := operator 'x
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{10}
+\SYMBOL{x}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{BasicOperator}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Here are the two equations forming our system.
+\end{xtccomment}
+\begin{spadsrc}
+eq1 := D(x(t), t) = 1 + x(t)^2
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{11}
+\PRIME{\SYMBOL{x}}{\STRING{,}}\PAREN{\SYMBOL{t}}=\SUPER{\FUN{x}\PAREN{\SYMBOL%
+{t}}}{2}+1%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Equation(Expression(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+eq2 := D(y(t), t) = x(t) * y(t)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{12}
+\PRIME{\SYMBOL{y}}{\STRING{,}}\PAREN{\SYMBOL{t}}=\FUN{x}\PAREN{\SYMBOL{t}}%
+\TIMES \FUN{y}\PAREN{\SYMBOL{t}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Equation(Expression(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+We can solve the system around \spad{t = 0} with the initial conditions
+\spad{x(0) = 0} and \spad{y(0) = 1}.
+Notice that since we give the unknowns in the
+order \spad{[x, y]}, the answer is a list of two series in the order
+\spad{[series for x(t), series for y(t)]}.
+\end{xtccomment}
+\begin{spadsrc}
+seriesSolve([eq2, eq1], [x, y], t = 0, [y(0) = 1, x(0) = 0])
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function %IX with type List(UnivariateTaylorSeries(
+      Expression(Integer),t,0)) -> UnivariateTaylorSeries(Expression(
+      Integer),t,0) 
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function %IY with type List(UnivariateTaylorSeries(
+      Expression(Integer),t,0)) -> UnivariateTaylorSeries(Expression(
+      Integer),t,0) 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{13}
+\BRACKET{\SYMBOL{t}+\frac{1}{3}\TIMES \SUPER{\SYMBOL{t}}{3}+\frac{2}{15}%
+\TIMES \SUPER{\SYMBOL{t}}{5}+\frac{17}{315}\TIMES \SUPER{\SYMBOL{t}}{7}+\FUN{%
+O}\PAREN{\SUPER{\SYMBOL{t}}{8}}\COMMA 1+\frac{1}{2}\TIMES \SUPER{\SYMBOL{t}}{%
+2}+\frac{5}{24}\TIMES \SUPER{\SYMBOL{t}}{4}+\frac{61}{720}\TIMES \SUPER{%
+\SYMBOL{t}}{6}+\FUN{O}\PAREN{\SUPER{\SYMBOL{t}}{8}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(UnivariateTaylorSeries(Expression(Integer), t, 0))}
+\end{xtc}
+
+% *********************************************************************
+\head{section}{Solution of Equations}{ugIntroSolution}
+% *********************************************************************
+%
+
+\Language{} also has state-of-the-art algorithms for the solution
+of systems of polynomial equations.
+When the number of equations and unknowns is the same, and you
+have no symbolic coefficients, you can use \spadfun{solve} for
+real roots and \spadfun{complexSolve} for complex roots.
+In each case, you tell \Language{} how accurate you want your
+result to be.
+All operations in the \spadfun{solve} family return answers in
+the form of a list of solution sets, where each solution set is a
+list of equations.
+
+\begin{xtc}
+\begin{xtccomment}
+A system of two equations involving a symbolic
+parameter \spad{t}.
+\end{xtccomment}
+\begin{spadsrc}
+S(t) == [x^2-2*y^2 - t,x*y-y-5*x + 5]
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Find the real roots of \spad{S(19)} with
+rational arithmetic, correct to within \smath{1/10^{20}}.
+\end{xtccomment}
+\begin{spadsrc}
+solve(S(19),1/10^20)
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function S with type PositiveInteger -> List(Polynomial(
+      Integer)) 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{2}
+\BRACKET{\BRACKET{\SYMBOL{y}=5\COMMA \SYMBOL{x}=-{\frac{%
+80336736493669365924 189585}{96714065569170333976 49408}}}\COMMA \BRACKET{%
+\SYMBOL{y}=5\COMMA \SYMBOL{x}=\frac{80336736493669365924 189585}{%
+96714065569170333976 49408}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(List(Equation(Polynomial(Fraction(Integer)))))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Find the complex roots of \spad{S(19)} with floating
+point coefficients to \spad{20} digits accuracy in the mantissa.
+\end{xtccomment}
+\begin{spadsrc}
+complexSolve(S(19),10.e-20)
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{3}
+\BRACKET{\BRACKET{\SYMBOL{y}=\STRING{5.0}\COMMA \SYMBOL{x}=\STRING{%
+8.306623862918074852584262744905695155698151691481840582865006639146088}}%
+\COMMA \BRACKET{\SYMBOL{y}=\STRING{5.0}\COMMA \SYMBOL{x}=-{\STRING{%
+8.306623862918074852584262744905695155698}}}\COMMA \BRACKET{\SYMBOL{y}=-{%
+\STRING{3.0}\TIMES \ImaginaryI }\COMMA \SYMBOL{x}=\STRING{1.0}}\COMMA %
+\BRACKET{\SYMBOL{y}=\STRING{3.0}\TIMES \ImaginaryI \COMMA \SYMBOL{x}=\STRING{%
+1.0}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(List(Equation(Polynomial(Complex(Float)))))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+If a system of equations has symbolic coefficients and you want
+a solution in radicals, try \spadfun{radicalSolve}.
+\end{xtccomment}
+\begin{spadsrc}
+radicalSolve(S(a),[x,y])
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function S with type Variable(a) -> List(Polynomial(
+      Integer)) 
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+\BRACKET{\BRACKET{\SYMBOL{x}=-{\sqrt{\SYMBOL{a}+50}}\COMMA \SYMBOL{y}=5}%
+\COMMA \BRACKET{\SYMBOL{x}=\sqrt{\SYMBOL{a}+50}\COMMA \SYMBOL{y}=5}\COMMA %
+\BRACKET{\SYMBOL{x}=1\COMMA \SYMBOL{y}=\frac{\sqrt{-{\SYMBOL{a}}+1}}{\sqrt{2}%
+}}\COMMA \BRACKET{\SYMBOL{x}=1\COMMA \SYMBOL{y}=-{\frac{\sqrt{-{\SYMBOL{a}}+1%
+}}{\sqrt{2}}}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(List(Equation(Expression(Integer))))}
+\end{xtc}
+For systems of equations with symbolic coefficients, you can
+apply \spadfun{solve}, listing the variables that you want
+\Language{} to solve for.
+For polynomial equations, a solution cannot usually be expressed
+solely in terms of the other variables.
+Instead, the solution is presented as a ``triangular'' system of
+equations, where each polynomial has coefficients involving
+only the succeeding variables. This is analogous to converting  a linear system
+of equations to ``triangular form''.
+\begin{xtc}
+\begin{xtccomment}
+A system of three equations in five variables.
+\end{xtccomment}
+\begin{spadsrc}
+eqns := [x^2 - y + z,x^2*z + x^4 - b*y, y^2 *z - a - b*x]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{5}
+\BRACKET{\SYMBOL{z}-{\SYMBOL{y}}+\SUPER{\SYMBOL{x}}{2}\COMMA \SUPER{\SYMBOL{x%
+}}{2}\TIMES \SYMBOL{z}-{\SYMBOL{b}\TIMES \SYMBOL{y}}+\SUPER{\SYMBOL{x}}{4}%
+\COMMA \SUPER{\SYMBOL{y}}{2}\TIMES \SYMBOL{z}-{\SYMBOL{b}\TIMES \SYMBOL{x}}-{%
+\SYMBOL{a}}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(Polynomial(Integer))}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+Solve the system for unknowns \smath{[x,y,z]},
+reducing the solution to triangular form.
+\end{xtccomment}
+\begin{spadsrc}
+solve(eqns,[x,y,z])
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+\BRACKET{\BRACKET{\SYMBOL{x}=-{\frac{\SYMBOL{a}}{\SYMBOL{b}}}\COMMA \SYMBOL{y%
+}=0\COMMA \SYMBOL{z}=-{\frac{\SUPER{\SYMBOL{a}}{2}}{\SUPER{\SYMBOL{b}}{2}}}}%
+\COMMA \BRACKET{\SYMBOL{x}=\frac{\SUPER{\SYMBOL{z}}{3}+2\TIMES \SYMBOL{b}%
+\TIMES \SUPER{\SYMBOL{z}}{2}+\SUPER{\SYMBOL{b}}{2}\TIMES \SYMBOL{z}-{\SYMBOL{%
+a}}}{\SYMBOL{b}}\COMMA \SYMBOL{y}=\SYMBOL{z}+\SYMBOL{b}\COMMA \SUPER{\SYMBOL{%
+z}}{6}+4\TIMES \SYMBOL{b}\TIMES \SUPER{\SYMBOL{z}}{5}+6\TIMES \SUPER{\SYMBOL{%
+b}}{2}\TIMES \SUPER{\SYMBOL{z}}{4}+\PAREN{4\TIMES \SUPER{\SYMBOL{b}}{3}-{2%
+\TIMES \SYMBOL{a}}}\TIMES \SUPER{\SYMBOL{z}}{3}+\PAREN{\SUPER{\SYMBOL{b}}{4}-%
+{4\TIMES \SYMBOL{a}\TIMES \SYMBOL{b}}}\TIMES \SUPER{\SYMBOL{z}}{2}-{2\TIMES %
+\SYMBOL{a}\TIMES \SUPER{\SYMBOL{b}}{2}\TIMES \SYMBOL{z}}-{\SUPER{\SYMBOL{b}}{%
+3}}+\SUPER{\SYMBOL{a}}{2}=0}}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{List(List(Equation(Fraction(Polynomial(Integer)))))}
+\end{xtc}
+% *********************************************************************
+\head{section}{System Commands}{ugIntroSysCmmands}
+% *********************************************************************
+%
+
+We conclude our tour of \Language{} with a brief discussion
+of \spadgloss{system commands}.
+System commands are special statements that start with a
+closing parenthesis (\spadSyntax{)}). They are used to control or
+display your \Language{} environment, start the \HyperName{}
+system, issue operating system commands and leave \Language{}.
+For example, \spadsys{)system} is used
+to issue commands to the operating system from \Language{}.
+\syscmdindex{system}
+Here is a brief description of some of these commands.
+For more information on specific commands, see
+\appxref{ugSysCmd}.
+
+Perhaps the most important user command is the \spadsys{)clear all}
+command that initializes your environment.
+Every section and subsection in this book has an invisible
+\spadsys{)clear all} that is read prior to the examples given in
+the section.
+\spadsys{)clear all} gives you a fresh, empty environment with no
+user variables defined and the step number reset to \spad{1}.
+The \spadsys{)clear} command can also be used to selectively clear
+values and properties of system variables.
+
+Another useful system command is \spadsys{)read}.
+A preferred way to develop an application in \Language{} is to put
+your interactive commands into a file, say {\bf my.input} file.
+To get \Language{} to read this file, you use the system command
+\spadsys{)read my.input}.
+If you need to make changes to your approach or definitions, go
+into your favorite editor, change {\bf my.input}, then
+\spadsys{)read my.input} again.
+
+Other system commands include: \spadsys{)history}, to display
+previous input and/or output lines; \spadsys{)display}, to display
+properties and values of workspace variables; and \spadsys{)what}.
+
+\begin{xtc}
+\begin{xtccomment}
+Issue \spadsys{)what} to get a list of \Language{} objects that
+contain a given substring in their name.
+\end{xtccomment}
+\begin{spadsrc}
+)what operations integrate
+\end{spadsrc}
+\begin{SysCmdOutput}
+
+Operations whose names satisfy the above pattern(s):
+
+HermiteIntegrate      algintegrate          complexIntegrate      
+expintegrate          fintegrate            infieldIntegrate      
+integrate             integrateIfCan        integrate_sols        
+internalIntegrate     internalIntegrate0    lambintegrate         
+lazyGintegrate        lazyIntegrate         lfintegrate           
+monomialIntegrate     palgintegrate         pmComplexintegrate    
+pmintegrate           primintegrate         
+   
+      To get more information about an operation such as integrate , 
+      issue the command )display op integrate 
+\end{SysCmdOutput}
+\end{xtc}
+
+% *********************************************************************
+%\head{subsection}{Undo}{ugIntroUndo}
+% *********************************************************************
+
+A useful system command is \spadsys{)undo}.
+Sometimes while computing interactively with \Language{}, you make
+a mistake and enter an incorrect definition or assignment.
+Or perhaps you
+need to try one of several alternative approaches, one after
+another, to find the best way to approach an application.
+For this, you will find the \spadgloss{undo} facility of
+\Language{} helpful.
+
+System command \spadsys{)undo n} means ``undo back to step \spad{n}''; it
+restores the values of user variables to those that existed
+immediately after input expression \spad{n} was evaluated.
+Similarly, \spadsys{)undo -n} undoes changes caused by the last
+\spad{n} input expressions.
+Once you have done an \spadsys{)undo},
+you can continue on from there, or make a change and
+{\bf redo} all your input expressions from the point
+of the \spadsys{)undo} forward.
+The \spadsys{)undo} is completely general: it changes the environment
+like any user expression.
+Thus you can \spadsys{)undo} any previous undo.
+
+Here is a sample dialogue between user and \Language{}.
+\begin{xtc}
+\begin{xtccomment}
+``Let me define
+two mutually dependent functions \spad{f} and \spad{g} piece-wise.''
+\end{xtccomment}
+\begin{spadsrc}
+f(0) == 1; g(0) == 1
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+``Here is the general term for \spad{f}.''
+\end{xtccomment}
+\begin{spadsrc}
+f(n) == e/2*f(n-1) - x*g(n-1)
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+``And here is the general term for \spad{g}.''
+\end{xtccomment}
+\begin{spadsrc}
+g(n) == -x*f(n-1) + d/3*g(n-1)
+\end{spadsrc}
+\end{xtc}
+\begin{xtc}
+\begin{xtccomment}
+``What is value of \spad{f(3)}?''
+\end{xtccomment}
+\begin{spadsrc}
+f(3)
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function g with type Integer -> Polynomial(Fraction(
+      Integer)) 
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function g as a recurrence relation.
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function g with type Integer -> Polynomial(Fraction(
+      Integer)) 
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function g as a recurrence relation.
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function f with type Integer -> Polynomial(Fraction(
+      Integer)) 
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function f as a recurrence relation.
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{4}
+-{\SUPER{\SYMBOL{x}}{3}}+\PAREN{\SYMBOL{e}+\frac{1}{3}\TIMES \SYMBOL{d}}%
+\TIMES \SUPER{\SYMBOL{x}}{2}+\PAREN{-{\frac{1}{4}\TIMES \SUPER{\SYMBOL{e}}{2}%
+}-{\frac{1}{6}\TIMES \SYMBOL{d}\TIMES \SYMBOL{e}}-{\frac{1}{9}\TIMES \SUPER{%
+\SYMBOL{d}}{2}}}\TIMES \SYMBOL{x}+\frac{1}{8}\TIMES \SUPER{\SYMBOL{e}}{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Fraction(Integer))}
+\end{xtc}
+\begin{noOutputXtc}
+\begin{xtccomment}
+``Hmm, I think I want to define \spad{f} differently.
+Undo to the environment right after I defined \spad{f}.''
+\end{xtccomment}
+\begin{spadsrc}
+)undo 2
+\end{spadsrc}
+\end{noOutputXtc}
+\begin{xtc}
+\begin{xtccomment}
+``Here is how I think I want \spad{f} to be defined instead.''
+\end{xtccomment}
+\begin{spadsrc}
+f(n) == d/3*f(n-1) - x*g(n-1)
+\end{spadsrc}
+\begin{MessageOutput}
+   1 old definition(s) deleted for function or rule f 
+\end{MessageOutput}
+\end{xtc}
+\begin{noOutputXtc}
+\begin{xtccomment}
+Redo the computation from expression \spad{3} forward.
+\end{xtccomment}
+\begin{spadsrc}
+)undo )redo
+\end{spadsrc}
+\end{noOutputXtc}
+\begin{noOutputXtc}
+\begin{xtccomment}
+``I want my old definition of
+\spad{f} after all. Undo the undo and restore
+the environment to that immediately after \spad{(4)}.''
+\end{xtccomment}
+\begin{spadsrc}
+)undo 4
+\end{spadsrc}
+\end{noOutputXtc}
+\begin{xtc}
+\begin{xtccomment}
+``Check that the value of \spad{f(3)} is restored.''
+\end{xtccomment}
+\begin{spadsrc}
+f(3)
+\end{spadsrc}
+\begin{MessageOutput}
+   Compiling function g with type Integer -> Polynomial(Fraction(
+      Integer)) 
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function g as a recurrence relation.
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function g with type Integer -> Polynomial(Fraction(
+      Integer)) 
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function g as a recurrence relation.
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function f with type Integer -> Polynomial(Fraction(
+      Integer)) 
+\end{MessageOutput}
+\begin{MessageOutput}
+   Compiling function f as a recurrence relation.
+\end{MessageOutput}
+\begin{TeXOutput}
+\begin{fricasmath}{6}
+-{\SUPER{\SYMBOL{x}}{3}}+\PAREN{\SYMBOL{e}+\frac{1}{3}\TIMES \SYMBOL{d}}%
+\TIMES \SUPER{\SYMBOL{x}}{2}+\PAREN{-{\frac{1}{4}\TIMES \SUPER{\SYMBOL{e}}{2}%
+}-{\frac{1}{6}\TIMES \SYMBOL{d}\TIMES \SYMBOL{e}}-{\frac{1}{9}\TIMES \SUPER{%
+\SYMBOL{d}}{2}}}\TIMES \SYMBOL{x}+\frac{1}{8}\TIMES \SUPER{\SYMBOL{e}}{3}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Polynomial(Fraction(Integer))}
+\end{xtc}
+
+After you have gone off on several tangents, then backtracked to
+previous points in your conversation using \spadsys{)undo}, you
+might want to save all the ``correct'' input commands you issued,
+disregarding those undone.
+The system command \spadsys{)history )write mynew.input} writes a
+clean straight-line program onto the file {\bf mynew.input} on
+your disk.
+
+This concludes your tour of \Language{}.
+To disembark, issue the system command \spadsys{)quit} to leave \Language{}
+and return to the operating system.

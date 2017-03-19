@@ -56,7 +56,7 @@
 \def\Clef{{Clef}}
 \def\Gallery{{\Language{} Images}}
 \def\HyperName{{HyperDoc}}
-\newcommand{\Language}{{FriCAS}}
+\def\Language{{FriCAS}}
 \def\Lisp{{Common LISP}}
 \def\Fortran{Fortran}
 \def\aldor{Aldor}
@@ -240,8 +240,14 @@
 % ------------------------------------------------------------------------
 
 % for some reason morekeywords swallows a space, so we reintroduce it here
-% ++ Handling of types
-\newcommand{\formatResultType}[1]{#1}
+\def\formatResultType#1{\begingroup
+  \begin{ColoredBackground}{bgresulttype}
+    \hfill
+    \lstinline[%
+      basicstyle=\footnotesize\sffamily\color{blue},%
+      literate={->}{$\to$}{2},%
+      breaklines=true,]`#1`%
+  \end{ColoredBackground}\endgroup}
 
 \lstdefinelanguage{spad}{basicstyle=\footnotesize\ttfamily,%
   comment=[l]--,commentstyle=\footnotesize\color{blue},texcl,%
@@ -249,22 +255,10 @@
 
 \lstset{language={},basicstyle=\footnotesize\ttfamily}
 
-%% just a test
-\newenvironment{spadsrc}
-    {\begin{center}
-    \begin{tabular}{|p{0.9\textwidth}|}
-    \hline\\ \hbar
-    }
-    { 
-    \\\\\hline
-    \end{tabular} 
-    \end{center}
-    }
-
-%%\lstnewenvironment{spadsrc}%
-%%  {\lstset{language=spad,backgroundcolor=\color{bgspadinputcolor},%
-%%      breaklines=true,breakatwhitespace=true,prebreak={\_}}}%
-%%  {}
+\lstnewenvironment{spadsrc}%
+  {\lstset{language=spad,backgroundcolor=\color{bgspadinputcolor},%
+      breaklines=true,breakatwhitespace=true,prebreak={\_}}}%
+  {}
 \lstnewenvironment{SysCmdOutput}%
   {\lstset{backgroundcolor=\color{bgmessagecolor}}}%
   {}

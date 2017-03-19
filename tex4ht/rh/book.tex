@@ -1,8 +1,23 @@
 \documentclass[twoside,a4paper]{book}
-\usepackage{fricasrst}
-\title{BOOK}
-\begin{document}
+\usepackage{fricas}
 
+\begin{document}
+%
+% \thispagestyle{empty}
+% \vspace*{1in}
+% {\Large\sf Richard D. Jenks \hfill Robert S. Sutor \newline
+% \vskip 1in
+% \begin{center}
+% \LARGE\sf AXIOM \\
+% \quad \\ \quad \\
+% \Large\sf The Scientific Computation System
+% \quad \\ \quad \\ \vskip 1.5in
+% \normalsize\rm Draft: \today
+% \end{center}}
+% \newpage
+% \thispagestyle{empty}
+% \quad
+%
 \pagenumbering{roman}
 \setcounter{page}{0}
 
@@ -46,50 +61,51 @@
 %
 \pagenumbering{arabic}
 \setcounter{chapter}{-1}
-\input{nug00}
+\input{ug00}
 \input{tecintro}  % This ha no chapter number.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% awk -f pand.awk ug00.tex > nug00.tex 
-% pandoc -f latex -t rst book.tex > book.rst
-% set a title
-% make html
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \part{Basic Features of \Language{}}
 %
-%%\input{ug01}
-%%\input{ug02}
-%%\input{ug03}
-%%\input{ug04}
-%%\input{ug05}
-%%\input{ug06}
+\input{ug01}
+\input{ug02}
+\input{ug03}
+\input{ug04}
+\input{ug05}
+\input{ug06}
 
-%%\input{ug07}
-
+%--rhx: TODO:
+% Unfortunately ug07 uses \item[\spadfun{foo}] which doesn't work
+% since \spadfun has a verbatim-like argument. Fortunately, that only
+% happens inside the description environment. So we simply redefine it
+% for this chapter. Better rewrite the text in ug07.
+\begingroup
+\let\spaddescriptionsave\description
+\def\description{\def\spadfun{\textspadfun}\spaddescriptionsave}
+\input{ug07}
+\endgroup
 
 \part{Advanced Problem Solving and Examples}
 %
-%%\input{ug08}
-%%\input{ug09}
+\input{ug08}
+\input{ug09}
 
 \part{Advanced Programming in \Language{}}
 %
-%%\input{ug10}
-%%\input{ug11}
-%%\input{ug12}
-%%\input{ug13}
-%%\input{ug14}
-%%\input{ug15}
+\input{ug10}
+\input{ug11}
+\input{ug12}
+\input{ug13}
+\input{ug14}
+\input{ug15}
 %
 \appendix
 
-%%\input{ug16}
+\input{ug16}
 %\input{ug17}
 %\input{ug18}
 %\input{ug19}
 %\input{ug20}
-%%\input{ug21}
+\input{ug21}
 %
 \printindex
 \end{document}

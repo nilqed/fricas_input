@@ -1,0 +1,1598 @@
+% !! DO NOT MODIFY THIS FILE BY HAND !! Created by spool2tex.awk.
+% Copyright (c) 1991-2002, The Numerical ALgorithms Group Ltd.
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are
+% met:
+%
+%     - Redistributions of source code must retain the above copyright
+%       notice, this list of conditions and the following disclaimer.
+%
+%     - Redistributions in binary form must reproduce the above copyright
+%       notice, this list of conditions and the following disclaimer in
+%       the documentation and/or other materials provided with the
+%       distribution.
+%
+%     - Neither the name of The Numerical ALgorithms Group Ltd. nor the
+%       names of its contributors may be used to endorse or promote products
+%       derived from this software without specific prior written permission.
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+% IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+% TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+% PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+% OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+% EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+% PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES-- LOSS OF USE, DATA, OR
+% PROFITS-- OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+% LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+% NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+% SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+
+% *********************************************************************
+\head{chapter}{What's New in FriCAS}{ugWhatsNew}
+% *********************************************************************
+
+%------------------------------------------------------------------
+\head{section}{Release Notes}{releaseNotes}
+%------------------------------------------------------------------
+\Language{} information can be found online at
+{http://fricas.sourceforge.net}
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.3.1}
+%------------------------------------------------------------------
+\begin{itemize}
+
+\item Categories with associative multiplication are now subcategories
+      of categories with nonassociative multiplication.
+
+\item Inlining optimization in now effective also in command line
+      (interpreter) compiler.
+
+\item Added conversions between finitely presented groups
+      and permutation groups (Todd-Coxeter algorithm) and
+      back.
+
+\item Removed special handling of coercion of String to OutputForm
+      from Spad compiler.
+
+\item Former FramedModule is renamed to FractionalIdealAsModule.
+      Added new FramedModule.
+
+\item Whole interpreter is now included in executable (no need
+      to load parts before use).
+
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+
+\item Fixed build with sbcl-1.3.13.
+
+\item Limits using the name of variable in limit point work
+      now.
+
+\item A few output fixes.
+
+\item Several integrator fixes.
+
+\item Removed wrond interpreter transform of '~='.
+
+\item Fixed compilation of type parameters containing non-type values.
+
+\item Plots sometimes used single precision.  Now they should
+      always use double precision.
+
+\end{itemize}
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.3.0}
+%------------------------------------------------------------------
+\begin{itemize}
+
+\item Several domains and categories are more general,
+      in particular matrices, indexed products and
+      direct product.
+
+\item ')show' now evaluates predicates.
+
+\item Improved integrator, handles few more 'erf' cases and
+      more algebraic functions.  Result should be
+      simpler.
+
+\item Added support for using FriCAS as ECL shared library.
+
+\item Polynomial factorization uses Kaltofen-Shoup method when
+      applicable.
+
+\item '\$createLocalLibDb' defaults to false.
+
+\item Simpler, more predictable equality for algebraic
+      numbers (no longer uses 'trueEqual').
+
+\item Renamed LinearlyExplicitRingOver to LinearlyExplicitOver.
+
+\item Renamed 'length' in Tuple to '\#'.
+
+\item Removed argumentless 'random'.
+
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+
+\item Fixed several build problems.
+
+\item Handle scripted symbols in DeRhamComplex.
+
+\item Handle empty matrices in more places.
+
+\item Fixed unparse of negative integers.
+
+\item No longer crashes on quoted expressions in types.
+
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.2.7}
+%------------------------------------------------------------------
+\begin{itemize}
+
+\item New package implementing van Hoej factorization algorithm
+      for LODO-s.
+
+\item Gcd over Expression(Integer) now uses modular method.
+
+\item Improvements to integrator, in particular trigonometric
+      functions are consistently integrated via transformation
+      to complex exponentials.
+
+\item Some categories and domains are more general.  In particular
+      OrderedFreeMonoid is removed, as ordered case is handled
+      by FreeMonoid.
+
+\item Category Monad in renamed to Magma.  Domain Magma is
+      renamed to FreeMagma.
+
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+
+\item Coercion of square matrices to polynomials is fixed.
+
+\item Problem with division by 0 in derivative of 'ellipticPi'
+      is fixed.
+
+\item Division in Ore algebras used to cause infinite loop
+      when coefficients were power series.
+
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.2.6}
+%------------------------------------------------------------------
+\begin{itemize}
+
+\item Polynomial factorization is available for larger class
+      of base rings.
+
+\item Improvements to integrator.
+
+\item 'normalize' can be applied to list of expressions.
+
+\item Eigenvalues can be computed over larger range of base fields.
+
+\item Common denominator package handles now multivariate polynomials.
+
+\item More uniform break (error) handling.
+
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+
+\item 'distribute' handles 'box' operator.
+
+\item Fixed problem with guessing over multivariate polynomials.
+
+\item Fixed hashcode handling for Void in Aldor.
+
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.2.5}
+%------------------------------------------------------------------
+\begin{itemize}
+
+\item Several improvements to integrator.
+
+\item Improvements to handling of series, in particular new
+      function 'prodiag' to compute infinite products, 'series' and
+      'coefficients' for multivariate Taylor series, new 'laurent'
+      function which builds Laurent series from order and stream of
+      coefficients.
+
+\item GMP should now work with sbcl on all platforms and with Closure CL
+      on all platforms except for Power PC.
+
+\item Added a few domains for discrete groups.
+
+\item Extended GCD in Ore algebras can now return coefficients of
+      both GCD and LCM.
+
+\item New function for computing integrals of solutions of linear
+      differential operators.
+
+\item ')savesystem' command is now removed.
+
+\item Continuation lines which begins like commands are no longer
+      treated as commands.
+
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+
+\item Fixed printing of scripted symbols.
+
+\item Fixed 'totalDegreeSorted' (affected Groebner bases).
+
+\item Fixed few problems with Hensel lifting (including SF bug 47).
+
+\item Fixed 'series' in UnivariateLaurentSeriesConstructor.
+
+\item Fixed 'order' in SparseUnivariatePowerSeries.
+
+\item Printing of series now respect 'showall' setting, cyclic
+      series are detected.
+
+\item Fixed problem with interpreter preferring Union to base type.
+
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.2.4}
+%------------------------------------------------------------------
+\begin{itemize}
+
+\item New cylindrical decomposition package.
+
+\item New GnuDraw package for plotting via gnuplot.
+
+\item Texmacs interface now handles Cork symbols.
+
+\item Added double precision versions of several special functions
+      (needed for plotting).
+
+\item Nopile mode for Spad is changed to be more convenient.
+
+\item 'stringMatch' is removed (was broken beyond repair).
+
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+
+\item Fixed interpreter assignment to parts of nested aggregates
+      (issue 376).
+
+\item Fixed interpreter coercion from Equation to Boolean (issue 359).
+
+\item Fix printing of '\%i' in types (issue 132).
+
+\item Disabled incorrect shortcut during coercion (issue 29).
+
+\item Difference of intervals now agrees with definition as interval
+      operation.
+
+\item Avoid overwriting loop limit and increment.
+
+\item Fix a polynomial gcd failure due to bad reduction.
+
+\item Avoid mangling unevaluated algebraic integrals.
+
+\item Fix integration of unevaluated derivatives.
+
+\item Restore parser handling of '\\/' and '/\\'.
+
+\item Properly escape strings and symbols in TeXFormat.
+
+\item Fix toplevel multiparameter macros.
+
+\item Fix problem with missing parentheses around plexes.
+
+\item Avoid crash when printing error message from '-eval'.
+
+\item Redirect I/O when running programs from Closure CL.
+
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.2.3}
+%------------------------------------------------------------------
+\begin{itemize}
+
+\item Improved integration in terms of 'Ei' and 'erf'.
+
+\item Classical orthogonal polynomials may be used as expressions.
+
+\item More cases of generalized indexing for two dimensional arrays.
+
+\item Value of 'lambertW' at '-1/e' is now simplified.
+
+\item FriCAS now knows that formal derivatives are commutative.
+
+\item 'setelt' is renamed to 'setelt!'.
+
+\item ')read' now creates intermediate files in current directory.
+
+\item Continuation characters in comments are now respected.
+
+\item In Spad '\$Lisp' calls now must have a type.
+
+\item In Spad \spad{error} did only minimal checking of its argument.
+  Now argument to \spad{error} must be a \spad{String} or \spad{OutputForm}
+  or a literal list of \spad{OutputForm}-s.
+
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+
+\item Input lines with empty continuation are no longer lost.
+
+\item Types like "failed" now consistently use string quotes in output form.
+
+\item Fixed pattern matching using \spad{%i} in patterns.
+
+\item Fixed ')display op coerce'.
+
+\item Fixed ')version' command.
+
+\item Fixed crash when printing '\%'.
+
+\item Fix a buffer overflow in HyperDoc.
+
+\item Fixed HyperDoc errors in 'Dependants' and 'Users'.
+
+\item HyperDoc browser better handles constructors with parameters.
+
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.2.2}
+%------------------------------------------------------------------
+\begin{itemize}
+\item Improvements to 'integrate': better handling of algebraic
+  integrals, new routine which handles some integrals containing
+  'lambertW'.
+
+\item Improvements to 'limit', now Gruntz algorithm knows about
+  a few tractable functions.
+
+\item Smith form of sparse integer matrices is now much more
+  efficient.
+
+\item Generalized indexing for two dimensional arrays.
+
+\item Pile/nopile mode is now restored after ')read' or ')compile'.
+  Piling rules now accept some forms of multiline lists.
+
+\item Eliminated version checking in generated code. Note: this
+  change means that Spad code compiled by earlier FriCAS versions
+  will not run in FriCAS 1.2.2.
+
+\item Updated Aldor interface to work with free Aldor.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item Interpreter can now handle complicated mutually recursive
+  functions.
+
+\item Spad compiler should now correctly handle 'has' inside a function.
+
+\item Fixed derivatives of Whittaker functions.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.2.1}
+%------------------------------------------------------------------
+\begin{itemize}
+\item Improvements to 'integrate': a new routine for integration in
+  terms of Ei, better handling of algebraic integrals.
+
+\item Implemented 'erfi'.
+
+\item Derivatives of 'asec', 'asech', 'acsc' and 'acsch' use different
+  formula so that numeric evaluation of derivative will take correct
+  branch on real axis.
+
+\item Linear dependence package is changed to be consistent with
+  linear solvers.
+
+\item It is now possible to extract empty submatrices.
+
+\item Changed default style of 3D graphics.
+
+\item Support for building Mac OS application bundle.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item fixed few cases of wrong or unevaluated integrals.
+
+\item better zero test during limit computation avoids division by
+  zero.
+
+\item fixed buffer overflow problems in view3D.
+
+\item 'reducedSystem' on empty input returns basis of correct size.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.2.0}
+%------------------------------------------------------------------
+\begin{itemize}
+\item New MatrixManipulation package.
+
+\item New ParallelIntegrationTools package.
+
+\item Gruntz algorithm is now used also for finite one-sided limits.
+
+\item FriCAS has now true 2-dimensional arrays (previously they were
+emulated using vectors of vectors).
+
+\item Speedups in some matrix operations and in arithmetic with
+algebraic expressions.
+
+\item FreeModule is now more general, it allows Comparable as second
+argument.
+
+\item Changed Spad parser, it now uses common scanner with
+interpreter. Spad language is now closer to interpreter language and
+Aldor. 'leave' is removed, 'free', 'generate' and 'goto' are now
+keywords. Pile rules changed slightly, they should be more intuitive
+now. Error messages from Spad parser should be slightly better.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item Fixed a few build problems.
+
+\item Eliminated division by 0 during 'normalize'.
+
+\item 'nthRootIfCan' removes leading zeros from generalized series
+  (this avoids problems with power series expanders).
+
+\item Fixed corruption of formal derivatives.
+
+\item Fixed two problems with Fortran output.
+
+\item Fixed ')untrace' and ')undo'. Fixed ')trace' with ECL.
+
+\item Fixed problem with calling efricas if user's default shell is
+  (t)csh.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.1.8}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item Improvements of pattern matching integrator, it can now
+  integrate in terms of Fresnel integrals and better handles integrals
+  in terms of Si and Ci.
+
+\item Better integration of symbolic derivatives.
+
+\item Better normalization of Liouvillian functions.
+
+\item New package for computing limits using Gruntz algorithm.
+
+\item Faster removal of roots from denominators.
+
+\item New domains for multivariate Ore algebras and partial
+  differential operators.
+
+\item New package for noncommutative Groebner bases.
+
+\item New domain for univariate power series with arbitrary exponents.
+
+\item New special functions: Shi and Chi.
+
+\item Several aggregates (in particular tables) allow more general
+  parameter types.
+
+\item New domain for hash tables using equality from underlying
+  domain.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item Fixed problem with gcd failing due to bad reduction.
+
+\item Fixed series of 'acot' and Puiseux series of several special
+  functions.
+
+\item Fixed wrong factorization of differential operators.
+
+\item Fixed build problem on recent Mac OS X.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.1.7}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item Improved integration in terms of special functions.
+
+\item Updated new graphics framework and graph theory package.
+
+\item Added routines for numerical evaluation of several special
+  functions.
+
+\item Added modular method for computing polynomial gcd over algebraic
+  extensions.
+
+\item Derivatives of fresnelC and fresnelS are changed to agree with
+  established convention.
+
+\item When printing floats groups of digits are now separated by
+  underscores (previously were separated by spaces).
+
+\item Added C code for removing directories, this speeds up full build
+  and should avoid build problems on Mac OSX.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item Series expansion now handle poles of Gamma.
+
+\item Fixed derivatives of meijerG.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.1.6}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item Added experimental graph theory package.
+
+\item Added power series expanders for Weierstrass elliptic functions
+  at 0.
+
+\item New functions: kroneckerProduct and kroneckerSum for matrices,
+  numeric weierstrassInvariants and modularInvariantJ, symbolic Jacobi
+  Zeta, double float numeric elliptic integrals.
+
+\item New domains for vectors and matrices of unsigned 8 and 16 bit
+  integers.
+
+\item Changes to Spad compiler: underscores which are not needed as
+  escape are now significant in Spad names and strings, macros with
+  parameters are supported, added partial support for exceptions,
+  braces can be used for grouping.
+
+\item A few speedups.
+
+\item Reduced disc space usage during build.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item Fixed eval of hypergeometricF at 0
+
+\item Fixed problem with scope of macros.
+
+\item Worked around problems with opening named pipes in several Lisp
+  implementations.
+
+\item Fixed a problem with searching documentation via HyperDoc.
+
+\item Fixed build problem on Mac OSX.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.1.5}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item Added numeric version of lambertW.
+
+\item New function 'rootFactor' which tries to write roots of products
+  as products of roots.
+
+\item 'try', 'catch' and 'finally' are now Spad keywords.
+
+\item Experimental support for using gmp with Closure CL (64-bit
+  Intel/Amd only).
+
+\item New categories CoercibleFrom and ConvertibleFrom. New domain for
+  ordinals up to epsilon0. New domain for matrices of machine
+  integers. New package for solving linear equations written as
+  expressions (faster then general expression solver).
+
+\item Functions exported by Product() are now called 'construct',
+  'first' and 'second' (instead of 'makeprod', 'selectfirst' and
+  'selectsecond' respectively).
+
+\item Some functions are now much faster, in particular bivariate
+  factorization over small finite fields.
+
+\item When using sbcl FriCAS now tries to preload statistical
+  profiler.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item Fixed handling of Control-C in FriCAS compiled by recent sbcl.
+
+\item Fixed HyperDoc crash due to bad handling of '\#'.
+
+\item Fixed power series expanders for elliptic integrals.
+
+\item Fixed 'possible wild ramification' problem with algebraic
+  integrals.
+
+\item 'has' in interpreter now correctly handles \spad{%}.
+
+\item Spad compiler can now handle single \spad{=>} at top level of a
+  function.
+
+\item Fixed few problems with conditional types in Spad compiler.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.1.4}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item New domains for combinatorial probability theory by Franz
+  Lehner.
+
+\item Improved integration of algebraic functions.
+
+\item Initial support for semirings.
+
+\item Updated framework for theory of computations.
+
+\item In Spad parser \spad{**, ^'} and \spad{->} are now
+  right-associative.
+
+\item Spad parser no longer transforms relational operators.
+
+\item Join of categories is faster which speeds up Spad compiler.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item Retraction of 'rootOf' from Expression(Integer) to
+  AlgebraicNumber works now.
+
+\item Attempt to print error message about invalid type no longer
+  crash (SF 2977357).
+
+\item Fixed few problems in Spad compiler dealing with conditional
+  exports.
+
+\item HyperDoc now should find all function descriptions (previously
+  it missed several).
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.1.3}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item Added "jet bundle" framework by Werner Seiler and Joachim Schue,
+  which includes completion procedure and symmetry analysis for PDE.
+
+\item Better splitting of group representations (added Holt-Rees
+  improvement to meatAxe).
+
+\item Added numeric versions of some elliptic integrals and few more
+  elliptic functions.
+
+\item Speeded up FFCGP (finite fields via Zech logarithms).
+
+\item New experimental flag (off by default, set via
+  setSimplifyDenomsFlag) which if on causes removal of irrationalities
+  from denominators. Usually it causes slowdown, but on some examples
+  gives huge speedup. It may go away in future (when no longer
+  needed).
+
+\item Added experimental framework for theory of computations.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item Numerical solutions of polynomial systems have now required
+  accuracy (SF 2418832).
+
+\item Fixed problem with crashes during tracing.
+
+\item Fixed a problem with nested iteration (SF 3016806).
+
+\item Eliminated stack overflow when concatenating long lists.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.1.2}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item Experimental Texmacs interface and Texmacs format output.
+
+\item Guessing package can now guess algebraic dependencies.
+
+\item Expansion into Taylor series and limits now work for most
+  special functions.
+
+\item Spad to Aldor translator is removed.
+
+\item Spad compiler no longer allows to denote sets using braces.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item Fixed few cases where elementary integrals were returned
+  unevaluated or produced wrong results.
+
+\item Unwanted numerical evaluation should be no longer a problem
+  (FriCAS interpreter now very strongly prefers symbolic evaluation
+  over numerical evaluation).
+
+\item Fixed a truncation bug in guessing package which caused loss of
+  some correct solutions.
+
+\item TeX and MathML format should correctly put parentheses around
+  and inside sums and products.
+
+\item Fixed few problems with handling of Unicode.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.1.1}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item New graphics framework.
+
+\item Support for using GMP with sbcl on 32/64 bit AMD/Intel
+  processors (to activate it one must use '--with-gmp' option to
+  configure).
+
+\item Improvements to integration and normalization. In particular
+  integrals containing multiple non-nested roots should now work much
+  faster. Also FriCAS now can compute more integrals of Liouvillian
+  functions.
+
+\item Several new special functions.
+
+\item Improvements to efricas.
+
+\item Looking for default init file FriCAS now first tries to use
+  '.fricas.input' and only if that fails it looks for '.axiom.input'.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item Numeric atan, asin and acos took wrong branch.
+
+\item WeierstrassPreparation package did not work.
+
+\item Saving and restoring history should be now more reliable.
+
+\item Fixed two bugs in Spad compiler related to conditional
+  compilation.
+
+\item Fixed a problem with rational reconstruction which affected
+  guessing package.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.1.0}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item New domains and packages: VectorSpaceBasis domain, DirichletRing
+  domain, 3D graphic output in Wavefront .obj format, specialized
+  machine precision numeric vectors and matrices (faster then general
+  vectors and matrices), Html output.
+
+\item Support Clifford algebras corresponding to non-diagonal matrix,
+  added new operations.
+
+\item 'normalize' now tries to simplify logarithms of algebraic
+  constants.
+
+\item New functions: Fresnel integrals, carmichaelLambda.
+
+\item Speed improvements: several polynomial operations are faster,
+  faster multiplication in Ore algebras, faster computation of strong
+  generating set for permutation groups, faster coercions.
+
+\item Several improvements to the guessing package (in particular new
+  option Somos for restricting attention to Somos-like sequences
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item FriCAS can now compute multiplicative inverse of a power series
+  with constant term not equal to 1.
+
+\item Fixed a problem with passing interpreter functions to algebra.
+
+\item Two bugs causing crashes in HyperDoc interface are fixed.
+
+\item FriCAS now ignores sign when deciding if number is prime.
+
+\item A failing coercion that used to crash FriCAS is now detected.
+
+\item 'has' test sometimes gave wrong result.
+
+\item Plotting fixes.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.0.9}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item Speed improvements to polynomial multiplication, power series
+  multiplication, guessing package and coercion of polynomials to
+  expressions.
+
+\item Domains for tensor products.
+
+\item 'Complex(Integer)' is now UniqueFactorizationDomain.
+
+\item Types in interpreter are now of type 'Type' (instead of
+  'Domain') and categories in interpreter are of type 'Category'
+  (instead of 'Subdomain(Domain)').
+
+\item Interpreter functions can now return 'Type'.
+
+\item New function for files: 'flush'.
+
+\item Spad compiler: return in nested functions and nested functions
+  returning functions.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item Several fixes to guessing package.
+
+\item Avoid crash when unparsing equations.
+
+\item Equation solver accepts more solutions.
+
+\item Fixed handling of 'Tuple' in Spad parser.
+
+\item Fixed miscompilation of record constructor by Spad compiler.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.0.8}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item Improved version of guessing package. It can now handle much
+  larger problems than before. Added ability to guess functional
+  substitution equations.
+
+\item Experimental support for build using CMU CL
+
+\item Various speed improvements including faster indexing for two
+  dimensional arrays
+
+\item By default FriCAS build tries to use sbcl.
+
+\item Building no longer require patch.
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item correct definition of random() for matrices
+
+\item conditionals in .input files work again
+
+\item Spad compiler now recognizes more types as equal
+
+\item fixed problem with pattern-matching quote
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.0.7}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item Comparisons between elements of the Expression domain are
+  undefined. Earlier versions gave confusing results for expressions
+  like '\%e < \%pi' -- now FriCAS will complain about '<' being
+  undefined.
+
+\item A domain for general quaternions was added.
+
+\item Equality in Any is now more reasonable -- it uses equality from
+  underlying domain if available.
+
+\item Messages about loading of components are switched off by
+  default.
+
+\item Release build benefits from parallel make.
+
+\item In Spad code a single quote now means that the following token
+  is a symbol.
+
+\item Reorganization of algebra sources, in particular several types
+  have changed (this may affect users Spad code).
+\end{itemize}
+
+Bug fixes, in particular:
+
+\begin{itemize}
+\item Categories with default package can be used just after
+  definition (fixes 1.0.6 regression).
+
+\item Plots involving 0 or 1 work now.
+
+\item Numbers in radix bigger than 10 appear correctly in TeX output.
+
+\item Fixed browser crashes when displaying some domains.
+
+\item Fix horizontal display of fractions.
+
+\item Allow local domains in conditionals (in Spad code).
+
+\item Fixed problem with splitting polynomials and nested extensions.
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.0.6}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item the axiom script is no longer installed (use fricas script
+  instead)
+
+\item some undesirable simplification are no longer done by default,
+  for example now asin(sin(3)) is left unevaluated
+
+\item support lambda expressions using '+->' syntax and nested
+  functions in Spad
+
+\item better configure, support for Dragonfly BSD
+
+\item faster bootstrap, also parallel (this does not affect speed of
+  release build)
+\end{itemize}
+
+Several bug fixes, in particular:
+
+\begin{itemize}
+\item fixed a regression introduced in 1.0.4 which caused equality for
+  nested products to sometimes give wrong result
+
+\item corrected fixed output of floating point numbers,
+
+\item operations on differential operators like symmetric power work
+  now
+
+\item fixed crashes related to coercing power series
+
+\item functions returning Void can be traced
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.0.5}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item improvement to normalize function, it performs now much stronger
+  simplifications than before
+
+\item better integration: due to improved normalize FriCAS can now
+  integrate many functions that it previously considered unintegrable
+
+\item improvement to Martin Rubey guessing package, for example it can
+  now guess differential equation for the generating function of
+  integer partitions
+
+\item better support for using type valued functions
+
+\item several bug fixes
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.0.4}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item significant speedups for some operations (for example definite
+  integration)
+
+\item support for building algebra using user-defined optimization
+  settings
+
+\item support for mouse wheel in HyperDoc browser
+
+\item included support for interfacing with Aldor
+
+\item new optional Emacs mode and efricas script to run FriCAS inside
+  emacs
+
+\item better unparse
+
+\item removed support for attributes (replaced by empty categories)
+  and use of colon for type conversions in Spad code
+
+\item a few bug fixes
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.0.3}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item added multiple precision Gamma and logGamma functions
+
+\item better line editing
+
+\item removed some undocumented and confusing constructs from Spad
+  language
+
+\item added new categories for semiring and ordered semigroup, direct
+  product of monoids is now a monoid
+
+\item internal cleanups and restructurings
+
+\item a few bug fixes
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.0.2}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item ')nopiles' command gives conventional syntax
+
+\item added pfaffian function
+
+\item ECL support
+
+\item Graphics and Hyperdoc work using openmcl or ECL
+
+\item Output may be now delimited by user defined markers
+
+\item Experimental support for using as a Lisp library
+
+\item Spad compiler is now significantly faster
+
+\item Several bug fixes
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.0.1}
+%------------------------------------------------------------------
+
+\begin{itemize}
+\item Graphics and Hyperdoc work using sbcl or clisp
+
+\item Builds under Cygwin (using Cygwin clisp)
+
+\item MathML support contributed by Arthur C. Ralfs
+
+\item Help files created by Tim Daly
+
+\item Added SPADEDIT script
+
+\item Full release caches all generated HyperDoc pages
+
+\item Bug fixes, including implementing some missing functions and
+  build fixes
+\end{itemize}
+
+%------------------------------------------------------------------
+\subsubsection{FriCAS 1.0.0}
+%------------------------------------------------------------------
+
+The 1.0 release is the first release of FriCAS. Below we list main
+differences compared to AXIOM September 2006.
+
+Numerous bug fixes (in particular HyperDoc is now fully functional on
+Unix systems).
+
+FriCAS includes guessing package written by Martin Rubey. This package
+provides unique ability to guess formulas for sequences of numbers or
+polynomials.
+
+Some computation, in particular involving Expression domain, should be
+much faster. FriCAS to go trough its testsuite needs only half of the
+time needed by AXIOM September 2006.
+
+Spad compilation is faster (in some cases 2 times faster).
+
+FriCAS is much more portable than AXIOM September 2006. It can be
+build on Linux, many Unix systems (for example Mac OSX and Solaris 10)
+and Windows. It can be build on top of gcl, sbcl, clisp or openmcl
+(gcl and sbcl based FriCAS is fully functional, clisp or openmcl based
+one lacks graphic support).
+
+Many unused or non-working parts are removed from FriCAS. In
+particular FriCAS does not contain support for NAG numerical library.
+
+FriCAS can be build from sources using only a few pre-generated Lisp
+files for bootstrap -- only to bootstrap Shoe translator. This means
+that modifying FriCAS algebra is now much easier.
+
+%------------------------------------------------------------------------
+\head{section}{Changes to Spad language}{ugSpadChanges}
+%------------------------------------------------------------------------
+\begin{enumerate}
+\item \spad{$} as name of current domain is no longer supported, use
+  \spad{%} instead.
+
+\item Attributes are no longer supported, use niladic categories with
+  no exports instead.
+
+\item Floating point numbers without leading zero are no longer
+  supported, so instead of \spad{.01} use \spad{0.01}
+
+\item Anonymous functions using \spad{#1}, \spad{#2}, etc. are no
+  longer supported, to define anonymous functions use \textspadexpr{+->}.
+
+\item Braces no longer construct sets. So instead of
+  \textspadexpr{\{'sin, 'cos\}::Set(Symbol)} use
+  \spad{set(['sin, 'cos])$Set(Symbol)}. %$
+
+\item Old Spad used colon (\spad{:}) to denote conversion, like
+  \spad{pretend} but performing even less checking. This is no longer
+  supported, use \spad{::} or \spad{pretend} instead.
+
+\item There was an alternative spelling for brackets and braces, in
+  FriCAS this is no longer supported, so one has to write brackets and
+  braces as is.
+
+\item \spad{SubsetCategory} was handled in special way by the
+  compiler. This is no longer supported.
+
+\item Old Spad compiler used to transform relational operators
+  \spad{~=,<=,>,>=} in ways which are correct for linear order, but
+  may conflict with other uses (as partial order or when generating
+  \spad{OutputForm}). FriCAS no longer performs this transformation.
+  Similarely, Spad parser no longer treats \spadop{^} and \spadop{^=} in
+  special way.
+
+\item Quote in old Spad allowed to insert arbitrary literal Lisp data,
+  FriCAS only allows symbols after quote. Code using old behavior
+  needs to be rewritten, however it seems that this feature was almost
+  unused, so this should be no problem.
+
+\item Old Spad treated statement consisting just of constructor name
+  (with arguments if needed) as request to import the constructor.
+  FriCAS requires \spad{import} keyword.
+
+\item In FriCAS \spad{**, ^, ->} are right associative. Also, right
+  binding power of \textspadexpr{+->} is increased, which allows more natural
+  writing of code.
+
+\item Few non-working experimental features are removed, in particular
+  partial support for APL-like syntax.
+
+\item FriCAS implemented parametric macros in the Spad compiler.
+
+\item FriCAS allows simplified form for exporting constants (without
+  \spad{constant} keyword).
+
+\item FriCAS added partial support for exception handling (currently
+  only \spad{finally} part).
+
+\item The \spad{leave} construct is removed from FriCAS. Use
+  \spad{break} instead.
+
+\item \spad{div} is no longer a keyword. \spad{free}, \spad{generate},
+  \spad{goto} are FriCAS keywords.
+
+\item '\$Lisp' calls now must have a type
+
+\item \spad{error} did only minimal checking of its argument.  Now
+  argument to \spad{error} must be a \spad{String} or \spad{OutputForm}
+  or a literal list of \spad{OutputForm}-s.
+
+\end{enumerate}
+
+There are also library changes that affect user code:
+
+\begin{enumerate}
+\item \spad{**} lost its definition as exponentiation, use \spadop{^}
+  instead.
+
+\item \spadop{^} is no longer used as negation (it means exponentiation
+  now) and \spadop{^=} no longer means inequality, use \spad{not} and
+  \spad{~=} instead.
+
+\item \spad{setelt} is renamed to \spad{setelt!}.
+
+\item Operator properties are now symbols and not strings, so instead
+  of \spad{has?(op, "even")} use \spad{has?(op, 'even)}
+
+\item There is new category \spad{Comparable}, several constructors
+  that asserted \spad{OrderedSet} now only assert \spad{Comparable}.
+\end{enumerate}
+
+
+%------------------------------------------------------------------
+\head{section}{Online Information}{onlineInformation}
+%------------------------------------------------------------------
+\Language{} information can be found online at
+\begin{itemize}
+\item {http://fricas.sourceforge.net} -- The official homepage of
+  FriCAS.
+\item {http://axiom-wiki.newsynthesis.org} -- A wiki site related to
+  FriCAS.
+\item {http://sourceforge.net/p/fricas/code/HEAD/tree/} -- The
+  official source code repository.
+\item {https://github.com/fricas/fricas} -- A live git mirror of
+  the official SVN repository.
+\item {http://fricas.github.io} -- Documentation of FriCAS including
+  the API of the FriCAS library.
+\end{itemize}
+
+% ------------------------------------------------------------------------
+\head{section}{Old News about AXIOM Version 2.x}{ugWhatsNewNAG}
+%------------------------------------------------------------------------
+
+Many things have changed in this version of AXIOM and
+we describe many of the more important topics here.
+
+%------------------------------------------------------------------------
+%\head{section}{The New \Language{} Library Compiler}{ugWhatsNewAsharp}
+%------------------------------------------------------------------------
+%
+% A new compiler is now available for \Language{}.
+% The programming language is referred to as the \Language{} Extension Language
+% (or \aldor{} for short), and
+% improves upon the old \Language{} language in many ways.
+% The \spadsys{)compile} command has been upgraded to be able to
+% invoke the new or old compilers.
+% The language and the compiler are described in the hard-copy
+% documentation which came with your \Language{} system.
+%
+% To ease the chore of upgrading your {\it .spad} files (old
+% compiler) to {\it .as} files (new compiler), the
+% \spadsys{)compile} command has been given a {\tt )translate}
+% option. This invokes a special version of the old compiler which
+% parses and analyzes your old code and produces augmented code
+% using the new syntax.
+% Please be aware that the translation is not necessarily one
+% hundred percent complete or correct.
+% You should attempt to compile the output with the \aldor{} compiler
+% and make any necessary corrections.
+
+
+% ----------------------------------------------------------------------
+\head{subsection}{The NAG Library Link}{nagLinkIntro}
+% ----------------------------------------------------------------------
+
+Content removed, NAGLink is no longer included in FriCAS.
+
+
+%------------------------------------------------------------------------
+\head{subsection}{Interactive Front-end and Language}{ugWhatsNewLanguage}
+%------------------------------------------------------------------------
+
+The \spad{leave} keyword has been replaced by the
+\spad{break} keyword for compatibility with the new AXIOM
+extension language.
+See section \spadref{ugLangLoopsBreak}
+for more information.
+
+Curly braces are no longer used to create sets. Instead, use
+\spadfun{set} followed by a bracketed expression. For example,
+\begin{xtc}
+\begin{xtccomment}
+\end{xtccomment}
+\begin{spadsrc}
+set [1,2,3,4]
+\end{spadsrc}
+\begin{TeXOutput}
+\begin{fricasmath}{1}
+\BRACE{1\COMMA 2\COMMA 3\COMMA 4}%
+\end{fricasmath}
+\end{TeXOutput}
+\formatResultType{Set(PositiveInteger)}
+\end{xtc}
+
+Curly braces are now used to enclose a block (see section
+\spadref{ugLangBlocks}
+for more information). For compatibility, a block can still be
+enclosed by parentheses as well.
+
+% ``Free functions'' created by the \aldor{} compiler can now be
+% loaded and used within the AXIOM interpreter. A {\it free
+% function} is a library function that is implemented outside a
+% domain or category constructor.
+
+New coercions to and from type \spadtype{Expression} have been
+added. For example, it is now possible to map a polynomial
+represented as an expression to an appropriate polynomial type.
+
+Various messages have been added or rewritten for clarity.
+
+%------------------------------------------------------------------------
+\head{subsection}{Library}{ugWhatsNewLibrary}
+%------------------------------------------------------------------------
+
+The \spadtype{FullPartialFractionExpansion}
+domain has been added. This domain computes factor-free full
+partial fraction expansions.
+See section
+\xmpref{FullPartialFractionExpansion}
+for examples.
+
+We have implemented the Bertrand/Cantor algorithm for integrals of
+hyperelliptic functions. This brings a major speedup for some
+classes of algebraic integrals.
+
+We have implemented a new (direct) algorithm for integrating trigonometric
+functions. This brings a speedup and an improvement in the answer
+quality.
+
+The {\sf SmallFloat} domain has been renamed
+\spadtype{DoubleFloat} and {\sf SmallInteger} has been renamed
+\spadtype{SingleInteger}. The new abbreviations as
+\spadtype{DFLOAT} and \spadtype{SINT}, respectively.
+We have defined the macro {\sf SF}, the old abbreviation for {\sf
+SmallFloat}, to expand to \spadtype{DoubleFloat} and modified
+the documentation and input file examples to use the new names
+and abbreviations. You should do the same in any private \Language{}
+files you have.
+
+We have made improvements to the differential equation solvers
+and there is a new facility for solving systems of first-order
+linear differential equations.
+In particular, an important fix was made to the solver for
+inhomogeneous linear ordinary differential equations that
+corrected the calculation of particular solutions.
+We also made improvements to the polynomial
+and transcendental equation solvers including the
+ability to solve some classes of systems of transcendental
+equations.
+
+The efficiency of power series have been improved and left and right
+expansions of \spad{tan(f(x))} at \spad{x =} a pole of \spad{f(x)}
+can now be computed.
+A number of power series bugs were fixed and the \spadtype{GeneralUnivariatePowerSeries}
+domain was added.
+The power series variable can appear in the coefficients and when this
+happens, you cannot differentiate or integrate the series.  Differentiation
+and integration with respect to other variables is supported.
+
+A domain was added for representing asymptotic expansions of a
+function at an exponential singularity.
+
+For limits, the main new feature is the exponential expansion domain used
+to treat certain exponential singularities.  Previously, such singularities
+were treated in an {\it ad hoc} way and only a few cases were covered.  Now
+AXIOM can do things like
+
+\begin{verbatim}
+limit( (x+1)^(x+1)/x^x - x^x/(x-1)^(x-1), x = %plusInfinity)
+\end{verbatim}
+
+in a systematic way.  It only does one level of nesting, though.  In other
+words, we can handle \spad{exp(} some function with a pole \spad{)}, but not
+\linebreak \spad{exp(exp(} some function with a pole \spad{)).}
+
+The computation of integral bases has been improved through careful
+use of Hermite row reduction. A P-adic algorithm
+for function fields of algebraic curves in finite characteristic has also
+been developed.
+
+Miscellaneous:
+There is improved conversion of definite and indefinite integrals to
+\spadtype{InputForm};
+binomial coefficients are displayed in a new way;
+some new simplifications of radicals have been implemented;
+the operation \spadfun{complexForm} for converting to rectangular coordinates
+has been added;
+symmetric product operations have been added to \spadtype{LinearOrdinaryDifferentialOperator}.
+
+%------------------------------------------------------------------------
+\head{subsection}{\HyperName}{ugWhatsNewHyperDoc}
+%------------------------------------------------------------------------
+
+The buttons on the titlebar and scrollbar have been replaced
+with ones which have a 3D effect. You can change the foreground and
+background colors of these ``controls'' by including and modifying
+the following lines in your {\bf .Xdefaults} file.
+\begin{verbatim}
+Axiom.hyperdoc.ControlBackground: White
+Axiom.hyperdoc.ControlForeground: Black
+\end{verbatim}
+
+For various reasons, \HyperName{} sometimes displays a
+secondary window. You can control the size and placement of this
+window by including and modifying
+the following line in your {\bf .Xdefaults} file.
+%
+\begin{verbatim}
+Axiom.hyperdoc.FormGeometry: =950x450+100+0
+\end{verbatim}
+%
+This setting is a standard X Window System geometry specification:
+you are requesting a window 950 pixels wide by 450 deep and placed in
+the upper left corner.
+
+Some key definitions have been changed to conform more closely
+with the CUA guidelines. Press
+F9
+to see the current definitions.
+
+Input boxes (for example, in the Browser) now accept paste-ins from
+the X Window System. Use the second button to paste in something
+you have previously copied or cut. An example of how you can use this
+is that you can paste the type from an \Language{} computation
+into the main Browser input box.
+
+
+%------------------------------------------------------------------------
+\head{subsection}{Documentation}{ugWhatsNewDocumentation}
+%------------------------------------------------------------------------
+We describe here a few additions to the on-line
+version of the AXIOM book which you can read with
+HyperDoc.
+
+A section has been added to the graphics chapter, describing
+how to build \twodim{} graphs from lists of points. An example is
+given showing how to read the points from a file.
+See section \spadref{ugGraphTwoDbuild}
+for details.
+
+A further section has been added to that same chapter, describing
+how to add a \twodim{} graph to a viewport which already
+contains other graphs.
+See section
+\spadref{ugGraphTwoDappend}
+for details.
+
+Chapter 3
+and the on-line \HyperName{} help have been unified.
+
+An explanation of operation names ending in ``?'' and ``!'' has
+been added to the first chapter.
+See the
+end of the section
+\spadref{ugIntroCallFun}
+for details.
+
+An expanded explanation of using predicates has
+been added to the sixth chapter. See the
+example involving \userfun{evenRule} in the middle of the section
+\spadref{ugUserRules}
+for details.
+
+Documentation for the \spadsys{)compile}, \spadsys{)library} and
+\spadsys{)load} commands has been greatly changed. This reflects
+the ability of the \spadsys{)compile} to now invoke the \aldor{}
+compiler, the impending deletion of the \spadsys{)load} command
+and the new \spadsys{)library} command.
+The \spadsys{)library} command replaces \spadsys{)load} and is
+compatible with the compiled output from both the old and new
+compilers.
+
+%------------------------------------------------------------------------
+\head{subsection}{\aldor{} compiler - Enhancements and Additions}{ugTwoTwoAldor}
+%------------------------------------------------------------------------
+Content removed - \aldor{} (now using name {\it Aldor}) is a separate
+project.
+%
+%------------------------------------------------------------------------
+\head{subsection}{New polynomial domains and algorithms}{ugTwoTwoPolynomials}
+%------------------------------------------------------------------------
+Univariate polynomial factorization over the integers has been
+enhanced by updates to the \spadtype{GaloisGroupFactorizer} type
+and friends from Frederic Lehobey (Frederic.Lehobey@lifl.fr, University of
+Lille I, France).
+
+The package constructor \spadtype{PseudoRemainderSequence}
+provides efficient algorithms by Lionel Ducos
+(Lionel.Ducos@mathlabo.univ-poitiers.fr, University of Poitiers, France)
+for computing sub-resultants.
+This leads to a speed up in many places in \Language{} where
+sub-resultants are computed (polynomial system solving,
+algebraic factorization, integration).
+
+Based on this package, the domain constructor
+\spadtype{NewSparseUnivariatePolynomial}
+extends the constructor \spadtype{SparseUnivariatePolynomial}.
+In a similar way, the \spadtype{NewSparseMultivariatePolynomial} extends
+the constructor \spadtype{SparseUnivariatePolynomial};
+it also provides some additional operations related
+to polynomial system solving by means of triangular sets.
+
+Several domain constructors implement
+regular triangular sets (or regular chains).
+Among them \spadtype{RegularTriangularSet}
+and \spadtype{SquareFreeRegularTriangularSet}.
+They also implement an algorithm by Marc Moreno Maza (marc@nag.co.uk, NAG)
+for computing triangular decompositions of polynomial systems.
+This method is refined in the package \spadtype{LazardSetSolvingPackage}
+in order to produce decompositions by means of Lazard triangular sets.
+For the case of polynomial systems with finitely many solutions,
+these decompositions can also be computed by
+the package \spadtype{LexTriangularPackage}.
+
+The domain constructor \spadtype{RealClosure} by Renaud Rioboo
+(Renaud.Rioboo@lip6.fr, University of Paris 6, France)
+provides the real closure of an ordered field.
+The implementation is based on interval arithmetic.
+Moreover, the design of this constructor and its related
+packages allows an easy use of other codings for real algebraic numbers.
+
+Based on triangular decompositions and the \spadtype{RealClosure} constructor,
+the package \spadtype{ZeroDimensionalSolvePackage}
+provides operations for computing symbolically the real or complex roots
+of polynomial systems with finitely many solutions.
+
+Polynomial arithmetic with non-commutative variables
+has been improved too by a contribution of Michel Petitot
+(Michel.Petitot@lifl.fr, University of Lille I, France).
+The domain constructors \spadtype{XRecursivePolynomial}
+and \spadtype{XDistributedPolynomial} provide
+recursive and distributed representations for these polynomials.
+They are the non-commutative equivalents for
+the \spadtype{SparseMultivariatePolynomial}
+and \spadtype{DistributedMultivariatePolynomial} constructors.
+The constructor \spadtype{LiePolynomial} implement Lie
+polynomials in the Lyndon basis.
+The constructor \spadtype{XPBWPolynomial} manage polynomials
+with non-commutative variables in
+the Poincar\'e-Birkhoff-Witt basis from the Lyndon basis.
+This allows to compute in the Lie Group associated with a
+free nilpotent Lie algebra by using the \spadtype{LieExponentials}
+domain constructor.
+%
+%------------------------------------------------------------------------
+\head{subsection}{Enhancements to HyperDoc and Graphics}{ugTwoTwoHyperdoc}
+%------------------------------------------------------------------------
+From this version of AXIOM onwards, the pixmap format used to save graphics
+images in color and to display them in HyperDoc has been changed to the
+industry-standard XPM format. See {\tt ftp://koala.inria.fr/pub/xpm}.
+%
+%------------------------------------------------------------------------
+\head{subsection}{Enhancements to NAGLink}{ugTwoTwoNAGLink}
+%------------------------------------------------------------------------
+Content removed -  NAGLink is no longer included in FriCAS.
+%
+%------------------------------------------------------------------------
+\head{subsection}{Enhancements to the Lisp system}{ugTwoTwoCCL}
+%------------------------------------------------------------------------
+Content removed - no longer relevant since FriCAS runs on different
+Lisp systems.

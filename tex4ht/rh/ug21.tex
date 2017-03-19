@@ -1,0 +1,767 @@
+% !! DO NOT MODIFY THIS FILE BY HAND !! Created by spool2tex.awk.
+
+% Copyright (c) 1991-2002, The Numerical ALgorithms Group Ltd.
+% All rights reserved.
+%
+% Redistribution and use in source and binary forms, with or without
+% modification, are permitted provided that the following conditions are
+% met:
+%
+%     - Redistributions of source code must retain the above copyright
+%       notice, this list of conditions and the following disclaimer.
+%
+%     - Redistributions in binary form must reproduce the above copyright
+%       notice, this list of conditions and the following disclaimer in
+%       the documentation and/or other materials provided with the
+%       distribution.
+%
+%     - Neither the name of The Numerical ALgorithms Group Ltd. nor the
+%       names of its contributors may be used to endorse or promote products
+%       derived from this software without specific prior written permission.
+%
+% THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+% IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+% TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+% PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER
+% OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+% EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+% PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES-- LOSS OF USE, DATA, OR
+% PROFITS-- OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+% LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+% NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+% SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+% *********************************************************************
+\head{chapter}{Programs for FriCAS Images}{ugAppGraphics}
+% *********************************************************************
+%
+This appendix contains the \Language{} programs used to generate
+the images in the \Gallery{} color insert of this book.
+All these input files are included
+with the \Language{} system.
+To produce the images
+on page 6 of the \Gallery{} insert, for example, issue the command:
+\begin{verbatim}
+)read images6
+\end{verbatim}
+
+These images were produced on an IBM RS/6000 model 530 with a
+standard color graphics adapter.  The smooth shaded images
+were made from X Window System screen dumps.
+The remaining images were produced with \Language{}-generated
+PostScript output.  The images were reproduced from slides made on an Agfa
+ChromaScript PostScript interpreter with a Matrix Instruments QCR camera.
+
+% *********************************************************************
+\head{section}{images1.input}{ugFimagesOne}
+% *********************************************************************
+
+\begin{xmpLinesPlain}
+)read tknot                                              -- Read torus knot program.
+
+torusKnot(15,17, 0.1, 6, 700)                            -- {\bf A (15,17) torus knot.}
+\end{xmpLinesPlain}
+\index{torus knot}
+
+\newpage
+% *********************************************************************
+\head{section}{images2.input}{ugFimagesTwo}
+% *********************************************************************
+
+These images illustrate how Newton's method converges when computing the
+\index{Newton iteration}
+complex cube roots of 2.   Each point in the \smath{(x,y)}-plane represents the
+complex number \smath{x + iy,} which is given as a starting point for Newton's
+method.  The poles in these images represent bad starting values.
+The flat areas are the regions of convergence to the three roots.
+
+\begin{xmpLinesPlain}
+)read newton                                             -- Read the programs from
+)read vectors                                            -- \quad{}Chapter 10.
+f := newtonStep(x^3 - 2)                                 -- Create a Newton's iteration
+                                                         -- \quad{}function for $x^3 = 2$.
+\end{xmpLinesPlain}
+
+The function $f^n$ computes $n$ steps of Newton's method.
+
+\begin{xmpLinesNoResetPlain}
+clipValue := 4                                           -- Clip values with magnitude $> 4$.
+drawComplexVectorField(f^3, -3..3, -3..3)                -- The vector field for $f^3$
+drawComplex(f^3, -3..3, -3..3)                           -- The surface for $f^3$
+drawComplex(f^4, -3..3, -3..3)                           -- The surface for $f^4$
+\end{xmpLinesNoResetPlain}
+
+% *********************************************************************
+\head{section}{images3.input}{ugFimagesThree}
+% *********************************************************************
+
+\begin{xmpLinesPlain}
+)r tknot
+for i in 0..4 repeat torusKnot(2, 2 + i/4, 0.5, 25, 250)
+\end{xmpLinesPlain}
+
+% *********************************************************************
+\head{section}{images5.input}{ugFimagesFive}
+% *********************************************************************
+
+The parameterization of the Etruscan Venus is due to George Frances.
+\index{Etruscan Venus}
+
+\begin{xmpLinesPlain}
+venus(a,r,steps) ==
+  surf := (u:DFLOAT, v:DFLOAT): Point DFLOAT +->
+    cv := cos(v)
+    sv := sin(v)
+    cu := cos(u)
+    su := sin(u)
+    x := r * cos(2*u) * cv + sv * cu
+    y := r * sin(2*u) * cv - sv * su
+    z := a * cv
+    point [x,y,z]
+  draw(surf, 0..%pi, -%pi..%pi, var1Steps==steps,
+       var2Steps==steps, title == "Etruscan Venus")
+
+venus(5/2, 13/10, 50)                                    -- \textbf{The Etruscan Venus}
+\end{xmpLinesPlain}
+
+The Figure-8 Klein Bottle
+\index{Klein bottle}
+parameterization is from
+``Differential Geometry and Computer Graphics'' by Thomas Banchoff,
+in {\it Perspectives in Mathematics,} Anniversary of Oberwolfasch 1984,
+Birkh\"{a}user-Verlag, Basel, pp. 43-60.
+
+\begin{xmpLinesNoResetPlain}
+klein(x,y) ==
+  cx := cos(x)
+  cy := cos(y)
+  sx := sin(x)
+  sy := sin(y)
+  sx2 := sin(x/2)
+  cx2 := cos(x/2)
+  sq2 := sqrt(2.0@DFLOAT)
+  point [cx * (cx2 * (sq2 + cy) + (sx2 * sy * cy)), _
+         sx * (cx2 * (sq2 + cy) + (sx2 * sy * cy)), _
+         -sx2 * (sq2 + cy) + cx2 * sy * cy]
+
+draw(klein, 0..4*%pi, 0..2*%pi, var1Steps==50,           -- \textbf{Figure-8 Klein bottle}
+     var2Steps==50,title=="Figure Eight Klein Bottle")
+\end{xmpLinesNoResetPlain}
+
+The next two images are examples of generalized tubes.
+
+\begin{xmpLinesNoResetPlain}
+)read ntube
+rotateBy(p, theta) ==                                    -- Rotate a point $p$ by
+  c := cos(theta)                                        -- \quad{}$\theta$ around the origin.
+  s := sin(theta)
+  point [p.1*c - p.2*s, p.1*s + p.2*c]
+
+bcircle t ==                                             -- A circle in three-space.
+  point [3*cos t, 3*sin t, 0]
+
+twist(u, t) ==                                           -- An ellipse that twists
+  theta := 4*t                                           -- \quad{}around four times as
+  p := point [sin u, cos(u)/2]                           -- \quad{}\spad{t} revolves once.
+  rotateBy(p, theta)
+
+ntubeDrawOpt(bcircle, twist, 0..2*%pi, 0..2*%pi,         -- \bf{Twisted Torus}
+             var1Steps == 70, var2Steps == 250)
+
+twist2(u, t) ==                                          -- Create a twisting circle.
+  theta := t
+  p := point [sin u, cos(u)]
+  rotateBy(p, theta)
+
+cf(u,v) == sin(21*u)                                     -- Color function with \spad{21} stripes.
+
+ntubeDrawOpt(bcircle, twist2, 0..2*%pi, 0..2*%pi,        -- \textbf{Striped Torus}
+  colorFunction == cf, var1Steps == 168,
+  var2Steps == 126)
+\end{xmpLinesNoResetPlain}
+
+% *********************************************************************
+\head{section}{images6.input}{ugFimagesSix}
+% *********************************************************************
+
+\begin{xmpLinesPlain}
+gam(x,y) ==                                              -- The height and color are the
+  g := Gamma complex(x,y)                                -- \quad{}real and argument parts
+  point [x,y,max(min(real g, 4), -4), argument g]        -- \quad{}of the Gamma function,
+                                                         -- \quad{}respectively.
+
+draw(gam, -%pi..%pi, -%pi..%pi,                          -- \textbf{The Gamma Function}
+     title == "Gamma(x + %i*y)", _
+     var1Steps == 100, var2Steps == 100)
+
+b(x,y) == Beta(x,y)
+
+draw(b, -3.1..3, -3.1 .. 3, title == "Beta(x,y)")        -- \textbf{The Beta Function}
+
+atf(x,y) ==
+  a := atan complex(x,y)
+  point [x,y,real a, argument a]
+
+draw(atf, -3.0..%pi, -3.0..%pi)                          -- \textbf{The Arctangent function}
+\end{xmpLinesPlain}
+\index{function!Gamma}
+\index{function!Euler Beta}
+\index{Euler!Beta function}
+
+
+% *********************************************************************
+\head{section}{images7.input}{ugFimagesSeven}
+% *********************************************************************
+
+First we look at the conformal
+\index{conformal map}
+map $z \mapsto z + 1/z$.
+
+\begin{xmpLinesPlain}
+)read conformal                                          -- Read program for drawing
+                                                         -- \quad{}conformal maps.
+
+f z == z                                                 -- The coordinate grid for the
+                                                         -- \quad{}complex plane.
+conformalDraw(f, -2..2, -2..2, 9, 9, "cartesian")        -- \textbf{Mapping 1: Source}
+
+f z == z + 1/z                                           -- The map $z \mapsto z + 1/z$
+
+conformalDraw(f, -2..2, -2..2, 9, 9, "cartesian")        -- \bf{Mapping 1: Target}
+\end{xmpLinesPlain}
+
+The map $z \mapsto -(z+1)/(z-1)$ maps
+the unit disk to the right half-plane, as shown
+\index{Riemann!sphere}
+on the Riemann sphere.
+
+\begin{xmpLinesNoResetPlain}
+f z == z                                                 -- The unit disk.
+
+riemannConformalDraw(f,0.1..0.99,0..2*%pi,7,11,"polar")  -- \textbf{Mapping 2: Source}
+
+f z == -(z+1)/(z-1)                                      -- The map $x\mapsto -(z+1)/(z-1)$.
+riemannConformalDraw(f,0.1..0.99,0..2*%pi,7,11,"polar")  -- \textbf{Mapping 2: Target}
+
+riemannSphereDraw(-4..4, -4..4, 7, 7, "cartesian")       -- \textbf{Riemann Sphere Mapping}
+\end{xmpLinesNoResetPlain}
+
+% *********************************************************************
+\head{section}{images8.input}{ugFimagesEight}
+% *********************************************************************
+
+\begin{xmpLinesPlain}
+)read dhtri
+)read tetra
+drawPyramid 4                                            -- \textbf{Sierpinsky's Tetrahedron}
+
+\index{Sierpinsky's Tetrahedron}
+)read antoine
+drawRings 2                                              -- \textbf{Antoine's Necklace}
+
+\index{Antoine's Necklace}
+)read scherk
+drawScherk(3,3)                                          -- \textbf{Scherk's Minimal Surface}
+
+\index{Scherk's minimal surface}
+)read ribbonsNew
+drawRibbons([x^i for i in 1..5], x=-1..1, y=0..2)        -- \bf{Ribbon Plot}
+\end{xmpLinesPlain}
+
+
+%\input{gallery/conformal.htex}
+% *********************************************************************
+\head{section}{conformal.input}{ugFconformal}
+% *********************************************************************
+%
+The functions in this section draw conformal maps both on the
+\index{conformal map}
+plane and on the Riemann sphere.
+\index{Riemann!sphere}
+
+%   -- Compile, don't interpret functions.
+%\xmpLine{)set fun comp on}{}
+\begin{xmpLinesPlain}
+C := Complex DoubleFloat                                 -- Complex Numbers
+S := Segment DoubleFloat                                 -- Draw ranges
+R3 := Point DFLOAT                                       -- Points in 3-space
+
+\end{xmpLinesPlain}
+
+\userfun{conformalDraw}{\it (f, rRange, tRange, rSteps, tSteps, coord)}
+draws the image of the coordinate grid under {\it f} in the complex plane.
+The grid may be given in either polar or Cartesian coordinates.
+Argument {\it f} is the function to draw;
+{\it rRange} is the range of the radius (in polar) or real (in Cartesian);
+{\it tRange} is the range of $\theta$ (in polar) or imaginary (in Cartesian);
+{\it tSteps, rSteps}, are the number of intervals in the {\it r} and
+$\theta$ directions; and
+{\it coord} is the coordinate system to use (either {\tt "polar"} or
+{\tt "cartesian"}).
+
+\begin{xmpLinesNoResetPlain}
+conformalDraw: (C -> C, S, S, PI, PI, String) -> VIEW3D
+conformalDraw(f,rRange,tRange,rSteps,tSteps,coord) ==
+  transformC :=                                          -- Function for changing an \smath{(x,y)}
+    coord = "polar" => polar2Complex                     -- \quad{}pair into a complex number.
+    cartesian2Complex
+  cm := makeConformalMap(f, transformC)
+  sp := createThreeSpace()                               -- Create a fresh space.
+  adaptGrid(sp, cm, rRange, tRange, rSteps, tSteps)      -- Plot the coordinate lines.
+  makeViewport3D(sp, "Conformal Map")                    -- Draw the image.
+\end{xmpLinesNoResetPlain}
+
+\userfun{riemannConformalDraw}{\it (f, rRange, tRange, rSteps, tSteps, coord)}
+draws the image of the coordinate grid under {\it f} on the Riemann sphere.
+The grid may be given in either polar or Cartesian coordinates.
+Its arguments are the same as those for \userfun{conformalDraw}.
+\begin{xmpLinesNoResetPlain}
+riemannConformalDraw:(C->C,S,S,PI,PI,String)->VIEW3D
+riemannConformalDraw(f, rRange, tRange,
+                     rSteps, tSteps, coord) ==
+  transformC :=                                          -- Function for changing an \smath{(x,y)}
+    coord = "polar" => polar2Complex                     -- \quad{}pair into a complex number.
+    cartesian2Complex
+  sp := createThreeSpace()                               -- Create a fresh space.
+  cm := makeRiemannConformalMap(f, transformC)
+  adaptGrid(sp, cm, rRange, tRange, rSteps, tSteps)      -- Plot the coordinate lines.
+  curve(sp,[point [0,0,2.0@DFLOAT,0],point [0,0,2.0@DFLOAT,0]]) -- Add an invisible point at
+  makeViewport3D(sp,"Map on the Riemann Sphere")         -- \quad{}the north pole for scaling.
+
+adaptGrid(sp, f, uRange, vRange,  uSteps, vSteps) ==     -- Plot the coordinate grid
+  delU := (high(uRange) - low(uRange))/uSteps            -- \quad{}using adaptive plotting for
+  delV := (high(vRange) - low(vRange))/vSteps            -- \quad{}coordinate lines, and draw
+  uSteps := uSteps + 1; vSteps := vSteps + 1             -- \quad{}tubes around the lines.
+  u := low uRange
+  for i in 1..uSteps repeat                              -- Draw coordinate lines in the \spad{v}
+    c := curryLeft(f,u)                                  -- \quad{}direction; curve \spad{c} fixes the
+    cf := (t:DFLOAT):DFLOAT +-> 0                        -- \quad{}current value of \spad{u}.
+    makeObject(c,vRange::SEG Float,colorFunction==cf,    -- Draw the \spad{v} coordinate line.
+      space == sp, tubeRadius == .02, tubePoints == 6)
+    u := u + delU
+  v := low vRange
+  for i in 1..vSteps repeat                              -- Draw coordinate lines in the \spad{u}
+    c := curryRight(f,v)                                 -- \quad{}direction; curve \spad{c} fixes the
+    cf := (t:DFLOAT):DFLOAT +-> 1                        -- \quad{}current value of \spad{v}.
+    makeObject(c,uRange::SEG Float,colorFunction==cf,    -- Draw the \spad{u} coordinate line.
+      space == sp, tubeRadius == .02, tubePoints == 6)
+    v := v + delV
+  void()
+
+riemannTransform(z) ==                                   -- Map a point in the complex
+  r := sqrt norm z                                       -- \quad{}plane to the Riemann sphere.
+  cosTheta := (real z)/r
+  sinTheta := (imag z)/r
+  cp := 4*r/(4+r^2)
+  sp := sqrt(1-cp*cp)
+  if r>2 then sp := -sp
+  point [cosTheta*cp, sinTheta*cp, -sp + 1]
+
+cartesian2Complex(r:DFLOAT, i:DFLOAT):C ==               -- Convert Cartesian coordinates to
+  complex(r, i)                                          -- \quad{}complex Cartesian form.
+
+polar2Complex(r:DFLOAT, th:DFLOAT):C ==                  -- Convert polar coordinates to
+  complex(r*cos(th), r*sin(th))                          -- \quad{}complex Cartesian form.
+
+makeConformalMap(f, transformC) ==                       -- Convert complex function \spad{f} to a
+  (u:DFLOAT,v:DFLOAT):R3 +->                             -- \quad{}mapping: (\spadtype{DFLOAT},\spadtype{DFLOAT}) $\to$ \pspadtype{R3}
+    z := f transformC(u, v)                              -- \quad{}in the complex plane.
+    point [real z, imag z, 0.0@DFLOAT]
+
+makeRiemannConformalMap(f, transformC) ==                -- Convert a complex function \spad{f} to a
+  (u:DFLOAT, v:DFLOAT):R3 +->                            -- \quad{}mapping: (\spadtype{DFLOAT},\spadtype{DFLOAT}) $\to$ \spadtype{R3}
+    riemannTransform f transformC(u, v)                  -- \quad{}on the Riemann sphere.
+
+riemannSphereDraw: (S, S, PI, PI, String) -> VIEW3D      -- Draw a picture of the mapping
+riemannSphereDraw(rRange,tRange,rSteps,tSteps,coord) ==  -- \quad{}of the complex plane to
+  transformC :=                                          -- \quad{}the Riemann sphere.
+    coord = "polar" => polar2Complex
+    cartesian2Complex
+  grid := (u:DFLOAT, v:DFLOAT): R3 +->                   -- Coordinate grid function.
+    z1 := transformC(u, v)
+    point [real z1, imag z1, 0]
+  sp := createThreeSpace()                               -- Create a fresh space.
+  adaptGrid(sp, grid, rRange, tRange, rSteps, tSteps)    -- Draw the flat grid.
+  connectingLines(sp,grid,rRange,tRange,rSteps,tSteps)
+  makeObject(riemannSphere,0..2*%pi,0..%pi,space==sp)    -- Draw the sphere.
+  f := (z:C):C +-> z
+  cm := makeRiemannConformalMap(f, transformC)
+  adaptGrid(sp, cm, rRange, tRange, rSteps, tSteps)      -- Draw the sphere grid.
+  makeViewport3D(sp, "Riemann Sphere")
+
+connectingLines(sp,f,uRange,vRange,uSteps,vSteps) ==     -- Draw the lines that connect
+  delU := (high(uRange) - low(uRange))/uSteps            -- \quad{}the points in the complex
+  delV := (high(vRange) - low(vRange))/vSteps            -- \quad{}plane to the north pole
+  uSteps := uSteps + 1; vSteps := vSteps + 1             -- \quad{}of the Riemann sphere.
+  u := low uRange
+  for i in 1..uSteps repeat                              -- For each u.
+    v := low vRange
+    for j in 1..vSteps repeat                            -- For each v.
+      p1 := f(u,v)
+      p2 := riemannTransform complex(p1.1, p1.2)         -- Project p1 onto the sphere.
+      fun := lineFromTo(p1,p2)                           -- Create a line function.
+      cf := (t:DFLOAT):DFLOAT +-> 3
+      makeObject(fun, 0..1,space==sp,tubePoints==4,      -- Draw the connecting line.
+                 tubeRadius==0.01,colorFunction==cf)
+      v := v + delV
+    u := u + delU
+  void()
+
+riemannSphere(u,v) ==                                    -- A sphere sitting on the
+  sv := sin(v)                                           -- \quad{}complex plane, with radius 1.
+  0.99@DFLOAT*(point [cos(u)*sv,sin(u)*sv,cos(v),0.0@DFLOAT])+
+    point [0.0@DFLOAT, 0.0@DFLOAT, 1.0@DFLOAT, 4.0@DFLOAT]
+
+lineFromTo(p1, p2) ==                                    -- Create a line function
+  d := p2 - p1                                           -- \quad{}that goes from p1 to p2
+  (t:DFLOAT):Point DFLOAT +->
+    p1 + t*d
+\end{xmpLinesNoResetPlain}
+
+%\input{gallery/tknot.htex}
+% *********************************************************************
+\head{section}{tknot.input}{ugFtknot}
+% *********************************************************************
+%
+Create a $(p,q)$ torus-knot with radius $r$ around the curve.
+The formula was derived by Larry Lambe.
+
+\begin{xmpLinesPlain}
+)read ntube
+torusKnot: (DFLOAT, DFLOAT, DFLOAT, PI, PI) -> VIEW3D
+torusKnot(p, q ,r, uSteps, tSteps) ==
+  knot := (t:DFLOAT):Point DFLOAT +->                    -- Function for the torus knot.
+    fac := 4/(2.2@DFLOAT-sin(q*t))
+    fac * point [cos(p*t), sin(p*t), cos(q*t)]
+  circle := (u:DFLOAT, t:DFLOAT): Point DFLOAT +->       -- The cross section.
+    r * point [cos u, sin u]
+  ntubeDrawOpt(knot, circle, 0..2*%pi, 0..2*%pi,         -- Draw the circle around the knot.
+               var1Steps == uSteps, var2Steps == tSteps)
+
+\end{xmpLinesPlain}
+
+%\input{gallery/ntube.htex}
+% *********************************************************************
+\head{section}{ntube.input}{ugFntube}
+% *********************************************************************
+%
+The functions in this file create generalized tubes (also known as generalized
+cylinders).
+These functions draw a 2-d curve in the normal
+planes around a 3-d curve.
+
+\begin{xmpLinesPlain}
+R3 := Point DFLOAT                                       -- Points in 3-Space
+R2 := Point DFLOAT                                       -- Points in 2-Space
+S := Segment Float                                       -- Draw ranges
+                                                         -- Introduce types for functions for:
+ThreeCurve := DFLOAT -> R3                               -- \quad{}---the space curve function
+TwoCurve := (DFLOAT, DFLOAT) -> R2                       -- \quad{}---the plane curve function
+Surface := (DFLOAT, DFLOAT) -> R3                        -- \quad{}---the surface function
+                                                         -- Frenet frames define a
+FrenetFrame :=                                           -- \quad{}coordinate system around a
+   Record(value:R3,tangent:R3,normal:R3,binormal:R3)     -- \quad{}point on a space curve.
+frame: FrenetFrame                                       -- The current Frenet frame
+                                                         -- \quad{}for a point on a curve.
+\end{xmpLinesPlain}
+
+\userfun{ntubeDraw}{\it (spaceCurve, planeCurve,}
+$u_0 .. u_1,$ $t_0 .. t_1)$
+draws {\it planeCurve} in the normal planes of {\it spaceCurve.}
+The parameter $u_0 .. u_1$ specifies
+the parameter range for {\it planeCurve}
+and $t_0 .. t_1$ specifies the parameter range for {\it spaceCurve}.
+Additionally, the plane curve function takes
+a second parameter: the current parameter of {\it spaceCurve}.
+This allows the plane curve to change shape
+as it goes around the space curve.
+See \spadref{ugFimagesFive} for an example of this.
+%
+\begin{xmpLinesNoResetPlain}
+ntubeDraw: (ThreeCurve,TwoCurve,S,S) -> VIEW3D
+ntubeDraw(spaceCurve,planeCurve,uRange,tRange) ==
+  ntubeDrawOpt(spaceCurve, planeCurve, uRange, _
+               tRange, []$List DROPT)
+
+ntubeDrawOpt: (ThreeCurve,TwoCurve,S,S,List DROPT)
+    -> VIEW3D
+ntubeDrawOpt(spaceCurve,planeCurve,uRange,tRange,l) ==   -- This function is similar
+                                                         -- \quad{}to \userfun{ntubeDraw}, but takes
+  delT:DFLOAT := (high(tRange) - low(tRange))/10000      -- \quad{}optional parameters that it
+  oldT:DFLOAT := low(tRange) - 1                         -- \quad{}passes to the \spadfun{draw} command.
+  fun := ngeneralTube(spaceCurve,planeCurve,delT,oldT)
+  draw(fun, uRange, tRange, l)
+
+\end{xmpLinesNoResetPlain}
+
+\userfun{nfrenetFrame}{\it (c, t, delT)}
+numerically computes the Frenet frame
+about the curve {\it c} at {\it t}.
+Parameter {\it delT} is a small number used to
+compute derivatives.
+\begin{xmpLinesNoResetPlain}
+nfrenetFrame(c, t, delT) ==
+  f0 := c(t)
+  f1 := c(t+delT)
+  t0 := f1 - f0                                          -- The tangent.
+  n0 := f1 + f0
+  b := cross(t0, n0)                                     -- The binormal.
+  n := cross(b,t0)                                       -- The normal.
+  ln := length n
+  lb := length b
+  ln = 0 or lb = 0 =>
+      error "Frenet Frame not well defined"
+  n := (1/ln)*n                                          -- Make into unit length vectors.
+  b := (1/lb)*b
+  [f0, t0, n, b]$FrenetFrame
+\end{xmpLinesNoResetPlain}
+
+\userfun{ngeneralTube}{\it (spaceCurve, planeCurve,}{\it  delT, oltT)}
+creates a function that can be passed to the system \spadfun{draw} command.
+The function is a parameterized surface for the general tube
+around {\it spaceCurve}.  {\it delT} is a small number used to compute
+derivatives. {\it oldT} is used to hold the current value of the
+{\it t} parameter for {\it spaceCurve.}  This is an efficiency measure
+to ensure that frames are only computed once for each value of {\it t}.
+\begin{xmpLinesNoResetPlain}
+ngeneralTube: (ThreeCurve, TwoCurve, DFLOAT, DFLOAT) -> Surface
+ngeneralTube(spaceCurve, planeCurve, delT, oldT) ==
+  free frame                                             -- Indicate that \spad{frame} is global.
+  (v:DFLOAT, t: DFLOAT): R3 +->
+    if (t ~= oldT) then                                  -- If not already computed,
+      frame := nfrenetFrame(spaceCurve, t, delT)         -- \quad{}compute new frame.
+      oldT := t
+    p := planeCurve(v, t)
+    frame.value + p.1*frame.normal + p.2*frame.binormal  -- Project \spad{p} into the normal plane.
+\end{xmpLinesNoResetPlain}
+
+%\input{gallery/dhtri.htex}
+% *********************************************************************
+\head{section}{dhtri.input}{ugFdhtri}
+% *********************************************************************
+%
+Create affine transformations (DH matrices) that transform
+a given triangle into another.
+
+\begin{xmpLinesPlain}
+tri2tri: (List Point DFLOAT, List Point DFLOAT) -> DHMATRIX(DFLOAT)
+                                                         -- Compute a \spadtype{DHMATRIX} that
+tri2tri(t1, t2) ==                                       -- \quad{}transforms \spad{t1} to \spad{t2,} where
+  n1 := triangleNormal(t1)                               -- \quad{}\spad{t1} and \spad{t2} are the vertices
+  n2 := triangleNormal(t2)                               -- \quad{}of two triangles in 3-space.
+  tet2tet(concat(t1, n1), concat(t2, n2))
+
+tet2tet: (List Point DFLOAT, List Point DFLOAT) -> DHMATRIX(DFLOAT)
+                                                         -- Compute a \spadtype{DHMATRIX} that
+tet2tet(t1, t2) ==                                       -- \quad{}transforms \spad{t1} to \spad{t2,}
+  m1 := makeColumnMatrix t1                              -- \quad{}where \spad{t1} and \spad{t2} are the
+  m2 := makeColumnMatrix t2                              -- \quad{}vertices of two tetrahedrons
+  m2 * inverse(m1)                                       -- \quad{}in 3-space.
+
+makeColumnMatrix(t) ==                                   -- Put the vertices of a tetra-
+  m := new(4,4,0)$DHMATRIX(DFLOAT)                       -- \quad{}hedron into matrix form.
+  for x in t for i in 1..repeat
+    for j in 1..3 repeat
+      m(j,i) := x.j
+    m(4,i) := 1
+  m
+
+triangleNormal(t) ==                                     -- Compute a vector normal to
+  a := triangleArea t                                    -- \quad{}the given triangle, whose
+  p1 := t.2 - t.1                                        -- \quad{}length is the square root
+  p2 := t.3 - t.2                                        -- \quad{}of the area of the triangle.
+  c := cross(p1, p2)
+  len := length(c)
+  len = 0 => error "degenerate triangle!"
+  c := (1/len)*c
+  t.1 + sqrt(a) * c
+
+triangleArea t ==                                        -- Compute the area of a
+  a := length(t.2 - t.1)                                 -- \quad{}triangle using Heron's
+  b := length(t.3 - t.2)                                 -- \quad{}formula.
+  c := length(t.1 - t.3)
+  s := (a+b+c)/2
+  sqrt(s*(s-a)*(s-b)*(s-c))
+\end{xmpLinesPlain}
+
+
+% *********************************************************************
+\head{section}{tetra.input}{ugFtetra}
+% *********************************************************************
+%
+%\input{gallery/tetra.htex}
+%\outdent{Sierpinsky's Tetrahedron}
+
+\begin{xmpLinesPlain}
+)set expose add con DenavitHartenbergMatrix              -- Bring DH matrices into the
+                                                         -- \quad{}environment.
+x1:DFLOAT := sqrt(2.0@DFLOAT/3.0@DFLOAT)                 -- Set up the coordinates of the
+x2:DFLOAT := sqrt(3.0@DFLOAT)/6                          -- \quad{}corners of the tetrahedron.
+
+z := 0.0@DFLOAT
+h := 0.5@DFLOAT
+
+p1 := point [-h, -x2, z]                                 -- Some needed points.
+p2 := point [h, -x2, z]
+p3 := point [z, 2*x2, z]
+p4 := point [z, z, x1]
+
+baseTriangle  := [p2, p1, p3]                            -- The base of the tetrahedron.
+
+mt := [h*(p2+p1), h*(p1+p3), h*(p3+p2)]                  -- The ``middle triangle'' inscribed
+                                                         -- \quad{}in the base of the tetrahedron.
+bt1 := [mt.1, p1, mt.2]                                  -- The bases of the triangles of
+bt2 := [p2, mt.1, mt.3]                                  -- \quad{}the subdivided tetrahedron.
+bt3 := [mt.2, p3, mt.3]
+bt4 := [h*(p2+p4), h*(p1+p4), h*(p3+p4)]
+
+tt1 := tri2tri(baseTriangle, bt1)                        -- Create the transformations
+tt2 := tri2tri(baseTriangle, bt2)                        -- \quad{}that bring the base of the
+tt3 := tri2tri(baseTriangle, bt3)                        -- \quad{}tetrahedron to the bases of
+tt4 := tri2tri(baseTriangle, bt4)                        -- \quad{}the subdivided tetrahedron.
+
+drawPyramid(n) ==                                        -- Draw a Sierpinsky tetrahedron
+  s := createThreeSpace()                                -- \quad{}with \spad{n} levels of recursive
+  dh := rotatex(0.0@DFLOAT)                              -- \quad{}subdivision.
+  drawPyramidInner(s, n, dh)
+  makeViewport3D(s, "Sierpinsky Tetrahedron")
+
+drawPyramidInner(s, n, dh) ==                            -- Recursively draw a Sierpinsky
+  n = 0 => makeTetrahedron(s, dh, n)                     -- \quad{}tetrahedron.
+  drawPyramidInner(s, n-1, dh * tt1)                     -- Draw the 4 recursive pyramids.
+  drawPyramidInner(s, n-1, dh * tt2)
+  drawPyramidInner(s, n-1, dh * tt3)
+  drawPyramidInner(s, n-1, dh * tt4)
+
+makeTetrahedron(sp, dh, color) ==                        -- Draw a tetrahedron into the
+  w1 := dh*p1                                            -- \quad{}given space with the given
+  w2 := dh*p2                                            -- \quad{}color, transforming it by
+  w3 := dh*p3                                            -- \quad{}the given DH matrix.
+  w4 := dh*p4
+  polygon(sp, [w1, w2, w4])
+  polygon(sp, [w1, w3, w4])
+  polygon(sp, [w2, w3, w4])
+  void()
+\end{xmpLinesPlain}
+\index{Sierpinsky's Tetrahedron}
+
+
+%\input{gallery/antoine.htex}
+% *********************************************************************
+\head{section}{antoine.input}{ugFantoine}
+% *********************************************************************
+%
+Draw Antoine's Necklace.
+\index{Antoine's Necklace}
+Thank you to Matthew Grayson at IBM's T.J Watson Research Center for the idea.
+
+\begin{xmpLinesPlain}
+)set expose add con DenavitHartenbergMatrix              -- Bring DH matrices into
+                                                         -- \quad{}the environment.
+torusRot: DHMATRIX(DFLOAT)                               -- The current transformation for
+                                                         -- \quad{}drawing a sub ring.
+
+drawRings(n) ==                                          -- Draw Antoine's Necklace with \spad{n}
+  s := createThreeSpace()                                -- \quad{}levels of recursive subdivision.
+  dh:DHMATRIX(DFLOAT) := identity()                      -- \quad{}The number of subrings is $10^n$.
+  drawRingsInner(s, n, dh)                               -- Do the real work.
+  makeViewport3D(s, "Antoine's Necklace")
+
+\end{xmpLinesPlain}
+
+In order to draw Antoine rings, we take one ring, scale it down to
+a smaller size, rotate it around its central axis, translate it
+to the edge of the larger ring and rotate it around the edge to
+a point corresponding to its count (there are 10 positions around
+the edge of the larger ring). For each of these new rings we
+recursively perform the operations, each ring becoming 10 smaller
+rings. Notice how the \spadtype{DHMATRIX} operations are used to build up
+the proper matrix composing all these transformations.
+
+\begin{xmpLinesNoResetPlain}
+F ==> DFLOAT
+drawRingsInner(s, n, dh) ==                              -- Recursively draw Antoine's
+  n = 0 =>                                               -- \quad{}Necklace.
+    drawRing(s, dh)
+    void()
+  t := 0.0@F                                             -- Angle around ring.
+  p := 0.0@F                                             -- Angle of subring from plane.
+  tr := 1.0@F                                            -- Amount to translate subring.
+  inc := 0.1@F                                           -- The translation increment.
+  for i in 1..10 repeat                                  -- Subdivide into 10 linked rings.
+    tr := tr + inc
+    inc := -inc
+    dh' := dh*rotatez(t)*translate(tr,0.0@F,0.0@F)*      -- Transform ring in center
+           rotatey(p)*scale(0.35@F, 0.48@F, 0.4@F)       -- \quad{}to a link.
+    drawRingsInner(s, n-1, dh')
+    t := t + 36.0@F
+    p := p + 90.0@F
+  void()
+
+drawRing(s, dh) ==                                       -- Draw a single ring into
+  free torusRot                                          -- \quad{}the given subspace,
+  torusRot := dh                                         -- \quad{}transformed by the given
+  makeObject(torus, 0..2*%pi, 0..2*%pi, var1Steps == 6,  -- \quad{}\spadtype{DHMATRIX}.
+             space == s, var2Steps == 15)
+
+torus(u ,v) ==                                           -- Parameterization of a torus,
+  cu := cos(u)/6                                         -- \quad{}transformed by the
+  torusRot*point [(1+cu)*cos(v),(1+cu)*sin(v),(sin u)/6] -- \quad{}\spadtype{DHMATRIX} in \spad{torusRot.}
+\end{xmpLinesNoResetPlain}
+
+%\input{gallery/scherk.htex}
+% *********************************************************************
+\head{section}{scherk.input}{ugFscherk}
+% *********************************************************************
+%
+
+Scherk's minimal surface, defined by:
+\index{Scherk's minimal surface}
+$e^z \cos(x) = \cos(y)$.
+See: {\it A Comprehensive Introduction to Differential Geometry,} Vol. 3,
+by Michael Spivak, Publish Or Perish, Berkeley, 1979, pp. 249-252.
+
+\begin{xmpLinesPlain}
+(xOffset, yOffset):DFLOAT                                -- Offsets for a single piece
+                                                         -- \quad{}of Scherk's minimal surface.
+
+drawScherk(m,n) ==                                       -- Draw Scherk's minimal surface
+  free xOffset, yOffset                                  -- \quad{}on an \spad{m} by \spad{n} patch.
+  space := createThreeSpace()
+  for i in 0..m-1 repeat
+    xOffset := i*%pi
+    for j in 0 .. n-1 repeat
+      rem(i+j, 2) = 0 => 'iter                           -- Draw only odd patches.
+      yOffset := j*%pi
+      drawOneScherk(space)                               -- Draw a patch.
+  makeViewport3D(space, "Scherk's Minimal Surface")
+
+scherk1(u,v) ==                                          -- The first patch that makes
+  x := cos(u)/exp(v)                                     -- \quad{}up a single piece of
+  point [xOffset + acos(x), yOffset + u, v, abs(v)]      -- \quad{}Scherk's minimal surface.
+
+scherk2(u,v) ==                                          -- The second patch.
+  x := cos(u)/exp(v)
+  point [xOffset - acos(x), yOffset + u, v, abs(v)]
+
+scherk3(u,v) ==                                          -- The third patch.
+  x := exp(v) * cos(u)
+  point [xOffset + u, yOffset + acos(x), v, abs(v)]
+
+scherk4(u,v) ==                                          -- The fourth patch.
+  x := exp(v) * cos(u)
+  point [xOffset + u, yOffset - acos(x), v, abs(v)]
+
+drawOneScherk(s) ==                                      -- Draw the surface by
+  makeObject(scherk1,-%pi/2..%pi/2,0..%pi/2,space==s,    -- \quad{}breaking it into four
+             var1Steps == 28, var2Steps == 28)           -- \quad{}patches and then drawing
+  makeObject(scherk2,-%pi/2..%pi/2,0..%pi/2,space==s,    -- \quad{}the patches.
+             var1Steps == 28, var2Steps == 28)
+  makeObject(scherk3,-%pi/2..%pi/2,-%pi/2..0,space==s,
+             var1Steps == 28, var2Steps == 28)
+  makeObject(scherk4,-%pi/2..%pi/2,-%pi/2..0,space==s,
+             var1Steps == 28, var2Steps == 28)
+  void()
+\end{xmpLinesPlain}
+\begin{SysCmdOutput}
+\end{SysCmdOutput}
