@@ -37,7 +37,7 @@ PhysicalUnitSystem(u:List Symbol) : Exports == Implementation where
           d.k:=r.exp
         d
 
-      x = y == test(dim x = dim y)
+      x = y == test(dim x = dim y)                                      
       
       coerce0(x:%):OutputForm ==
         size x = 0 => outputForm(1)
@@ -139,3 +139,72 @@ PhysQty(U): Exports == Implementation where
         outputMode=1 => blankSeparate [val::OF,pmof,err::OF,x.unit::OF]
         outputMode=2 => blankSeparate [val::OF,x.unit::OF]
         outputMode=3 => blankSeparate [x.ival::OF,x.unit::OF]
+        
+                                                                    
+)abbrev package SI SIunits                                                
+SIunits : Exports == Implementation where
+  
+    USY ==> ['m,'kg,'s,'A,'K,'mol,'cd]                                  
+    SIU ==> PhysicalUnitSystem(USY)     
+                                                  
+    Exports == with
+  
+      %m   : Integer -> SIU
+      %kg  : Integer -> SIU        
+      %s   : Integer -> SIU
+      %A   : Integer -> SIU
+      %K   : Integer -> SIU
+      %mol : Integer -> SIU
+      %cd  : Integer -> SIU                       
+
+      hertz     : SIU
+      newton    : SIU
+      pascal    : SIU  
+      joule     : SIU 
+      watt      : SIU 
+      coulomb   : SIU
+      volt      : SIU
+      farad     : SIU
+      ohm       : SIU
+      siemens   : SIU
+      weber     : SIU
+      tesla     : SIU
+      henry     : SIU
+      lumen     : SIU
+      lux       : SIU
+      becquerel : SIU
+      gray      : SIU
+      sievert   : SIU
+      katal     : SIU
+
+    Implementation ==  SIU add                 
+  
+      u:=baseUnits()$SIU
+    
+      %m(n)   == u.1^n
+      %kg(n)  == u.2^n
+      %s(n)   == u.3^n
+      %A(n)   == u.4^n
+      %K(n)   == u.5^n
+      %mol(n) == u.6^n
+      %cd(n)  == u.7^n
+                                     
+      hertz      ==  %s(-1)
+      newton     ==  %kg(1)*%m(1)*%s(-2)
+      pascal     ==  %kg(1)*%m(-1)*%s(-2)   
+      joule      ==  %kg(1)*%m(2)*%s(-2)
+      watt       ==  %kg(1)*%m(2)*%s(-3)
+      coulomb    ==  %s(1)*%A(1)
+      volt       ==  %kg(1)*%m(2)*%s(-3)*%A(-1)
+      farad      ==  %kg(-1)*%m(-2)*%s(4)*%A(2)
+      ohm        ==  %kg(1)*%m(2)*%s(-3)*%A(2)
+      siemens    ==  %kg(-1)*%m(-2)*%s(3)*%A(2)
+      weber      ==  %kg(1)*%m(2)*%s(-2)*%A(-1)
+      tesla      ==  %kg(1)*%s(-2)*%A(-1)
+      henry      ==  %kg(1)*%m(2)*%s(-2)*%A(-2)
+      lumen      ==  %cd(1)
+      lux        ==  %m(-2)*%cd(1)
+      becquerel  ==  %s(-1)
+      gray       ==  %m(2)*%s(-2)
+      sievert    ==  %m(2)*%s(-2)
+      katal      ==  %s(-1)*%mol(1)    

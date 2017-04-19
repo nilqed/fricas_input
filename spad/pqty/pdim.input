@@ -1,9 +1,9 @@
 )co pdim
 
-SI:=PUSYS(['m,'kg,'s,'A,'K,'mol,'cd])
-u:=baseUnits()$SI
+SIU:=PUSYS(['m,'kg,'s,'A,'K,'mol,'cd])
+u:=baseUnits()$SIU
 
-PSI==>PQTY(SI)
+PSI==>PQTY(SIU)
 
 (interval(1.2)$Interval(Float)) (u.1*u.2^3)
 a:=1.233 u.1
@@ -19,3 +19,6 @@ a
 b
 setOutputMode(1)$PSI
 
+F:=4.5555 newton()$SI
+A:=300.45 %m(2)$SI
+unit(F/A) /pascal()$SI

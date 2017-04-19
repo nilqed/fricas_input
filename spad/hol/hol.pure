@@ -1,0 +1,45 @@
+type holtype x::symbol = x===boo||x===ind;
+type holtype (fun x::holtype y::holtype) ;
+
+type holterm (var x::var t::holtype)
+   | holterm (con x::var t::holtype)
+   | holterm (app t::holterm s::holterm)
+   | holterm (abs (var x::var t::holtype) s::holterm)
+   ;
+   
+
+funtypep (fun x::holtype y::holtype) = true ;  
+domaintype (fun x::holtype y::holtype) = x ;
+rangetype (fun x::holtype y::holtype) = y ;
+
+
+typeOf (var x::var t::holtype) = t ;
+typeOf (con x::var t::holtype) = t ;
+
+typeOf (app s::holterm t::holterm)
+  = rangetype s if funtypep s ;
+  = boo otherwise;
+
+typeOf (abs (var x::var t::holtype) s::holterm)
+  = fun t (typeOf s) ;
+  
+
+/*
+> using reduce
+> ;
+Reduce (Free CSL version), 05-Jun-16 ...
+> simplify x;
+x
+> simplify (x+2)^2;
+(x+2)^2
+> simplify $ (x+2)^2;
+x^2+4*x+4
+> let a = simplify $ (x+2)^2;
+> a;
+x^2+4*x+4
+> ans
+> ;
+x^2+4*x+4
+> simplify $ df(ans,x);
+2*x+4
+*/

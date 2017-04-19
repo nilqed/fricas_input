@@ -1,0 +1,18 @@
+
+
+type term x::var
+   | term (appl t::term s::term)
+   | term (forall x::var : t::term . s::term)
+   | term (lambda x::var : t::term . s::term)
+   ;
+   
+let v = typep term (forall x:y . z);
+
+type _type x::symbol = x===boo||x===ind;
+type _type (fun x::_type y::_type) ;
+
+typep _type ind;
+typep _type boo;
+
+let a = fun boo ind ;
+typep _type a;
