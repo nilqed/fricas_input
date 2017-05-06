@@ -1,0 +1,221 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{stmaryrd}
+\usepackage[margin=0.8in]{geometry}
+
+\begin{document}
+\newcommand{\Norm}[1]{\vert\vert#1\vert\vert} % Norm
+\newcommand{\Abs}[1]{\vert#1\vert} % Abs
+\newcommand{\Dotp}[2]{\langle#1,#2\rangle} % Scalar product
+\newcommand{\RR}{\mathbb{R}} % Reals
+\newcommand{\FT}[1]{\int_{\RR^n} #1 e^{-i\Dotp{k}{x}} dm(x)} % Fourier transform
+\newcommand{\IFT}[1]{\int_{\RR^n}\hat#1 e^{i\Dotp{k}{x}} dm(k)} % Inverse Fourier transform
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newcommand{\LL}{{\cal L}} % Lagrange
+
+\newcommand{\Current}[1]{\llbracket#1\rrbracket}
+\newcommand{\DD}{{\cal D}}
+
+\title{Weakly calibrated currents}
+\author{Kurt Pagani\\{\tt pagani@scios.ch}}
+\date{\today}
+\maketitle
+\abstract{We show}
+
+\section{Introduction}
+Denote by $\DD_p(\RR^n)$ the space of infinitely differentiable $p$-forms on $\RR^n$ 
+with compact support, and by
+$\DD'_p(\RR^n)$ the corresponding space of $p$-currents (DeRham currents to be precise). 
+One may think of Distributions with values in the finite dimensional Grassmann space
+$\wedge_p \RR^n$, whose elements are the $p$-vectors
+\[
+   v = \tfrac{1}{p!}\sum_{\alpha} v^\alpha e_\alpha
+     = \sum_{1\leq\alpha_1<\ldots<\alpha_p\leq n} v^{\alpha_1 \ldots \alpha_p} 
+          e_1\wedge\ldots\wedge e_p,
+\] 
+where $e_1,\ldots,e_n$ denotes the standard basis of $\RR^n$.
+For any $C\subset \DD_p(\RR^n)$ we define
+\begin{equation} \label{PhiC}
+\Phi_{C}(T)={\tt sup}\{T(\omega): \omega\in C\},
+\end{equation}
+for all $T\in \DD'_p(\RR^n)$. The set $\{T\in\DD'_p(\RR^n): |\Phi_C(T)|<\infty \}$ is 
+called the domain of $\Phi_C$, as it is usual in convexity theory. It is easily seen that
+$\Phi_C$ is a positively homogeneous, lower semicontinuous and convex function. Moreover,
+it is the support function of the set $C$, thus we could assume that $C$ is a 
+closed convex subset since the the support functions of $C$ and $\overline{{\tt conv}(C)}$ coincide. Recall that the boundary of a $p$-current is defined as the $(p-1)$-current
+\[
+ \partial T(\phi) = T(d\phi),
+\]
+so that for smooth objects the Stokes theorem results:
+\[
+   \int_{\partial T} \omega = \int_T d\omega.
+\]
+For such smooth objects that we can integrate over, we use the notation $\Current{.}$. For
+instance, let $\gamma$ be a smooth curve joining the points $a,b\in \RR^n$, then
+\[
+   \Current{\gamma}(\omega)=\int_I \Dotp{\gamma'(t)}{(\omega\circ\gamma)(t)} \,dt
+\]
+and
+\[
+   \partial \Current{\gamma}(\phi)=\Current{\gamma}(d\phi)=\Current{b}(\phi)-\Current{a}(\phi)
+   = \phi(b) - \phi(a).
+\]
+With that definition we have $ \partial \Current{\gamma}= \Current{\partial \gamma}$
+in this special case, what
+is not true generally, of course. Furthermore, the integrand $\Dotp{\gamma'(t)}{(\omega\circ\gamma)(t)} \,dt$ is just the pull-back of the one form $\omega$ by the mapping 
+$\gamma:I \rightarrow \RR^n$, where $I=[a,b]$. Therefore we may also write
+\[
+   \Current{\gamma}(\omega)=(\gamma_\#\Current{I})(\omega)=\Current{I}(\gamma^{\#}\omega),
+\]
+where $\gamma_\#$ and $\gamma^{\#}$ denotes the push-forward and pull-back respectively.
+We adopt this notation for any mapping, so that, for example, $G_{u,\#}\Current{\Omega}$
+means integration over the graph of the mapping $u:\Omega \rightarrow \RR^n$.
+\newpage
+\begin{definition}
+Let $1\leq p\leq n$, $C\subset {\DD}_p(\RR^n)$, $S\in  {\DD}'_{p-1}(\RR^n)$, then set
+  \begin{equation}
+    \alpha(C,S)= {\tt inf}\{\Phi_C(T): T\in {\DD}'_p(\RR^n), \partial T = S\},
+  \end{equation}   
+where $\Phi_C$ as in $(\ref{PhiC})$.
+\end{definition}
+By the well known saddle point property we have
+\[
+   \alpha(C,S)= \inf_{\partial T=S} \sup_C T(\omega) \geq \sup_C\inf_{\partial T=S} T(\omega),
+\]
+and if there is a pair\footnote{a saddle point actually}  $(T_0,\omega_0)$ such that
+\[
+       T_0(\omega) \leq T_0(\omega_0)\leq T(\omega_0)
+\]
+for all $(T,\omega)\in \{\partial T=S\}\times C$, then
+\[
+   \alpha(C,S)= \inf_{\partial T=S} \sup_C T(\omega) = 
+      \sup_C\inf_{\partial T=S} T(\omega) = T_0(\omega_0).
+\]
+\begin{definition}
+Let $1\leq p\leq n$, $C\subset {\DD}_p(\RR^n)$, $S\in  {\DD}'_{p-1}(\RR^n)$, then set
+  \begin{equation}
+    \beta(C,S)= {\tt sup}\{S(\phi): \phi\in {\DD}_{p-1}(\RR^n), d\phi\in C \}.
+  \end{equation}   
+\end{definition}
+It may be the case that $C$ does not contain any exact forms, therefore, and because we use the extended real number system, let us agree to set
+$\sup \emptyset=-\infty$ and $\inf \emptyset=\infty$. Note that $\beta$ is the support
+function of the set $d^{-1}C$, thus $\beta(C,S)=\Phi_{d^{-1}C}(S)$. 
+\begin{definition}
+ A $p$-form $\omega_0$ is called a calibration for $C\subset {\DD}_p(\RR^n)$ if 
+  \begin{itemize}
+    \item[1.] $\omega_0\in C$,
+    \item[2.] $d\omega_0=0$, and
+    \item[3.] $\int_{\RR^n} \omega_0=0$ if $p=n$.
+  \end{itemize}
+ A $p$-current $T_0$ is said to be calibrated by $\omega_0$ if $T_0(\omega_0)=\Phi_C(T_0)$.
+\end{definition}
+Now, we can come to the main point: suppose $T_0$ is calibrated by $\omega_0$, then 
+\[
+   \Phi_C(T)-\Phi_C(T_0)=\Phi_C(T) - T_0(\omega_0)\geq T(\omega_0) - T_0(\omega_0)
+     =\partial B(\omega_0)=B(d\omega_0)=0,
+\]
+thus
+\[
+   \Phi_C(T)\geq \Phi_C(T_0)
+\]
+for all $T$ such that $\partial T=\partial T_0$. Recall that the compactly supported
+de Rham cohomology groups for $\RR^n$ are given by $H_c^p(\RR^n)=\delta_{p,n}{\RR}$, 
+therefore we had to add item 3 in the definition of a calibration for $p=n$ in order
+to guarantee that the difference $T-T_0$ is a boundary $\partial B$ when $p=n$. It can be 
+omitted if one uses ${{\cal E}_p}(\RR^n)$ instead of ${\DD}_p(\RR^n)$.
+
+\begin{definition}
+We call a $p$-current $T_0$ weakly calibrated on $C\subset {\DD}_p(\RR^n)$ if there is
+a sequence $\{d\phi_j\}_{j\in{\mathbb N}}\subset C$ of exact forms such that
+\[
+    \lim_{j\rightarrow\infty} T_0(d\phi_j)=\Phi_C(T_0).
+\]
+\end{definition} 
+Obviously, every calibrated current is also weakly calibrated (choose $d\phi_j=\omega_0$ for
+all $j$, since $\omega_0$ has to be exact on $\RR^n$). 
+
+\newpage
+\section{Results}
+\begin{proposition}
+Suppose $T_0\in {\DD}'_p(\RR^n)$ with $\partial T_0=S$ is weakly calibrated on 
+ $C\subset {\DD}_p(\RR^n)$, then
+ \begin{equation}
+   \Phi_C(T_0)=\alpha(C,S)=\beta(C,S),
+ \end{equation}
+that is
+\[
+    \Phi_C(T_0) \leq \Phi_C(T)
+\]
+for all $T$ with the same boundary $S$.
+\end{proposition}
+\begin{proof}
+For all $T$ with boundary $S$ holds $T(d\phi_j)=S(\phi_j)$ and we always have 
+$\beta(C,S)\leq \alpha(C,S)$ because of
+\[
+       S(\phi)=\partial T(\phi)=T(d\phi)\leq \Phi_C(T),
+\]
+therefore
+  $$\Phi_C(T)-\Phi_C(T_0)=\Phi_C(T) - \lim_{j\rightarrow\infty}T_0(d\phi_j)
+  \geq \liminf_{j\rightarrow\infty}(T(d\phi_j)-T_0(d\phi_j))=0.$$
+Now, since $\Phi_C(T_0)=\alpha(C,S)$ and 
+$\lim_{j\rightarrow\infty}T_0(d\phi_j)=\lim_{j\rightarrow\infty}S(\phi_j)=\alpha(C,S)
+\leq \beta(C,S)$ it follows necessarily that $\alpha=\beta.$
+\end{proof}
+
+The proof above shows that a necessary condition for a calibrated current (weakly or not) is
+given by $\alpha(C,S)=\beta(C,S)$. Recalling the saddle point property mentioned in the 
+introduction, it holds
+\[
+   \alpha(C,S)= \inf_{\partial T=S} \sup_C T(\omega) 
+   \geq \sup_C\inf_{\partial T=S} T(\omega)\geq \beta(C,S),
+\]
+where all inequalities may be strict.
+
+
+
+
+\begin{thebibliography}{9}
+
+\bibitem{PP}
+  L.E. Payne, G.A. Philippin
+  \emph{On Maximum Principles for a Class of Nonlinear Second-Order Elliptic Equations}.
+  Journal of Differential Equations,37,39-48,1980.
+
+\bibitem{PP2}
+  L.E. Payne
+  \emph{"Best Possible" Maximum Principles}.
+  Banach Center Publications,Vol. 11,
+  PWN Polish Scientific Publishers, Warsaw 1985.
+  
+\bibitem{Sperb}
+  R.P. Sperb
+  \emph{Maximum Principles and their Applications}.
+  Academic Press, 1981.
+
+\bibitem{GT}
+  D. Gilbarg, N.S. Trudinger
+  \emph{Elliptic Partial Differential Equations of Second Order}.
+  Classics in Mathematics,
+  Springer Verlag.	
+  
+\bibitem{Rellich}
+  F. Rellich
+  \emph{Darstellung der Eigenwerte von $\Delta u + \lambda u=0$ durch ein Randintegral}.
+  Math. Zeitschrift, 46,
+  635-636, 1940.	
+
+\end{thebibliography}
+
+
+
+
+\end{document}
