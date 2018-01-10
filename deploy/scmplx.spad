@@ -100,9 +100,9 @@ CellMap(R,n) : Exports == Implementation where
       for j in 1..l repeat
         if j=i then
           if lo then
-            s:X:=lo(x.d.i)
+            s:X:=low(x.d.i)
           else
-            s:X:=hi(x.d.i)
+            s:X:=high(x.d.i)
         else
           if j>i then
             s:X:=subscript('%,[(j-1)::OF])::X

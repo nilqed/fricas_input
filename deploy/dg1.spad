@@ -195,7 +195,7 @@ DifferentialGeometry1(xs,us) : Exports == Implementation where
       I:R:=0$R
       f:R:=c
       for j in 1..#d repeat
-        J:UOCR:=integrate(f,equation(d.j,(lo(b.j)::OCR .. hi(b.j)::OCR)))$EFDI
+        J:UOCR:=integrate(f,equation(d.j,(low(b.j)::OCR .. high(b.j)::OCR)))$EFDI
         if J case f1 then 
           f:=retract(J.f1)$OCR
         else
