@@ -1,0 +1,17 @@
+)abbrev package SI SIunits                                                
+SIunits : Exports == Implementation where
+
+  USY ==> ['m,'kg,'s,'A,'K,'mol,'cd]$List(Symbol)                                 
+  SIU ==> PhysicalUnitSystem(USY)     
+                                                  
+  Exports == with 
+      %m0   : Integer -> Symbol
+      %m2    : Integer -> SIU 
+      --%m1   : Integer -> PhysicalUnitSystem(['m,'kg,'s,'A,'K,'mol,'cd])  
+   
+  Implementation ==  SIU add  
+    
+      v:=baseSymbols()$SIU
+      u:=baseUnits()$SIU
+      
+      %m0(n)   == v.1

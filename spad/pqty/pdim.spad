@@ -12,7 +12,7 @@ PhysicalUnit() : Category == with
 )abbrev domain PUSYS PhysicalUnitSystem 
 PhysicalUnitSystem(u:List Symbol) : Exports == Implementation where
     BASU ==> OrderedVariableList(u) 
-    FAGB ==> FreeAbelianGroup(BASU) 
+    FAGB ==> FreeModule(Integer,BASU) 
     Exports == Join(PhysicalUnit,CoercibleTo OutputForm) with
       _* : (%,%) -> %
       _/ : (%,%) -> %
@@ -20,7 +20,7 @@ PhysicalUnitSystem(u:List Symbol) : Exports == Implementation where
       baseUnits : List %
       factors : % ->  List Record(gen: BASU,exp: Integer)
     Implementation == FreeGroup(BASU) add
-      Rep:=FreeAbelianGroup(BASU)
+      Rep:=FreeModule(Integer,BASU)
       sort: % -> %
       x * y == sort(x+y) 
       x / y == sort(x-y)
@@ -40,7 +40,7 @@ PhysicalUnitSystem(u:List Symbol) : Exports == Implementation where
       x = y == test(dim x = dim y)                                      
       
       coerce0(x:%):OutputForm ==
-        size x = 0 => outputForm(1)
+        #monomials(x) = 0 => outputForm(1)
         d:=dim(x)
         b:=baseSymbols()
         y:List OutputForm:=[]
@@ -139,7 +139,8 @@ PhysQty(U): Exports == Implementation where
         outputMode=1 => blankSeparate [val::OF,pmof,err::OF,x.unit::OF]
         outputMode=2 => blankSeparate [val::OF,x.unit::OF]
         outputMode=3 => blankSeparate [x.ival::OF,x.unit::OF]
-        
+
+
                                                                     
 )abbrev package SI SIunits                                                
 SIunits : Exports == Implementation where
@@ -208,3 +209,4 @@ SIunits : Exports == Implementation where
       gray       ==  %m(2)*%s(-2)
       sievert    ==  %m(2)*%s(-2)
       katal      ==  %s(-1)*%mol(1)    
+
