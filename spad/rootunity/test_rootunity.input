@@ -1,0 +1,43 @@
+)co rootunity
+-- Example
+--RNG ==> Complex Expression Integer 
+RNG ==> Expression Complex Integer 
+z:RNG
+r:=rootsOf(z^5-1)
+R==>RootOfUnity(5,RNG)
+q:=[convert(t)$R for t in r]
+primitive?(1$R)
+pb:=[primitive?(t) for t in q]
+
+test(q.1=q.2)
+q.1^5
+q.1^6
+q.1^15
+
+sample()$R
+one? sample()$R
+
+
+inv(q.1)
+q12:=inv(q.1*q.2)
+q12^5 
+
+principal?(q.1)
+principal?(q.3*q.1)
+
+-- using solve instead of rootsOf
+
+rs5:=solve(z::RNG^5=1$RNG,'z)
+qrs5:=[convert(rhs t)$R for t in rs5]
+p5:=[primitive?(t) for t in qrs5]
+l5:=[principal?(t) for t in qrs5]
+test (qrs5.2=q.2/q.1)
+
+
+-- using zerosOf
+rz5:=zerosOf(z::RNG^5-1$RNG)
+qrz5:=[convert(t)$R for t in rz5]
+pz5:=[primitive?(t) for t in qrz5]
+lz5:=[principal?(t) for t in qrz5]
+--test (qrs5.2=q.2/q.1)
+

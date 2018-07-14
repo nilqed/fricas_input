@@ -1,0 +1,119 @@
+
+-- a(0) == 1000
+-- a(n) == a(n-1)/2-(5*a(n-1)+2)*((-1)^a(n-1)-1)/4
+
+PINT ==> PositiveInteger
+NNI  ==> NonNegativeInteger
+
+collatz(n:PINT):List(PINT) ==
+  r:List(PINT):=[n]
+  while n>1 repeat
+    if (even? n) then
+      n:=n/2
+      r:=append(r,[n])
+    else
+      n:=3*n+1
+      r:=append(r,[n])
+  return r
+ 
+
+collatz2(n:PINT):List(NNI) ==
+  r:List(NNI):=[if even? n then 0 else 1]
+  while n>1 repeat
+    if (even? n) then
+      n:=n/2
+      r:=append(r,[if even? n then 0 else 1])
+    else
+      n:=3*n+1
+      r:=append(r,[if even? n then 0 else 1])
+  return r    
+
+collatzNumber(n:PINT):PINT ==
+  b:=collatz2(n)
+  s:=0
+  for i in 1..#b repeat
+    s:=s + b.i * 2^(i-1)::NNI
+  return s
+
+
+revBinList(n:PINT):List NNI ==
+  [q,r]:=[n quo 2, n rem 2]
+  b:=[r]
+  while q>0 repeat
+    [q,r]:=[q quo 2, q rem 2]
+    b:=append(b,[r])
+  return b
+  
+
+invCollatzNumber(n:PINT):Integer ==
+  b:=reverse revBinList(n)
+  b.1 ~= 1 => error "must start with 1."
+  n==1 => 1
+  r:Integer:=1
+  for i in 2..#b repeat
+    if (b.i=0) then
+      r:=2*r
+    else
+      (r-1) rem 3 ~= 0 => error "Not a Collatz number."
+      r:=(r-1) quo 3
+  return r
+
+-- invCollatzNumber collatzNumber(n) = n (n=1,2,3,...)
+
+-- collatz2 n = n => n=2^k
+-- c(n) -> binary -> 
+
+--  collatz2 13
+
+-- [1,0,0,0,1,0,0,0,0,1]
+--                                             Type: List(NonNegativeInteger)
+-- collatzNumber(13)
+-- 529
+--                                             Type: PositiveInteger
+-- binary %
+-- 1000010001
+--                                             Type: BinaryExpansion
+-- invCollatzNumber 529
+-- 13
+--
+-- 3m+1=2^q
+-- [((2^q-1) quo 3) for q in 0..10 |  ((2^q-1) rem 3)=0 ]
+-- 
+
+collatzRepr(k:PINT):EXPR INT ==
+  q:=[q[i]::EXPR(INT) for i in 1..k]
+  a:=2^(q.1)-1
+  k=1 => return a
+  for j in 2..k-1 repeat
+    a:=(2^(q.j)/3*a - 1)
+  a:=2^(q.k)*a/3
+  return a
+
+
+--(10) -> collatzRepr(3)
+--   Compiling function collatzRepr with type PositiveInteger -> 
+--      Expression(Integer) 
+--
+--            q       q       q
+--             1       2       3
+--         ((2   - 1)2   - 3)2
+--   (10)  ---------------------
+--                   9
+--                                                    Type: Expression(Integer)
+--(11) -> eval(%,[q[1]=4,q[2]=1,q[3]=0])
+--
+--   (11)  3
+--                                                    Type: Expression(Integer)
+
+--(12) -> collatzRepr(6)
+--
+--               q       q       q       q        q        q
+--                1       2       3       4        5        6
+--         (((((2   - 1)2   - 3)2   - 9)2   - 27)2   - 81)2
+--   (12)  --------------------------------------------------
+--                                 243
+--                                                    Type: Expression(Integer)
+--(13) -> eval(%,[q[1]=4,q[2]=3,q[3]=2,q[4]=1,q[5]=1,q[6]=0])
+--
+--   (13)  7
+--                                                    Type: Expression(Integer)

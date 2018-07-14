@@ -1,0 +1,139 @@
+RR ==> Expression Integer
+CC ==> Expression Complex Integer
+
+PI ==> PositiveInteger
+NN ==> NonNegativeInteger
+CF ==> Complex Float
+IF ==> Interval Float
+CIF ==> Complex Interval Float
+VIF ==> Vector Interval Float
+VCIF ==> Vector Complex Interval Float
+
+MIF ==> Matrix Interval Float
+
+free eps
+eps:Float:=0.000000001
+free maxIter
+maxIter:PI:=1000
+
+mean(x:IF):Float ==
+  x0:Float:=inf(x)$IF
+  x0+width(x)/2
+  
+iabs(x:IF):Float == abs mean(x)
+
+
+maxInd(k:PI,n:NN,S:MIF):PI ==
+  m:PI:=k+1
+  for i in k+2..n repeat
+    if iabs(S(k,i)) > iabs(S(k,m)) then m:=i::PI
+  return m
+
+jacobi(M:MIF):Record(ev:VIF,EV:MIF) ==
+  not square? M => error
+  S:MIF:=copy M
+  --eps:Float:=0.000000001
+  n:NN:=nrows S
+  i:PI; k:PI; l:PI; m:PI
+  state:NN
+  s:IF;c:IF;t:IF;p:IF;y:IF;d:IF;r:IF
+  ind:List(PI):=[1 for i in 1..n]
+  changed:List Boolean:=[false for i in 1..n]
+  e:VIF:=new(n,0$IF)$VIF
+  E:MIF:=new(n,n,0$IF)$MIF
+  E:=diagonalMatrix [1$IF for i in 1..n]
+  A:IF; B:IF
+  count:NN:=0
+  state:=n
+  for k in 1..n repeat
+    ind.k:=maxInd(k,n,S)
+    e.k:=S(k,k)
+    changed.k:=true
+  while (state ~= 0) and (count < maxIter) repeat
+    m:=1
+    for k in 2..n-1 repeat
+      if iabs(S(k,ind.k)) > iabs(S(m,ind.m)) then
+        m:=k
+    k:=m
+    l:=ind.m
+    p:=S(k,l)
+    --
+    y:=(e.l - e.k)/2
+    d:=interval(iabs(y))$IF+sqrt(p^2+y^2)
+    r:=sqrt(p^2+d^2)
+    c:=d*recip(r)
+    s:=p*recip(r)
+    t:=p*p*recip(d)
+    if mean(y)<0 then
+      s:=-s
+      t:=-t
+    S(k,l):=0$IF
+    --
+    y:IF:=e.k
+    e.k:=y-t
+    if changed.k and iabs(t)<= eps then
+      changed.k:=false
+      state:=state-1
+    else
+      if (not changed.k) and iabs(t)> eps then
+        changed.k:=true
+        state:=state+1
+    --
+    y:IF:=e.l
+    e.l:=y+t
+    if changed.l and iabs(t)<= eps then
+      changed.l:=false
+      state:=state-1
+    else
+      if (not changed.l) and iabs(t)> eps then
+        changed.l:=true
+        state:=state+1
+    --
+    for i in 1..k-1 repeat
+      A:=S(i,k); B:=S(i,l)
+      S(i,k):=c*A-s*B
+      S(i,l):=s*A+c*B
+    for i in k+1..l-1 repeat
+      A:=S(k,i); B:=S(i,l)
+      S(k,i):=c*A-s*B
+      S(i,l):=s*A+c*B
+    for i in l+1..n repeat
+      A:=S(k,i); B:=S(l,i)
+      S(k,i):=c*A-s*B
+      S(l,i):=s*A+c*B    
+    --
+    for i in 1..n repeat
+      A:=E(i,k); B:=E(i,l)
+      E(i,k):=c*A-s*B
+      E(i,l):=s*A+c*B
+    --
+    ind.k := maxInd(k,n,S)
+    ind.l := maxInd(l,n,S)
+    --
+    count:=count+1
+    output([count,state])
+  --
+  return [e,E]$Record(ev:VIF,EV:MIF)
+ 
+
+S0:= matrix [[4,-30,60,-35], [-30,300,-675,420], 
+             [60,-675,1620,-1050],[-35,420,-1050,700]]
+             
+M:=map(s+->interval(s)$IF,S0)
+
+R:=jacobi(M)
+
+
+checkResult(R,M) ==
+  n:=nrows M
+  for i in 1..n repeat
+    v:=column(R.EV,i)
+    d:=M*v-R.ev.i*v
+    output(sqrt(iabs(dot(d,d))))
+    
+
+
+  
+
+  
+    

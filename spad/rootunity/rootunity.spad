@@ -1,0 +1,89 @@
+)abbrev domain ROU RootOfUnity
+++ Author: Kurt Pagani
+++ Date Created: Fri Jun 01 17:24:19 CEST 2018
+++ License: BSD
+++ References: 
+++   https://en.wikipedia.org/wiki/Root_of_unity
+++   https://en.wikipedia.org/wiki/Principal_root_of_unity          
+++ Description:
+++   The nth roots of unity are, by definition, the roots of the polynomial 
+++   $P(z)=z^n−1$, and are therefore algebraic numbers. As the polynomial $P$ 
+++   is not irreducible - unless $n=1$, the primitive nth roots of unity are 
+++   roots of an irreducible polynomial of lower degree, called the cyclotomic 
+++   polynomial.
+++
+++ Group of nth roots of unity
+++   The product and the multiplicative inverse of two nth roots of unity 
+++   are also nth roots of unity. Therefore, the nth roots of unity form 
+++   a group under multiplication.
+++
+++ Notes
+++   Any algebraically closed field has exactly $n$ nth roots of unity if 
+++   $n$ is not divisible by the characteristic of the field.
+++
+++   The significance of a root of unity being principal is that it is a 
+++   necessary condition for the theory of the discrete Fourier transform 
+++   to work out correctly.
+++ 
+++ Usage and Examples
+++   X ==> Expression Complex Integer 
+++   R ==> RootOfUnity(5,X)
+++   z:X
+++   r:=rootsOf(z^5-1) or zerosOf(z^5-1) or solve(z^5=1,'z) 
+++   q:=[convert(t)$R for t in r]
+++   [primitive?(t) for t in q]
+++   [principal?(t) for t in q]
+++
+RootOfUnity(n,R) : Exports == Implementation where
+  
+  n:PositiveInteger
+  R:Ring
+  
+  CTOF ==> CoercibleTo OutputForm
+     
+  Exports == Join(Group,CTOF) with
+        
+    convert : R -> %
+      ++ Convert r:R to a n-th root of unity if r^n=1$R.
+    retract : % -> R
+      ++ Retract a n-th root of unity to a member of R.  
+    1 : () -> %
+      ++ The ring unit.
+    primitive? : % -> Boolean
+      ++ An nth root of unity is primitive if it is not a kth root of unity 
+      ++ for some smaller k.
+    principal? : % -> Boolean
+      ++ A principal n-th root of unity of a ring is an element a:R 
+      ++ satisfying the equations a^n=1$R, sum(a^(j*k),j=0..n-1)=0
+      ++ for all 1<=k<n.
+    coerce : % -> OutputForm
+      ++ Coerce to output form.
+      
+    if R has ExpressionSpace then ExpressionSpace
+
+  Implementation ==  R add 
+
+    Rep := R 
+    
+    convert(x) ==
+      x^n = 1$R => x
+      error "Probably not a root of unity."
+      
+    retract(x:%):R == x@Rep 
+    
+    primitive?(x:%):Boolean ==
+      b:List Boolean:=[test(x^m=1$R) for m in 1..n-1]
+      not reduce(_and,b)
+
+
+    summ(a:R,m:PositiveInteger):R ==
+      s:List R:=[a^j for j in 0..m]
+      reduce(_+,s)
+
+    principal?(x:%):Boolean ==
+      n=1 => false
+      a:R:=x@Rep
+      nn:PositiveInteger:=(n-1)::PositiveInteger
+      b:List Boolean:=[test(summ(a^k,nn)=0$R) for k in 1..nn]
+      reduce(_and,b)
+

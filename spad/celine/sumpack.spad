@@ -1,0 +1,98 @@
+)abbrev package SUMMPACK SummPack
+SummPack(): Exports == Implementation where
+  FPI ==> Fraction Polynomial Integer
+  X ==> Expression Integer
+  NNI ==> NonNegativeInteger
+  PI ==> PositiveInteger
+  POLINT ==> Polynomial Integer 
+  BOP ==> BasicOperator
+
+  Exports == with
+    coeffMatrix : (PI,PI) -> Matrix X
+    funcMatrix  : ((X,X)->X,PI,PI) -> Matrix X
+    sumAndNormalize : (Matrix X,Matrix X) -> X
+    retractNumeratorToPolyInt : X -> Polynomial Integer
+    findCoeffs : (POLINT,Matrix X, Symbol) -> List Equation FPI
+    formalExpr : (BOP,Matrix X,PI,PI) -> X
+    celine : ((X,X)->X,PI,PI) -> X
+    celine2 : ((X,X)->X,BOP,PI,PI) -> X
+
+  Implementation == add
+
+    coeffMatrix(I:PI,J:PI):Matrix X ==
+      matrix [[new()$Symbol::X for i in 0..I] for j in 0..J]
+
+    funcMatrix(F:(X,X)->X,I:PI,J:PI):Matrix X ==
+      n:X:='n::X
+      k:X:='k::X
+      matrix [[F(n-j::X,k-i::X)/F(n,k)  for i in 0..I] for j in 0..J]
+
+    sumAndNormalize(CM:Matrix X, FM:Matrix X):X ==
+      n:=nrows(CM)
+      t:X:=trace(squareMatrix(CM*transpose(FM))$SquareMatrix(n,X))
+      normalize(t)$ElementaryFunctionStructurePackage(Integer,X)
+
+    retractNumeratorToPolyInt(san:X):Polynomial Integer ==
+      p:Polynomial Integer:=retract(numerator san)
+      return p
+ 
+
+    findCoeffs(p:POLINT,m:Matrix X,k:Symbol):List Equation FPI ==
+      d:=degree(p,k)
+      eqs:List Equation FPI:=[coefficient(p,k,l)::FPI=0 for l in 0..d]
+      v:=members m
+      x:=variables v
+      sol:=solve(eqs,x)$SystemSolvePackage(Integer) --$TransSolvePackage(Integer)
+      first sol
+      
+      
+    convToFPI(M:Matrix X):Matrix FPI ==
+      m:=copy(M)
+      nr:=nrows(m)
+      nc:=ncols(m)
+      r:=zero(nr,nc)$Matrix(FPI)
+      for i in 1..nr repeat
+        for j in 1..nc repeat
+          r(i,j):=retract m(i,j)
+      return r
+
+    formalExpr(op:BOP,cm:Matrix X,I:PI,J:PI):X ==
+      d:=nrows(cm)
+      n:X:='n::X
+      k:X:='k::X
+      g:Matrix(X):=matrix [[op(n-j::X,k-i::X) for i in 0..I] for j in 0..J]
+      t:X:=trace(squareMatrix(cm*transpose(g))$SquareMatrix(d,X))
+      return t
+
+
+    celine(F:(X,X)->X,I:PI,J:PI):X ==
+      cm:Matrix X:=coeffMatrix(I,J)
+      fm:=funcMatrix(F,I,J)
+      san:=sumAndNormalize(cm,fm)
+      p:=retractNumeratorToPolyInt(san)
+      --
+      seq:=findCoeffs(p,cm,'k)
+      e:List Equation X:=[lhs(x)::X=rhs(x)::X for x in seq]
+      G:=operator 'G
+      fex:X:=formalExpr(G,cm,I,J)
+      subst(fex,e)
+
+    celine2(F:(X,X)->X,op:BOP,I:PI,J:PI):X ==
+      cm:Matrix X:=coeffMatrix(I,J)
+      fm:=funcMatrix(F,I,J)
+      san:=sumAndNormalize(cm,fm)
+      p:=retractNumeratorToPolyInt(san)
+      --
+      seq:=findCoeffs(p,cm,'k)
+      e:List Equation X:=[lhs(x)::X=rhs(x)::X for x in seq]
+      fex:X:=formalExpr(op,cm,I,J)
+      subst(fex,e)
+
+
+
+-- C:=celine2((k,n)+->binomial(n,k),operator 'T,1,1)
+-- variables(%)
+-- C=0 ; %/?%
+-- sum(C,k=1..n), tower(C), kernels(C), variables C, mainKernel C
+
+

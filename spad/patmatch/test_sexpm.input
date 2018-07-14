@@ -1,0 +1,43 @@
+)co sexpm
+)set break resume
+
+X ==> Expression Integer
+IF ==> InputForm
+SPM ==> SEXPM(X)
+
+p:=convert(p)$InputForm
+x:=x::IF
+f:=f::IF
+g:=g::IF
+h:=h::IF
+a:=a::IF
+b:=b::IF
+y:=y::IF
+z:=z::IF
+
+l1:=convert([p,x,convert [f,a]])$IF
+l2:=convert([p,b,y])$IF
+l3:=convert([p,convert [f,x],convert [g,a,y]])$IF
+l4:=convert([p,convert [f,convert [h,b]],convert [g,x,y]])$IF
+l5:=convert([p,x])$IF
+l6:=convert([p,convert [f,x]])$IF
+l7:=convert([p,x,convert [f,y],x])$IF 
+l8:=convert([p,z,convert [f,z],a])$IF 
+
+r1:=unify(l1,l2)$SPM  -- (((f a) y) (b x))
+r2:=unify(l3,l4)$SPM  -- (((h b) a) ((h b) x)) , only if variable? a
+r3:=unify(l5,l6)$SPM  -- not-unifiable
+r4:=unify(l7,l8)$SPM  --  ((a z) (a y) (a x))
+
+s11:=doSubst(l1,r1)$SPM
+s21:=doSubst(l2,r1)$SPM
+s74:=doSubst(l7,r4)$SPM
+s84:=doSubst(l8,r4)$SPM
+
+
+L1:=exp(-r^2+s)::IF
+L2:=exp(-r^2+q)::IF
+unify(L1,L2)$SPM  -- oweeh
+
+
+unify(x+y,y+x)$SPM

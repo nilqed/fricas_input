@@ -1,0 +1,92 @@
+)abbrev package EQREASON EquationalReasoning
+++ Author: Kurt Pagani
+++ Date Created: Mon Mar 21 17:10:18 CET 2016
+++ License: BSD
+++ References:
+++ Description:
+++
+EquationalReasoning(R) : Exports == Implementation where
+  
+  R : Join(Comparable, IntegralDomain)
+  X ==> Expression R
+  EQX ==> Equation X
+  LEQX ==> List EQX
+  Y ==> Union(LEQX,"failed")
+  
+  Exports ==  with
+    
+    unify: (LEQX, LEQX) -> Y
+    reduceWith: (LEQX,LEQX) -> LEQX
+    --coerce : % -> OutputForm
+	
+	
+  Implementation ==  add 
+    
+    
+    symbolClash(x:EQX):Boolean ==
+      l:X:=lhs x
+      r:X:=rhs x
+      kl:=mainKernel l
+      kr:=mainKernel r
+      if (kl case Kernel(X)) and (kr case Kernel(X)) then
+        return test(name kl ~= name kr)
+      else
+        true
+        
+    termReduce(x:EQX):Y ==
+      l:=lhs x
+      r:=rhs x
+      kl:=mainKernel l
+      kr:=mainKernel r
+      if (kl case Kernel(X)) and (kr case Kernel(X)) then
+        al:=argument kl
+        ar:=argument kr
+        #al ~= #ar => "failed"
+        [al.j = ar.j for j in 1..#al]
+      else
+        "failed"  
+        
+  
+    app?(x:X):Boolean ==
+      k:=mainKernel(x)
+      if (k case Kernel X) then
+        test(height k > 1)
+      else
+        false  
+        
+    var?(x:X):Boolean == not(app?(x) or number?(x))
+    
+    reduceWith2(x:LEQX, y:LEQX):LEQX ==
+      r:=x
+      for i in 1..#y repeat
+        r:=[subst(r.j,y.i) for j in 1..#x]
+      return r
+    
+    reduceWith(x:LEQX, y:LEQX):LEQX ==
+      [subst(lhs(x.i),y) = subst(rhs(x.i),y) for i in 1..#x]
+
+
+    occurs(x:X,y:X):Boolean ==
+      member?(x,[s::X for s in variables(y)])
+      
+
+    unify(x:LEQX,S:LEQX):Y ==
+      if empty? x then return S
+      l:=lhs(first x)
+      r:=rhs(first x)
+      if l = r  then return unify(rest x,S)
+      if number? l and number? r then return "failed"
+      if (app? l or number? l) and var? r then 
+        return unify(concat([r=l],rest x),S)
+      if var? l then
+        if occurs(l,r) then return "failed"
+        return unify(reduceWith(rest x,[l=r]),concat(reduceWith(S,[l=r]),[l=r]))
+      if app? l and app? r then
+        if symbolClash(l=r) then return "failed"
+        rr:Y:=termReduce(l=r)
+        if (rr case LEQX) then
+          return unify(concat(rr,rest x),S)
+        else
+          return "failed"
+
+        

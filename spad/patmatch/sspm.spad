@@ -1,0 +1,61 @@
+)abbrev package SSPM SuperSimplePatternMatcher
+++ Author: Kurt Pagani
+++ Date Created: Mon Feb 06 18:56:20 CET 2017
+++ License: BSD
+++ References: 
+++  www.cs.northwestern.edu/academics/courses/325/programs/pat-match.lisp   
+++ Description: 
+++  www.cs.northwestern.edu/academics/courses/325/readings/pat-match.php
+++
+SuperSimplePatternMatcher(X) : Exports == Implementation where
+  
+  X: Join(ConvertibleTo InputForm, ExpressionSpace)
+  IF ==> InputForm
+  SEXP ==> SExpression
+  
+  Exports ==  with
+  
+    cons : (IF,IF) -> IF 
+      ++ Cons
+    varp : IF -> Boolean
+      ++
+    match : (IF,IF,IF) -> IF
+    
+  Implementation == IF add
+  
+    null:IF:=convert([])$IF
+  
+    cons(a:IF,b:IF):IF == 
+      s:SExpression:=CONS(a,b)$Lisp
+      convert(s)$IF
+      
+    varp(a:IF):Boolean ==
+      not symbol? a => false
+      s:String:=unparse(a)$IF
+      test(s.(#s)::String="?")
+      
+    addBinding(var:IF,input:IF,blists:IF):IF ==
+      convert [cons(cons(var,input),car blists)]
+      
+    getBinding(var:IF,bindings:IF):IF ==
+      s:SExpression:=ASSOC(var,bindings)$Lisp
+      convert(s)$IF
+      
+    extendBindings(var:IF,input:IF,blists:IF):IF ==
+      binding:=getBinding(var,car blists)
+      null? binding => addBinding(var,input,blists)
+      cdr(binding)=input => blists
+      null
+      
+    matchVariable(var:IF,input:IF,blists:IF):IF ==
+      null? blists => null
+      null? cdr blists => extendBindings(var,input,blists)
+      bs:List IF:=destruct blists
+      convert [extendBindings(var,input,convert [b]) for b in bs]
+      
+    match(pat:IF,input:IF,blists:IF):IF ==
+      varp pat => matchVariable(pat,input,blists)
+      pat=input => blists
+      atom? pat or atom? input => null
+      match(cdr pat,cdr input,match(car pat,car input, convert [blists]))
+      

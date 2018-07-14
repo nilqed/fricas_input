@@ -1,0 +1,86 @@
+)co dopt
+
+-- supply, demand
+a:=vector [4,7,4]$Vector INT
+b:=vector [2,4,6,3]$Vector INT
+-- cost matrix
+C:= matrix [[2,3,4,1],[5,4,2,3],[4,2,8,6]]
+
+X:=computeSolutionMatrix(3,4,a,b,C)
+cost:=trace(transpose(C)*X) -- 29
+
+--2
+
+C2 := matrix [[ 2, 1, 3, 3, 2, 5],[ 3, 2, 2, 4, 3, 4], _
+              [ 3, 5, 4, 2, 4, 1],[ 4, 2, 2, 1, 2, 2]]
+
+b2:= vector [ 30, 50, 20, 40, 30, 11]
+a2:= vector [ 50, 40, 60, 31]
+
+X2:=computeSolutionMatrix(4,6,a2,b2,C2)
+cost2:=trace(transpose(C2)*X2) -- 330
+
+-- 3
+
+C3:= matrix [[ 1, 2, 1, 4, 5, 2],[ 3, 3, 2, 1, 4, 3], _
+             [ 4, 2, 5, 9, 6, 2],[ 3, 1, 7, 3, 4, 6]]
+             
+b3:= vector [ 20, 40, 30, 10, 50, 25]
+a3:= vector [ 30, 50, 75, 20]
+
+X3:=computeSolutionMatrix(4,6,a3,b3,C3)
+cost3:=trace(transpose(C3)*X3) -- 430
+
+-- 4 ??? sum(a)~sum(b)
+
+C4:= matrix [[ 5, 3, 6, 2],[ 4, 7, 9, 1],[ 3, 4, 7, 5]]
+b4 := vector [ 16, 18, 30, 25]
+a4 := vector [ 19, 37, 34] 
+
+X4:=computeSolutionMatrix(3,4,a4,b4,C4)
+cost4:=trace(transpose(C4)*X4) -- 348
+
+-- 5 WP TT
+C5:= matrix [[6,4,3],[3,2,2]]
+a5:= vector [16,14]
+b5:= vector [15,5,10]
+
+X5:=computeSolutionMatrix(2,3,a5,b5,C5)
+cost5:=trace(transpose(C5)*X5) -- 98
+
+-- 6 WP ZykM
+C6:= matrix [[7,4,3],[5,5,6]]
+a6:= vector [12,8]
+b6:= vector [4,10,6]
+
+X6:=computeSolutionMatrix(2,3,a6,b6,C6)
+cost6:=trace(transpose(C6)*X6) -- 82
+
+--- 7
+
+C7:= matrix [[140,130,170,150,140],[150,160,140,180,130],[160,120,180,170,190]]
+a7:= vector [900,800,400]
+b7:= vector [300,500,400,600,300]
+
+X7:=computeSolutionMatrix(3,5,a7,b7,C7)
+cost7:=trace(transpose(C7)*X7) -- 289000
+
+--- 8
+C8:= matrix [[3,2],[1,5],[5,4]]
+a8:= vector [45,60,5]
+b8:= vector [50,60]
+
+X8:=computeSolutionMatrix(3,2,a8,b8,C8)
+cost8:=trace(transpose(C8)*X8)  -- 210
+
+--- 9
+C9:= matrix [[5,5,2,7],[8,3,1,8],[2,4,4,5]]
+a9:= vector [9,15,14]
+b9:= vector [10,12,9,7]
+
+X9:=computeSolutionMatrix(3,4,a9,b9,C9)
+cost9:=trace(transpose(C9)*X9)  -- 112
+modiMethod(a9,b9,C9) -- check sum a = sum b
+
+
+-- modiMethod(a,b,C) ... modiMethod(a8,b8,C8) 

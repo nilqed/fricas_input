@@ -1,0 +1,55 @@
+)co sumpack
+X==>EXPR INT
+F:=(n:X,k:X):X+->k*binomial(n,k)
+cm:=coeffMatrix(1,1)
+fm:=funcMatrix(F,1,1)
+san:=sumAndNormalize(cm,fm)
+p:=retractNumeratorToPolyInt(san)
+--
+d:=degree(p,k)
+eqs:=[coefficient(p,k,l)=0 for l in 0..d]
+v:=members cm
+vv:=variables(v)
+x:=[s::Symbol for s in v]
+sol:=solve(eqs,x) -- check #sol=1
+e:=findCoeffs(p,cm,k)
+ss:=eval(cm,sol.1)
+--
+G:=operator 'G
+I:=J:=1
+g:Matrix(X):=matrix [[G(n-j,k-i) for i in 0..I] for j in 0..J]
+sf:Matrix X:=ss*transpose(g)
+res:X:=reduce(_+,[sf(i,i) for i in 1..I+1])
+fex:=formalExpr(G,cm,I,J)
+
+H:=(n:X,k:X):X+->binomial(n,k)
+celine(H,1,1)
+
+Q:=(n:X,k:X):X+->binomial(n,k)^2
+celine(Q,2,2)
+
+R:=(n:X,k:X):X+->(-1)^k*factorial(n)*'x::X^k/(factorial(k)^2*factorial(n-k))
+RC:=celine(R,2,2)
+ch:=n*R(n,k-1)+(-2*n+1)*R(n-1,k-1)+'x::X*R(n-1,k-2)+(n-1)*R(n-2,k-1)
+normalize(ch)
+
+celine((n,k)+->n*k,1,1)
+
+-- [13] (D,List(Equation(D2))) -> D from D
+--            if D has EVALAB(D2) and D2 has SETCAT
+-- [32] (Fraction(Polynomial(D3)),List(Equation(Fraction(Polynomial(D3)
+--            )))) -> Fraction(Polynomial(D3))
+--            from RationalFunction(D3) if D3 has INTDOM
+
+SC:=celine((n,k)+->binomial(n,k)*binomial(2*k,k)*(-1/2)^k,2,2)
+SCA:=subst(SC,[%DA=a,%CZ=b])*4*(n-1)
+--
+
+SC2:=celine((n,k)+->binomial(n,k)*binomial(2*k,k)*(-2)^(n-k),2,2)
+SCA2:=subst(SC2,[%CJ=a,%CI=b])*16*(n-1)
+SCB2:=subst(SCA2,[a=1,b=0])
+-- Example 4.3.3 of A=B (subst to get same result)
+
+SCB3:=subst(SCA2,[a=-2*b])
+SCB3:=subst(%,[b=1/4])
+SCB3:=subst(%,[k=k+1])

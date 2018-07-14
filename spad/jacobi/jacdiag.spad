@@ -1,0 +1,173 @@
+)abbrev package JACDIAG JacobiDiagonalisation
+++ Author: Kurt Pagani
+++ Date Created: Sat Jun 16 23:37:27 CEST 2018
+++ License: BSD
+++ References: 
+++  Jacobi, C.G.J. (1846). "Über ein leichtes Verfahren, die in der Theorie 
+++    der Säkularstörungen vorkommenden Gleichungen numerisch aufzulösen". 
+++  Crelle's Journal 30, pages 51–94.
+++  https://en.wikipedia.org/wiki/Jacobi_eigenvalue_algorithm
+++ Description:
+++ The Jacobi eigenvalue algorithm is an iterative method for the calculation 
+++ of the eigenvalues and eigenvectors of a real symmetric matrix. It is named 
+++ after Carl Gustav Jacob Jacobi, who first proposed the method in 1846, but 
+++ only became widely used in the 1950s with the advent of computers.
+++ Notes
+++  * The tolerance and maximum number of iterations may be changed by the
+++    function 'setParams'. Defaults are set in the implementation part.
+++  * For the case in which one dimension is an independent subspace, the
+++    maximum number of iterations may be reached. If 'checkResult' gives
+++    a value smaller than 'eps' then 'jacobi' regularly terminates, otherwise
+++    an error message is issued.
+++ Usage and Example(s)
+++  * See test_jacdiag.input 
+++  * M:=matrix [[1,1],[1,1]], R:=jacobi(M)
+++    R.ev .... eigenvalues
+++    R.EV .... eigenvectors as columns of matrix R.EV
+++    checkResult(R,M) .... Sum(norm(M*v-l*v))
+++    p:=showParams() ..... [maxit= 10000,tol= 0.1 E -8]
+++    p.maxit:=20000    
+++    setParams(p) ........ [maxit= 20000,tol= 0.1 E -8]
+++ IDEA: [jedit]return eps, iter in RES ?
+++
+JacobiDiagonalisation() : Exports == Implementation where
+  
+  R  ==> Float
+  PI ==> PositiveInteger
+  NN ==> NonNegativeInteger
+  IF ==> R
+  VIF ==> Vector R
+  MIF ==> Matrix R
+  RES ==> Record(ev:VIF,EV:MIF)
+  PAR ==> Record(maxit:PI,tol:R)
+  
+  Exports ==  with
+    
+    jacobi : MIF -> RES
+    checkResult : (RES,MIF) -> R 
+    showParams : () -> PAR
+    setParams : PAR -> PAR
+	
+  Implementation ==  add 
+    
+    eps:R:=0.000000001
+    maxIter:PI:=10000
+    
+    showParams():PAR == [maxIter,eps]
+    setParams(p:PAR):PAR == 
+      maxIter:=p.maxit
+      eps:=p.tol
+      showParams()
+
+    maxInd(k:PI,n:NN,S:MIF):PI ==
+      m:PI:=k+1
+      for i in k+2..n repeat
+        if abs(S(k,i)) > abs(S(k,m)) then m:=i::PI
+      return m
+    
+    
+    jacobi(M:MIF):RES ==
+      not square? M => error "not square"
+      not symmetric? M => error "not symmetric"
+      S:MIF:=copy M
+      n:NN:=nrows S
+      i:PI; k:PI; l:PI; m:PI
+      state:Integer
+      s:IF;c:IF;t:IF;p:IF;y:IF;d:IF;r:IF
+      ind:List(PI):=[1 for i in 1..n]
+      changed:List Boolean:=[false for i in 1..n]
+      e:VIF:=new(n,0$IF)$VIF
+      E:MIF:=new(n,n,0$IF)$MIF
+      E:=diagonalMatrix [1$IF for i in 1..n]
+      A:IF; B:IF
+      count:Integer:=0
+      state:=n
+      for k in 1..n repeat
+        ind.k:=maxInd(k::PI,n,S)
+        e.k:=S(k,k)
+        changed.k:=true
+      while (state ~= 0) and (count <= maxIter) repeat
+        m:=1
+        for k in 2..n-1 repeat
+          if abs(S(k,ind.k)) > abs(S(m,ind.m)) then
+            m:=k::PI
+        --    
+        k:=m
+        l:=ind.m
+        p:=S(k,l)
+        --
+        y:=(e.l - e.k)/2
+        d:R:=abs(y)+sqrt(p^2+y^2)
+        r:R:=sqrt(p^2+d^2)
+        c:R:=d/r
+        s:R:=p/r
+        t:R:=p^2/d
+        if y < 0$R then
+          s:=-s
+          t:=-t
+        S(k,l):=0$IF
+        --
+        y:IF:=e.k
+        e.k:=y-t
+        if changed.k and abs(t)<= eps then
+          changed.k:=false
+          state:=state-1 
+        else
+          if (not changed.k) and abs(t)> eps then
+            changed.k:=true
+            state:=state+1
+        --
+        y:IF:=e.l
+        e.l:=y+t
+        if changed.l and abs(t)<= eps then
+          changed.l:=false
+          state:=state-1
+        else
+          if (not changed.l) and abs(t)> eps then
+            changed.l:=true
+            state:=state+1
+        --
+        for i in 1..k-1 repeat
+          A:=S(i,k); B:=S(i,l)
+          S(i,k):=c*A-s*B
+          S(i,l):=s*A+c*B
+        for i in k+1..l-1 repeat
+          A:=S(k,i); B:=S(i,l)
+          S(k,i):=c*A-s*B
+          S(i,l):=s*A+c*B
+        for i in l+1..n repeat
+          A:=S(k,i); B:=S(l,i)
+          S(k,i):=c*A-s*B
+          S(l,i):=s*A+c*B    
+        --
+        for i in 1..n repeat
+          A:=E(i,k); B:=E(i,l)
+          E(i,k):=c*A-s*B
+          E(i,l):=s*A+c*B
+        --
+        ind.k := maxInd(k,n,S)
+        ind.l := maxInd(l,n,S)
+        --
+        count:=count+1
+        --output([count,state])
+      --
+      if count > maxIter then
+        if checkResult([e,E]$RES,M) > eps then
+          error("Maximum iteration count reached") 
+      return [e,E]$RES
+
+
+    checkResult(r:RES,M:MIF):R ==
+      n:=nrows M
+      s:R:=0$R
+      for i in 1..n repeat
+        v:VIF:=column(r.EV,i)
+        d:VIF:=M*v - r.ev.i * v
+        s:=s+sqrt(dot(d,d))
+      return s
+      
+    
+      
+        
+
+   

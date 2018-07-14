@@ -1,0 +1,232 @@
+)abbrev package DOPT DiscreteOptimalTransport
+++ Author: Kurt Pagani
+++ Date Created: Thu Jun 21 01:42:00 CEST 2018
+++ License: BSD
+++ References:
+++ Description:
+++
+DiscreteOptimalTransport(R) : Exports == Implementation where
+  
+  R:Join(Ring,IntegralDomain,OrderedSet)
+  
+  PI ==> PositiveInteger
+  NNI ==> NonNegativeInteger
+  INT ==> Integer
+  LLI ==> List List Integer
+  MATR ==> Matrix R
+  VECR ==> Vector R
+  
+  Exports ==  with
+    
+    constraintMatrix : (PI,PI) -> MATR
+    northWest : (PI,PI,VECR,VECR) -> MATR
+      ++ NW rule 
+    getBasis : MATR -> List List List Integer
+    projRows : (LLI,INT) -> List Integer
+      ++ Given a basis B and an integer c, return a list of integers
+      ++ [r1,..,rn], such that each (ri,c) is in B, i=1..n.  
+    projCols : (LLI,INT) -> List Integer
+      ++ Given a basis B and an integer r, return a list of integers
+      ++ [c1,..,cn], such that each (r,ci) is in B, i=1..n.      
+    recSolve : (PI,PI,LLI,MATR) -> List VECR
+    computeReducedCosts : (PI,PI,List VECR,LLI,MATR)-> MATR
+    determineAlpha : (LLI,MATR,MATR) -> Record(alpha:R,ijmax:List INT)
+    checkHoriz : (LLI,MATR,LLI,INT,INT,INT,INT) -> LLI
+    checkVert  : (LLI,MATR,LLI,INT,INT,INT,INT) -> LLI
+    findPath : (MATR,LLI,INT,INT) -> LLI
+    findDelta : (LLI,MATR) -> Record(delta0:R,ij0:List INT)
+    computeSolutionMatrix : (PI,PI,VECR,VECR,MATR) -> MATR
+    modiMethod :(VECR,VECR,MATR) -> Record(Sol:MATR,cost:R) 
+    --coerce : % -> OutputForm
+	
+	
+  Implementation ==  add 
+    
+    constraintMatrix(m:PI,n:PI):MATR ==
+      M:MATR:=new(m,n,0$R)$MATR
+      e:VECR:=new(n,1$R)$VECR
+      LM:List MATR:=[setRow!(copy M,i,e) for i in 1..m]
+      U:MATR:=horizConcat(LM)$MATR
+      E:MATR:=diagonalMatrix(e)
+      LD:List MATR:=[E for i in 1..m]
+      D:=horizConcat(LD)$MATR
+      vertConcat(U,D)
+
+
+    northWest(m:PI,n:PI,a:VECR,b:VECR):MATR ==
+      X:MATR:=new(m,n,0$R)$MATR
+      aa:VECR:=new(n,0$R)$VECR
+      bb:VECR:=new(m,0$R)$VECR
+      u:INT:=1 ; v:INT:=1
+      while u<=m and v<=n repeat
+        if b.v - aa.v < a.u - bb.u then
+          z:=b.v-aa.v
+          X(u,v):=z
+          aa.v := aa.v + z
+          bb.u := bb.u + z
+          v := v+ 1
+        else
+          z:=a.u-bb.u
+          X(u,v):=z
+          aa.v := aa.v + z
+          bb.u := bb.u + z
+          u := u+ 1          
+      return X    
+      
+    getBasis(X:MATR):List List List Integer ==
+      b:List List Integer:=[]
+      c:List List Integer:=[]
+      for i in 1..nrows(X) repeat
+        for j in 1..ncols(X) repeat
+          if X(i,j) = 0$R then
+            c:=concat(c,[[i,j]])
+          else
+            b:=concat(b,[[i,j]])
+      return [b,c]
+        
+
+    projRows(b:LLI,nc:INT):List Integer ==
+      [first(t) for t in b | t.2=nc]
+
+    projCols(b:LLI,nr:INT):List Integer ==
+      [second(t) for t in b | t.1=nr]
+
+    recSolve(m:PI,n:PI,b:LLI,C:MATR):List VECR ==
+      u:VECR:=new(m,0$R)$VECR
+      v:VECR:=new(n,0$R)$VECR
+      ud:List INT:=[i for i in 1..m]
+      vd:List INT:=[i for i in 1..n]
+      bn:List Integer:=projRows(b,n)
+      for i in bn repeat
+        u.i:=C(i,n)
+        ud:=remove!(i,ud)
+        for j in projCols(b,i) repeat
+          v.j:=C(i,j)-u.i
+          vd:=remove!(j,vd)        
+      repeat
+        for k in ud repeat
+          for j in projCols(b,k) repeat
+            if not member?(j,vd) then
+              u.k:=C(k,j)-v.j
+              ud:=remove!(k,ud)
+        for l in vd repeat
+          for j in projRows(b,l) repeat
+            if not member?(j,ud) then
+              v.l:=C(j,l)-u.j
+              vd:=remove!(l,vd)
+        if null(ud) and null(vd) then      
+          return [u,v]
+
+
+    computeReducedCosts(m:PI,n:PI,rs:List VECR,c:LLI,C:MATR):MATR ==
+      u:VECR:=rs.1
+      v:VECR:=rs.2
+      RC:MATR:=new(m,n,0$R)$MATR
+      for t in c repeat
+        RC(t.1,t.2):=u.(t.1)+v.(t.2)
+      return RC
+
+
+    determineAlpha(c:LLI,RC:MATR,C:MATR):Record(alpha:R,ijmax:List INT) ==
+      mm:R:=RC(c.1.1,c.1.2)-C(c.1.1,c.1.2)
+      tmax:List Integer:=c.1
+      for t in c repeat
+        x:R:=RC(t.1,t.2)-C(t.1,t.2)
+        if x>mm then 
+          mm:=x
+          tmax:=t
+      return [mm,tmax]
+
+
+    checkHoriz(path:LLI,X:MATR,bb:LLI,u:INT,v:INT,u1:INT,v1:INT):LLI ==
+      n:=ncols X
+      for i in 1..n repeat
+        if i ~= v and member?([u,i],bb) then
+          if i=v1 then
+            path:=concat(path,[u,i])
+            return path
+          p := checkVert(path,X,bb,u,i,u1,v1)
+          if not null p then
+            path:=concat(p,[u,i])
+            return path
+      return []::LLI
+      
+      
+    checkVert(path:LLI,X:MATR,bb:LLI,u:INT,v:INT,u1:INT,v1:INT):LLI ==
+      m:=nrows X
+      for i in 1..m repeat
+        if i ~= u and member?([i,v],bb) then
+          p := checkHoriz(path,X,bb,i,v,u1,v1)
+          if not null p then
+            path:=concat(p,[i,v])
+            return path          
+      return []::LLI     
+
+
+    findPath(X:MATR,bb:LLI,u:INT,v:INT):LLI ==
+      p0:LLI:=[[u,v]]
+      path:LLI:=checkHoriz(p0,X,bb,u,v,u,v)
+      return path
+      
+
+
+    findDelta(cy:LLI,X:MATR):Record(delta0:R,ij0:List INT) ==
+      ncy:LLI:=[cy.j for j in 1..#cy | even? j]
+      --nX:List R:=[X(t.1,t.2) for t in ncy]
+      tmin:List Integer:=ncy.1
+      m:R:=X(tmin.1,tmin.2)
+      for t in ncy repeat
+        x:R:=X(t.1,t.2)
+        if x<m then 
+          m:=x
+          tmin:=t
+      return [m,tmin]
+
+
+    maxIter:INT:=10
+
+    computeSolutionMatrix(m:PI,n:PI,a:VECR,b:VECR,C:MATR):MATR ==
+      X:MATR:=northWest(m,n,a,b)
+      bl:List LLI:=getBasis(X)
+      bb:LLI:=bl.1
+      cc:LLI:=bl.2
+      it:INT:=0
+      --
+      repeat
+        it:=it+1
+        if it > maxIter then break
+        rs:List VECR:=recSolve(m,n,bb,C)
+        RC:MATR:=computeReducedCosts(m,n,rs,cc,C)
+        --
+        da:=determineAlpha(cc,RC,C)  -- da.alpha, da.ijmax
+        if da.alpha > 0$R then          
+          path:=findPath(X,bb,da.ijmax.1,da.ijmax.2)
+          d0:=findDelta(path,X) -- d0.delta0, d0.ij0
+          for j in 1..#path repeat
+            p:=path.j
+            if odd?(j) then
+              X(p.1,p.2):=X(p.1,p.2)+d0.delta0
+            else
+              X(p.1,p.2):=X(p.1,p.2)-d0.delta0 
+          bb:=remove(d0.ij0,bb)
+          bb:=concat(bb,da.ijmax)
+          cc:=remove(da.ijmax,cc)
+          cc:=concat(cc,d0.ij0)
+        else
+          return X
+      X
+        
+    modiMethod(a:VECR,b:VECR,C:MATR):Record(Sol:MATR,cost:R) ==
+      m0:NNI:=nrows(C)  
+      n0:NNI:=ncols(C)
+      if m0>0 then m:PI:=m0::PI else error "1"
+      if n0>0 then n:PI:=n0::PI else error "2"
+      if #a~=m then error "3"
+      if #b~=n then error "4"
+      if reduce(_+,a) ~= reduce(_+,b) then error "5"
+      S:MATR:=computeSolutionMatrix(m,n,a,b,C)
+      CTS:MATR:=transpose(C)*S
+      c:R:=reduce(_+,[CTS(i,i) for i in 1..n])  -- trace reqs too much
+      return [S,c]
+      
+

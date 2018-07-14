@@ -1,0 +1,19 @@
+)co sspm
+)set break resume
+
+IF==>InputForm
+X ==> Expression Integer
+PM==>SSPM(X)
+
+null:=convert([])$IF
+p:=convert([a,x?,b]::List IF)
+q:=convert([a,j,b]::List IF)
+
+m1:=match(p,q,null)$PM
+
+l1:=convert([b,y?]::List IF)
+l2:=convert([b,jack]::List IF)
+p:=convert([a,x?,l1]::List IF)
+q:=convert([a,j,l2]::List IF)
+
+m2:=match(p,q,null)$PM

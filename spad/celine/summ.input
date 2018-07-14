@@ -1,0 +1,44 @@
+FPI ==> Fraction Polynomial Integer
+X ==> Expression Integer
+NNI ==> NonNegativeInteger
+PI ==> PositiveInteger
+
+celine(F:(X,X)->X,I:PI,J:PI):X ==
+  a:Matrix(X):=matrix [[new()$Symbol::X for i in 0..I] for j in 0..J]
+  output(a)
+  f:Matrix(X):=matrix [[F(n-j,k-i)/F(n,k)  for i in 0..I] for j in 0..J]
+  af:Matrix(X):=a*transpose(f)
+  A:X:=reduce(_+,[af(i,i) for i in 1..I+1])
+  B:=normalize(A)
+  C:=numerator(B)
+  output(C)
+  function(C::Polynomial(Integer),'P,k)
+  d:NNI:=degree(P(k),k)
+  output(d)
+  Eq:=[coefficient(P(k),k,l)=0 for l in 0..d]
+  output(Eq)
+  v:=members(a)
+  output(v)
+  x:=[s::Symbol for s in v]
+  Sol:=solve(Eq,x)
+  output(Sol)
+  G:=operator 'G
+  ss:List Equation X:=[eq::Equation(X) for eq in Sol.1]
+  output(ss)
+  --S:Matrix(X):=map((x:X):X+->(free ss;subst(x,ss)),a)$Matrix(X)
+  S:Matrix X:=zero(I+1,J+1)
+  for i in 1..I+1 repeat
+    for j in 1..J+1 repeat
+      S(i,j):=subst(a(i,j),ss)$X
+  g:Matrix(X):=matrix [[G(n-j,k-i) for i in 0..I] for j in 0..J]
+  sf:Matrix X:=S*transpose(g)
+  res:X:=reduce(_+,[sf(i,i) for i in 1..I+1])
+  return(res)
+  
+  --G:=operator 'G
+  --S:=reduce(_+,[reduce(_+,[a[i,j]*G(n-j,k-i) for j in 0..J]) for i in 0..I])
+  --[subst(S,Sol.l)=0 for l in 1..#Sol]
+  
+
+
+  

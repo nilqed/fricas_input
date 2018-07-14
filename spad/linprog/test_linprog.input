@@ -1,0 +1,147 @@
+-- Unittest .....: Package LinearProgramming
+-- Author .......: Kurt Pagani
+-- Date .........: Sun Jun 17 02:14:10 CEST 2018
+
+)set break resume
+)expose UnittestCount UnittestAux Unittest
+
+)co linprog
+)expose LINPROG
+
+-- Test Suite
+testsuite "Package: LinearProgramming"
+
+-- Cases
+testcase "revisedSimplex"
+-- testEquals("", "")
+
+A:=matrix [[0.7,1.0,1.0,0.0,0.0,0.0],[0.5,(5/6)::Float,0.0,1.0,0.0,0.0],
+           [1.0,(2/3)::Float,0.0,0.0,1.0,0.0],[0.1,0.25,0.0,0.0,0.0,1.0]]
+   
+c:=vector [-10.0,-9.0,0.0,0.0,0.0,0.0]
+b:=vector [630.0,600.0,708.0,135.0]
+B:=[3,4,5,6]
+
+X1:Vector Float:= vector [540.0,252.0,0.0,120.0,0.0,18.0]
+objVal1:Float:= - 7668.0
+Basis1:List Integer:= [2,4,1,6]
+
+eps:=0.0000000001
+floatNull(v:Vector Float):Boolean == sqrt dot(v,v) <= eps 
+
+r1:=revisedSimplex( A, b, c, B)
+testEquals("floatNull(r1.X-X1)", "true")
+testEquals("abs(r1.objVal-objVal1)<eps", "true")
+testEquals("r1.Basis", "Basis1")
+
+r1lu:=revisedSimplexLU( A, b, c, B)
+testEquals("floatNull(r1lu.X-X1)", "true")
+testEquals("abs(r1lu.objVal-objVal1)<eps", "true")
+testEquals("r1lu.Basis", "Basis1")
+
+--
+
+---
+A2 := matrix [[0,1,-1,0,0,0], [1,1,0,-1,0,0], 
+               [-0.5,1,0,0,1,0],[-1,1,0,0,0,1]]
+
+c2 := vector [2,-3,0,0,0,0]
+b2 := vector [1,2,8,6] 
+B2 := [1,2,5,6]
+
+X2:= [4.0,10.0,9.0,12.0,0.0,0.0]
+objVal2:= - 22.0
+Basis2:= [3,2,1,4]
+
+r2:=revisedSimplex( A2, b2, c2, B2)
+testEquals("floatNull(r2.X-X2)", "true")
+testEquals("abs(r2.objVal-objVal2)<eps", "true")
+testEquals("r2.Basis", "Basis2")
+
+
+r2lu:=revisedSimplexLU( A2, b2, c2, B2)
+testEquals("floatNull(r2lu.X-X2)", "true")
+testEquals("abs(r2lu.objVal-objVal2)<eps", "true")
+testEquals("r2lu.Basis", "Basis2")
+
+--
+
+A3 := matrix [[0.4,0.5,1,0,0],[0,0.2,0,1,0],[0.6,0.3,0,0,1]]
+c3 := vector [-40,-30,0,0,0]
+b3 := vector [20,5,21] 
+B3 := [3,4,5]
+
+X3:= [25.0,20.0,0.0,1.0,0.0]
+objVal3:= - 1600.0
+Basis3:= [2,4,1]
+
+r3:=revisedSimplex(A3, b3, c3, B3)
+testEquals("floatNull(r3.X-X3)", "true")
+testEquals("abs(r3.objVal-objVal3)<eps", "true")
+testEquals("r3.Basis", "Basis3")
+
+r3lu:=revisedSimplexLU(A3, b3, c3, B3)
+testEquals("floatNull(r3lu.X-X3)", "true")
+testEquals("abs(r3lu.objVal-objVal3)<eps", "true")
+testEquals("r3lu.Basis", "Basis3")
+
+--
+A4 := matrix [[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0],_
+              [0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],_
+              [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0],_
+              [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0],_
+              [3, 0, 6, 0, 5, 0, 7, 0, 1, 0, 0, 0, 0, 0, 1, 0],_
+              [0, 2, 0, 4, 0, 10, 0, 4, 0, 1, 0, 0, 0, 0, 0, 1]]
+
+b4 := vector [1, 1, 1, 1, 13, 10]
+c4 := vector [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1]
+B4 := [11, 12, 13, 14, 15, 16]
+
+X4:= [1.0, 0.0, 0.25, 0.7500000000_0000000001, 0.3, 0.7, 1.0, 0.0, 0.0, 0.0,
+      0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+objVal4:= 0.0
+Basis4:= [1,3,6,5,7,4]
+
+r4 := revisedSimplex( A4, b4, c4, B4)
+testEquals("floatNull(r4.X-X4)", "true")
+testEquals("abs(r4.objVal-objVal4)<eps", "true")
+testEquals("r4.Basis", "Basis4")
+
+r4lu := revisedSimplexLU( A4, b4, c4, B4)
+testEquals("floatNull(r4lu.X-X4)", "true")
+testEquals("abs(r4lu.objVal-objVal4)<eps", "true")
+testEquals("r4lu.Basis", "Basis4")
+
+--
+A5 := matrix [[1, -1, 1, 0, 0], [4, 9, 0, 1, 0], [-2, 4, 0, 0, 1]]
+c5 := vector [-1, -1, 0, 0, 0]
+b5 := vector [2, 18, 4] 
+B5 := vector [3, 4, 5]
+
+
+X5 := [2.7692307692_307692308, 0.7692307692_3076923077, 0.0, 0.0,
+       6.4615384615_384615385]
+    
+objVal5:= - 3.5384615384_615384615
+Basis5:= [1,2,5]
+
+r5 := revisedSimplex( A5, b5, c5, B5)
+testEquals("floatNull(r5.X-X5)", "true")
+testEquals("abs(r5.objVal-objVal5)<eps", "true")
+testEquals("r5.Basis", "Basis5") 
+
+r5lu := revisedSimplexLU( A5, b5, c5, B5)
+testEquals("floatNull(r5lu.X-X5)", "true")
+testEquals("abs(r5lu.objVal-objVal5)<eps", "true")
+testEquals("r5lu.Basis", "Basis5") 
+
+
+-- Results/Statistics
+)set output algebra on
+)version
+)lisp (lisp-implementation-type)
+)lisp (lisp-implementation-version)
+
+statistics()
+)quit
