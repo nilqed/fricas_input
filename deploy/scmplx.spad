@@ -286,9 +286,9 @@ SurfaceComplex(R,n) : Exports == Implementation where
     
     --coerce : % -> OutputForm
     
-  Implementation == FreeAbelianGroup(CMAP) add
+  Implementation == FreeModule(Integer,CMAP) add
 
-    Rep:=FreeAbelianGroup(CMAP)
+    Rep:=FreeModule(Integer,CMAP)
       
 
     bdry(c:%):% ==
