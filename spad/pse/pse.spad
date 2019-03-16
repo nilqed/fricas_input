@@ -1,0 +1,169 @@
+------------------------------------
+-- PSE - Periodic System of Elements
+------------------------------------
+-- Converted from XSI/CLIPS to
+-- Axiom/SPAD format
+--
+--
+-- (do-for-all-instances ((?x ELEMENT)) TRUE
+--    (printout t pst.' ?x:element-symbol :=
+--       [ ?x:element-name , ?x:element-symbol , ?x:atomic-number ,
+--         ?x:atomic-weight , ?x:atomic-weight-uncertainty ,
+--         ?x:first-ionization-energy , ?x:ground-level ,
+--         ?x:valence , ?x:group , ?x:period ,
+--         ?x:electro-negativity
+--       ]$PSR crlf))
+--
+
+)abbrev package PSE PeriodicSystem
+PeriodicSystem : Exports == Implementation where
+
+    SYM ==> Symbol
+    PI  ==> PositiveInteger 
+    FL  ==> Float
+    PSR ==> Record(name:SYM, sym:SYM, Z:PI, m:FL, dm:FL, ie:FL)
+
+    Exports == with
+    
+      pse : Table(Symbol,PSR) 
+      
+    Implementation == add
+    
+      --
+      -- name = element-name
+      -- sym  = element-symbol 
+      -- Z    = atomic-number
+      -- m    = atomic-weight [u]
+      -- dm   = atomic-weight-uncertainty [u]
+      -- ie   = first-ionization-energy [eV]
+      -- 
+         
+      pst : Table(Symbol, PSR):= table()
+      
+      pst.'H:=['Hydrogen,'H,1,1.00794,7.0e-005,13.6]$PSR
+      pst.'He:=['Helium,'He,2,4.002602,2.0e-006,24.59]$PSR
+      pst.'Li:=['Lithium,'Li,3,6.941,0.002,5.39]$PSR
+      pst.'Be:=['Beryllium,'Be,4,9.012182,3.0e-006,9.32]$PSR
+      pst.'B:=['Boron,'B,5,10.811,0.007,8.3]$PSR
+      pst.'C:=['Carbon,'C,6,12.0107,0.0008,11.26]$PSR
+      pst.'N:=['Nitrogen,'N,7,14.0067,0.0002,14.53]$PSR
+      pst.'O:=['Oxygen,'O,8,15.9994,0.0003,13.62]$PSR
+      pst.'F:=['Fluorine,'F,9,18.9984032,5.0e-007,17.42]$PSR
+      pst.'Ne:=['Neon,'Ne,10,20.1797,0.0006,21.56]$PSR
+      pst.'Na:=['Sodium,'Na,11,22.98976928,2.0e-008,5.14]$PSR
+      pst.'Mg:=['Magnesium,'Mg,12,24.305,0.006,7.65]$PSR
+      pst.'Al:=['Aluminium,'Al,13,26.9815386,8.0e-007,5.99]$PSR
+      pst.'Si:=['Silicon,'Si,14,28.0855,0.0003,8.15]$PSR
+      pst.'P:=['Phosphorus,'P,15,30.973762,2.0e-006,10.49]$PSR
+      pst.'S:=['Sulfur,'S,16,32.065,0.005,10.36]$PSR
+      pst.'Cl:=['Chlorine,'Cl,17,35.453,0.002,12.97]$PSR
+      pst.'Ar:=['Argon,'Ar,18,39.948,0.001,15.76]$PSR
+      pst.'K:=['Potassium,'K,19,39.0983,0.0001,4.34]$PSR
+      pst.'Ca:=['Calcium,'Ca,20,40.078,0.004,6.11]$PSR
+      pst.'Sc:=['Scandium,'Sc,21,44.955912,6.0e-006,6.56]$PSR
+      pst.'Ti:=['Titanium,'Ti,22,47.867,0.001,6.83]$PSR
+      pst.'V:=['Vanadium,'V,23,50.9415,0.0001,6.75]$PSR
+      pst.'Cr:=['Chromium,'Cr,24,51.9961,0.0006,6.77]$PSR
+      pst.'Mn:=['Manganese,'Mn,25,54.938045,5.0e-006,7.43]$PSR
+      pst.'Fe:=['Iron,'Fe,26,55.845,0.002,7.9]$PSR
+      pst.'Co:=['Cobalt,'Co,27,58.933195,5.0e-006,7.88]$PSR
+      pst.'Ni:=['Nickel,'Ni,28,58.6934,0.0004,7.64]$PSR
+      pst.'Cu:=['Copper,'Cu,29,63.546,0.003,7.73]$PSR
+      pst.'Zn:=['Zinc,'Zn,30,65.38,0.02,9.39]$PSR
+      pst.'Ga:=['Gallium,'Ga,31,69.723,0.001,6.0]$PSR
+      pst.'Ge:=['Germanium,'Ge,32,72.64,0.01,7.9]$PSR
+      pst.'As:=['Arsenic,'As,33,74.9216,0.0002,9.79]$PSR
+      pst.'Se:=['Selenium,'Se,34,78.96,0.03,9.75]$PSR
+      pst.'Br:=['Bromine,'Br,35,79.904,0.001,11.81]$PSR
+      pst.'Kr:=['Krypton,'Kr,36,83.798,0.002,14.0]$PSR
+      pst.'Rb:=['Rubidium,'Rb,37,85.4678,0.0003,4.18]$PSR
+      pst.'Sr:=['Strontium,'Sr,38,87.62,0.01,5.69]$PSR
+      pst.'Y:=['Yttrium,'Y,39,88.90585,2.0e-005,6.22]$PSR
+      pst.'Zr:=['Zirconium,'Zr,40,91.224,0.002,6.63]$PSR
+      pst.'Nb:=['Niobium,'Nb,41,92.90638,2.0e-005,6.76]$PSR
+      pst.'Mo:=['Molybdenum,'Mo,42,95.96,0.02,7.09]$PSR
+      pst.'Tc:=['Technetium,'Tc,43,98.0,0.0,7.28]$PSR
+      pst.'Ru:=['Ruthenium,'Ru,44,101.07,0.02,7.36]$PSR
+      pst.'Rh:=['Rhodium,'Rh,45,102.9055,0.0002,7.46]$PSR
+      pst.'Pd:=['Palladium,'Pd,46,106.42,0.01,8.34]$PSR
+      pst.'Ag:=['Silver,'Ag,47,107.8682,0.0002,7.58]$PSR
+      pst.'Cd:=['Cadmium,'Cd,48,112.411,0.008,8.99]$PSR
+      pst.'In:=['Indium,'In,49,114.818,0.003,5.79]$PSR
+      pst.'Sn:=['Tin,'Sn,50,118.71,0.07,7.34]$PSR
+      pst.'Sb:=['Antimony,'Sb,51,121.76,0.01,8.61]$PSR
+      pst.'Te:=['Tellurium,'Te,52,127.6,0.3,9.01]$PSR
+      pst.'I:=['Iodine,'I,53,126.90447,3.0e-005,10.45]$PSR
+      pst.'Xe:=['Xenon,'Xe,54,131.293,0.006,12.13]$PSR
+      pst.'Cs:=['Caesium,'Cs,55,132.9054519,2.0e-007,3.89]$PSR
+      pst.'Ba:=['Barium,'Ba,56,137.327,0.007,5.21]$PSR
+      pst.'La:=['Lanthanum,'La,57,138.90547,7.0e-005,5.58]$PSR
+      pst.'Ce:=['Cerium,'Ce,58,140.116,0.001,5.54]$PSR
+      pst.'Pr:=['Praseodymium,'Pr,59,140.90765,2.0e-005,5.47]$PSR
+      pst.'Nd:=['Neodymium,'Nd,60,144.242,0.003,5.53]$PSR
+      pst.'Pm:=['Promethium,'Pm,61,145.0,0.0,5.58]$PSR
+      pst.'Sm:=['Samarium,'Sm,62,150.36,0.02,5.64]$PSR
+      pst.'Eu:=['Europium,'Eu,63,151.964,0.001,5.67]$PSR
+      pst.'Gd:=['Gadolinium,'Gd,64,157.25,0.03,6.15]$PSR
+      pst.'Tb:=['Terbium,'Tb,65,158.92535,2.0e-005,5.86]$PSR
+      pst.'Dy:=['Dysprosium,'Dy,66,162.5,0.1,5.94]$PSR
+      pst.'Ho:=['Holmium,'Ho,67,164.93032,2.0e-005,6.02]$PSR
+      pst.'Er:=['Erbium,'Er,68,167.259,0.003,6.11]$PSR
+      pst.'Tm:=['Thulium,'Tm,69,168.93421,2.0e-005,6.18]$PSR
+      pst.'Yb:=['Ytterbium,'Yb,70,173.054,0.005,6.25]$PSR
+      pst.'Lu:=['Lutetium,'Lu,71,174.9668,0.0001,5.43]$PSR
+      pst.'Hf:=['Hafnium,'Hf,72,178.49,0.02,6.83]$PSR
+      pst.'Ta:=['Tantalum,'Ta,73,180.94788,2.0e-005,7.55]$PSR
+      pst.'W:=['Tungsten,'W,74,183.84,0.01,7.86]$PSR
+      pst.'Re:=['Rhenium,'Re,75,186.207,0.001,7.83]$PSR
+      pst.'Os:=['Osmium,'Os,76,190.23,0.03,8.44]$PSR
+      pst.'Ir:=['Iridium,'Ir,77,192.217,0.003,8.97]$PSR
+      pst.'Pt:=['Platinum,'Pt,78,195.084,0.009,8.96]$PSR
+      pst.'Au:=['Gold,'Au,79,196.966569,4.0e-006,9.23]$PSR
+      pst.'Hg:=['Mercury,'Hg,80,200.59,0.02,10.44]$PSR
+      pst.'Tl:=['Thallium,'Tl,81,204.3833,0.0002,6.11]$PSR
+      pst.'Pb:=['Lead,'Pb,82,207.2,0.1,7.42]$PSR
+      pst.'Bi:=['Bismuth,'Bi,83,208.9804,0.0001,7.29]$PSR
+      pst.'Po:=['Polonium,'Po,84,209.0,0.0,8.41]$PSR
+      pst.'At:=['Astatine,'At,85,210.0,0.0,-1.0]$PSR
+      pst.'Rn:=['Radon,'Rn,86,222.0,0.0,10.75]$PSR
+      pst.'Fr:=['Francium,'Fr,87,223.0,0.0,4.07]$PSR
+      pst.'Ra:=['Radium,'Ra,88,226.0,0.0,5.28]$PSR
+      pst.'Ac:=['Actinium,'Ac,89,227.0,0.0,5.17]$PSR
+      pst.'Th:=['Thorium,'Th,90,232.03806,2.0e-005,6.31]$PSR
+      pst.'Pa:=['Protactinium,'Pa,91,231.03588,2.0e-005,5.89]$PSR
+      pst.'U:=['Uranium,'U,92,238.02891,3.0e-005,6.19]$PSR
+      pst.'Np:=['Neptunium,'Np,93,237.0,0.0,6.27]$PSR
+      pst.'Pu:=['Plutonium,'Pu,94,244.0,0.0,6.03]$PSR
+      pst.'Am:=['Americium,'Am,95,243.0,0.0,5.97]$PSR
+      pst.'Cm:=['Curium,'Cm,96,247.0,0.0,5.99]$PSR
+      pst.'Bk:=['Berkelium,'Bk,97,247.0,0.0,6.2]$PSR
+      pst.'Cf:=['Californium,'Cf,98,251.0,0.0,6.28]$PSR
+      pst.'Es:=['Einsteinium,'Es,99,252.0,0.0,6.42]$PSR
+      pst.'Fm:=['Fermium,'Fm,100,257.0,0.0,6.5]$PSR
+      pst.'Md:=['Mendelevium,'Md,101,258.0,0.0,6.58]$PSR
+      pst.'No:=['Nobelium,'No,102,259.0,0.0,6.65]$PSR
+      pst.'Lr:=['Lawrencium,'Lr,103,262.0,0.0,4.9]$PSR
+      pst.'Rf:=['Rutherfordium,'Rf,104,265.0,0.0,6.0]$PSR
+      pst.'Db:=['Dubnium,'Db,105,268.0,0.0,-1.0]$PSR
+      pst.'Sg:=['Seaborgium,'Sg,106,271.0,0.0,-1.0]$PSR
+      pst.'Bh:=['Bohrium,'Bh,107,272.0,0.0,-1.0]$PSR
+      pst.'Hs:=['Hassium,'Hs,108,270.0,0.0,-1.0]$PSR
+      pst.'Mt:=['Meitnerium,'Mt,109,276.0,0.0,-1.0]$PSR
+      pst.'Ds:=['Darmstadtium,'Ds,110,281.0,0.0,-1.0]$PSR
+      pst.'Rg:=['Roentgenium,'Rg,111,280.0,0.0,-1.0]$PSR
+      pst.'Cn:=['Copernicium,'Cn,112,285.0,0.0,-1.0]$PSR
+      pst.'Uut:=['Ununtrium,'Uut,113,284.0,0.0,-1.0]$PSR
+      pst.'Uuq:=['Ununquadium,'Uuq,114,289.0,0.0,-1.0]$PSR
+      pst.'Uup:=['Ununpentium,'Uup,115,288.0,0.0,-1.0]$PSR
+      pst.'Uuh:=['Ununhexium,'Uuh,116,293.0,0.0,-1.0]$PSR
+      pst.'Uus:=['Ununseptium,'Uus,117,294.0,0.0,-1.0]$PSR
+      pst.'Uuo:=['Ununoctium,'Uuo,118,294.0,0.0,-1.0]$PSR
+      
+      pse() == pst
+
+
+-- ps:=pse();
+-- reverse keys(ps)
+-- ps.C.name -> Carbon
+-- [pse().e.name for e in keys(pse())]
+-- [pse().e.m for e in keys(pse())]

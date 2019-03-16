@@ -1,0 +1,199 @@
+)co pdim2
+
+-------------------------------------------------------------------------------
+-- CODATA 2014
+-- http://physics.nist.gov/cuu/Constants/
+-- Constants in the category " Frequently used constants "
+------------------------------------------------------------------------------- 
+)abbrev package CODATA Codata                                                
+Codata: Exports == Implementation where
+
+    PQTY ==> PhysQty
+    SI ==> SIunit
+
+    Exports == with
+    
+      codata : Table(Symbol,PQTY(SI)) 
+      
+    Implementation == add
+    
+      ct : Table(Symbol,PQTY(SI)) := table()
+  
+      CT(v,e,u) ==> (interval(v-e,v+e)$Interval(Float)) u
+
+      -- atomic mass constant
+      -- $m_{\rm u}$
+      -- Value 	 1.660 539 040 x 10-27 kg
+      -- Standard uncertainty 	 0.000 000 020 x 10-27 kg
+      -- Relative standard uncertainty 	  1.2 x 10-8
+      -- Concise form 	 1.660 539 040(20) x 10-27 kg 
+      ct.'m_u := CT(1.660539040E-27,0.000000020E-27, %kg(1))
+      
+      -- Avogadro constant
+      -- $N_{\rm A},L$
+      -- Value 	 6.022 140 857 x 10-23 mol-1
+      -- Standard uncertainty 	 0.000 000 074 x 10-23 mol-1
+      -- Relative standard uncertainty 	  1.2 x 10-8
+      -- Concise form 	 6.022 140 857(74) x 10-23 mol-1 
+      ct.'L  := CT(6.022140857E23, 0.00000074E23, %mol(-1))
+      
+      -- Boltzmann constant
+      -- $k$
+      -- Value 	 1.380 648 52 x 10-23 J K-1
+      -- Standard uncertainty 	 0.000 000 79 x 10-23 J K-1
+      -- Relative standard uncertainty 	  5.7 x 10-7
+      -- Concise form 	 1.380 648 52(79) x 10-23 J K-1  
+      ct.'k  := CT(1.38064852E-23, 0.00000079E-23, %m(2)*%kg(1)*%s(-2)*%K(-1))
+      
+      -- conductance quantum
+      -- $G_0$
+      -- Value 	 7.748 091 7310 x 10-5 S
+      -- Standard uncertainty 	 0.000 000 0018 x 10-5 S
+      -- Relative standard uncertainty 	  2.3 x 10-10
+      -- Concise form 	 7.748 091 7346(25) x 10-5 S   
+      ct.'G_0 := CT(7.7480917310E-5, 0.0000000018E-5, %m(-2)*%kg(-1)*%s(3)*%A(2))
+      
+      -- electric constant
+      -- $\varepsilon_0$
+      -- Value 	 8.854 187 817... x 10-12 F m-1
+      -- Standard uncertainty 	 (exact)
+      -- Relative standard uncertainty 	 (exact)
+      -- Concise form 	 8.854 187 817... x 10-12 F m-1    
+      ct.'eps_0 := CT(8.854187817E-12,0, %m(-3)*%kg(-1)*%s(4)*%A(2))
+      
+      -- electron mass
+      -- $m_{\rm e}$
+      -- Value 	 9.109 383 56 x 10-31 kg
+      -- Standard uncertainty 	 0.000 000 11 x 10-31 kg
+      -- Relative standard uncertainty 	  1.2 x 10-8
+      -- Concise form 	 9.109 383 56(11) x 10-31 kg   
+      ct.'m_e := CT(9.10938356E-31, 0.00000011E-31, %kg(1))
+      
+      -- electron volt
+      -- eV
+      -- Value 	 1.602 176 6208 x 10-19 J
+      -- Standard uncertainty 	 0.000 000 0098 x 10-19 J
+      -- Relative standard uncertainty 	  6.1 x 10-9
+      -- Concise form 	 1.602 176 6208(98) x 10-19 J    
+      ct.'eV := CT(1.6021766208E-19, 0.0000000098E-19, %m(2)*%kg(1)*%s(-2))
+      
+      -- elementary charge
+      -- $e$
+      -- Value 	  1.602 176 6208 x 10-19  C
+      -- Standard uncertainty 	 0.000 000 0098 x 10-19 C
+      -- Relative standard uncertainty 	  6.1 x 10-9
+      -- Concise form 	  1.602 176 6208(98) x 10-19 C  
+      ct.'e  := CT(1.6021766208E-19, 0.0000000098E-19, %A(1)*%s(1))
+      
+      -- Faraday constant
+      -- $F$
+      -- Value 	 96 485.332 89 C mol-1
+      -- Standard uncertainty 	      0.000 59 C mol-1
+      -- Relative standard uncertainty 	  6.2 x 10-9
+      -- Concise form 	 96 485.33289(59) C mol-1 
+      ct.'F := CT(96485.33289, 0.00059, %s(1)*%A(1)*%mol(-1))
+      
+      -- fine-structure constant
+      -- $\alpha$
+      -- Value 	 7.297 352 5664 x 10-3
+      -- Standard uncertainty 	 0.000 000 0017 x 10-3
+      -- Relative standard uncertainty 	  2.3 x 10-10
+      -- Concise form 	 7.297 352 5664(17) x 10-3 
+      ct.'alpha := CT(7.2973525664E-3, 0.0000000017E-3,%m(0)$SI)
+      
+      -- magnetic constant
+      -- $\mu_0$
+      -- Value 	 4pi x 10-7 = 12.566 370 614... x 10-7 N A-2
+      -- Standard uncertainty 	 (exact)
+      -- Relative standard uncertainty 	 (exact)
+      -- Concise form 	 4pi x 10-7 = 12.566 370 614... x 10-7 N A-2  
+      ct.'mu_0 := CT(4.0*pi()*1.0E-7, 0, %m(1)*%kg(1)*%s(-2)*%A(-2)) 
+      
+      -- magnetic flux quantum
+      -- ${\it \Phi}_0$
+      -- Value 	 2.067 833 831 x 10-15 Wb
+      -- Standard uncertainty 	 0.000 000 013 x 10-15 Wb
+      -- Relative standard uncertainty 	  6.1 x 10-9
+      -- Concise form 	 2.067 833 758(46) x 10-15 Wb 
+      ct.'Phi_0 := CT(2.067833831E-15, 0.000000013E-15, %m(2)*%kg(1)*%s(-2)*%A(-1))
+      
+      -- molar gas constant
+      -- $R$
+      -- Value 	 8.314 4598 J mol-1 K-1
+      -- Standard uncertainty 	 0.000 0048 J mol-1 K-1
+      -- Relative standard uncertainty 	  5.7 x 10-7
+      -- Concise form 	 8.314 4598(48) J mol-1 K-1  
+      ct.'R  := CT(8.3144598, 0.0000048, %m(2)*%kg(1)*%s(-2)*%mol(-1)*%K(-1))
+      
+      -- neutron mass
+      -- $m_{\rm n}$
+      -- Value 	 1.674 927 351 x 10-27 kg
+      -- Standard uncertainty 	 0.000 000 074 x 10-27 kg
+      -- Relative standard uncertainty 	  4.4 x 10-8
+      -- Concise form 	 1.674 927 351(74) x 10-27 kg  
+      ct.'m_n := CT(1.674927351E-27, 0.000000074E-27, %kg(1)) 
+      
+      -- Newtonian constant of gravitation
+      -- $ G $
+      -- Value 	 6.674 08 x 10-11 m3 kg-1 s-2
+      -- Standard uncertainty 	 0.000 31 x 10-11 m3 kg-1 s-2
+      -- Relative standard uncertainty 	  4.7 x 10-5
+      -- Concise form 	 6.673 08(31) x 10-11 m3 kg-1 s-2    
+      ct.'G  := CT(6.67408E-11, 0.00031E-11, %m(3)*%kg(-1)*%s(-2))
+      
+      -- Planck constant
+      -- $ h $
+      -- Value 	 6.626 070 040 x 10-34 J s
+      -- Standard uncertainty 	 0.000 000 081 x 10-34 J s
+      -- Relative standard uncertainty 	  1.2 x 10-8
+      -- Concise form 	 6.626 070 040(81) x 10-34 J s
+      ct.'h  := CT(6.626070040E-34, 0.000000081E-34, %m(2)*%kg(1)*%s(-1))
+      
+      -- Planck constant over 2 pi
+      -- $\hbar$
+      -- Value 	 1.054 571 800 x 10-34 J s
+      -- Standard uncertainty 	 0.000 000 013 x 10-34 J s
+      -- Relative standard uncertainty 	  1.2 x 10-8
+      -- Concise form 	 1.054 571 800(13) x 10-34 J s 
+      ct.'hbar := CT(1.054571800E-34, 0.000000013E-34,%m(2)*%kg(1)*%s(-1))
+      
+      -- proton mass
+      -- $m_{\rm p}$
+      -- Value 	 1.672 621 898 x 10-27 kg
+      -- Standard uncertainty 	 0.000 000 021 x 10-27 kg
+      -- Relative standard uncertainty 	  1.2 x 10-8
+      -- Concise form 	 1.672 621 898(21) x 10-27 kg   
+      ct.'m_p := CT(1.672621898E-27, 0.000000021E-27, %kg(1))
+      
+      -- Rydberg constant
+      -- $R_\infty$
+      -- Value 	 10 973 731.568 508 m-1
+      -- Standard uncertainty 	          0.000 065 m-1
+      -- Relative standard uncertainty 	  5.9 x 10-12
+      -- Concise form 	 10 973 731.568 539(55) m-1    
+      ct.'R_inf := CT(10973731.568508, 0.000065, %m(-1))
+      
+      -- speed of light in vacuum
+      -- $ c,c_0 $
+      -- Value 	 299 792 458 m s-1
+      -- Standard uncertainty 	 (exact)
+      -- Relative standard uncertainty 	 (exact)
+      -- Concise form 	 299 792 458 m s-1    
+      ct.'c  := CT(299792458.0, 0.0, %m(1)*%s(-1))
+      ct.'c0 := CT(299792458.0, 0.0, %m(1)*%s(-1))
+      
+      -- Stefan-Boltzmann constant
+      -- $\sigma$
+      -- Value 	 5.670 367 x 10-8 W m-2 K-4
+      -- Standard uncertainty 	 0.000 013 x 10-8 W m-2 K-4
+      -- Relative standard uncertainty 	  2.3 x 10-6
+      -- Concise form 	 5.670 367(13) x 10-8 W m-2 K-4  
+      ct.'sigma := CT(5.670367E-8,0.000013E-8,%kg(1)*%s(-3)*%K(-4)) 
+
+      codata : Table(Symbol,PQTY(SI)) == ct
+    
+
+-- cc:=codata()
+-- cc.hbar ...
+-- setOutputMode(3)$PQTY(SI)
+      

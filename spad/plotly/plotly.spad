@@ -1,0 +1,97 @@
+)abbrev package PLOTLY Plotly
+++ Author: Kurt Pagani
+++ Date Created: Sat Jul 14 01:52:32 CEST 2018
+++ License: BSD
+++ References:
+++ Description:
+++
+Plotly(R) : Exports == Implementation where
+  
+  R:Join(Ring,ConvertibleTo Float,ConvertibleTo String)
+  
+  LR  ==> List R
+  STR ==> String
+  MSC ==> MoreSystemCommands
+  
+  Exports ==  with
+    
+    format : (STR,STR) -> STR
+    format : (STR,List STR) -> STR
+    convert : LR -> STR
+    plotly : (LR,LR) -> Void
+    plotly2html : (LR,LR) -> Void
+    
+ 
+	
+  Implementation ==  add 
+
+    --plotly_js:String:="https://cdn.plot.ly/plotly-latest.min.js"
+    plotly_js:String:="'file:///C:/Users/kfp/Desktop/work/plotly/plotly-latest.min.js'"
+
+    loc:String:="C:/Users/kfp"  -- where to place the html file
+    
+    title:="titleXY"
+    fname:="plot"
+
+
+    tmpl:="~{<!DOCTYPE html>~%_
+<head>~%_
+<title>~a</title>~%_
+<script src=~a></script>~%_
+</head>~%_
+<body>~%_
+<div id=~a style=width:600px;height:250px;></div>~%_
+<script>~%_
+  DIVDOM=document.getElementById('~a');~%_
+  Plotly.plot( DIVDOM, [{~%_
+    x: ~a,~%_
+    y: ~a }], {~%_
+  margin: { t: 0 } } );~%_
+</script>~%_
+</body>~%_
+</html>~}"
+
+           
+    
+    format(s:STR,t:STR):STR == string FORMAT('NIL,s,t)$Lisp
+      -- format("<title>~a</title>","'Hello'")
+      
+    format(s:STR,l:List STR) == string FORMAT('NIL,s,l)$Lisp
+      -- FORMAT('NIL,"~{~a ~a ~a ~}",["x","y","z"])$Lisp
+      -- format("~{~a ~a ~a ~}",["One", "two", "three"])
+      
+
+    convert(X:LR):String ==
+      if R has FloatingPointSystem then
+        ls:List String:=[toString(x,8) for x in X]
+      else
+        ls:List String:=[convert(x)@String for x in X]
+      format("[~{~a~^, ~}]" ,ls)
+      -- convert([1.222,3.444])$Plotly(Float)
+      -- convert([1,3])$Plotly(INT)
+
+    plotly(X:LR,Y:LR):Void ==
+      not #X=#Y => error "#X ~= #Y !" 
+      x:STR:=convert(X)
+      y:STR:=convert(Y)
+      f:FileName:=new(loc,fname,"html")$FileName
+      tf:TextFile:=open(f,"output")
+      put(s) ==> writeLine!(tf,s)
+      ls:List STR:=[title,plotly_js,title,title,x,y]
+      put format(tmpl,ls)
+      close!(tf)
+      Void()
+      
+    plotly2html(X:LR,Y:LR):Void ==
+      not #X=#Y => error "#X ~= #Y !" 
+      x:STR:=convert(X)
+      y:STR:=convert(Y)
+      put(s) ==> output(s)$OutputPackage
+      ls:List STR:=[title,plotly_js,title,title,x,y]
+      put format(tmpl,ls)
+      Void()    
+    
+
+-- plotly([i for i in 1..12],[i^2 for i in 1..12])
+-- plotly([i::Float for i in 1..12],[sin(i::Float) for i in 1..12])
+-- TODO: send to browser ...

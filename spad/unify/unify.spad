@@ -1,0 +1,84 @@
+)abbrev package UNIFY Unify
+++ Author: Kurt Pagani
+++ Date Created: Mon Feb 06 18:56:20 CET 2017
+++ License: BSD
+++ References:
+++ Description: 
+++
+Unify(X) : Exports == Implementation where
+  
+  X: Join(ConvertibleTo InputForm, ExpressionSpace)
+  IF ==> InputForm
+  SEXP ==> SExpression
+  
+  Exports ==  with
+  
+    sexpr : X -> IF
+      ++ Convert to InputForm
+    occursIn : (IF,IF) -> Boolean
+      ++ Return true if ELT occurs in EXP at any level
+    cons : (IF,IF) -> IF 
+      ++ Cons
+    subst1 : (IF,IF,IF) -> IF
+      ++ Substitute A for each occurrence of B in LST.
+    doSubst : (IF,IF) -> IF
+      ++ Perform all substitutions in L on EXP in reverse order.
+    unify : (IF,IF) -> IF
+    
+  Implementation == IF add
+  
+    failed:IF:=convert('failure)$IF
+  
+    sexpr(x:X):IF == convert(x)@IF
+    
+    occursIn(elt,exp) ==
+      elt=exp => true
+      atom? exp => false
+      occursIn(elt,car exp) or occursIn(elt,cdr exp)
+      
+    cons(a:IF,b:IF):IF == 
+      s:SExpression:=CONS(a,b)$Lisp
+      convert(s)$IF
+      
+    subst1(a:IF,b:IF,lst:IF):IF ==
+      null? lst => lst
+      lst=b => a
+      atom? lst => lst
+      b=car lst => cons(a,subst1(a,b,cdr lst))
+      atom? car lst => cons(car lst, subst1(a,b,cdr lst))
+      cons(subst1(a,b,car lst),subst1(a,b,cdr lst))
+      
+
+    doSubst(exp:IF,l:IF):IF ==
+      null? l => exp
+      a:=car l
+      subst1(car a, car cdr a, doSubst(exp,cdr l))
+
+    variable?(x:IF):Boolean ==
+      not atom? x => false
+      symbol? x => true
+      false
+
+    addPair(term:IF,variable:IF,u:IF):IF ==
+      occursIn(variable,term) => failed
+      cons(convert [term,variable],subst1(term,variable,u))
+      
+
+    unify1(termlist1:IF,termlist2:IF,u:IF):IF ==
+      termlist1=termlist2 => u
+      null? termlist1 or null? termlist2 => failed
+      variable? termlist1 => addPair(termlist2,termlist1,u)
+      variable? termlist2 => addPair(termlist1,termlist2,u)
+      atom? termlist1 or atom? termlist2 => failed
+      u:=unify1(doSubst(car termlist1,u),doSubst(car termlist2,u),u)
+      u=failed => failed
+      unify1(cdr termlist1,cdr termlist2,u)
+      
+    
+    unify(literal1:IF,literal2:IF):IF ==
+      u:=convert([])$IF
+      if car literal1 = car literal2 then
+        unify1(cdr literal1,cdr literal2,u)
+      else
+        failed
+    

@@ -1,0 +1,221 @@
+)abbrev package LINPROG LinearProgramming
+++ Author: Kurt Pagani
+++ Date Created: Sun Jun 03 02:05:55 CEST 2018
+++ License: BSD
+++ References:
+++ Description:
+++ TODO: description, more in test_linprog, eps, tol    
+++ IDEA: linSolve standard method, try LU from jet
+++ LINPROG  
+++
+LinearProgramming() : Exports == Implementation where
+  
+  R ==> Float
+  PI ==> PositiveInteger
+  NNI ==> NonNegativeInteger
+  MATR ==> Matrix R
+  VECR ==> Vector R
+  LI ==> List Integer
+  RESR ==> Record(x:VECR,f:R,itn:NNI)
+  RESRS ==> Record(X:VECR,objVal:R,Basis:LI)
+  RLUP ==> Record(L:MATR,U:MATR,P:MATR)
+  RXP ==> Record(X:VECR,P:MATR)
+  
+  Exports ==  with
+    
+    revisedSimplex : (MATR,VECR,VECR,LI) -> RESRS
+    revisedSimplexLU : (MATR,VECR,VECR,LI) -> RESRS
+    luDecompose : MATR -> RLUP
+    luSolve : (MATR,VECR) -> RXP
+
+	
+	
+  Implementation ==  MATR add 
+  
+    eps:R:=0.00001
+    zeroTol:R:= 0.00001
+  
+    revisedSimplex(A:MATR,b:VECR,c:VECR,B:LI):RESRS ==
+      numRows:PI := #b ::PI
+      numVars:PI := #c ::PI
+      --zeroTol:R:= 0.00001
+      N:LI := [i for i in 1..numVars | not member?(i,B)]
+      --N:LI:=setDifference([i for i in 1..numVars],B)
+      RA:LI:=[i for i in 1..nrows(A)]
+      AB:MATR:=A(RA,B) 
+      AN:MATR:=A(RA,N)
+      numNonbasicVars:=#N
+      cN := vector [c.i for i in N]
+      cB := vector [c.i for i in B]
+      IAB:Union(MATR,"failed"):=inverse(AB)
+      if IAB case MATR then
+        bBAR:VECR := IAB*b
+      else
+        error "AB not invertible"
+      objVal := dot(cB,bBAR)
+      negRedCost := -1.0
+      while negRedCost < 0.0 repeat
+        IAB:Union(MATR,"failed"):=inverse(AB)
+        if IAB case MATR then
+          wN:VECR := cN - (cB*IAB)*AN
+        else
+          error "AB not invertible"
+        --
+        negRedCostIdx:NNI := 0
+        negRedCost := 0.0
+        --
+        for k in 1..numNonbasicVars repeat
+          if wN.k < -zeroTol then
+            negRedCost := wN.k
+            --record the index
+            negRedCostIdx := k
+            break
+        --
+        if negRedCost < 0.0 then
+          IAB:Union(MATR,"failed"):=inverse(AB)
+          if IAB case MATR then
+            aBAR:VECR := IAB*column(AN,negRedCostIdx)
+          else
+            error "AB not invertible"
+          minRatioVal := 1.0/zeroTol --inf
+          minRatioIdx := 0
+          --
+          for k in 1..numRows repeat
+            if aBAR.k > zeroTol then
+              if bBAR.k / aBAR.k < minRatioVal then
+                minRatioVal := bBAR.k / aBAR.k
+                --record the index
+                minRatioIdx:NNI := k
+          --
+          bBAR := bBAR - minRatioVal * aBAR
+          bBAR.minRatioIdx := minRatioVal
+          --
+          tmpIdx := B.minRatioIdx
+          B.minRatioIdx := N.negRedCostIdx
+          N.negRedCostIdx := tmpIdx
+          --
+          AB:MATR:=A(RA,B) 
+          AN:MATR:=A(RA,N)
+          cN := vector [c.i for i in N]
+          cB := vector [c.i for i in B]
+        X:VECR:=zero(numVars)
+        for i in 1..numRows repeat
+          X.(B.i) := bBAR.i
+        objVal := dot(cB,bBAR)
+      return [X,objVal,B]
+    
+    luDecompose(A:MATR):RLUP ==
+      not square?(A)$MATR => error "Input matrix is not square."
+      (numRows, numVars) := (nrows A, ncols A)
+      U:MATR:=copy A
+      LK:MATR:=zero(numRows,numRows)$MATR
+      I:MATR:=diagonalMatrix(vector [1 for i in 1..numRows])
+      P:MATR:=copy I
+      LINV:=copy I
+      RA:LI:=[i for i in 1..numRows]  
+      for i in 1..numVars repeat
+        perm:LI:=[m for m in 1..numRows]   -- don't use RA or i as index!!
+        pivotEl := 0$R
+        for j in i..numRows repeat
+          if abs(U(j,i)) > eps then
+            tmp := perm.i
+            perm.i := perm.j
+            perm.j := tmp
+            U:=I(perm,RA)*U
+            P:=I(perm,RA)*P
+            pivotEl := U(i, i)
+            break
+        abs(pivotEl) <= eps => error("Matrix is singular")
+        LK := I(perm,RA) * LK
+        LK(i,i) := 1$R 
+        LINVK := copy I
+        --
+        for k in i+1..numRows repeat
+          if U(k, i) ~= 0$R then
+            multiplier := U(k, i)/pivotEl
+            U(k,RA) := U(k,RA) -  multiplier * U(i,RA)
+            LK(k,i) := multiplier
+            LINVK(k, i) := - multiplier
+        --
+        LINV := LINVK*LINV
+      return [LK,U,P]
+      
+
+    luSolve(A:MATR,b:VECR):RXP ==
+      not square?(A)$MATR => error "Input matrix is not square."
+      (numRows, numVars) := (nrows A, ncols A)
+      r:RLUP:=luDecompose(A)
+      U:=copy r.U
+      L:=copy r.L
+      P:=copy r.P
+      Y:=vector [0$R for m in 1..numRows]
+      X:=vector [0$R for m in 1..numRows]
+      rhs:VECR := P*b
+      for i in 1..numVars repeat
+        Y.i := rhs.i
+        rhs := rhs - Y.i * column(L,i)
+      for i in numVars..1 by -1 repeat
+        X.i := Y.i / U(i,i)
+        Y := Y - X.i * column(U,i)      
+      return [X,P]
+ 
+    revisedSimplexLU(A:MATR,b:VECR,c:VECR,B:LI):RESRS ==
+      numRows:PI := #b ::PI
+      numVars:PI := #c ::PI
+      --zeroTol:R:= 0.00001
+      N:LI := [i for i in 1..numVars | not member?(i,B)]
+      --N:LI:=setDifference([i for i in 1..numVars],B)
+      RA:LI:=[i for i in 1..nrows(A)]
+      AB:MATR:=A(RA,B) 
+      AN:MATR:=A(RA,N)
+      numNonbasicVars:=#N
+      cN := vector [c.i for i in N]
+      cB := vector [c.i for i in B]
+      --
+      bBAR:VECR := luSolve(AB,b).X ---- luSolve
+      objVal := dot(cB,bBAR)
+      negRedCost := -1.0
+      while negRedCost < 0.0 repeat
+        u:VECR:= luSolve(transpose(AB),cB).X
+        wN:VECR := cN - u*AN
+        --
+        negRedCostIdx:NNI := 0
+        negRedCost := 0.0
+        --
+        for k in 1..numNonbasicVars repeat
+          if wN.k < -zeroTol then
+            negRedCost := wN.k
+            --record the index
+            negRedCostIdx := k
+            break
+        --
+        if negRedCost < 0.0 then
+         
+          aBAR:VECR := luSolve(AB,column(AN,negRedCostIdx)).X
+          minRatioVal := 1.0/zeroTol --inf
+          minRatioIdx := 0
+          --
+          for k in 1..numRows repeat
+            if aBAR.k > zeroTol then
+              if bBAR.k / aBAR.k < minRatioVal then
+                minRatioVal := bBAR.k / aBAR.k
+                --record the index
+                minRatioIdx:NNI := k
+          --
+          bBAR := bBAR - minRatioVal * aBAR
+          bBAR.minRatioIdx := minRatioVal
+          --
+          tmpIdx := B.minRatioIdx
+          B.minRatioIdx := N.negRedCostIdx
+          N.negRedCostIdx := tmpIdx
+          --
+          AB:MATR:=A(RA,B) 
+          AN:MATR:=A(RA,N)
+          cN := vector [c.i for i in N]
+          cB := vector [c.i for i in B]
+        X:VECR:=zero(numVars)
+        for i in 1..numRows repeat
+          X.(B.i) := bBAR.i
+        objVal := dot(cB,bBAR)
+      return [X,objVal,B]
+    

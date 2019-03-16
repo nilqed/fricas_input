@@ -1,0 +1,98 @@
+)abbrev package LINPROG LinearProgramming
+++ Author: Kurt Pagani
+++ Date Created: Sun Jun 03 02:05:55 CEST 2018
+++ License: BSD
+++ References:
+++ Description:
+++     
+++ LINPROG  
+++
+LinearProgramming() : Exports == Implementation where
+-- TODO: use FRAC INT 
+  R ==> Fraction Integer   -- works with RAT !!!!
+  PI ==> PositiveInteger
+  NNI ==> NonNegativeInteger
+  MATR ==> Matrix R
+  VECR ==> Vector R
+  LI ==> List Integer
+  RESR ==> Record(x:VECR,f:R,itn:NNI)
+  RESRS ==> Record(X:VECR,objVal:R,Basis:LI)
+  
+  Exports ==  with
+    
+    revisedSimplex : (MATR,VECR,VECR,LI) -> RESRS
+
+	
+	
+  Implementation ==  MATR add 
+  
+  
+    revisedSimplex(A:MATR,b:VECR,c:VECR,B:LI):RESRS ==
+      numRows:PI := #b ::PI
+      numVars:PI := #c ::PI
+      zeroTol:R:= 1/100000
+      N:LI := [i for i in 1..numVars | not member?(i,B)]
+      --N:LI:=setDifference([i for i in 1..numVars],B)
+      RA:LI:=[i for i in 1..nrows(A)]
+      AB:MATR:=A(RA,B) 
+      AN:MATR:=A(RA,N)
+      numNonbasicVars:=#N
+      cN := vector [c.i for i in N]
+      cB := vector [c.i for i in B]
+      IAB:Union(MATR,"failed"):=inverse(AB)
+      if IAB case MATR then
+        bBAR:VECR := IAB*b
+      else
+        error "AB not invertible"
+      objVal := dot(cB,bBAR)
+      negRedCost:R := -1$R
+      while negRedCost < 0$R repeat
+        IAB:Union(MATR,"failed"):=inverse(AB)
+        if IAB case MATR then
+          wN:VECR := cN - (cB*IAB)*AN
+        else
+          error "AB not invertible"
+        --
+        negRedCostIdx:NNI := 0
+        negRedCost := 0$R
+        --
+        for k in 1..numNonbasicVars repeat
+          if wN.k < -zeroTol then
+            negRedCost := wN.k
+            --record the index
+            negRedCostIdx := k
+            break
+        --
+        if negRedCost < 0$R then
+          IAB:Union(MATR,"failed"):=inverse(AB)
+          if IAB case MATR then
+            aBAR:VECR := IAB*column(AN,negRedCostIdx)
+          else
+            error "AB not invertible"
+          minRatioVal := 1$R/zeroTol --inf
+          minRatioIdx := 0
+          --
+          for k in 1..numRows repeat
+            if aBAR.k > zeroTol then
+              if bBAR.k / aBAR.k < minRatioVal then
+                minRatioVal := bBAR.k / aBAR.k
+                --record the index
+                minRatioIdx:NNI := k
+          --
+          bBAR := bBAR - minRatioVal * aBAR
+          bBAR.minRatioIdx := minRatioVal
+          --
+          tmpIdx := B.minRatioIdx
+          B.minRatioIdx := N.negRedCostIdx
+          N.negRedCostIdx := tmpIdx
+          --
+          AB:MATR:=A(RA,B) 
+          AN:MATR:=A(RA,N)
+          cN := vector [c.i for i in N]
+          cB := vector [c.i for i in B]
+        X:VECR:=zero(numVars)
+        for i in 1..numRows repeat
+          X.(B.i) := bBAR.i
+        objVal := dot(cB,bBAR)
+      return [X,objVal,B]
+      

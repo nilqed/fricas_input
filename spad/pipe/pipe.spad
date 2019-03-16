@@ -1,0 +1,65 @@
+)lisp (defun |spadPipe| (app &optional args)(let ((proc (sb-ext:run-program app args :input :stream :output :stream :wait nil :search t)))(when proc (make-two-way-stream (sb-ext:process-output proc) (sb-ext:process-input proc)))))
+)lisp (defun |readPipe| (stream)(with-output-to-string (out)(loop for c = (read-char-no-hang stream) while c do (write-char c out))))
+--)lisp (load "pipe.lisp")
+)abbrev package PIPE SpadPipe 
+++ Author: Kurt Pagani <nilqed@gmail.com>
+++ Date Created: Mon Nov 23 13:30:24 CET 2015
+++ License: BSD
+++ Date Last Updated: 
+++ Keywords: 
+++ Examples: 
+++ References: 
+++ Documentation:
+++ Description: interfacing interactive programs     
+++ Notes: SBCL only at the moment
+SpadPipe() : Exports == Implementation where
+ 
+  Exports ==  with
+    
+    
+    run : (String,List String) -> SExpression
+    write : (String,SExpression) -> SExpression
+    writeln : (String,SExpression) -> SExpression
+    readNoHang : SExpression -> String
+    readln : SExpression -> String
+    close : SExpression -> SExpression
+        	
+  Implementation ==  add 
+    
+    run(s:String,a:List String):SExpression ==
+      stream:=spadPipe(s,a)$Lisp
+      
+    write(s,x) == FORMAT(x,"~a~%",s)$Lisp
+    writeln(s,x) ==
+      write(s,x)
+      FINISH_-OUTPUT(x)$Lisp
+    
+    readln(x) == READ_-LINE(x)$Lisp
+    readNoHang(x) == readPipe(x)$Lisp
+    close(x) == CLOSE(x)$Lisp
+   
+-- stream:=run("pure",["-i","-q"])
+-- readNoHang(stream)
+-- writeln("1+2;",stream)
+-- readln(stream)
+-- writeln("quit",stream)
+-- close(stream)
+
+-- stream:=run("python",["-i"])
+-- readNoHang(stream)
+-- writeln("1+2",stream)
+-- readln(stream)
+-- writeln("quit()",stream)
+-- close(stream)
+
+-- stream:=run("asy",[])
+-- readNoHang(stream)
+-- writeln("import graph;",stream)
+-- writeln(" size(200,150,IgnoreAspect);",stream)
+-- writeln("real[] x={0,1,2,3};",stream)
+-- writeln("real[] y=x^2;",stream)
+-- writeln("xaxis(\"$x$\",BottomTop,LeftTicks);",stream)
+-- writeln("yaxis(\"$y$\",LeftRight,RightTicks(Label(fontsize(8pt)),new real[]{0,4,9}));",stream)
+-- readlnNoHang(stream)
+-- writeln("draw(graph(x,y),red);",stream)
+--

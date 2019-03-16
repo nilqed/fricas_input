@@ -1,0 +1,259 @@
+)abbrev category PUNIT PhysicalUnit
+PhysicalUnit() : Category == with   
+    "*"  : (%,%) -> %
+    "/"  : (%,%) -> %
+    "^"  : (%,Integer) -> %
+    "="  : (%,%) -> Boolean
+    dim  : % -> List Integer
+    one  : %
+    coerce : % -> OutputForm
+
+
+)abbrev domain PUSYS PhysicalUnitSystem 
+PhysicalUnitSystem(u:List Symbol) : Exports == Implementation where
+    BASU ==> OrderedVariableList(u) 
+    FAGB ==> FreeModule(Integer,BASU) 
+    Exports == Join(PhysicalUnit,CoercibleTo OutputForm) with
+      baseSymbols : List Symbol
+      baseUnits : List %
+      factors : % ->  List Record(gen: BASU,exp: Integer)
+    Implementation == FreeGroup(BASU) add
+      Rep:=FreeModule(Integer,BASU)
+      x * y == x+y 
+      x / y == x-y
+      x ^ n == n*x 
+      one() == 0$Rep
+      baseSymbols() == [convert(x)@Symbol for x in enumerate$BASU]
+      baseUnits() == [x::% for x in enumerate$BASU]
+      dim(x) == [coefficient(x,b) for b in enumerate$BASU]  
+      x = y == test(dim x = dim y)                                      
+      
+
+)abbrev domain PQTY PhysQty
+PhysQty(U:PhysicalUnit): Exports == Implementation where
+    
+    Q   ==> Fraction(Integer)
+    F   ==> Float
+    R   ==> DoubleFloat
+    I   ==> Integer
+    OF  ==> OutputForm
+    PI  ==> PositiveInteger
+    IVF ==> Interval Float
+   
+    Exports == Join(CoercibleTo OutputForm) with
+      _* : (%,%) -> %
+      _/ : (%,%) -> %
+      _+ : (%,%) -> %
+      _- : (%,%) -> %
+      _^ : (%,Integer) -> %
+      _- : % -> %
+      
+      _* : (Union(F,R,I,Q,PI),%) -> %
+      _/ : (%,Union(F,R,I,Q,PI)) -> %
+      
+      
+      ival : % -> IVF
+      unit : % -> U  
+      
+      magnitude   : % -> F
+      uncertainty : % -> F
+          
+      elt : (IVF,U) -> %
+      elt : (F,U) -> %
+      
+      setOutputMode : PI -> PI
+      coerce : % -> OutputForm
+    
+    Implementation ==  add 
+    
+      Rep := Record(ival:IVF, unit:U)
+      
+      outputMode:PI:=2
+      
+      x:% * y:% == [x.ival * y.ival, x.unit * y.unit]$Rep
+      x:% / y:% ==
+        r:Union(IVF,"failed"):=recip(y.ival)
+        r case IVF => [x.ival * r, x.unit / y.unit]$Rep
+        error "failed"
+      x + y == 
+        x.unit=y.unit => [x.ival + y.ival, x.unit]$Rep
+        error "failed"
+      x - y == 
+        x.unit=y.unit => [x.ival - y.ival, x.unit]$Rep
+        error "failed"
+      x ^ n == 
+        n > 0 => [x.ival^n::PI, x.unit^n::PI]$Rep
+        n = 0 => [interval(1.0,1.0)$IVF, one()]$Rep
+        r:Union(IVF,"failed"):=recip(x.ival)
+        m:PI:=(-n)::PI
+        r case IVF => [r^m, x.unit^n]$Rep
+        error "failed"
+                      
+      - x   == [-x.ival, x.unit]$Rep 
+
+
+      r:Union(F,R,I,Q,PI)  * x:% ==
+        r case I or r case PI => [r*x.ival, x.unit]$Rep 
+        mkrep(r) ==> [interval(r)$IVF * x.ival, x.unit]$Rep
+        r case Q or r case F => mkrep r
+        r case R => mkrep convert(r)$F
+        
+      x:% / r:Union(F,R,I,Q,PI) ==
+        s:%:=r*[interval(1.0)$IVF, one()]$Rep
+        x/s
+
+      ival x == x.ival
+      unit x == x.unit
+      
+      magnitude x == (sup(x.ival)+inf(x.ival))/2.0
+      uncertainty x == (sup(x.ival)-inf(x.ival))/2.0
+
+      elt(v:IVF,u:U):% == [v,u]$Rep
+      elt(v:F,u:U):%   == [interval(v)$IVF,u]$Rep
+      
+      setOutputMode(s:PI):PI ==
+        modes:List PI:= [1,2,3]
+        if member?(s,modes) then 
+            outputMode := s
+            return s
+        error "1: plusMinus, 2: single, 3: interval"
+      
+      coerce(x) ==
+        pm:Character:=char(177)
+        pmof:=pm::String::Symbol::OF
+        val:Float:=(sup(x.ival)+inf(x.ival))/2
+        err:Float:=sup(x.ival)-val
+        outputMode=1 => blankSeparate [val::OF,pmof,err::OF,x.unit::OF]
+        outputMode=2 => blankSeparate [val::OF,x.unit::OF]
+        outputMode=3 => blankSeparate [x.ival::OF,x.unit::OF]
+
+
+                                                                    
+)abbrev domain SI SIunit                                               
+SIunit : Exports == Implementation where
+                                                       
+    Exports == Join(SetCategory,PhysicalUnit) with
+    
+      unitSystem : () -> Type
+      baseUnits  : () -> List %
+  
+      %m   : Integer -> %
+      %kg  : Integer -> %        
+      %s   : Integer -> %
+      %A   : Integer -> %
+      %K   : Integer -> %
+      %mol : Integer -> %
+      %cd  : Integer -> %                       
+
+      metre     : %
+      kilogram  : %
+      second    : %
+      ampere    : %
+      kelvin    : %
+      mole      : %
+      candela   : %
+
+      hertz     : %
+      newton    : %
+      pascal    : %  
+      joule     : % 
+      watt      : % 
+      coulomb   : %
+      volt      : %
+      farad     : %
+      ohm       : %
+      siemens   : %
+      weber     : %
+      tesla     : %
+      henry     : %
+      lumen     : %
+      lux       : %
+      becquerel : %
+      gray      : %
+      sievert   : %
+      katal     : %
+
+    Implementation == PhysicalUnitSystem(['m,'kg,'s,'A,'K,'mol,'cd]) add                 
+
+      USY:=['m,'kg,'s,'A,'K,'mol,'cd]                                  
+      Rep:=PhysicalUnitSystem(USY) 
+      
+      unitSystem() == %
+
+      u:=baseUnits()$Rep
+      baseUnits() == u
+    
+      %m(n)   == u.1^n
+      %kg(n)  == u.2^n
+      %s(n)   == u.3^n
+      %A(n)   == u.4^n
+      %K(n)   == u.5^n
+      %mol(n) == u.6^n
+      %cd(n)  == u.7^n
+
+      metre      == %m(1)
+      kilogram   == %kg(1)
+      second     == %s(1)
+      ampere     == %A(1)
+      kelvin     == %K(1)
+      mole       == %mol(1)
+      candela    == %cd(1)
+
+      hertz      ==  %s(-1)
+      newton     ==  %kg(1)*%m(1)*%s(-2)
+      pascal     ==  %kg(1)*%m(-1)*%s(-2)   
+      joule      ==  %kg(1)*%m(2)*%s(-2)
+      watt       ==  %kg(1)*%m(2)*%s(-3)
+      coulomb    ==  %s(1)*%A(1)
+      volt       ==  %kg(1)*%m(2)*%s(-3)*%A(-1)
+      farad      ==  %kg(-1)*%m(-2)*%s(4)*%A(2)
+      ohm        ==  %kg(1)*%m(2)*%s(-3)*%A(2)
+      siemens    ==  %kg(-1)*%m(-2)*%s(3)*%A(2)
+      weber      ==  %kg(1)*%m(2)*%s(-2)*%A(-1)
+      tesla      ==  %kg(1)*%s(-2)*%A(-1)
+      henry      ==  %kg(1)*%m(2)*%s(-2)*%A(-2)
+      lumen      ==  %cd(1)
+      lux        ==  %m(-2)*%cd(1)
+      becquerel  ==  %s(-1)
+      gray       ==  %m(2)*%s(-2)
+      sievert    ==  %m(2)*%s(-2)
+      katal      ==  %s(-1)*%mol(1)    
+      
+
+
+)abbrev package DIMAN DimensionalAnalysis                                                
+DimensionalAnalysis(P:PhysicalUnit) : Exports == Implementation where
+
+    Exports == with
+    
+      buckingham : Table(Symbol,P) -> List(Expression(Integer))
+      
+    Implementation == P add
+    
+    
+      mkxpr(s:List Symbol,v:Vector Integer):Expression Integer == 
+        r:Expression Integer:=1
+        for j in 1..#s repeat r:=r*(s.j)::Expression(Integer)^(v.j)
+        r
+        
+      buckingham(t) == --[1::Expression Integer]
+        M:Matrix(Integer):=matrix [dim(t.x) for x in keys(t)]
+        ns:List Vector Integer:=nullSpace transpose(M)
+        r:List Expression Integer:=[]
+        for j in 1..#ns repeat r:=append(r,[mkxpr(keys(t),ns.j)])
+        r
+ 
+
+-- D==> DIMAN(SI)
+-- t:Table(Symbol,SI):=table()
+-- t.L:=%m(1)$SI ; t.M:=%kg(1)$SI; t.T:=%s(1)$SI; t.g:=%m(1)$SI/%s(2)$SI
+-- buckingham(t)
+-- s:Table(Symbol,U):=table()
+-- s.v:=%m(1)$SI/%s(1)$SI; s.rho:=%kg(1)$SI/%m(3)$SI; s.p:=pascal()$SI
+-- buckingham(s)
+
+-- vb:Table(Symbol,U):=table()
+-- vb.l:=%m(1)$SI; vb.A:=%m(1)$SI; vb.rho:=%kg(1)$SI/%m(1)$SI; 
+-- vb.s:=%kg(1)$SI*&m(1)$SI/%s(2)$SI; vb.E:=%kg(1)$SI*%m(2)$SI/%s(2)$SI
+-- buckingham vb
+

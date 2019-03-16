@@ -1,0 +1,280 @@
+)abbrev package DFORM DifferentialForms
+DifferentialForms(R,v) : Exports == Implementation where
+    
+  R: Join(IntegralDomain,Comparable)
+  v: List Symbol
+
+  X   ==> Expression R
+  VX  ==> Vector X
+  OF  ==> OutputForm
+  DRC ==> DeRhamComplex(R,v)
+  BOP ==> BasicOperator
+  INT ==> Integer
+  SYM ==> Symbol
+  NNI ==> NonNegativeInteger
+  SMR ==> SquareMatrix(#v,X)
+  VDRC ==> Vector DRC
+  LDRC ==> List DRC
+  MDRC ==> Matrix DRC
+  LINT ==> List INT
+  SGCF ==> SymmetricGroupCombinatoricFunctions
+  
+  Exports ==  with
+    
+    coordSymbols  : () -> List Symbol
+    coordVector   : () -> Vector X
+    zeroForms     : () -> Vector DRC
+    oneForms      : () -> Vector DRC
+    zero          : () -> DRC
+    one           : () -> DRC
+    d             : DRC -> DRC
+    d             : VDRC -> VDRC
+    d             : MDRC -> MDRC
+    
+    _*            : (VDRC,VDRC) -> DRC
+    
+    indices       : INT -> List LINT
+    basisForms    : INT -> List DRC
+    
+    vectorField   : SYM -> Vector X
+    scalarField   : SYM -> X
+    covectorField : SYM -> Vector DRC
+    zeroForm      : SYM -> DRC
+    volumeForm    : ()  -> DRC
+    
+    proj          : (NNI,DRC) -> DRC
+    coefficients  : (NNI,DRC) -> List X
+    degrees       : (DRC,List NNI) -> List NNI
+    
+    dual          : DRC -> DRC
+    dot           : (DRC,DRC) -> X
+    dot           : (SMR,DRC,DRC) -> X
+    
+    atomizeBasisTerm : DRC -> List DRC
+    interiorProduct  : (VX,DRC) -> DRC
+    lieDerivative    : (VX,DRC) -> DRC
+    
+    genericMetric           : SYM -> SMR
+    genericInverseMetric    : SYM -> SMR
+    
+    hodgeStar      : (SMR,DRC) -> DRC
+    invHodgeStar   : (SMR,DRC) -> DRC
+    codifferential : (SMR,DRC) -> DRC
+    hodgeLaplacian : (SMR,DRC) -> DRC
+    volumeForm     :  SMR  -> DRC
+    
+    s    : SMR -> X
+    dotg : (SMR,DRC,DRC)->X --temp
+    
+  Implementation == DRC add 
+  
+    --n:NNI:=#v
+    one() == 1@DRC
+    zero() == 0@DRC
+    coordSymbols() == v 
+    coordVector() == vector [s::X for s in v]
+    zeroForms() == vector [s::X * one() for s in v]
+    oneForms() == vector [generator(j)$DRC for j in 1..#v]
+    
+    d(f:DRC):DRC == exteriorDifferential(f)
+    d(vf:VDRC):VDRC == map(d,vf)
+    d(mf:MDRC):MDRC == map(d,mf)
+    
+    (x:VDRC * y:VDRC):DRC == reduce(_+,[x.i*y.i for i in 1..#x | #x=#y])
+    
+    
+    multiIndices(n:INT,k:INT):List LINT ==
+      ss:=[reverse subSet(n,k,i)$SGCF for i in 0..binomial(n,k)-1]
+      sort [map(m+->m+1,s) for s in ss]
+
+    indices(k:INT):List LINT == multiIndices(#v,k) 
+
+    basisForms(k:INT):LDRC ==
+      k<=0 => [1$DRC]
+      I:=indices(k)
+      f1:=oneForms()
+      ID:=[[f1.k for k in j] for j in I]
+      [reduce(_*,s) for s in ID]
+
+    monomials(p:NNI):LDRC == -- same as basisForms ? delete
+      bf:=entries oneForms()
+      p=0 => [1$DRC]
+      p=1 => bf
+      np:=[reverse subSet(#v,p,i)$SGCF for i in 0..binomial(#v,p)-1]
+      [reduce(_*,[bf.(1+s.j) for j in 1..p]) for s in sort np]
+
+    vectorField(s:Symbol):VX ==
+      ls:=[subscript(s,[j::OF]) for j in 1..#v]
+      op:=[operator t for t in ls]
+      x:=[a::X for a in v]
+      vector [f x for f in op]
+
+    scalarField(s:Symbol):X ==
+      f:=operator s
+      f [a::X for a in v]
+
+    covectorField(s:Symbol):VDRC ==
+      vf:=vectorField(s)
+      vector [a*1@DRC for a in entries vf]  
+      
+    zeroForm(s:Symbol):DRC == scalarField(s)*1@DRC
+    
+    volumeForm():DRC == reduce(_*,entries oneForms())
+
+    proj(p,x) ==
+      x=0 => x
+      homogeneous? x and degree(x)=p => x
+      a:=leadingBasisTerm(x)
+      degree(a)=p => leadingCoefficient(x)*a + proj(p, reductum x)
+      proj(p, reductum x) 
+      
+    coefficients(p,x) == [coefficient(x,b) for b in basisForms(p)]
+    
+    degrees(x:DRC,l:List NNI):List NNI == 
+      x=0$DRC => l
+      l:=concat(degree leadingBasisTerm(x),l)
+      degrees(reductum x,l)
+      
+    dualHg(x:DRC):DRC ==
+      dim:=#v
+      d:=degree x
+      c:=coefficients(d,x)
+      bf:=basisForms(d)
+      cbf:=reverse basisForms(dim-d)
+      sgn:=(m:INT):X+->coefficient(bf.m*cbf.m,volumeForm())
+      reduce(_+,[sgn(i)*c.i*cbf.i for i in 1..#c|c.i~=0$X])
+      
+    dual(x:DRC):DRC ==
+      zero?(x) => 0$DRC
+      d:=removeDuplicates degrees(x,[])
+      reduce(_+,[dualHg(proj(j,x)) for j in d])
+      
+    atomizeBasisTerm(x:DRC):List DRC ==
+      zero?(x) => []
+      d:=degree x
+      x:=leadingBasisTerm x
+      p:=position(x,basisForms(d))
+      bf1:=basisForms(1)
+      [bf1.j for j in indices(d).p]    
+      
+    intProdBasisTerm(w:Vector X, x:DRC):DRC ==
+      degree(x)=0 => 0$DRC
+      degree(x)=1 => w.position(x,basisForms(1)) * 1$DRC
+      a:List(DRC):=atomizeBasisTerm(x)
+      b:DRC:=reduce(_*,rest a)
+      -- i_w is an antiderivative => 
+      intProdBasisTerm(w,a.1) * b - first(a) * intProdBasisTerm(w,b)
+      
+    interiorProduct(w:Vector X, x:DRC):DRC ==
+      x=0$DRC => x
+      leadingCoefficient(x)*intProdBasisTerm(w,leadingBasisTerm(x)) + _
+        interiorProduct(w, reductum(x))
+
+    lieDerivative(w:Vector X,x:DRC):DRC ==
+      a := exteriorDifferential(interiorProduct(w,x))
+      b := interiorProduct(w, exteriorDifferential(x))
+      a+b
+
+    dot(x:DRC,y:DRC):X ==
+      xd:=removeDuplicates degrees(x,[])
+      yd:=removeDuplicates degrees(y,[])
+      d:=members intersect(set(xd)$Set(NNI), set(yd)$Set(NNI))
+      empty?(d) => 0$X 
+      cx:=[coefficients(j,x) for j in d]
+      cy:=[coefficients(j,y) for j in d]
+      reduce(_+,[dot(vector(cx.j)$VX,vector(cy.j)$VX) for j in 1..#cx])
+
+
+    genericMetric(s:Symbol):SMR ==
+      ls:List List X
+      p:=entries coordVector()
+      opsub(s,i,j) ==> operator(subscript(s,[i::OF,j::OF]))
+      sym:=(i:NNI,j:NNI):BOP+->if i<j then opsub(s,i,j) else opsub(s,j,i)
+      ls:=[[sym(i,j) p for j in 1..#v] for i in 1..#v]
+      m:=matrix ls
+      m::SMR
+      
+    genericInverseMetric(s:Symbol):SMR ==
+      ls:List List X
+      p:=entries coordVector()
+      opsup(s,i,j) ==> operator(superscript(s,[i::OF,j::OF]))
+      sym:=(i:NNI,j:NNI):BOP+->if i<j then opsup(s,i,j) else opsup(s,j,i)
+      ls:=[[sym(i,j) p for j in 1..#v] for i in 1..#v]
+      m:=matrix ls
+      m::SMR
+      
+    dotg(ig:SMR,x:DRC,y:DRC):X ==
+      zero?(x) or zero?(y) => 0
+      d:=degree x 
+      d ~= degree y => 0$X
+      lco ==> leadingCoefficient
+      d=0 => lco(x)*lco(y)
+      f1:=oneForms()
+      xa:=atomizeBasisTerm(x)
+      ya:=atomizeBasisTerm(y)
+      xp:=[position(xx,f1) for xx in xa]
+      yp:=[position(yy,f1) for yy in ya]
+      k:NNI:=#xp
+      mig:SquareMatrix(k,X)
+      mig:=matrix [[ig(i,j) for j in yp] for i in xp]
+      determinant mig
+      
+    dot(g:SMR,x:DRC,y:DRC):X ==  
+      xd:=removeDuplicates degrees(x,[])
+      yd:=removeDuplicates degrees(y,[])
+      d:=members intersect(set(xd)$Set(NNI), set(yd)$Set(NNI))
+      empty?(d) => 0$X
+      ig:=inverse(g)::SMR
+      cx:=[coefficients(j,x) for j in d]
+      cy:=[coefficients(j,y) for j in d]
+      bf:=[basisForms(j) for j in d] 
+      r:X:=0$X
+      for i in 1..#cx repeat
+        for j in 1..#cy repeat
+          for k in 1..#(cy.j) repeat
+            for l in 1..#(cx.i) repeat
+              r:=r+cx.i.l * cy.j.k * dotg(ig,bf.i.l,bf.j.k)
+      return r
+
+    eps(x:DRC):X == leadingCoefficient(x*dual(x))
+     
+    hodgeStarBT(g:SMR,x:DRC):DRC ==
+      q:=sqrt(abs(determinant(g)))
+      p:=degree(x)
+      J:=basisForms(p)
+      s:=[eps(y)*dot(g,y,x)*dual(y) for y in J]
+      q*reduce(_+,s)
+
+    hodgeStar(g:SMR,x:DRC):DRC ==
+      x=0$DRC => x
+      leadingCoefficient(x)*hodgeStarBT(g,leadingBasisTerm(x)) + _
+        hodgeStar(g, reductum(x))
+
+    s(g:SMR):X ==
+      det:X:=determinant g
+      sd:Union(Integer,"failed"):=sign(det)$ElementaryFunctionSign(Integer,X)
+      sd case "failed" => 's?::X
+      sd case Integer => coerce(sd)$X    
+      
+    invHodgeStar(g:SMR,x:DRC):DRC ==
+      x=0$DRC => x
+      y:DRC:=leadingBasisTerm(x)
+      k:X:=coerce(degree y)$X
+      c:X:=s(g)*(-1)^(k*(coerce(#v)$X-k))
+      leadingCoefficient(x)*hodgeStarBT(g,c*y) + _
+        invHodgeStar(g, reductum(x))
+        
+    codifferential(g:SMR,x:DRC):DRC ==
+      x=0$DRC => 0
+      y:DRC:=leadingBasisTerm(x)
+      k:X:=coerce(degree y)$X
+      c:X:=s(g)*(-1)^(coerce(#v)$X*(k-1)+1)
+      c*hodgeStar(g,d hodgeStar(g,leadingCoefficient(x)*y)) + _
+        codifferential(g,reductum(x)) 
+
+
+    hodgeLaplacian(g:SMR,x:DRC):DRC ==
+      d codifferential(g,x)+ codifferential(g, d x)
+
+    volumeForm(g:SMR):DRC == 
+      sqrt(abs(determinant(g)))*volumeForm()

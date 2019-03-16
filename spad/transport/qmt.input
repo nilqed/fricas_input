@@ -1,0 +1,131 @@
+RR ==> Expression Integer
+CC ==> Expression Complex Integer
+PI ==> PositiveInteger
+
+NNI ==> NonNegativeInteger
+VRR ==> Vector Expression Integer
+VCC ==> Vector Expression Complex Integer
+
+
+
+GRID ==> Record(N:PI, L:RR, dx:RR, dk:RR, x:VRR, k:VRR)
+
+--N(M:NP):NP == 2*M+1
+--L(M:NP):Float == sqrt(2*%pi*N(M))
+--dx(M:NP):Float == L(M)/N(M)
+--dk(M:NP):Float == 2*%pi/L(M)
+--U(m:NP,n:NP,M:NP,a:CF):CF == 1/sqrt(N(M))*a^((m-M-1)*(n-M-1))
+
+
+
+setupGrid(M:PI):GRID ==
+  N:PI:= 2*M+1
+  L:RR:= sqrt(2*N*pi())
+  dx:RR:= L/N
+  dk:RR:= dx
+  x:VRR:= dx * vector [j for j in -M..M]
+  k:VRR:= dk * vector [j for j in -M..M]
+  return [N,L,dx,dk,x,k]
+ 
+hamiltonMatrix(H:(RR,RR)->RR,g:GRID):Matrix(RR) ==
+  matrix [[H(g.x.i,g.k.j) for j in 1..g.N] for i in 1..g.N]
+
+-- w:=cos(2*pi()$IF/g.N)::Complex IF +%i*sin(2*pi()$IF/g.N)::Complex IF 
+-- w^g.N = 1 ? 
+-- ucdftMatrix(w,g)
+
+ucdftMatrix(a:CC,g:GRID):Matrix(CC) ==
+  M:PI:=(g.N-1)/2
+  F := matrix [[a^((m-M-1)*(n-M-1)) for n in 1..g.N] for m in 1..g.N]
+  return 1/sqrt(g.N) * F
+
+deMoivreNumber(g:GRID):CC ==
+  ++ https://en.wikipedia.org/wiki/Root_of_unity
+  cos(2*pi()/g.N) +%i*sin(2*pi()/g.N)
+
+func2vector(f:RR->CC,g:GRID):VCC ==
+  vector [f(g.x.i) for i in 1..g.N]
+
+signum(i:Integer):Integer ==
+  odd? i => -1
+  return(1)
+
+hamiltonian(g:GRID,V:RR->RR,h:RR,m:RR):Matrix(RR) ==
+  f0:RR := h*h*recip(8*pi())$RR*recip(m)$RR*recip(g.N)$RR
+  f1:RR := f0 * (g.N^2-1)*recip(6)$RR
+  f2:RR := pi()*recip(g.N)$RR
+  H0:Matrix(RR) := diagonalMatrix [V(g.x.i) + f1 for i in 1..g.N]
+  for i in 1..g.N repeat
+    for j in 1..i-1 repeat
+      a:RR:=(i-j) * f2
+      rs2:RR:=recip(sin(a))^2
+      --rs case "failed" => does not apply
+      c:RR:=cos(a)
+      H0(i,j):=H0(j,i):= signum(i-j) * f0 * c * rs2
+  return H0
+    
+
+det(M:Matrix(RR)):RR ==
+  ~square? M => error
+  n:NNI:=nrows(M)
+  n=1 => M(1,1)
+  n=2 => M(1,1)*M(2,2)-M(1,2)*M(2,1)
+  d:RR:=0
+  v:List Matrix RR:=vertSplit(M,[1,n-1]::List NNI)
+  r:Matrix RR:=v.1
+  m:List Matrix RR:=horizSplit(v.2,n::PI) -- satisfy compiler
+  for i in 1..n repeat
+    d:=d + signum(i-1) * r(1,i) * det(horizConcat(delete(m,i)))
+  return d
+  
+
+convertToFloat(M:Matrix RR):Matrix Float ==
+  return map(numeric,M)
+  
+convertToRationals(M:Matrix RR):Matrix Fraction Integer ==
+  return map(x+->numeric x::Fraction Integer,M)
+  
+-- Example  
+h:=2*sqrt(2)*pi()  
+g:=setupGrid(5)
+H:=hamiltonian(g,x+->x^2,h,1)
+HQ:=convertToRationals(H)
+ev:=realEigenvalues(HQ,0.001)
+
+-- Examples
+--g:=setupGrid(2)
+--w:=cos(2*pi()$IF/g.N)::Complex IF +%i*sin(2*pi()$IF/g.N)::Complex IF 
+-- w:=deMoivreNumber(g)
+---- w^g.N = 1 ? real/imag ...) sup/inf width 
+--U:=ucdftMatrix(w,g)
+--IU:=ucdftMatrix(conjugate(w),g)
+-- interval(1/sqrt(g.N::Float))@IF
+--- tests
+-- trace(U), trace(IU) @ 1
+
+-- determinant(U), determinant(IU) @1
+-- U*IU, IU*U @ Id
+-- norm determinant(IU*U) 
+-- norm(deMoivreNumber(g)^g.N) 
+---- [0.9999999999_9999999966,1.0000000000_000000004]
+-- fv:=func2vector(x+->exp(-x^2),g)
+-- width norm(fv.10)
+-- width norm(fv.(g.N))
+
+-- DG:=diagonalMatrix([interval(1.0)$IF for i in 1..g.N])
+
+-- g:=setupGrid(2)
+-- w:=deMoivreNumber(g)
+-- H0:=hamiltonian(g,x+->x^2,1$IF,1$IF)
+
+-- HF0:=map(midPoint,H0)
+-- HQ0:=map(f+->f::Fraction(Integer),HF0)
+-- INEP==>InnerNumericEigenPackage(FRAC INT, Fraction Integer, FRAC INT)
+-- Q ==> Fraction Integer
+-- NREP ==> NumericRealEigenPackage Float
+-- characteristicPolynomial(HQ0,u)
+-- realEigenvalues(HQ0,1/10000000)
+-- realEigenvalues(HQ0,0.0000001)
+
+-- try hbar^2/2/m=1 => h^2=8*pi^2*m
+

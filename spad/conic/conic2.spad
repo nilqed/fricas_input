@@ -1,0 +1,187 @@
+)abbrev domain CONIC ConicSection
+++ Author: Kurt Pagani
+++ Date Created: Sat Sep 01 22:59:26 CEST 2018
+++ License: BSD
+++ References:
+++ Description:
+++   https://en.wikipedia.org/wiki/Matrix_representation_of_conic_sections
+++   https://en.wikipedia.org/wiki/Conic_section
+++   https://en.wikipedia.org/wiki/Five_points_determine_a_conic
+++   https://en.wikipedia.org/wiki/Ellipse#Canonical_form
+++   
+++
+ConicSection(): Exports == Implementation where
+  
+  R ==> Expression Integer
+  Q ==> Fraction Integer
+  STR ==> String
+  MATR ==> Matrix R
+  
+  Exports == Join(CoercibleTo OutputForm) with
+    
+    generic : %
+      ++ Create a generic conic with new symbols as coefficients
+    new : List R -> %
+      ++ Create a conic with the 6 coefficients given in the list.
+    equation : (%,Symbol,Symbol) -> Equation R
+      ++ Standard form of equation
+    eqMatrix : % -> SquareMatrix(3,R)
+      ++ The matrix of the quadratic equation
+    qfMatrix : % -> SquareMatrix(2,R)
+      ++ The matrix of the quadratic form
+    discriminant : % -> R
+      ++ Discriminant 4*AC-B^2
+    degenerate? : % -> Boolean
+      ++ Is the conic degenerate? That is det(Rep)=0.
+    classification : % -> String
+      ++ Classification (ellipse, parabola, hyperbola)
+    center : % -> Vector R
+      ++ Coordinates of the center (if exists)
+    centeredEquation : (%,Symbol,Symbol) -> Equation R
+      ++ Centered form of conic equation
+    stdFormCentralConic : (%,Symbol,Symbol) -> Equation R
+      ++ The standard form of the equation of a central conic section is 
+      ++ obtained when the conic section is translated and rotated so that 
+      ++ its center lies at the center of the coordinate system and its 
+      ++ axes coincide with the coordinate axes. 
+    eccentricity : % -> R
+      ++ Eccentricity
+    gnuplot : % -> String
+      ++ Plot the conic using gnuplot
+    coerce : % -> OutputForm
+      ++ Coerce to output form
+    coerce : % -> Matrix R
+      ++ Coerce to matrix
+    coerce : % -> Equation R
+	
+	
+  Implementation ==  Matrix R add 
+
+    Rep := Matrix(R)
+
+    format(s:STR,t:STR):STR == string FORMAT('NIL,s,t)$Lisp
+      -- format("<title>~a</title>","'Hello'")
+      
+    format(s:STR,l:List STR) == string FORMAT('NIL,s,l)$Lisp
+      -- FORMAT('NIL,"~{~a ~a ~a ~}",["x","y","z"])$Lisp
+      -- format("~{~a ~a ~a ~}",["One", "two", "three"])
+
+    new(c:List R):% ==
+      #c ~= 6 => error "A,B,C,D,E,F expected"
+      A:=c.1; B:=c.2; C:=c.3; D:=c.4; E:=c.5; F:=c.6
+      A=0 and B=0 and C=0 => error "At least one of A,B,C must be nonzero"
+      z:=1/2::R
+      m:Matrix R:=matrix [[A,z*B,z*D],[z*B,C,z*E],[z*D,z*E,F]]
+      
+    generic() == 
+      cs:List Symbol:=[new()$Symbol for i in 1..6]
+      c:List R:=[s::R for s in cs]
+      new(c)
+      
+    equation(m:%,x:Symbol,y:Symbol):Equation R ==
+      v:Matrix R:=matrix [[x::R,y::R,1]]
+      r:=v * m * transpose(v)
+      numerator r(1,1)=0
+      
+    eqMatrix(m:%):SquareMatrix(3,R) == 
+      squareMatrix(m@Rep)
+    
+    qfMatrix(m:%):SquareMatrix(2,R) == 
+      squareMatrix subMatrix(m@Rep,1,2,1,2)
+  
+    discriminant(m:%):R ==
+      4 * determinant qfMatrix(m)
+
+    degenerate?(m:%):Boolean ==
+      test(determinant(m)=0$R)
+      
+    center(m:%):Vector R ==
+      d:R:=determinant qfMatrix(m)
+      d=0$R => error "Zero discriminant - no finite center"
+      c:Vector R:=vector [(m(1,2)*m(2,3)- m(2,2)*m(1,3))/d,
+                          (m(1,3)*m(1,2)- m(1,1)*m(2,3))/d]
+      return c
+
+    centeredEquation(m:%,x:Symbol,y:Symbol):Equation R ==
+      r:Vector R:=vector [x::R,y::R] - center(m)
+      K:R:=-determinant(m)/discriminant(m)
+      eq:Equation R:=m(1,1)*paren(r.1)^2 + 2*m(1,2)*paren(r.1)*paren(r.2) +
+        m(2,2)*paren(r.2)^2 = 2*K
+      return eq
+      
+    stdFormCentralConic(m:%,x:Symbol,y:Symbol):Equation R ==
+      d:R:=discriminant(m)
+      d=0$R => error "Parabola (zero discriminant)."
+      K:R:=-determinant(m)/d
+      A:Matrix R:=qfMatrix(m)::Matrix R
+      q:Symbol:='q
+      M:Matrix R:=A-diagonalMatrix([q::R,q::R])
+      eq:Equation R:=determinant(M)=0$R
+      S:List Equation R:=solve(eq,q)$TransSolvePackage(Integer)
+      #S=0 => error "Not possible."
+      if #S=2 then
+        e1:R:=rhs(S.1)/K
+        e2:R:=rhs(S.2)/K
+      else
+        e1:=e2:=rhs(S.1)/K
+      e1*(x::R)^2+e2*(y::R)^2=1
+
+      
+    classification(m:%):String ==
+      d:R:=discriminant(m)
+      dg?:Boolean:=degenerate? m
+      nd?:Boolean:=number? d
+      if nd? then
+        nd:Q:=retract(d)@Q
+        if not dg? then 
+          nd=0$Q => "parabola"
+          nd>0$Q => 
+            m(1,1)=m(2,2) and m(1,2)=0$R => "circle"
+            "ellipse"
+          nd<0$Q => "hyperbola"
+        else
+          nd<0$Q => "degenerate hyperbola, two intersecting lines." 
+          nd=0$Q => "degenerate parabola, two parallel straight lines."
+          nd>0$Q => "degenerate ellipse, a single point."
+      else
+        return "unknown - not a number"
+        
+    eccentricity(m:%):R ==
+      detm:R:=determinant(m)
+      detm=0$R ==> error "Conic is degenerate."
+      if number? detm then
+        nd:=retract(detm)@Q
+        eta:R:=-sign(nd)::R
+      else
+        eta:=detm/abs(detm)
+      A:=m(1,1); B:=m(1,2); C:=m(2,2)
+      r:=sqrt((A-C)^2+B^2)
+      sqrt(2*r/(eta*(A+C)+r))
+ 
+    gnuplot(m:%):String ==
+      gp1:="~{system gnuplot -p -e 'set term ~a;_
+      set contour;_
+      set cntrparam levels discrete 0;_
+      set view map;_
+      unset surface;_
+      set nokey;_
+      set isosamples 1000,1000;_
+      set xrange [-2:2];_
+      set yrange [-2:2];_
+      set xlabel _"x_";_
+      set ylabel _"y_";_
+      set title _"Title_";_
+      splot ~a*x**2+~a*x*y+~a*y**2+~a*x+~a*y+~a'~}"
+      A:=m(1,1); B:=2*m(1,2); C:=m(2,2); D:=2*m(1,3); E:=2*m(2,3); F:=m(3,3)
+      c:List R:=[A,B,C,D,E,F]
+      cb:List Boolean:=[number? s for s in c]
+      if reduce(_and,cb) then
+        cq:List Q:=[retract(s)@Q for s in c]
+        cs:List String:=[toString(s::Float,2) for s in cq]
+        gpf:String:=format(gp1,concat("wxt",cs))
+        systemCommand(gpf)$MoreSystemCommands
+      else
+        error "Not numeric."
+      return gpf
+
+

@@ -1,0 +1,87 @@
+-- https://en.wikipedia.org/wiki/Monomial
+-- Note: constants are monomial, polynomial, fraction polynomial
+
+)abbrev package ANEXP AnalyzeExpression
+++ Author: Kurt Pagani
+++ Date Created: Tue Jul 24 01:47:01 CEST 2018
+++ License: BSD
+++ References:
+++ Description:
+++
+AnalyzeExpression() : Exports == Implementation where
+  
+  R ==> Integer
+  X ==> Expression R
+  P ==> Polynomial R
+  LX ==> List X
+  RV ==> Record(val: X, exponent: Integer)
+  failed ==> "failed"
+  
+  UPR ==> Union(P, failed)
+  ULX ==> Union(List X, failed)
+  URV ==> Union(RV, failed) 
+  -- X must have RetractableTo Symbol,  
+  
+  Exports ==  with
+
+    isPlus? : X -> Boolean
+    isTimes? : X -> Boolean
+    isPower? : X -> Boolean
+    isDefSum? : X -> Boolean
+    isDefProd? : X -> Boolean
+
+    isConstant? : (X,Symbol) -> Boolean
+    isLinear? : (X,Symbol) -> Boolean
+    isMonomial? : (X,Symbol) -> Boolean
+    isPolynomial? : (X,Symbol) -> Boolean
+    isFractionPolynomial? : (X,Symbol) -> Boolean
+	
+  Implementation ==  add 
+    
+    isPlus?(e) == isPlus(e) case LX
+    isTimes?(e) == isTimes(e) case LX
+    isPower?(e) == isPower(e) case RV
+    
+    isDefSum?(e) == is?(e,'%defsum)
+    isDefProd?(e) == is?(e,'%defprod)  
+    
+    isConstant?(e:X,x:Symbol):Boolean == freeOf?(e,x)
+    
+    isLinear?(e:X,x:Symbol):Boolean == freeOf?(D(e,x),x)
+  
+    isMonomial?(e:X,x:Symbol):Boolean == 
+      isConstant?(e,x) => true
+      t:ULX:=isTimes(e)
+      if t case LX then
+         nf:LX:=[s for s in t | ~freeOf?(s,x)]
+         if #nf=1 then
+           p:URV:=isPower(nf.1)
+           if p case RV then
+             if p.val=x::X and p.exponent>=0 then
+               return true
+      p:URV:=isPower(e)
+      if p case RV then
+        if p.val=x::X and p.exponent>=0 then
+          return true
+      return false
+          
+    isPolynomial?(e:X,x:Symbol):Boolean ==
+      isMonomial?(e,x) => true
+      --p:UPR:=retractIfCan(e)
+      --p case P 
+      a:ULX:=isPlus(e)
+      if a case LX then
+        lb:List Boolean:=[isMonomial?(s,x) for s in a]
+        r:Boolean:=reduce(_and,lb)
+        return r
+      false
+        
+    isFractionPolynomial?(e:X,x:Symbol):Boolean ==
+      isPolynomial?(e,x) => true
+      n:X:=numerator e
+      d:X:=denominator e
+      return isPolynomial?(n,x) and isPolynomial?(d,x)
+      
+      
+   
+   

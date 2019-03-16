@@ -1,0 +1,96 @@
+)abbrev package LUDEC LUdecomposition
+++ Author: Kurt Pagani
+++ Date Created: Sun Jun 03 02:05:55 CEST 2018
+++ License: BSD
+++ References:
+++ Description:
+++     
+++ LU decomposition  
+++
+LUdecomposition() : Exports == Implementation where
+  
+  R ==> Float
+  PI ==> PositiveInteger
+  NNI ==> NonNegativeInteger
+  MATR ==> Matrix R
+  VECR ==> Vector R
+  LI ==> List Integer
+  RESR ==> Record(L:MATR,U:MATR,P:MATR)
+  RES2 ==> Record(X:VECR,P:MATR)
+  
+  Exports ==  with
+    
+   
+    luDecompose : MATR -> RESR
+    luSolve : (MATR,VECR) -> RES2
+    --coerce : % -> OutputForm
+	
+	
+  Implementation ==  MATR add 
+  
+    eps:R:=0.00001
+  
+    luDecompose(A:MATR):RESR ==
+      not square?(A)$MATR => error "Input matrix is not square."
+      (numRows, numVars) := (nrows A, ncols A)
+      U:MATR:=copy A
+      LK:MATR:=zero(numRows,numRows)$MATR
+      I:MATR:=diagonalMatrix(vector [1 for i in 1..numRows])
+      P:MATR:=copy I
+      LINV:=copy I
+      RA:LI:=[i for i in 1..numRows]  
+      for i in 1..numVars repeat
+        perm:LI:=[m for m in 1..numRows]   -- don't use RA or i as index!!
+        pivotEl := 0$R
+        for j in i..numRows repeat
+          if abs(U(j,i)) > eps then
+            tmp := perm.i
+            perm.i := perm.j
+            perm.j := tmp
+            U:=I(perm,RA)*U
+            P:=I(perm,RA)*P
+            pivotEl := U(i, i)
+            break
+        abs(pivotEl) <= eps => error("Matrix is singular")
+        LK := I(perm,RA) * LK
+        LK(i,i) := 1$R 
+        LINVK := copy I
+        --
+        for k in i+1..numRows repeat
+          if U(k, i) ~= 0$R then
+            multiplier := U(k, i)/pivotEl
+            U(k,RA) := U(k,RA) -  multiplier * U(i,RA)
+            LK(k,i) := multiplier
+            LINVK(k, i) := - multiplier
+        --
+        LINV := LINVK*LINV
+      return [LK,U,P]
+      
+
+    luSolve(A:MATR,b:VECR):RES2 ==
+      not square?(A)$MATR => error "Input matrix is not square."
+      (numRows, numVars) := (nrows A, ncols A)
+      r:RESR:=luDecompose(A)
+      U:=copy r.U
+      L:=copy r.L
+      P:=copy r.P
+      Y:=vector [0$R for m in 1..numRows]
+      X:=vector [0$R for m in 1..numRows]
+      rhs:VECR := P*b
+      for i in 1..numVars repeat
+        Y.i := rhs.i
+        rhs := rhs - Y.i * column(L,i)
+      for i in numVars..1 by -1 repeat
+        X.i := Y.i / U(i,i)
+        Y := Y - X.i * column(U,i)      
+      return [X,P]
+      
+
+--- A1:Matrix Float := matrix [[1,-1, 0],[1, 1, 1],[ 0, 1, -1]]      
+--- A2:Matrix Float := matrix [[0,0, -1],[1, 1, 1],[ 1, -1, 0]]
+
+---
+--example luSolve
+-- A :=matrix [[3, 6, 3],[2, 5, 1],[ -1, 1, 1]]
+-- b := vector [12,6,5] .... [X= [- 1.0,1.0,3.0]
+-- inverse(A)*b -> -1,1,3
