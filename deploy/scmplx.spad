@@ -293,15 +293,17 @@ SurfaceComplex(R,n) : Exports == Implementation where
 
     bdry(c:%):% ==
       c=0$Rep => c
+      spt:=support(c)
+      cof:=coefficients(c)
       if size(c) = 1 then
-        s:=nthFactor(c,1)
+        s:=spt.1
         l:List List CMAP:=faces(s)
         fs:List %:=[(a.2::Rep - a.1::Rep) for a in l]
         sgn:=(j:INT,x:%):%+->if even?(j-1) then x else -x
         ll:List %:=[sgn(k,fs.k) for k in 1..#fs]
-        nthCoef(c,1)*reduce(_+,ll)
+        cof.1*reduce(_+,ll)
       else
-        ct:=[(nthCoef(c,j)*nthFactor(c,j))::Rep for j in 1..size(c)]
+        ct:=[(cof.j * spt.j)::Rep for j in 1..size(c)]
         reduce(_+,map(bdry,ct))
         
  
