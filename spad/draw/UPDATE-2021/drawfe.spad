@@ -1,0 +1,110 @@
+)abbrev package DRAWFE DrawFrontend
+++ Author: Kurt Pagani <nilqed@gmail.com>
+++ Date Created: 13 October 2016
+++ Basic Operations: 
+DrawFrontend():
+ Exports == Implementation where 
+  EF    ==> Expression Float
+  STR   ==> String
+  FET   ==> Table(Symbol,String) 
+  G     ==> GraphImage
+  DROP  ==> DrawOption
+  DROP0 ==> DrawOptionFunctions0
+  DROP1 ==> DrawOptionFunctions1
+  
+  SPACE3 ==> ThreeSpace(DoubleFloat)
+  
+
+  Exports ==> with
+  
+    createDraw2D : (G, List DROP, FET) -> Void
+    createDraw3D : (SPACE3, List DROP, FET) -> Void
+    writeGnuplot2D : (G, List DROP, FET) -> Void
+    writeGnuplot3D : (SPACE3, List DROP, FET) -> Void
+    writeGLE2D : (G, List DROP, FET) -> Void
+    writeGLE3D : (SPACE3, List DROP, FET) -> Void
+    
+  Implementation ==> add
+  
+    import from TwoDimensionalViewport
+    import from ThreeDimensionalViewport
+    import from TopLevelDrawFunctions
+    import from GraphImage
+    import from SPACE3
+    import from EF
+
+    -- persist option is -p
+    gpl:="system gnuplot -p -e _"set term ~A;load '~A'_""   
+
+    createDraw2D(g1:G,opts:List DROP,fe:FET):Void ==
+      fetype:STR:=fe.'type
+      feoutp:STR:=fe.'output
+      fedisp:STR:=fe.'display
+      output("Frontend ......: " fetype)$OutputPackage
+      output("Output ........: " feoutp)$OutputPackage
+      output("Display .......: " fedisp)$OutputPackage
+      fetype = "gnuplot"  => writeGnuplot2D(g1,opts,fe)
+      fetype = "gle"      => writeGLE2D(g1,opts,fe)
+      void()
+
+    createDraw3D(s1:SPACE3,opts:List DROP,fe:FET):Void ==
+      fetype:STR:=fe.'type
+      feoutp:STR:=fe.'output
+      fedisp:STR:=fe.'display
+      output("Frontend ......: " fetype)$OutputPackage
+      output("Output ........: " feoutp)$OutputPackage
+      output("Display .......: " fedisp)$OutputPackage
+      fetype = "gnuplot"  => writeGnuplot3D(s1,opts,fe)
+      fetype = "gle"      => writeGLE3D(s1,opts,fe)
+      void()
+
+
+    writeGnuplot2D(g : G, opts : List DROP, fe:FET):Void ==
+      filename:String:=fe.'output
+      display:String:=fe.'display
+      f1:TextFile:=open(filename::FileName,"output")
+      title:=title(opts,"")$DROP0
+      style:=style(opts,"lc 'magenta' lw 2 with lines")$DROP0
+      pfmt:="plot '-' title '~A' ~A"
+      pcmd:=string(FORMAT('NIL,pfmt,title,style)$Lisp)
+      writeLine!(f1,pcmd)
+      p2 := pointLists(g)
+      for p1 in p2 repeat
+        for p in p1 repeat
+          writeLine!(f1,concat([unparse(convert(p.1)@InputForm)," ",
+                              unparse(convert(p.2)@InputForm)]))
+        writeLine!(f1)
+      close! f1
+      cmd:=string(FORMAT('NIL,gpl,display,filename)$Lisp)
+      systemCommand(cmd)$MoreSystemCommands
+      
+      
+    
+    writeGnuplot3D(s : SPACE3, opts : List DROP, fe:FET):Void ==
+      filename:String:=fe.'output
+      display:String:=fe.'display
+      f1:TextFile:=open(filename::FileName,"output")
+      title:=title(opts,"")$DROP0 
+      style:=style(opts,"lc 'magenta' lw 1 with lines")$DROP0  
+      -- TODO style? strange
+      pfmt:="splot '-' title '~A' ~A"
+      pcmd:=string(FORMAT('NIL,pfmt,title,style)$Lisp)
+      writeLine!(f1, pcmd) 
+      p2:List List Point DoubleFloat
+      if mesh? s then 
+        p2 := mesh(s)
+      else
+        if curve? s then
+          p2 := [curve(s)]
+        else
+          error "unknown object."
+      --
+      for p1 in p2 repeat
+        for p in p1 repeat
+          writeLine!(f1,concat([unparse(convert(p.1)@InputForm)," ",
+                                unparse(convert(p.2)@InputForm)," ",
+                                unparse(convert(p.3)@InputForm)]))
+        writeLine!(f1)
+      close! f1      
+      cmd:=string(FORMAT('NIL,gpl,display,filename)$Lisp)
+      systemCommand(cmd)$MoreSystemCommands
